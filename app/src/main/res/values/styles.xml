@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:colorControlActivated">#FD842A</item>
+        <item name="android:colorControlNormal">#A4A4A4</item>
+    </style>
+
+
+    <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/main_bitmap_splash_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <!--<item name="windowActionBar">false</item>-->
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
+    <style name="Btn_Normal">
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/ripple_normal_btn_bg_red</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+        <item name="android:textColor">@color/txt_white</item>
+    </style>
+
+</resources>
