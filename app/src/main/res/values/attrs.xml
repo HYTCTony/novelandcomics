@@ -7,4 +7,49 @@
         <attr name="color_background" format="color" />
     </declare-styleable>
 
+
+    <declare-styleable name="VerticalTabLayout">
+        <attr name="indicator_color" format="color" />
+        <attr name="indicator_width" format="dimension" />
+        <attr name="indicator_corners" format="dimension" />
+        <attr name="indicator_gravity" format="enum">
+            <enum name="left" value="3" />
+            <enum name="right" value="5" />
+            <enum name="fill" value="119" />
+        </attr>
+        <attr name="tab_margin" format="dimension" />
+        <attr name="tab_mode" format="enum">
+            <enum name="fixed" value="10" />
+            <enum name="scrollable" value="11" />
+        </attr>
+        <attr name="tab_height" format="dimension"/>
+        <!--        <attr name="tab_padding" format="dimension"/>
+                <attr name="tab_paddingStart" format="dimension"/>
+                <attr name="tab_paddingTop" format="dimension"/>
+                <attr name="tab_paddingEnd" format="dimension"/>
+                <attr name="tab_paddingBottom" format="dimension"/>-->
+    </declare-styleable>
+
+    <!--收起展开textview-->
+    <declare-styleable name="ExpandableTextView">
+        <attr name="maxCollapsedLines" format="integer"/>
+        <attr name="animDuration" format="integer"/>
+        <attr name="expandDrawable" format="reference"/>
+        <attr name="collapseDrawable" format="reference"/>
+        <attr name="contentTextColor" format="color" />
+        <attr name="collapseExpandTextColor" format="color" />
+        <attr name="contentTextSize" format="dimension" />
+        <attr name="collapseExpandTextSize" format="dimension" />
+        <attr name="textCollapse" format="string" />
+        <attr name="textExpand" format="string" />
+        <attr name="collapseExpandGrarity" >
+            <flag name="left" value="3"/>
+            <flag name="right" value="5"/>
+        </attr>
+        <attr name="drawableGrarity" >
+            <flag name="left" value="3"/>
+            <flag name="right" value="5"/>
+        </attr>
+    </declare-styleable>
+
 </resources>

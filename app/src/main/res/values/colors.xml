@@ -9,9 +9,12 @@
 
     <color name="whiteAlpha80">#CCFFFFFF</color>
 
+    <color name="transparent">#00000000</color>
+
     <color name="col_theme_blue">#39E8D2</color>
     <color name="col_black">#000000</color>
     <color name="col_red">#FD4141</color>
+    <color name="col_red_fc4545">#FC4545</color>
     <color name="col_red_ff8477">#FF8477</color>
     <color name="col_red_fa345b">#FA345B</color>
     <color name="col_orange_ea6b3c">#EA6B3C</color>
@@ -23,12 +26,17 @@
     <color name="col_gray_f0f0f0">#F0F0F0</color>
     <color name="bg_gray_fafafa">#fafafa</color>
     <color name="col_d1e2de">#D1E2DE</color>
+    <color name="color_f2">#f2f2f2</color>
+    <color name="col_black_333">#333333</color>
+    <color name="col_f8f8f8">#F8F8F8</color>
 
-    <color name="txt_red">#FD4141</color>
+    <color name="txt_af80_white">#80FFFFFF</color>
+    <color name="txt_red">#FC6D6D</color>
     <color name="txt_black_191919">#191919</color>
-    <color name="txt_orange_ea6b3c">#EA6B3C</color>
-    <color name="txt_black">#2E3034</color>
-    <color name="txt_gray">#979796</color>
+    <color name="txt_orange_ff6600">#ff6600</color>
+    <color name="txt_black">#333333</color>
+    <color name="txt_gray">#666666</color>
+    <color name="txt_gray_999">#999999</color>
     <color name="txt_white">#ffffff</color>
     <color name="txt_dark_gold">#daaa47</color>
 </resources>

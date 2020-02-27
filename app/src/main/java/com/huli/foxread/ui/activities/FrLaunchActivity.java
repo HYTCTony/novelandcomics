@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import android.os.Handler;
+import android.os.Message;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.huli.foxread.FrApp;
@@ -32,7 +36,10 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
             Manifest.permission.CAMERA};
     private static final int RC_EXTERNAL_CAMERA_PERM = 124;
 
+    private ConstraintLayout layoutAdvertising;
+    private Button btnSkip;
     private AdEntity adEntity;
+
     private ConstraintLayout ctlNoNetwork;
     private TextView btnNetworkSetting, btnReconnect;
 
@@ -56,6 +63,8 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
     @Override
     public void initView(View view) {
+        layoutAdvertising = $(R.id.ctl_advertising);
+        btnSkip = $(R.id.btn_skip_ad);
         ctlNoNetwork = $(R.id.ctl_no_network_show);
         btnNetworkSetting = $(R.id.tv_asBtn_network_setting);
         btnReconnect = $(R.id.tv_asBtn_reconnect);
@@ -63,13 +72,26 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
     @Override
     public void setListener() {
+        btnSkip.setOnClickListener(onClickEvent);
+
         btnNetworkSetting.setOnClickListener(onClickEvent);
         btnReconnect.setOnClickListener(onClickEvent);
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        startNetReq();
+//        startNetReq();
+
+       /* Random r = new Random();
+        i = r.nextInt(10);
+        if (i < 5) {
+            //随机概率会出现广告页
+        } else {
+            startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
+            finish();
+        }*/
+
+        mHandler.sendEmptyMessageDelayed(1, 2000);
     }
 
     @Override
@@ -81,6 +103,34 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         }
     }
 
+    /*  private int[] picsLayout = {R.layout.layout_hello, R.layout.layout_hello2,
+              R.layout.layout_hello3, R.layout.layout_hello4, R.layout.layout_hello5};
+      private int i;*/
+    private int count = 5;
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == 0) {
+                btnSkip.setText(String.format(getString(R.string.txt_skip_x), getCount()));
+                mHandler.sendEmptyMessageDelayed(0, 1000);
+            }else if(msg.what==1){
+                layoutAdvertising.setVisibility(View.VISIBLE);
+                btnSkip.setText(String.format(getString(R.string.txt_skip_x), count));
+                mHandler.sendEmptyMessageDelayed(0, 1000);
+            }
+            return false;
+        }
+    });
+
+    public int getCount() {
+        count--;
+        if (count == 0) {
+            btnSkip.performClick();
+        }
+        return count;
+    }
+
     private void startNetReq() {
         String mToken = FrApp.getInstance().getToken();
         /*if (TextUtils.isEmpty(mToken)) {
@@ -88,20 +138,17 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         } else {
             getUserInfoTask(mToken);
         }*/
-
-        btnReconnect.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
-                finish();
-            }
-        }, 2000);
     }
 
     private OnClickEvent onClickEvent = new OnClickEvent() {
         @Override
         public void singleClick(View v) {
             switch (v.getId()) {
+                case R.id.btn_skip_ad:
+                    startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
+                    mHandler.removeMessages(0);
+                    finish();
+                    break;
                 case R.id.tv_asBtn_network_setting:
 
                     break;

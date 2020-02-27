@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
@@ -72,13 +71,21 @@ public class GlideUtil {
             return;
         }
         //设置图片圆角角度
-        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
-        GlideApp.with(context)
-                .load(url)
-                .apply(options)
-                .placeholder(R.mipmap.img_holder_rect)
-                .error(R.mipmap.img_holder_rect)
-                .into(view);
+        if (radius > 0) {
+            RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+            GlideApp.with(context)
+                    .load(url)
+                    .apply(options)
+                    .placeholder(R.mipmap.img_holder_rect)
+                    .error(R.mipmap.img_holder_rect)
+                    .into(view);
+        } else {
+            GlideApp.with(context)
+                    .load(url)
+                    .placeholder(R.mipmap.img_holder_rect)
+                    .error(R.mipmap.img_holder_rect)
+                    .into(view);
+        }
     }
 
 

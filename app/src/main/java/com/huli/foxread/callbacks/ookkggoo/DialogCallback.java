@@ -1,11 +1,11 @@
 package com.huli.foxread.callbacks.ookkggoo;
 
-import android.support.v7.app.AppCompatActivity;
-
 import com.huli.foxread.R;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.request.base.Request;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * okgo 带加载框

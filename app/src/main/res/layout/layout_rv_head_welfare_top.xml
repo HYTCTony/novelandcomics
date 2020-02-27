@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dp_100">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView_sign_in_bar_welfare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/dp_8"
+        app:cardElevation="@dimen/dp_0"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_welfare_login_icon"
+                android:layout_width="@dimen/dp_52"
+                android:layout_height="@dimen/dp_52"
+                android:layout_margin="@dimen/dp_12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/tv_gold_coin_count_today_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:hint="@string/hint_not_logged_in"
+                android:textColorHint="@color/txt_black"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintBottom_toTopOf="@+id/tv_continuous_sign_in_count"
+                app:layout_constraintLeft_toRightOf="@+id/iv_welfare_login_icon"
+                app:layout_constraintTop_toTopOf="@+id/iv_welfare_login_icon" />
+
+            <TextView
+                android:id="@+id/tv_continuous_sign_in_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_8"
+                android:hint="@string/hint_login_2_get_welfare"
+                android:textColorHint="@color/txt_gray"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_welfare_login_icon"
+                app:layout_constraintLeft_toRightOf="@+id/iv_welfare_login_icon"
+                app:layout_constraintTop_toBottomOf="@+id/tv_gold_coin_count_today_sign_in" />
+
+            <TextView
+                android:id="@+id/tv_asBtn_sign_in_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:background="@drawable/ripple_semicircle_btn_gradual_bg_yellow"
+                android:drawableStart="@drawable/ic_gold_coin"
+                android:drawablePadding="@dimen/dp_4"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingEnd="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_8"
+                android:text="@string/txt_sign_in_immediately"
+                android:textColor="@color/txt_white"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_welfare_login_icon"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_welfare_login_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner_welfare"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_8"
+        android:background="@color/color_f2"
+        app:banner_default_image="@mipmap/banner_place_holder"
+        app:indicator_drawable_selected="@color/col_yellow_f4ea2a"
+        app:indicator_drawable_unselected="@color/white"
+        app:indicator_height="@dimen/dp_4"
+        app:indicator_margin="@dimen/dp_4"
+        app:indicator_width="@dimen/dp_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="4:1"
+        app:layout_constraintTop_toBottomOf="@+id/cardView_sign_in_bar_welfare" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

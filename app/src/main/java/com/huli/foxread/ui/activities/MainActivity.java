@@ -2,9 +2,10 @@ package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -40,7 +41,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     protected void setStatusBar() {
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.transparent), 0);
-//        StatusBarUtils.setAndroidNativeLightStatusBar(this, false);
+        StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
     }
 
     @Override
@@ -62,10 +63,10 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     public void initView(View view) {
         mTabLayout = $(R.id.cTabLayout_main);
         String[] bottomBarTitles = getResources().getStringArray(R.array.bottom_bar_main);
-        mTabEntities.add(new TabEntity(bottomBarTitles[0], R.drawable.tab_home_selected, R.mipmap.ic_launcher));
-        mTabEntities.add(new TabEntity(bottomBarTitles[1], R.drawable.tab_home_selected, R.mipmap.ic_launcher));
-        mTabEntities.add(new TabEntity(bottomBarTitles[2], R.drawable.tab_home_selected, R.mipmap.ic_launcher));
-        mTabEntities.add(new TabEntity(bottomBarTitles[3], R.drawable.tab_home_selected, R.mipmap.ic_launcher));
+        mTabEntities.add(new TabEntity(bottomBarTitles[0], R.drawable.tab_bookstore_selected, R.drawable.tab_bookstore_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[1], R.drawable.tab_bookrack_selected, R.drawable.tab_bookrack_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[2], R.drawable.tab_welfare_selected, R.drawable.tab_welfare_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[3], R.drawable.tab_mine_selected, R.drawable.tab_mine_unselected));
         mTabLayout.setTabData(mTabEntities);
         fragmentManager = getSupportFragmentManager();
     }
@@ -138,12 +139,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 }
                 break;
             default:
-                if (bookstoreFragment == null) {
-                    bookstoreFragment = new MainBookstoreFragment();
-                    transaction.add(R.id.fl_frag_content_main, bookstoreFragment);
-                } else {
-                    transaction.show(bookstoreFragment);
-                }
                 break;
         }
         transaction.commit();   //记得提交事务

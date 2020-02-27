@@ -7,14 +7,16 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
@@ -169,8 +171,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     protected void setStatusBar() {
-        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.col_theme_blue), 0);
-        StatusBarUtils.setAndroidNativeLightStatusBar(this, false);
+        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
     }
 
     /**
@@ -183,7 +185,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (mToolbar == null) {
             throw new IllegalArgumentException("Toolbar must not be null");
         }
-        mToolbar.setTitle(title);
+        mToolbar.setTitle("");
+        TextView tvTitle = $(R.id.tv_toolbar_center_title);
+        tvTitle.setText(title);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -195,7 +199,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (mToolbar == null) {
             throw new IllegalArgumentException("Toolbar must not be null");
         }
-        mToolbar.setTitle(resId);
+        mToolbar.setTitle("");
+        TextView tvTitle = $(R.id.tv_toolbar_center_title);
+        tvTitle.setText(resId);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(v -> onBackPressed());

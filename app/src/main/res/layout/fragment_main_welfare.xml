@@ -1,7 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#58a"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_f2">
 
-</android.support.constraint.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="247dp"
+        android:background="@drawable/img_frag_welfare_top_bg"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/ll_asBtn_gold_coin_usable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_click_2_login"
+            app:layout_constraintLeft_toLeftOf="@+id/btn_click_2_login"
+            app:layout_constraintRight_toRightOf="@+id/btn_click_2_login"
+            app:layout_constraintTop_toTopOf="@+id/btn_click_2_login">
+
+            <TextView
+                android:id="@+id/tv_gold_coin_usable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/txt_white"
+                android:textSize="@dimen/sp_22"
+                android:textStyle="bold"
+                tools:text="2600" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_arrow_right_white_12dp"
+                android:drawablePadding="@dimen/dp_4"
+                android:text="@string/txt_gold_coin_usable"
+                android:textColor="@color/txt_white"
+                android:textSize="@dimen/sp_12" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_click_2_login"
+            android:layout_width="@dimen/dp_92"
+            android:layout_height="@dimen/dp_92"
+            android:background="@drawable/ic_img_welfare_login_btn_bg"
+            android:gravity="center"
+            android:text="@string/txt_click_2_login"
+            android:textColor="@color/txt_red"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_title_bar_welfare"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center"
+        android:text="@string/txt_welfare_center"
+        android:textColor="@color/txt_white"
+        android:textSize="@dimen/sp_20"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_reading_task"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_bar_welfare"
+        app:layout_constraintVertical_weight="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">FoxSay</string>
+    <string name="app_name">FoxRead</string>
 
     <string name="loading">加载中&#8230;</string>
     <string name="txt_network_maybe_exceptions">网络连接可能存在异常&#8230;</string>
@@ -12,6 +12,133 @@
     <string name="txt_reconnection">重新连接</string>
 
     <string name="txt_no_data">暂无数据</string>
+    <string name="txt_skip_x">跳过 | %1$d</string>
+
+    <string name="txt_score_zero">0.0</string>
+    <string name="txt_zero_f2">0.00</string>
+    <string name="txt_zero">0</string>
+    <string name="txt_default">--</string>
+    <string name="txt_not_available">暂无</string>
+
+    <string name="txt_search">搜索</string>
+    <string name="txt_plz_input_keyword">请输入关键字</string>
+
+    <string name="txt_plz_input_invitation_code">请输入邀请码</string>
+    <string name="txt_confirm_2_submit">确定提交</string>
+    <string name="txt_invitation_code">邀请码</string>
+
+    <string name="txt_explain">说明</string>
+
+    <string name="unit_ren">人</string>
+    <string name="unit_yuan">元</string>
+    <string name="unit_score">分</string>
+    <string name="unit_w">万</string>
+
+    <string name="txt_classify">分类</string>
+    <string name="txt_ranking">排行</string>
+    <string name="txt_new_book">新书</string>
+    <string name="txt_end">完结</string>
+    <string name="txt_hotlist_today">今日大热榜</string>
+    <string name="txt_the_full_list">完整榜单</string>
+    <string name="txt_classify_excellent_works">分类佳作</string>
+    <string name="txt_more_classify">更多分类</string>
+    <string name="txt_special_topic">专题</string>
+    <string name="txt_more">更多</string>
+    <string name="txt_get_changed">换一换</string>
+    <string name="txt_actual_time_top_search">实时热搜</string>
+    <string name="txt_good_book_on_all_over_the_web">全网都在搜的好书</string>
+    <string name="txt_search_count_x">实搜%1$d次</string>
+    <string name="txt_new_books_lead_up">新书抢先</string>
+    <string name="txt_high_score_well_chosen">高分精选</string>
+    <string name="txt_title_exclusive_recommend">全网独家，重磅推荐</string>
+    <string name="txt_all_boys_love">男生都喜欢</string>
+    <string name="txt_all_girls_love">女生都喜欢</string>
+    <string name="txt_praise_good_books">好评佳作</string>
+    <string name="txt_total_reading_time_min">今日已阅读(分钟)</string>
+    <string name="txt_sign_in_for_gold">签到领金币</string>
+    <string name="txt_markread">已读</string>
+    <string name="txt_welfare_center">福利中心</string>
+    <string name="txt_click_2_login">点击\n登录</string>
+    <string name="txt_gold_coin_usable">可用金币</string>
+    <string name="hint_not_logged_in">还未登录账号哦</string>
+    <string name="hint_login_2_get_welfare">登录领取海量福利！</string>
+    <string name="txt_sign_in_immediately">立即签到</string>
+
+    <string name="txt_go2_reading">去阅读</string>
+    <string name="txt_go2_watch">去观看</string>
+    <string name="txt_can_receive">可领取</string>
+    <string name="txt_completed">已完成</string>
+    <string name="txt_newbie_mission">新手任务</string>
+    <string name="txt_reading_now">立即阅读</string>
+    <string name="txt_2_fill_in">去填写</string>
+    <string name="txt_2_binding">去绑定</string>
+    <string name="txt_withdrawal_1_yuan">提现1元</string>
+    <string name="txt_input_red_packet_code">输入红包码</string>
+    <string name="txt_binding_cellphone_number">绑定手机号</string>
+    <string name="txt_daily_mission">日常任务</string>
+    <string name="txt_invite_friends">邀请好友</string>
+    <string name="txt_go2_invite_friends">去邀请</string>
+    <string name="txt_reading_mission">阅读任务</string>
+
+    <string name="welcome_2_fox_fiction">欢迎来到狐狸小说</string>
+    <string name="txt_login_or_reg">登录/注册</string>
+    <string name="txt_my_gold_coin">我的金币</string>
+    <string name="txt_today_gold_coin">今日金币</string>
+    <string name="txt_today_reading">今日阅读</string>
+    <string name="txt_fox_vip">狐狸VIP会员</string>
+    <string name="txt_fox_vip_effect">去除广告，优质阅读</string>
+    <string name="txt_activate_immediately">立即开通</string>
+    <string name="txt_remove_ads">去除广告</string>
+    <string name="txt_voice_book">语音听书</string>
+    <string name="txt_extra_gold">额外金币</string>
+    <string name="txt_honourable_sign">尊贵标识</string>
+    <string name="txt_welfare_zone">福利专区</string>
+    <string name="txt_a_lots_gifts">好礼拿不停</string>
+    <string name="txt_my_privilege">我的特权</string>
+    <string name="txt_enjoy_no_ads_privilege">尊享无广告等特权</string>
+    <string name="txt_msg_notify">消息通知</string>
+    <string name="txt_reading_record">阅读历史</string>
+    <string name="txt_cash_withdrawal">金币提现</string>
+    <string name="txt_withdrawal_2_account_quick">提现到账快</string>
+    <string name="txt_mode_adolescent">青少年模式</string>
+    <string name="txt_help_and_feedback">帮助反馈</string>
+    <string name="txt_total_books_x">共%1$d部</string>
+    <string name="txt_heat">热度</string>
+
+    <string name="txt_history_search">历史搜索</string>
+    <string name="txt_clear">清除</string>
+    <string name="txt_hot_search">热门搜索</string>
+    <string name="txt_hot_books">热门书籍</string>
+
+    <string name="txt_book_reader_w">万人在读</string>
+    <string name="txt_newest">最新</string>
+    <string name="txt_catalogue">目录</string>
+    <string name="txt_add_a_bookcase">加入书架</string>
+    <string name="txt_begin_reading">开始阅读</string>
+    <string name="txt_related_recommendation">相关推荐</string>
+    <string name="tips_copyright">版权说明：本作品由咕咪阅读提供，并由本软件合作推广阅读，如有相关问题请及时联系客服。</string>
+
+    <string name="txt_copy">复制</string>
+    <string name="txt_immediately_invite">立即邀请</string>
+    <string name="txt_itf_go2_check">已邀好友-去查看</string>
+    <string name="txt_made_money_go2_withdrawal">已赚现金-去提现</string>
+    <string name="txt_my_invite_code_colon">我的邀请码：</string>
+    <string name="txt_invite_award">邀请奖励</string>
+    <string name="txt_invite_award_tips">好友阅读一定时长，您可获得当天相应奖励</string>
+    <string name="txt_first_day">第一天</string>
+    <string name="txt_second_day">第二天</string>
+    <string name="txt_third_day">第三天</string>
+    <string name="txt_invitation_process">邀请流程</string>
+    <string name="txt_wechat_invite">微信邀请</string>
+    <string name="txt_moments_invite">朋友圈邀请</string>
+    <string name="txt_face2face_scan">面对面扫描</string>
+
+
+    <string name="expand">展开</string>
+    <string name="collapse">收起</string>
+    <string name="test_content">The story of a Chinese couple at Oxford University who first met each other as deskmate in middle school and recently married each other has gone viral, southcn.com reported.
+        Zhou Si, the groom, and Chen Mengge, the bride, married each other on Aug 18 and will together go to Oxford University to pursue their doctoral degrees later this year.
+        They were deskmate in middle school and then both were admitted by same high school but not in same class.</string>
 
 
     <string name="txt_no_relevant_permission">没有相关权限</string>
@@ -27,7 +154,6 @@
         \nSMS: %s
     </string>
 
-    <string name="txt_default">--</string>
-    <string name="txt_not_available">暂无</string>
+
 
 </resources>

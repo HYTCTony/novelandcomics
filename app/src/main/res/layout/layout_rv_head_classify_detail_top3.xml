@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_4"
+    android:background="@color/white"
+    android:padding="@dimen/dp_16">
+
+    <TextView
+        android:id="@+id/tv_classify_top3_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_18"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="现代言情类全网最热前三名" />
+
+    <ImageView
+        android:id="@+id/iv_top3_bookCover_first"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="96:125"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/iv_top3_bookCover_second"
+        app:layout_constraintRight_toLeftOf="@+id/iv_top3_bookCover_third"
+        app:layout_constraintTop_toBottomOf="@+id/tv_classify_top3_title"
+        tools:src="@mipmap/img_holder_rect" />
+
+    <ImageView
+        android:id="@+id/iv_top3_bookCover_second"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintDimensionRatio="96:125"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_first"
+        tools:src="@mipmap/img_holder_rect" />
+
+    <ImageView
+        android:id="@+id/iv_top3_bookCover_third"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_16"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintDimensionRatio="96:125"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_first"
+        tools:src="@mipmap/img_holder_rect" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_ranking_first_place"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_first" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_ranking_second_place"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_second"
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_second" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_ranking_third_place"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_third"
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_third" />
+
+    <TextView
+        android:id="@+id/tv_top3_bookName_first"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_first"
+        tools:text="豪门千金的超级战神" />
+
+    <TextView
+        android:id="@+id/tv_top3_bookName_second"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_15"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_second"
+        app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_second"
+        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_second"
+        tools:text="天启时代" />
+
+    <TextView
+        android:id="@+id/tv_top3_bookName_third"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_15"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_third"
+        app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_third"
+        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_third"
+        tools:text="傲娇总裁侨萌妻" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

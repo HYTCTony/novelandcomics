@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f2"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolbar_normal"
+        layout="@layout/layout_toolbar" />
+
+    <ImageView
+        android:id="@+id/iv_asBtn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:padding="@dimen/dp_8"
+        android:src="@drawable/ic_search_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal"
+        tools:ignore="ContentDescription" />
+
+    <com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout
+        android:id="@+id/verticaltablayout_classify"
+        android:layout_width="@dimen/dp_72"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/px_1"
+        app:indicator_color="@color/col_red"
+        app:indicator_corners="@dimen/dp_1"
+        app:indicator_gravity="left"
+        app:indicator_width="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintVertical_weight="1"
+        app:tab_height="@dimen/dp_50"
+        app:tab_mode="scrollable" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout_content_classify"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/px_1"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/verticaltablayout_classify"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintVertical_weight="1" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

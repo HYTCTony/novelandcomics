@@ -1,8 +1,9 @@
 package com.huli.foxread.ui.base;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 /**
  * Fragment基类，封装了懒加载的实现

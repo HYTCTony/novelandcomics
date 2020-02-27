@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_f2"
+    android:layout_height="match_parent">
+
+    <com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout
+        android:id="@+id/verticaltablayout_ranking_type"
+        android:layout_width="@dimen/dp_72"
+        android:layout_height="match_parent"
+        app:indicator_color="@color/col_red"
+        app:indicator_corners="@dimen/dp_1"
+        app:indicator_gravity="left"
+        app:indicator_width="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:tab_height="@dimen/dp_50"
+        app:tab_mode="scrollable" />
+
+    <com.huli.foxread.ui.widget.NoScrollViewPager
+        android:id="@+id/viewPager_ranking_type"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/verticaltablayout_ranking_type"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

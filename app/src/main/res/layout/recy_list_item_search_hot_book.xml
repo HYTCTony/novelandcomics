@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_8"
+    android:paddingEnd="@dimen/sp_16"
+    android:paddingBottom="@dimen/dp_8">
+
+    <ImageView
+        android:id="@+id/iv_book_cover"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="7:9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/img_holder_rect" />
+
+    <TextView
+        android:id="@+id/tv_book_name"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:singleLine="true"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_book_introduction"
+        app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        tools:text="撩心游戏" />
+
+    <TextView
+        android:id="@+id/tv_book_introduction"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_book_name"
+        tools:text="岳母鄙视，妻子瞧不起，亲人嘲讽所有人都觉得，自己能骑在废物赘婿发现他的手机上多..." />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

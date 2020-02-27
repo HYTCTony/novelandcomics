@@ -1,7 +1,5 @@
 package com.huli.foxread.callbacks.ookkggoo;
 
-import android.support.v7.app.AppCompatActivity;
-
 import com.alibaba.fastjson.JSONObject;
 import com.huli.foxread.R;
 import com.huli.foxread.contact.Consts;
@@ -15,6 +13,8 @@ import com.lzy.okgo.request.base.Request;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class EncryptCallback extends StringCallback {
 
@@ -60,6 +60,8 @@ public abstract class EncryptCallback extends StringCallback {
         for (Map.Entry<String, List<String>> entry : params.urlParamsMap.entrySet()) {
             map.put(entry.getKey(), entry.getValue().get(0));
         }
+        params.urlParamsMap.clear();
+
         String jsonString = JSONObject.toJSONString(map);
         String encrypt = ParamUtil.encryptStr(jsonString);
         params.put(Consts.DATAS, encrypt);

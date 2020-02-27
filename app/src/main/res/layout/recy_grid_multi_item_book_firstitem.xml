@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_8"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_book_cover"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="7:9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/img_holder_rect" />
+
+    <TextView
+        android:id="@+id/tv_book_title"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:singleLine="true"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toLeftOf="@+id/tv_book_score"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        tools:text="猎能者" />
+
+    <TextView
+        android:id="@+id/tv_book_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/txt_red"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_book_title"
+        tools:text="9.3分" />
+
+    <TextView
+        android:id="@+id/tv_book_description"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+        app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        tools:text="岳母鄙视，妻子瞧不起，亲人嘲讽所有人都觉得，自己能骑在废物赘婿发现他的手机上多" />
+
+    <TextView
+        android:id="@+id/tv_book_author_pen_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:textColor="@color/txt_gray_999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+        app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        tools:text="不吃西红铈" />
+
+    <TextView
+        android:id="@+id/tv_book_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_round_graybg_f8f8f8"
+        android:textColor="@color/txt_gray_999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="热血" />
+
+    <TextView
+        android:id="@+id/tv_book_word_count"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_round_graybg_f8f8f8"
+        android:textColor="@color/txt_gray_999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_book_tag"
+        tools:text="128.6万" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

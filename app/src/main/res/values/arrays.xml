@@ -8,11 +8,35 @@
         <item>我</item>
     </string-array>
 
-   <string-array name="tab_book_store">
+    <string-array name="tab_book_store">
         <item>精选</item>
         <item>男生</item>
         <item>女生</item>
         <item>图书</item>
+    </string-array>
+
+    <string-array name="tab_v_classify">
+        <item>男生</item>
+        <item>女生</item>
+        <item>图书</item>
+    </string-array>
+
+    <string-array name="tab_ranking">
+        <item>男生榜</item>
+        <item>女生榜</item>
+    </string-array>
+
+    <string-array name="tab_sub_ranking">
+        <item>大热榜</item>
+        <item>完结榜</item>
+        <item>黑马榜</item>
+        <item>热搜榜</item>
+    </string-array>
+
+
+    <string-array name="tab_end_book">
+        <item>男生完结</item>
+        <item>女生完结</item>
     </string-array>
 
 </resources>

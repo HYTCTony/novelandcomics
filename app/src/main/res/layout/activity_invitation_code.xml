@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f2"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <EditText
+        android:id="@+id/editText_invitation_code"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:hint="@string/txt_plz_input_invitation_code"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_14"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@color/white" />
+
+    <Button
+        android:id="@+id/btn_confirm_2_submit"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/dp_32"
+        android:text="@string/txt_confirm_2_submit"
+        android:textColor="@color/txt_white"
+        android:textSize="@dimen/sp_16"
+        android:background="@drawable/ripple_round_btn_gradual_bg_red"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

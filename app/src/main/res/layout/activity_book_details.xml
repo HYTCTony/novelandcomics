@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/toolbar_normal"
+        layout="@layout/layout_toolbar_n" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/ctl_bottom_bar_dt"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/col_black_333"
+                android:padding="@dimen/dp_16">
+
+                <ImageView
+                    android:id="@+id/iv_book_cover_dt"
+                    android:layout_width="@dimen/dp_95"
+                    android:layout_height="@dimen/dp_125"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    tools:src="@mipmap/img_holder_rect" />
+
+                <TextView
+                    android:id="@+id/tv_book_name_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:textColor="@color/txt_white"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_book_cover_dt"
+                    app:layout_constraintTop_toTopOf="@+id/iv_book_cover_dt"
+                    tools:text="天启时代" />
+
+                <TextView
+                    android:id="@+id/tv_book_author_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_white"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_book_tag_dt"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_book_name_dt"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_book_name_dt"
+                    tools:text="研磨" />
+
+                <TextView
+                    android:id="@+id/tv_book_tag_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:textColor="@color/txt_af80_white"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_book_score_dt"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_book_name_dt"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_book_author_dt"
+                    tools:text="科幻热血·连载·320万字" />
+
+                <TextView
+                    android:id="@+id/tv_book_score_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/txt_score_zero"
+                    android:textColor="@color/txt_white"
+                    android:textColorHint="@color/txt_white"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover_dt"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_book_name_dt" />
+
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:id="@+id/ratingBar_book_score_dt"
+                    android:layout_width="80dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:isIndicator="true"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_score_dt"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_book_score_dt"
+                    app:layout_constraintTop_toTopOf="@+id/tv_book_score_dt"
+                    app:mrb_progressBackgroundTint="@color/txt_af80_white"
+                    app:mrb_progressTint="@color/col_red"
+                    app:mrb_secondaryProgressTint="#FDC4C4"
+                    tools:rating="2.5" />
+
+                <View
+                    android:layout_width="@dimen/dp_1"
+                    android:layout_height="@dimen/dp_12"
+                    android:background="#80FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_reader_dt"
+                    app:layout_constraintLeft_toRightOf="@+id/ratingBar_book_score_dt"
+                    app:layout_constraintRight_toLeftOf="@+id/tv_book_reader_dt"
+                    app:layout_constraintTop_toTopOf="@+id/tv_book_reader_dt" />
+
+                <TextView
+                    android:id="@+id/tv_book_reader_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:hint="@string/txt_score_zero"
+                    android:textColor="@color/txt_white"
+                    android:textColorHint="@color/txt_white"
+                    android:textSize="@dimen/sp_16"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_score_dt"
+                    app:layout_constraintRight_toLeftOf="@+id/tv_book_reader_label_dt"
+                    app:layout_constraintTop_toTopOf="@+id/tv_book_score_dt" />
+
+                <TextView
+                    android:id="@+id/tv_book_reader_label_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:text="@string/txt_book_reader_w"
+                    android:textColor="@color/txt_af80_white"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_reader_dt"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_book_reader_dt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_16">
+
+                <com.huli.foxread.ui.widget.ExpandableTextView
+                    android:id="@+id/etv_book_synopsis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:animDuration="200"
+                    app:collapseDrawable="@drawable/icon_orange_arrow_down"
+                    app:collapseExpandGrarity="right"
+                    app:collapseExpandTextColor="@color/txt_orange_ff6600"
+                    app:contentTextColor="@color/txt_black"
+                    app:contentTextSize="@dimen/sp_15"
+                    app:expandDrawable="@drawable/icon_orange_arrow_up"
+                    app:maxCollapsedLines="5"
+                    app:textCollapse="@string/collapse"
+                    app:textExpand="@string/expand" />
+
+                <com.kongzue.stacklabelview.StackLabel
+                    android:id="@+id/stackLabelView_tag_book_dt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    app:deleteButton="false"
+                    app:itemMargin="@dimen/dp_4"
+                    app:labelBackground="@drawable/shape_round_graybg_f8f8f8"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:maxSelectNum="1"
+                    app:paddingHorizontal="@dimen/dp_8"
+                    app:paddingVertical="@dimen/dp_4"
+                    app:textColor="@color/txt_gray"
+                    app:textSize="@dimen/sp_12"
+                    tools:labels="热血,玄幻,口碑佳作,轻松爽文,美女,种马" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rtl_asBtn_newest_section_dt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/dp_4"
+                android:background="@drawable/ripple_normal_btn_bg_white">
+
+                <TextView
+                    android:id="@+id/tv_newest_section_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:drawableStart="@drawable/ic_clock_black_24dp"
+                    android:drawablePadding="@dimen/dp_6"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_newest"
+                    android:textColor="@color/txt_black_191919"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_book_newest_section_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:layout_toStartOf="@+id/iv_arrow_newest_section"
+                    android:layout_toEndOf="@+id/tv_newest_section_dt"
+                    android:singleLine="true"
+                    android:textColor="@color/txt_gray"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="第383章-共赴生死" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow_newest_section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:src="@drawable/ic_arrow_right_gray_16dp"
+                    tools:ignore="ContentDescription" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rtl_asBtn_book_catalogue_dt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:layout_marginTop="@dimen/px_1"
+                android:background="@drawable/ripple_normal_btn_bg_white">
+
+                <TextView
+                    android:id="@+id/tv_book_catalogue_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:drawableStart="@drawable/ic_clock_black_24dp"
+                    android:drawablePadding="@dimen/dp_6"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_catalogue"
+                    android:textColor="@color/txt_black_191919"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/tv_book_total_section"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:layout_toStartOf="@+id/iv_arrow_book_catalogue"
+                    android:layout_toEndOf="@+id/tv_book_catalogue_dt"
+                    android:singleLine="true"
+                    android:textColor="@color/txt_gray"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="共383章" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow_book_catalogue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_12"
+                    android:src="@drawable/ic_arrow_right_gray_16dp"
+                    tools:ignore="ContentDescription" />
+            </RelativeLayout>
+
+            <include layout="@layout/layout_rv_head_sb_special_topic" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_title_related_recommendation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:background="@color/white"
+                    android:drawableStart="@drawable/shape_title_color_lump"
+                    android:drawablePadding="@dimen/dp_6"
+                    android:text="@string/txt_related_recommendation"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_asBtn_related_recommendation_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:drawableEnd="@drawable/ic_refresh_gray_small"
+                    android:drawablePadding="@dimen/dp_4"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_get_changed"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_title_related_recommendation"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_title_related_recommendation" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_related_recommendation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/tv_tips_copyright_dt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_16"
+                android:textSize="@dimen/sp_12"
+                tools:text="@string/tips_copyright" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_bottom_bar_dt"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/btn_add_a_bookcase_dt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_8"
+            android:text="@string/txt_add_a_bookcase"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btn_begin_reading_dt"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_begin_reading_dt"
+            android:layout_width="@dimen/dp_128"
+            android:layout_height="@dimen/dp_38"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:background="@drawable/ripple_round_btn_gradual_bg_red"
+            android:text="@string/txt_begin_reading"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
