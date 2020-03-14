@@ -23,7 +23,7 @@ public class SomeMonitorEditText implements TextWatcher {
         this.text = text;
 
         button.setBackgroundResource(R.drawable.shape_btn_bg_disabled);
-        button.setTextColor(Color.parseColor("#2E3034"));
+        button.setTextColor(Color.parseColor("#8B7342"));
         button.setEnabled(false);
 
         for (int i = 0; i < text.length; i++) {
@@ -52,11 +52,11 @@ public class SomeMonitorEditText implements TextWatcher {
 
             if (text[i].length() == 0) {
 				button.setBackgroundResource(R.drawable.shape_btn_bg_disabled);
-                button.setTextColor(Color.parseColor("#2E3034"));
+                button.setTextColor(Color.parseColor("#8B7342"));
                 button.setEnabled(false);
                 return;//这句代码值两千万
             } else {
-				button.setBackgroundResource(R.drawable.ripple_semicircle_btn_gradual_bg_red);
+				button.setBackgroundResource(R.drawable.ripple_round_btn_gradual_bg_red);
                 button.setTextColor(Color.parseColor("#ffffff"));
                 button.setEnabled(true);
             }

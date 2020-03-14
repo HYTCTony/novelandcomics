@@ -46,7 +46,7 @@ public class BookRankingActivity extends BaseActivity {
         viewPager = $(R.id.viewPager_ranking);
         String[] tabTitles = getResources().getStringArray(R.array.tab_ranking);
         for (int i = 0; i < tabTitles.length; i++) {
-            fragments.add(RankingBoyGirlFragment.newInstance(i));
+            fragments.add(RankingBoyGirlFragment.newInstance(i + 1));
         }
         viewPager.setOffscreenPageLimit(fragments.size());
         viewPager.setAdapter(new CPagerAdapter(getSupportFragmentManager(), fragments, tabTitles));

@@ -2,29 +2,121 @@ package com.huli.foxread.contact;
 
 public interface Consts {
 
-    String BASE_URL = "http://meidavideo.luxian1992.top";
-    String NOT_CPL_URL = BASE_URL + "/api/AppApi/index/";
+    String BASE_URL = "http://novel.hongyutiancheng.com.cn";
+    String NOT_CPL_URL = BASE_URL + "/api/v1";
 
-    String USE_UNIQUE_ID_LOGIN_OR_REG_API = NOT_CPL_URL + Func.USE_UNIQUE_ID_LOGIN_OR_REG;
-//    String USERS_INFO_API = NOT_CPL_URL + Func.USERS_INFO;
-//    String GET_AD_API = NOT_CPL_URL + Func.GET_AD;
+    String FEEDBACK_URL = BASE_URL + "/api/feedback";
+
+    String USE_UNIQUE_ID_LOGIN_OR_REG_API = NOT_CPL_URL + Func.USER_VISITOR_LOGIN;
+    String USER_SET_GENDER_API = NOT_CPL_URL + Func.USER_SET_GENDER;
+    String USERS_INFO_API = NOT_CPL_URL + Func.USER_INFO;
+    String USER_MOBILE_LOGIN_API = NOT_CPL_URL + Func.USER_MOBILE_LOGIN;
+    String USER_LOGOUT_API = NOT_CPL_URL + Func.USER_LOGOUT;
+    String SMS_SEND_API = NOT_CPL_URL + Func.SMS_SEND;
+    String BIND_MOBILE_API = NOT_CPL_URL + Func.BIND_MOBILE;
+    String UNBIND_MOBILE_API = NOT_CPL_URL + Func.UNBIND_MOBILE;
+    String FILLIN_INVITE_CODE_API = NOT_CPL_URL + Func.FILLIN_INVITE_CODE;
+    String SET_USER_PROFILE_API = NOT_CPL_URL + Func.USER_PROFILE;
+
+    String MSG_LIST_API = NOT_CPL_URL + Func.MSG_LIST;
+
+    String ADS_TAIL_API = NOT_CPL_URL + Func.ADS_TAIL;
+    String ADS_BANNER_API = NOT_CPL_URL + Func.ADS_BANNER;
+    String ADS_PLAQUE_API = NOT_CPL_URL + Func.ADS_PLAQUE;
+    String ADS_INFO_API = NOT_CPL_URL + Func.ADS_INFO;
+
+    String INDEX_PAGE_API = NOT_CPL_URL + Func.INDEX_PAGE;
+    String NOVEL_POPULAR_API = NOT_CPL_URL + Func.NOVEL_POPULAR;
+    String INDEX_RANKING_API = NOT_CPL_URL + Func.INDEX_RANKING;
+    String NOVEL_CATEGORY_API = NOT_CPL_URL + Func.NOVEL_CATEGORY;
+    String NOVEL_CATEGORY_SUB_API = NOT_CPL_URL + Func.NOVEL_CATEGORY_SUB;
+    String NOVEL_CHOICE_API = NOT_CPL_URL + Func.NOVEL_CHOICE;
+    String NOVEL_HOT_API = NOT_CPL_URL + Func.NOVEL_HOT;
+    String NOVEL_SEARCH_RECOMMEND_API = NOT_CPL_URL + Func.NOVEL_SEARCH_RECOMMEND;
+    String NOVEL_COLUMN_BOYNEW_API = NOT_CPL_URL + Func.NOVEL_COLUMN_BOYNEW;
+    String NOVEL_COLUMN_GIRLNEW_API = NOT_CPL_URL + Func.NOVEL_COLUMN_GIRLNEW;
+    String NOVEL_COLUMN_LIBNEW_API = NOT_CPL_URL + Func.NOVEL_COLUMN_LIBNEW;
+    String NOVEL_COLUMN_SELECTIONNEW_API = NOT_CPL_URL + Func.NOVEL_COLUMN_SELECTIONNEW;
+    String NOVEL_COLUMN_BOYEND_API = NOT_CPL_URL + Func.NOVEL_COLUMN_BOYEND;
+    String NOVEL_COLUMN_GIRLEND_API = NOT_CPL_URL + Func.NOVEL_COLUMN_GIRLEND;
+
+    String NOVEL_DETAILS_API = NOT_CPL_URL + Func.NOVEL_DETAILS;
 
 
+
+    String BOOKRACK_ADD_API = NOT_CPL_URL + Func.BOOKRACK_ADD;
+    String BOOKRACK_DEL_API = NOT_CPL_URL + Func.BOOKRACK_DEL;
+    String BOOKRACK_GETLIST_API = NOT_CPL_URL + Func.BOOKRACK_GETLIST;
+
+
+    String READ_NOVEL_RECORD_API = NOT_CPL_URL + Func.READ_NOVEL_RECORD;
+
+
+    /***gender***/
     String MAN = "1";
     String FEMALE = "2";
+    /*gender*/
 
-    int ZONE_GOLD_COIN = 1;
-    int ZONE_ORIGINAL = 2;
+    /***event***/
+    String SMS_REGISTER = "register";   //用于注册EVENT
+    String SMS_LOGIN = "login";         //用于手机号登录EVENT
+    String SMS_UNTYING = "untying";     //用于(更换绑定手机)EVENT
+    String SMS_BIND = "bind";           //用于(绑定手机)EVENT
+    /***event***/
+
+    /***书城tab***/
+    int TYPE_BOY = 1;
+    int TYPE_GIRL = 2;
+    int TYPE_LIBRARY = 3;
+    int TYPE_SELECTION = 4;
+    /***书城tab***/
+
+    /***排行榜tab***/
+    int RANK_TYPE_HOT = 1;
+    int RANK_TYPE_END = 2;
+    int RANK_TYPE_DARK_HORSE = 3;
+    int RANK_TYPE_HOT_BOT = 4;
+    /***排行榜tab***/
+    int RANK_BOY = 1;
+    int RANK_GIRL = 2;
 
 
     //*************************Param******************************
     String D_TOKEN = "token";
     String DATAS = "datas";             //最终的Map参数名
 
-    String FILES = "files";
     String TOKEN = "token";
     String VER = "version";             //版本号，加上这个参数，以防止没有参数时无法访问接口****
-    String UNIQUE_ID = "unique_id";     //手机唯一标识符
+    String UNIQUE_ID = "identifier";    //手机唯一标识符
+    String MOBILE = "mobile";           //手机号
+    String CAPTCHA = "captcha";         //验证码
+    String EVENT = "event";             //事件,event=register(登录/注册)
+
+    String USERNAME = "username";
+    String GENDER = "gender";
+    String AVATAR = "avatar";
+
+    String CODE = "code";
+
+    String TYPE = "type";
+    String RANK_FORM = "form";
+
+    String NOVEL_ID = "id";
+    String NOVEL_IDS = "ids";
+
+    String CAT_PID = "id";
+    String CAT_ID = "classify_id";
+    String CAT_WORD_NUM = "word_calssify";
+    String CAT_IS_END = "is_end";
+    String CAT_STATUS = "status";
+
+    String FILTRATE_KEYWORD = "keyword";
+
+    String PAGE = "page";
+    String PAGE_SIZE = "page_size";
+
+    String WELFARE_READ_ID = "welfare_read_id";
+
     String TEL = "tel";
     String PWD = "pwd";
     String VERIFY = "verify";           //验证码
@@ -34,9 +126,6 @@ public interface Consts {
     String MONTH = "month";
     String DAY = "day";
     String NUM = "num";
-    String N_ID = "id";
-    String NICKNAME = "nickname";
-    String GENDER = "gender";
     String SIGNATURE = "signature";
     String BIRTHDAY = "birthday";
     String CITY = "city";

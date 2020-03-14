@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_top_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/img_top_bg_sign_in"
+        app:layout_constraintDimensionRatio="36:22"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <include layout="@layout/layout_toolbar_n" />
+
+    <TextView
+        android:id="@+id/tv_asBtn_explain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:padding="@dimen/dp_8"
+        android:text="@string/txt_explain"
+        android:textColor="@color/txt_white"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintVertical_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/view_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0"
+                    app:layout_constraintDimensionRatio="36:10"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:background="@drawable/shape_round_whitebg"
+                android:padding="@dimen/dp_16">
+
+                <TextView
+                    android:id="@+id/tv_title_sign_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_calendar_18dp"
+                    android:drawablePadding="@dimen/dp_6"
+                    android:hint="@string/txt_sign_in_get_gold_coin"
+                    android:textColor="@color/txt_black"
+                    android:textColorHint="@color/txt_black"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_sign_in_state_this_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_24"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/txt_gray"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_title_sign_in"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_sign_in"
+                    tools:text="@string/txt_sign_in_state_this_week_xx" />
+
+                <TextView
+                    android:id="@+id/tv_asBtn_sign_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_semicircle_btn_gradual_bg_yellow"
+                    android:hint="@string/txt_sign_in"
+                    android:paddingStart="@dimen/dp_12"
+                    android:paddingTop="@dimen/dp_4"
+                    android:paddingEnd="@dimen/dp_12"
+                    android:paddingBottom="@dimen/dp_4"
+                    android:textColor="@color/txt_red"
+                    android:textColorHint="@color/txt_brownness"
+                    android:textSize="@dimen/sp_12"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_sign_in_state_this_week"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_title_sign_in" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_sign_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:overScrollMode="never"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_sign_in_state_this_week" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:background="@drawable/shape_round_edittext_graybg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dp_8"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView_sign_week">
+
+                    <TextView
+                        android:id="@+id/tv_more_gold_coin_way"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/txt_black"
+                        android:textSize="@dimen/sp_11"
+                        tools:text="本周再签2天可额外获得100金币" />
+
+                    <com.huli.foxread.ui.widget.TaskProgressBar
+                        android:id="@+id/progressBar_sign_task"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dp_6"
+                        android:layout_marginStart="@dimen/dp_12"
+                        android:layout_weight="1"
+                        app:cpb_isShowDesc="false"
+                        app:cpb_progressColor="@color/col_red"
+                        app:cpb_progressDescColor="@color/black"
+                        app:cpb_progressRadius="@dimen/dp_3"
+                        tools:cpb_max="10"
+                        tools:cpb_progress="5" />
+
+                    <TextView
+                        android:id="@+id/tv_progress_si"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_4"
+                        android:textColor="@color/txt_black"
+                        android:textSize="@dimen/sp_11"
+                        tools:text="5/10" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_16"
+                android:background="@drawable/shape_round_whitebg"
+                android:padding="@dimen/dp_16">
+
+
+                <TextView
+                    android:id="@+id/tv_title_continuous_sign_in_extra_gift"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_continuous_sign_in_extra_gift"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_extra_gift_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:src="@drawable/ic_gold_coin_18dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_continuous_sign_in_extra_gift"
+                    tools:ignore="ContentDescription" />
+
+                <View
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/dp_1_5"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:background="@color/col_gray_f0f0f0"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_extra_gift_2"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1" />
+
+                <ImageView
+                    android:id="@+id/iv_extra_gift_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_gold_coin_18dp"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_extra_gift_3"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1"
+                    tools:ignore="ContentDescription" />
+
+                <View
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/dp_1_5"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:background="@color/col_gray_f0f0f0"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_extra_gift_2"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_extra_gift_3"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1" />
+
+                <ImageView
+                    android:id="@+id/iv_extra_gift_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_gold_coin_18dp"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_extra_gift_2"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_extra_gift_4"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1"
+                    tools:ignore="ContentDescription" />
+
+                <View
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/dp_1_5"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:background="@color/col_gray_f0f0f0"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_extra_gift_3"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_extra_gift_4"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1" />
+
+                <ImageView
+                    android:id="@+id/iv_extra_gift_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_gold_coin_18dp"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_extra_gift_3"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_extra_gift_5"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1"
+                    tools:ignore="ContentDescription" />
+
+                <View
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/dp_1_5"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_marginEnd="@dimen/dp_10"
+                    android:background="@color/col_gray_f0f0f0"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintLeft_toRightOf="@+id/iv_extra_gift_4"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_extra_gift_5"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1" />
+
+                <ImageView
+                    android:id="@+id/iv_extra_gift_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:src="@drawable/ic_gold_coin_18dp"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iv_extra_gift_1"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_count_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintRight_toRightOf="@+id/iv_extra_gift_1"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_extra_gift_1"
+                    tools:text="+300" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_count_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_extra_gift_2"
+                    app:layout_constraintRight_toRightOf="@+id/iv_extra_gift_2"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_extra_gift_2"
+                    tools:text="+500" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_count_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_extra_gift_3"
+                    app:layout_constraintRight_toRightOf="@+id/iv_extra_gift_3"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_extra_gift_3"
+                    tools:text="+1000" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_count_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_extra_gift_4"
+                    app:layout_constraintRight_toRightOf="@+id/iv_extra_gift_4"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_extra_gift_4"
+                    tools:text="+2000" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_count_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_extra_gift_5"
+                    app:layout_constraintRight_toRightOf="@+id/iv_extra_gift_5"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_extra_gift_5"
+                    tools:text="+4000" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_need_day_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_11"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_extra_goldCoin_count_1"
+                    app:layout_constraintRight_toRightOf="@+id/tv_extra_goldCoin_count_1"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_extra_goldCoin_count_1"
+                    tools:text="7天" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_need_day_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_11"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_extra_goldCoin_count_2"
+                    app:layout_constraintRight_toRightOf="@+id/tv_extra_goldCoin_count_2"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_extra_goldCoin_count_2"
+                    tools:text="14天" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_need_day_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_11"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_extra_goldCoin_count_3"
+                    app:layout_constraintRight_toRightOf="@+id/tv_extra_goldCoin_count_3"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_extra_goldCoin_count_3"
+                    tools:text="30天" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_need_day_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_11"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_extra_goldCoin_count_4"
+                    app:layout_constraintRight_toRightOf="@+id/tv_extra_goldCoin_count_4"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_extra_goldCoin_count_4"
+                    tools:text="45天" />
+
+                <TextView
+                    android:id="@+id/tv_extra_goldCoin_need_day_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_11"
+                    app:layout_constraintLeft_toLeftOf="@+id/tv_extra_goldCoin_count_5"
+                    app:layout_constraintRight_toRightOf="@+id/tv_extra_goldCoin_count_5"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_extra_goldCoin_count_5"
+                    tools:text="60天" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_8"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_lucky_wheel"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/dp_0"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:background="@drawable/shape_bg_lucky_wheel_si"
+                    app:layout_constraintDimensionRatio="156:78"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/ctl_invite_friends_get_redPacket"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_title_lucky_wheel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dp_16"
+                        android:text="@string/txt_lucky_wheel"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_16"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:text="@string/txt_spell_luck"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintLeft_toLeftOf="@+id/tv_title_lucky_wheel"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title_lucky_wheel" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_48"
+                        android:src="@mipmap/icon_lucky_wheel"
+                        android:layout_height="@dimen/dp_48"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:ignore="ContentDescription" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/ctl_invite_friends_get_redPacket"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="@dimen/dp_0"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:background="@drawable/shape_bg_invite_friends_si"
+                    app:layout_constraintDimensionRatio="156:78"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toRightOf="@+id/ctl_lucky_wheel"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/tv_title_invite_friends_get_redPacket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/dp_16"
+                        android:text="@string/txt_invite_friends_get_redpacket"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_16"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_get_redPacket_people_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_8"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_10"
+                        app:layout_constraintLeft_toLeftOf="@+id/tv_title_invite_friends_get_redPacket"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title_invite_friends_get_redPacket"
+                        tools:text="156632人已领" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_48"
+                        android:src="@mipmap/icon_redpacket_double"
+                        android:layout_height="@dimen/dp_48"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_my_gold_coin"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintDimensionRatio="18:10"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/ll_today_gold_coin"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal">
+
+        <TextView
+            android:id="@+id/tv_my_gold_coin_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_24"
+            android:textStyle="bold"
+            tools:text="1100" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_6"
+            android:drawableEnd="@drawable/ic_arrow_right_white_12dp"
+            android:drawablePadding="@dimen/dp_4"
+            android:text="@string/txt_my_gold_coin"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_today_gold_coin"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/ll_my_gold_coin"
+        app:layout_constraintLeft_toRightOf="@+id/ll_my_gold_coin"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ll_my_gold_coin">
+
+        <TextView
+            android:id="@+id/tv_today_gold_coin_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_24"
+            android:textStyle="bold"
+            tools:text="1100" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_6"
+            android:drawableEnd="@drawable/ic_arrow_right_white_12dp"
+            android:drawablePadding="@dimen/dp_4"
+            android:text="@string/txt_today_gold_coin"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

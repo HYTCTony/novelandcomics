@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f2"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_asBtn_done"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_0"
+        android:gravity="center_vertical"
+        android:background="@drawable/ripple_normal_btn_bg_white"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:text="@string/txt_done"
+        android:visibility="gone"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintLeft_toLeftOf="@+id/toolbar_normal"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal" />
+
+    <TextView
+        android:id="@+id/tv_asBtn_select_all_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:background="@drawable/ripple_normal_btn_bg_white"
+        android:padding="@dimen/dp_8"
+        android:text="@string/txt_select_all"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_14"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="@+id/toolbar_normal"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal" />
+
+    <TextView
+        android:id="@+id/tv_asBtn_manager_records"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:background="@drawable/ripple_normal_btn_bg_white"
+        android:padding="@dimen/dp_8"
+        android:text="@string/txt_manage"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="@+id/toolbar_normal"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_reading_records"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/dp_1"
+        android:layout_marginBottom="@dimen/dp_1"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/ll_bottom_bar_rc"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal" />
+
+    <LinearLayout
+        android:id="@+id/ll_bottom_bar_rc"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/tv_asBtn_del_books"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/txt_black"
+            android:textSize="@dimen/sp_16"
+            tools:text="@string/txt_del_books_x" />
+
+        <View
+            android:layout_width="@dimen/dp_1"
+            android:layout_height="@dimen/dp_16"
+            android:layout_gravity="center_vertical"
+            android:background="@color/col_gray_e5e5e5" />
+
+        <TextView
+            android:id="@+id/tv_asBtn_add_to_bookcase"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/txt_red"
+            android:textSize="@dimen/sp_16"
+            tools:text="@string/txt_add_to_bookcase_x" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

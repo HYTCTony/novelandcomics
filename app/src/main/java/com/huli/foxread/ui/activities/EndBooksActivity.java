@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.huli.foxread.R;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.EndBooksFragment;
 import com.huli.foxread.ui.pageradapter.CPagerAdapter;
@@ -22,9 +23,11 @@ public class EndBooksActivity extends BaseActivity {
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments = new ArrayList<>();
 
+    private int mType;
+
     @Override
     public void initParms(Bundle parms) {
-
+        mType = parms.getInt(Consts.TYPE);
     }
 
     @Override
@@ -46,7 +49,13 @@ public class EndBooksActivity extends BaseActivity {
         viewPager = $(R.id.recyclerView_end_book);
         String[] tabTitles = getResources().getStringArray(R.array.tab_end_book);
         for (int i = 0; i < tabTitles.length; i++) {
-            fragments.add(EndBooksFragment.newInstance(i));
+            int type = Consts.TYPE_BOY;
+            if (i == 0) {
+                type = Consts.TYPE_BOY;
+            } else if (i == 1) {
+                type = Consts.TYPE_GIRL;
+            }
+            fragments.add(EndBooksFragment.newInstance(type));
         }
         viewPager.setOffscreenPageLimit(fragments.size());
         viewPager.setAdapter(new CPagerAdapter(getSupportFragmentManager(), fragments, tabTitles));
@@ -60,6 +69,13 @@ public class EndBooksActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
-
+        if (mType == Consts.TYPE_BOY) {
+            tabLayout.setCurrentTab(0);
+        } else if (mType == Consts.TYPE_GIRL) {
+            tabLayout.setCurrentTab(1);
+        } else {
+            tabLayout.setCurrentTab(0);
+        }
     }
+
 }

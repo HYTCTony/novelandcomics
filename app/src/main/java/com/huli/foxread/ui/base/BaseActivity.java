@@ -109,7 +109,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             ignoreHint = true;
         } else {
-            Tos.showShort(this, R.string.txt_network_error);
+//            Tos.showShort(this, R.string.txt_network_error);
             ignoreHint = false;
         }
     }

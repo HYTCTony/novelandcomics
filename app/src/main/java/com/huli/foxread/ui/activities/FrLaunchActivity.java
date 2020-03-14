@@ -4,47 +4,50 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import com.huli.foxread.FrApp;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AdEntity;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
-import com.huli.foxread.utils.Tos;
-import com.kongzue.dialog.v3.TipDialog;
+import com.huli.foxread.utils.UniqueIdManager;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.model.Response;
 
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
+public class FrLaunchActivity extends BaseActivity {
 
-public class FrLaunchActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
-
-    private static final String[] EXTERNAL_AND_CAMERA = {Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA};
-    private static final int RC_EXTERNAL_CAMERA_PERM = 124;
+    private static final String[] PHONE_STATE = {Manifest.permission.READ_PHONE_STATE};
+    private static final int RC_PHONE_STATE_PERM = 124;
 
     private ConstraintLayout layoutAdvertising;
     private Button btnSkip;
     private AdEntity adEntity;
-
-    private ConstraintLayout ctlNoNetwork;
-    private TextView btnNetworkSetting, btnReconnect;
-
-    //广告是否已经显示过（考虑到网络情况）
-    private boolean adHasbeenShow = false;
+    private ImageView ivAdPic;
 
     @Override
     public void initParms(Bundle parms) {
@@ -65,108 +68,96 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     public void initView(View view) {
         layoutAdvertising = $(R.id.ctl_advertising);
         btnSkip = $(R.id.btn_skip_ad);
-        ctlNoNetwork = $(R.id.ctl_no_network_show);
-        btnNetworkSetting = $(R.id.tv_asBtn_network_setting);
-        btnReconnect = $(R.id.tv_asBtn_reconnect);
+        ivAdPic = $(R.id.iv_advertising_picture);
     }
 
     @Override
     public void setListener() {
-        btnSkip.setOnClickListener(onClickEvent);
+        btnSkip.setOnClickListener(new OnClickEvent() {
+            @Override
+            public void singleClick(View v) {
+                goMain();
+            }
+        });
 
-        btnNetworkSetting.setOnClickListener(onClickEvent);
-        btnReconnect.setOnClickListener(onClickEvent);
     }
 
     @Override
     public void doBusiness(Context mContext) {
-//        startNetReq();
 
-       /* Random r = new Random();
-        i = r.nextInt(10);
-        if (i < 5) {
-            //随机概率会出现广告页
-        } else {
-            startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
-            finish();
-        }*/
-
-        mHandler.sendEmptyMessageDelayed(1, 2000);
+        //启动页延长显示时间   至少800毫秒 防止一闪而过
+        mHandler.sendEmptyMessageDelayed(9, 800);
     }
 
-    @Override
-    protected void handleNetWorkChange(boolean has) {
-        super.handleNetWorkChange(has);
-        if (!has) {
-            ctlNoNetwork.setVisibility(View.VISIBLE);
-            OkGo.getInstance().cancelAll();
+    private void start(){
+        //token为空 判定为APP安装后第一次登录，反之。
+        String token = UserInfoCache.getToken(this);
+
+        if (!TextUtils.isEmpty(token)) {
+            if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
+                reqInitUserInfo();
+            } else {
+                //广告有okgo缓存
+                reqAdsFromNet();
+            }
+        } else {
+            if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
+                reqUniqueIDLogin();
+            } else {
+                $(R.id.ctl_no_network_show).setVisibility(View.VISIBLE);
+                $(R.id.tv_asBtn_network_setting).setOnClickListener(new OnClickEvent() {
+                    @Override
+                    public void singleClick(View v) {
+                        startActivity(new Intent(Settings.ACTION_WIRELESS_SETTINGS));
+                    }
+                });
+                $(R.id.tv_asBtn_reconnect).setOnClickListener(new OnClickEvent() {
+                    @Override
+                    public void singleClick(View v) {
+                        reqUniqueIDLogin();
+                    }
+                });
+            }
         }
     }
 
-    /*  private int[] picsLayout = {R.layout.layout_hello, R.layout.layout_hello2,
-              R.layout.layout_hello3, R.layout.layout_hello4, R.layout.layout_hello5};
-      private int i;*/
-    private int count = 5;
 
+    private int count = 3;
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 0) {
                 btnSkip.setText(String.format(getString(R.string.txt_skip_x), getCount()));
-                mHandler.sendEmptyMessageDelayed(0, 1000);
-            }else if(msg.what==1){
-                layoutAdvertising.setVisibility(View.VISIBLE);
-                btnSkip.setText(String.format(getString(R.string.txt_skip_x), count));
-                mHandler.sendEmptyMessageDelayed(0, 1000);
+                if (count > 0) {
+                    mHandler.sendEmptyMessageDelayed(0, 1000);
+                }
+            }else if(msg.what==9){
+                start();
             }
             return false;
         }
     });
 
-    public int getCount() {
+    private boolean autoSkip = true;
+
+    private int getCount() {
         count--;
-        if (count == 0) {
-            btnSkip.performClick();
+        if (count == 0 && autoSkip) {
+            goMain();
         }
         return count;
     }
 
-    private void startNetReq() {
-        String mToken = FrApp.getInstance().getToken();
-        /*if (TextUtils.isEmpty(mToken)) {
-            uniqueIdLoginTask();
-        } else {
-            getUserInfoTask(mToken);
-        }*/
+
+    public void goMain() {
+        mHandler.removeMessages(0);
+        startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
+        finish();
     }
 
-    private OnClickEvent onClickEvent = new OnClickEvent() {
-        @Override
-        public void singleClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_skip_ad:
-                    startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
-                    mHandler.removeMessages(0);
-                    finish();
-                    break;
-                case R.id.tv_asBtn_network_setting:
-
-                    break;
-                case R.id.tv_asBtn_reconnect:
-                    if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
-                        startNetReq();
-                    } else {
-                        Tos.showShort(FrLaunchActivity.this, R.string.txt_network_error);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
 
 
-    @Override
+   /* @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // Forward results to EasyPermissions
@@ -174,29 +165,29 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     }
 
 
-    private boolean hasExternaLAndCameraPermissions() {
-        return EasyPermissions.hasPermissions(this, EXTERNAL_AND_CAMERA);
+    private boolean hasReadPhoneStatePermissions() {
+        return EasyPermissions.hasPermissions(this, PHONE_STATE);
     }
 
 
-    @AfterPermissionGranted(RC_EXTERNAL_CAMERA_PERM)
-    public void goMain() {
-        if (hasExternaLAndCameraPermissions()) {
-            startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
-            finish();
+
+    @AfterPermissionGranted(RC_PHONE_STATE_PERM)
+    public void readPhoneStateTask() {
+        if (hasReadPhoneStatePermissions()) {
+            if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
+                reqInitUserInfo();
+            } else {
+                goMain();
+            }
         } else {
             // Ask for both permissions
-            EasyPermissions.requestPermissions(
-                    this,
-                    getString(R.string.rationale_location_contacts),
-                    RC_EXTERNAL_CAMERA_PERM,
-                    EXTERNAL_AND_CAMERA);
+            EasyPermissions.requestPermissions(this, getString(R.string.rationale_phone_state), RC_PHONE_STATE_PERM, PHONE_STATE);
         }
     }
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-
+        Log.e(TAG, "权限授予");
     }
 
     @Override
@@ -206,6 +197,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             new AppSettingsDialog.Builder(this).build().show();
         }
+        //TODO 弹出提示框不给权限(不能取消)-----点确定----退出
     }
 
     @Override
@@ -215,108 +207,109 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
             String yes = getString(R.string.yes);
             String no = getString(R.string.no);
-
             // Do something after user returned from app settings screen, like showing a Toast.
             TipDialog.show(this, R.string.txt_no_relevant_permission, TipDialog.TYPE.ERROR);
         }
-
     }
+*/
 
-
-    private void uniqueIdLoginTask() {
-        /*String psuedoID = PsuedoIDUtil.getUniquePsuedoID();
-        OkGo.<String>post(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
-                .params(Consts.UNIQUE_ID, psuedoID)
-                .execute(new EncryptCallback(this) {
+    /**
+     * 获取用户信息
+     */
+    private void reqInitUserInfo() {
+        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
+                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
+                        new TypeReference<LzyResponse<FUser>>() {
+                        }) {
                     @Override
-                    public void onSuccess(Response<String> response) {
-                        BaseEntity<LoginRpsEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<BaseEntity<LoginRpsEntity>>() {
-                                });
-                        if (entity.getError() == 0) {
-                            LoginRpsEntity data = entity.getData();
-                            String mToken = data.getToken();
-                            PvApp.getInstance().setToken(mToken);
-
-                            getUserInfoTask(mToken);
-                        }
-                    }
-                });*/
-    }
-
-    private void getUserInfoTask(String token) {
-       /* OkGo.<String>post(Consts.USERS_INFO_API)
-                .params(Consts.TOKEN, token)
-                .execute(new EncryptCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-//                        Log.e(TAG, "用户信息===" + response.body());
-                        BaseEntity<WUser> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<BaseEntity<WUser>>() {
-                                });
-                        if (entity.getError() == 0) {
-                            WUser wUser = entity.getData();
-                            boolean isEmpty = TextUtils.isEmpty(wUser.getTel());
-                            PvApp.getInstance().setBindPhone(!isEmpty);
-
-                            //保存用户信息
-                            mACache.put(Common.USER_DTO, wUser);
-
-                            //TODO 记得解除注释
-//                            if (adHasbeenShow) {
-                                goMain();
-//                            } else {
-//                                getADTask();
-//                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        if (loadingView != null) {
-                            loadingView.stop();
-                            loadingView.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                    }
-                });*/
-    }
-
-    private void getADTask() {
-      /*  OkGo.<String>post(Consts.GET_AD_API)
-                .execute(new EncryptCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        BaseEntity<AdEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<BaseEntity<AdEntity>>() {
-                                });
-                        if (entity.getError() == 0) {
-                            adEntity = entity.getData();
-                            if (adEntity != null) {
-                                GlideApp.with(FrLaunchActivity.this)
-                                        .load(adEntity.getImage())
-                                        .error(R.drawable.img_default_ad)
-                                        .into(new SimpleTarget<Drawable>() {
-                                            @Override
-                                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                                showADDialog(resource, adEntity.getUrl());
-                                            }
-
-                                            @Override
-                                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                                super.onLoadFailed(errorDrawable);
-                                                showADDialog(errorDrawable, adEntity.getUrl());
-                                            }
-                                        });
+                    public void onSuccess(Response<LzyResponse<FUser>> response) {
+                        if (response.body().error_code == 0) {
+                            FUser data = response.body().getData();
+                            UserInfoCache.saveCacheAll(FrLaunchActivity.this, data);
+                            // 游客登录 是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
+                            // 游客登录 是否有性别---> 有：   reqAdsFromNet();
+                            // 正式用户登录(肯定有性别)---> reqAdsFromNet();
+                            int gender = data.getGender();
+                            if (gender == -1) {
+                                startActivity(new Intent(mContext, GenderChoiceActivity.class));
+                                finish();
+                            } else {
+                                reqAdsFromNet();
                             }
                         }
                     }
-                });*/
+                });
+    }
+
+    /**
+     * 游客登录
+     */
+    private void reqUniqueIDLogin() {
+        String uniqueID = UniqueIdManager.getUniqueID(FrLaunchActivity.this);
+        OkGo.<String>post(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
+                .params(Consts.UNIQUE_ID, uniqueID)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            $(R.id.ctl_no_network_show).setVisibility(View.GONE);
+
+                            JSONObject object = JSONObject.parseObject(entity.getData());
+                            String token = object.getString("token");
+                            UserInfoCache.saveToken(FrLaunchActivity.this, token);
+
+                            reqInitUserInfo();
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 获取广告
+     */
+    private void reqAdsFromNet() {
+        OkGo.<LzyResponse<AdEntity>>get(Consts.ADS_TAIL_API)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
+                .execute(new LtbJsonCallback<LzyResponse<AdEntity>>(this, false,
+                        new TypeReference<LzyResponse<AdEntity>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<AdEntity>> response) {
+                        int code = response.body().error_code;
+                        if (code == 0) {
+                            adEntity = response.body().getData();
+                            GlideApp.with(FrLaunchActivity.this)
+                                    .load(adEntity.getImage())
+                                    .error(R.drawable.img_default_ad)
+                                    .into(new CustomTarget<Drawable>() {
+                                        @Override
+                                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                            showAdsLayout(resource, adEntity.getLinks());
+                                        }
+
+                                        @Override
+                                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                                        }
+
+                                        @Override
+                                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                            super.onLoadFailed(errorDrawable);
+                                            showAdsLayout(errorDrawable, adEntity.getLinks());
+                                        }
+                                    });
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<LzyResponse<AdEntity>> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
+                });
 
     }
 
@@ -326,46 +319,27 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
      * @param resource
      * @param adUrl
      */
-    private void showADDialog(Drawable resource, String adUrl) {
-       /* CustomDialog adDialog = CustomDialog.build(this, R.layout.layout_dialog_ad_fullscreen, (dialog, v) -> {
-            ImageView ivAdPic = v.findViewById(R.id.iv_advertising_picture);
-            TimingButton btnEnter = v.findViewById(R.id.timingButton_enter);
-            ivAdPic.setOnClickListener(new OnClickEvent() {
-                @Override
-                public void singleClick(View v) {
-                    if (TextUtils.isEmpty(adUrl) || !NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
-                        return;
-                    }
-                    //TODO 打开广告页面
-                }
-            });
-            btnEnter.setOnClickListener(new OnClickEvent() {
-                @Override
-                public void singleClick(View v) {
-                    if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
-                        goMain();
-                    } else {
-                        Tos.showShort(FrLaunchActivity.this, R.string.txt_network_error);
-                        dialog.doDismiss();
-                    }
-                }
-            });
-
-            if (resource != null) {
-                ivAdPic.setImageDrawable(resource);
+    private void showAdsLayout(Drawable resource, String adUrl) {
+        ivAdPic.setImageDrawable(resource);
+        ivAdPic.setOnClickListener(new OnClickEvent() {
+            @Override
+            public void singleClick(View v) {
+                // 打开浏览器
+                autoSkip = false;
+                Uri uri = Uri.parse(adUrl);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
             }
-            btnEnter.start();
         });
-        adDialog.setCancelable(false);
-        adDialog.setOnBackClickListener(() -> {
-            finish();
-            return false;
-        });
-        adDialog.setFullScreen(true);
-        adDialog.show();
 
-        adHasbeenShow = true;*/
+        layoutAdvertising.setVisibility(View.VISIBLE);
+        btnSkip.setText(String.format(getString(R.string.txt_skip_x), count));
+        mHandler.sendEmptyMessageDelayed(0, 1000);
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

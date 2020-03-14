@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CheckBox_Sample">
+    <!--仿抖音Loading-->
+    <declare-styleable name="LoadingView">
+        <attr name="radius1" format="dimension" /> <!--球1的半径,默认为6dp,设置的方法:setRadius()-->
+        <attr name="radius2" format="dimension" /><!--球2的半径,默认为6dp,设置的方法:setRadius()-->
+        <attr name="rtlScale" format="float" /><!--小球从右往左的最大缩放倍数,默认0.7,设置的方法:setScales()-->
+        <attr name="ltrScale" format="float" /><!--小球从左往右的最大缩放倍数,默认1.3,设置的方法:setScales()-->
+        <attr name="color1" format="color" /><!--球1的颜色,默认设置的方法:setColors()-->
+        <attr name="color2" format="color" /><!--球2的颜色,默认设置的方法:setColors()-->
+        <attr name="mixColor" format="color" /><!--叠加的颜色,默认是黑色,设置的方法:setColors()-->
+        <attr name="duration" format="integer" /><!--一次转动的动画时长，默认:350ms,设置的方法:setDuration()-->
+        <attr name="pauseDuration" format="integer" /><!--一次转动动画以后停顿的时间,默认80ms,设置的方法:setDuration()-->
+        <attr name="gap" format="dimension" /><!--两球的间隔,默认0.8dp,设置方法：setRadius()-->
+        <attr name="scaleStartFraction" format="float" /><!--动画进度在[0,scaleStartFraction]期间，小球大小逐渐缩放，默认0.2f,设置的方法:setStartEndFraction()-->
+        <attr name="scaleEndFraction" format="float" /><!--动画进度在[scaleEndFraction,1]期间，小球大小逐渐恢复，默认0.8f,设置的方法:setStartEndFraction()-->
+    </declare-styleable>
+
+
+    <declare-styleable name="ImageShowPickerView">
+        <!-- 单张图片大小（宽高一样） -->
+        <attr name="pic_size" format="dimension" />
+        <!-- 最大数量 -->
+        <attr name="max_num" format="integer" />
+        <!-- 添加图片 -->
+        <attr name="add_label" format="reference" />
+        <!-- 删除图片 -->
+        <attr name="del_label" format="reference" />
+        <!-- 是否显示删除按钮-->
+        <attr name="is_show_del" format="boolean" />
+        <!-- 是否展示动画-->
+        <attr name="is_show_anim" format="boolean" />
+        <!-- 单行显示数量-->
+        <attr name="one_line_show_num" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="TimingButton">
+        <!--结束后的文字-->
+        <attr name="tb_psText" format="string" />
+        <!--计时总时长，毫秒-->
+        <attr name="tb_totalTime" format="integer" />
+        <!--计时时间间隔，毫秒-->
+        <attr name="tb_timeInterval" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="CheckBoxSample">
         <attr name="size" format="dimension" />
         <attr name="color_border" format="color" />
         <attr name="color_background" format="color" />
@@ -51,5 +94,18 @@
             <flag name="right" value="5"/>
         </attr>
     </declare-styleable>
+
+    <!--任务 进度条-->
+    <declare-styleable name="TaskProgressBar">
+        <attr name="cpb_progressColor" format="color"/>
+        <attr name="cpb_progressDescColor" format="color"/>
+        <attr name="cpb_progressRadius" format="dimension"/>
+        <attr name="cpb_max" format="integer"/>
+        <attr name="cpb_progress" format="integer"/>
+        <attr name="cpb_borderWidth" format="dimension"/>
+        <attr name="cpb_progressDesc" format="string"/>
+        <attr name="cpb_isShowDesc" format="boolean"/>
+    </declare-styleable>
+    <!--任务 进度条-->
 
 </resources>

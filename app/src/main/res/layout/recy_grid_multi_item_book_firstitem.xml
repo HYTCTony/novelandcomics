@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/dp_8"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="@dimen/dp_8">
 
     <ImageView
         android:id="@+id/iv_book_cover"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_90"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="7:9"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -84,8 +85,8 @@
     <TextView
         android:id="@+id/tv_book_word_count"
         android:layout_width="wrap_content"
-        android:layout_marginEnd="@dimen/dp_4"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_4"
         android:background="@drawable/shape_round_graybg_f8f8f8"
         android:textColor="@color/txt_gray_999"
         android:textSize="@dimen/sp_12"

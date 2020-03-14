@@ -30,6 +30,8 @@
     <color name="col_black_333">#333333</color>
     <color name="col_f8f8f8">#F8F8F8</color>
 
+    <color name="txt_brownness">#503812</color>
+    <color name="txt_brownness_8b7342">#8B7342</color>
     <color name="txt_af80_white">#80FFFFFF</color>
     <color name="txt_red">#FC6D6D</color>
     <color name="txt_black_191919">#191919</color>
@@ -37,6 +39,8 @@
     <color name="txt_black">#333333</color>
     <color name="txt_gray">#666666</color>
     <color name="txt_gray_999">#999999</color>
+    <color name="txt_gray_b2">#b2b2b2</color>
     <color name="txt_white">#ffffff</color>
     <color name="txt_dark_gold">#daaa47</color>
+    <color name="txt_faint_yellow">#F3DFA7</color>
 </resources>

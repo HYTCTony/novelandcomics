@@ -1,16 +1,34 @@
 package com.huli.foxread.entity;
 
-public class AdEntity {
-    private String name;//广告名称
-    private String image;//广告图
-    private String url;//广告链接
+import java.io.Serializable;
 
-    public String getName() {
-        return name;
+public class AdEntity implements Serializable {
+    private String id;
+    //    private String advertiser;
+//    private String name;
+//    private String introduce;
+//    private int type;
+//    private int stance;
+//    private int outer;
+//    private int show;
+    private String image;
+    private String video;
+    private String links;
+//    private int weigh;
+//    private int clicks;
+//    private int views;
+//    private int status;
+//    private long createtime;
+//    private long updatetime;
+//    private long deletetime;
+
+
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImage() {
@@ -21,11 +39,19 @@ public class AdEntity {
         this.image = image;
     }
 
-    public String getUrl() {
-        return url;
+    public String getVideo() {
+        return video;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setVideo(String video) {
+        this.video = video;
+    }
+
+    public String getLinks() {
+        return links;
+    }
+
+    public void setLinks(String links) {
+        this.links = links;
     }
 }

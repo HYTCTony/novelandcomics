@@ -95,7 +95,7 @@ public class BookStoreGirlFragment extends BaseFragment implements View.OnClickL
         for (int i = 0; i < 10; i++) {
             list.add("sssssssssss");
         }
-        mAdapter.setNewData(list);
+//        mAdapter.setNewData(list);
     }
 
     //如果你需要考虑更好的体验，可以这么操作

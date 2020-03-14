@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_36"
+        android:gravity="center"
+        android:text="@string/hint_select_your_gender"
+        android:textColor="@color/txt_gray_999"
+        android:lineSpacingMultiplier="1.5"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintBottom_toTopOf="@+id/rg_gender_register"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <RadioGroup
+        android:id="@+id/rg_gender_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/btn_reg_gender_choice_confirm"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_gender_male_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/selector_gender_man_large"
+            android:gravity="center_horizontal"
+            android:text="@string/txt_male"
+            android:textColor="@drawable/selector_gender_man_rb_txtcolor" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_gender_female_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_gender_female_large"
+            android:gravity="center_horizontal"
+            android:text="@string/txt_female"
+            android:textColor="@drawable/selector_gender_rb_txtcolor" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_reg_gender_choice_confirm"
+        style="@style/Btn_Normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_32"
+        android:text="@string/txt_confirm"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

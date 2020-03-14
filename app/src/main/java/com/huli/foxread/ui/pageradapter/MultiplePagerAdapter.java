@@ -1,8 +1,8 @@
 package com.huli.foxread.ui.pageradapter;
 
-
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -11,11 +11,16 @@ public class MultiplePagerAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> mList;
 
-    public MultiplePagerAdapter(FragmentManager fm, List<Fragment> mList) {
-        super(fm);
+    public MultiplePagerAdapter(@NonNull FragmentManager fm, List<Fragment> mList) {
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.mList = mList;
     }
 
+    /*public MultiplePagerAdapter(FragmentManager fm, List<Fragment> mList) {
+        super(fm);
+        this.mList = mList;
+    }
+*/
     @Override
     public Fragment getItem(int i) {
         return mList.get(i);

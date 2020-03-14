@@ -1,8 +1,9 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -10,11 +11,27 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
+import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.HotSearchEntity;
+import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.utils.SPFUtils;
+import com.huli.foxread.utils.Tos;
 import com.kongzue.stacklabelview.StackLabel;
 import com.kongzue.stacklabelview.interfaces.OnLabelClickListener;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +51,16 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     private StackLabel sLabelHistory, sLabelHot;
     private TextView btnClearHistory;
 
+    private List<HotSearchEntity> hotSearchData = new ArrayList<>();
+
+    private int mType = 0;
+    private int curPage = 0;        //当前页码，下一页 +1
+
     @Override
     public void initParms(Bundle parms) {
-
+        if (parms != null) {
+            mType = parms.getInt(Consts.TYPE, 0);
+        }
     }
 
     @Override
@@ -64,6 +88,8 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_rc_head_search_hot_book_top, recyclerView, false);
         mAdapter.addHeaderView(headView);
+        mAdapter.setEmptyView(R.layout.layout_empty);
+        mAdapter.setHeaderWithEmptyEnable(true);
 
         sLabelHistory = headView.findViewById(R.id.stackLabelView_history_search);
         sLabelHot = headView.findViewById(R.id.stackLabelView_hot_search);
@@ -75,7 +101,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         btnSearch.setOnClickListener(this);
         etKeyword.setOnEditorActionListener((textView, actionId, keyEvent) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                // 在这里写搜索的操作,一般都是网络请求数据
+                // 在这里写搜索的操作
                 btnSearch.performClick();
                 return true;
             }
@@ -88,7 +114,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             public void onClick(int index, View v, String s) {
                 if (!sLabelHistory.isDeleteButton()) {
                     //TODO 搜索
-                    Log.e(TAG, "stackLabelHistory搜索===" + s);
+                    Tos.showShort(SearchBookActivity.this, "历史搜索===" + s);
                 }
             }
         });
@@ -97,24 +123,30 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             public void onClick(int index, View v, String s) {
                 if (!sLabelHot.isDeleteButton()) {
                     //TODO 搜索
-                    Log.e(TAG, "stackLabelHot搜索===" + s);
+                    if (hotSearchData.size() > index) {
+                        HotSearchEntity data = hotSearchData.get(index);
+                        Tos.showShort(SearchBookActivity.this, "热门搜索===" + s);
+                    }
                     addHistoryLabel(s);
                 }
+            }
+        });
+
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                reqGetHotNovel(curPage + 1);
             }
         });
     }
 
     @Override
     public void doBusiness(Context mContext) {
+        List<String> historySearchList = getHistorySearchSp(mContext, Common.SPFKEY_SEARCH_HISTORY);
+        sLabelHistory.setLabels(historySearchList);
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("ssssssss" + i);
-        }
-        mAdapter.setNewData(list);
-
-        sLabelHistory.setLabels(new String[]{"Label1", "Label2", "Label3", "Label4", "Label5", "Label6", "Label7", "Label8", "Label9"});
-        sLabelHot.setLabels(new String[]{"标签1", "标签2", "标签3", "标签4", "标签5", "标签6", "标签7", "标签8", "标签9"});
+        reqHotSearchData();
+        reqGetHotNovel(curPage + 1);
     }
 
     @Override
@@ -125,10 +157,16 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                 addHistoryLabel(keyword);
                 //点击搜索的时候隐藏软键盘
                 hideKeyboard(etKeyword);
+
+                Intent intent = new Intent(this, SearchResultActivity.class);
+                intent.putExtra(Common.KEY_KEYWORD, keyword);
+                startActivity(intent);
+
                 etKeyword.setText("");
                 break;
             case R.id.tv_asBtn_clear_history_search:
                 clearHistoryLabel();
+                clearHistorySearchSp(this, Common.SPFKEY_SEARCH_HISTORY);
                 break;
             default:
                 break;
@@ -142,13 +180,14 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     private void addHistoryLabel(String keyword) {
         List<String> labelList = sLabelHistory.getLabels();
-        if (labelList.contains(keyword)) {
+        if (labelList != null && labelList.contains(keyword)) {
             return;
         }
         sLabelHistory.addLabel(keyword);
         if (sLabelHistory.getVisibility() != View.VISIBLE) {
             sLabelHistory.setVisibility(View.VISIBLE);
         }
+        saveHistorySearchSp(this, Common.SPFKEY_SEARCH_HISTORY, sLabelHistory.getLabels());
     }
 
 
@@ -163,6 +202,92 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         if (manager != null) {
             manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+
+    private List<String> getHistorySearchSp(Context context, String key) {
+        String str = (String) SPFUtils.get(context, key, "");
+        if (!TextUtils.isEmpty(str)) {
+            return JSONArray.parseArray(str, String.class);
+        }
+        return null;
+    }
+
+    private void saveHistorySearchSp(Context context, String key, List<String> values) {
+        if (values != null) {
+            String str = JSON.toJSONString(values);
+            SPFUtils.put(context, key, str);
+        } else {
+            clearHistorySearchSp(this, Common.SPFKEY_SEARCH_HISTORY);
+        }
+    }
+
+    private void clearHistorySearchSp(Context context, String key) {
+        SPFUtils.remove(context, key);
+    }
+
+
+    /**
+     * 热门搜索---关键词
+     */
+    private void reqHotSearchData() {
+        OkGo.<String>get(Consts.NOVEL_SEARCH_RECOMMEND_API)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<HotSearchEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<HotSearchEntity>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            hotSearchData = entity.getData();
+                            List<String> labelList = new ArrayList<>();
+                            for (HotSearchEntity hse : hotSearchData) {
+                                labelList.add(hse.getName());
+                            }
+                            sLabelHot.setLabels(labelList);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 热门书籍
+     *
+     * @param reqPage 请求的页码
+     */
+    private void reqGetHotNovel(int reqPage) {
+        OkGo.<String>post(Consts.NOVEL_HOT_API)
+                .params(Consts.TYPE, mType)
+                .params(Consts.PAGE, reqPage)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            PagingWarpper<List<BookEntity>> data = entity.getData();
+                            curPage = data.getCurrent_page();
+                            List<BookEntity> bookList = data.getData();
+                            if (curPage == 1) {
+                                mAdapter.setNewData(bookList);
+                            } else {
+                                mAdapter.addData(bookList);
+                            }
+                            if (data.getLast_page() <= curPage) {    //没有下一页
+                                mAdapter.getLoadMoreModule().loadMoreEnd();
+                            } else {
+                                mAdapter.getLoadMoreModule().loadMoreComplete();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    }
+                });
     }
 
 }

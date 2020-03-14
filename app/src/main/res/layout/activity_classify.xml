@@ -26,7 +26,7 @@
 
     <com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout
         android:id="@+id/verticaltablayout_classify"
-        android:layout_width="@dimen/dp_72"
+        android:layout_width="@dimen/dp_84"
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/px_1"
         app:indicator_color="@color/col_red"
@@ -40,8 +40,8 @@
         app:tab_height="@dimen/dp_50"
         app:tab_mode="scrollable" />
 
-    <FrameLayout
-        android:id="@+id/frameLayout_content_classify"
+    <com.huli.foxread.ui.widget.NoScrollViewPager
+        android:id="@+id/noScrollViewPager_content_classify"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/px_1"

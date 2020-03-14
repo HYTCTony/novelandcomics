@@ -56,10 +56,10 @@ public class CheckBoxSample extends View implements Checkable {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CheckBox_Sample);
-        size = ta.getDimensionPixelSize(R.styleable.CheckBox_Sample_size, dp(size));
-        bitmapColor = ta.getColor(R.styleable.CheckBox_Sample_color_background, bitmapColor);
-        borderColor = ta.getColor(R.styleable.CheckBox_Sample_color_border, borderColor);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CheckBoxSample);
+        size = ta.getDimensionPixelSize(R.styleable.CheckBoxSample_size, dp(size));
+        bitmapColor = ta.getColor(R.styleable.CheckBoxSample_color_background, bitmapColor);
+        borderColor = ta.getColor(R.styleable.CheckBoxSample_color_border, borderColor);
 
         bitmapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         bitmapEraser = new Paint(Paint.ANTI_ALIAS_FLAG);

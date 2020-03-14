@@ -3,4 +3,7 @@
     <item type="id" name="statusbarutil_fake_status_bar_view" />
     <item type="id" name="statusbarutil_translucent_view" />
 
+
+    <item name="iv_image_show_picker_del" type="id" />
+    <item name="iv_image_show_picker_pic" type="id" />
 </resources>

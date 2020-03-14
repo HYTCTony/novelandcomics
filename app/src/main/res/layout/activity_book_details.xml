@@ -41,6 +41,22 @@
                     tools:src="@mipmap/img_holder_rect" />
 
                 <TextView
+                    android:id="@+id/tv_hot_recommend_flag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_hottag_bg_book_dt"
+                    android:drawableStart="@drawable/ic_hot_12dp"
+                    android:drawablePadding="@dimen/dp_2"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp_3"
+                    android:text="@string/txt_recommend"
+                    android:textColor="@color/txt_red"
+                    android:textSize="@dimen/sp_10"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_book_cover_dt"
+                    app:layout_constraintTop_toTopOf="@+id/iv_book_cover_dt" />
+
+                <TextView
                     android:id="@+id/tv_book_name_dt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,13 +74,13 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/txt_white"
                     android:textSize="@dimen/sp_12"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_book_tag_dt"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_book_tips_dt"
                     app:layout_constraintLeft_toLeftOf="@+id/tv_book_name_dt"
                     app:layout_constraintTop_toBottomOf="@+id/tv_book_name_dt"
                     tools:text="研磨" />
 
                 <TextView
-                    android:id="@+id/tv_book_tag_dt"
+                    android:id="@+id/tv_book_tips_dt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
@@ -90,7 +106,6 @@
                     android:id="@+id/ratingBar_book_score_dt"
                     android:layout_width="80dp"
                     android:layout_height="16dp"
-                    android:layout_marginStart="@dimen/dp_4"
                     android:isIndicator="true"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_score_dt"
                     app:layout_constraintLeft_toRightOf="@+id/tv_book_score_dt"
@@ -113,11 +128,10 @@
                     android:id="@+id/tv_book_reader_dt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/dp_4"
-                    android:hint="@string/txt_score_zero"
+                    android:hint="@string/txt_zero"
                     android:textColor="@color/txt_white"
                     android:textColorHint="@color/txt_white"
-                    android:textSize="@dimen/sp_16"
+                    android:textSize="@dimen/sp_14"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_score_dt"
                     app:layout_constraintRight_toLeftOf="@+id/tv_book_reader_label_dt"
                     app:layout_constraintTop_toTopOf="@+id/tv_book_score_dt" />
@@ -129,7 +143,7 @@
                     android:maxLines="2"
                     android:text="@string/txt_book_reader_w"
                     android:textColor="@color/txt_af80_white"
-                    android:textSize="@dimen/sp_12"
+                    android:textSize="@dimen/sp_10"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_reader_dt"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_book_reader_dt" />
@@ -322,7 +336,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_16"
                 android:textSize="@dimen/sp_12"
-                tools:text="@string/tips_copyright" />
+                tools:text="版权说名：本作品由咕咪阅读提供，并由本软件合作推广阅读，如有相关问题请及时联系客服。" />
 
         </LinearLayout>
 

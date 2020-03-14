@@ -24,11 +24,11 @@
         tools:text="高清" />
 
     <TextView
-        android:id="@+id/tv_asBtn_get_changed"
+        android:id="@+id/tv_asBtn_get_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/ic_refresh_gray_small"
-        android:text="@string/txt_get_changed"
+        android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+        android:text="@string/txt_more"
         android:textColor="@color/txt_gray"
         android:textSize="@dimen/sp_12"
         app:layout_constraintBottom_toBottomOf="@+id/tv_section_group_title"

@@ -37,8 +37,15 @@ public class ParamUtil {
     }
 
 
-    public static String encryptStr(String paramStr){
+   /* public static String encryptStr(String paramStr) {
         String randomStr = RSAUtil.getRandomString(8);        //8位随机字符串
         return RSAUtil.encode(randomStr) + DESUtil.encrypt(paramStr, randomStr);
+    }*/
+
+    public static String encryptStr(String paramStr) {
+        String pwd = RSAUtil.getRandomString(16);
+        String offset = RSAUtil.getRandomString(16);
+        return RSAUtil.encode(pwd + offset) + AESCBCUtil.encrypt(paramStr, pwd, offset);
     }
+
 }

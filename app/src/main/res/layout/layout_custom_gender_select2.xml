@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RadioGroup
+        android:id="@+id/radioGroup_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_man_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_gender_boy_top_icon"
+            android:drawablePadding="@dimen/dp_8"
+            android:gravity="center_horizontal"
+            android:text="@string/txt_male"
+            android:textColor="@drawable/selector_gender_rb_txtcolor"
+            android:textSize="@dimen/sp_16"
+            android:theme="@style/MySwitchTheme" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rb_female_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_64"
+            android:background="@color/white"
+            android:button="@null"
+            android:drawableTop="@drawable/selector_gender_girl_top_icon"
+            android:drawablePadding="@dimen/dp_8"
+            android:gravity="center_horizontal"
+            android:text="@string/txt_female"
+            android:textColor="@drawable/selector_gender_rb_txtcolor"
+            android:textSize="@dimen/sp_16"
+            android:theme="@style/MySwitchTheme" />
+
+    </RadioGroup>
+</RelativeLayout>

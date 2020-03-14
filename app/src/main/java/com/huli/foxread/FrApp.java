@@ -6,12 +6,12 @@ import android.util.Log;
 
 import com.huli.foxread.callbacks.ActivityManager;
 import com.huli.foxread.callbacks.ActivityState;
-import com.huli.foxread.contact.Common;
 import com.huli.foxread.interceptors.TokenInterceptor;
-import com.huli.foxread.utils.SPFUtils;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
+import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -21,12 +21,14 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 
+import java.util.logging.Level;
+
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import okhttp3.OkHttpClient;
 
 public class FrApp extends Application implements ActivityState {
-
 
     private static FrApp sInstance;
 
@@ -35,30 +37,6 @@ public class FrApp extends Application implements ActivityState {
     }
 
     public ActivityManager mActivityManager = ActivityManager.getInstance(this);
-
-
-    private String mToken;
-    private boolean isBindPhone;
-
-    public String getToken() {
-        return mToken;
-    }
-
-    public void setToken(String mToken) {
-        this.mToken = mToken;
-        SPFUtils.put(this, Common.KEY_TOKEN, mToken);
-    }
-
-    public boolean isBindPhone() {
-        return isBindPhone;
-    }
-
-    public void setBindPhone(boolean bindPhone) {
-        isBindPhone = bindPhone;
-        SPFUtils.put(this, Common.KEY_IS_BIND, isBindPhone);
-    }
-
-
 
     //static 代码段可以防止内存泄露
     static {
@@ -94,7 +72,16 @@ public class FrApp extends Application implements ActivityState {
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new TokenInterceptor(sInstance));
-        OkGo.getInstance().init(this)
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        //log打印级别，决定了log显示的详细程度
+        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+        //log颜色级别，决定了log在控制台显示的颜色
+        loggingInterceptor.setColorLevel(Level.SEVERE);
+        builder.addInterceptor(loggingInterceptor);
+
+        OkGo.getInstance()
+                .init(this)
                 .setOkHttpClient(builder.build());
 
         registerActivityLifecycleCallbacks(mActivityManager);
@@ -103,8 +90,9 @@ public class FrApp extends Application implements ActivityState {
         DialogSettings.init();
         DialogSettings.DEBUGMODE = true;
 //        DialogSettings.backgroundColor = Color.BLUE;
-        //DialogSettings.titleTextInfo = new TextInfo().setFontSize(50);
-        //DialogSettings.buttonPositiveTextInfo = new TextInfo().setFontColor(Color.GREEN);
+//        DialogSettings.titleTextInfo = new TextInfo().setFontSize(50);
+        DialogSettings.buttonTextInfo = new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.txt_gray));
+        DialogSettings.buttonPositiveTextInfo = new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.txt_red));
         DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
         DialogSettings.theme = DialogSettings.THEME.LIGHT;
     }
@@ -132,11 +120,11 @@ public class FrApp extends Application implements ActivityState {
 
     @Override
     public void isFront() {
-        Log.e("danxx", ">>>>>>>>>>>>>>>>>>>App切到前台");
+        Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到前台");
     }
 
     @Override
     public void isBack() {
-        Log.e("danxx", ">>>>>>>>>>>>>>>>>>>App切到后台");
+        Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到后台");
     }
 }

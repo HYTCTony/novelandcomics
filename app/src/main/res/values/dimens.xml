@@ -111,6 +111,7 @@
     <dimen name="dp_200">200dp</dimen>
     <dimen name="dp_225">225dp</dimen>
     <dimen name="dp_236">236dp</dimen>
+    <dimen name="dp_247">247dp</dimen>
     <dimen name="bottom_bar_height">56dp</dimen>
 
 

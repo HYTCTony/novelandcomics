@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -9,11 +10,19 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.adapters.BookRackAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
@@ -21,6 +30,9 @@ import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.v3.TipDialog;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -56,8 +68,12 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public void initView(View view) {
         mToolbar = $(view, R.id.toolbar_book_rack);
-        mToolbar.setTitle("Hi小说萌新11");
-//        mToolbar.inflateMenu(R.menu.menu_book_rack);
+        boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
+        if (isVisitor) {
+            mToolbar.setTitle(R.string.txt_say_hi);
+        } else {
+            mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
+        }
         ((AppCompatActivity) mActivity).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
 
@@ -95,15 +111,21 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         GlideUtil.loadRoundRect(mContext, ivookCoverPush, "url", 0);
         tvBookNamePush.setText("九阳帝尊");
         tvBookIntroPush.setText("深山里走出的少年深山里走出的少年深山的少年深山里走出的少年深山里走出的少年");
-
-
     }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             StatusBarUtils.setStatusBarTextDark(mActivity, true);
+
+            boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
+            if (isVisitor) {
+                mToolbar.setTitle(R.string.txt_say_hi);
+            } else {
+                mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
+            }
         }
     }
 
@@ -160,6 +182,52 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 }
             }
         }
+    }
+
+
+    /**
+     * 小说详情---加入书架
+     *
+     * @param novelIds ["56","32","99","5","796"]
+     * @param novelIds List也行
+     */
+    private void reqDelBooks(String[] novelIds) {
+        String ids = JSON.toJSONString(novelIds);
+        OkGo.<String>post(Consts.BOOKRACK_DEL_API)
+                .params(Consts.NOVEL_IDS, ids)
+                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            //TODO 刷新数据
+//                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
+                        } else {
+//                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 小说详情---加入书架
+     */
+    private void reqGetBooks() {
+        OkGo.<String>get(Consts.BOOKRACK_ADD_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                        } else {
+                        }
+                    }
+                });
     }
 
 }

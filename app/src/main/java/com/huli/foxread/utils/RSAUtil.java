@@ -1,6 +1,7 @@
 package com.huli.foxread.utils;
 
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 
 import java.security.KeyFactory;
@@ -54,19 +55,18 @@ public class RSAUtil {
     }
 
     public static String encode(String plainText) {
-
         try {
 //            if (public_key == null || public_key == "") {
             if (TextUtils.isEmpty(public_key)) {
                 Log.d("hytc", "请先调用RsaUtil.init(String publicKey)初始化");
                 return null;
             }
-            PublicKey publicekey = restorePublicKey(Base64.decode(public_key));
+            PublicKey publicekey = restorePublicKey(Base64.decode(public_key, Base64.NO_WRAP));
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, publicekey);
             byte[] data = plainText.getBytes();
             byte[] test = cipher.doFinal(data);
-            return Base64.encode(test);
+            return Base64.encodeToString(test, Base64.NO_WRAP);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -75,9 +75,8 @@ public class RSAUtil {
     }
 
     public static String decode(byte[] encodedText) {
-
         try {
-            PrivateKey key = restorePrivateKey(Base64.decode(private_key));
+            PrivateKey key = restorePrivateKey(Base64.decode(private_key,  Base64.NO_WRAP));
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, key);
             return new String(cipher.doFinal(encodedText));
@@ -86,7 +85,6 @@ public class RSAUtil {
             e.printStackTrace();
         }
         return null;
-
     }
 
 

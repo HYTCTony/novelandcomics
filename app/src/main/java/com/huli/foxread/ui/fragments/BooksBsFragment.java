@@ -3,16 +3,12 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
-import com.chad.library.adapter.base.listener.GridSpanSizeLookup;
 import com.huli.foxread.R;
 import com.huli.foxread.engines.GlideImageLoader;
 import com.huli.foxread.entity.BannerADEntity;
-import com.huli.foxread.entity.BookMultiEntity;
 import com.huli.foxread.ui.adapters.BooksGridAdapter;
 import com.huli.foxread.ui.adapters.BooksListAdapter;
-import com.huli.foxread.ui.adapters.BooksMultiItemAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
@@ -32,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 public class BooksBsFragment extends BaseFragment implements OnBannerListener, View.OnClickListener {
+
     private SmartRefreshLayout mRefreshLayout;
     private RecyclerView recyclerView;
     private BooksListAdapter mAdapter;
@@ -88,7 +85,7 @@ public class BooksBsFragment extends BaseFragment implements OnBannerListener, V
         for (int i = 0; i < 10; i++) {
             list.add("sssssssssss");
         }
-        mAdapter.setNewData(list);
+//        mAdapter.setNewData(list);
     }
 
     //如果你需要考虑更好的体验，可以这么操作

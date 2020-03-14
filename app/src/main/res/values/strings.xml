@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">FoxRead</string>
+    <string name="app_name">狐狸小说</string>
 
     <string name="loading">加载中&#8230;</string>
-    <string name="txt_network_maybe_exceptions">网络连接可能存在异常&#8230;</string>
+    <string name="txt_network_maybe_exceptions">服务器连接可能存在异常&#8230;</string>
     <string name="txt_logon_failure">登录失效，请重新登录！</string>
     <string name="text_point_out_once_again">再次点击退出程序哟~</string>
     <string name="txt_welcome_back_net">欢迎回到 没网会死 星球！</string>
@@ -10,30 +10,72 @@
     <string name="txt_no_network_try_again_later">我们检测到您的网络异常，请稍后重试</string>
     <string name="txt_network_setting">网络设置</string>
     <string name="txt_reconnection">重新连接</string>
+    <string name="txt_plz_select_a_pic">请选择一张图片</string>
+    <string name="txt_say_hi">Hi小说萌新</string>
+    <string name="txt_login_success">登录成功！</string>
 
+    <string name="tips_copy_success">复制成功，快去分享吧！</string>
+
+    <string name="hint_modify_success">修改成功！</string>
+    <string name="txt_books_do_not_exist">抱歉，书籍不存在！</string>
+
+    <string name="txt_id_colon">ID：</string>
     <string name="txt_no_data">暂无数据</string>
     <string name="txt_skip_x">跳过 | %1$d</string>
 
     <string name="txt_score_zero">0.0</string>
     <string name="txt_zero_f2">0.00</string>
     <string name="txt_zero">0</string>
+    <string name="txt_zero_min">0min</string>
     <string name="txt_default">--</string>
     <string name="txt_not_available">暂无</string>
 
+    <string name="txt_female">女</string>
+    <string name="txt_male">男</string>
+    <string name="hint_select_your_gender">请选择您的性别\n我们将为您推荐精彩书籍！</string>
+
+    <string name="txt_unbind">未绑定</string>
+    <string name="txt_has_been_bind">已绑定</string>
+
+    <string name="txt_done">完成</string>
+    <string name="txt_select_all">全选</string>
+    <string name="txt_manage">管理</string>
     <string name="txt_search">搜索</string>
     <string name="txt_plz_input_keyword">请输入关键字</string>
+
+    <string name="txt_login">登录</string>
+    <string name="txt_third_part_login">第三方账号登录</string>
+    <string name="txt_wechat_login">微信登录</string>
+    <string name="txt_get_verification_code">获取验证码</string>
+    <string name="txt_plz_input_phone_number">请输入手机号</string>
+    <string name="txt_plz_input_new_phone_number">请输入新的手机号</string>
+    <string name="txt_plz_input_verification_code">请输入验证码</string>
+    <string name="txt_agree_login_agreement">登录代表您同意狐狸小说用户协议和隐私策略</string>
+    <string name="txt_foxread_user_and_privacy_policy">狐狸小说《用户协议》和《用户隐私》</string>
 
     <string name="txt_plz_input_invitation_code">请输入邀请码</string>
     <string name="txt_confirm_2_submit">确定提交</string>
     <string name="txt_invitation_code">邀请码</string>
 
+    <string name="txt_recommend">推荐</string>
+
     <string name="txt_explain">说明</string>
+    <string name="txt_confirm">确定</string>
+    <string name="txt_cancel">取消</string>
 
     <string name="unit_ren">人</string>
     <string name="unit_yuan">元</string>
     <string name="unit_score">分</string>
     <string name="unit_w">万</string>
+    <string name="unit_word">字</string>
+    <string name="unit_word_w">万字</string>
 
+    <string name="txt_chapter_x">第%1$d章&#8211;%2$s</string>
+    <string name="txt_total_chapter_x">共%1$d章</string>
+
+    <string name="txt_category_dt_sub_title">%1$s类全网%2$s前三名</string>
+
+    <string name="txt_all_classify">全部分类</string>
     <string name="txt_classify">分类</string>
     <string name="txt_ranking">排行</string>
     <string name="txt_new_book">新书</string>
@@ -84,10 +126,12 @@
     <string name="txt_login_or_reg">登录/注册</string>
     <string name="txt_my_gold_coin">我的金币</string>
     <string name="txt_today_gold_coin">今日金币</string>
-    <string name="txt_today_reading">今日阅读</string>
-    <string name="txt_fox_vip">狐狸VIP会员</string>
+    <string name="txt_today_reading">今日阅读(min)</string>
+    <string name="txt_fox_vip_member">狐狸VIP会员</string>
+    <string name="txt_you_have_become_a_vip">您已成为尊贵VIP</string>
     <string name="txt_fox_vip_effect">去除广告，优质阅读</string>
     <string name="txt_activate_immediately">立即开通</string>
+    <string name="txt_view_details">查看详情</string>
     <string name="txt_remove_ads">去除广告</string>
     <string name="txt_voice_book">语音听书</string>
     <string name="txt_extra_gold">额外金币</string>
@@ -98,25 +142,28 @@
     <string name="txt_enjoy_no_ads_privilege">尊享无广告等特权</string>
     <string name="txt_msg_notify">消息通知</string>
     <string name="txt_reading_record">阅读历史</string>
+    <string name="txt_inviter">邀请人</string>
     <string name="txt_cash_withdrawal">金币提现</string>
     <string name="txt_withdrawal_2_account_quick">提现到账快</string>
     <string name="txt_mode_adolescent">青少年模式</string>
     <string name="txt_help_and_feedback">帮助反馈</string>
     <string name="txt_total_books_x">共%1$d部</string>
     <string name="txt_heat">热度</string>
+    <string name="txt_heat_wan">万热度</string>
 
     <string name="txt_history_search">历史搜索</string>
     <string name="txt_clear">清除</string>
     <string name="txt_hot_search">热门搜索</string>
     <string name="txt_hot_books">热门书籍</string>
 
+    <string name="txt_book_watching_w">万人在看</string>
     <string name="txt_book_reader_w">万人在读</string>
     <string name="txt_newest">最新</string>
     <string name="txt_catalogue">目录</string>
     <string name="txt_add_a_bookcase">加入书架</string>
     <string name="txt_begin_reading">开始阅读</string>
     <string name="txt_related_recommendation">相关推荐</string>
-    <string name="tips_copyright">版权说明：本作品由咕咪阅读提供，并由本软件合作推广阅读，如有相关问题请及时联系客服。</string>
+    <string name="tips_copyright_colon">版权说明：</string>
 
     <string name="txt_copy">复制</string>
     <string name="txt_immediately_invite">立即邀请</string>
@@ -133,6 +180,99 @@
     <string name="txt_moments_invite">朋友圈邀请</string>
     <string name="txt_face2face_scan">面对面扫描</string>
 
+    <string name="txt_goldcoin_balance">金币余额</string>
+    <string name="txt_go2_withdrawal">去提现</string>
+    <string name="txt_gold_coin">金币</string>
+    <string name="txt_gold_coin_details">金币明细</string>
+    <string name="txt_accumulated_gold_colon">累计获得金币：</string>
+    <string name="txt_get_gold_today_colon">今日获得金币：</string>
+
+    <string name="txt_withdrawal_record">提现记录</string>
+    <string name="txt_withdrawal_quick_arrival">到账速度快</string>
+
+    <string name="txt_fox_vip">狐狸VIP</string>
+    <string name="txt_vip_advantage">VIP尊享4大特权，免广告看书爽翻天</string>
+    <string name="txt_vip_enjoyment">VIP尊享</string>
+    <string name="txt_check_privilege_description">查看特权说明</string>
+    <string name="txt_select_packages">选择套餐</string>
+    <string name="txt_agree_service_agreement">开通会员表示您同意 会员服务协议</string>
+    <string name="txt_open_push_notifications">开启推送通知</string>
+    <string name="txt_receive_msg_in_time">及时接收优惠、福利消息</string>
+    <string name="txt_immediately_open">立即开启</string>
+
+    <string name="txt_my_signin">我的签到</string>
+    <string name="txt_sign_in_get_gold_coin">签到得金币</string>
+    <string name="txt_sign_in">签到</string>
+    <string name="txt_sign_in_state_this_week_xx">本周累计签到%1$d天，连续签到%2$d天</string>
+    <string name="txt_continuous_sign_in_day_x">连续签到%1$d天</string>
+    <string name="txt_congratulations_get_gold_coin_x">恭喜获得+%1$d金币</string>
+    <string name="txt_non_arrival">未到</string>
+    <string name="txt_overdue">过期</string>
+    <string name="txt_signed_in">已签</string>
+    <string name="txt_more_gold_signed_in_this_week_xx">本周再签%1$d天可额外获得%2$d金币</string>
+    <string name="txt_continuous_sign_in_extra_gift">连续签到额外送好礼</string>
+    <string name="txt_lucky_wheel">幸运大转盘</string>
+    <string name="txt_spell_luck">拼手气，赢豪礼</string>
+    <string name="txt_invite_friends_get_redpacket">邀请好友领红包</string>
+    <string name="txt_sign_in_success">签到成功</string>
+    <string name="txt_i_see">朕知道了</string>
+    <string name="txt_get_goldcoin_x">获得%1$d金币</string>
+    <string name="txt_login_title_cellphone">手机号快速登录</string>
+
+    <string name="txt_reading_records">阅读记录</string>
+    <string name="txt_del_books_x">删除书籍（%1$d）</string>
+    <string name="txt_add_to_bookcase_x">加入书架（%1$d）</string>
+
+    <string name="txt_setting">设置</string>
+    <string name="txt_basic_info">基本信息</string>
+    <string name="txt_account_security">账号与安全</string>
+    <string name="txt_night_mode">夜间模式</string>
+    <string name="txt_reader_settings">阅读设置</string>
+    <string name="txt_quick_withdrawal_2_account">提现到账快</string>
+    <string name="txt_push_notification">推送通知</string>
+    <string name="txt_have_been_opened">已开启</string>
+    <string name="txt_not_open">未开启</string>
+    <string name="txt_clear_cache">清理缓存</string>
+    <string name="txt_about_us">关于我们</string>
+    <string name="txt_switch_account">切换账号</string>
+    <string name="txt_logout_account">退出账号</string>
+    <string name="txt_head_img">头像</string>
+    <string name="txt_nickname">昵称</string>
+    <string name="txt_gender">性别</string>
+    <string name="txt_account">账号</string>
+    <string name="txt_problem_feedback_copy_id">反馈问题时可以提供ID给客服，长按复制</string>
+    <string name="txt_cellphone">手机</string>
+    <string name="txt_wechat">微信</string>
+    <string name="hint_content_clear_cache">清理的缓存包括未在书架的书籍缓存，以及广告的图片、视频缓存、是否清理？</string>
+
+    <string name="txt_hint_input_nickname">请输入昵称</string>
+    <string name="hint_nickname_length_limit">昵称为4&#8211;8个字符</string>
+    <string name="txt_plz_select_your_gender">请选择您的性别</string>
+
+    <string name="txt_about_huli">关于狐狸</string>
+    <string name="txt_view_detail">查看详情</string>
+    <string name="txt_update_version">更新版本</string>
+    <string name="txt_cur_app_version_l">当前版本V</string>
+
+    <string name="txt_binding_cellphone">绑定手机</string>
+    <string name="txt_change_binding_cellphone">更换绑定手机</string>
+    <string name="txt_confirm_binding">确认绑定</string>
+    <string name="txt_plz_input_original_phone_number">请输入原手机号</string>
+    <string name="txt_next_step">下一步</string>
+    <string name="txt_write_off_account">注销账号</string>
+    <string name="txt_apply_2_write_off_account">申请注销账号</string>
+    <string name="tips_write_off_account">(注销后账号内数据无法恢复，请谨慎操作)</string>
+    <string name="txt_agree_and_apply_write_off_account">同意并申请注销账号</string>
+    <string name="txt_i_want_2_feedback">我要反馈</string>
+    <string name="txt_feedback_records">反馈记录</string>
+    <string name="txt_issue_type">问题类型</string>
+    <string name="txt_issue_description">问题描述</string>
+    <string name="txt_plz_input_your_issue">请输入您遇到的问题或建议</string>
+    <string name="txt_add_photos">添加照片</string>
+    <string name="txt_at_most_sheet_x">(不超过%1$d张)</string>
+    <string name="txt_for_the_convenience_of_our_contact">为了方便我们联系您</string>
+    <string name="txt_cellphone_or_wechat_number">手机号码/微信号</string>
+    <string name="txt_submit_feedback">提交反馈</string>
 
     <string name="expand">展开</string>
     <string name="collapse">收起</string>
@@ -140,7 +280,7 @@
         Zhou Si, the groom, and Chen Mengge, the bride, married each other on Aug 18 and will together go to Oxford University to pursue their doctoral degrees later this year.
         They were deskmate in middle school and then both were admitted by same high school but not in same class.</string>
 
-
+    <string name="rationale_phone_state">APP需要获取读取手机状态权限，以完整相关功能。</string>
     <string name="txt_no_relevant_permission">没有相关权限</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
@@ -153,7 +293,6 @@
         \nLocation &amp; Contacts: %s
         \nSMS: %s
     </string>
-
 
 
 </resources>

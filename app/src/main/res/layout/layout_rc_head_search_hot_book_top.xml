@@ -47,7 +47,7 @@
         app:paddingVertical="@dimen/dp_2"
         app:textColor="@color/txt_black"
         app:textSize="@dimen/sp_14"
-        tools:labels="标签1,标签2,标签3,标签4,标签5,标签6,标签7,标签8,标签9" />
+        tools:labels="标签1,标签2,标签3,标签4,标签5,标签6" />
 
 
     <TextView

@@ -94,6 +94,7 @@
                     android:textStyle="bold" />
 
                 <Button
+                    android:id="@+id/btn_login_mine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
@@ -118,7 +119,7 @@
                     android:id="@+id/iv_user_headImg"
                     android:layout_width="@dimen/dp_72"
                     android:layout_height="@dimen/dp_72"
-                    android:layout_margin="@dimen/dp_16"
+                    android:layout_margin="@dimen/dp_12"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription"
@@ -128,7 +129,7 @@
                     android:id="@+id/tv_user_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_24"
+                    android:layout_marginStart="@dimen/dp_16"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_22"
                     android:textStyle="bold"
@@ -168,6 +169,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/txt_black"
+                            android:textColorHint="@color/txt_black"
+                            android:hint="@string/txt_zero"
                             android:textSize="@dimen/sp_20"
                             android:textStyle="bold"
                             tools:text="1100" />
@@ -201,6 +204,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/txt_black"
+                            android:textColorHint="@color/txt_black"
+                            android:hint="@string/txt_zero"
                             android:textSize="@dimen/sp_20"
                             android:textStyle="bold"
                             tools:text="100" />
@@ -234,9 +239,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/txt_black"
+                            android:textColorHint="@color/txt_black"
+                            android:hint="@string/txt_zero"
                             android:textSize="@dimen/sp_20"
                             android:textStyle="bold"
-                            tools:text="1100" />
+                            tools:text="110" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -262,21 +269,26 @@
                     android:id="@+id/tv_huli_vip_member"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_16"
-                    android:text="@string/txt_fox_vip"
-                    android:textColor="@color/txt_white"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:drawablePadding="@dimen/dp_4"
+                    android:gravity="center_vertical"
+                    android:hint="@string/txt_fox_vip_member"
+                    android:textColor="@color/txt_faint_yellow"
+                    android:textColorHint="@color/txt_white"
                     android:textSize="@dimen/sp_17"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_huli_vip_advantage_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginStart="@dimen/dp_8"
                     android:text="@string/txt_fox_vip_effect"
                     android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_11"
+                    android:textSize="@dimen/sp_10"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_huli_vip_member"
                     app:layout_constraintLeft_toRightOf="@+id/tv_huli_vip_member"
                     app:layout_constraintTop_toTopOf="@+id/tv_huli_vip_member" />
@@ -292,7 +304,7 @@
                     android:paddingEnd="@dimen/dp_8"
                     android:paddingBottom="@dimen/dp_2"
                     android:text="@string/txt_activate_immediately"
-                    android:textColor="@color/txt_black"
+                    android:textColor="@color/txt_brownness"
                     android:textSize="@dimen/sp_12"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_huli_vip_member"
                     app:layout_constraintRight_toRightOf="parent"
@@ -325,7 +337,7 @@
                     android:id="@+id/tv_vip_privilege_VoiceBook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_remove_ads_36dp"
+                    android:drawableTop="@drawable/ic_voice_book_36dp"
                     android:drawablePadding="@dimen/dp_6"
                     android:gravity="center_horizontal"
                     android:text="@string/txt_voice_book"
@@ -339,7 +351,7 @@
                     android:id="@+id/tv_vip_privilege_extra_gold_coin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_remove_ads_36dp"
+                    android:drawableTop="@drawable/ic_extra_gold_coin_36dp"
                     android:drawablePadding="@dimen/dp_6"
                     android:gravity="center_horizontal"
                     android:text="@string/txt_extra_gold"
@@ -404,11 +416,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:background="@color/color_f2"
+                android:layout_height="@dimen/dp_8"/>
+
             <RelativeLayout
                 android:id="@+id/rtl_asBtn_my_privilege"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"
-                android:layout_marginTop="@dimen/dp_8"
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
                 android:paddingEnd="@dimen/dp_16">
@@ -417,7 +433,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_classify_24dp"
+                    android:drawableStart="@drawable/ic_mine_privilege"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_my_privilege"
@@ -452,7 +468,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_classify_24dp"
+                    android:drawableStart="@drawable/ic_mine_msg_notify"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_msg_notify"
@@ -486,7 +502,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_classify_24dp"
+                    android:drawableStart="@drawable/ic_mine_read_history"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_reading_record"
@@ -508,6 +524,40 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rtl_asBtn_inviter"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginTop="@dimen/px_1"
+                android:background="@drawable/ripple_normal_btn_bg_white"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/ic_mine_invited_code"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_inviter"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/txt_2_fill_in"
+                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/rtl_asBtn_cash_withdrawal"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"
@@ -520,7 +570,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_classify_24dp"
+                    android:drawableStart="@drawable/ic_mine_wallet"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_cash_withdrawal"
@@ -546,6 +596,7 @@
                 android:id="@+id/rtl_asBtn_mode_adolescent"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/px_1"
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
@@ -555,7 +606,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_classify_24dp"
+                    android:drawableStart="@drawable/ic_mine_shield"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_mode_adolescent"
@@ -590,7 +641,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_classify_24dp"
+                    android:drawableStart="@drawable/ic_mine_feedback"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_help_and_feedback"

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_sender_headImg"
+        android:layout_width="@dimen/dp_42"
+        android:layout_height="@dimen/dp_42"
+        android:layout_margin="@dimen/dp_16"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/holder_headimg" />
+
+    <TextView
+        android:id="@+id/tv_sender_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:textColor="@color/txt_black_191919"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/iv_sender_headImg"
+        app:layout_constraintTop_toTopOf="@+id/iv_sender_headImg"
+        tools:text="小狐狸秘书" />
+
+    <TextView
+        android:id="@+id/tv_msg_content"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:singleLine="true"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_sender_headImg"
+        app:layout_constraintLeft_toRightOf="@+id/iv_sender_headImg"
+        app:layout_constraintRight_toLeftOf="@+id/tv_sub_msg_count"
+        tools:text="一代仙君为天道不容，强行超脱之..." />
+
+    <TextView
+        android:id="@+id/tv_msg_send_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="20:20" />
+
+    <TextView
+        android:id="@+id/tv_sub_msg_count"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:background="@drawable/shape_msg_count_redbg"
+        android:gravity="center"
+        android:textColor="@color/txt_white"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_msg_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_msg_content"
+        tools:text="33" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

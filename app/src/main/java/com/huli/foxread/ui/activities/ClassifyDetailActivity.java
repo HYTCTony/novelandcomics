@@ -2,21 +2,29 @@ package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
+import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.BooksListAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.kongzue.stacklabelview.StackLabel;
-import com.kongzue.stacklabelview.interfaces.OnLabelClickListener;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -32,13 +40,24 @@ public class ClassifyDetailActivity extends BaseActivity {
     private TextView btnMoreFilter;
     private View layoutMoreFilter;
 
+    private View headViewTop3;
     private TextView tvClassifyTop3Title;
     private ImageView ivCoverFirst, ivCoverSecond, ivCoverThird;
     private TextView tvBookNameFirst, tvBookNameSecond, tvBookNameThird;
 
+
+    private int catId;
+    private String mTitle;
+
+    private int paramIsEnd = 0;
+    private int paramWordsNum = 0;
+    private int paramStatus = 1;
+    private int paramCurPage = 0;
+
     @Override
     public void initParms(Bundle parms) {
-
+        catId = parms.getInt(Common.KEY_CAT_ID);
+        mTitle = parms.getString(Common.KEY_CAT_TITLE);
     }
 
     @Override
@@ -54,8 +73,7 @@ public class ClassifyDetailActivity extends BaseActivity {
     @Override
     public void initView(View view) {
         Toolbar toolbar = $(R.id.toolbar_normal);
-        //TODO-------------------title
-        initToolBar(toolbar, "sub分类");
+        initToolBar(toolbar, mTitle);
 
         recyclerView = $(R.id.recyclerView_classify_detail);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -64,11 +82,11 @@ public class ClassifyDetailActivity extends BaseActivity {
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View headViewFilter = inflater.inflate(R.layout.layout_rv_head_classify_detail_filter, recyclerView, false);
-        View headViewTop3 = inflater.inflate(R.layout.layout_rv_head_classify_detail_top3, recyclerView, false);
+        headViewTop3 = inflater.inflate(R.layout.layout_rv_head_classify_detail_top3, recyclerView, false);
         mAdapter.addHeaderView(headViewFilter, 0);
-        mAdapter.addHeaderView(headViewTop3, 1);
 
         stackLabel_1 = headViewFilter.findViewById(R.id.stackLabelView_filter_1);
+        stackLabel_1.setVisibility(View.GONE);
         stackLabel_2 = headViewFilter.findViewById(R.id.stackLabelView_filter_2);
         stackLabel_3 = headViewFilter.findViewById(R.id.stackLabelView_filter_3);
         stackLabel_4 = headViewFilter.findViewById(R.id.stackLabelView_filter_4);
@@ -83,71 +101,132 @@ public class ClassifyDetailActivity extends BaseActivity {
         tvBookNameSecond = headViewTop3.findViewById(R.id.tv_top3_bookName_second);
         tvBookNameThird = headViewTop3.findViewById(R.id.tv_top3_bookName_third);
 
+        List<String> stack2Datas = Arrays.asList(getResources().getStringArray(R.array.cat_is_end));
+        List<String> stack3Datas = Arrays.asList(getResources().getStringArray(R.array.cat_word_num));
+        List<String> stack4Datas = Arrays.asList(getResources().getStringArray(R.array.cat_state));
+        stackLabel_2.setLabels(stack2Datas);
+        stackLabel_3.setLabels(stack3Datas);
+        stackLabel_4.setLabels(stack4Datas);
+        stackLabel_2.setSelectMode(true, stack2Datas.subList(0, 1));
+        stackLabel_3.setSelectMode(true, stack3Datas.subList(0, 1));
+        stackLabel_4.setSelectMode(true, stack4Datas.subList(0, 1));
+        tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, stack4Datas.subList(0, 1)));
+
     }
 
     @Override
     public void setListener() {
-        btnMoreFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                btnMoreFilter.setVisibility(View.GONE);
-                layoutMoreFilter.setVisibility(View.VISIBLE);
-            }
+        btnMoreFilter.setOnClickListener(view -> {
+            btnMoreFilter.setVisibility(View.GONE);
+            layoutMoreFilter.setVisibility(View.VISIBLE);
         });
 
-        stackLabel_1.setOnLabelClickListener(new OnLabelClickListener() {
-            @Override
-            public void onClick(int index, View v, String s) {
-                Log.e(TAG, "1***选中===" + s + "----" + index);
-            }
+        stackLabel_1.setOnLabelClickListener((index, v, s) -> {
+//                Log.e(TAG, "1***选中===" + s + "----" + index);
         });
-        stackLabel_2.setOnLabelClickListener(new OnLabelClickListener() {
-            @Override
-            public void onClick(int index, View v, String s) {
-                Log.e(TAG, "2***选中===" + s + "----" + index);
-            }
+        stackLabel_2.setOnLabelClickListener((index, v, s) -> {
+//                Log.e(TAG, "2***选中===" + s + "----" + index);
+            paramIsEnd = index;
+            paramCurPage = 0;
+            reqCategoryDatas(false);
         });
-        stackLabel_3.setOnLabelClickListener(new OnLabelClickListener() {
-            @Override
-            public void onClick(int index, View v, String s) {
-                Log.e(TAG, "3***选中===" + s + "----" + index);
-            }
+        stackLabel_3.setOnLabelClickListener((index, v, s) -> {
+//                Log.e(TAG, "3***选中===" + s + "----" + index);
+            paramWordsNum = index;
+            paramCurPage = 0;
+            reqCategoryDatas(false);
         });
-        stackLabel_4.setOnLabelClickListener(new OnLabelClickListener() {
-            @Override
-            public void onClick(int index, View v, String s) {
-                Log.e(TAG, "4***选中===" + s + "----" + index);
-            }
+        stackLabel_4.setOnLabelClickListener((index, v, s) -> {
+//                Log.e(TAG, "4***选中===" + s + "----" + index);
+            tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, s));
+
+            paramStatus = index + 1;
+            paramCurPage = 0;
+            reqCategoryDatas(false);
         });
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        List<String> list = new ArrayList<>();
+        List<BookEntity> list = new ArrayList<>();
+        BookEntity data;
         for (int i = 0; i < 10; i++) {
-            list.add("sssssss" + i);
+            data = new BookEntity();
+            data.setId("" + i);
+            list.add(data);
         }
-        mAdapter.setNewData(list);
 
-        stackLabel_1.setLabels(new String[]{"全部", "总裁豪门", "都市人生", "婚恋爱情", "职场情缘", "民国旧影", "娱乐明星"});
-        stackLabel_2.setLabels(new String[]{"全部", "完结", "连载"});
-        stackLabel_3.setLabels(new String[]{"全部", "50万字以下", "50-100万字", "100-200万字", "200-500万字", "500万字以上"});
-        stackLabel_4.setLabels(new String[]{"最热", "最新", "评分"});
+//        stackLabel_1.setLabels(new String[]{"全部", "总裁豪门", "都市人生", "婚恋爱情", "职场情缘", "民国旧影", "娱乐明星"});
+//        stackLabel_2.setLabels(getResources().getStringArray(R.array.cat_is_end));
+//        stackLabel_3.setLabels(new String[]{"全部", "100万字以下", "100-200万字", "200-300万字", "300万字以上"});
+//        stackLabel_3.setLabels(getResources().getStringArray(R.array.cat_word_num));
+//        stackLabel_4.setLabels(getResources().getStringArray(R.array.cat_state));
 
-        List<String> selected = Collections.singletonList("全部");
-        List<String> selected2 = Collections.singletonList("最热");
-        stackLabel_1.setSelectMode(true, selected);
-        stackLabel_2.setSelectMode(true, selected);
-        stackLabel_3.setSelectMode(true, selected);
-        stackLabel_4.setSelectMode(true, selected2);
+//        List<String> selected = Collections.singletonList("全部");
+//        List<String> selected2 = Collections.singletonList("最热");
+//        stackLabel_1.setSelectMode(true, selected);
 
-        tvClassifyTop3Title.setText("现代言情类全网最热前三名");
-        GlideUtil.loadRoundRect(this, ivCoverFirst, "url", 0);
-        GlideUtil.loadRoundRect(this, ivCoverSecond, "url", 0);
-        GlideUtil.loadRoundRect(this, ivCoverThird, "url", 0);
-        tvBookNameFirst.setText("豪门千金的超级战神");
-        tvBookNameSecond.setText("天启时代");
-        tvBookNameThird.setText("傲娇总裁侨萌妻");
+//        tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, "最热"));
+//        GlideUtil.loadRoundRect(this, ivCoverFirst, "url", 0);
+//        GlideUtil.loadRoundRect(this, ivCoverSecond, "url", 0);
+//        GlideUtil.loadRoundRect(this, ivCoverThird, "url", 0);
+//        tvBookNameFirst.setText("豪门千金的超级战神");
+//        tvBookNameSecond.setText("天启时代");
+//        tvBookNameThird.setText("傲娇总裁侨萌妻");
+
+
+
+        reqCategoryDatas(true);
     }
+
+
+    private void reqCategoryDatas(boolean showDialog) {
+        OkGo.<String>post(Consts.NOVEL_CHOICE_API)
+                .params(Consts.CAT_ID, catId)
+                .params(Consts.CAT_IS_END, paramIsEnd)
+                .params(Consts.CAT_WORD_NUM, paramWordsNum)
+                .params(Consts.CAT_STATUS, paramStatus)
+                .params(Consts.PAGE, paramCurPage + 1)
+                .execute(new LtbCallback(this, showDialog) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            PagingWarpper<List<BookEntity>> data = entity.getData();
+                            paramCurPage = data.getCurrent_page();
+                            int lastPage = data.getLast_page();
+                            List<BookEntity> bookList = data.getData();
+                            if (paramCurPage == 1) {
+                                int size = bookList.size();
+                                if (size >= 3) {
+                                    mAdapter.setHeaderView(headViewTop3, 1);
+                                    BookEntity book1 = bookList.get(0);
+                                    BookEntity book2 = bookList.get(1);
+                                    BookEntity book3 = bookList.get(2);
+                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverFirst, book1.getHttp_image(), 0);
+                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverSecond, book2.getHttp_image(), 0);
+                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverThird, book3.getHttp_image(), 0);
+                                    tvBookNameFirst.setText(book1.getName());
+                                    tvBookNameSecond.setText(book2.getName());
+                                    tvBookNameThird.setText(book3.getName());
+                                    mAdapter.setNewData(bookList.subList(3, size));
+                                } else {
+                                    mAdapter.removeHeaderView(headViewTop3);
+                                    mAdapter.setNewData(bookList);
+                                }
+                            } else {
+                                mAdapter.addData(bookList);
+                            }
+
+                            if (lastPage == 0) {
+                                //TODO 没有下一页
+                            }
+                        }
+                    }
+                });
+    }
+
 
 }

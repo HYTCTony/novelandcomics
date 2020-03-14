@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.huli.foxread.R;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.ui.base.LazyLoadFragment;
 import com.huli.foxread.ui.widget.NoScrollViewPager;
 import com.huli.foxread.ui.widget.verticaltablayout.ITabView;
@@ -28,7 +29,7 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
 
     public static RankingBoyGirlFragment newInstance(int type) {
         Bundle bundle = new Bundle();
-        bundle.putInt("type", type);
+        bundle.putInt(Consts.RANK_FORM, type);
         RankingBoyGirlFragment frag = new RankingBoyGirlFragment();
         frag.setArguments(bundle);
         return frag;
@@ -57,14 +58,16 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
 
     @Override
     public void doBusiness(Context mContext) {
-        viewPager.setNoScroll(true);
-        viewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager()));
-        tabLayout.setupWithViewPager(viewPager);
+        mType = getArguments().getInt(Consts.RANK_FORM);
+
     }
 
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
+        viewPager.setNoScroll(true);
+        viewPager.setAdapter(new MyPagerAdapter(getChildFragmentManager(), mType));
+        tabLayout.setupWithViewPager(viewPager);
     }
 
 
@@ -74,15 +77,18 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
         int textSelectCol = ContextCompat.getColor(getContext(), R.color.txt_red);
         int textUnSelectCol = ContextCompat.getColor(getContext(), R.color.txt_black);
 
-        public MyPagerAdapter(@NonNull FragmentManager fm) {
-            super(fm);
+        private int mType;
+
+        public MyPagerAdapter(@NonNull FragmentManager fm, int mType) {
+            super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
             titles = getResources().getStringArray(R.array.tab_sub_ranking);
+            this.mType = mType;
         }
 
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return RankingSubFeagment.newInstance(position);
+            return RankingSubFeagment.newInstance(mType, position + 1);
         }
 
         @Override

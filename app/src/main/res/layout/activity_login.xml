@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/col_f8f8f8"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:id="@+id/fl_top_bar_login"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_asBtn_close_login_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_8"
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_activity_close_gray"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_title_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        android:text="@string/txt_login_title_cellphone"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_22"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl_top_bar_login" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_cellphone_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_32"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:background="@drawable/shape_round_whitebg"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_login">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_input_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_plz_input_phone_number"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/col_orange_ea6b3c"
+            app:endIconCheckable="true"
+            app:endIconDrawable="@drawable/ic_close_gray_18dp"
+            app:endIconMode="clear_text"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:drawableStart="@drawable/ic_cellphone_18dp"
+                android:drawablePadding="@dimen/dp_8"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:singleLine="true"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_14"
+                app:hintTextColor="@color/txt_gray_b2" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_input_verification_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_plz_input_verification_code"
+            android:orientation="horizontal"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/col_orange_ea6b3c"
+            app:layout_constraintTop_toBottomOf="@+id/til_input_phone_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_login_authCode"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:drawableStart="@drawable/ic_shield_18dp"
+                android:drawablePadding="@dimen/dp_8"
+                android:inputType="number"
+                android:maxLength="6"
+                android:singleLine="true"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_14" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="@dimen/dp_48"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/til_input_verification_code"
+            app:layout_constraintRight_toRightOf="@+id/til_input_verification_code">
+
+            <View
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_16"
+                android:background="@color/col_gray_e5e5e5" />
+
+            <com.huli.foxread.ui.widget.TimingButton
+                android:id="@+id/timingButton_get_vCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@color/transparent"
+                android:text="@string/txt_get_verification_code"
+                android:textColor="@color/txt_red"
+                android:textSize="@dimen/sp_14"
+                app:tb_psText="@string/txt_get_verification_code"
+                app:tb_totalTime="60000" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_login_cellphone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:background="@drawable/ripple_round_btn_gradual_bg_red"
+            android:text="@string/txt_login"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_input_verification_code" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_third_part_login_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_32"
+        android:text="@string/txt_third_part_login"
+        android:textColor="@color/txt_gray_999"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ctl_cellphone_login" />
+
+    <View
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginStart="@dimen/dp_32"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:background="@color/col_gray_e5e5e5"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_third_part_login_label"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_third_part_login_label"
+        app:layout_constraintTop_toTopOf="@+id/tv_third_part_login_label" />
+
+    <View
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginEnd="@dimen/dp_32"
+        android:background="@color/col_gray_e5e5e5"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_third_part_login_label"
+        app:layout_constraintLeft_toRightOf="@+id/tv_third_part_login_label"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_third_part_login_label" />
+
+    <TextView
+        android:id="@+id/tv_asBtn_login_wechat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:drawableTop="@drawable/ic_wechat_login"
+        android:drawablePadding="@dimen/sp_8"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/dp_8"
+        android:text="@string/txt_wechat_login"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_third_part_login_label"
+        app:layout_constraintRight_toRightOf="@+id/tv_third_part_login_label"
+        app:layout_constraintTop_toBottomOf="@+id/tv_third_part_login_label" />
+
+    <TextView
+        android:id="@+id/tv_login_agreement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_32"
+        android:textColor="@color/txt_gray_999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="@string/txt_agree_login_agreement" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

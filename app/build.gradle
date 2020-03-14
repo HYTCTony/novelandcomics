@@ -15,10 +15,73 @@ android {
             targetCompatibility JavaVersion.VERSION_1_8
         }
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("C:/Users/Lili/.android/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+//            storeFile file("E:/android/keyStore/billsigned.jks")
+//            storePassword "549513862"
+//            keyAlias "billsigned"
+//            keyPassword "549513862"
+        }
+        release {// 自己的签名文件
+            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+            storePassword "hytc1688"
+            keyAlias "hytc"
+            keyPassword "hytc1688"
+        }
+    }
+
+    //Caused by: org.gradle.api.GradleException: Lint found fatal errors while assembling a release target.
+    //添加如下配置
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     buildTypes {
-        release {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            versionNameSuffix "-debug"
+            zipAlignEnabled false
+            shrinkResources false
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //混淆
+            minifyEnabled true
+            //false
+            zipAlignEnabled true
+            // 移除无用的resource文件，shrinkResources依赖于minifyEnabled,必须一起用
+            shrinkResources true
+            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名
+            signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    //定义apk名字
+                    def formatedTime = new Date().format("yyyy-MM-dd")
+                    def apkFileName = "foxread_app_v${android.defaultConfig.versionName}_${formatedTime}.apk"
+                    outputFileName = apkFileName
+                }
+            }
+        }
+    }
+
+    //渠道Flavors，配置不同风格的app,友盟渠道统计时用到
+    flavorDimensions "default"//这个名字貌似随便取，也可以有多个，总之一定要有..
+    productFlavors {
+        market {
+            dimension "default"
         }
     }
 }
@@ -35,7 +98,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     //okgo
     implementation 'com.lzy.net:okgo:3.0.4'
-    implementation 'com.lzy.net:okserver:2.0.5'
+//    implementation 'com.lzy.net:okserver:2.0.5'
 
     implementation 'com.alibaba:fastjson:1.2.62'
 
@@ -67,4 +130,5 @@ dependencies {
     //轮播图
     implementation 'com.youth.banner:banner:1.4.10'
     implementation project(path: ':stepview')
+
 }

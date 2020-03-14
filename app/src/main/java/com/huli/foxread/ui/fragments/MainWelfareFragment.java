@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baoyachi.stepview.HorizontalStepView;
@@ -12,8 +13,10 @@ import com.baoyachi.stepview.bean.StepBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.engines.GlideImageLoader2;
 import com.huli.foxread.entity.BannerADEntity;
+import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.adapters.ReadingMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
@@ -34,6 +37,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainWelfareFragment extends BaseFragment implements OnBannerListener, View.OnClickListener {
 
+    private TextView btnClick2Login;
+    private LinearLayout btnGoldCoinUsable;
+    private TextView tvGoldCoin;
+
     private RecyclerView recyclerView;
     private ReadingMissionAdapter mAdapter;
 
@@ -47,11 +54,15 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     @Override
     public void setStatusBar(View view) {
         StatusBarUtils.setStatusBarTextDark(mActivity, false);
-        StatusBarUtils.offsetView(mActivity, $(view, R.id.tv_title_bar_welfare));
+        StatusBarUtils.offsetView(mActivity, $(view, R.id.toolbar_title_bar_welfare));
     }
 
     @Override
     public void initView(View view) {
+
+        btnClick2Login = $(view, R.id.btn_click_2_login);
+        btnGoldCoinUsable = $(view, R.id.ll_asBtn_gold_coin_usable);
+        tvGoldCoin = $(view, R.id.tv_gold_coin_usable);
 
         recyclerView = $(view, R.id.recyclerView_reading_task);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
@@ -89,6 +100,27 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
     @Override
     public void doBusiness(Context mContext) {
+        boolean isVisitor = UserInfoCache.getIsVisitor(mContext);
+        if (isVisitor) {
+            btnClick2Login.setVisibility(View.VISIBLE);
+            btnGoldCoinUsable.setVisibility(View.GONE);
+            btnClick2Login.setOnClickListener(new OnClickEvent() {
+                @Override
+                public void singleClick(View v) {
+                    Tos.showShort(mContext, "去登录");
+                }
+            });
+        } else {
+            btnClick2Login.setVisibility(View.GONE);
+            btnGoldCoinUsable.setVisibility(View.VISIBLE);
+            btnGoldCoinUsable.setOnClickListener(new OnClickEvent() {
+                @Override
+                public void singleClick(View v) {
+                    Tos.showShort(mContext, "去金币明细");
+                }
+            });
+        }
+
 
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {

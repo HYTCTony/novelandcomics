@@ -2,26 +2,341 @@ package com.huli.foxread.contact;
 
 public interface Func {
 
-
     /**
      * 用途：使用手机唯一标识符注册/登录
      * 参数：
      * unique_id---手机唯一标识符
+     * return 用户信息
      */
-    String USE_UNIQUE_ID_LOGIN_OR_REG = "use_unique_id_login_or_reg";
+    String USER_VISITOR_LOGIN = "/user/visitorlogin";
 
     /**
-     * 用途：用户（自己）信息
+     * 用途：设置性别---来书籍推荐
+     * 头：token---token
      * 参数：
-     * token---token
+     * gender---性别:0=男,1=女
      */
-    String USERS_INFO = "users_info";
+    String USER_SET_GENDER = "/user/setGender";
 
     /**
-     * 用途：获取广告
+     * 用途：用户信息
+     * 头：token---token(Y)
+     * 参数：
+     * return 用户信息
+     */
+    String USER_INFO = "/user/index";
+
+    /**
+     * 用途：手机号登录
+     * 参数：
+     * mobile (Y）--- 手机号
+     * captcha (Y）--- 验证码
+     * identifier( Y）--- 手机唯一标志符
+     */
+    String USER_MOBILE_LOGIN = "/user/mobilelogin";
+
+    /**
+     * 用途：正式用户登出
+     * 头：token---token(Y)
      * 参数：
      */
-    String GET_AD = "get_advertisement";
+    String USER_LOGOUT = "/user/logout";
+
+    /**
+     * 用途：登录验证码
+     * 参数：
+     * mobile (Y）--- 手机号
+     * event (Y）--- 事件,更换绑定手机：untying，绑定手机：bind，注册：register，登陆：login
+     */
+    String SMS_SEND = "/sms/send";
+
+    /**
+     * 用途：绑定手机
+     * 头：token---token(Y)
+     * 参数：
+     * mobile (Y）--- 手机号
+     * captcha (Y）--- 验证码
+     */
+    String BIND_MOBILE = "/user/changemobile";
+
+    /**
+     * 用途：解绑手机（配合 BIND_MOBILE 才能完成手机号更换操作）
+     * 头：token---token(Y)
+     * 参数：
+     * mobile (Y）--- 手机号
+     * captcha (Y）--- 验证码
+     */
+    String UNBIND_MOBILE = "/user/untyingmobile";
+
+
+    /**
+     * 用途：填写邀请码(POST)
+     * 头：token---token(Y)
+     * 参数：
+     * code (Y）--- 邀请码
+     */
+    String FILLIN_INVITE_CODE = "/user/bindingInvitationCode";
+
+    /**
+     * 用途：修改会员个人信息(POST)
+     * 头：token---token(Y)
+     * 参数：（三个参数至少填一个）
+     * username---用户名
+     * avatar---头像（表单提交）
+     * gender---性别(0=男,1=女)
+     */
+    String USER_PROFILE = "/user/profile";
+
+
+    /**
+     * 用途：消息列表(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * type (Y）--- 1=全部,2=未读,默认1
+     * page (Y）--- 页码,默认1
+     * page_size (Y）--- 页数据量,默认15
+     */
+    String MSG_LIST = "/Message/messageList";
+
+
+    /**
+     * 开屏广告(GET)
+     */
+    String ADS_TAIL = "/advertisement/tail";
+    /**
+     * 横幅广告(GET)
+     */
+    String ADS_BANNER = "/advertisement/banner";
+    /**
+     * 插屏广告(GET)
+     */
+    String ADS_PLAQUE = "/advertisement/plaque";
+    /**
+     * 信息流广告(GET)
+     */
+    String ADS_INFO = "/advertisement/info";
+
+
+    /**
+     * 用途：首页(GET)
+     * 头：token(Y)
+     * 参数：
+     * type---类型:1=男生,2=女生,3=图书,4=精选(Y)
+     * page---精选推荐列表页码(Y/N)
+     * page_size---精选推荐列表,一页数据量(Y/N)
+     */
+    String INDEX_PAGE = "/index/index";
+
+    /**
+     * 用途：高分精选
+     * 头：token(Y)
+     * 参数：
+     * page --- 页码,默认1
+     * list_rows --- 每页数据量，默认15
+     * type --- 1=男生,2=女生,3=图书，精选的时候 男的就传男的女的就传女的
+     */
+    String NOVEL_POPULAR = "/novel/popular";
+
+    /**
+     * 用途：排行榜(GET)
+     * 头：token(Y)
+     * 参数：
+     * type --- 1=热门排行榜,2=完结热门排行榜,3=新书热门排行榜4=热搜排行榜
+     * form --- 1=男生 , 2=女生
+     */
+    String INDEX_RANKING = "/index/hotNovelList";
+
+    /**
+     * 用途：分类(GET)
+     * 头：token(Y)
+     * 参数：
+     */
+    String NOVEL_CATEGORY = "/novel/category";
+
+    /**
+     * 用途：子分类(POST)
+     * 头：token(Y)
+     * 参数：
+     * id --- 大分类ID
+     */
+    String NOVEL_CATEGORY_SUB = "/novel/sub";
+
+    /**
+     * 用途：小说按条件刷选(POST)
+     * 头：token(Y)
+     * 参数：
+     * classify_id --- 分类id
+     * word_calssify --- 字数分类:1=100万字以下,2=100-200万字,3=200-300万字,4=300万字以上
+     * is_end --- 是否完结:1=已完结,0=未完结
+     * status --- 状态:1=按热度,2=按评分,3=新上架
+     * page --- 页码,默认1
+     * page_size --- 每页数据量，默认15
+     * keyword --- 关键字查询(使用该查询无法使用其它条件筛选)
+     */
+    String NOVEL_CHOICE = "/novel/Choice";
+
+    /**
+     * 用途：热门(POST)
+     * 头：token（Y）
+     * 参数：
+     * page --- 页码,默认1
+     * list_rows --- 每页数据量，默认15
+     * type --- 1=男生,2=女生,3=图书，精选的时候 男的就传男的女的就传女的
+     */
+    String NOVEL_HOT = "/novel/hot";
+
+    /**
+     * 用途：获取小说热搜推荐(GET)
+     * 头：token（Y）
+     * 参数：
+     */
+    String NOVEL_SEARCH_RECOMMEND = "/novel_search/recommend";
+
+    /**
+     * 用途：男生新品|女生新品|图书新品|精选新品(GET)
+     * 头：token(Y)
+     * 参数：
+     */
+    String NOVEL_COLUMN_BOYNEW = "/novel_column/boyNew";
+    String NOVEL_COLUMN_GIRLNEW = "/novel_column/girlNew";
+    String NOVEL_COLUMN_LIBNEW = "/novel_column/boyNew";
+    String NOVEL_COLUMN_SELECTIONNEW = "/novel_column/boyNew";
+
+    /**
+     * 用途：男生完结|女生完结(GET)
+     * 头：token(Y)
+     * 参数：
+     */
+    String NOVEL_COLUMN_BOYEND = "/novel_column/boyEnd";
+    String NOVEL_COLUMN_GIRLEND = "/novel_column/girlEnd";
+
+    /**
+     * 用途：小说详情(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * id---小说id
+     */
+    String NOVEL_DETAILS = "/novel/novelDetails";
+
+    /**
+     * 用途：加入书架(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * id---小说id
+     */
+    String BOOKRACK_ADD = "/bookshelf/addBookshelf";
+
+    /**
+     * 用途：删除书架书籍(POST)
+     * 头：token---token(Y)
+     * 参数：
+     * ids---小说id数组
+     */
+    String BOOKRACK_DEL = "/bookshelf/deleteBookshelf";
+
+    /**
+     * 用途：获取书架书籍(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String BOOKRACK_GETLIST = "/bookshelf/bookshelfList";
+
+
+    /**
+     * 用途：小说阅读记录(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * page --- 页码,默认1
+     * page_size --- 页数据量，默认15
+     */
+    String READ_NOVEL_RECORD = "/novel/novelRecord";
+
+
+    /**
+     * 用途：大转盘抽奖(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_LUCKDRAW = "/welfare/luckDraw";
+
+
+    /**
+     * 用途：大转盘列表(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_LUCKDRAWLIST = "/welfare/luckDrawList";
+
+
+    /**
+     * 用途：看小视频得金币(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_VIDEO = "/welfare/welfareVideo";
+
+
+    /**
+     * 用途：阅读30秒倒计时奖励(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_READING = "/welfare/welfareReading";
+
+
+    /**
+     * 用途：新用户签到七天福利(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_NEWUSERSIGN = "/welfare/welfareNewUserSign";
+
+    /**
+     * 用途：累计阅读福利(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * welfare_read_id --- 完成任务id
+     */
+    String WELFARE_CUMULATIVEREAD = "/welfare/welfareCumulativeRead";
+
+    /**
+     * 用途：累计阅读任务列表(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_CUMULATIVEREADLIST = "/welfare/CumulativeReadList";
+
+    /**
+     * 用途：看视频免广告(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_VIDEO_REMOVE_ADVERTISING = "/welfare/videoRemoveAdvertising";
+
+    /**
+     * 用途：签到(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_SIGNIN = "/welfare/signIn";
+
+    /**
+     * 用途：补签到(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * calendar_id --- 日历id (Y)
+     * type --- 状态:1=看广告,2=金币支付 (Y)
+     */
+    String WELFARE_REPAIRSIGNIN = "/welfare/repairSignIn";
+
+    /**
+     * 用途：补签到(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * calendar_id --- 日历id (Y)
+     * type --- 状态:1=看广告,2=金币支付 (Y)
+     */
+    String WELFARE_WELFAREINVITATION = "/welfare/WelfareInvitation";
 
 
 }

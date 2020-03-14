@@ -5,13 +5,22 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.listener.GridSpanSizeLookup;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
+import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoader;
 import com.huli.foxread.entity.BannerADEntity;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.BookMultiEntity;
+import com.huli.foxread.entity.HomePageEntity;
+import com.huli.foxread.entity.HpClassifyNvET;
+import com.huli.foxread.entity.HpNewBookET;
+import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.BookRankingActivity;
 import com.huli.foxread.ui.activities.ClassifyActivity;
@@ -26,7 +35,13 @@ import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.MultiplePagerAdapter;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.Tos;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -35,6 +50,8 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,6 +66,25 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     private BooksListAdapter mAdapter;
 
     private Banner mBanner;
+
+    private View headViewTop;
+
+    private View headViewHot;
+    private RecyclerView rvHot;
+
+    private View headViewExcellentWorks;
+    private ViewPager vpExWorks;
+
+    private View headViewSpecial;
+    private ViewPager vpSpt;
+
+    private View headViewTopSearch;
+    private RecyclerView rvTopSearch;
+
+    private View headViewNewBooks;
+    private RecyclerView rvLeadUpBooks;
+
+    private View headViewHighScore;
 
     @Override
     public int bindLayout() {
@@ -70,24 +106,25 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         recyclerView.setAdapter(mAdapter);
 
         LayoutInflater inflater = LayoutInflater.from(mActivity);
-        View headViewTop = inflater.inflate(R.layout.layout_rv_head_sb_top, recyclerView, false);
-        mAdapter.addHeaderView(headViewTop, 0);
-        View headViewHot = inflater.inflate(R.layout.layout_rv_head_sb_hotlist_today, recyclerView, false);
-        mAdapter.addHeaderView(headViewHot, 1);
-        View headViewExcellentWorks = inflater.inflate(R.layout.layout_rc_head_sb_classify_excellent_work, recyclerView, false);
-        mAdapter.addHeaderView(headViewExcellentWorks, 2);
-        View headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
-        mAdapter.addHeaderView(headViewSpecial, 3);
-        View headViewTopSearch = inflater.inflate(R.layout.layout_rv_head_sb_actual_time_top_search, recyclerView, false);
-        mAdapter.addHeaderView(headViewTopSearch, 4);
-        View headViewNewBooks = inflater.inflate(R.layout.layout_rv_head_multiitem_books, recyclerView, false);
-        mAdapter.addHeaderView(headViewNewBooks, 5);
-        View headViewHighScore = inflater.inflate(R.layout.layout_rv_head_normal_title, recyclerView, false);
-        mAdapter.addHeaderView(headViewHighScore, 6);
-
-
+        headViewTop = inflater.inflate(R.layout.layout_rv_head_sb_top, recyclerView, false);
+        mAdapter.setHeaderView(headViewTop, 0);
         initBannerView(headViewTop);
         initCenterBar(headViewTop);
+
+
+       /* View headViewHot = inflater.inflate(R.layout.layout_rv_head_sb_hotlist_today, recyclerView, false);
+        mAdapter.setHeaderView(headViewHot, 1);
+        View headViewExcellentWorks = inflater.inflate(R.layout.layout_rc_head_sb_classify_excellent_work, recyclerView, false);
+        mAdapter.setHeaderView(headViewExcellentWorks, 2);
+        View headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
+        mAdapter.setHeaderView(headViewSpecial, 3);
+        View headViewTopSearch = inflater.inflate(R.layout.layout_rv_head_sb_actual_time_top_search, recyclerView, false);
+        mAdapter.setHeaderView(headViewTopSearch, 4);
+        View headViewNewBooks = inflater.inflate(R.layout.layout_rv_head_multiitem_books, recyclerView, false);
+        mAdapter.setHeaderView(headViewNewBooks, 5);
+        View headViewHighScore = inflater.inflate(R.layout.layout_rv_head_normal_title, recyclerView, false);
+        mAdapter.setHeaderView(headViewHighScore, 6);
+
 
         initHotlistView(headViewHot);
 
@@ -97,28 +134,37 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 
         initTopSearchView(headViewTopSearch);
 
-        initNewBooksLeadUpView(headViewNewBooks);
+        initNewBooksLeadUpView(headViewNewBooks);*/
+
     }
 
     @Override
     public void setListener() {
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BookEntity entity = mAdapter.getData().get(position);
+            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+            startActivity(intent);
+        });
+        // 设置加载更多监听事件
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mActivity, BookDetailsActivity.class));
+            public void onLoadMore() {
+//                loadMore();
+            }
+        });
+
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                reqIndexDatas(false);
             }
         });
     }
 
     @Override
     public void doBusiness(Context mContext) {
-
-
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("sssssssssss");
-        }
-        mAdapter.setNewData(list);
+        reqIndexDatas(true);
     }
 
     //如果你需要考虑更好的体验，可以这么操作
@@ -159,23 +205,31 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                 break;
 
             case R.id.tv_asBtn_new_book:
-                startActivity(new Intent(mActivity, NewBooksActivity.class));
+                Intent intent = new Intent(mActivity, NewBooksActivity.class);
+                intent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
+                startActivity(intent);
                 break;
 
             case R.id.tv_asBtn_book_finished:
-                startActivity(new Intent(mActivity, EndBooksActivity.class));
+                Intent ebIntent = new Intent(mActivity, EndBooksActivity.class);
+                ebIntent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
+                startActivity(ebIntent);
                 break;
 
             case R.id.tv_asBtn_full_list:       //今日大热榜 -> 完整榜单
+                Tos.showShort(mActivity, "今日大热榜 -> 完整榜单");
+                break;
 
+            case R.id.tv_asBtn_excellent_work_more:       //分类佳作 -> 更多
+                Tos.showShort(mActivity, "分类佳作 -> 更多");
                 break;
 
             case R.id.tv_asBtn_get_a_new_batch_top_search:       //实时热搜 -> 换一批
-
+                Tos.showShort(mActivity, "实时热搜 -> 换个锤子");
                 break;
 
             case R.id.tv_asBtn_newBooks_refresh:       //新书抢先 -> 换一批
-
+                Tos.showShort(mActivity, "新书抢先 -> 换个锤子");
                 break;
 
             default:
@@ -184,26 +238,41 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    private void initNewBooksLeadUpView(View rootView) {
-        $(rootView, R.id.tv_asBtn_newBooks_refresh).setOnClickListener(this);
-
-        RecyclerView rvLeadUpBooks = $(rootView, R.id.recyclerView_new_books);
-
-        final List<BookMultiEntity> datas = new ArrayList<>();
-        BookMultiEntity entity = new BookMultiEntity();
-        entity.setItemType(BookMultiEntity.DETAILED);
-        entity.setSpanSize(BookMultiEntity.SPAN_SIZE_4);
-        datas.add(entity);
-        for (int i = 0; i < 8; i++) {
-            entity = new BookMultiEntity();
-            entity.setItemType(BookMultiEntity.SUCCINCT);
-            entity.setSpanSize(BookMultiEntity.SPAN_SIZE_1);
-            datas.add(entity);
+    /*新书抢先*/
+    private void initNewBooksLeadUpView(LayoutInflater inflater, List<BookEntity> novelList) {
+        if (headViewNewBooks == null) {
+            headViewNewBooks = inflater.inflate(R.layout.layout_rv_head_multiitem_books, recyclerView, false);
+            mAdapter.setHeaderView(headViewNewBooks, 5);
+            $(headViewNewBooks, R.id.tv_asBtn_newBooks_refresh).setOnClickListener(this);
+            rvLeadUpBooks = $(headViewNewBooks, R.id.recyclerView_new_books);
+            rvLeadUpBooks.setLayoutManager(new GridLayoutManager(mActivity, 4));
         }
 
-        final BooksMultiItemAdapter lubAdapter = new BooksMultiItemAdapter(datas);
-        rvLeadUpBooks.setLayoutManager(new GridLayoutManager(mActivity, 4));
-//        rvLeadUpBooks.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtils.dp2px(mActivity, 16), false));
+        List<BookMultiEntity> datas = new ArrayList<>();
+        BookMultiEntity entity;
+        for (int i = 0; i < novelList.size(); i++) {
+            entity = new BookMultiEntity();
+            BookEntity bookEntity = novelList.get(i);
+            if (i == 0) {
+                entity.setItemType(BookMultiEntity.DETAILED);
+                entity.setSpanSize(BookMultiEntity.SPAN_SIZE_4);
+                entity.setAuthor(bookEntity.getAuthor());
+                entity.setName(bookEntity.getName());
+                entity.setScore(bookEntity.getScore());
+                entity.setIntroduce(bookEntity.getIntroduce());
+                entity.setHttp_image(bookEntity.getHttp_image());
+            } else {
+                entity.setItemType(BookMultiEntity.SUCCINCT);
+                entity.setSpanSize(BookMultiEntity.SPAN_SIZE_1);
+                entity.setAuthor(bookEntity.getAuthor());
+                entity.setName(bookEntity.getName());
+                entity.setScore(bookEntity.getScore());
+                entity.setIntroduce(bookEntity.getIntroduce());
+                entity.setHttp_image(bookEntity.getHttp_image());
+                datas.add(entity);
+            }
+        }
+        BooksMultiItemAdapter lubAdapter = new BooksMultiItemAdapter(datas);
         lubAdapter.setGridSpanSizeLookup(new GridSpanSizeLookup() {
             @Override
             public int getSpanSize(GridLayoutManager gridLayoutManager, int viewType, int position) {
@@ -211,28 +280,48 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             }
         });
         rvLeadUpBooks.setAdapter(lubAdapter);
+        lubAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BookEntity entity1 = lubAdapter.getData().get(position);
+            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, entity1.getId());
+            startActivity(intent);
+        });
     }
 
+    private void initTopSearchView(LayoutInflater inflater, List<BookEntity> searchNvList) {
+        if (headViewTopSearch == null) {
+            headViewTopSearch = inflater.inflate(R.layout.layout_rv_head_sb_actual_time_top_search, recyclerView, false);
+            mAdapter.setHeaderView(headViewTopSearch, 4);
 
-    private void initTopSearchView(View rootView) {
-        $(rootView, R.id.tv_asBtn_get_a_new_batch_top_search).setOnClickListener(this);
-
-        RecyclerView rvTopSearch = $(rootView, R.id.recyclerView_top_search);
-        rvTopSearch.setNestedScrollingEnabled(false);
-        rvTopSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
-        rvTopSearch.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtils.dp2px(mActivity, 16), false));
-        AttTopSearchAdapter topSearchAdapter = new AttTopSearchAdapter();
-        rvTopSearch.setAdapter(topSearchAdapter);
-
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            list.add("sssssssssss");
+            $(headViewTopSearch, R.id.tv_asBtn_get_a_new_batch_top_search).setOnClickListener(this);
+            rvTopSearch = $(headViewTopSearch, R.id.recyclerView_top_search);
+            rvTopSearch.setNestedScrollingEnabled(false);
+            rvTopSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
+            rvTopSearch.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtils.dp2px(mActivity, 16), false));
         }
-        topSearchAdapter.setNewData(list);
+        AttTopSearchAdapter attTopSearchAdapter = new AttTopSearchAdapter(searchNvList);
+        rvTopSearch.setAdapter(attTopSearchAdapter);
+        attTopSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BookEntity entity = attTopSearchAdapter.getData().get(position);
+            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+            startActivity(intent);
+        });
     }
 
-    private void initSpecialTopicView(View rootView) {
-        ViewPager vpSpt = $(rootView, R.id.viewPager_special_topic);
+    private void initSpecialTopicView(LayoutInflater inflater) {
+        if (headViewSpecial == null) {
+            headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
+            mAdapter.setHeaderView(headViewSpecial, 3);
+            $(headViewSpecial, R.id.tv_asBtn_special_topic_more).setOnClickListener(new OnClickEvent() {
+                @Override
+                public void singleClick(View v) {
+                    Tos.showShort(mActivity, "点个锤子，这个模块没了！");
+                }
+            });
+            vpSpt = $(headViewSpecial, R.id.viewPager_special_topic);
+            vpSpt.setPageMargin(DensityUtils.dp2px(mActivity, 16));
+        }
 
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
@@ -240,38 +329,44 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         }
         vpSpt.setOffscreenPageLimit(list.size());
         vpSpt.setAdapter(new SpecialTopicPagerAdapter(getContext(), list));
-        vpSpt.setPageMargin(DensityUtils.dp2px(mActivity, 16));
     }
 
-    private void initExcellentWorksView(View rootView) {
-        ViewPager vpExWorks = $(rootView, R.id.viewPager_excellent_works);
+    private void initExcellentWorksView(LayoutInflater inflater, List<HpClassifyNvET> classifyNvList) {
+        if (headViewExcellentWorks == null) {
+            headViewExcellentWorks = inflater.inflate(R.layout.layout_rc_head_sb_classify_excellent_work, recyclerView, false);
+            mAdapter.setHeaderView(headViewExcellentWorks, 2);
+            $(headViewExcellentWorks, R.id.tv_asBtn_excellent_work_more).setOnClickListener(this);
+            vpExWorks = $(headViewExcellentWorks, R.id.viewPager_excellent_works);
+            vpExWorks.setPageMargin(DensityUtils.dp2px(mActivity, 16));
+        }
+
         List<Fragment> exwFragments = new ArrayList<>();
-        exwFragments.add(ExWorksShowFargment.newInstance(0));
-        exwFragments.add(ExWorksShowFargment.newInstance(1));
-        exwFragments.add(ExWorksShowFargment.newInstance(2));
-        exwFragments.add(ExWorksShowFargment.newInstance(3));
+        for (int i = 0; i < classifyNvList.size(); i++) {
+            exwFragments.add(ExWorksShowFargment.newInstance(classifyNvList.get(i)));
+        }
         vpExWorks.setOffscreenPageLimit(exwFragments.size());
         vpExWorks.setAdapter(new MultiplePagerAdapter(getChildFragmentManager(), exwFragments));
-        vpExWorks.setPageMargin(DensityUtils.dp2px(mActivity, 16));
     }
 
-    private void initHotlistView(View rootView) {
-        $(rootView, R.id.tv_asBtn_full_list).setOnClickListener(this);
-
-        RecyclerView rvHot = $(rootView, R.id.recyclerView_hotlist);
-        rvHot.setNestedScrollingEnabled(false);
-        rvHot.setLayoutManager(new GridLayoutManager(mActivity, 2));
-        rvHot.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(mActivity, 16), false));
-        HotTodayAdapter hotAdapter = new HotTodayAdapter();
-        rvHot.setAdapter(hotAdapter);
-
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("sssssssssss");
+    private void initHotlistView(LayoutInflater inflater, List<BookEntity> rankNvList) {
+        if (headViewHot == null) {
+            headViewHot = inflater.inflate(R.layout.layout_rv_head_sb_hotlist_today, recyclerView, false);
+            mAdapter.setHeaderView(headViewHot, 1);
+            $(headViewHot, R.id.tv_asBtn_full_list).setOnClickListener(this);
+            rvHot = $(headViewHot, R.id.recyclerView_hotlist);
+            rvHot.setNestedScrollingEnabled(false);
+            rvHot.setLayoutManager(new GridLayoutManager(mActivity, 2));
+            rvHot.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(mActivity, 16), false));
         }
-        hotAdapter.setNewData(list);
+        HotTodayAdapter hotTodayAdapter = new HotTodayAdapter(rankNvList);
+        rvHot.setAdapter(hotTodayAdapter);
+        hotTodayAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BookEntity entity = hotTodayAdapter.getData().get(position);
+            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+            startActivity(intent);
+        });
     }
-
 
     private void initBannerView(View rootView) {
         mBanner = $(rootView, R.id.banner_choiceness);
@@ -314,6 +409,116 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             list.add(ad);
         }
         return list;
+    }
+
+    private void reqIndexDatas(boolean isInit) {
+        /*OkGo.<String>get(Consts.INDEX_PAGE_API)
+                .params(Consts.TYPE, Consts.TYPE_SELECTION)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<HomePageEntity> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<HomePageEntity>>() {
+                        });
+                        if (entity.error_code == 0) {
+                            HomePageEntity hpDatas = entity.data;
+                            List<BookEntity> hotNvdata = hpDatas.getHot_novel().getData();
+                            mAdapter.setNewData(hotNvdata);
+                        }
+                        Log.e("ssssssss", "onSuccess===" + response.code());
+//                        LzyResponse<HomePageEntity> entity = response.body();
+                       *//* if (entity.error_code == 0) {
+                            Log.e("sssssss", "size==" + hpDatas.getHot_novel());
+                            HomePageEntity hpDatas = entity.data;
+                            List<BookEntity> hotNvdata = hpDatas.getHot_novel().getData();
+                            mAdapter.setNewData(hotNvdata);
+                        }*//*
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        Log.e("ssssssss", "onError===" + response.code());
+                    }
+                });
+*/
+        OkGo.<LzyResponse<HomePageEntity>>get(Consts.INDEX_PAGE_API)
+                .params(Consts.TYPE, Consts.TYPE_SELECTION)
+                .cacheKey(Consts.INDEX_PAGE_API + Consts.TYPE_SELECTION)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheTime(6 * 60 * 60 * 1000)
+                .execute(new LtbJsonCallback<LzyResponse<HomePageEntity>>((AppCompatActivity) mActivity, isInit,
+                        new TypeReference<LzyResponse<HomePageEntity>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<HomePageEntity>> response) {
+                        LzyResponse<HomePageEntity> entity = response.body();
+                        if (entity.error_code == 0) {
+                            HomePageEntity hpDatas = entity.getData();
+                            if (hpDatas == null) {
+                                return;
+                            }
+                            LayoutInflater inflater = LayoutInflater.from(mActivity);
+                            //今日大热榜
+                            List<BookEntity> rankNvList = hpDatas.getRank_novel();
+                            if (rankNvList != null && rankNvList.size() > 0) {
+                                initHotlistView(inflater, rankNvList);
+                            }
+
+                            //分类佳作
+                            List<HpClassifyNvET> classifyNvList = hpDatas.getClassify_novel();
+                            if (classifyNvList != null && classifyNvList.size() > 0) {
+                                initExcellentWorksView(inflater, classifyNvList);
+                            }
+
+                            //专题
+                            initSpecialTopicView(inflater);
+
+                            //实时热搜
+                            List<BookEntity> searchNvList = hpDatas.getSearch_novel();
+                            if (searchNvList != null && searchNvList.size() > 0) {
+                                initTopSearchView(inflater, searchNvList);
+                            }
+
+                            //新书抢先
+                            List<HpNewBookET> newOrigNvList = hpDatas.getNew_or_original();
+                            if (newOrigNvList != null && newOrigNvList.size() > 0) {
+                                // 取newOrigNvList.get(0)
+                                HpNewBookET newBookET = newOrigNvList.get(0);
+                                List<BookEntity> novelList = newBookET.getNovel();
+                                initNewBooksLeadUpView(inflater, novelList);
+                            }
+
+                            //高分精选
+                            if (headViewHighScore == null) {
+                                headViewHighScore = inflater.inflate(R.layout.layout_rv_head_normal_title, recyclerView, false);
+                                mAdapter.setHeaderView(headViewHighScore, 6);
+                            }
+                            List<BookEntity> hotNvdata = hpDatas.getHot_novel().getData();
+                            mAdapter.setNewData(hotNvdata);
+
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<LzyResponse<HomePageEntity>> response) {
+                        super.onCacheSuccess(response);
+                        if (isInit) {
+                            onSuccess(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<LzyResponse<HomePageEntity>> response) {
+                        super.onError(response);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        mRefreshLayout.finishRefresh();
+                    }
+
+                });
     }
 
 }
