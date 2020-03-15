@@ -337,6 +337,11 @@ public interface Func {
      * type --- 状态:1=看广告,2=金币支付 (Y)
      */
     String WELFARE_WELFAREINVITATION = "/welfare/WelfareInvitation";
+    /**
+     * 用途：小说章节列表(GET)
+     * 头：token---token(Y)
+     */
+    String NOVEL_NOVELCHAPTERLIST = "/novel/novelChapterList";
 
 
 }

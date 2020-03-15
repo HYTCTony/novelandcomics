@@ -43,4 +43,42 @@
     <color name="txt_white">#ffffff</color>
     <color name="txt_dark_gold">#daaa47</color>
     <color name="txt_faint_yellow">#F3DFA7</color>
+
+    <!--common-->
+    <color name="translucent">#99343434</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#FF0000</color>
+    <color name="orange">#DE6014</color>
+    <color name="gray">#b8b8b8</color>
+    <color name="green">#5FB236</color>
+    <color name="black">#000000</color>
+    <color name="light_pink">#fb9090</color>
+    <color name="light_white">#EEEEEE</color>
+    <color name="light_coffee">#A58D5E</color>
+    <color name="light_red">#EC4A48</color>
+    <color name="light_blue">#039BE5</color>
+    <color name="light_translucent">#23000000</color>
+    <color name="common_gray">#EEEEEE</color>
+    <color name="title">#333333</color>
+    <color name="translucent_text">#96ffffff</color>
+
+    <color name="nb_read_bg_1">#CEC29C</color>
+    <color name="nb_read_bg_2">#CCEBCC</color>
+    <color name="nb_read_bg_3">#AAAAAA</color>
+    <color name="nb_read_bg_4">#D1CEC5</color>
+    <color name="nb_read_bg_5">#001C27</color>
+    <color name="nb_read_bg_6">#DDCEC29C</color>
+
+    <color name="nb_read_font_1">#2C2C2C</color>
+    <color name="nb_read_font_2">#2F332D</color>
+    <color name="nb_read_font_3">#92918C</color>
+    <color name="nb_read_font_4">#383429</color>
+    <color name="nb_read_font_5">#627176</color>
+
+    <color name="nb_read_bg_night">#000000</color>
+    <color name="nb_read_font_night">#99ffffff</color>
+
+    <!--button-->
+    <color name="nb_widget_button_normal">@color/white</color>
+    <color name="nb_widget_button_selected">#E3E3E3</color>
 </resources>

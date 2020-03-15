@@ -1,7 +1,6 @@
 package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -9,11 +8,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.snackbar.Snackbar;
@@ -22,7 +23,6 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.adapters.BookRackAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
@@ -30,29 +30,38 @@ import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.huli.page.model.bean.BookShelfListBean;
+import com.huli.page.ui.activity.ReadBookActivity;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainBookrackFragment extends BaseFragment implements OnItemLongClickListener {
+public class MainBookrackFragment extends BaseFragment implements OnItemLongClickListener, OnItemClickListener {
 
     private AppBarLayout appBarLayout;
     private Toolbar mToolbar;
+    private SmartRefreshLayout layout;
     private RecyclerView recyclerView;
     private BookRackAdapter mAdapter;
 
     private ImageView ivookCoverPush;
     private TextView tvBookNamePush, tvBookIntroPush;
+
+    private List<BookShelfListBean> data = new ArrayList<>();
 
     @Override
     public int bindLayout() {
@@ -83,17 +92,22 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         tvBookNamePush = $(view, R.id.tv_book_name_push);
         tvBookIntroPush = $(view, R.id.tv_book_introduction_push);
 
+        layout = $(view, R.id.smart);
         recyclerView = $(view, R.id.recyclerView_my_bookrack);
-        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DensityUtils.dp2px(mActivity, 16), true));
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(mActivity, 16), true));
 
-        List<String> list = new ArrayList<>();
-        list.add("pppppppp");
-        for (int i = 0; i < 4; i++) {
-            list.add(list.size(), "sssssssssss");
-        }
-        mAdapter = new BookRackAdapter(list);
+        mAdapter = new BookRackAdapter(data);
         recyclerView.setAdapter(mAdapter);
+        layout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                reqGetBooks();
+                refreshLayout.finishRefresh();
+            }
+        });
+        layout.setEnableLoadMore(false);
+        reqGetBooks();
     }
 
 
@@ -103,6 +117,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             Tos.showShort(mActivity, "点击===" + item.getTitle());
             return true;
         });
+        mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
     }
 
@@ -112,7 +127,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         tvBookNamePush.setText("九阳帝尊");
         tvBookIntroPush.setText("深山里走出的少年深山里走出的少年深山的少年深山里走出的少年深山里走出的少年");
     }
-
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -127,6 +141,16 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
             }
         }
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
+        if (bean.getIsLocal()) {
+            Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ReadBookActivity.start(mActivity, bean, true);
     }
 
     boolean fff;
@@ -167,7 +191,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -184,10 +207,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         }
     }
 
-
     /**
-     * 小说详情---加入书架
-     *
      * @param novelIds ["56","32","99","5","796"]
      * @param novelIds List也行
      */
@@ -203,9 +223,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 });
                         if (entity.error_code == 0) {
                             //TODO 刷新数据
-//                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
                         } else {
-//                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });
@@ -213,18 +233,21 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
 
     /**
-     * 小说详情---加入书架
+     * 获取书架列表
      */
     private void reqGetBooks() {
-        OkGo.<String>get(Consts.BOOKRACK_ADD_API)
+        OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
                 .execute(new LtbCallback((AppCompatActivity) mActivity) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
+                        LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
                                 });
                         if (entity.error_code == 0) {
+                            mAdapter.setNewData(entity.getData());
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
                         } else {
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });

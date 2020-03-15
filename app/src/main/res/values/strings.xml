@@ -98,7 +98,7 @@
     <string name="txt_praise_good_books">好评佳作</string>
     <string name="txt_total_reading_time_min">今日已阅读(分钟)</string>
     <string name="txt_sign_in_for_gold">签到领金币</string>
-    <string name="txt_markread">已读</string>
+    <string name="txt_markread">读到</string>
     <string name="txt_welfare_center">福利中心</string>
     <string name="txt_click_2_login">点击\n登录</string>
     <string name="txt_gold_coin_usable">可用金币</string>
@@ -293,6 +293,61 @@
         \nLocation &amp; Contacts: %s
         \nSMS: %s
     </string>
+
+    <!--常用-->
+    <string name="nb_common_tip">提示</string>
+    <string name="nb_common_sure">确定</string>
+    <string name="nb_common_cancel">取消</string>
+
+    <!--DownloadTask:书籍下载-->
+    <string name="nb_download_chapter_scope">(%1$d-%2$d章)</string>
+
+    <!--mode-->
+    <string name="nb_mode_night">夜间</string>
+    <string name="nb_mode_morning">日间</string>
+
+    <!--BookShelf-->
+    <string name="nb_bookshelf_book_not_exist">文件不存在或者内容为空,是否删除?</string>
+
+    <!--file system-->
+    <string name="nb_file_sub_count">%1$d 项</string>
+    <string name="nb_file_path">存储卡:%1$s</string>
+    <string name="nb_file_add_shelf">加入书架</string>
+    <string name="nb_file_add_shelves">加入书架(%1$d)</string>
+    <string name="nb_file_add_succeed">成功添加%1$d本书</string>
+
+    <string name="nb_menu_action_top">置顶</string>
+    <string name="nb_menu_action_cache">缓存</string>
+    <string name="nb_menu_action_delete">删除</string>
+    <string name="nb_menu_action_batch_manage">批量管理</string>
+
+    <string-array name="nb_menu_local_book">
+        <item>@string/nb_menu_action_top</item>
+        <item>@string/nb_menu_action_delete</item>
+        <item>@string/nb_menu_action_batch_manage</item>
+    </string-array>
+
+    <!--CollBook的长按点击-->
+    <string-array name="nb_menu_net_book">
+        <item>@string/nb_menu_action_top</item>
+        <item>@string/nb_menu_action_cache</item>
+        <item>@string/nb_menu_action_delete</item>
+        <item>@string/nb_menu_action_batch_manage</item>
+    </string-array>
+
+    <string-array name="conversion_type_array">
+        <item>不轉換</item>
+        <item>臺灣正體到簡體(大陸常用詞彙)</item>
+        <item>簡體到香港繁體</item>
+        <item>簡體到繁體</item>
+        <item>簡體到臺灣正體</item>
+        <item>簡體到繁體(臺灣常用詞彙)</item>
+        <item>繁體到香港繁體</item>
+        <item>繁體到簡體</item>
+        <item>繁體臺灣正體</item>
+        <item>臺灣正體到簡體</item>
+        <item>香港繁體到簡體</item>
+    </string-array>
 
 
 </resources>
