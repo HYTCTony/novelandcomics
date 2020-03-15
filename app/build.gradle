@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 29
@@ -18,7 +19,7 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("C:/Users/Lili/.android/debug.keystore")
+            storeFile file("C:/Users/hp/.android/debug.keystore")
             storePassword "android"
             keyAlias "androiddebugkey"
             keyPassword "android"
@@ -86,6 +87,12 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1
+    daoPackage 'com.huli.page.model.dao'
+    targetGenDir 'src/main/java'
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -130,5 +137,19 @@ dependencies {
     //轮播图
     implementation 'com.youth.banner:banner:1.4.10'
     implementation project(path: ':stepview')
+
+    // OpenCC to convert Simp. Chinese to Trad. Chinese
+    implementation "com.zqc.opencc.android.lib:lib-opencc-android:0.8.0@aar"
+    // ORM Database
+    implementation 'org.greenrobot:greendao:3.2.2'
+    // RxJava
+    api 'io.reactivex.rxjava2:rxjava:2.2.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    //日志
+    api 'com.orhanobut:logger:2.2.0'
+    //注解
+    api 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
 
 }

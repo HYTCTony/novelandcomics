@@ -1,20 +1,24 @@
 package com.huli.foxread.ui.adapters;
 
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.utils.GlideUtil;
+import com.huli.page.model.bean.BookShelfListBean;
 
 import java.util.List;
 
-public class BookRackAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseViewHolder> {
 
-    public BookRackAdapter(List<String> data) {
+    public BookRackAdapter(List<BookShelfListBean> data) {
         super(R.layout.recy_grid_item_my_book_rack, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, String s) {
+    protected void convert(BaseViewHolder helper, BookShelfListBean item) {
         int position = helper.getLayoutPosition();
         if (position == getData().size() - 1) {
             helper.setImageBitmap(R.id.iv_book_cover, null);
@@ -25,11 +29,26 @@ public class BookRackAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
             helper.setVisible(R.id.iv_add_book, true);
         } else {
             GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), "url", 0);
-            helper.setText(R.id.tv_book_name, "猎能者猎能者猎能者");
-            helper.setText(R.id.tv_book_state, "完结");
-            helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread) + "18.5%"));
-
+            helper.setText(R.id.tv_book_name, item.getNovel_name());
+            helper.setText(R.id.tv_book_state, "未知");
+            helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread) + item.getLastChapter()));
             helper.setVisible(R.id.iv_add_book, false);
+            ImageView iv = helper.getView(R.id.iv_book_cover);
+            if (item.getIsLocal()) {
+                //本地文件的图片
+                Glide.with(getContext())
+                        .load(R.drawable.ic_local_file)
+                        .fitCenter()
+                        .into(iv);
+            } else {
+                //书的图片
+                Glide.with(getContext())
+                        .load(item.getHttp_novel_image())
+                        .placeholder(R.drawable.ic_book_loading)
+                        .error(R.drawable.ic_load_error)
+                        .fitCenter()
+                        .into(iv);
+            }
         }
 
     }
