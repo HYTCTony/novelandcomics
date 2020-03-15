@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.listener.GridSpanSizeLookup;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -20,6 +22,7 @@ import com.huli.foxread.entity.BookMultiEntity;
 import com.huli.foxread.entity.HomePageEntity;
 import com.huli.foxread.entity.HpClassifyNvET;
 import com.huli.foxread.entity.HpNewBookET;
+import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.BookRankingActivity;
@@ -86,6 +89,8 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 
     private View headViewHighScore;
 
+    private int curPage = 1;
+
     @Override
     public int bindLayout() {
         return R.layout.fragment_bookstore_general_refresh_recy;
@@ -150,7 +155,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-//                loadMore();
+                reqHighMarksDatas(curPage + 1);
             }
         });
 
@@ -158,6 +163,10 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 reqIndexDatas(false);
+
+                //可以上拉加载
+                curPage =1;
+                mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             }
         });
     }
@@ -518,6 +527,43 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                         mRefreshLayout.finishRefresh();
                     }
 
+                });
+    }
+
+    /**
+     * 高分精选
+     */
+    private void reqHighMarksDatas(int reqPage) {
+        OkGo.<String>post(Consts.NOVEL_POPULAR_API)
+                .params(Consts.PAGE, reqPage)
+                .params(Consts.TYPE, Consts.TYPE_SELECTION)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            PagingWarpper<List<BookEntity>> datas = entity.getData();
+                            curPage = datas.getCurrent_page();
+                            List<BookEntity> bookList = datas.getData();
+                            if (bookList != null && bookList.size() > 1) {
+                                mAdapter.addData(bookList);
+                            }
+                            if (datas.getLast_page() <= curPage) {
+                                //没有下一页
+                                mAdapter.getLoadMoreModule().loadMoreEnd();
+                            } else {
+                                mAdapter.getLoadMoreModule().loadMoreComplete();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    }
                 });
     }
 

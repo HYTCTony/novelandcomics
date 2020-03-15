@@ -1,10 +1,12 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
@@ -17,12 +19,15 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookDetailEntity;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.ChapterBean;
 import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -62,7 +67,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private StackLabel labelBookTags;
     private TextView tvNewestSectionName, tvTotalSection;
 
-    private TextView btnRelatedRecoRefresh;
+    private TextView btnRelatedRecoRefresh;       //相关推荐---换一换
     private RecyclerView recyclerView;
     private BookCoverNameAdapter mAdapter;
 
@@ -99,6 +104,12 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         Toolbar toolbar = $(R.id.toolbar_normal);
         initToolBar(toolbar, "");
 
+        if (TextUtils.isEmpty(nId)) {
+            TipDialog.show(BookDetailsActivity.this, R.string.txt_books_do_not_exist, TipDialog.TYPE.ERROR)
+                    .setOnDismissListener(this::finish);
+            return;
+        }
+
         ivBookCover = $(R.id.iv_book_cover_dt);
         tvHotFlag = $(R.id.tv_hot_recommend_flag);
         tvBookName = $(R.id.tv_book_name_dt);
@@ -131,6 +142,8 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         };
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtils.dp2px(this, 16), true));
+        mAdapter = new BookCoverNameAdapter();
+        recyclerView.setAdapter(mAdapter);
 
         tvCopyright = $(R.id.tv_tips_copyright_dt);
 
@@ -145,6 +158,16 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         btnRelatedRecoRefresh.setOnClickListener(this);
         btnAddBookcase.setOnClickListener(this);
         btnBeginReading.setOnClickListener(this);
+
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                BookEntity entity = mAdapter.getData().get(position);
+                Intent intent = new Intent(BookDetailsActivity.this, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -163,13 +186,13 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         tvNewestSectionName.setText("第383章-共赴生死");
         tvTotalSection.setText("共383章");*/
 
-        mAdapter = new BookCoverNameAdapter();
+        /*mAdapter = new BookCoverNameAdapter();
         recyclerView.setAdapter(mAdapter);
         List<String> datas = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             datas.add("ssssssss" + i);
         }
-        mAdapter.setNewData(datas);
+        mAdapter.setNewData(datas);*/
 
         /*SpannableString spannableString = new SpannableString(getString(R.string.tips_copyright));
         ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.col_red));
@@ -185,6 +208,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View view) {
+        if (onMoreClick()) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.rtl_asBtn_newest_section_dt:
 
@@ -193,7 +219,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.tv_asBtn_related_recommendation_refresh:
-
+                reqRelatedRecoBooks(nId);
                 break;
             case R.id.btn_add_a_bookcase_dt:
                 reqAddBookrack(nId);
@@ -239,7 +265,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     /**
      * 小说详情
      *
-     * @param novelId
+     * @param novelId 小说ID
      */
     private void reqNovelDetails(String novelId) {
         OkGo.<String>get(Consts.NOVEL_DETAILS_API)
@@ -293,6 +319,8 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             spannableString.setSpan(aSize, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             tvCopyright.setText(spannableString);
 
+                            //请求相关推荐
+                            reqRelatedRecoBooks(nId);
                         } else {
                             TipDialog.show(BookDetailsActivity.this, R.string.txt_books_do_not_exist, TipDialog.TYPE.ERROR)
                                     .setOnDismissListener(() -> finish());
@@ -313,10 +341,36 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
+
+    /**
+     * 相关推荐
+     *
+     * @param novelId 小说ID
+     */
+    private void reqRelatedRecoBooks(String novelId) {
+        OkGo.<String>get(Consts.NOVEL_NOMINATE_API)
+                .params(Consts.NOVEL_ID, novelId)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<BookEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BookEntity>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            List<BookEntity> booksList = entity.getData();
+                            if (booksList != null && booksList.size() > 0) {
+                                mAdapter.setNewData(booksList);
+                            }
+                        }
+                    }
+                });
+    }
+
+
     /**
      * 小说详情---加入书架
      *
-     * @param novelId
+     * @param novelId 小说ID
      */
     private void reqAddBookrack(String novelId) {
         OkGo.<String>get(Consts.BOOKRACK_ADD_API)
@@ -329,11 +383,13 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                 });
                         if (entity.error_code == 0) {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
+                            //TODO do something
                         } else {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });
     }
+
 
 }

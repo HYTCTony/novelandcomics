@@ -219,6 +219,14 @@ public interface Func {
     String NOVEL_DETAILS = "/novel/novelDetails";
 
     /**
+     * 用途：小说详情----相关推荐(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * id---小说id
+     */
+    String NOVEL_NOMINATE = "/novel/nominate";
+
+    /**
      * 用途：加入书架(GET)
      * 头：token---token(Y)
      * 参数：

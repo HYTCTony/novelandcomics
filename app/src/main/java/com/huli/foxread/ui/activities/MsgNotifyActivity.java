@@ -129,7 +129,7 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
                                 mAdapter.addData(bookList);
                             }
 
-                            if (lastPage == 0) {
+                            if (curPage >= lastPage) {
                                 //TODO 没有下一页
                             }
                         }
