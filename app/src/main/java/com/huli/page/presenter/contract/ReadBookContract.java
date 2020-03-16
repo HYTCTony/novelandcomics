@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public interface ReadBookContract {
     interface View extends BaseContract.IBaseView {
+        void reqAddBookrack(String data);
+
         void showCategory(List<BookChapter> bookChapterList);
 
         void finishChapter();
@@ -19,6 +21,8 @@ public interface ReadBookContract {
     }
 
     interface Presenter extends BaseContract.IBasePresenter<View> {
+        void reqAddBookrack(AppCompatActivity context, String novelId);
+
         void loadCategory(AppCompatActivity context, String bookId);
 
         void loadChapter(AppCompatActivity context, String bookId, List<TxtChapter> bookChapterList);

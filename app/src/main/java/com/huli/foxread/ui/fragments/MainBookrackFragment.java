@@ -17,7 +17,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.snackbar.Snackbar;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -94,8 +93,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
         layout = $(view, R.id.smart);
         recyclerView = $(view, R.id.recyclerView_my_bookrack);
-        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 2));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(mActivity, 16), true));
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DensityUtils.dp2px(mActivity, 16), true));
 
         mAdapter = new BookRackAdapter(data);
         recyclerView.setAdapter(mAdapter);
@@ -107,6 +106,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             }
         });
         layout.setEnableLoadMore(false);
+        data.add(new BookShelfListBean());
+        mAdapter.setNewData(data);
         reqGetBooks();
     }
 
@@ -145,16 +146,19 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
-        if (bean.getIsLocal()) {
-            Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
-            return;
+        if (position != data.size() - 1) {
+            BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
+            if (bean.getIsLocal()) {
+                Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ReadBookActivity.start(mActivity, bean, true);
+        } else {
+            Toast.makeText(mActivity, "添加书籍", Toast.LENGTH_SHORT).show();
         }
-        ReadBookActivity.start(mActivity, bean, true);
     }
 
     boolean fff;
-    Snackbar snackbar;
 
     @Override
     public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
@@ -163,12 +167,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             recyclerView.setNestedScrollingEnabled(false);
             Window window = mActivity.getWindow();//获取当前activity的window
             ViewGroup decorView = (ViewGroup) window.getDecorView();//获取activity的跟布局
-            snackbar = Snackbar.make(decorView, "这是一个snackbar", Snackbar.LENGTH_INDEFINITE);
-            snackbar.show();
         } else {
             appBarLayout.setExpanded(true, true);
             recyclerView.setNestedScrollingEnabled(true);
-            snackbar.dismiss();
         }
         fff = !fff;
         return true;
@@ -223,14 +224,12 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 });
                         if (entity.error_code == 0) {
                             //TODO 刷新数据
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });
     }
-
 
     /**
      * 获取书架列表
@@ -240,15 +239,17 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 .execute(new LtbCallback((AppCompatActivity) mActivity) {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        data.clear();
                         LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
                                 new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            mAdapter.setNewData(entity.getData());
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
+                            data.addAll(entity.getData());
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
+                        data.add(new BookShelfListBean());
+                        mAdapter.notifyDataSetChanged();
                     }
                 });
     }

@@ -26,6 +26,25 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     private static final String TAG = "ReadBookPresenter";
 
     @Override
+    public void reqAddBookrack(AppCompatActivity context, String novelId) {
+        OkGo.<String>get(Consts.BOOKRACK_ADD_API)
+                .params(Consts.NOVEL_ID, novelId)
+                .execute(new LtbCallback(context) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            view.reqAddBookrack("成功!");
+                        } else {
+                            view.onFailure(entity.error_code, entity.msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void loadCategory(AppCompatActivity context, String bookId) {
         checkViewAttached();
         OkGo.<String>get(Consts.NOVEL_NOVELCHAPTERLIST_API)
@@ -44,7 +63,6 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                     bookChapter.setBookId(bookId);
                                 }
                                 view.showCategory(entity.getData());
-
                             } else {
                                 view.onFailure(entity.error_code, entity.msg);
                             }

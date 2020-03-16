@@ -1,6 +1,7 @@
 package com.huli.page.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -28,6 +29,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
+import com.huli.foxread.ui.activities.BookDetailsActivity;
+import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.local.BookRepository;
@@ -154,6 +157,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void initView() {
+        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.black), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(this, false);
         data = (BookShelfListBean) getIntent().getSerializableExtra(EXTRA_COLL_BOOK);
         isCollected = getIntent().getBooleanExtra(EXTRA_IS_COLLECTED, false);
         isNightMode = ReadSettingManager.getInstance().isNightMode();
@@ -349,6 +354,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             // 从网络中获取目录
             presenter.loadCategory(ReadBookActivity.this, mBookId);
         }
+    }
+
+    @Override
+    public void reqAddBookrack(String data) {
+        exit();
+        showToast("加入成功！");
     }
 
     @Override
@@ -665,10 +676,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                         isCollected = true;
                         //设置阅读时间
                         data.setLastRead(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
-
                         BookRepository.getInstance().saveBooksListWithAsync(data);
-
-                        exit();
+                        presenter.reqAddBookrack(ReadBookActivity.this, mBookId);
                     })
                     .setNegativeButton("取消", (dialog, which) -> {
                         exit();
@@ -682,9 +691,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     // 退出
     private void exit() {
         // 返回给BookDetail。
-//        Intent result = new Intent();
-//        result.putExtra(BookDetailActivity.RESULT_IS_COLLECTED, isCollected);
-//        setResult(Activity.RESULT_OK, result);
+        Intent result = new Intent();
+        result.putExtra(BookDetailsActivity.RESULT_IS_COLLECTED, isCollected);
+        setResult(Activity.RESULT_OK, result);
         // 退出
         super.onBackPressed();
     }

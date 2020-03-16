@@ -40,10 +40,10 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(this,
                 null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
         Drawable drawable = a.getDrawable(R.styleable.ActionBar_homeAsUpIndicator);
-        drawable.setColorFilter(green, PorterDuff.Mode.MULTIPLY);
+        drawable.setColorFilter(white, PorterDuff.Mode.MULTIPLY);
         toolbar.setNavigationIcon(drawable);
-        toolbar.setTitleTextColor(green);
-        toolbar.setSubtitleTextColor(green);
+        toolbar.setTitleTextColor(white);
+        toolbar.setSubtitleTextColor(white);
         mContext = this;
         initP();
         initView();
@@ -63,6 +63,9 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(
+                (v) -> finish()
+        );
     }
 
     @Override

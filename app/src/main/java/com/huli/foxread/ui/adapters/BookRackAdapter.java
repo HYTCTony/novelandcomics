@@ -6,7 +6,6 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
-import com.huli.foxread.utils.GlideUtil;
 import com.huli.page.model.bean.BookShelfListBean;
 
 import java.util.List;
@@ -27,12 +26,15 @@ public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVie
             helper.setText(R.id.tv_reading, "");
 
             helper.setVisible(R.id.iv_add_book, true);
+            helper.setVisible(R.id.tv_book_state, false);
+            helper.setVisible(R.id.tv_reading, false);
         } else {
-            GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), "url", 0);
             helper.setText(R.id.tv_book_name, item.getNovel_name());
-            helper.setText(R.id.tv_book_state, "未知");
+            helper.setText(R.id.tv_book_state, "完结");
             helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread) + item.getLastChapter()));
             helper.setVisible(R.id.iv_add_book, false);
+            helper.setVisible(R.id.tv_book_state, true);
+            helper.setVisible(R.id.tv_reading, true);
             ImageView iv = helper.getView(R.id.iv_book_cover);
             if (item.getIsLocal()) {
                 //本地文件的图片
