@@ -19,11 +19,11 @@ android {
 
     signingConfigs {
         debug {
-//            storeFile file("C:/Users/hp/.android/debug.keystore")
-            storeFile file("C:/Users/Lili/.android/debug.keystore")
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
+            storeFile file("C:/Users/hp/.android/debug.keystore")
+//            storeFile file("C:/Users/Lili/.android/debug.keystore")
+//            storePassword "android"
+//            keyAlias "androiddebugkey"
+//            keyPassword "android"
 //            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
 //            storePassword "hytc1688"
 //            keyAlias "hytc"
@@ -151,6 +151,9 @@ dependencies {
     //注解
     api 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    //下划线
     api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    //弹窗
+    api 'com.lxj:xpopup:1.6.9'
 
 }
