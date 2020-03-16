@@ -1,9 +1,11 @@
 package com.huli.foxread.entity;
 
+import java.io.Serializable;
+
 /**
  * 分类（子分类也适用）
  */
-public class CategoryEntity {
+public class CategoryEntity implements Serializable {
     private int id;
     private String name;
     private int pid;

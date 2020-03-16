@@ -8,21 +8,30 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoader2;
 import com.huli.foxread.entity.BannerADEntity;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.InviteFriendsActivity;
+import com.huli.foxread.ui.activities.LoginActivity;
+import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.adapters.ReadingMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -31,6 +40,7 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -107,7 +117,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             btnClick2Login.setOnClickListener(new OnClickEvent() {
                 @Override
                 public void singleClick(View v) {
-                    Tos.showShort(mContext, "去登录");
+                    startActivity(new Intent(mActivity, LoginActivity.class));
                 }
             });
         } else {
@@ -116,7 +126,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             btnGoldCoinUsable.setOnClickListener(new OnClickEvent() {
                 @Override
                 public void singleClick(View v) {
-                    Tos.showShort(mContext, "去金币明细");
+                    startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
                 }
             });
         }
@@ -127,6 +137,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             list.add("sssssssssss");
         }
         mAdapter.setNewData(list);
+
+        reqGetWerfareTasks();
     }
 
     @Override
@@ -250,11 +262,31 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         for (int i = 0; i < 5; i++) {
             BannerADEntity ad = new BannerADEntity();
             ad.setTitle("AD标题-----" + i);
-            ad.setType(1);
-            ad.setImgUrl("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
+            ad.setImage("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
             list.add(ad);
         }
         return list;
     }
+
+
+    /**
+     * 福利任务列表
+     */
+    private void reqGetWerfareTasks() {
+        OkGo.<String>get(Consts.WELFARE_LIST_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            //TODO do something
+                        } else {
+                        }
+                    }
+                });
+    }
+
 
 }

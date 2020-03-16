@@ -182,8 +182,7 @@ public class BooksBsFragment extends BaseFragment implements OnBannerListener, V
         for (int i = 0; i < 5; i++) {
             BannerADEntity ad = new BannerADEntity();
             ad.setTitle("AD标题-----" + i);
-            ad.setType(1);
-            ad.setImgUrl("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
+            ad.setImage("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
             list.add(ad);
         }
         return list;

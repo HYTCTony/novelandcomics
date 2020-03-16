@@ -39,6 +39,7 @@ import com.huli.foxread.ui.adapters.BooksMultiItemAdapter;
 import com.huli.foxread.ui.base.LazyLoadFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
+import com.huli.foxread.utils.BannerJumpUtil;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
@@ -68,6 +69,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
     private BooksListAdapter mAdapter;
 
     private Banner mBanner;
+    private List<BannerADEntity> bannerDatas;
 
     private View headViewHighScore;
 
@@ -153,6 +155,8 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
     @Override
     protected void onFragmentFirstVisible() {
         super.onFragmentFirstVisible();
+        reqTopBannerData();
+
         reqIndexDatas(true);
     }
 
@@ -177,7 +181,10 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
 
     @Override
     public void OnBannerClick(int position) {
-
+        if (bannerDatas != null && bannerDatas.size() > position) {
+            BannerADEntity entity = bannerDatas.get(position);
+            BannerJumpUtil.handleBannerJump(mActivity, entity);
+        }
     }
 
     @Override
@@ -342,9 +349,8 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.setOnBannerListener(this);
 
-        List<BannerADEntity> bannerADs = getBannerADs();
         //设置图片集合
-        mBanner.setImages(bannerADs);
+//        mBanner.setImages(bannerADs);
         //banner设置方法全部调用完毕时最后调用
 
         mBanner.start();
@@ -355,18 +361,6 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
         $(rootView, R.id.tv_asBtn_ranking).setOnClickListener(this);
         $(rootView, R.id.tv_asBtn_new_book).setOnClickListener(this);
         $(rootView, R.id.tv_asBtn_book_finished).setOnClickListener(this);
-    }
-
-    private List<BannerADEntity> getBannerADs() {
-        List<BannerADEntity> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            BannerADEntity ad = new BannerADEntity();
-            ad.setTitle("AD标题-----" + i);
-            ad.setType(1);
-            ad.setImgUrl("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
-            list.add(ad);
-        }
-        return list;
     }
 
 
@@ -453,6 +447,28 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                     public void onError(Response<String> response) {
                         super.onError(response);
                         mAdapter.getLoadMoreModule().loadMoreFail();
+                    }
+                });
+    }
+
+    /**
+     * banner
+     */
+    private void reqTopBannerData() {
+        OkGo.<String>post(Consts.BANNER_READ_API)
+                .params(Consts.POSITION, mType)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<BannerADEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BannerADEntity>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            bannerDatas = entity.getData();
+                            if (bannerDatas != null) {
+                                mBanner.update(bannerDatas);
+                            }
+                        }
                     }
                 });
     }

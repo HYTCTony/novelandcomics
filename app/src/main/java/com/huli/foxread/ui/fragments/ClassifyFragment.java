@@ -21,6 +21,8 @@ import com.huli.foxread.ui.adapters.ClassifyAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.NetworkUtil;
+import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
@@ -92,6 +94,11 @@ public class ClassifyFragment extends BaseFragment implements OnItemClickListene
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if(!NetworkUtil.isNetworkAvailable(mActivity)){
+            Tos.showShort(mActivity, R.string.txt_network_error);
+            return;
+        }
+
         CategoryEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(mActivity, ClassifyDetailActivity.class);
         intent.putExtra(Common.KEY_CAT_ID, entity.getId());
@@ -105,8 +112,9 @@ public class ClassifyFragment extends BaseFragment implements OnItemClickListene
      */
     private void reqSubCategory(int pid) {
         OkGo.<LzyResponse<List<CategoryEntity>>>post(Consts.NOVEL_CATEGORY_SUB_API)
+                .cacheKey(Consts.NOVEL_CATEGORY_SUB_API + "_" + pid)
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-                .cacheTime(60 * 60 * 1000)
+                .cacheTime(10 * 60 * 1000)
                 .params(Consts.CAT_PID, pid)
                 .execute(new LtbJsonCallback<LzyResponse<List<CategoryEntity>>>((AppCompatActivity) mActivity, false,
                         new TypeReference<LzyResponse<List<CategoryEntity>>>() {

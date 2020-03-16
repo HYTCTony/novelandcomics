@@ -38,9 +38,9 @@ import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.MultiplePagerAdapter;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.BannerJumpUtil;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -69,6 +69,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     private BooksListAdapter mAdapter;
 
     private Banner mBanner;
+    private List<BannerADEntity> bannerDatas;
 
     private View headViewTop;
 
@@ -162,10 +163,12 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+//                reqTopBannerData();
+
                 reqIndexDatas(false);
 
                 //可以上拉加载
-                curPage =1;
+                curPage = 1;
                 mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             }
         });
@@ -173,6 +176,8 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void doBusiness(Context mContext) {
+        reqTopBannerData();
+
         reqIndexDatas(true);
     }
 
@@ -198,8 +203,12 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 
     @Override
     public void OnBannerClick(int position) {
-
+        if (bannerDatas != null && bannerDatas.size() > position) {
+            BannerADEntity entity = bannerDatas.get(position);
+            BannerJumpUtil.handleBannerJump(mActivity, entity);
+        }
     }
+
 
 
     @Override
@@ -393,11 +402,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.setOnBannerListener(this);
 
-        List<BannerADEntity> bannerADs = getBannerADs();
-        //设置图片集合
-        mBanner.setImages(bannerADs);
+        //设置图片集合(可先不设置,最后update)
+//        mBanner.setImages(bannerDatas);
         //banner设置方法全部调用完毕时最后调用
-
         mBanner.start();
     }
 
@@ -406,18 +413,6 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         $(rootView, R.id.tv_asBtn_ranking).setOnClickListener(this);
         $(rootView, R.id.tv_asBtn_new_book).setOnClickListener(this);
         $(rootView, R.id.tv_asBtn_book_finished).setOnClickListener(this);
-    }
-
-    private List<BannerADEntity> getBannerADs() {
-        List<BannerADEntity> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            BannerADEntity ad = new BannerADEntity();
-            ad.setTitle("AD标题-----" + i);
-            ad.setType(1);
-            ad.setImgUrl("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
-            list.add(ad);
-        }
-        return list;
     }
 
     private void reqIndexDatas(boolean isInit) {
@@ -452,9 +447,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 */
         OkGo.<LzyResponse<HomePageEntity>>get(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
-                .cacheKey(Consts.INDEX_PAGE_API + Consts.TYPE_SELECTION)
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-                .cacheTime(6 * 60 * 60 * 1000)
+//                .cacheKey(Consts.INDEX_PAGE_API + Consts.TYPE_SELECTION)
+//                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+//                .cacheTime(6 * 60 * 60 * 1000)
                 .execute(new LtbJsonCallback<LzyResponse<HomePageEntity>>((AppCompatActivity) mActivity, isInit,
                         new TypeReference<LzyResponse<HomePageEntity>>() {
                         }) {
@@ -566,5 +561,29 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                     }
                 });
     }
+
+
+    /**
+     * banner
+     */
+    private void reqTopBannerData() {
+        OkGo.<String>post(Consts.BANNER_READ_API)
+                .params(Consts.POSITION, Consts.TYPE_SELECTION)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<BannerADEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BannerADEntity>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            bannerDatas = entity.getData();
+                            if (bannerDatas != null) {
+                                mBanner.update(bannerDatas);
+                            }
+                        }
+                    }
+                });
+    }
+
 
 }

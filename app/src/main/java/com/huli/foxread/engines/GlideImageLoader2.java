@@ -27,7 +27,7 @@ public class GlideImageLoader2 extends ImageLoader {
             BannerADEntity adEntity = (BannerADEntity) path;
             //Glide 加载图片简单用法
             GlideApp.with(context)
-                    .load(adEntity.getImgUrl())
+                    .load(adEntity.getImage())
                     .apply(RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(DensityUtils.dp2px(context, 8))))
                     .placeholder(R.mipmap.banner_place_holder)
                     .error(R.mipmap.banner_place_holder)

@@ -81,7 +81,13 @@
         <activity
             android:name=".ui.activities.BookDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.huli.book_detail.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+<!--                <category android:name="com.ice.activityandintent.CATEGORY" />-->
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activities.InvitationCodeActivity"
@@ -111,7 +117,12 @@
         <activity
             android:name=".ui.activities.MyPrivilegeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.huli.my_privilege.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activities.MsgNotifyActivity"
@@ -185,6 +196,11 @@
 
         <activity
             android:name=".ui.activities.ChangeBindingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.CommonWebActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 

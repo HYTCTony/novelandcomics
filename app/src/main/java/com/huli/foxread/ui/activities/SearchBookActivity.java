@@ -15,6 +15,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -22,7 +24,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
-import com.huli.foxread.entity.HotSearchEntity;
+import com.huli.foxread.entity.HotKeywordBean;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -40,7 +42,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchBookActivity extends BaseActivity implements View.OnClickListener {
+public class SearchBookActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener {
 
     private EditText etKeyword;
     private TextView btnSearch;
@@ -51,7 +53,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     private StackLabel sLabelHistory, sLabelHot;
     private TextView btnClearHistory;
 
-    private List<HotSearchEntity> hotSearchData = new ArrayList<>();
+    private List<HotKeywordBean> hotKwList = new ArrayList<>();
 
     private int mType = 0;
     private int curPage = 0;        //当前页码，下一页 +1
@@ -113,8 +115,8 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(int index, View v, String s) {
                 if (!sLabelHistory.isDeleteButton()) {
-                    //TODO 搜索
-                    Tos.showShort(SearchBookActivity.this, "历史搜索===" + s);
+                    // 搜索
+                    go2Search(s);
                 }
             }
         });
@@ -123,15 +125,19 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             public void onClick(int index, View v, String s) {
                 if (!sLabelHot.isDeleteButton()) {
                     //TODO 搜索
-                    if (hotSearchData.size() > index) {
-                        HotSearchEntity data = hotSearchData.get(index);
+                   /* if (hotKwList.size() > index) {
+                        HotKeywordBean data = hotKwList.get(index);
                         Tos.showShort(SearchBookActivity.this, "热门搜索===" + s);
-                    }
+                    }*/
                     addHistoryLabel(s);
+
+                    // 搜索
+                    go2Search(s);
                 }
             }
         });
 
+        mAdapter.setOnItemClickListener(this);
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -150,17 +156,28 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        BookEntity entity = mAdapter.getData().get(position);
+        Intent intent = new Intent(this, BookDetailsActivity.class);
+        intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+        startActivity(intent);
+    }
+
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_search:
                 String keyword = etKeyword.getText().toString();
+                if (TextUtils.isEmpty(keyword)) {
+                    Tos.showShort(this, R.string.txt_plz_input_keyword);
+                    return;
+                }
                 addHistoryLabel(keyword);
                 //点击搜索的时候隐藏软键盘
                 hideKeyboard(etKeyword);
 
-                Intent intent = new Intent(this, SearchResultActivity.class);
-                intent.putExtra(Common.KEY_KEYWORD, keyword);
-                startActivity(intent);
+                go2Search(keyword);
 
                 etKeyword.setText("");
                 break;
@@ -171,6 +188,18 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 前往搜索
+     *
+     * @param keyword 关键词
+     */
+    private void go2Search(String keyword) {
+        Intent intent = new Intent(this, SearchResultActivity.class);
+        intent.putExtra(Common.KEY_KEYWORD, keyword);
+        startActivity(intent);
     }
 
     private void clearHistoryLabel() {
@@ -231,18 +260,18 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
      * 热门搜索---关键词
      */
     private void reqHotSearchData() {
-        OkGo.<String>get(Consts.NOVEL_SEARCH_RECOMMEND_API)
+        OkGo.<String>get(Consts.KEYWORD_INDEX_API)
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<List<HotSearchEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<HotSearchEntity>>>() {
+                        LzyResponse<List<HotKeywordBean>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<HotKeywordBean>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            hotSearchData = entity.getData();
+                            hotKwList = entity.getData();
                             List<String> labelList = new ArrayList<>();
-                            for (HotSearchEntity hse : hotSearchData) {
-                                labelList.add(hse.getName());
+                            for (HotKeywordBean hkb : hotKwList) {
+                                labelList.add(hkb.getKeyword());
                             }
                             sLabelHot.setLabels(labelList);
                         }

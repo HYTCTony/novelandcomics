@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +10,23 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.CategoryEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.BooksListAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.kongzue.stacklabelview.StackLabel;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
@@ -31,7 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ClassifyDetailActivity extends BaseActivity {
+public class ClassifyDetailActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener {
 
     private RecyclerView recyclerView;
     private BooksListAdapter mAdapter;
@@ -45,10 +51,13 @@ public class ClassifyDetailActivity extends BaseActivity {
     private ImageView ivCoverFirst, ivCoverSecond, ivCoverThird;
     private TextView tvBookNameFirst, tvBookNameSecond, tvBookNameThird;
 
+    private List<String> stack1Datas = new ArrayList<>();
+    private List<CategoryEntity> datas = new ArrayList<>();
 
-    private int catId;
+    private int pCatId, subCatID;
     private String mTitle;
 
+    private int isParent = 1;       // 1为父分类(查看全部的意思)，0不是父分类
     private int paramIsEnd = 0;
     private int paramWordsNum = 0;
     private int paramStatus = 1;
@@ -56,7 +65,7 @@ public class ClassifyDetailActivity extends BaseActivity {
 
     @Override
     public void initParms(Bundle parms) {
-        catId = parms.getInt(Common.KEY_CAT_ID);
+        pCatId = parms.getInt(Common.KEY_CAT_ID);
         mTitle = parms.getString(Common.KEY_CAT_TITLE);
     }
 
@@ -86,7 +95,6 @@ public class ClassifyDetailActivity extends BaseActivity {
         mAdapter.addHeaderView(headViewFilter, 0);
 
         stackLabel_1 = headViewFilter.findViewById(R.id.stackLabelView_filter_1);
-        stackLabel_1.setVisibility(View.GONE);
         stackLabel_2 = headViewFilter.findViewById(R.id.stackLabelView_filter_2);
         stackLabel_3 = headViewFilter.findViewById(R.id.stackLabelView_filter_3);
         stackLabel_4 = headViewFilter.findViewById(R.id.stackLabelView_filter_4);
@@ -101,12 +109,15 @@ public class ClassifyDetailActivity extends BaseActivity {
         tvBookNameSecond = headViewTop3.findViewById(R.id.tv_top3_bookName_second);
         tvBookNameThird = headViewTop3.findViewById(R.id.tv_top3_bookName_third);
 
+        stack1Datas.add(getString(R.string.txt_all));
         List<String> stack2Datas = Arrays.asList(getResources().getStringArray(R.array.cat_is_end));
         List<String> stack3Datas = Arrays.asList(getResources().getStringArray(R.array.cat_word_num));
         List<String> stack4Datas = Arrays.asList(getResources().getStringArray(R.array.cat_state));
+        stackLabel_1.setLabels(stack1Datas);
         stackLabel_2.setLabels(stack2Datas);
         stackLabel_3.setLabels(stack3Datas);
         stackLabel_4.setLabels(stack4Datas);
+        stackLabel_1.setSelectMode(true, stack1Datas);
         stackLabel_2.setSelectMode(true, stack2Datas.subList(0, 1));
         stackLabel_3.setSelectMode(true, stack3Datas.subList(0, 1));
         stackLabel_4.setSelectMode(true, stack4Datas.subList(0, 1));
@@ -123,7 +134,19 @@ public class ClassifyDetailActivity extends BaseActivity {
 
         stackLabel_1.setOnLabelClickListener((index, v, s) -> {
 //                Log.e(TAG, "1***选中===" + s + "----" + index);
+            if (index == 0) {
+                isParent = 1;
+                subCatID = pCatId;
+            } else {
+                if (datas != null && datas.size() > index) {
+                    isParent = 0;
+                    subCatID = datas.get(index).getId();
+                }
+            }
+            paramCurPage = 0;
+            reqCategoryDatas(false);
         });
+
         stackLabel_2.setOnLabelClickListener((index, v, s) -> {
 //                Log.e(TAG, "2***选中===" + s + "----" + index);
             paramIsEnd = index;
@@ -144,6 +167,12 @@ public class ClassifyDetailActivity extends BaseActivity {
             paramCurPage = 0;
             reqCategoryDatas(false);
         });
+
+        ivCoverFirst.setOnClickListener(this);
+        ivCoverSecond.setOnClickListener(this);
+        ivCoverThird.setOnClickListener(this);
+
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -175,14 +204,48 @@ public class ClassifyDetailActivity extends BaseActivity {
 //        tvBookNameThird.setText("傲娇总裁侨萌妻");
 
 
+        reqSubCategory(pCatId);
 
+        subCatID = pCatId;
         reqCategoryDatas(true);
     }
 
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_top3_bookCover_first:
+            case R.id.iv_top3_bookCover_second:
+            case R.id.iv_top3_bookCover_third:
+                String bookId = (String) view.getTag();
+                Intent intent = new Intent(this, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, bookId);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    @Override
+    public void onItemClick(BaseQuickAdapter  adapter, View view, int position) {
+        BookEntity entity = mAdapter.getData().get(position);
+        Intent intent = new Intent(this, BookDetailsActivity.class);
+        intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+        startActivity(intent);
+    }
+
+
+    /**
+     * 查询分类下的书籍数据
+     *
+     * @param showDialog
+     */
     private void reqCategoryDatas(boolean showDialog) {
         OkGo.<String>post(Consts.NOVEL_CHOICE_API)
-                .params(Consts.CAT_ID, catId)
+                .params(Consts.CAT_IS_PARENT, isParent)
+                .params(Consts.CAT_ID, subCatID)
                 .params(Consts.CAT_IS_END, paramIsEnd)
                 .params(Consts.CAT_WORD_NUM, paramWordsNum)
                 .params(Consts.CAT_STATUS, paramStatus)
@@ -205,6 +268,9 @@ public class ClassifyDetailActivity extends BaseActivity {
                                     BookEntity book1 = bookList.get(0);
                                     BookEntity book2 = bookList.get(1);
                                     BookEntity book3 = bookList.get(2);
+                                    ivCoverFirst.setTag(book1.getId());
+                                    ivCoverSecond.setTag(book1.getId());
+                                    ivCoverThird.setTag(book1.getId());
                                     GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverFirst, book1.getHttp_image(), 0);
                                     GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverSecond, book2.getHttp_image(), 0);
                                     GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverThird, book3.getHttp_image(), 0);
@@ -220,10 +286,53 @@ public class ClassifyDetailActivity extends BaseActivity {
                                 mAdapter.addData(bookList);
                             }
 
-                            if (lastPage == 0) {
-                                //TODO 没有下一页
+                            if (lastPage <= paramCurPage) {
+                                //没有下一页
+                                mAdapter.getLoadMoreModule().loadMoreEnd();
+                            } else {
+                                mAdapter.getLoadMoreModule().loadMoreComplete();
                             }
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    }
+                });
+    }
+
+
+    /**
+     * 三级子分类
+     */
+    private void reqSubCategory(int pid) {
+        OkGo.<LzyResponse<List<CategoryEntity>>>post(Consts.NOVEL_CATEGORY_SUB_API)
+                .cacheKey(Consts.NOVEL_CATEGORY_SUB_API + "_" + pCatId)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
+                .cacheTime(10 * 60 * 1000)
+                .params(Consts.CAT_PID, pid)
+                .execute(new LtbJsonCallback<LzyResponse<List<CategoryEntity>>>(this, false,
+                        new TypeReference<LzyResponse<List<CategoryEntity>>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<List<CategoryEntity>>> response) {
+                        LzyResponse<List<CategoryEntity>> entity = response.body();
+                        if (entity.error_code == 0) {
+                            datas = entity.getData();
+                            for (CategoryEntity ce : datas) {
+                                stack1Datas.add(ce.getName());
+                            }
+                            stackLabel_1.setLabels(stack1Datas);
+                            stackLabel_1.setSelectMode(true, stack1Datas.subList(0, 1));
+                        }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<LzyResponse<List<CategoryEntity>>> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
                     }
                 });
     }
