@@ -26,9 +26,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookDetailEntity;
 import com.huli.foxread.entity.BookEntity;
-import com.huli.foxread.entity.ChapterBean;
 import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
@@ -39,6 +37,9 @@ import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UnitConverUtil;
+import com.huli.page.model.bean.BookShelfListBean;
+import com.huli.page.model.bean.ChapterBean;
+import com.huli.page.ui.activity.ReadBookActivity;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
 import com.lzy.okgo.OkGo;
@@ -57,6 +58,10 @@ import androidx.viewpager.widget.ViewPager;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class BookDetailsActivity extends BaseActivity implements View.OnClickListener {
+    private static final String EXTRA_BOOK_ID = "extra_book_id";
+    public static final String RESULT_IS_COLLECTED = "result_is_collected";
+
+    private static final int REQUEST_READ = 1;
 
     private ImageView ivBookCover;
     private TextView tvHotFlag, tvBookName, tvBookAuthor, tvBookTips;
@@ -76,7 +81,16 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView btnAddBookcase;
     private Button btnBeginReading;
 
+    BookShelfListBean data;
     private String nId;
+
+    private boolean isCollected = false;
+
+    public static void start(Context context, int bookId) {
+        Intent starter = new Intent(context, BookDetailsActivity.class);
+        starter.putExtra(Common.KEY_BOOK_ID, bookId);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void setStatusBar() {
@@ -225,7 +239,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 reqAddBookrack(nId);
                 break;
             case R.id.btn_begin_reading_dt:
-
+                startActivityForResult(new Intent(this, ReadBookActivity.class)
+                        .putExtra(ReadBookActivity.EXTRA_IS_COLLECTED, isCollected)
+                        .putExtra(ReadBookActivity.EXTRA_COLL_BOOK, data), REQUEST_READ);
                 break;
             default:
                 break;
@@ -244,7 +260,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         vpSpt.setPageMargin(DensityUtils.dp2px(this, 16));
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_book_detail, menu);
@@ -261,7 +276,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
-
     /**
      * 小说详情
      *
@@ -276,14 +290,14 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<BookDetailEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<BookDetailEntity>>() {
+                        LzyResponse<BookShelfListBean> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<BookShelfListBean>>() {
                                 });
                         if (entity.error_code == 0) {
-                            BookDetailEntity data = entity.getData();
+                            data = entity.getData();
                             GlideUtil.loadRoundRect(BookDetailsActivity.this, ivBookCover, data.getHttp_image());
                             tvHotFlag.setVisibility(data.getIs_hot() == 1 ? View.VISIBLE : View.GONE);
-                            tvBookName.setText(data.getName());
+                            tvBookName.setText(data.getNovel_name());
                             tvBookAuthor.setText(data.getAuthor());
 //                            tvBookTips.setText("科幻热血·连载·320万字");
                             String bookTagStr = data.getClassify_name()
@@ -296,14 +310,14 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             ratingBarScore.setRating(score);
                             expTextView.setText(data.getIntroduce());
 
-                            List<String> tags = data.getTag();
-//                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
-                            if (tags != null && tags.size() > 0) {
-                                labelBookTags.setLabels(tags);
-                            }
-                            ChapterBean newChapter = data.getNew_chapter();
+//                            List<String> tags = data.getTag();
+////                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
+//                            if (tags != null && tags.size() > 0) {
+//                                labelBookTags.setLabels(tags);
+//                            }
+                            ChapterBean newChapter = data.getNewChapter();
                             if (newChapter != null) {
-//                                tvNewestSectionName.setText(String.format(getString(R.string.txt_chapter_x), newChapter.getChapter(), newChapter.getName()));
+                                tvNewestSectionName.setText(String.format(getString(R.string.txt_chapter_x), newChapter.getChapter(), newChapter.getName()));
                                 tvNewestSectionName.setText(newChapter.getName());
                             }
                             tvTotalSection.setText(String.format(getString(R.string.txt_total_chapter_x), data.getChapter_sum()));
@@ -366,7 +380,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
-
     /**
      * 小说详情---加入书架
      *
@@ -391,5 +404,19 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //如果进入阅读页面收藏了，页面结束的时候，就需要返回改变收藏按钮
+        if (requestCode == REQUEST_READ) {
+            if (data == null) {
+                return;
+            }
 
+            isCollected = data.getBooleanExtra(RESULT_IS_COLLECTED, false);
+            if (isCollected) {
+                tvBookReader.setText("继续阅读");
+            }
+        }
+    }
 }

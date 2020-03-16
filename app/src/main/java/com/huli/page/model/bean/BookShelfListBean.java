@@ -3,6 +3,7 @@ package com.huli.page.model.bean;
 
 import com.huli.page.model.dao.BookChapterDao;
 import com.huli.page.model.dao.BookShelfListBeanDao;
+import com.huli.page.model.dao.ChapterBeanDao;
 import com.huli.page.model.dao.DaoSession;
 
 import org.greenrobot.greendao.DaoException;
@@ -10,6 +11,7 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
+import org.greenrobot.greendao.annotation.ToOne;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,12 +22,29 @@ public class BookShelfListBean implements Serializable {
 
     @Id
     public String id;
-    public String novel_id;
+    public String novel_id;//小说ID
     public String user_id;
-    public String novel_name;
+    public String novel_name;//书名
     public String novel_image;
     public String http_novel_image;
     public String author;
+    /**************************************************************/
+    private float score;                    //评分
+    private String file;                    //小说下载链接
+    private int read_sum;                   //阅读次数（万）
+    private int is_end;                     //0未完结，1已完结
+    private int type;                       //类型:1=男生,2=女生,3=图书
+    private int classify_id;                //分类ID
+    private String classify_name;           //分类名
+    private int greet;                      //人气值,单位:万
+    private float word;                     //小说字说(万)
+    private int is_new;
+    private int is_hot;
+    private float reading_size;             //在读人数（万）
+    private String introduce;
+    private String http_image;
+    private int chapter_sum;
+    /******************************************************************/
     public long createtime;
     public long updatetime;
     public long deletetime;
@@ -36,6 +55,8 @@ public class BookShelfListBean implements Serializable {
     private boolean isUpdate = true;
     //是否是本地文件
     private boolean isLocal = false;
+    @ToOne
+    private ChapterBean new_chapter;
     @ToMany(referencedJoinProperty = "bookId")
     private List<BookChapter> bookChapterList;
 
@@ -51,11 +72,14 @@ public class BookShelfListBean implements Serializable {
     @Generated(hash = 314701721)
     private transient BookShelfListBeanDao myDao;
 
-    @Generated(hash = 2143102112)
+    @Generated(hash = 1367342031)
     public BookShelfListBean(String id, String novel_id, String user_id,
                              String novel_name, String novel_image, String http_novel_image,
-                             String author, long createtime, long updatetime, long deletetime,
-                             String lastRead, String lastChapter, boolean isUpdate,
+                             String author, float score, String file, int read_sum, int is_end,
+                             int type, int classify_id, String classify_name, int greet, float word,
+                             int is_new, int is_hot, float reading_size, String introduce,
+                             String http_image, int chapter_sum, long createtime, long updatetime,
+                             long deletetime, String lastRead, String lastChapter, boolean isUpdate,
                              boolean isLocal) {
         this.id = id;
         this.novel_id = novel_id;
@@ -64,6 +88,21 @@ public class BookShelfListBean implements Serializable {
         this.novel_image = novel_image;
         this.http_novel_image = http_novel_image;
         this.author = author;
+        this.score = score;
+        this.file = file;
+        this.read_sum = read_sum;
+        this.is_end = is_end;
+        this.type = type;
+        this.classify_id = classify_id;
+        this.classify_name = classify_name;
+        this.greet = greet;
+        this.word = word;
+        this.is_new = is_new;
+        this.is_hot = is_hot;
+        this.reading_size = reading_size;
+        this.introduce = introduce;
+        this.http_image = http_image;
+        this.chapter_sum = chapter_sum;
         this.createtime = createtime;
         this.updatetime = updatetime;
         this.deletetime = deletetime;
@@ -77,6 +116,36 @@ public class BookShelfListBean implements Serializable {
     public BookShelfListBean() {
     }
 
+    @Generated(hash = 1059257816)
+    private transient boolean new_chapter__refreshed;
+
+    public void setNewChapter(ChapterBean beans) {
+        new_chapter = beans;
+    }
+
+    public ChapterBean getNewChapter() {
+        if (daoSession == null) {
+            return new_chapter;
+        } else {
+            return getNew_chapter();
+        }
+    }
+
+    public void setBookChapters(List<BookChapter> beans) {
+        bookChapterList = beans;
+        for (BookChapter bean : bookChapterList) {
+            bean.setBookId(getNovel_id());
+        }
+    }
+
+    public List<BookChapter> getBookChapters() {
+        if (daoSession == null) {
+            return bookChapterList;
+        } else {
+            return getBookChapterList();
+        }
+    }
+
     public String getId() {
         return this.id;
     }
@@ -85,6 +154,21 @@ public class BookShelfListBean implements Serializable {
         this.id = id;
     }
 
+    public String getNovel_id() {
+        return this.novel_id;
+    }
+
+    public void setNovel_id(String novel_id) {
+        this.novel_id = novel_id;
+    }
+
+    public String getUser_id() {
+        return this.user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
 
     public String getNovel_name() {
         return this.novel_name;
@@ -116,6 +200,126 @@ public class BookShelfListBean implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public float getScore() {
+        return this.score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+    public String getFile() {
+        return this.file;
+    }
+
+    public void setFile(String file) {
+        this.file = file;
+    }
+
+    public int getRead_sum() {
+        return this.read_sum;
+    }
+
+    public void setRead_sum(int read_sum) {
+        this.read_sum = read_sum;
+    }
+
+    public int getIs_end() {
+        return this.is_end;
+    }
+
+    public void setIs_end(int is_end) {
+        this.is_end = is_end;
+    }
+
+    public int getType() {
+        return this.type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getClassify_id() {
+        return this.classify_id;
+    }
+
+    public void setClassify_id(int classify_id) {
+        this.classify_id = classify_id;
+    }
+
+    public String getClassify_name() {
+        return this.classify_name;
+    }
+
+    public void setClassify_name(String classify_name) {
+        this.classify_name = classify_name;
+    }
+
+    public int getGreet() {
+        return this.greet;
+    }
+
+    public void setGreet(int greet) {
+        this.greet = greet;
+    }
+
+    public float getWord() {
+        return this.word;
+    }
+
+    public void setWord(float word) {
+        this.word = word;
+    }
+
+    public int getIs_new() {
+        return this.is_new;
+    }
+
+    public void setIs_new(int is_new) {
+        this.is_new = is_new;
+    }
+
+    public int getIs_hot() {
+        return this.is_hot;
+    }
+
+    public void setIs_hot(int is_hot) {
+        this.is_hot = is_hot;
+    }
+
+    public float getReading_size() {
+        return this.reading_size;
+    }
+
+    public void setReading_size(float reading_size) {
+        this.reading_size = reading_size;
+    }
+
+    public String getIntroduce() {
+        return this.introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public String getHttp_image() {
+        return this.http_image;
+    }
+
+    public void setHttp_image(String http_image) {
+        this.http_image = http_image;
+    }
+
+    public int getChapter_sum() {
+        return this.chapter_sum;
+    }
+
+    public void setChapter_sum(int chapter_sum) {
+        this.chapter_sum = chapter_sum;
     }
 
     public long getCreatetime() {
@@ -174,35 +378,39 @@ public class BookShelfListBean implements Serializable {
         this.isLocal = isLocal;
     }
 
-    public void setBookChapters(List<BookChapter> beans) {
-        bookChapterList = beans;
-        for (BookChapter bean : bookChapterList) {
-            bean.setBookId(getNovel_id());
+    /**
+     * To-one relationship, resolved on first access.
+     */
+    @Generated(hash = 1900320505)
+    public ChapterBean getNew_chapter() {
+        if (new_chapter != null || !new_chapter__refreshed) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            ChapterBeanDao targetDao = daoSession.getChapterBeanDao();
+            targetDao.refresh(new_chapter);
+            new_chapter__refreshed = true;
         }
+        return new_chapter;
     }
 
-    public List<BookChapter> getBookChapters() {
-        if (daoSession == null) {
-            return bookChapterList;
-        } else {
-            return getBookChapterList();
+    /**
+     * To-one relationship, returned entity is not refreshed and may carry only the PK property.
+     */
+    @Generated(hash = 792451120)
+    public ChapterBean peakNew_chapter() {
+        return new_chapter;
+    }
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 576637755)
+    public void setNew_chapter(ChapterBean new_chapter) {
+        synchronized (this) {
+            this.new_chapter = new_chapter;
+            new_chapter__refreshed = true;
         }
-    }
-
-    public String getNovel_id() {
-        return this.novel_id;
-    }
-
-    public void setNovel_id(String novel_id) {
-        this.novel_id = novel_id;
-    }
-
-    public String getUser_id() {
-        return this.user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
     }
 
     /**

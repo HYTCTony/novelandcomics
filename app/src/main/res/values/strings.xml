@@ -98,7 +98,7 @@
     <string name="txt_praise_good_books">好评佳作</string>
     <string name="txt_total_reading_time_min">今日已阅读(分钟)</string>
     <string name="txt_sign_in_for_gold">签到领金币</string>
-    <string name="txt_markread">读到</string>
+    <string name="txt_markread">读到：</string>
     <string name="txt_welfare_center">福利中心</string>
     <string name="txt_click_2_login">点击\n登录</string>
     <string name="txt_gold_coin_usable">可用金币</string>
