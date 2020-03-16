@@ -128,6 +128,14 @@ public interface Func {
     String INDEX_PAGE = "/index/index";
 
     /**
+     * 用途：轮播图
+     * 头：token(Y)
+     * 参数：
+     * position---广告位置:1=男生,2=女生,3=图书,4=精选(Y)
+     */
+    String BANNER_READ = "/banner/read";
+
+    /**
      * 用途：高分精选
      * 头：token(Y)
      * 参数：
@@ -165,6 +173,7 @@ public interface Func {
      * 用途：小说按条件刷选(POST)
      * 头：token(Y)
      * 参数：
+     * is_parent --- 1为父分类(查看全部的意思)，0不是父分类
      * classify_id --- 分类id
      * word_calssify --- 字数分类:1=100万字以下,2=100-200万字,3=200-300万字,4=300万字以上
      * is_end --- 是否完结:1=已完结,0=未完结
@@ -186,11 +195,11 @@ public interface Func {
     String NOVEL_HOT = "/novel/hot";
 
     /**
-     * 用途：获取小说热搜推荐(GET)
+     * 用途：获取小说热搜关键词(GET)
      * 头：token（Y）
      * 参数：
      */
-    String NOVEL_SEARCH_RECOMMEND = "/novel_search/recommend";
+    String KEYWORD_INDEX = "/keyword/index";
 
     /**
      * 用途：男生新品|女生新品|图书新品|精选新品(GET)
@@ -259,6 +268,13 @@ public interface Func {
      */
     String READ_NOVEL_RECORD = "/novel/novelRecord";
 
+
+    /**
+     * 用途：福利任务列表(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_LIST = "/welfare/list";
 
     /**
      * 用途：大转盘抽奖(GET)

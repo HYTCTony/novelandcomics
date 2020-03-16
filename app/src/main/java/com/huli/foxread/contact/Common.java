@@ -4,6 +4,12 @@ package com.huli.foxread.contact;
  * 公共常量
  */
 public interface Common {
+    //隐示意图---书籍详情
+    String INTENT_ACTION_BOOK_DT = "com.huli.book_detail.ACTION_START";
+    //隐示意图---我的特权
+    String INTENT_ACTION_PRIVILEGE = "com.huli.my_privilege.ACTION_START";
+
+
     String KEY_CAT_PID = "cat_p_id";
     String KEY_CAT_TOTAL_BOOK = "cat_total_book";
 
@@ -14,7 +20,10 @@ public interface Common {
 
     String KEY_KEYWORD = "keyword";
 
+    String KEY_URL = "key_url";
+
     String SPFKEY_SEARCH_HISTORY = "key_search_history";
+
 
 
     String USER_DTO = "user_dto";

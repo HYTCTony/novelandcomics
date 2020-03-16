@@ -86,7 +86,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void initParms(Bundle parms) {
-        nId = parms.getString(Common.KEY_BOOK_ID);
+        if (parms != null) {
+            nId = parms.getString(Common.KEY_BOOK_ID);
+        }
     }
 
     @Override
@@ -103,12 +105,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     public void initView(View view) {
         Toolbar toolbar = $(R.id.toolbar_normal);
         initToolBar(toolbar, "");
-
-        if (TextUtils.isEmpty(nId)) {
-            TipDialog.show(BookDetailsActivity.this, R.string.txt_books_do_not_exist, TipDialog.TYPE.ERROR)
-                    .setOnDismissListener(this::finish);
-            return;
-        }
 
         ivBookCover = $(R.id.iv_book_cover_dt);
         tvHotFlag = $(R.id.tv_hot_recommend_flag);
@@ -172,6 +168,13 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void doBusiness(Context mContext) {
+        if (TextUtils.isEmpty(nId)) {
+            TipDialog.show(BookDetailsActivity.this, R.string.txt_books_do_not_exist, TipDialog.TYPE.ERROR)
+                    .setOnDismissListener(this::finish);
+            return;
+        }
+
+
         /*GlideUtil.loadRoundRect(this, ivBookCover, "url");
         tvBookName.setText("天启时代");
         tvBookAuthor.setText("张三");

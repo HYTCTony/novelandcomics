@@ -1,9 +1,19 @@
 package com.huli.foxread.entity;
 
 public class BannerADEntity {
+    private String id;
     private String title;
-    private int type;
-    private String imgUrl;
+    private String link;            //链接
+    private String image;           //图片
+    private int jump;               //0打开浏览器， 1应用内跳转
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -13,19 +23,27 @@ public class BannerADEntity {
         this.title = title;
     }
 
-    public int getType() {
-        return type;
+    public String getLink() {
+        return link;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setLink(String link) {
+        this.link = link;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getJump() {
+        return jump;
+    }
+
+    public void setJump(int jump) {
+        this.jump = jump;
     }
 }

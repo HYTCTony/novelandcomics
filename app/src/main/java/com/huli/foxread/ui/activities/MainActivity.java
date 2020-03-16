@@ -163,6 +163,12 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         }
     }
 
+    /**
+     * 跳到书城
+     */
+    public void switch2Bookstore(){
+        mTabLayout.setCurrentTab(0);
+    }
 
 
     @Override

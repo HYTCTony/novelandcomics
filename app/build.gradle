@@ -19,14 +19,15 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("C:/Users/hp/.android/debug.keystore")
+//            storeFile file("C:/Users/hp/.android/debug.keystore")
+            storeFile file("C:/Users/Lili/.android/debug.keystore")
             storePassword "android"
             keyAlias "androiddebugkey"
             keyPassword "android"
-//            storeFile file("E:/android/keyStore/billsigned.jks")
-//            storePassword "549513862"
-//            keyAlias "billsigned"
-//            keyPassword "549513862"
+//            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+//            storePassword "hytc1688"
+//            keyAlias "hytc"
+//            keyPassword "hytc1688"
         }
         release {// 自己的签名文件
             storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")

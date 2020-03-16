@@ -26,13 +26,14 @@ public interface Consts {
     String ADS_INFO_API = NOT_CPL_URL + Func.ADS_INFO;
 
     String INDEX_PAGE_API = NOT_CPL_URL + Func.INDEX_PAGE;
+    String BANNER_READ_API = NOT_CPL_URL + Func.BANNER_READ;
     String NOVEL_POPULAR_API = NOT_CPL_URL + Func.NOVEL_POPULAR;
     String INDEX_RANKING_API = NOT_CPL_URL + Func.INDEX_RANKING;
     String NOVEL_CATEGORY_API = NOT_CPL_URL + Func.NOVEL_CATEGORY;
     String NOVEL_CATEGORY_SUB_API = NOT_CPL_URL + Func.NOVEL_CATEGORY_SUB;
     String NOVEL_CHOICE_API = NOT_CPL_URL + Func.NOVEL_CHOICE;
     String NOVEL_HOT_API = NOT_CPL_URL + Func.NOVEL_HOT;
-    String NOVEL_SEARCH_RECOMMEND_API = NOT_CPL_URL + Func.NOVEL_SEARCH_RECOMMEND;
+    String KEYWORD_INDEX_API = NOT_CPL_URL + Func.KEYWORD_INDEX;
     String NOVEL_COLUMN_BOYNEW_API = NOT_CPL_URL + Func.NOVEL_COLUMN_BOYNEW;
     String NOVEL_COLUMN_GIRLNEW_API = NOT_CPL_URL + Func.NOVEL_COLUMN_GIRLNEW;
     String NOVEL_COLUMN_LIBNEW_API = NOT_CPL_URL + Func.NOVEL_COLUMN_LIBNEW;
@@ -53,6 +54,9 @@ public interface Consts {
 
 
     String READ_NOVEL_RECORD_API = NOT_CPL_URL + Func.READ_NOVEL_RECORD;
+
+
+    String WELFARE_LIST_API = NOT_CPL_URL + Func.WELFARE_LIST;
 
 
     /***gender***/
@@ -109,6 +113,7 @@ public interface Consts {
 
     String CAT_PID = "id";
     String CAT_ID = "classify_id";
+    String CAT_IS_PARENT = "is_parent";
     String CAT_WORD_NUM = "word_calssify";
     String CAT_IS_END = "is_end";
     String CAT_STATUS = "status";
@@ -119,6 +124,13 @@ public interface Consts {
     String PAGE_SIZE = "page_size";
 
     String WELFARE_READ_ID = "welfare_read_id";
+
+    String POSITION = "position";
+
+
+
+
+
 
     String TEL = "tel";
     String PWD = "pwd";

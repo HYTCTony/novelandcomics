@@ -16,6 +16,8 @@
 
     <string name="tips_copy_success">复制成功，快去分享吧！</string>
 
+    <string name="txt_opening">正在打开&#8230;</string>
+
     <string name="hint_modify_success">修改成功！</string>
     <string name="txt_books_do_not_exist">抱歉，书籍不存在！</string>
 
@@ -29,6 +31,7 @@
     <string name="txt_zero_min">0min</string>
     <string name="txt_default">--</string>
     <string name="txt_not_available">暂无</string>
+    <string name="txt_all">全部</string>
 
     <string name="txt_female">女</string>
     <string name="txt_male">男</string>
