@@ -74,6 +74,7 @@
                 android:textSize="@dimen/sp_16" />
 
             <EditText
+                android:id="@+id/et_content"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_128"
                 android:layout_margin="@dimen/dp_16"
@@ -90,7 +91,8 @@
                 android:layout_marginStart="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_8"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -114,6 +116,7 @@
                 android:id="@+id/it_picker_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:max_num="3"
                 app:one_line_show_num="3" />
 
@@ -138,6 +141,7 @@
                 app:hintTextColor="@color/txt_orange_ff6600">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/dp_16"
@@ -148,6 +152,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/btn_commit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"

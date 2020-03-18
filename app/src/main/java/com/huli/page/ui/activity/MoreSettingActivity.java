@@ -1,5 +1,7 @@
 package com.huli.page.ui.activity;
 
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +14,7 @@ import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.ui.base.BaseViewActivity;
 
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.TintTypedArray;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 
@@ -41,6 +44,13 @@ public class MoreSettingActivity extends BaseViewActivity {
     @Override
     protected void initToolbar(Toolbar toolbar) {
         setTitle("阅读设置");
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(this,
+                null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
+        Drawable drawable = a.getDrawable(R.styleable.ActionBar_homeAsUpIndicator);
+        drawable.setColorFilter(black, PorterDuff.Mode.MULTIPLY);
+        toolbar.setNavigationIcon(drawable);
+        toolbar.setTitleTextColor(black);
+        toolbar.setSubtitleTextColor(black);
         super.initToolbar(toolbar);
     }
 

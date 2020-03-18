@@ -242,6 +242,21 @@ public interface Func {
     String NOVEL_NOMINATE = "/novel/nominate";
 
     /**
+     * 用途：获取反馈分类
+     * 头：token---token(Y)
+     * 参数：
+     * id---小说id
+     */
+    String FEEDBACK_CATEGORY = "/opinion/category";
+    /**
+     * 用途：提交反馈
+     * 头：token---token(Y)
+     * 参数：
+     * id---小说id
+     */
+    String FEEDBACK_CREAT = "/opinion/create";
+
+    /**
      * 用途：加入书架(GET)
      * 头：token---token(Y)
      * 参数：
@@ -263,6 +278,12 @@ public interface Func {
      * 参数：
      */
     String BOOKRACK_GETLIST = "/bookshelf/bookshelfList";
+    /**
+     * 书架，推荐一本书
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String SPECIAL_BOOK = "/novel/special";
 
 
     /**
@@ -276,6 +297,59 @@ public interface Func {
 
 
     /**
+     * 用途：福利任务列表(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_LIST = "/welfare/list";
+
+    /**
+     * 用途：大转盘抽奖(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_LUCKDRAW = "/welfare/luckDraw";
+
+
+    /**
+     * 用途：大转盘列表(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_LUCKDRAWLIST = "/welfare/luckDrawList";
+
+
+    /**
+     * 用途：看小视频得金币(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_VIDEO = "/welfare/welfareVideo";
+
+
+    /**
+     * 用途：阅读30秒倒计时奖励(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_READING = "/welfare/welfareReading";
+
+
+    /**
+     * 用途：获取用户阅读今日阅读时长
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String USER_READ_TIME = "/user/time";
+    /**
+     * 用途：新用户签到七天福利(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_NEWUSERSIGN = "/welfare/welfareNewUserSign";
+
+    /**
+     * 用途：累计阅读福利(GET)
      * 用途：完成福利任务(GET)
      * 头：token---token(Y)
      * 参数：
@@ -283,13 +357,6 @@ public interface Func {
      * lower_id --- 子任务id，没有则为空
      */
     String WELFARE_COMPLETE = "/welfare/complete";
-
-    /**
-     * 用途：福利任务列表(GET)
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String WELFARE_LIST = "/welfare/list";
 
     /**
      * 用途：个人中心福利模块(GET)
@@ -319,6 +386,11 @@ public interface Func {
      * 头：token---token(Y)
      */
     String NOVEL_NOVELCHAPTERLIST = "/novel/novelChapterList";
+    /**
+     * 记录阅读时间
+     * 头：token---token(Y)
+     */
+    String RECORD_READ = "/duration/create";
 
 
     /**

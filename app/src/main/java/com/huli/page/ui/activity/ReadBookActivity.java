@@ -129,6 +129,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private String mBookId;
     private static final int WHAT_CATEGORY = 1;
     private static final int WHAT_CHAPTER = 2;
+    private static final int MSG_POLLING = 3;
+    private static final int POLLING_INTERVAL = 5 * 60 * 1000;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -140,6 +142,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     break;
                 case WHAT_CHAPTER:
                     mPageLoader.openChapter();
+                    break;
+                case MSG_POLLING:
+                    doPolling();
                     break;
             }
         }
@@ -571,6 +576,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     protected void onResume() {
         super.onResume();
         mWakeLock.acquire();
+        doPolling();
     }
 
     @Override
@@ -580,6 +586,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         if (isCollected) {
             mPageLoader.saveRecord();
         }
+        doPolling();
     }
 
     @Override
@@ -602,7 +609,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
-
+        mHandler.removeMessages(MSG_POLLING);
         mHandler.removeMessages(WHAT_CATEGORY);
         mHandler.removeMessages(WHAT_CHAPTER);
 
@@ -692,6 +699,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } else {
             exit();
         }
+    }
+
+    private void doPolling() {
+        presenter.recordRead(ReadBookActivity.this);//asyn network
+        mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
     }
 
     // 退出

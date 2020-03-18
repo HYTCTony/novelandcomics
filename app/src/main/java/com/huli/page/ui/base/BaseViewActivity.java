@@ -25,10 +25,10 @@ public abstract class BaseViewActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-    @BindColor(R.color.green)
-    protected int green;
     @BindColor(R.color.white)
     protected int white;
+    @BindColor(R.color.black)
+    protected int black;
     public FragmentActivity mContext;
 
     @SuppressLint("RestrictedApi")

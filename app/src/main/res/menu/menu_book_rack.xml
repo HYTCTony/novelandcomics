@@ -4,7 +4,7 @@
     <!--搜索菜单-->
     <item
         android:id="@+id/action_history"
-        android:icon="@drawable/ic_clock_black_24dp"
+        android:icon="@drawable/ic_clock_black_18dp"
         android:orderInCategory="80"
         android:title="历史"
         app:showAsAction="ifRoom" />

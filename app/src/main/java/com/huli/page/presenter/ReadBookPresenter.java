@@ -57,11 +57,6 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                     new TypeReference<LzyResponse<List<BookChapter>>>() {
                                     });
                             if (entity.error_code == 0) {
-                                //进行设定BookChapter所属的书的id。
-                                for (BookChapter bookChapter : entity.getData()) {
-//                            bookChapter.setId(MD5Utils.strToMd5By16(bookChapter.getLink()));
-                                    bookChapter.setBookId(bookId);
-                                }
                                 view.showCategory(entity.getData());
                             } else {
                                 view.onFailure(entity.error_code, entity.msg);
@@ -104,5 +99,26 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                     });
         }
 
+    }
+
+    @Override
+    public void recordRead(AppCompatActivity context) {
+        checkViewAttached();
+        OkGo.<String>get(Consts.RECORD_READ_API)
+                .execute(new LtbCallback(context, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (isViewAttached()) {
+                            LzyResponse<List<String>> entity = JSONObject.parseObject(response.body(),
+                                    new TypeReference<LzyResponse<List<String>>>() {
+                                    });
+                            if (entity.error_code == 0) {
+                                Log.d(TAG, "记录成功");
+                            } else {
+                                view.onFailure(entity.error_code, entity.msg);
+                            }
+                        }
+                    }
+                });
     }
 }

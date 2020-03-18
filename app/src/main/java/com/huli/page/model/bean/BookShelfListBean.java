@@ -3,7 +3,6 @@ package com.huli.page.model.bean;
 
 import com.huli.page.model.dao.BookChapterDao;
 import com.huli.page.model.dao.BookShelfListBeanDao;
-import com.huli.page.model.dao.ChapterBeanDao;
 import com.huli.page.model.dao.DaoSession;
 
 import org.greenrobot.greendao.DaoException;
@@ -11,7 +10,6 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
-import org.greenrobot.greendao.annotation.ToOne;
 import org.greenrobot.greendao.annotation.Transient;
 
 import java.io.Serializable;
@@ -22,13 +20,13 @@ public class BookShelfListBean implements Serializable {
     private static final long serialVersionUID = 56423411313L;
 
     @Id
-    public String id;
-    public String novel_id;//小说ID
-    public String user_id;
-    public String novel_name;//书名
-    public String novel_image;
-    public String http_novel_image;
-    public String author;
+    private String id;
+    private String novel_id;//小说ID
+    private String user_id;
+    private String novel_name;//书名
+    private String novel_image;
+    private String http_novel_image;
+    private String author;
 
     @Transient
     private List<String> tag;
@@ -51,6 +49,7 @@ public class BookShelfListBean implements Serializable {
     private String introduce;
     private String http_image;
     private int chapter_sum;
+    private int is_exist_bookshelf;      //是否加入书架 0：否  1：是
     /******************************************************************/
     public long createtime;
     public long updatetime;
@@ -62,8 +61,6 @@ public class BookShelfListBean implements Serializable {
     private boolean isUpdate = true;
     //是否是本地文件
     private boolean isLocal = false;
-    @ToOne
-    private ChapterBean new_chapter;
     @ToMany(referencedJoinProperty = "bookId")
     private List<BookChapter> bookChapterList;
 
@@ -79,15 +76,20 @@ public class BookShelfListBean implements Serializable {
     @Generated(hash = 314701721)
     private transient BookShelfListBeanDao myDao;
 
-    @Generated(hash = 1367342031)
-    public BookShelfListBean(String id, String novel_id, String user_id,
-                             String novel_name, String novel_image, String http_novel_image,
-                             String author, float score, String file, int read_sum, int is_end,
-                             int type, int classify_id, String classify_name, int greet, float word,
-                             int is_new, int is_hot, float reading_size, String introduce,
-                             String http_image, int chapter_sum, long createtime, long updatetime,
-                             long deletetime, String lastRead, String lastChapter, boolean isUpdate,
-                             boolean isLocal) {
+
+    @Generated(hash = 394971066)
+    public BookShelfListBean() {
+    }
+
+
+    @Generated(hash = 730251230)
+    public BookShelfListBean(String id, String novel_id, String user_id, String novel_name,
+                             String novel_image, String http_novel_image, String author, float score,
+                             String file, int read_sum, int is_end, int type, int classify_id,
+                             String classify_name, int greet, float word, int is_new, int is_hot,
+                             float reading_size, String introduce, String http_image, int chapter_sum,
+                             int is_exist_bookshelf, long createtime, long updatetime, long deletetime,
+                             String lastRead, String lastChapter, boolean isUpdate, boolean isLocal) {
         this.id = id;
         this.novel_id = novel_id;
         this.user_id = user_id;
@@ -110,6 +112,7 @@ public class BookShelfListBean implements Serializable {
         this.introduce = introduce;
         this.http_image = http_image;
         this.chapter_sum = chapter_sum;
+        this.is_exist_bookshelf = is_exist_bookshelf;
         this.createtime = createtime;
         this.updatetime = updatetime;
         this.deletetime = deletetime;
@@ -119,24 +122,6 @@ public class BookShelfListBean implements Serializable {
         this.isLocal = isLocal;
     }
 
-    @Generated(hash = 394971066)
-    public BookShelfListBean() {
-    }
-
-    @Generated(hash = 1059257816)
-    private transient boolean new_chapter__refreshed;
-
-    public void setNewChapter(ChapterBean beans) {
-        new_chapter = beans;
-    }
-
-    public ChapterBean getNewChapter() {
-        if (daoSession == null) {
-            return new_chapter;
-        } else {
-            return getNew_chapter();
-        }
-    }
 
     public void setBookChapters(List<BookChapter> beans) {
         bookChapterList = beans;
@@ -401,39 +386,12 @@ public class BookShelfListBean implements Serializable {
         this.isLocal = isLocal;
     }
 
-    /**
-     * To-one relationship, resolved on first access.
-     */
-    @Generated(hash = 1900320505)
-    public ChapterBean getNew_chapter() {
-        if (new_chapter != null || !new_chapter__refreshed) {
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            ChapterBeanDao targetDao = daoSession.getChapterBeanDao();
-            targetDao.refresh(new_chapter);
-            new_chapter__refreshed = true;
-        }
-        return new_chapter;
+    public int getIs_exist_bookshelf() {
+        return this.is_exist_bookshelf;
     }
 
-    /**
-     * To-one relationship, returned entity is not refreshed and may carry only the PK property.
-     */
-    @Generated(hash = 792451120)
-    public ChapterBean peakNew_chapter() {
-        return new_chapter;
-    }
-
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
-    @Generated(hash = 576637755)
-    public void setNew_chapter(ChapterBean new_chapter) {
-        synchronized (this) {
-            this.new_chapter = new_chapter;
-            new_chapter__refreshed = true;
-        }
+    public void setIs_exist_bookshelf(int is_exist_bookshelf) {
+        this.is_exist_bookshelf = is_exist_bookshelf;
     }
 
     /**
@@ -511,5 +469,6 @@ public class BookShelfListBean implements Serializable {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getBookShelfListBeanDao() : null;
     }
+
 
 }

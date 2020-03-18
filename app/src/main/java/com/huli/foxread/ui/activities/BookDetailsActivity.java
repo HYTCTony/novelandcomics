@@ -32,6 +32,7 @@ import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
+import com.huli.foxread.ui.widget.ChapterPopup;
 import com.huli.foxread.ui.widget.ExpandableTextView;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
@@ -39,12 +40,10 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.UnitConverUtil;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
-import com.huli.page.model.bean.ChapterBean;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
 import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
@@ -86,9 +85,11 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private Button btnBeginReading;
 
     BookShelfListBean data;
+    List<BookChapter> chapters = new ArrayList<>();
     private String nId;
 
     private boolean isCollected = false;
+    private int chapter = 0;
 
     public static void start(Context context, int bookId) {
         Intent starter = new Intent(context, BookDetailsActivity.class);
@@ -192,39 +193,8 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-
-        /*GlideUtil.loadRoundRect(this, ivBookCover, "url");
-        tvBookName.setText("天启时代");
-        tvBookAuthor.setText("张三");
-        tvBookTips.setText("科幻热血·连载·320万字");
-        tvBookScore.setText(String.valueOf(2.3f));
-        tvBookReader.setText(String.valueOf(12.3f));
-        ratingBarScore.setRating(2.3f);
-
-        expTextView.setText(getString(R.string.test_content));
-        labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
-
-        tvNewestSectionName.setText("第383章-共赴生死");
-        tvTotalSection.setText("共383章");*/
-
-        /*mAdapter = new BookCoverNameAdapter();
-        recyclerView.setAdapter(mAdapter);
-        List<String> datas = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            datas.add("ssssssss" + i);
-        }
-        mAdapter.setNewData(datas);*/
-
-        /*SpannableString spannableString = new SpannableString(getString(R.string.tips_copyright));
-        ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(this, R.color.col_red));
-        StyleSpan styleSpan_B = new StyleSpan(Typeface.BOLD);
-        AbsoluteSizeSpan aSize = new AbsoluteSizeSpan(DensityUtils.sp2px(this, 15));
-        spannableString.setSpan(colorSpan, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(styleSpan_B, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(aSize, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        tvCopyright.setText(spannableString);*/
-
         reqNovelDetails(nId);
+        loadCategory(nId);
     }
 
     @Override
@@ -234,10 +204,30 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         }
         switch (view.getId()) {
             case R.id.rtl_asBtn_newest_section_dt:
-
+                chapter = chapters.size() - 1;
+                if (chapter >= 0) {
+                    openBook(chapter);
+                } else {
+                    Toast.makeText(this, "获取章节失败！", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.rtl_asBtn_book_catalogue_dt:
-
+                ChapterPopup popup = new ChapterPopup(BookDetailsActivity.this, chapters);
+                new XPopup.Builder(BookDetailsActivity.this)
+                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
+                        .asCustom(popup)
+                        .show();
+                popup.setListener(new ChapterPopup.onClickListener() {
+                    @Override
+                    public void onButtonClick(int num) {
+                        chapter = num;
+                        if (chapter >= 0) {
+                            openBook(chapter);
+                        } else {
+                            Toast.makeText(BookDetailsActivity.this, "获取章节失败！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
             case R.id.tv_asBtn_related_recommendation_refresh:
                 reqRelatedRecoBooks(nId);
@@ -246,14 +236,22 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 reqAddBookrack(nId);
                 break;
             case R.id.btn_begin_reading_dt:
-                startActivityForResult(new Intent(this, ReadBookActivity.class)
-                        .putExtra(ReadBookActivity.EXTRA_IS_COLLECTED, isCollected)
-                        .putExtra(ReadBookActivity.EXTRA_PAGE_POS, 2)
-                        .putExtra(ReadBookActivity.EXTRA_COLL_BOOK, data), REQUEST_READ);
+                if (chapter >= 0) {
+                    openBook(chapter);
+                } else {
+                    Toast.makeText(BookDetailsActivity.this, "获取章节失败！", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
         }
+    }
+
+    private void openBook(int chapter) {
+        startActivityForResult(new Intent(this, ReadBookActivity.class)
+                .putExtra(ReadBookActivity.EXTRA_IS_COLLECTED, isCollected)
+                .putExtra(ReadBookActivity.EXTRA_PAGE_POS, chapter)
+                .putExtra(ReadBookActivity.EXTRA_COLL_BOOK, data), REQUEST_READ);
     }
 
     private void initSpecialTopicView() {
@@ -277,15 +275,16 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_report) {
-            new XPopup.Builder(BookDetailsActivity.this)
-                    .asCenterList("请选择举报原因", new String[]{"广告", "盗用内容", "骗子", "威胁"},
-                            new OnSelectListener() {
-                                @Override
-                                public void onSelect(int position, String text) {
-                                    report(nId, text);
-                                }
-                            })
-                    .show();
+//            new XPopup.Builder(BookDetailsActivity.this)
+//                    .asCenterList("请选择举报原因", new String[]{"广告", "盗用内容", "骗子", "威胁"},
+//                            new OnSelectListener() {
+//                                @Override
+//                                public void onSelect(int position, String text) {
+//                                    report(nId, text);
+//                                }
+//                            })
+//                    .show();
+            startActivity(new Intent(BookDetailsActivity.this, GoToFeedBackActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -335,16 +334,10 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             expTextView.setText(data.getIntroduce());
 
                             List<String> tags = data.getTag();
-//                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
+                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
                             if (tags != null && tags.size() > 0) {
                                 labelBookTags.setLabels(tags);
                             }
-                            ChapterBean newChapter = data.getNewChapter();
-                            if (newChapter != null) {
-                                tvNewestSectionName.setText(String.format(getString(R.string.txt_chapter_x), newChapter.getChapter(), newChapter.getName()));
-                                tvNewestSectionName.setText(newChapter.getName());
-                            }
-                            tvTotalSection.setText(String.format(getString(R.string.txt_total_chapter_x), data.getChapter_sum()));
 
                             //  版权说明
                             String copyRightStr = data.getCopyright_name();
@@ -356,6 +349,16 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             spannableString.setSpan(styleSpan_B, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             spannableString.setSpan(aSize, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             tvCopyright.setText(spannableString);
+
+                            if (data.getIs_exist_bookshelf() == 0) {
+                                isCollected = false;
+                                btnAddBookcase.setText("加入书架");
+                                btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_black_191919));
+                            } else {
+                                isCollected = true;
+                                btnAddBookcase.setText("已加入书架");
+                                btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
+                            }
 
                             //请求相关推荐
                             reqRelatedRecoBooks(nId);
@@ -428,7 +431,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     }
 
     /**
-     * 小说详情---加入书架
+     * 用途：小说章节列表(GET)
      *
      * @param novelId 小说ID
      */
@@ -442,12 +445,17 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                 new TypeReference<LzyResponse<List<BookChapter>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            //进行设定BookChapter所属的书的id。
-                            for (BookChapter bookChapter : entity.getData()) {
-//                            bookChapter.setId(MD5Utils.strToMd5By16(bookChapter.getLink()));
-                                bookChapter.setBookId(novelId);
-                            }
 
+                            chapters.clear();
+                            chapters.addAll(entity.getData());
+                            //目录章节数
+                            tvTotalSection.setText(String.format(getString(R.string.txt_total_chapter_x), chapters.size()));
+                            //最新一章
+                            BookChapter newChapter = chapters.get(chapters.size() - 1);
+                            if (newChapter != null) {
+                                tvNewestSectionName.setText(String.format(getString(R.string.txt_chapter_x), newChapter.getChapter(), newChapter.getName()));
+                                tvNewestSectionName.setText(newChapter.getName());
+                            }
                         } else {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }

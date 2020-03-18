@@ -15,7 +15,7 @@ public class BookChapter implements Serializable {
     private String id;
     private String name;
     private String novel_id;
-    private String chapter;
+    private int chapter;
     private String content_url;
     private String http_links;
 
@@ -32,10 +32,10 @@ public class BookChapter implements Serializable {
     //在书籍文件中的终止位置
     private long end;
 
-    @Generated(hash = 229694520)
-    public BookChapter(String id, String name, String novel_id, String chapter,
-            String content_url, String http_links, String taskName, String bookId,
-            long start, long end) {
+    @Generated(hash = 1523385692)
+    public BookChapter(String id, String name, String novel_id, int chapter,
+                       String content_url, String http_links, String taskName, String bookId,
+                       long start, long end) {
         this.id = id;
         this.name = name;
         this.novel_id = novel_id;
@@ -76,11 +76,11 @@ public class BookChapter implements Serializable {
         this.novel_id = novel_id;
     }
 
-    public String getChapter() {
+    public int getChapter() {
         return this.chapter;
     }
 
-    public void setChapter(String chapter) {
+    public void setChapter(int chapter) {
         this.chapter = chapter;
     }
 

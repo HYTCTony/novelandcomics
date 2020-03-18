@@ -30,7 +30,7 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
         public final static Property Id = new Property(0, String.class, "id", true, "ID");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Novel_id = new Property(2, String.class, "novel_id", false, "NOVEL_ID");
-        public final static Property Chapter = new Property(3, String.class, "chapter", false, "CHAPTER");
+        public final static Property Chapter = new Property(3, int.class, "chapter", false, "CHAPTER");
         public final static Property Content_url = new Property(4, String.class, "content_url", false, "CONTENT_URL");
         public final static Property Http_links = new Property(5, String.class, "http_links", false, "HTTP_LINKS");
         public final static Property TaskName = new Property(6, String.class, "taskName", false, "TASK_NAME");
@@ -57,7 +57,7 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
                 "\"ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: id
                 "\"NAME\" TEXT," + // 1: name
                 "\"NOVEL_ID\" TEXT," + // 2: novel_id
-                "\"CHAPTER\" TEXT," + // 3: chapter
+                "\"CHAPTER\" INTEGER NOT NULL ," + // 3: chapter
                 "\"CONTENT_URL\" TEXT," + // 4: content_url
                 "\"HTTP_LINKS\" TEXT," + // 5: http_links
                 "\"TASK_NAME\" TEXT," + // 6: taskName
@@ -93,11 +93,7 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
         if (novel_id != null) {
             stmt.bindString(3, novel_id);
         }
- 
-        String chapter = entity.getChapter();
-        if (chapter != null) {
-            stmt.bindString(4, chapter);
-        }
+        stmt.bindLong(4, entity.getChapter());
  
         String content_url = entity.getContent_url();
         if (content_url != null) {
@@ -140,11 +136,7 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
         if (novel_id != null) {
             stmt.bindString(3, novel_id);
         }
- 
-        String chapter = entity.getChapter();
-        if (chapter != null) {
-            stmt.bindString(4, chapter);
-        }
+        stmt.bindLong(4, entity.getChapter());
  
         String content_url = entity.getContent_url();
         if (content_url != null) {
@@ -180,7 +172,7 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // novel_id
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // chapter
+            cursor.getInt(offset + 3), // chapter
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // content_url
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // http_links
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // taskName
@@ -196,7 +188,7 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setNovel_id(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setChapter(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setChapter(cursor.getInt(offset + 3));
         entity.setContent_url(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setHttp_links(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setTaskName(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));

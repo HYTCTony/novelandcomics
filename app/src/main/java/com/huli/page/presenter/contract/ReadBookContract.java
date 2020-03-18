@@ -18,6 +18,7 @@ public interface ReadBookContract {
         void finishChapter();
 
         void errorChapter();
+
     }
 
     interface Presenter extends BaseContract.IBasePresenter<View> {
@@ -26,5 +27,7 @@ public interface ReadBookContract {
         void loadCategory(AppCompatActivity context, String bookId);
 
         void loadChapter(AppCompatActivity context, String bookId, List<TxtChapter> bookChapterList);
+
+        void recordRead(AppCompatActivity context);
     }
 }

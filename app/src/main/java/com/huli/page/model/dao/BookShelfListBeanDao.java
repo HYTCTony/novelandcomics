@@ -1,18 +1,13 @@
 package com.huli.page.model.dao;
 
-import java.util.List;
-import java.util.ArrayList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.Property;
-import org.greenrobot.greendao.internal.SqlUtils;
 import org.greenrobot.greendao.internal.DaoConfig;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.database.DatabaseStatement;
-
-import com.huli.page.model.bean.ChapterBean;
 
 import com.huli.page.model.bean.BookShelfListBean;
 
@@ -51,14 +46,14 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         public final static Property Introduce = new Property(19, String.class, "introduce", false, "INTRODUCE");
         public final static Property Http_image = new Property(20, String.class, "http_image", false, "HTTP_IMAGE");
         public final static Property Chapter_sum = new Property(21, int.class, "chapter_sum", false, "CHAPTER_SUM");
-        public final static Property Createtime = new Property(22, long.class, "createtime", false, "CREATETIME");
-        public final static Property Updatetime = new Property(23, long.class, "updatetime", false, "UPDATETIME");
-        public final static Property Deletetime = new Property(24, long.class, "deletetime", false, "DELETETIME");
-        public final static Property LastRead = new Property(25, String.class, "lastRead", false, "LAST_READ");
-        public final static Property LastChapter = new Property(26, String.class, "lastChapter", false, "LAST_CHAPTER");
-        public final static Property IsUpdate = new Property(27, boolean.class, "isUpdate", false, "IS_UPDATE");
-        public final static Property IsLocal = new Property(28, boolean.class, "isLocal", false, "IS_LOCAL");
-        public final static Property New_chapter = new Property(29, String.class, "new_chapter", false, "NEW_CHAPTER");
+        public final static Property Is_exist_bookshelf = new Property(22, int.class, "is_exist_bookshelf", false, "IS_EXIST_BOOKSHELF");
+        public final static Property Createtime = new Property(23, long.class, "createtime", false, "CREATETIME");
+        public final static Property Updatetime = new Property(24, long.class, "updatetime", false, "UPDATETIME");
+        public final static Property Deletetime = new Property(25, long.class, "deletetime", false, "DELETETIME");
+        public final static Property LastRead = new Property(26, String.class, "lastRead", false, "LAST_READ");
+        public final static Property LastChapter = new Property(27, String.class, "lastChapter", false, "LAST_CHAPTER");
+        public final static Property IsUpdate = new Property(28, boolean.class, "isUpdate", false, "IS_UPDATE");
+        public final static Property IsLocal = new Property(29, boolean.class, "isLocal", false, "IS_LOCAL");
     }
 
     private DaoSession daoSession;
@@ -99,14 +94,14 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
                 "\"INTRODUCE\" TEXT," + // 19: introduce
                 "\"HTTP_IMAGE\" TEXT," + // 20: http_image
                 "\"CHAPTER_SUM\" INTEGER NOT NULL ," + // 21: chapter_sum
-                "\"CREATETIME\" INTEGER NOT NULL ," + // 22: createtime
-                "\"UPDATETIME\" INTEGER NOT NULL ," + // 23: updatetime
-                "\"DELETETIME\" INTEGER NOT NULL ," + // 24: deletetime
-                "\"LAST_READ\" TEXT," + // 25: lastRead
-                "\"LAST_CHAPTER\" TEXT," + // 26: lastChapter
-                "\"IS_UPDATE\" INTEGER NOT NULL ," + // 27: isUpdate
-                "\"IS_LOCAL\" INTEGER NOT NULL ," + // 28: isLocal
-                "\"NEW_CHAPTER\" TEXT);"); // 29: new_chapter
+                "\"IS_EXIST_BOOKSHELF\" INTEGER NOT NULL ," + // 22: is_exist_bookshelf
+                "\"CREATETIME\" INTEGER NOT NULL ," + // 23: createtime
+                "\"UPDATETIME\" INTEGER NOT NULL ," + // 24: updatetime
+                "\"DELETETIME\" INTEGER NOT NULL ," + // 25: deletetime
+                "\"LAST_READ\" TEXT," + // 26: lastRead
+                "\"LAST_CHAPTER\" TEXT," + // 27: lastChapter
+                "\"IS_UPDATE\" INTEGER NOT NULL ," + // 28: isUpdate
+                "\"IS_LOCAL\" INTEGER NOT NULL );"); // 29: isLocal
     }
 
     /** Drops the underlying database table. */
@@ -184,21 +179,22 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             stmt.bindString(21, http_image);
         }
         stmt.bindLong(22, entity.getChapter_sum());
-        stmt.bindLong(23, entity.getCreatetime());
-        stmt.bindLong(24, entity.getUpdatetime());
-        stmt.bindLong(25, entity.getDeletetime());
+        stmt.bindLong(23, entity.getIs_exist_bookshelf());
+        stmt.bindLong(24, entity.getCreatetime());
+        stmt.bindLong(25, entity.getUpdatetime());
+        stmt.bindLong(26, entity.getDeletetime());
  
         String lastRead = entity.getLastRead();
         if (lastRead != null) {
-            stmt.bindString(26, lastRead);
+            stmt.bindString(27, lastRead);
         }
  
         String lastChapter = entity.getLastChapter();
         if (lastChapter != null) {
-            stmt.bindString(27, lastChapter);
+            stmt.bindString(28, lastChapter);
         }
-        stmt.bindLong(28, entity.getIsUpdate() ? 1L: 0L);
-        stmt.bindLong(29, entity.getIsLocal() ? 1L: 0L);
+        stmt.bindLong(29, entity.getIsUpdate() ? 1L: 0L);
+        stmt.bindLong(30, entity.getIsLocal() ? 1L: 0L);
     }
 
     @Override
@@ -270,21 +266,22 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             stmt.bindString(21, http_image);
         }
         stmt.bindLong(22, entity.getChapter_sum());
-        stmt.bindLong(23, entity.getCreatetime());
-        stmt.bindLong(24, entity.getUpdatetime());
-        stmt.bindLong(25, entity.getDeletetime());
+        stmt.bindLong(23, entity.getIs_exist_bookshelf());
+        stmt.bindLong(24, entity.getCreatetime());
+        stmt.bindLong(25, entity.getUpdatetime());
+        stmt.bindLong(26, entity.getDeletetime());
  
         String lastRead = entity.getLastRead();
         if (lastRead != null) {
-            stmt.bindString(26, lastRead);
+            stmt.bindString(27, lastRead);
         }
  
         String lastChapter = entity.getLastChapter();
         if (lastChapter != null) {
-            stmt.bindString(27, lastChapter);
+            stmt.bindString(28, lastChapter);
         }
-        stmt.bindLong(28, entity.getIsUpdate() ? 1L: 0L);
-        stmt.bindLong(29, entity.getIsLocal() ? 1L: 0L);
+        stmt.bindLong(29, entity.getIsUpdate() ? 1L: 0L);
+        stmt.bindLong(30, entity.getIsLocal() ? 1L: 0L);
     }
 
     @Override
@@ -323,13 +320,14 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // introduce
             cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // http_image
             cursor.getInt(offset + 21), // chapter_sum
-            cursor.getLong(offset + 22), // createtime
-            cursor.getLong(offset + 23), // updatetime
-            cursor.getLong(offset + 24), // deletetime
-            cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25), // lastRead
-            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // lastChapter
-            cursor.getShort(offset + 27) != 0, // isUpdate
-            cursor.getShort(offset + 28) != 0 // isLocal
+            cursor.getInt(offset + 22), // is_exist_bookshelf
+            cursor.getLong(offset + 23), // createtime
+            cursor.getLong(offset + 24), // updatetime
+            cursor.getLong(offset + 25), // deletetime
+            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // lastRead
+            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // lastChapter
+            cursor.getShort(offset + 28) != 0, // isUpdate
+            cursor.getShort(offset + 29) != 0 // isLocal
         );
         return entity;
     }
@@ -358,13 +356,14 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         entity.setIntroduce(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
         entity.setHttp_image(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
         entity.setChapter_sum(cursor.getInt(offset + 21));
-        entity.setCreatetime(cursor.getLong(offset + 22));
-        entity.setUpdatetime(cursor.getLong(offset + 23));
-        entity.setDeletetime(cursor.getLong(offset + 24));
-        entity.setLastRead(cursor.isNull(offset + 25) ? null : cursor.getString(offset + 25));
-        entity.setLastChapter(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
-        entity.setIsUpdate(cursor.getShort(offset + 27) != 0);
-        entity.setIsLocal(cursor.getShort(offset + 28) != 0);
+        entity.setIs_exist_bookshelf(cursor.getInt(offset + 22));
+        entity.setCreatetime(cursor.getLong(offset + 23));
+        entity.setUpdatetime(cursor.getLong(offset + 24));
+        entity.setDeletetime(cursor.getLong(offset + 25));
+        entity.setLastRead(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
+        entity.setLastChapter(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
+        entity.setIsUpdate(cursor.getShort(offset + 28) != 0);
+        entity.setIsLocal(cursor.getShort(offset + 29) != 0);
      }
     
     @Override
@@ -391,95 +390,4 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         return true;
     }
     
-    private String selectDeep;
-
-    protected String getSelectDeep() {
-        if (selectDeep == null) {
-            StringBuilder builder = new StringBuilder("SELECT ");
-            SqlUtils.appendColumns(builder, "T", getAllColumns());
-            builder.append(',');
-            SqlUtils.appendColumns(builder, "T0", daoSession.getChapterBeanDao().getAllColumns());
-            builder.append(" FROM BOOK_SHELF_LIST_BEAN T");
-            builder.append(" LEFT JOIN CHAPTER_BEAN T0 ON T.\"NEW_CHAPTER\"=T0.\"ID\"");
-            builder.append(' ');
-            selectDeep = builder.toString();
-        }
-        return selectDeep;
-    }
-    
-    protected BookShelfListBean loadCurrentDeep(Cursor cursor, boolean lock) {
-        BookShelfListBean entity = loadCurrent(cursor, 0, lock);
-        int offset = getAllColumns().length;
-
-        ChapterBean new_chapter = loadCurrentOther(daoSession.getChapterBeanDao(), cursor, offset);
-        entity.setNew_chapter(new_chapter);
-
-        return entity;    
-    }
-
-    public BookShelfListBean loadDeep(Long key) {
-        assertSinglePk();
-        if (key == null) {
-            return null;
-        }
-
-        StringBuilder builder = new StringBuilder(getSelectDeep());
-        builder.append("WHERE ");
-        SqlUtils.appendColumnsEqValue(builder, "T", getPkColumns());
-        String sql = builder.toString();
-        
-        String[] keyArray = new String[] { key.toString() };
-        Cursor cursor = db.rawQuery(sql, keyArray);
-        
-        try {
-            boolean available = cursor.moveToFirst();
-            if (!available) {
-                return null;
-            } else if (!cursor.isLast()) {
-                throw new IllegalStateException("Expected unique result, but count was " + cursor.getCount());
-            }
-            return loadCurrentDeep(cursor, true);
-        } finally {
-            cursor.close();
-        }
-    }
-    
-    /** Reads all available rows from the given cursor and returns a list of new ImageTO objects. */
-    public List<BookShelfListBean> loadAllDeepFromCursor(Cursor cursor) {
-        int count = cursor.getCount();
-        List<BookShelfListBean> list = new ArrayList<BookShelfListBean>(count);
-        
-        if (cursor.moveToFirst()) {
-            if (identityScope != null) {
-                identityScope.lock();
-                identityScope.reserveRoom(count);
-            }
-            try {
-                do {
-                    list.add(loadCurrentDeep(cursor, false));
-                } while (cursor.moveToNext());
-            } finally {
-                if (identityScope != null) {
-                    identityScope.unlock();
-                }
-            }
-        }
-        return list;
-    }
-    
-    protected List<BookShelfListBean> loadDeepAllAndCloseCursor(Cursor cursor) {
-        try {
-            return loadAllDeepFromCursor(cursor);
-        } finally {
-            cursor.close();
-        }
-    }
-    
-
-    /** A raw-style query where you can pass any WHERE clause and arguments. */
-    public List<BookShelfListBean> queryDeep(String where, String... selectionArg) {
-        Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
-        return loadDeepAllAndCloseCursor(cursor);
-    }
- 
 }

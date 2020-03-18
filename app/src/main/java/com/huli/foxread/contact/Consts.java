@@ -11,7 +11,7 @@ public interface Consts {
     /*隐私策略*/
     String PRIVACY_POLICY_URL = BASE_URL + "/api/clause/detail?id=2";
     /*会员特权说明*/
-    String  PRIVILEGE_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=3";
+    String PRIVILEGE_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=3";
     /*会员服务协议*/
     String MEMBERSHIP_AGREEMENT_URL = BASE_URL + "/api/clause/detail?id=4";
     /*邀请好友说明*/
@@ -58,12 +58,21 @@ public interface Consts {
     String NOVEL_DETAILS_API = NOT_CPL_URL + Func.NOVEL_DETAILS;
     String NOVEL_NOMINATE_API = NOT_CPL_URL + Func.NOVEL_NOMINATE;
 
+    String USER_READ_TIME_API = NOT_CPL_URL + Func.USER_READ_TIME;
+
+    String FEEDBACK_CATEGORY_API = NOT_CPL_URL + Func.FEEDBACK_CATEGORY;
+    String FEEDBACK_CREAT_API = NOT_CPL_URL + Func.FEEDBACK_CREAT;
+
 
     String BOOKRACK_ADD_API = NOT_CPL_URL + Func.BOOKRACK_ADD;
     String BOOKRACK_DEL_API = NOT_CPL_URL + Func.BOOKRACK_DEL;
     String BOOKRACK_GETLIST_API = NOT_CPL_URL + Func.BOOKRACK_GETLIST;
 
+    String SPECIAL_BOOK_API = NOT_CPL_URL + Func.SPECIAL_BOOK;
+
     String NOVEL_NOVELCHAPTERLIST_API = NOT_CPL_URL + Func.NOVEL_NOVELCHAPTERLIST;
+
+    String RECORD_READ_API = NOT_CPL_URL + Func.RECORD_READ;
 
 
     String READ_NOVEL_RECORD_API = NOT_CPL_URL + Func.READ_NOVEL_RECORD;
@@ -75,7 +84,6 @@ public interface Consts {
 
     //邀请好友页面信息
     String WELFARE_INVITE_API = NOT_CPL_URL + Func.WELFARE_INVITE;
-
 
 
     /*提现*/
@@ -177,6 +185,10 @@ public interface Consts {
     String WELFARE_READ_ID = "welfare_read_id";
 
     String POSITION = "position";
+
+    String PHONE = "phone";
+    String OPINION_CATEGORY_ID = "opinion_category_id";
+    String CONTENT = "content";
 
     String WITHDRAWAL_PLAN_ID = "id";
 
