@@ -48,6 +48,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     private ImageView ivUserHeadImg;
     private TextView tvNickname, tvUserId;
+    private TextView tvMyGoldCoin, tvTodayGoldCoin, tvTodayReadingTime;
 
     private TextView tvHuliVip, tvVipAdvantage;
     private TextView btnOpenVip;
@@ -80,6 +81,9 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.ll_my_gold_coin_mine).setOnClickListener(this);
 //        $(view, R.id.ll_today_gold_coin_mine).setOnClickListener(this);
 //        $(view, R.id.ll_today_reading_count_mine).setOnClickListener(this);
+        tvMyGoldCoin = $(view, R.id.tv_my_gold_coin_mine);
+        tvTodayGoldCoin = $(view, R.id.tv_today_gold_coin_mine);
+        tvTodayReadingTime = $(view, R.id.tv_today_reading_time_mine);
 
         btnLogin = $(view, R.id.btn_login_mine);
         tvHuliVip = $(view, R.id.tv_huli_vip_member);
@@ -162,6 +166,10 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         GlideUtil.loadCircle(mContext, ivUserHeadImg, UserInfoCache.getHeadPic(mContext));
         tvNickname.setText(UserInfoCache.getUserName(mContext));
         tvUserId.setText((getString(R.string.txt_id_colon) + UserInfoCache.getUserId(mContext)));
+        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
+        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
+//        tvTodayReadingTime.setText();
+        //TODO 今日阅读时间
     }
 
 

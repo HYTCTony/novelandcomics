@@ -61,7 +61,6 @@
                     android:layout_marginBottom="@dimen/dp_4"
                     android:textColor="@color/txt_white"
                     android:textSize="@dimen/sp_12"
-                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_vip_type_title"
                     app:layout_constraintLeft_toRightOf="@+id/tv_vip_type_title"
                     tools:text="到期时间：2020-3-14" />
@@ -96,14 +95,16 @@
                     app:layout_constraintTop_toTopOf="@+id/tv_vip_type_title" />
 
                 <TextView
+                    android:id="@+id/tv_vip_tips_mp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
                     android:layout_marginTop="@dimen/dp_4"
                     android:layout_marginEnd="@dimen/dp_16"
+                    android:hint="@string/txt_vip_advantage"
                     android:singleLine="true"
-                    android:text="@string/txt_vip_advantage"
                     android:textColor="@color/txt_faint_yellow"
+                    android:textColorHint="@color/txt_faint_yellow"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintTop_toBottomOf="@+id/tv_vip_type_title" />
 
@@ -167,7 +168,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_asBtn_open_membership_account"
+                    android:id="@+id/tv_asBtn_privilege_explain"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_16"

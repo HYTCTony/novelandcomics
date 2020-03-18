@@ -2,6 +2,7 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -22,6 +23,7 @@ import com.huli.foxread.entity.BookMultiEntity;
 import com.huli.foxread.entity.HomePageEntity;
 import com.huli.foxread.entity.HpClassifyNvET;
 import com.huli.foxread.entity.HpNewBookET;
+import com.huli.foxread.entity.SearchEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
@@ -156,7 +158,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                reqHighMarksDatas(curPage + 1);
+                reqHighMarksDatas(curPage);
             }
         });
 
@@ -168,7 +170,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                 reqIndexDatas(false);
 
                 //可以上拉加载
-                curPage = 1;
+                curPage = 0;
                 mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             }
         });
@@ -272,15 +274,19 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             entity = new BookMultiEntity();
             BookEntity bookEntity = novelList.get(i);
             if (i == 0) {
+                entity.setId(bookEntity.getId());
                 entity.setItemType(BookMultiEntity.DETAILED);
                 entity.setSpanSize(BookMultiEntity.SPAN_SIZE_4);
                 entity.setAuthor(bookEntity.getAuthor());
                 entity.setName(bookEntity.getName());
                 entity.setScore(bookEntity.getScore());
                 entity.setIntroduce(bookEntity.getIntroduce());
+                entity.setWord(bookEntity.getWord());
                 entity.setHttp_image(bookEntity.getHttp_image());
+                datas.add(entity);
             } else {
-                entity.setItemType(BookMultiEntity.SUCCINCT);
+                entity.setId(bookEntity.getId());
+                entity.setItemType(BookMultiEntity.ITEM_FIRST);
                 entity.setSpanSize(BookMultiEntity.SPAN_SIZE_1);
                 entity.setAuthor(bookEntity.getAuthor());
                 entity.setName(bookEntity.getName());
@@ -306,7 +312,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         });
     }
 
-    private void initTopSearchView(LayoutInflater inflater, List<BookEntity> searchNvList) {
+    private void initTopSearchView(LayoutInflater inflater, List<SearchEntity> searchNvList) {
         if (headViewTopSearch == null) {
             headViewTopSearch = inflater.inflate(R.layout.layout_rv_head_sb_actual_time_top_search, recyclerView, false);
             mAdapter.setHeaderView(headViewTopSearch, 4);
@@ -320,9 +326,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         AttTopSearchAdapter attTopSearchAdapter = new AttTopSearchAdapter(searchNvList);
         rvTopSearch.setAdapter(attTopSearchAdapter);
         attTopSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
-            BookEntity entity = attTopSearchAdapter.getData().get(position);
+            SearchEntity entity = attTopSearchAdapter.getData().get(position);
             Intent intent = new Intent(mActivity, BookDetailsActivity.class);
-            intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+            intent.putExtra(Common.KEY_BOOK_ID, entity.getNovel_id());
             startActivity(intent);
         });
     }
@@ -478,7 +484,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                             initSpecialTopicView(inflater);
 
                             //实时热搜
-                            List<BookEntity> searchNvList = hpDatas.getSearch_novel();
+                            List<SearchEntity> searchNvList = hpDatas.getSearch_novel();
                             if (searchNvList != null && searchNvList.size() > 0) {
                                 initTopSearchView(inflater, searchNvList);
                             }
@@ -528,9 +534,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     /**
      * 高分精选
      */
-    private void reqHighMarksDatas(int reqPage) {
+    private void reqHighMarksDatas(int page) {
         OkGo.<String>post(Consts.NOVEL_POPULAR_API)
-                .params(Consts.PAGE, reqPage)
+                .params(Consts.PAGE, page  + 1)
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override

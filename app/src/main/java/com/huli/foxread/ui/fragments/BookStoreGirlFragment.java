@@ -174,7 +174,7 @@ public class BookStoreGirlFragment extends BaseFragment implements View.OnClickL
         datas.add(entity);
         for (int i = 0; i < 8; i++) {
             entity = new BookMultiEntity();
-            entity.setItemType(BookMultiEntity.SUCCINCT);
+            entity.setItemType(BookMultiEntity.ITEM_FIRST);
             entity.setSpanSize(BookMultiEntity.SPAN_SIZE_1);
             datas.add(entity);
         }

@@ -6078,7 +6078,7 @@ com.huli.foxread.entity.ImageBean -> com.huli.foxread.entity.c:
     int id -> a
 com.huli.foxread.entity.LoginEntity -> com.huli.foxread.entity.d:
     com.huli.foxread.entity.FUser userinfo -> a
-com.huli.foxread.entity.NbSection -> com.huli.foxread.entity.e:
+com.huli.foxread.entity.sections.NbSection -> com.huli.foxread.entity.e:
     java.lang.Object object -> d
     boolean isHeader -> a
     java.lang.String title -> c
@@ -6382,7 +6382,7 @@ com.huli.foxread.ui.activities.UserBasicInfoActivity -> com.huli.foxread.ui.acti
 com.huli.foxread.ui.activities.WithdrawalActivity -> com.huli.foxread.ui.activities.WithdrawalActivity:
     androidx.recyclerview.widget.RecyclerView recyclerView -> g
     android.widget.TextView tvExchangeYuan -> f
-    com.huli.foxread.ui.adapters.WithdrawalAmountAdapter mAdapter -> h
+    com.huli.foxread.ui.adapters.WithdrawalGoldAdapter mAdapter -> h
     void setStatusBar() -> b
 com.huli.foxread.ui.activities.WriteOffAccountActivity -> com.huli.foxread.ui.activities.WriteOffAccountActivity:
     android.widget.FrameLayout layoutBottomBar -> g
@@ -6420,7 +6420,7 @@ com.huli.foxread.ui.adapters.MsgNotifyAdapter -> com.huli.foxread.ui.adapters.Ms
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> a
 com.huli.foxread.ui.adapters.RankingSubAdapter -> com.huli.foxread.ui.adapters.RankingSubAdapter:
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> a
-com.huli.foxread.ui.adapters.ReadingMissionAdapter -> com.huli.foxread.ui.adapters.ReadingMissionAdapter:
+com.huli.foxread.ui.adapters.WelfareMissionAdapter -> com.huli.foxread.ui.adapters.WelfareMissionAdapter:
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> a
 com.huli.foxread.ui.adapters.ReadingRecordsAdapter -> com.huli.foxread.ui.adapters.ReadingRecordsAdapter:
     android.util.SparseBooleanArray selectLists -> b
@@ -6430,8 +6430,8 @@ com.huli.foxread.ui.adapters.ReadingRecordsAdapter -> com.huli.foxread.ui.adapte
 com.huli.foxread.ui.adapters.SHotBooksAdapter -> com.huli.foxread.ui.adapters.SHotBooksAdapter:
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> a
 com.huli.foxread.ui.adapters.SectionNewBookAdapter -> com.huli.foxread.ui.adapters.SectionNewBookAdapter:
-    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.NbSection) -> a
-    void convertHeader(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.NbSection) -> b
+    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.sections.NbSection) -> a
+    void convertHeader(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.sections.NbSection) -> b
 com.huli.foxread.ui.adapters.SignInActivity -> com.huli.foxread.ui.adapters.SignInActivity:
     android.widget.TextView tvMoreGoldCoin -> n
     android.widget.TextView tvExtraCount1 -> q
@@ -6473,13 +6473,13 @@ com.huli.foxread.ui.adapters.WeekSignInStateAdapter -> com.huli.foxread.ui.adapt
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> a
 com.huli.foxread.ui.adapters.WelfareZoneMineAdapter -> com.huli.foxread.ui.adapters.WelfareZoneMineAdapter:
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> a
-com.huli.foxread.ui.adapters.WithdrawalAmountAdapter -> com.huli.foxread.ui.adapters.WithdrawalAmountAdapter:
+com.huli.foxread.ui.adapters.WithdrawalGoldAdapter -> com.huli.foxread.ui.adapters.WithdrawalGoldAdapter:
     int checkPos -> a
-    int access$000(com.huli.foxread.ui.adapters.WithdrawalAmountAdapter) -> a
-    int access$002(com.huli.foxread.ui.adapters.WithdrawalAmountAdapter,int) -> a
+    int access$000(com.huli.foxread.ui.adapters.WithdrawalGoldAdapter) -> a
+    int access$002(com.huli.foxread.ui.adapters.WithdrawalGoldAdapter,int) -> a
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> a
-com.huli.foxread.ui.adapters.WithdrawalAmountAdapter$1 -> com.huli.foxread.ui.adapters.WithdrawalAmountAdapter$a:
-    com.huli.foxread.ui.adapters.WithdrawalAmountAdapter this$0 -> d
+com.huli.foxread.ui.adapters.WithdrawalGoldAdapter$1 -> com.huli.foxread.ui.adapters.WithdrawalGoldAdapter$a:
+    com.huli.foxread.ui.adapters.WithdrawalGoldAdapter this$0 -> d
     int val$position -> b
     androidx.appcompat.widget.AppCompatCheckBox val$checkBox -> c
 com.huli.foxread.ui.base.-$$Lambda$BaseActivity$--WNhxhtdkSDO8_P6zA8AKxjl9E -> com.huli.foxread.ui.base.a:
@@ -6641,7 +6641,7 @@ com.huli.foxread.ui.fragments.MainMineFragment -> com.huli.foxread.ui.fragments.
 com.huli.foxread.ui.fragments.MainMineFragment$1 -> com.huli.foxread.ui.fragments.MainMineFragment$a:
 com.huli.foxread.ui.fragments.MainWelfareFragment -> com.huli.foxread.ui.fragments.MainWelfareFragment:
     androidx.recyclerview.widget.RecyclerView recyclerView -> d
-    com.huli.foxread.ui.adapters.ReadingMissionAdapter mAdapter -> e
+    com.huli.foxread.ui.adapters.WelfareMissionAdapter mAdapter -> e
     com.youth.banner.Banner mBanner -> f
     android.app.Activity access$000(com.huli.foxread.ui.fragments.MainWelfareFragment) -> a
     java.util.List getBannerADs() -> a

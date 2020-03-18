@@ -13,9 +13,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_welfare_zone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#d51">
+        android:layout_width="@dimen/dp_136"
+        android:layout_height="@dimen/dp_64"
+        tools:background="#d51">
 
 
         <ImageView

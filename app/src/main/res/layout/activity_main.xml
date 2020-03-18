@@ -16,19 +16,19 @@
 
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/cTabLayout_main"
-        app:tl_underline_gravity="TOP"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_56"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:tl_iconHeight="@dimen/dp_24"
         app:tl_iconWidth="@dimen/dp_24"
-        app:tl_indicator_color="#2C97DE"
+        app:tl_indicator_color="@color/txt_red"
         app:tl_indicator_height="0dp"
-        app:tl_textSelectColor="#2C97DE"
+        app:tl_textSelectColor="@color/txt_red"
         app:tl_textUnselectColor="#66000000"
         app:tl_textsize="@dimen/sp_12"
         app:tl_underline_color="@color/off_gray"
+        app:tl_underline_gravity="TOP"
         app:tl_underline_height="@dimen/dp_0_5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

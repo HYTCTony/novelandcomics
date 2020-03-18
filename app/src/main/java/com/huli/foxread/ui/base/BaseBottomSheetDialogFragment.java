@@ -37,8 +37,7 @@ public abstract class BaseBottomSheetDialogFragment extends DialogFragment {
         super.onStart();
 
         BottomSheetDialog dialog = (BottomSheetDialog) getDialog();
-        FrameLayout bottomSheet =
-                dialog.getDelegate().findViewById(R.id.design_bottom_sheet);
+        FrameLayout bottomSheet = dialog.getDelegate().findViewById(R.id.design_bottom_sheet);
         if (bottomSheet != null) {
             //设置DialogFragment外透明
             Window window = dialog.getWindow();
@@ -59,7 +58,7 @@ public abstract class BaseBottomSheetDialogFragment extends DialogFragment {
             behavior = BottomSheetBehavior.from(bottomSheet);
             behavior.setPeekHeight(getPeekHeight());
             // 初始为展开状态
-            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
             behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
@@ -96,7 +95,8 @@ public abstract class BaseBottomSheetDialogFragment extends DialogFragment {
      */
     protected int getExpandedHeight() {
         int peekHeight = getResources().getDisplayMetrics().heightPixels;
-        return peekHeight;
+//        return peekHeight;
+        return peekHeight - peekHeight / 2;
     }
 
     protected abstract void OnStateChange(View view, int i);

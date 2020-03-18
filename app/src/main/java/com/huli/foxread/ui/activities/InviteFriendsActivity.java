@@ -1,17 +1,20 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.TextView;
 
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.contact.Common;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
@@ -20,8 +23,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-public class InviteFriendsActivity extends BaseActivity {
+public class InviteFriendsActivity extends BaseActivity implements View.OnClickListener {
 
+    private TextView btnExplain;
     private TextView tvInviteCode;
 
     private TextView btnGo2Check, btnGo2Withdrawal;
@@ -54,6 +58,7 @@ public class InviteFriendsActivity extends BaseActivity {
         initToolBar(toolbar, R.string.txt_invite_friends);
         StatusBarUtils.offsetView(this, toolbar);
 
+        btnExplain = $(R.id.tv_asBtn_explain);
         tvInviteCode = $(R.id.tv_my_invite_code);
 
         btnGo2Check = $(R.id.tv_has_invited_friends_num_go2_check);
@@ -64,15 +69,29 @@ public class InviteFriendsActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-
+        btnExplain.setOnClickListener(this);
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        tvInviteCode.setText("JK00001");
-
+        tvInviteCode.setText(UserInfoCache.getDistribution(mContext));
     }
 
+    @Override
+    public void onClick(View view) {
+        if (onMoreClick()) {
+            return;
+        }
+        switch (view.getId()) {
+            case R.id.tv_asBtn_explain:
+                Intent intent = new Intent(this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.INVITE_FRIENDS_EXPLAIN_URL);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+    }
 
     /**
      * 查看已邀请的好友
@@ -83,7 +102,7 @@ public class InviteFriendsActivity extends BaseActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Tos.showShort(InviteFriendsActivity.this, "去查看");
+                startActivity(new Intent(InviteFriendsActivity.this, MyInviteFriendsActivity.class));
             }
 
             //去除连接下划线
@@ -102,7 +121,7 @@ public class InviteFriendsActivity extends BaseActivity {
     }
 
     /**
-     * 去提现
+     * 现金提现
      */
     private void initBtnWithdrawal() {
         String withdrawalStr = getString(R.string.txt_made_money_go2_withdrawal);
@@ -110,7 +129,7 @@ public class InviteFriendsActivity extends BaseActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Tos.showShort(InviteFriendsActivity.this, "去提现");
+                startActivity(new Intent(InviteFriendsActivity.this, WithdrawalRMBActivity.class));
             }
 
             //去除连接下划线

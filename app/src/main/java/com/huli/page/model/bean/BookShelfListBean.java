@@ -12,6 +12,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.annotation.Transient;
 
 import java.io.Serializable;
 import java.util.List;
@@ -28,6 +29,12 @@ public class BookShelfListBean implements Serializable {
     public String novel_image;
     public String http_novel_image;
     public String author;
+
+    @Transient
+    private List<String> tag;
+    @Transient
+    private String copyright_name;
+
     /**************************************************************/
     private float score;                    //评分
     private String file;                    //小说下载链接
@@ -200,6 +207,22 @@ public class BookShelfListBean implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public List<String> getTag() {
+        return tag;
+    }
+
+    public void setTag(List<String> tag) {
+        this.tag = tag;
+    }
+
+    public String getCopyright_name() {
+        return copyright_name;
+    }
+
+    public void setCopyright_name(String copyright_name) {
+        this.copyright_name = copyright_name;
     }
 
     public float getScore() {

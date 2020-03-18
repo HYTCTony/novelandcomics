@@ -7,9 +7,7 @@ import com.huli.foxread.ui.dialogs.base.ViewHolder;
 import androidx.annotation.LayoutRes;
 
 /**
- * 项目名称：BatteryRent
  * 创建人：Bill
- * 创建时间：2019/4/10  9:57
  */
 // CommonDialog.newInstance()
 //         .setLayoutId(R.layout.dialog_main)

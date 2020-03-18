@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,13 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyGoldCoinActivity extends BaseActivity {
+public class MyGoldCoinActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView tvExchangeYuan;
     private TextView tvAccumulatedGold, tvGetGoldToday;
+
+    private TextView tvGo2Withdrawal;
+    private TextView btnGo2Withdrawal;
 
     private RecyclerView recyclerView;
     private GoldCoinDetailAdapter mAdapter;
@@ -58,6 +62,8 @@ public class MyGoldCoinActivity extends BaseActivity {
         tvExchangeYuan = $(R.id.tv_my_gold_coin_balance_exchange_yuan);
         tvAccumulatedGold = $(R.id.tv_accumulated_gold);
         tvGetGoldToday = $(R.id.tv_get_gold_today);
+        tvGo2Withdrawal = $(R.id.tv_go2_withdrawal);
+        btnGo2Withdrawal = $(R.id.btn_gold_coin_withdrawal);
 
         recyclerView = $(R.id.recyclerView_goldCoin_details);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -71,7 +77,8 @@ public class MyGoldCoinActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-
+        tvGo2Withdrawal.setOnClickListener(this);
+        btnGo2Withdrawal.setOnClickListener(this);
     }
 
     @Override
@@ -81,9 +88,21 @@ public class MyGoldCoinActivity extends BaseActivity {
         tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + "200"));
 
         List<String> list = new ArrayList<>();
-        for (int i=0;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             list.add("ssssssssss" + i);
         }
         mAdapter.setNewData(list);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_go2_withdrawal:
+            case R.id.btn_gold_coin_withdrawal:
+                startActivity(new Intent(this, WithdrawalActivity.class));
+                break;
+            default:
+                break;
+        }
     }
 }

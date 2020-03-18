@@ -10,17 +10,26 @@
     android:paddingEnd="@dimen/dp_16"
     android:paddingBottom="@dimen/dp_10">
 
-    <TextView
-        android:id="@+id/tv_reading_mission_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_clock_red"
-        android:drawablePadding="@dimen/dp_8"
-        android:textColor="@color/txt_black"
-        android:textSize="@dimen/sp_16"
+    <ImageView
+        android:id="@+id/iv_mission_icon"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="阅读5分钟" />
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_clock_red" />
+
+    <TextView
+        android:id="@+id/tv_welfare_mission_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_mission_icon"
+        app:layout_constraintLeft_toRightOf="@+id/iv_mission_icon"
+        app:layout_constraintTop_toTopOf="@+id/iv_mission_icon"
+        tools:text="任务Title" />
 
     <TextView
         android:id="@+id/tv_reward_of_mission"
@@ -29,26 +38,25 @@
         android:layout_marginStart="@dimen/dp_8"
         android:textColor="@color/txt_orange_ff6600"
         android:textSize="@dimen/sp_12"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_reading_mission_title"
-        app:layout_constraintLeft_toRightOf="@+id/tv_reading_mission_title"
-        app:layout_constraintTop_toTopOf="@+id/tv_reading_mission_title"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_welfare_mission_title"
+        app:layout_constraintLeft_toRightOf="@+id/tv_welfare_mission_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_welfare_mission_title"
         tools:text="+100金币" />
 
     <TextView
-        android:id="@+id/tv_reading_mission_explain"
+        android:id="@+id/tv_welfare_mission_explain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_26"
         android:layout_marginTop="@dimen/dp_2"
         android:textColor="@color/txt_gray"
         android:textSize="@dimen/sp_10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_reading_mission_title"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_welfare_mission_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_welfare_mission_title"
         tools:text="完成阅读任务获得奖励" />
 
     <TextView
-        android:id="@+id/btn_reading_mission_action"
+        android:id="@+id/btn_welfare_mission_action"
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_28"
         android:background="@drawable/shape_btn_bg_semicircle_border_red"

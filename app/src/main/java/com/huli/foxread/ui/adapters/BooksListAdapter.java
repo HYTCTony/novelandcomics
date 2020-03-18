@@ -8,6 +8,8 @@ import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.UnitConverUtil;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 
 public class BooksListAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolder> implements LoadMoreModule {
@@ -23,7 +25,15 @@ public class BooksListAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolde
         helper.setText(R.id.tv_book_score, item.getScore() + getContext().getString(R.string.unit_score));
         helper.setText(R.id.tv_book_description, item.getIntroduce());
         helper.setText(R.id.tv_book_author_pen_name, item.getAuthor());
-        helper.setText(R.id.tv_book_tag, "热血");
         helper.setText(R.id.tv_book_word_count, UnitConverUtil.formatNumUnit(getContext(), item.getWord(), R.string.unit_word_w));
+
+//        helper.setText(R.id.tv_book_tag, "热血");
+        List<String> tags = item.getTag();
+        if (tags != null && tags.size() > 0) {
+            helper.setVisible(R.id.tv_book_tag, true);
+            helper.setText(R.id.tv_book_tag, tags.get(0));
+        } else {
+            helper.setGone(R.id.tv_book_tag, true);
+        }
     }
 }

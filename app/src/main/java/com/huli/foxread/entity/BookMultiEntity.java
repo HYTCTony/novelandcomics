@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
 public class BookMultiEntity extends BookEntity implements MultiItemEntity {
 
     public static final int DETAILED = 1;
-    public static final int SUCCINCT = 2;
+    public static final int ITEM_FIRST = 2;
     public static final int SPAN_SIZE_4 = 4;
     public static final int SPAN_SIZE_1 = 1;
     private int spanSize;

@@ -310,14 +310,14 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             tvBookReader.setText(UnitConverUtil.formatNum(BookDetailsActivity.this, data.getReading_size()));
                             float score = data.getScore();
                             tvBookScore.setText(String.valueOf(score));
-                            ratingBarScore.setRating(score);
+                            ratingBarScore.setRating(score / 2);
                             expTextView.setText(data.getIntroduce());
 
-//                            List<String> tags = data.getTag();
-////                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
-//                            if (tags != null && tags.size() > 0) {
-//                                labelBookTags.setLabels(tags);
-//                            }
+                            List<String> tags = data.getTag();
+//                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
+                            if (tags != null && tags.size() > 0) {
+                                labelBookTags.setLabels(tags);
+                            }
                             ChapterBean newChapter = data.getNewChapter();
                             if (newChapter != null) {
                                 tvNewestSectionName.setText(String.format(getString(R.string.txt_chapter_x), newChapter.getChapter(), newChapter.getName()));
@@ -325,8 +325,8 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             }
                             tvTotalSection.setText(String.format(getString(R.string.txt_total_chapter_x), data.getChapter_sum()));
 
-                            //TODO  版权说明
-                            String copyRightStr = "本作品由咕咪阅读提供，并由本软件合作推广阅读，如有相关问题请及时联系客服。";
+                            //  版权说明
+                            String copyRightStr = data.getCopyright_name();
                             SpannableString spannableString = new SpannableString(getString(R.string.tips_copyright_colon) + copyRightStr);
                             ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(BookDetailsActivity.this, R.color.col_red));
                             StyleSpan styleSpan_B = new StyleSpan(Typeface.BOLD);

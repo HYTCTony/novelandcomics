@@ -41,6 +41,7 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
@@ -85,12 +86,17 @@
             <intent-filter>
                 <action android:name="com.huli.book_detail.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
-<!--                <category android:name="com.ice.activityandintent.CATEGORY" />-->
+                <!--                <category android:name="com.ice.activityandintent.CATEGORY" />-->
             </intent-filter>
         </activity>
 
         <activity
             android:name=".ui.activities.InvitationCodeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.MyInviteFriendsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
@@ -115,9 +121,19 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.activities.WithdrawalRMBActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.WithdrawalRecordActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.activities.MyPrivilegeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.huli.my_privilege.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -151,6 +167,11 @@
 
         <activity
             android:name=".ui.activities.UserBasicInfoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.AvatarSelectActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 

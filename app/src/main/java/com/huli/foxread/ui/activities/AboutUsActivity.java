@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.huli.foxread.R;
+import com.huli.foxread.contact.Common;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.PackageUtils;
 import com.huli.foxread.utils.Tos;
@@ -67,7 +70,10 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Tos.showShort(AboutUsActivity.this, "用户协议");
+//                Tos.showShort(AboutUsActivity.this, "用户协议");
+                Intent intent = new Intent(AboutUsActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.USER_AGREEMENT_URL);
+                startActivity(intent);
             }
 
             @Override
@@ -81,7 +87,10 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Tos.showShort(AboutUsActivity.this, "用户隐私");
+//                Tos.showShort(AboutUsActivity.this, "用户隐私");
+                Intent intent = new Intent(AboutUsActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.PRIVACY_POLICY_URL);
+                startActivity(intent);
             }
 
             @Override
@@ -101,10 +110,12 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_view_detail:
-
+                //TODO
+                Tos.showShort(this, "查看详情");
                 break;
             case R.id.btn_update_app_version:
-
+                //TODO
+                Tos.showShort(this, "更新");
                 break;
             default:
                 break;

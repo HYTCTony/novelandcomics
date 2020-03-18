@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -23,68 +22,60 @@
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_daily_mission_welfare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingTop="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_16"
-        android:paddingBottom="@dimen/dp_10">
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        tools:listitem="@layout/recy_list_item_reading_mission" />
 
-        <TextView
-            android:id="@+id/tv_mission_title_invite_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_invite_friends_18dp"
-            android:drawablePadding="@dimen/dp_8"
-            android:text="@string/txt_invite_friends"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!--  <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/white"
+          android:paddingStart="@dimen/dp_16"
+          android:paddingTop="@dimen/dp_10"
+          android:paddingEnd="@dimen/dp_16"
+          android:paddingBottom="@dimen/dp_10">
 
-        <TextView
-            android:id="@+id/tv_mission_explain_invite_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_26"
-            android:layout_marginTop="@dimen/dp_2"
-            android:text="首次邀请好友，奖励100金币"
-            android:textColor="@color/txt_gray"
-            android:textSize="@dimen/sp_10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_mission_title_invite_friends" />
+          <TextView
+              android:id="@+id/tv_mission_title_invite_friends"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:drawableStart="@drawable/ic_invite_friends_18dp"
+              android:drawablePadding="@dimen/dp_8"
+              android:text="@string/txt_invite_friends"
+              android:textColor="@color/txt_black"
+              android:textSize="@dimen/sp_16"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/btn_go2_invite_friends"
-            android:layout_width="@dimen/dp_80"
-            android:layout_height="@dimen/dp_28"
-            android:background="@drawable/shape_btn_bg_semicircle_border_red"
-            android:gravity="center"
-            android:textColor="@color/txt_red"
-            android:textSize="@dimen/sp_12"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/txt_go2_invite_friends" />
+          <TextView
+              android:id="@+id/tv_mission_explain_invite_friends"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="@dimen/dp_26"
+              android:layout_marginTop="@dimen/dp_2"
+              android:text="首次邀请好友，奖励100金币"
+              android:textColor="@color/txt_gray"
+              android:textSize="@dimen/sp_10"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/tv_mission_title_invite_friends" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+          <TextView
+              android:id="@+id/btn_go2_invite_friends"
+              android:layout_width="@dimen/dp_80"
+              android:layout_height="@dimen/dp_28"
+              android:background="@drawable/shape_btn_bg_semicircle_border_red"
+              android:gravity="center"
+              android:textColor="@color/txt_red"
+              android:textSize="@dimen/sp_12"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              tools:text="@string/txt_go2_invite_friends" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
-        android:background="@color/white"
-        android:drawableStart="@drawable/shape_title_color_lump"
-        android:drawablePadding="@dimen/dp_6"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingTop="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_16"
-        android:paddingBottom="@dimen/dp_10"
-        android:text="@string/txt_reading_mission"
-        android:textColor="@color/txt_black"
-        android:textSize="@dimen/sp_16"
-        android:textStyle="bold" />
+      </androidx.constraintlayout.widget.ConstraintLayout>-->
 </LinearLayout>

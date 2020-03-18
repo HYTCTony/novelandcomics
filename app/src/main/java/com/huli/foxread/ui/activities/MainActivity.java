@@ -2,10 +2,6 @@ package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -24,6 +20,10 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 
 import java.util.ArrayList;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void doBusiness(Context mContext) {
-        changeFragment(0);
+        switch2Bookstore();
     }
 
 
@@ -166,8 +166,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     /**
      * 跳到书城
      */
-    public void switch2Bookstore(){
+    public void switch2Bookstore() {
         mTabLayout.setCurrentTab(0);
+        changeFragment(0);
     }
 
 

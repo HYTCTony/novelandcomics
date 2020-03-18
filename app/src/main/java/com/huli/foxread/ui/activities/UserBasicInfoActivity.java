@@ -19,6 +19,7 @@ import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideEngine;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -49,6 +50,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class UserBasicInfoActivity extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks,
         EasyPermissions.RationaleCallbacks {
 
+    private static final int REQCODE_CHANGE_AVATAR = 0x5236;
 
     private ImageView ivHeadImg;
     private TextView tvNickname, tvGender, tvAccountId;
@@ -117,7 +119,8 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rtl_asBtn_user_headImg:
-                externalAndCameraTask();
+//                externalAndCameraTask();
+                startActivityForResult(new Intent(this, AvatarSelectActivity.class), REQCODE_CHANGE_AVATAR);
                 break;
             case R.id.rtl_asBtn_user_nickname:
                 InputDialog.show(this, R.string.txt_hint_input_nickname, R.string.hint_nickname_length_limit, R.string.txt_confirm, R.string.txt_cancel)
@@ -264,6 +267,14 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
 
             // Do something after user returned from app settings screen, like showing a Toast.
             TipDialog.show(this, R.string.txt_no_relevant_permission, TipDialog.TYPE.ERROR);
+        }
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQCODE_CHANGE_AVATAR) {
+                String headPicUrl = UserInfoCache.getHeadPic(this);
+                GlideUtil.loadCircle(UserBasicInfoActivity.this, ivHeadImg, headPicUrl);
+                setResult(RESULT_OK);
+            }
         }
     }
 

@@ -7,9 +7,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookEntity;
-import com.huli.foxread.entity.NEbookSection;
-import com.huli.foxread.entity.NbSection;
-import com.huli.foxread.entity.NewBookEntity;
+import com.huli.foxread.entity.sections.NEbookSection;
 
 import androidx.annotation.NonNull;
 

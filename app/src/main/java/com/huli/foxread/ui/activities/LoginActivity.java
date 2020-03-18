@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -21,6 +22,7 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -94,7 +96,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Tos.showShort(LoginActivity.this, "用户协议");
+//                Tos.showShort(LoginActivity.this, "用户协议");
+                Intent intent = new Intent(LoginActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.USER_AGREEMENT_URL);
+                startActivity(intent);
             }
 
             //去除连接下划线
@@ -110,7 +115,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
-                Tos.showShort(LoginActivity.this, "隐私策略");
+//                Tos.showShort(LoginActivity.this, "隐私策略");
+                Intent intent = new Intent(LoginActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.PRIVACY_POLICY_URL);
+                startActivity(intent);
             }
 
             //去除连接下划线

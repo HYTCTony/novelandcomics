@@ -1,4 +1,4 @@
-package com.huli.foxread.entity;
+package com.huli.foxread.entity.sections;
 
 import com.chad.library.adapter.base.entity.JSectionEntity;
 

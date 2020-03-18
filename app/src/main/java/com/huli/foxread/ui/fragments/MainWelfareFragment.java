@@ -2,6 +2,9 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,8 +15,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -21,17 +22,27 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoader2;
 import com.huli.foxread.entity.BannerADEntity;
+import com.huli.foxread.entity.NewBieSignInTaskEntity;
+import com.huli.foxread.entity.NormalSignInTaskEntity;
+import com.huli.foxread.entity.ReadSubTaskBean;
+import com.huli.foxread.entity.WelfareIndexEntity;
+import com.huli.foxread.entity.WelfareNewBieTaskEntity;
+import com.huli.foxread.entity.WelfareReadTaskEntity;
+import com.huli.foxread.entity.WelfareTaskEntity;
 import com.huli.foxread.listeners.OnClickEvent;
+import com.huli.foxread.ui.activities.InvitationCodeActivity;
 import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
+import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
-import com.huli.foxread.ui.adapters.ReadingMissionAdapter;
+import com.huli.foxread.ui.adapters.WelfareMissionAdapter;
+import com.huli.foxread.ui.adapters.WelfareReadMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
-import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -47,14 +58,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainWelfareFragment extends BaseFragment implements OnBannerListener, View.OnClickListener {
 
+    private SmartRefreshLayout mRefreshLayout;
     private TextView btnClick2Login;
     private LinearLayout btnGoldCoinUsable;
     private TextView tvGoldCoin;
 
     private RecyclerView recyclerView;
-    private ReadingMissionAdapter mAdapter;
+    private WelfareReadMissionAdapter mAdapter;
 
+    private View headViewTop;
     private Banner mBanner;
+    private List<BannerADEntity> bannerDatas;
+    private TextView tvGoldCoinCount, tvSignInCount;
+    private TextView btnSignInNow;
+
+    private View headViewNewBie;
+    private RecyclerView rvNewbie;
+
+    private View headViewDaily;
+    private RecyclerView rvDaily;
+
+
+//    private boolean completeInit;       //是否完成初始化，防止网络状态异常导致没有初始化
 
     @Override
     public int bindLayout() {
@@ -70,39 +95,58 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     @Override
     public void initView(View view) {
 
+        mRefreshLayout = $(view, R.id.smartRefreshLayout_welfare);
+        mRefreshLayout.setEnableScrollContentWhenRefreshed(false);
         btnClick2Login = $(view, R.id.btn_click_2_login);
         btnGoldCoinUsable = $(view, R.id.ll_asBtn_gold_coin_usable);
         tvGoldCoin = $(view, R.id.tv_gold_coin_usable);
 
+        ImageView imageView = $(view, R.id.iv_welfare_login_icon);
+        tvGoldCoinCount = $(view, R.id.tv_gold_coin_count_today_sign_in);
+        tvSignInCount = $(view, R.id.tv_continuous_sign_in_count);
+        btnSignInNow = $(view, R.id.tv_asBtn_sign_in_now);
+
+//        GlideUtil.loadRoundSquare(mActivity, imageView, "url", 0);
+
         recyclerView = $(view, R.id.recyclerView_reading_task);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mAdapter = new ReadingMissionAdapter();
+        mAdapter = new WelfareReadMissionAdapter();
         recyclerView.setAdapter(mAdapter);
+        initTopLayout();
 
-        LayoutInflater inflater = LayoutInflater.from(mActivity);
-        View headViewTop = inflater.inflate(R.layout.layout_rv_head_welfare_top, recyclerView, false);
-        View headViewNewbie = inflater.inflate(R.layout.layout_rv_head_newbie_mission, recyclerView, false);
-        View headViewDaily = inflater.inflate(R.layout.layout_rv_head_daily_mission, recyclerView, false);
+//        LayoutInflater inflater = LayoutInflater.from(mActivity);
+//        View headViewTop = inflater.inflate(R.layout.layout_rv_head_welfare_top, recyclerView, false);
+//        View headViewNewbie = inflater.inflate(R.layout.layout_rv_head_newbie_mission, recyclerView, false);
+//        View headViewDaily = inflater.inflate(R.layout.layout_rv_head_daily_mission, recyclerView, false);
 
-        mAdapter.addHeaderView(headViewTop, 0);
-        mAdapter.addHeaderView(headViewNewbie, 1);
-        mAdapter.addHeaderView(headViewDaily, 2);
+//        mAdapter.addHeaderView(headViewTop, 0);
+//        mAdapter.addHeaderView(headViewNewbie, 1);
+//        mAdapter.addHeaderView(headViewDaily, 2);
 
-        initTopLayout(headViewTop);
+//        initTopLayout(headViewTop);
 
-        initNewbieMission(headViewNewbie);
+//        initNewbieMission(headViewNewbie);
 
-        initDailyLayout(headViewDaily);
+//        initDailyLayout(headViewDaily);
     }
 
     @Override
     public void setListener() {
-        mAdapter.addChildClickViewIds(R.id.btn_reading_mission_action);
-        mAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.btn_reading_mission_action) {
-                    Tos.showShort(mActivity, "去阅读");
+        btnSignInNow.setOnClickListener(this);
+
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            reqTopBannerData();
+
+            reqGetWerfareTasks(false);
+        });
+        mAdapter.addChildClickViewIds(R.id.btn_welfare_mission_action);
+        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            if (view.getId() == R.id.btn_welfare_mission_action) {
+                WelfareReadTaskEntity data = mAdapter.getData().get(position);
+                if (data.getComplete_task() == 0) {
+                    ((MainActivity) mActivity).switch2Bookstore();
+                } else {
+                    Tos.showShort(mActivity, "领取奖励");
                 }
             }
         });
@@ -132,13 +176,9 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
 
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            list.add("sssssssssss");
-        }
-        mAdapter.setNewData(list);
+        reqTopBannerData();
 
-        reqGetWerfareTasks();
+        reqGetWerfareTasks(true);
     }
 
     @Override
@@ -149,12 +189,19 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
     }
 
+    private int signInFlag = -1;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_go2_invite_friends:
-                startActivity(new Intent(mActivity, InviteFriendsActivity.class));
+            case R.id.tv_asBtn_sign_in_now:
+                if (signInFlag == 0) {
+                    Tos.showShort(mActivity, "签到");
+                } else if (signInFlag == 1) {
+                    Tos.showShort(mActivity, "已经签到");
+                } else {
+
+                }
                 break;
             default:
                 break;
@@ -186,51 +233,101 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
     }
 
-    private void initDailyLayout(View rootView) {
-        TextView btnGo2Invite = $(rootView, R.id.btn_go2_invite_friends);
-        btnGo2Invite.setText(R.string.txt_go2_invite_friends);
-        btnGo2Invite.setOnClickListener(this);
+    private void initDailyLayout(List<WelfareTaskEntity> datas) {
+//        TextView btnGo2Invite = $(rootView, R.id.btn_go2_invite_friends);
+//        btnGo2Invite.setText(R.string.txt_go2_invite_friends);
+//        btnGo2Invite.setOnClickListener(this);
+        if (headViewDaily == null) {
+            headViewDaily = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_daily_mission, recyclerView, false);
+            mAdapter.addHeaderView(headViewDaily);
+            rvDaily = $(headViewDaily, R.id.recyclerView_daily_mission_welfare);
+            rvDaily.setLayoutManager(new LinearLayoutManager(mActivity));
+        }
+        WelfareMissionAdapter dailyAdapter = new WelfareMissionAdapter();
+        rvDaily.setAdapter(dailyAdapter);
+        dailyAdapter.setNewData(datas);
+        dailyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            WelfareTaskEntity data = dailyAdapter.getData().get(position);
+            if (data.getLink().equals(Consts.INVITATION)) {
+                go2InviteFriend();
+//                    Tos.showShort(mActivity, "去邀请");
+            } else if (data.getLink().equals(Consts.BE_INVITATION)) {
+                go2FillInviteCode();
+//                    Tos.showShort(mActivity, "去填写");
+            } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
+//                    Tos.showShort(mActivity, "去阅读");
+                ((MainActivity) mActivity).switch2Bookstore();
+            }
+        });
     }
 
-    private void initNewbieMission(View rootView) {
-        HorizontalStepView setpview = $(rootView, R.id.step_view);
-        List<StepBean> stepsBeanList = new ArrayList<>();
-        StepBean stepBean0 = new StepBean("第1天", 1);
-        StepBean stepBean1 = new StepBean("第2天", 1);
-        StepBean stepBean2 = new StepBean("第3天", 1);
-        StepBean stepBean3 = new StepBean("第4天", 0);
-        StepBean stepBean4 = new StepBean("第5天", -1);
-        StepBean stepBean5 = new StepBean("第6天", -1);
-        StepBean stepBean6 = new StepBean("第7天", -1);
-        stepsBeanList.add(stepBean0);
-        stepsBeanList.add(stepBean1);
-        stepsBeanList.add(stepBean2);
-        stepsBeanList.add(stepBean3);
-        stepsBeanList.add(stepBean4);
-        stepsBeanList.add(stepBean5);
-        stepsBeanList.add(stepBean6);
+    private void initNewbieMission(WelfareNewBieTaskEntity mission) {
+        if (headViewNewBie == null) {
+            headViewNewBie = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_newbie_mission, recyclerView, false);
+            mAdapter.addHeaderView(headViewNewBie);
+            rvNewbie = $(headViewNewBie, R.id.recyclerView_newbie_task_welfare);
+            rvNewbie.setLayoutManager(new LinearLayoutManager(mActivity));
+        }
+        WelfareMissionAdapter mNewbieAdapter = new WelfareMissionAdapter();
+        rvNewbie.setAdapter(mNewbieAdapter);
+        mNewbieAdapter.setNewData(mission.getOther_new());
+        mNewbieAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            WelfareTaskEntity data = mNewbieAdapter.getData().get(position);
+            if (data.getLink().equals(Consts.INVITATION)) {
+                go2InviteFriend();
+//                    Tos.showShort(mActivity, "去邀请");
+            } else if (data.getLink().equals(Consts.BE_INVITATION)) {
+                go2FillInviteCode();
+//                    Tos.showShort(mActivity, "去填写");
+            } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
+//                    Tos.showShort(mActivity, "去阅读");
+                ((MainActivity) mActivity).switch2Bookstore();
+            }
+        });
 
-        setpview.setStepViewTexts(stepsBeanList)//总步骤
-                .setTextSize(10)//set textSize
-                .setStepsViewIndicatorCompletedLineColor(ContextCompat.getColor(mActivity, R.color.col_red))//设置StepsViewIndicator完成线的颜色
-                .setStepsViewIndicatorUnCompletedLineColor(ContextCompat.getColor(mActivity, R.color.txt_gray))//设置StepsViewIndicator未完成线的颜色
-                .setStepViewComplectedTextColor(ContextCompat.getColor(mActivity, R.color.txt_black))//设置StepsView text完成线的颜色
-                .setStepViewUnComplectedTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray))//设置StepsView text未完成线的颜色
-                .setStepsViewIndicatorCompleteIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_complted_red_packet))//设置StepsViewIndicator CompleteIcon
-                .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_default_red_packet))//设置StepsViewIndicator DefaultIcon
-                .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_default_red_packet));//设置StepsViewIndicator AttentionIcon
+        HorizontalStepView setpview = $(headViewNewBie, R.id.step_view);
+        NewBieSignInTaskEntity newSignInMission = mission.getNew_sign_in();
+        if (newSignInMission != null) {
+            TextView btnReceive = headViewNewBie.findViewById(R.id.btn_receive_nb_signin_rewards);
+            btnReceive.setOnClickListener(new OnClickEvent() {
+                @Override
+                public void singleClick(View v) {
+                    Tos.showShort(mActivity, "去领取");
+                }
+            });
+            int completeSum = newSignInMission.getComplete_sum();
+            setpview.setVisibility(View.VISIBLE);
+            List<StepBean> stepsBeanList = new ArrayList<>();
+            for (int i = 0; i < completeSum; i++) {
+                StepBean stepBean = new StepBean(String.format(getString(R.string.txt_day_x), i + 1), 1);
+                stepsBeanList.add(stepBean);
+            }
+            for (int j = 0; j < (7 - completeSum); j++) {
+                StepBean stepBean = new StepBean(String.format(getString(R.string.txt_day_x), j + 1), 0);
+                stepsBeanList.add(stepBean);
+            }
+//            StepBean stepBean6 = new StepBean("第7天", -1);
+
+            setpview.setStepViewTexts(stepsBeanList)//总步骤
+                    .setTextSize(10)//set textSize
+                    .setStepsViewIndicatorCompletedLineColor(ContextCompat.getColor(mActivity, R.color.col_red))//设置StepsViewIndicator完成线的颜色
+                    .setStepsViewIndicatorUnCompletedLineColor(ContextCompat.getColor(mActivity, R.color.txt_gray))//设置StepsViewIndicator未完成线的颜色
+                    .setStepViewComplectedTextColor(ContextCompat.getColor(mActivity, R.color.txt_black))//设置StepsView text完成线的颜色
+                    .setStepViewUnComplectedTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray))//设置StepsView text未完成线的颜色
+                    .setStepsViewIndicatorCompleteIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_complted_red_packet))//设置StepsViewIndicator CompleteIcon
+                    .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_default_red_packet))//设置StepsViewIndicator DefaultIcon
+                    .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_default_red_packet));//设置StepsViewIndicator AttentionIcon
+        } else {
+            setpview.setVisibility(View.GONE);
+        }
     }
 
 
-    private void initTopLayout(View rootView) {
-        ImageView imageView = $(rootView, R.id.iv_welfare_login_icon);
-        TextView tvGoldCoinCount = $(rootView, R.id.tv_gold_coin_count_today_sign_in);
-        TextView tvSignInCount = $(rootView, R.id.tv_continuous_sign_in_count);
-        TextView btnSignInNow = $(rootView, R.id.tv_asBtn_sign_in_now);
+    private void initTopLayout() {
+        headViewTop = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_welfare_top, recyclerView, false);
+        mAdapter.addHeaderView(headViewTop);
 
-        GlideUtil.loadRoundSquare(mActivity, imageView, "url", 0);
-
-        initBannerView(rootView);
+        initBannerView(headViewTop);
     }
 
     private void initBannerView(View rootView) {
@@ -249,44 +346,128 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.setOnBannerListener(this);
 
-        List<BannerADEntity> bannerADs = getBannerADs();
         //设置图片集合
-        mBanner.setImages(bannerADs);
+//        mBanner.setImages(bannerADs);
         //banner设置方法全部调用完毕时最后调用
 
         mBanner.start();
-    }
-
-    private List<BannerADEntity> getBannerADs() {
-        List<BannerADEntity> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            BannerADEntity ad = new BannerADEntity();
-            ad.setTitle("AD标题-----" + i);
-            ad.setImage("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
-            list.add(ad);
-        }
-        return list;
     }
 
 
     /**
      * 福利任务列表
      */
-    private void reqGetWerfareTasks() {
+    private void reqGetWerfareTasks(boolean showDialog) {
         OkGo.<String>get(Consts.WELFARE_LIST_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
+                        LzyResponse<WelfareIndexEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<WelfareIndexEntity>>() {
                                 });
                         if (entity.error_code == 0) {
-                            //TODO do something
-                        } else {
+                            WelfareIndexEntity welfareEntity = entity.getData();
+
+                            //普通签到任务
+                            NormalSignInTaskEntity normalSignInTask = welfareEntity.getSign_in();
+                            signInFlag = normalSignInTask.getSign_successions();
+                            if (!UserInfoCache.getIsVisitor(mActivity)) {
+                                tvGoldCoinCount.setText(setNumColor(mActivity, String.format(getString(R.string.txt_today_signin_add_goldcoin_x), normalSignInTask.getReward())));
+                                tvSignInCount.setText(setNumColor(mActivity, String.format(getString(R.string.txt_continuous_sign_in_day_x), normalSignInTask.getFrequency())));
+                            } else {
+                                tvGoldCoinCount.setText(null);
+                                tvSignInCount.setText(null);
+                            }
+
+                            //新人任务
+                            WelfareNewBieTaskEntity newManMission = welfareEntity.getNew_man();
+                            if (newManMission != null) {
+                                initNewbieMission(newManMission);
+                            }
+
+                            //日常任务
+                            List<WelfareTaskEntity> dailyMissions = welfareEntity.getDay();
+                            if (dailyMissions != null && dailyMissions.size() > 0) {
+                                initDailyLayout(dailyMissions);
+                            }
+
+                            //阅读任务
+                            List<WelfareReadTaskEntity> readTasks = welfareEntity.getRead();
+                            List<WelfareReadTaskEntity> readMissions = new ArrayList<>();
+                            for (int i = 0; i < readTasks.size(); i++) {
+                                WelfareReadTaskEntity pTask = readTasks.get(i);
+                                List<ReadSubTaskBean> subTasks = pTask.getTask();
+                                if (subTasks != null && subTasks.size() > 0) {
+                                    for (int j = 0; j < subTasks.size(); j++) {
+                                        ReadSubTaskBean wfSubTaskBean = subTasks.get(j);
+                                        pTask.setSubTaskId(wfSubTaskBean.getId());
+                                        pTask.setName(wfSubTaskBean.getName());
+                                        pTask.setReward(wfSubTaskBean.getReward());
+                                        pTask.setComplete_task(wfSubTaskBean.getComplete_task());
+                                        pTask.setTask(null);
+                                        readMissions.add(pTask);
+                                    }
+                                } else {
+                                    pTask.setTask(null);
+                                    readMissions.add(pTask);
+                                }
+                            }
+                            View headViewReadingMission = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_welfare_reading_mission, recyclerView, false);
+                            mAdapter.addHeaderView(headViewReadingMission);
+                            mAdapter.setNewData(readMissions);
+                        }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        mRefreshLayout.finishRefresh();
+                    }
+                });
+    }
+
+    /**
+     * banner
+     */
+    private void reqTopBannerData() {
+        OkGo.<String>get(Consts.BANNER_READ_API)
+                .params(Consts.POSITION, Consts.TYPE_WELFARE)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<BannerADEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BannerADEntity>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            bannerDatas = entity.getData();
+                            if (bannerDatas != null) {
+                                mBanner.update(bannerDatas);
+                            }
                         }
                     }
                 });
     }
 
 
+    private void go2FillInviteCode() {
+        Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
+        startActivity(intent);
+    }
+
+    private void go2InviteFriend() {
+        Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
+        startActivity(intent);
+    }
+
+
+    private static SpannableStringBuilder setNumColor(Context context, String str) {
+        SpannableStringBuilder style = new SpannableStringBuilder(str);
+        for (int i = 0; i < str.length(); i++) {
+            char a = str.charAt(i);
+            if (a >= '0' && a <= '9') {
+                style.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.txt_red)), i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+        return style;
+    }
 }

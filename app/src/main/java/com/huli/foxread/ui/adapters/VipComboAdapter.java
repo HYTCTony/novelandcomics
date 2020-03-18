@@ -10,36 +10,46 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
+import com.huli.foxread.entity.ReChargeSetEntity;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatCheckBox;
 
-public class VipComboAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class VipComboAdapter extends BaseQuickAdapter<ReChargeSetEntity, BaseViewHolder> {
 
+    private NumberFormat nf;
     private int checkPos = 0;
 
     public VipComboAdapter() {
         super(R.layout.recy_grid_item_vip_combo);
+        nf = NumberFormat.getCurrencyInstance(Locale.CHINA);
+        nf.setMaximumFractionDigits(2);
+        nf.setMinimumFractionDigits(0);
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder holder, String s) {
-
-        SpannableString spaRealPrice = new SpannableString("￥12.00");
+    protected void convert(@NonNull BaseViewHolder holder, ReChargeSetEntity data) {
+        nf.setMinimumFractionDigits(2);
+        SpannableString spaRealPrice = new SpannableString(nf.format(data.getDiscount_price()));
         spaRealPrice.setSpan(new RelativeSizeSpan(0.65f), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        SpannableString spaOriginalPrice = new SpannableString("￥20");
+        nf.setMinimumFractionDigits(0);
+        SpannableString spaOriginalPrice = new SpannableString(nf.format(data.getInitial_price()));
         spaOriginalPrice.setSpan(new RelativeSizeSpan(0.7f), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         spaOriginalPrice.setSpan(new StrikethroughSpan(), 0, spaOriginalPrice.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         holder.setText(R.id.tv_combo_real_price, spaRealPrice);
         holder.setText(R.id.tv_original_price, spaOriginalPrice);
 
-        holder.setText(R.id.tv_combo_duration, "1个月");
+        holder.setText(R.id.tv_combo_duration, data.getTitle());
 
         AppCompatCheckBox checkBox = holder.getView(R.id.cb_vip_combo);
         checkBox.setEnabled(false);
 
         int position = holder.getLayoutPosition();
         if (checkPos == position) {
+            selectedComboId = data.getId();
             checkBox.setChecked(true);
             holder.setTextColorRes(R.id.tv_combo_duration, R.color.txt_brownness_8b7342);
             holder.setTextColorRes(R.id.tv_combo_real_price, R.color.txt_brownness_8b7342);
@@ -63,5 +73,11 @@ public class VipComboAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
                 notifyDataSetChanged();
             }
         });
+    }
+
+    private String selectedComboId;
+
+    public String getSelectedComboId() {
+        return selectedComboId;
     }
 }

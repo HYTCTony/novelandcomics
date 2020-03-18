@@ -17,7 +17,7 @@ public class BooksMultiItemAdapter extends BaseMultiItemQuickAdapter<BookMultiEn
         super(data);
         // 绑定 layout 对应的 type
         addItemType(BookMultiEntity.DETAILED, R.layout.recy_grid_multi_item_book_firstitem);
-        addItemType(BookMultiEntity.SUCCINCT, R.layout.recy_grid_multi_item_book);
+        addItemType(BookMultiEntity.ITEM_FIRST, R.layout.recy_grid_multi_item_book);
     }
 
     @Override
@@ -38,9 +38,9 @@ public class BooksMultiItemAdapter extends BaseMultiItemQuickAdapter<BookMultiEn
                     helper.setGone(R.id.tv_book_tag, true);
                 }
 
-                helper.setText(R.id.tv_book_word_count, UnitConverUtil.formatNum(getContext(), item.getWord()));
+                helper.setText(R.id.tv_book_word_count, UnitConverUtil.formatNumWan(getContext(), item.getWord()));
                 break;
-            case BookMultiEntity.SUCCINCT:
+            case BookMultiEntity.ITEM_FIRST:
                 GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
                 helper.setText(R.id.tv_book_name, item.getName());
                 helper.setText(R.id.tv_authorName, item.getAuthor());

@@ -61,10 +61,16 @@
     <string name="txt_invitation_code">邀请码</string>
 
     <string name="txt_recommend">推荐</string>
+    <string name="txt_day_x">第%1$d天</string>
 
     <string name="txt_explain">说明</string>
     <string name="txt_confirm">确定</string>
     <string name="txt_cancel">取消</string>
+
+    <string name="txt_confirm_2_pay">确认支付</string>
+    <string name="txt_payment_dialog_title">请选择支付方式</string>
+    <string name="txt_plz_select_payment_way">请选择支付方式</string>
+    <string name="txt_need_2_pay">需支付：%1$s</string>
 
     <string name="unit_ren">人</string>
     <string name="unit_yuan">元</string>
@@ -146,7 +152,7 @@
     <string name="txt_msg_notify">消息通知</string>
     <string name="txt_reading_record">阅读历史</string>
     <string name="txt_inviter">邀请人</string>
-    <string name="txt_cash_withdrawal">金币提现</string>
+    <string name="txt_gold_coin_withdrawal">金币提现</string>
     <string name="txt_withdrawal_2_account_quick">提现到账快</string>
     <string name="txt_mode_adolescent">青少年模式</string>
     <string name="txt_help_and_feedback">帮助反馈</string>
@@ -171,6 +177,7 @@
     <string name="txt_copy">复制</string>
     <string name="txt_immediately_invite">立即邀请</string>
     <string name="txt_itf_go2_check">已邀好友-去查看</string>
+    <string name="txt_has_been_invited_friends">已邀好友</string>
     <string name="txt_made_money_go2_withdrawal">已赚现金-去提现</string>
     <string name="txt_my_invite_code_colon">我的邀请码：</string>
     <string name="txt_invite_award">邀请奖励</string>
@@ -186,7 +193,10 @@
     <string name="txt_goldcoin_balance">金币余额</string>
     <string name="txt_go2_withdrawal">去提现</string>
     <string name="txt_gold_coin">金币</string>
+    <string name="txt_money_yuan">现金（元）</string>
+    <string name="txt_money_withdrawal">现金提现</string>
     <string name="txt_gold_coin_details">金币明细</string>
+    <string name="txt_warm_prompt">温馨提示</string>
     <string name="txt_accumulated_gold_colon">累计获得金币：</string>
     <string name="txt_get_gold_today_colon">今日获得金币：</string>
 
@@ -195,6 +205,7 @@
 
     <string name="txt_fox_vip">狐狸VIP</string>
     <string name="txt_vip_advantage">VIP尊享4大特权，免广告看书爽翻天</string>
+    <string name="txt_tips_vip_state">您已开通尊贵VIP，请尽情畅读吧</string>
     <string name="txt_vip_enjoyment">VIP尊享</string>
     <string name="txt_check_privilege_description">查看特权说明</string>
     <string name="txt_select_packages">选择套餐</string>
@@ -209,6 +220,8 @@
     <string name="txt_sign_in_state_this_week_xx">本周累计签到%1$d天，连续签到%2$d天</string>
     <string name="txt_continuous_sign_in_day_x">连续签到%1$d天</string>
     <string name="txt_congratulations_get_gold_coin_x">恭喜获得+%1$d金币</string>
+    <string name="txt_add_gold_coin_x">+%1$d金币</string>
+    <string name="txt_most_gold_coin_x">最高%1$d金币</string>
     <string name="txt_non_arrival">未到</string>
     <string name="txt_overdue">过期</string>
     <string name="txt_signed_in">已签</string>
@@ -221,6 +234,7 @@
     <string name="txt_i_see">朕知道了</string>
     <string name="txt_get_goldcoin_x">获得%1$d金币</string>
     <string name="txt_login_title_cellphone">手机号快速登录</string>
+    <string name="txt_today_signin_add_goldcoin_x">今日签到+%1$d金币</string>
 
     <string name="txt_reading_records">阅读记录</string>
     <string name="txt_del_books_x">删除书籍（%1$d）</string>
@@ -247,6 +261,7 @@
     <string name="txt_cellphone">手机</string>
     <string name="txt_wechat">微信</string>
     <string name="hint_content_clear_cache">清理的缓存包括未在书架的书籍缓存，以及广告的图片、视频缓存、是否清理？</string>
+    <string name="txt_change_avatar">更换头像</string>
 
     <string name="txt_hint_input_nickname">请输入昵称</string>
     <string name="hint_nickname_length_limit">昵称为4&#8211;8个字符</string>
@@ -276,6 +291,9 @@
     <string name="txt_for_the_convenience_of_our_contact">为了方便我们联系您</string>
     <string name="txt_cellphone_or_wechat_number">手机号码/微信号</string>
     <string name="txt_submit_feedback">提交反馈</string>
+
+    <string name="txt_wechat_pay">微信支付</string>
+    <string name="txt_alipay">支付宝</string>
 
     <string name="expand">展开</string>
     <string name="collapse">收起</string>

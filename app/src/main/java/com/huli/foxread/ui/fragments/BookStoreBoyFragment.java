@@ -3,7 +3,6 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -265,6 +264,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                     if (p == 0) {
                         entity.setItemType(BookMultiEntity.DETAILED);
                         entity.setSpanSize(BookMultiEntity.SPAN_SIZE_4);
+                        entity.setId(bookEntity.getId());
                         entity.setAuthor(bookEntity.getAuthor());
                         entity.setName(bookEntity.getName());
                         entity.setScore(bookEntity.getScore());
@@ -273,8 +273,9 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                         datas.add(entity);
                     } else {
                         entity = new BookMultiEntity();
-                        entity.setItemType(BookMultiEntity.SUCCINCT);
+                        entity.setItemType(BookMultiEntity.ITEM_FIRST);
                         entity.setSpanSize(BookMultiEntity.SPAN_SIZE_1);
+                        entity.setId(bookEntity.getId());
                         entity.setAuthor(bookEntity.getAuthor());
                         entity.setName(bookEntity.getName());
                         entity.setScore(bookEntity.getScore());
@@ -284,8 +285,9 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                     }
                 } else {
                     entity = new BookMultiEntity();
-                    entity.setItemType(BookMultiEntity.SUCCINCT);
+                    entity.setItemType(BookMultiEntity.ITEM_FIRST);
                     entity.setSpanSize(BookMultiEntity.SPAN_SIZE_1);
+                    entity.setId(bookEntity.getId());
                     entity.setAuthor(bookEntity.getAuthor());
                     entity.setName(bookEntity.getName());
                     entity.setScore(bookEntity.getScore());

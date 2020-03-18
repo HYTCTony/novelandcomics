@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingTop="@dimen/dp_16">
@@ -12,18 +13,19 @@
         android:layout_margin="@dimen/dp_8"
         android:drawableStart="@drawable/shape_title_color_lump"
         android:drawablePadding="@dimen/dp_6"
-        android:text="@string/txt_gold_coin_details"
+        android:text="@string/txt_warm_prompt"
         android:textColor="@color/txt_black"
         android:textSize="@dimen/sp_16"
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tv_withdrawal_tips"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_8"
         android:lineSpacingMultiplier="1.5"
-        android:text="1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功"
+        tools:text="1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功"
         android:textColor="@color/txt_gray"
         android:textSize="@dimen/sp_12" />
 

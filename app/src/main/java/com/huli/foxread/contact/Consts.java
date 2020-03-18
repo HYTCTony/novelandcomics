@@ -6,6 +6,16 @@ public interface Consts {
     String NOT_CPL_URL = BASE_URL + "/api/v1";
 
     String FEEDBACK_URL = BASE_URL + "/api/feedback";
+    /*用户协议*/
+    String USER_AGREEMENT_URL = BASE_URL + "/api/clause/detail?id=1";
+    /*隐私策略*/
+    String PRIVACY_POLICY_URL = BASE_URL + "/api/clause/detail?id=2";
+    /*会员特权说明*/
+    String  PRIVILEGE_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=3";
+    /*会员服务协议*/
+    String MEMBERSHIP_AGREEMENT_URL = BASE_URL + "/api/clause/detail?id=4";
+    /*邀请好友说明*/
+    String INVITE_FRIENDS_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=5";
 
     String USE_UNIQUE_ID_LOGIN_OR_REG_API = NOT_CPL_URL + Func.USER_VISITOR_LOGIN;
     String USER_SET_GENDER_API = NOT_CPL_URL + Func.USER_SET_GENDER;
@@ -24,6 +34,8 @@ public interface Consts {
     String ADS_BANNER_API = NOT_CPL_URL + Func.ADS_BANNER;
     String ADS_PLAQUE_API = NOT_CPL_URL + Func.ADS_PLAQUE;
     String ADS_INFO_API = NOT_CPL_URL + Func.ADS_INFO;
+
+    String AVATAR_LIST_API = NOT_CPL_URL + Func.AVATAR_LIST;
 
     String INDEX_PAGE_API = NOT_CPL_URL + Func.INDEX_PAGE;
     String BANNER_READ_API = NOT_CPL_URL + Func.BANNER_READ;
@@ -45,7 +57,6 @@ public interface Consts {
     String NOVEL_NOMINATE_API = NOT_CPL_URL + Func.NOVEL_NOMINATE;
 
 
-
     String BOOKRACK_ADD_API = NOT_CPL_URL + Func.BOOKRACK_ADD;
     String BOOKRACK_DEL_API = NOT_CPL_URL + Func.BOOKRACK_DEL;
     String BOOKRACK_GETLIST_API = NOT_CPL_URL + Func.BOOKRACK_GETLIST;
@@ -57,6 +68,25 @@ public interface Consts {
 
 
     String WELFARE_LIST_API = NOT_CPL_URL + Func.WELFARE_LIST;
+
+
+
+    /*提现*/
+    String WITHDRAWAL_MENU_API = NOT_CPL_URL + Func.WITHDRAWAL_MENU;
+    String WITHDRAWAL_FARE_API = NOT_CPL_URL + Func.WITHDRAWAL_FARE;
+    String WITHDRAWAL_SCORE_API = NOT_CPL_URL + Func.WITHDRAWAL_SCORE;
+    String WITHDRAWAL_MONEY_API = NOT_CPL_URL + Func.WITHDRAWAL_MONEY;
+    String WITHDRAWAL_RECORD_API = NOT_CPL_URL + Func.WITHDRAWAL_RECORD;
+    /*提现*/
+
+    /*已邀好友*/
+    String INVITATION_INDEX_API = NOT_CPL_URL + Func.INVITATION_INDEX;
+
+
+    /*会员充值套餐*/
+    String ORDER_RECHARGE_API = NOT_CPL_URL + Func.ORDER_RECHARGE;
+    /*创建订单*/
+    String ORDER_CREATE_API = NOT_CPL_URL + Func.ORDER_CREATE;
 
 
     /***gender***/
@@ -78,6 +108,8 @@ public interface Consts {
     int TYPE_SELECTION = 4;
     /***书城tab***/
 
+    int TYPE_WELFARE = 5;
+
     /***排行榜tab***/
     int RANK_TYPE_HOT = 1;
     int RANK_TYPE_END = 2;
@@ -86,6 +118,12 @@ public interface Consts {
     /***排行榜tab***/
     int RANK_BOY = 1;
     int RANK_GIRL = 2;
+
+    /***福利任务跳转判断***/
+    String INVITATION = "Invitation";               //去邀请好友
+    String BE_INVITATION = "be_Invitation";         //填写邀请码
+    String EVERYDAY_READING = "everyday_reading";      //跳到书城
+    /***福利任务跳转判断***/
 
 
     //*************************Param******************************
@@ -127,9 +165,9 @@ public interface Consts {
 
     String POSITION = "position";
 
+    String WITHDRAWAL_PLAN_ID = "id";
 
-
-
+    String VIP_COMBO_ID = "id";
 
 
     String TEL = "tel";

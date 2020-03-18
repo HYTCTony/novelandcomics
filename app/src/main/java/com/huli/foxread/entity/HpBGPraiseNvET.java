@@ -2,6 +2,9 @@ package com.huli.foxread.entity;
 
 import java.util.List;
 
+/**
+ * 书籍分组
+ */
 public class HpBGPraiseNvET {
     private String id;
     private String name;

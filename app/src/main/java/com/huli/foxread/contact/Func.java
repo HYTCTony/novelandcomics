@@ -82,7 +82,7 @@ public interface Func {
      * 头：token---token(Y)
      * 参数：（三个参数至少填一个）
      * username---用户名
-     * avatar---头像（表单提交）
+     * avatar---头像
      * gender---性别(0=男,1=女)
      */
     String USER_PROFILE = "/user/profile";
@@ -116,6 +116,12 @@ public interface Func {
      */
     String ADS_INFO = "/advertisement/info";
 
+
+    /**
+     * 用途：系统头像列表
+     * 头：token(Y)
+     */
+    String AVATAR_LIST = "/Avatar/avatarList";
 
     /**
      * 用途：首页(GET)
@@ -361,11 +367,71 @@ public interface Func {
      * type --- 状态:1=看广告,2=金币支付 (Y)
      */
     String WELFARE_WELFAREINVITATION = "/welfare/WelfareInvitation";
+
     /**
      * 用途：小说章节列表(GET)
      * 头：token---token(Y)
      */
     String NOVEL_NOVELCHAPTERLIST = "/novel/novelChapterList";
+
+
+    /**
+     * 用途：金币提现，提现菜单(GET)
+     * 头：token---token(Y)
+     */
+    String WITHDRAWAL_MENU = "/withdrawal/menu";
+    /**
+     * 用途：现金提现，提现菜单（套餐）(GET)
+     * 头：token---token(Y)
+     */
+    String WITHDRAWAL_FARE = "/withdrawal/fare";
+
+    /**
+     * 用途：余额提现(POST)
+     * 头：token---token(Y)
+     * 参数：
+     * want_money --- 提现金额
+     */
+    String WITHDRAWAL_MONEY = "/withdrawal/money";
+
+    /**
+     * 用途：金币提现(POST)
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 金币提现套餐ID
+     */
+    String WITHDRAWAL_SCORE = "/withdrawal/score";
+
+    /**
+     * 用途：提现记录(现金和金币)(POST)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WITHDRAWAL_RECORD = "/withdrawal/read";
+
+
+    /**
+     * 用途：已邀好友
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String INVITATION_INDEX = "/invitation/index";
+
+
+    /**
+     * 用途：充值列表（GET）
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String ORDER_RECHARGE = "/order/recharge";
+
+    /**
+     * 用途：创建充值订单（POST）
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 套餐ID
+     */
+    String ORDER_CREATE = "/order/create";
 
 
 }
