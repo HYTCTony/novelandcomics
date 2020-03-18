@@ -25,10 +25,12 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.eventbus.LoginChangeEvent;
+import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SearchBookActivity;
 import com.huli.foxread.ui.adapters.BookRackAdapter;
+import com.huli.foxread.ui.adapters.SignInActivity;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
@@ -71,7 +73,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     private BookRackAdapter mAdapter;
 
     private ImageView ivookCoverPush;
-    private TextView tvBookNamePush, tvBookIntroPush, tvTotalReadingTimeToday;
+    private TextView tvBookNamePush, tvBookIntroPush, tvTotalReadingTimeToday, tvAsBtnSignIngGold;
 
     private List<BookShelfListBean> data = new ArrayList<>();
 
@@ -101,6 +103,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         appBarLayout = $(view, R.id.appBarLayout_bookrack);
 
         tvTotalReadingTimeToday = $(view, R.id.tv_total_reading_time_today);
+        tvAsBtnSignIngGold = $(view, R.id.tv_asBtn_sign_in_4_gold);
         ivookCoverPush = $(view, R.id.iv_book_cover_push);
         tvBookNamePush = $(view, R.id.tv_book_name_push);
         tvBookIntroPush = $(view, R.id.tv_book_introduction_push);
@@ -126,6 +129,16 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             }
         });
         layout.setEnableLoadMore(false);
+        tvAsBtnSignIngGold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UserInfoCache.getIsVisitor(mActivity)) {
+                    startActivityForResult(new Intent(mActivity, LoginActivity.class), MainMineFragment.REQCODE_LOGIN);
+                } else {
+                    startActivity(new Intent(mActivity, SignInActivity.class));
+                }
+            }
+        });
     }
 
     @Override
@@ -146,7 +159,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginChangeEvent(LoginChangeEvent event){
+    public void onLoginChangeEvent(LoginChangeEvent event) {
         boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
         if (isVisitor) {
             mToolbar.setTitle(R.string.txt_say_hi);
@@ -344,8 +357,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                     }
                 });
     }
+
     /**
-     * 获取特别推荐的一本书
+     * 获取用户阅读时间
      */
     private void getUserReadTime() {
         OkGo.<String>get(Consts.USER_READ_TIME_API)
@@ -356,7 +370,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-
+                            tvTotalReadingTimeToday.setText(entity.getData());
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
