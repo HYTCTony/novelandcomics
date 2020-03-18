@@ -20,6 +20,7 @@ import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.utils.Tos;
 import com.huli.page.ui.activity.MoreSettingActivity;
+import com.huli.page.utils.DataCleanManager;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -98,7 +99,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         tvPushNotifyState.setText("已开启");
         String cache = "0.00M";
         try {
-//            cache = DataCleanManager.getTotalCacheSize(mContext);
+            cache = DataCleanManager.getTotalCacheSize(mContext);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,7 +123,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             case R.id.rtl_asBtn_clear_cache:
                 MessageDialog.show(this, R.string.txt_clear_cache, R.string.hint_content_clear_cache, R.string.txt_confirm, R.string.txt_cancel)
                         .setOnOkButtonClickListener((baseDialog, v) -> {
-//                            DataCleanManager.clearAllCache(SettingActivity.this);
+                            DataCleanManager.clearAllCache(SettingActivity.this);
                             tvCacheSize.setText("0.00k");
                             baseDialog.doDismiss();
                             return false;
