@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/shape_top_round_whitebg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="@dimen/dp_16"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_payment_title"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:text="@string/txt_payment_dialog_title"
+            android:textSize="@dimen/sp_18"
+            android:textColor="@color/txt_black_191919"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_content_payment"
+            android:layout_width="wrap_content"
+            tools:text="购买12个月会员"
+            android:textColor="@color/txt_brownness_8b7342"
+            android:layout_marginStart="@dimen/dp_16"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_below="@+id/tv_payment_title"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tv_need2pay_money_payment"
+            android:layout_width="wrap_content"
+            tools:text="需支付：￥118"
+            android:textColor="@color/txt_red"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:textSize="@dimen/sp_12"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/tv_payment_title"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_f2"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rtl_asBtn_payment_wechat_pay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_52"
+            android:background="@drawable/ripple_normal_btn_bg_white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_16"
+                android:drawableStart="@drawable/ic_payment_wechat"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:text="@string/txt_wechat_pay"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_14" />
+
+            <com.huli.foxread.ui.widget.CheckBoxSample
+                android:id="@+id/checkbox_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:clickable="false" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rtl_asBtn_payment_alipay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_52"
+            android:layout_marginTop="@dimen/px_1"
+            android:background="@drawable/ripple_normal_btn_bg_white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_16"
+                android:drawableStart="@drawable/ic_payment_alipay"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:text="@string/txt_alipay"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_14" />
+
+            <com.huli.foxread.ui.widget.CheckBoxSample
+                android:id="@+id/checkbox_alipay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:clickable="false" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confirm_2_pay"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/dp_32"
+        android:text="@string/txt_confirm_2_pay"
+        style="@style/Btn_Normal"
+        android:layout_height="@dimen/dp_48"/>
+
+</LinearLayout>

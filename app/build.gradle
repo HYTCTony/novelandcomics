@@ -1,0 +1,159 @@
+apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId "com.huli.foxread"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("C:/Users/hp/.android/debug.keystore")
+//            storeFile file("C:/Users/Lili/.android/debug.keystore")
+//            storePassword "android"
+//            keyAlias "androiddebugkey"
+//            keyPassword "android"
+//            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+//            storePassword "hytc1688"
+//            keyAlias "hytc"
+//            keyPassword "hytc1688"
+        }
+        release {// 自己的签名文件
+            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+            storePassword "hytc1688"
+            keyAlias "hytc"
+            keyPassword "hytc1688"
+        }
+    }
+
+    //Caused by: org.gradle.api.GradleException: Lint found fatal errors while assembling a release target.
+    //添加如下配置
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            versionNameSuffix "-debug"
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //混淆
+            minifyEnabled true
+            //false
+            zipAlignEnabled true
+            // 移除无用的resource文件，shrinkResources依赖于minifyEnabled,必须一起用
+            shrinkResources true
+            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明，后一个文件是自己的定义混淆文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //签名
+            signingConfig signingConfigs.release
+
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    //定义apk名字
+                    def formatedTime = new Date().format("yyyy-MM-dd")
+                    def apkFileName = "foxread_app_v${android.defaultConfig.versionName}_${formatedTime}.apk"
+                    outputFileName = apkFileName
+                }
+            }
+        }
+    }
+
+    //渠道Flavors，配置不同风格的app,友盟渠道统计时用到
+    flavorDimensions "default"//这个名字貌似随便取，也可以有多个，总之一定要有..
+    productFlavors {
+        market {
+            dimension "default"
+        }
+    }
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'com.huli.page.model.dao'
+    targetGenDir 'src/main/java'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    //okgo
+    implementation 'com.lzy.net:okgo:3.0.4'
+//    implementation 'com.lzy.net:okserver:2.0.5'
+
+    implementation 'com.alibaba:fastjson:1.2.62'
+
+    //glide   ---  别改
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    //图片选择器   ---  别改
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
+
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.2.0'
+
+    implementation 'com.kongzue.stacklabel:stacklabelview:1.1.9'
+    implementation 'com.kongzue.dialog_v3x:dialog:3.1.8'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
+    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
+
+    //屏幕适配
+    implementation 'me.jessyan:autosize:1.1.2'
+
+    //下拉刷新上拉加载
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
+
+    implementation 'pub.devrel:easypermissions:2.0.1'
+
+    //轮播图
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation project(path: ':stepview')
+
+    // OpenCC to convert Simp. Chinese to Trad. Chinese
+    implementation "com.zqc.opencc.android.lib:lib-opencc-android:0.8.0@aar"
+    // ORM Database
+    implementation 'org.greenrobot:greendao:3.2.2'
+    // RxJava
+    api 'io.reactivex.rxjava2:rxjava:2.2.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    //日志
+    api 'com.orhanobut:logger:2.2.0'
+    //注解
+    api 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    //下划线
+    api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    //弹窗
+    api 'com.lxj:xpopup:1.6.9'
+
+}

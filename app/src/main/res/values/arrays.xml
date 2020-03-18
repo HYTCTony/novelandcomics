@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string-array name="bottom_bar_main">
+        <item>书城</item>
+        <item>书架</item>
+        <item>福利</item>
+        <item>我</item>
+    </string-array>
+
+    <string-array name="tab_book_store">
+        <item>精选</item>
+        <item>男生</item>
+        <item>女生</item>
+        <item>图书</item>
+    </string-array>
+
+    <string-array name="tab_v_classify">
+        <item>男生</item>
+        <item>女生</item>
+        <item>图书</item>
+    </string-array>
+
+    <string-array name="tab_ranking">
+        <item>男生榜</item>
+        <item>女生榜</item>
+    </string-array>
+
+    <string-array name="tab_sub_ranking">
+        <item>大热榜</item>
+        <item>完结榜</item>
+        <item>黑马榜</item>
+        <item>热搜榜</item>
+    </string-array>
+
+
+    <string-array name="tab_end_book">
+        <item>男生完结</item>
+        <item>女生完结</item>
+    </string-array>
+
+    <string-array name="cat_is_end">
+        <item>全部</item>
+        <item>连载</item>
+        <item>完结</item>
+    </string-array>
+    <string-array name="cat_word_num">
+        <item>全部</item>
+        <item>100万字以下</item>
+        <item>100&#8211;200万字</item>
+        <item>200&#8211;300万字</item>
+        <item>300万字以上</item>
+    </string-array>
+    <string-array name="cat_state">
+        <item>最热</item>
+        <item>评分</item>
+        <item>最新</item>
+    </string-array>
+</resources>

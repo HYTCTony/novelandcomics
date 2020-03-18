@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/dp_8"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/shape_title_color_lump"
+        android:drawablePadding="@dimen/dp_6"
+        android:text="@string/txt_gold_coin_withdrawal"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/dp_8"
+        android:text="@string/txt_withdrawal_quick_arrival"
+        android:textColor="@color/txt_gray_999"
+        android:textSize="@dimen/sp_12" />
+
+</LinearLayout>

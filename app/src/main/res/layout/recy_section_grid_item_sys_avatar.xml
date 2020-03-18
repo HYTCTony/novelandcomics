@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_cur_check_avatar"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:background="@drawable/selector_cb_selected_avatar_rv_bg"
+        android:button="@null"
+        android:checked="true"
+        android:clickable="false"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_sys_avatar"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_sys_avatar"
+        app:layout_constraintRight_toRightOf="@+id/iv_sys_avatar"
+        app:layout_constraintTop_toTopOf="@+id/iv_sys_avatar" />
+
+    <ImageView
+        android:id="@+id/iv_sys_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_margin="@dimen/dp_8"
+        android:padding="@dimen/dp_4"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/holder_headimg" />
+
+    <ImageView
+        android:id="@+id/iv_in_use_avatar_sign"
+        android:layout_width="wrap_content"
+        android:layout_margin="@dimen/dp_2"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_hook_red_bg_oval_18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_sys_avatar"
+        app:layout_constraintRight_toRightOf="@+id/iv_sys_avatar"
+        tools:ignore="ContentDescription" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--搜索菜单-->
+    <item
+        android:id="@+id/action_history"
+        android:icon="@drawable/ic_clock_black_18dp"
+        android:orderInCategory="80"
+        android:title="历史"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:orderInCategory="80"
+        android:title="搜索"
+        app:showAsAction="ifRoom" />
+    <!--    <item-->
+    <!--        android:id="@+id/action_ssssss"-->
+    <!--        android:icon="@drawable/ic_search_black_24dp"-->
+    <!--        android:orderInCategory="80"-->
+    <!--        android:title="什么什么"-->
+    <!--        app:showAsAction="collapseActionView" />-->
+
+    <!--    <item-->
+    <!--        android:id="@+id/action_uuuuu"-->
+    <!--        android:icon="@drawable/ic_search_black_24dp"-->
+    <!--        android:orderInCategory="80"-->
+    <!--        android:title="哦哦哦"-->
+    <!--        app:showAsAction="collapseActionView" />-->
+</menu>

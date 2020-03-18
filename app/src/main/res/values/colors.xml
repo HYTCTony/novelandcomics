@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+    <!--<color name="colorPrimary">#008577</color>-->
+    <color name="colorPrimary">#FDF9DD</color>
+    <!--<color name="colorPrimaryDark">#00574B</color>-->
+    <color name="colorPrimaryDark">#FDD34D</color>
+    <!--<color name="colorAccent">#D81B60</color>-->
+    <color name="colorAccent">#FD842A</color>
+
+    <color name="whiteAlpha80">#CCFFFFFF</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="col_theme_blue">#39E8D2</color>
+    <color name="col_black">#000000</color>
+    <color name="col_red">#FD4141</color>
+    <color name="col_red_fc4545">#FC4545</color>
+    <color name="col_red_ff8477">#FF8477</color>
+    <color name="col_red_fa345b">#FA345B</color>
+    <color name="col_orange_ea6b3c">#EA6B3C</color>
+    <color name="col_yellow_f4ea2a">#f4ea2a</color>
+    <color name="col_yellow_ffcc02">#FFCC02</color>
+    <color name="off_gray">#F4F3F3</color>
+    <color name="col_blue">#25C3F5</color>
+    <color name="col_gray_e5e5e5">#E5E5E5</color>
+    <color name="col_gray_f0f0f0">#F0F0F0</color>
+    <color name="bg_gray_fafafa">#fafafa</color>
+    <color name="col_d1e2de">#D1E2DE</color>
+    <color name="color_f2">#f2f2f2</color>
+    <color name="col_black_333">#333333</color>
+    <color name="col_f8f8f8">#F8F8F8</color>
+
+    <color name="txt_brownness">#503812</color>
+    <color name="txt_brownness_8b7342">#8B7342</color>
+    <color name="txt_af80_white">#80FFFFFF</color>
+    <color name="txt_red">#FC6D6D</color>
+    <color name="txt_black_191919">#191919</color>
+    <color name="txt_orange_ff6600">#ff6600</color>
+    <color name="txt_black">#333333</color>
+    <color name="txt_gray">#666666</color>
+    <color name="txt_gray_999">#999999</color>
+    <color name="txt_gray_b2">#b2b2b2</color>
+    <color name="txt_white">#ffffff</color>
+    <color name="txt_dark_gold">#daaa47</color>
+    <color name="txt_faint_yellow">#F3DFA7</color>
+
+    <!--common-->
+    <color name="translucent">#99343434</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#FF0000</color>
+    <color name="orange">#DE6014</color>
+    <color name="gray">#b8b8b8</color>
+    <color name="green">#5FB236</color>
+    <color name="black">#000000</color>
+    <color name="light_pink">#fb9090</color>
+    <color name="light_white">#EEEEEE</color>
+    <color name="light_coffee">#A58D5E</color>
+    <color name="light_red">#EC4A48</color>
+    <color name="light_blue">#039BE5</color>
+    <color name="light_translucent">#23000000</color>
+    <color name="common_gray">#EEEEEE</color>
+    <color name="title">#333333</color>
+    <color name="translucent_text">#96ffffff</color>
+
+    <color name="nb_read_bg_1">#CEC29C</color>
+    <color name="nb_read_bg_2">#CCEBCC</color>
+    <color name="nb_read_bg_3">#AAAAAA</color>
+    <color name="nb_read_bg_4">#D1CEC5</color>
+    <color name="nb_read_bg_5">#001C27</color>
+    <color name="nb_read_bg_6">#DDCEC29C</color>
+
+    <color name="nb_read_font_1">#2C2C2C</color>
+    <color name="nb_read_font_2">#2F332D</color>
+    <color name="nb_read_font_3">#92918C</color>
+    <color name="nb_read_font_4">#383429</color>
+    <color name="nb_read_font_5">#627176</color>
+
+    <color name="nb_read_bg_night">#000000</color>
+    <color name="nb_read_font_night">#99ffffff</color>
+
+    <!--button-->
+    <color name="nb_widget_button_normal">@color/white</color>
+    <color name="nb_widget_button_selected">#E3E3E3</color>
+</resources>

@@ -1,0 +1,381 @@
+package com.huli.foxread.ui.fragments;
+
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
+import com.google.android.material.appbar.AppBarLayout;
+import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.eventbus.LoginChangeEvent;
+import com.huli.foxread.ui.activities.LoginActivity;
+import com.huli.foxread.ui.activities.MainActivity;
+import com.huli.foxread.ui.activities.ReadingRecordActivity;
+import com.huli.foxread.ui.activities.SearchBookActivity;
+import com.huli.foxread.ui.adapters.BookRackAdapter;
+import com.huli.foxread.ui.adapters.SignInActivity;
+import com.huli.foxread.ui.base.BaseFragment;
+import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
+import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.StatusBarUtils;
+import com.huli.page.model.bean.BookShelfListBean;
+import com.huli.page.model.local.BookRepository;
+import com.huli.page.ui.activity.ReadBookActivity;
+import com.huli.page.utils.RxUtils;
+import com.kongzue.dialog.v3.TipDialog;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnConfirmListener;
+import com.lxj.xpopup.interfaces.XPopupCallback;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class MainBookrackFragment extends BaseFragment implements OnItemLongClickListener, OnItemClickListener {
+
+    private AppBarLayout appBarLayout;
+    private Toolbar mToolbar;
+    private SmartRefreshLayout layout;
+    private RecyclerView recyclerView;
+    private BookRackAdapter mAdapter;
+
+    private ImageView ivookCoverPush;
+    private TextView tvBookNamePush, tvBookIntroPush, tvTotalReadingTimeToday, tvAsBtnSignIngGold;
+
+    private List<BookShelfListBean> data = new ArrayList<>();
+
+    @Override
+    public int bindLayout() {
+        return R.layout.fragment_main_book_rack;
+    }
+
+    @Override
+    public void setStatusBar(View view) {
+        StatusBarUtils.offsetView(mActivity, $(view, R.id.toolbar_book_rack));
+        StatusBarUtils.setAndroidNativeLightStatusBar(mActivity, true);
+    }
+
+    @Override
+    public void initView(View view) {
+        mToolbar = $(view, R.id.toolbar_book_rack);
+        boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
+        if (isVisitor) {
+            mToolbar.setTitle(R.string.txt_say_hi);
+        } else {
+            mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
+        }
+        ((AppCompatActivity) mActivity).setSupportActionBar(mToolbar);
+        setHasOptionsMenu(true);
+
+        appBarLayout = $(view, R.id.appBarLayout_bookrack);
+
+        tvTotalReadingTimeToday = $(view, R.id.tv_total_reading_time_today);
+        tvAsBtnSignIngGold = $(view, R.id.tv_asBtn_sign_in_4_gold);
+        ivookCoverPush = $(view, R.id.iv_book_cover_push);
+        tvBookNamePush = $(view, R.id.tv_book_name_push);
+        tvBookIntroPush = $(view, R.id.tv_book_introduction_push);
+
+        layout = $(view, R.id.smart);
+        recyclerView = $(view, R.id.recyclerView_my_bookrack);
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 3));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DensityUtils.dp2px(mActivity, 16), true));
+        mAdapter = new BookRackAdapter(data);
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void setListener() {
+        mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemLongClickListener(this);
+        layout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                getSpecialBook();
+                reqGetBooks();
+                refreshLayout.finishRefresh();
+            }
+        });
+        layout.setEnableLoadMore(false);
+        tvAsBtnSignIngGold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UserInfoCache.getIsVisitor(mActivity)) {
+                    startActivityForResult(new Intent(mActivity, LoginActivity.class), MainMineFragment.REQCODE_LOGIN);
+                } else {
+                    startActivity(new Intent(mActivity, SignInActivity.class));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void doBusiness(Context mContext) {
+        EventBus.getDefault().register(this);
+        getUserReadTime();
+        data.add(new BookShelfListBean());
+        mAdapter.setNewData(data);
+        reqGetBooks();
+        getSpecialBook();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginChangeEvent(LoginChangeEvent event) {
+        boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
+        if (isVisitor) {
+            mToolbar.setTitle(R.string.txt_say_hi);
+        } else {
+            mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
+        }
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            StatusBarUtils.setStatusBarTextDark(mActivity, true);
+        }
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if (position != data.size() - 1) {
+            BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
+            if (bean.getIsLocal()) {
+                Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ReadBookActivity.start(mActivity, bean, true, 0);
+        } else {
+            ((MainActivity) mActivity).switch2Bookstore();
+        }
+    }
+
+    boolean fff;
+
+    @Override
+    public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+//        if (!fff) {
+//            appBarLayout.setExpanded(false, true);
+//            recyclerView.setNestedScrollingEnabled(false);
+//            Window window = mActivity.getWindow();//获取当前activity的window
+//            ViewGroup decorView = (ViewGroup) window.getDecorView();//获取activity的跟布局
+//        } else {
+//            appBarLayout.setExpanded(true, true);
+//            recyclerView.setNestedScrollingEnabled(true);
+//        }
+//        fff = !fff;
+        BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
+        new XPopup.Builder(getActivity())
+                .setPopupCallback(new XPopupCallback() {
+                    @Override
+                    public void onShow() {
+                        Log.e("tag", "onShow");
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                        Log.e("tag", "onDismiss");
+                    }
+                }).asConfirm("温馨提示", "是否删除这本书？", new OnConfirmListener() {
+            @Override
+            public void onConfirm() {
+                reqDelBooks(bean.getId());
+                ProgressDialog progressDialog = new ProgressDialog(getContext());
+                progressDialog.setMessage("正在删除中");
+                progressDialog.show();
+                BookRepository.getInstance().deleteCollBookInRx(bean)
+                        .compose(RxUtils::toSimpleSingle)
+                        .subscribe(
+                                (Void) -> {
+                                    data.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                    progressDialog.dismiss();
+                                }
+                        );
+            }
+        }, null, false).show();
+        return true;
+    }
+
+    /**
+     * 控制appbar的滑动
+     *
+     * @param isScroll true 允许滑动 false 禁止滑动
+     */
+    private void banAppBarScroll(boolean isScroll) {
+        View mAppBarChildAt = appBarLayout.getChildAt(0);
+        AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
+        if (isScroll) {
+            mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
+            mAppBarChildAt.setLayoutParams(mAppBarParams);
+        } else {
+            mAppBarParams.setScrollFlags(0);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_book_rack, menu);
+        if (menu != null) {
+            if (menu.getClass() == MenuBuilder.class) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_history:
+                startActivity(new Intent(mActivity, ReadingRecordActivity.class));
+                break;
+            case R.id.action_search:
+                Intent intent = new Intent(mActivity, SearchBookActivity.class);
+                intent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * @param novelIds ["56","32","99","5","796"]
+     * @param novelIds List也行
+     */
+    private void reqDelBooks(String novelIds) {
+        OkGo.<String>post(Consts.BOOKRACK_DEL_API)
+                .params(Consts.NOVEL_IDS, novelIds)
+                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            //TODO 刷新数据
+                        } else {
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取书架列表
+     */
+    private void reqGetBooks() {
+        OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        data.clear();
+                        LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            data.addAll(entity.getData());
+                        } else {
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                        data.add(new BookShelfListBean());
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
+    }
+
+    /**
+     * 获取特别推荐的一本书
+     */
+    private void getSpecialBook() {
+        OkGo.<String>get(Consts.SPECIAL_BOOK_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<BookShelfListBean> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<BookShelfListBean>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            BookShelfListBean data = entity.getData();
+                            Glide.with(getActivity())
+                                    .load(data.getHttp_image())
+                                    .placeholder(R.drawable.ic_book_loading)
+                                    .error(R.drawable.ic_load_error)
+                                    .fitCenter()
+                                    .into(ivookCoverPush);
+                            tvBookNamePush.setText(data.getNovel_name());
+                            tvBookIntroPush.setText(data.getIntroduce());
+                        } else {
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取用户阅读时间
+     */
+    private void getUserReadTime() {
+        OkGo.<String>get(Consts.USER_READ_TIME_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            tvTotalReadingTimeToday.setText(entity.getData());
+                        } else {
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+}

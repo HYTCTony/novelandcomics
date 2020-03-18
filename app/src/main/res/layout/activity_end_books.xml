@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f2"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/toolbar_normal"
+        layout="@layout/layout_toolbar" />
+
+    <ImageView
+        android:id="@+id/iv_asBtn_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:padding="@dimen/dp_8"
+        android:src="@drawable/ic_search_gray"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal"
+        tools:ignore="ContentDescription" />
+
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/slidingTabLayout_end_books"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_42"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="@+id/toolbar_normal"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal"
+        app:tl_indicator_color="@color/col_red"
+        app:tl_indicator_corner_radius="@dimen/dp_1_5"
+        app:tl_indicator_height="@dimen/dp_3"
+        app:tl_indicator_width="@dimen/dp_16"
+        app:tl_tab_padding="@dimen/dp_8"
+        app:tl_tab_space_equal="true"
+        app:tl_textBold="SELECT"
+        app:tl_textSelectColor="@color/txt_black_191919"
+        app:tl_textUnselectColor="@color/txt_gray"
+        app:tl_textsize="@dimen/sp_18" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/recyclerView_end_book"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/px_1"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintVertical_weight="1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

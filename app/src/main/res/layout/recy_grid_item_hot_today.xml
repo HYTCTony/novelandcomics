@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_book_cover"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_58"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="7:9"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/img_holder_rect" />
+
+    <TextView
+        android:id="@+id/tv_top3_flag"
+        android:layout_width="@dimen/dp_18"
+        android:textSize="@dimen/sp_10"
+        android:textStyle="bold"
+        android:gravity="center_horizontal|top"
+        tools:text="1"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_book_cover"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        android:background="@mipmap/icon_rank_top3_txtbg"
+        android:textColor="@color/txt_white"
+        android:layout_height="@dimen/dp_18"/>
+
+    <TextView
+        android:id="@+id/tv_book_title"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_22"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tv_book_heat_rate"
+        app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        tools:text="猎能者" />
+
+    <TextView
+        android:id="@+id/tv_book_heat_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_book_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_book_title"
+        tools:text="8952万热度" />
+
+
+    <TextView
+        android:id="@+id/tv_ranking_hot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/sp_14"
+        android:minWidth="@dimen/dp_20"
+        android:textColor="@color/txt_orange_ff6600"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_book_title"
+        app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toLeftOf="@+id/tv_book_title"
+        app:layout_constraintTop_toTopOf="@+id/tv_book_title"
+        tools:text="1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
