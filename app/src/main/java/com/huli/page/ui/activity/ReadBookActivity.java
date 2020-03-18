@@ -120,10 +120,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     /*******************数据传递以及状态设置*************************/
     public static final String EXTRA_COLL_BOOK = "extra_coll_book";
     public static final String EXTRA_IS_COLLECTED = "extra_is_collected";
+    public static final String EXTRA_PAGE_POS = "extra_page_pos";
     private boolean isCollected = false; // isFromSDCard
     private boolean isNightMode = false;
     private boolean isFullScreen = false;
     private boolean isRegistered = false;
+    private int chapter = 0; // 如果是0，则跳转到上一次阅读的页码
     private String mBookId;
     private static final int WHAT_CATEGORY = 1;
     private static final int WHAT_CHAPTER = 2;
@@ -143,9 +145,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         }
     };
 
-    public static void start(Context context, BookShelfListBean bean, boolean isCollected) {
+    public static void start(Context context, BookShelfListBean bean, boolean isCollected, int page) {
         context.startActivity(new Intent(context, ReadBookActivity.class)
                 .putExtra(EXTRA_IS_COLLECTED, isCollected)
+                .putExtra(EXTRA_PAGE_POS, page)
                 .putExtra(EXTRA_COLL_BOOK, bean));
     }
 
@@ -161,6 +164,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         StatusBarUtils.setAndroidNativeLightStatusBar(this, false);
         data = (BookShelfListBean) getIntent().getSerializableExtra(EXTRA_COLL_BOOK);
         isCollected = getIntent().getBooleanExtra(EXTRA_IS_COLLECTED, false);
+        chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, 0);
         isNightMode = ReadSettingManager.getInstance().isNightMode();
         isFullScreen = ReadSettingManager.getInstance().isFullScreen();
         mBookId = data.getNovel_id();
@@ -211,7 +215,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         initBottomMenu();
         //获取目录
         loadCategory();
-
+        if (chapter != 0) {
+            mPageLoader.skipToChapter(chapter);
+        }
         mPageLoader.setOnPageChangeListener(new ReadLoader.OnPageChangeListener() {
             @Override
             public void onChapterChange(int pos) {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -35,13 +36,15 @@ import com.huli.foxread.ui.widget.ExpandableTextView;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UnitConverUtil;
+import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.bean.ChapterBean;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.interfaces.OnSelectListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
@@ -58,6 +61,7 @@ import androidx.viewpager.widget.ViewPager;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class BookDetailsActivity extends BaseActivity implements View.OnClickListener {
+
     private static final String EXTRA_BOOK_ID = "extra_book_id";
     public static final String RESULT_IS_COLLECTED = "result_is_collected";
 
@@ -244,6 +248,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
             case R.id.btn_begin_reading_dt:
                 startActivityForResult(new Intent(this, ReadBookActivity.class)
                         .putExtra(ReadBookActivity.EXTRA_IS_COLLECTED, isCollected)
+                        .putExtra(ReadBookActivity.EXTRA_PAGE_POS, 2)
                         .putExtra(ReadBookActivity.EXTRA_COLL_BOOK, data), REQUEST_READ);
                 break;
             default:
@@ -271,12 +276,28 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_download) {
-            Tos.showShort(this, "下载");
-        } else if (item.getItemId() == R.id.action_share) {
-            Tos.showShort(this, "分享");
+        if (item.getItemId() == R.id.action_report) {
+            new XPopup.Builder(BookDetailsActivity.this)
+                    .asCenterList("请选择举报原因", new String[]{"广告", "盗用内容", "骗子", "威胁"},
+                            new OnSelectListener() {
+                                @Override
+                                public void onSelect(int position, String text) {
+                                    report(nId, text);
+                                }
+                            })
+                    .show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 举报小说
+     *
+     * @param novelId 小说ID
+     * @param reason  举报内容
+     */
+    private void report(String novelId, String reason) {
+        Toast.makeText(BookDetailsActivity.this, "举报成功", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -358,7 +379,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
-
     /**
      * 相关推荐
      *
@@ -400,6 +420,34 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                         if (entity.error_code == 0) {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
                             //TODO do something
+                        } else {
+                            TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 小说详情---加入书架
+     *
+     * @param novelId 小说ID
+     */
+    private void loadCategory(String novelId) {
+        OkGo.<String>get(Consts.NOVEL_NOVELCHAPTERLIST_API)
+                .params(Consts.NOVEL_ID, novelId)
+                .execute(new LtbCallback(BookDetailsActivity.this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<BookChapter>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BookChapter>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            //进行设定BookChapter所属的书的id。
+                            for (BookChapter bookChapter : entity.getData()) {
+//                            bookChapter.setId(MD5Utils.strToMd5By16(bookChapter.getLink()));
+                                bookChapter.setBookId(novelId);
+                            }
+
                         } else {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }

@@ -92,7 +92,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     }
 
-
     /**
      * 切换Fragment
      */
@@ -144,7 +143,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         transaction.commit();   //记得提交事务
     }
 
-
     /**
      * 将所有Fragment设置为隐藏
      */
@@ -170,7 +168,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         mTabLayout.setCurrentTab(0);
         changeFragment(0);
     }
-
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

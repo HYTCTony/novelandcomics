@@ -281,7 +281,9 @@
                     tools:ignore="ContentDescription" />
             </RelativeLayout>
 
-            <include layout="@layout/layout_rv_head_sb_special_topic" />
+            <include
+                android:visibility="gone"
+                layout="@layout/layout_rv_head_sb_special_topic" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

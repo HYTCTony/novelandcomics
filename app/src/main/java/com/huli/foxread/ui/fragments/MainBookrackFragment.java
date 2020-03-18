@@ -1,8 +1,10 @@
 package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,13 +24,15 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ui.activities.MainActivity;
+import com.huli.foxread.ui.activities.ReadingRecordActivity;
+import com.huli.foxread.ui.activities.SearchBookActivity;
 import com.huli.foxread.ui.adapters.BookRackAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.Tos;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.kongzue.dialog.v3.TipDialog;
@@ -111,13 +115,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         reqGetBooks();
     }
 
-
     @Override
     public void setListener() {
-        mToolbar.setOnMenuItemClickListener(item -> {
-            Tos.showShort(mActivity, "点击===" + item.getTitle());
-            return true;
-        });
         mAdapter.setOnItemClickListener(this);
         mAdapter.setOnItemLongClickListener(this);
     }
@@ -152,9 +151,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
                 return;
             }
-            ReadBookActivity.start(mActivity, bean, true);
+            ReadBookActivity.start(mActivity, bean, true, 0);
         } else {
-            Toast.makeText(mActivity, "添加书籍", Toast.LENGTH_SHORT).show();
+            ((MainActivity) mActivity).switch2Bookstore();
         }
     }
 
@@ -189,7 +188,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         } else {
             mAppBarParams.setScrollFlags(0);
         }
-
     }
 
     @Override
@@ -206,6 +204,21 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_history:
+                startActivity(new Intent(mActivity, ReadingRecordActivity.class));
+                break;
+            case R.id.action_search:
+                Intent intent = new Intent(mActivity, SearchBookActivity.class);
+                intent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

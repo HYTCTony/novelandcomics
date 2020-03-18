@@ -102,17 +102,4 @@ public class Constant {
     public static final String SOCKET_TIMEOUT_ERROR = "访问失败，网络连接超时！";
     public static final String TOKEN_EXPIRED_ERROR = "账号已过期，正在切换账号！";
 
-    /**
-     * 是否是打印Log
-     */
-    public static final boolean DEBUG = true;
-    /**
-     * 是否是测试版本，用来区分自动更新
-     */
-    public static final boolean TEST = true;
-    /**
-     * 是否使用正式服务器
-     */
-    public static final boolean STABLE_SERVER = true;
-
 }
