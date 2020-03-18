@@ -11,7 +11,7 @@ public class AdEntity implements Serializable {
 //    private int stance;
 //    private int outer;
 //    private int show;
-    private String image;
+    private String imageText;
     private String video;
     private String links;
 //    private int weigh;
@@ -31,12 +31,12 @@ public class AdEntity implements Serializable {
         this.id = id;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageText() {
+        return imageText;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageText(String imageText) {
+        this.imageText = imageText;
     }
 
     public String getVideo() {

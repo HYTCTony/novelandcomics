@@ -75,12 +75,7 @@ public class WithdrawalRecordActivity extends BaseActivity {
             //可以上拉加载
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                reqGoldWithdrawal(curPage + 1, false);
-            }
-        });
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqGoldWithdrawal(curPage + 1, false));
     }
 
     @Override

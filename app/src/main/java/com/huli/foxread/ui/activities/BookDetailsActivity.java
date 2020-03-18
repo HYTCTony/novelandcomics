@@ -264,7 +264,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
             list.add(i);
         }
         vpSpt.setOffscreenPageLimit(list.size());
-        vpSpt.setAdapter(new SpecialTopicPagerAdapter(this, list));
+//        vpSpt.setAdapter(new SpecialTopicPagerAdapter(this, list));
         vpSpt.setPageMargin(DensityUtils.dp2px(this, 16));
     }
 

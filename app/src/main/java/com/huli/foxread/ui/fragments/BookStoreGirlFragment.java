@@ -158,7 +158,7 @@ public class BookStoreGirlFragment extends BaseFragment implements View.OnClickL
             list.add(i);
         }
         vpSpt.setOffscreenPageLimit(list.size());
-        vpSpt.setAdapter(new SpecialTopicPagerAdapter(getContext(), list));
+//        vpSpt.setAdapter(new SpecialTopicPagerAdapter(getContext(), list));
         vpSpt.setPageMargin(DensityUtils.dp2px(mActivity, 16));
     }
 
@@ -244,7 +244,7 @@ public class BookStoreGirlFragment extends BaseFragment implements View.OnClickL
         for (int i = 0; i < 5; i++) {
             BannerADEntity ad = new BannerADEntity();
             ad.setTitle("AD标题-----" + i);
-            ad.setImage("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
+            ad.setImageText("https://p9-tt.byteimg.com/large/pgc-image/5489f6a4f7ac41e18a9164b650a4ba9b");
             list.add(ad);
         }
         return list;

@@ -57,6 +57,9 @@ public class WelfareReadMissionAdapter extends BaseQuickAdapter<WelfareReadTaskE
 
 
     private static SpannableStringBuilder setNumColor(Context context, String str) {
+        if(TextUtils.isEmpty(str)){
+            return null;
+        }
         SpannableStringBuilder style = new SpannableStringBuilder(str);
         for (int i = 0; i < str.length(); i++) {
             char a = str.charAt(i);

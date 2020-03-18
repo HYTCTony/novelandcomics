@@ -3,6 +3,7 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -12,15 +13,17 @@ import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
-import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.adapters.WithdrawalMoneyAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -31,14 +34,18 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * RMB提现
  */
-public class WithdrawalRMBActivity extends BaseActivity {
+public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView btnRecord;
-
+    private TextView tvBalance;
     private RecyclerView recyclerView;
     private WithdrawalMoneyAdapter mAdapter;
 
     private TextView tvWithdrawalTips;
+    private TextView btnConfirm;
+
+    private double myMoney;
+    private DecimalFormat df = new DecimalFormat("#######0.00");
 
     @Override
     protected void setStatusBar() {
@@ -48,7 +55,9 @@ public class WithdrawalRMBActivity extends BaseActivity {
 
     @Override
     public void initParms(Bundle parms) {
-
+        if (parms != null) {
+            myMoney = parms.getDouble(Common.KEY_MONEY, 0);
+        }
     }
 
     @Override
@@ -69,6 +78,10 @@ public class WithdrawalRMBActivity extends BaseActivity {
         StatusBarUtils.offsetView(this, toolbar);
 
         btnRecord = $(R.id.tv_asBtn_withdrawal_record);
+        tvBalance = $(R.id.tv_my_money_balance);
+        tvBalance.setText(df.format(myMoney));
+
+        btnConfirm = $(R.id.btn_money_withdrawal);
 
         recyclerView = $(R.id.recyclerView_withdrawal);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -88,12 +101,8 @@ public class WithdrawalRMBActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-        btnRecord.setOnClickListener(new OnClickEvent() {
-            @Override
-            public void singleClick(View v) {
-                startActivity(new Intent(WithdrawalRMBActivity.this, WithdrawalRecordActivity.class));
-            }
-        });
+        btnRecord.setOnClickListener(this);
+        btnConfirm.setOnClickListener(this);
     }
 
     @Override
@@ -103,6 +112,29 @@ public class WithdrawalRMBActivity extends BaseActivity {
         );
 
         reqWithdrawalCombo();
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        if (onMoreClick()) {
+            return;
+        }
+        switch (view.getId()) {
+            case R.id.tv_asBtn_withdrawal_record:
+                startActivity(new Intent(WithdrawalRMBActivity.this, WithdrawalRecordActivity.class));
+                break;
+            case R.id.btn_money_withdrawal:
+                String planId = mAdapter.getSelectPlanId();
+                if(TextUtils.isEmpty(planId)){
+                    Tos.showShort(this, R.string.txt_plz_select_withdrawal_money);
+                   return;
+                }
+                reqMoneyWithdrawal(planId);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -142,4 +174,5 @@ public class WithdrawalRMBActivity extends BaseActivity {
                     }
                 });
     }
+
 }

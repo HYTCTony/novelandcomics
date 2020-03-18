@@ -4,7 +4,7 @@ public class BannerADEntity {
     private String id;
     private String title;
     private String link;            //链接
-    private String image;           //图片
+    private String imageText;           //图片
     private int jump;               //0打开浏览器， 1应用内跳转
 
     public String getId() {
@@ -31,12 +31,12 @@ public class BannerADEntity {
         this.link = link;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageText() {
+        return imageText;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageText(String imageText) {
+        this.imageText = imageText;
     }
 
     public int getJump() {

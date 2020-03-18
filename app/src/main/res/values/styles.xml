@@ -97,6 +97,11 @@
         <item name="android:windowExitAnimation">@anim/bottom_dialog_exit_anim</item>
     </style>
 
+    <style name="PaymentDialogAnim">
+        <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
+
     <style name="ReadSettingDialog" parent="CommonDialog">
         <item name="android:windowAnimationStyle">@style/anim_slide_bottom_in_out</item>
     </style>
@@ -109,7 +114,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <!--必须要加上这句才能实现真正的半透明，-->
         <item name="android:windowIsTranslucent">false</item>
-        <!--直接写windowEnter或者windowExit 是无效的-->Re
+        <!--直接写windowEnter或者windowExit 是无效的-->
         <item name="android:windowAnimationStyle">@style/anim_slide_left_in_right_out</item>
     </style>
 

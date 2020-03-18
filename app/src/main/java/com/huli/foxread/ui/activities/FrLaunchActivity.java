@@ -282,7 +282,7 @@ public class FrLaunchActivity extends BaseActivity {
                         if (code == 0) {
                             adEntity = response.body().getData();
                             GlideApp.with(FrLaunchActivity.this)
-                                    .load(adEntity.getImage())
+                                    .load(adEntity.getImageText())
                                     .error(R.drawable.img_default_ad)
                                     .into(new CustomTarget<Drawable>() {
                                         @Override

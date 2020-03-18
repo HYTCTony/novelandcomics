@@ -48,9 +48,16 @@ public class WithdrawalMoneyAdapter extends BaseQuickAdapter<WithdrawalOptionEnt
                 } else {
                     checkPos = position;
                     checkBox.setChecked(true);
+                    selectPlanId = data.getId();
                 }
                 notifyDataSetChanged();
             }
         });
+    }
+
+    private String selectPlanId;
+
+    public String getSelectPlanId() {
+        return selectPlanId;
     }
 }

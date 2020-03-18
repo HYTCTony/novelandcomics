@@ -276,6 +276,15 @@ public interface Func {
 
 
     /**
+     * 用途：完成福利任务(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * id---任务id
+     * lower_id --- 子任务id，没有则为空
+     */
+    String WELFARE_COMPLETE = "/welfare/complete";
+
+    /**
      * 用途：福利任务列表(GET)
      * 头：token---token(Y)
      * 参数：
@@ -283,90 +292,27 @@ public interface Func {
     String WELFARE_LIST = "/welfare/list";
 
     /**
-     * 用途：大转盘抽奖(GET)
+     * 用途：个人中心福利模块(GET)
      * 头：token---token(Y)
      * 参数：
      */
-    String WELFARE_LUCKDRAW = "/welfare/luckDraw";
-
-
-    /**
-     * 用途：大转盘列表(GET)
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String WELFARE_LUCKDRAWLIST = "/welfare/luckDrawList";
-
+    String WELFARE_USERLIST = "/welfare/userlist";
 
     /**
-     * 用途：看小视频得金币(GET)
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String WELFARE_VIDEO = "/welfare/welfareVideo";
-
-
-    /**
-     * 用途：阅读30秒倒计时奖励(GET)
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String WELFARE_READING = "/welfare/welfareReading";
-
-
-    /**
-     * 用途：新用户签到七天福利(GET)
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String WELFARE_NEWUSERSIGN = "/welfare/welfareNewUserSign";
-
-    /**
-     * 用途：累计阅读福利(GET)
-     * 头：token---token(Y)
-     * 参数：
-     * welfare_read_id --- 完成任务id
-     */
-    String WELFARE_CUMULATIVEREAD = "/welfare/welfareCumulativeRead";
-
-    /**
-     * 用途：累计阅读任务列表(GET)
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String WELFARE_CUMULATIVEREADLIST = "/welfare/CumulativeReadList";
-
-    /**
-     * 用途：看视频免广告(GET)
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String WELFARE_VIDEO_REMOVE_ADVERTISING = "/welfare/videoRemoveAdvertising";
-
-    /**
-     * 用途：签到(GET)
+     * 用途：普通签到详情(GET)
      * 头：token---token(Y)
      * 参数：
      */
     String WELFARE_SIGNIN = "/welfare/signIn";
 
     /**
-     * 用途：补签到(GET)
+     * 用途：邀请详情(GET)
      * 头：token---token(Y)
      * 参数：
-     * calendar_id --- 日历id (Y)
-     * type --- 状态:1=看广告,2=金币支付 (Y)
      */
-    String WELFARE_REPAIRSIGNIN = "/welfare/repairSignIn";
+    String WELFARE_INVITE = "/welfare/invite";
 
-    /**
-     * 用途：补签到(GET)
-     * 头：token---token(Y)
-     * 参数：
-     * calendar_id --- 日历id (Y)
-     * type --- 状态:1=看广告,2=金币支付 (Y)
-     */
-    String WELFARE_WELFAREINVITATION = "/welfare/WelfareInvitation";
+
 
     /**
      * 用途：小说章节列表(GET)
@@ -408,6 +354,20 @@ public interface Func {
      * 参数：
      */
     String WITHDRAWAL_RECORD = "/withdrawal/read";
+
+    /**
+     * 用途：我的金币相关信息（GET）
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String GOLD_COIN_INFO = "/score/read";
+
+    /**
+     * 用途：金币收益列表（GET）
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String GOLD_EARNINGS_LIST = "/score/index";
 
 
     /**

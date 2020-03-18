@@ -91,6 +91,7 @@ public class TokenInterceptor implements Interceptor {
                             //使用新的Token，创建新的请求
                             Request newRequest = chain.request();
                             Request.Builder requestBuilder = newRequest.newBuilder();
+                            requestBuilder.removeHeader(Consts.TOKEN);             //添加(替换)到头
                             requestBuilder.addHeader(Consts.TOKEN, newToken);      //添加(替换)到头
                             //重新请求原接口
                             return chain.proceed(requestBuilder.build());

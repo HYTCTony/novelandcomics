@@ -24,6 +24,7 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SearchBookActivity;
@@ -41,6 +42,10 @@ import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -123,10 +128,30 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @Override
     public void doBusiness(Context mContext) {
+        EventBus.getDefault().register(this);
+
         GlideUtil.loadRoundRect(mContext, ivookCoverPush, "url", 0);
         tvBookNamePush.setText("九阳帝尊");
         tvBookIntroPush.setText("深山里走出的少年深山里走出的少年深山的少年深山里走出的少年深山里走出的少年");
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginChangeEvent(LoginChangeEvent event){
+
+        boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
+        if (isVisitor) {
+            mToolbar.setTitle(R.string.txt_say_hi);
+        } else {
+            mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
+        }
+    }
+
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -134,12 +159,12 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         if (!hidden) {
             StatusBarUtils.setStatusBarTextDark(mActivity, true);
 
-            boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
+           /* boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
             if (isVisitor) {
                 mToolbar.setTitle(R.string.txt_say_hi);
             } else {
                 mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
-            }
+            }*/
         }
     }
 

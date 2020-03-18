@@ -181,12 +181,13 @@
         android:id="@+id/recyclerView_my_bookrack"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/col_f8f8f8"
+        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/col_f8f8f8"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -328,18 +329,18 @@
                     android:layout_height="@dimen/dp_0"
                     android:layout_marginTop="@dimen/dp_16"
                     android:background="@mipmap/img_bg_invite_award"
-                    app:layout_constraintBottom_toTopOf="@+id/iv_invite_award_day1_tips"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_invite_award_day1_tips"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_title_invite_award" />
 
                 <TextView
-                    android:id="@+id/iv_invite_award_day1_tips"
+                    android:id="@+id/tv_invite_award_day1_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="好友阅读15分钟"
+                    tools:text="好友阅读15分钟"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_12"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -359,10 +360,11 @@
                     app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day1" />
 
                 <TextView
+                    android:id="@+id/tv_reward_money_day1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:text="5元"
+                    android:text="0元"
                     android:textColor="@color/txt_orange_ff6600"
                     android:textSize="@dimen/sp_20"
                     app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day1"
@@ -384,10 +386,11 @@
                     app:layout_constraintTop_toTopOf="@+id/iv_invite_award_day1" />
 
                 <TextView
+                    android:id="@+id/tv_invite_award_day2_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="好友阅读15分钟"
+                    tools:text="好友阅读15分钟"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_12"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -407,10 +410,11 @@
                     app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day2" />
 
                 <TextView
+                    android:id="@+id/tv_reward_money_day2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:text="5元"
+                    android:text="0元"
                     android:textColor="@color/txt_orange_ff6600"
                     android:textSize="@dimen/sp_20"
                     app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day2"
@@ -429,10 +433,11 @@
                     app:layout_constraintTop_toTopOf="@+id/iv_invite_award_day1" />
 
                 <TextView
+                    android:id="@+id/tv_invite_award_day3_tips"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="好友阅读15分钟"
+                    tools:text="好友阅读15分钟"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_12"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -452,10 +457,11 @@
                     app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day3" />
 
                 <TextView
+                    android:id="@+id/tv_reward_money_day3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:text="10元"
+                    android:text="0元"
                     android:textColor="@color/txt_orange_ff6600"
                     android:textSize="@dimen/sp_20"
                     app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day3"
@@ -630,7 +636,7 @@
                             android:drawablePadding="@dimen/dp_8"
                             android:gravity="center_horizontal"
                             android:lines="2"
-                            android:text="好小说"
+                            android:text="好友输入邀请码"
                             android:textColor="@color/txt_white"
                             android:textSize="@dimen/sp_14"
                             app:layout_constraintBottom_toBottomOf="parent"

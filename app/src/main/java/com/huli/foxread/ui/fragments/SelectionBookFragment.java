@@ -2,7 +2,6 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -23,6 +22,7 @@ import com.huli.foxread.entity.BookMultiEntity;
 import com.huli.foxread.entity.HomePageEntity;
 import com.huli.foxread.entity.HpClassifyNvET;
 import com.huli.foxread.entity.HpNewBookET;
+import com.huli.foxread.entity.HpSpecialEntity;
 import com.huli.foxread.entity.SearchEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.listeners.OnClickEvent;
@@ -39,10 +39,11 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.MultiplePagerAdapter;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
-import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.BannerJumpUtil;
+import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -112,6 +113,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new BooksListAdapter();
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
 
         LayoutInflater inflater = LayoutInflater.from(mActivity);
         headViewTop = inflater.inflate(R.layout.layout_rv_head_sb_top, recyclerView, false);
@@ -210,7 +212,6 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             BannerJumpUtil.handleBannerJump(mActivity, entity);
         }
     }
-
 
 
     @Override
@@ -333,7 +334,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         });
     }
 
-    private void initSpecialTopicView(LayoutInflater inflater) {
+    private void initSpecialTopicView(LayoutInflater inflater, List<HpSpecialEntity> specialList) {
         if (headViewSpecial == null) {
             headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
             mAdapter.setHeaderView(headViewSpecial, 3);
@@ -347,12 +348,14 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             vpSpt.setPageMargin(DensityUtils.dp2px(mActivity, 16));
         }
 
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            list.add(i);
-        }
-        vpSpt.setOffscreenPageLimit(list.size());
-        vpSpt.setAdapter(new SpecialTopicPagerAdapter(getContext(), list));
+        vpSpt.setOffscreenPageLimit(specialList.size());
+        SpecialTopicPagerAdapter stPagerAdapter = new SpecialTopicPagerAdapter(getContext(), specialList);
+        stPagerAdapter.setmOnPagerItemClickListener(bookID -> {
+            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, bookID);
+            startActivity(intent);
+        });
+        vpSpt.setAdapter(stPagerAdapter);
     }
 
     private void initExcellentWorksView(LayoutInflater inflater, List<HpClassifyNvET> classifyNvList) {
@@ -422,40 +425,11 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     }
 
     private void reqIndexDatas(boolean isInit) {
-        /*OkGo.<String>get(Consts.INDEX_PAGE_API)
-                .params(Consts.TYPE, Consts.TYPE_SELECTION)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<HomePageEntity> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<HomePageEntity>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            HomePageEntity hpDatas = entity.data;
-                            List<BookEntity> hotNvdata = hpDatas.getHot_novel().getData();
-                            mAdapter.setNewData(hotNvdata);
-                        }
-                        Log.e("ssssssss", "onSuccess===" + response.code());
-//                        LzyResponse<HomePageEntity> entity = response.body();
-                       *//* if (entity.error_code == 0) {
-                            Log.e("sssssss", "size==" + hpDatas.getHot_novel());
-                            HomePageEntity hpDatas = entity.data;
-                            List<BookEntity> hotNvdata = hpDatas.getHot_novel().getData();
-                            mAdapter.setNewData(hotNvdata);
-                        }*//*
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        Log.e("ssssssss", "onError===" + response.code());
-                    }
-                });
-*/
         OkGo.<LzyResponse<HomePageEntity>>get(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
-//                .cacheKey(Consts.INDEX_PAGE_API + Consts.TYPE_SELECTION)
-//                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-//                .cacheTime(6 * 60 * 60 * 1000)
+                .cacheKey(Consts.INDEX_PAGE_API + Consts.TYPE_SELECTION)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheTime(12 * 60 * 60 * 1000)
                 .execute(new LtbJsonCallback<LzyResponse<HomePageEntity>>((AppCompatActivity) mActivity, isInit,
                         new TypeReference<LzyResponse<HomePageEntity>>() {
                         }) {
@@ -481,7 +455,8 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                             }
 
                             //专题
-                            initSpecialTopicView(inflater);
+                            List<HpSpecialEntity> specialList = hpDatas.getSpecial();
+                            initSpecialTopicView(inflater, specialList);
 
                             //实时热搜
                             List<SearchEntity> searchNvList = hpDatas.getSearch_novel();
@@ -536,7 +511,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
      */
     private void reqHighMarksDatas(int page) {
         OkGo.<String>post(Consts.NOVEL_POPULAR_API)
-                .params(Consts.PAGE, page  + 1)
+                .params(Consts.PAGE, page + 1)
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override

@@ -157,13 +157,12 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <!--<androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_16"
                 android:background="@drawable/shape_round_whitebg"
                 android:padding="@dimen/dp_16">
-
 
                 <TextView
                     android:id="@+id/tv_title_continuous_sign_in_extra_gift"
@@ -386,7 +385,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_extra_goldCoin_count_5"
                     tools:text="60天" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -398,6 +397,7 @@
                     android:id="@+id/ctl_lucky_wheel"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="@dimen/dp_0"
+                    android:visibility="gone"
                     android:layout_marginStart="@dimen/dp_16"
                     android:background="@drawable/shape_bg_lucky_wheel_si"
                     app:layout_constraintDimensionRatio="156:78"
@@ -443,7 +443,7 @@
                     android:layout_marginStart="@dimen/dp_16"
                     android:layout_marginEnd="@dimen/dp_16"
                     android:background="@drawable/shape_bg_invite_friends_si"
-                    app:layout_constraintDimensionRatio="156:78"
+                    app:layout_constraintDimensionRatio="328:78"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toRightOf="@+id/ctl_lucky_wheel"
                     app:layout_constraintRight_toRightOf="parent"

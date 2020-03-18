@@ -1,9 +1,6 @@
 package com.huli.foxread.ui.pageradapter;
 
 import android.content.Context;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +10,21 @@ import android.widget.TextView;
 import com.bumptech.glide.request.RequestOptions;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
+import com.huli.foxread.entity.HpSpecialEntity;
 import com.huli.foxread.transforms.CenterCropRoundCornerTransform;
 import com.huli.foxread.utils.DensityUtils;
 
 import java.util.List;
 
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 public class SpecialTopicPagerAdapter extends PagerAdapter {
-    private List<Integer> mList;
+    private List<HpSpecialEntity> mList;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public SpecialTopicPagerAdapter(Context context, List<Integer> list) {
+    public SpecialTopicPagerAdapter(Context context, List<HpSpecialEntity> list) {
         super();
         this.context = context;
         this.mList = list;
@@ -56,23 +57,40 @@ public class SpecialTopicPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
+        HpSpecialEntity data = mList.get(position);
         // 自己实现
         View inflate = layoutInflater.inflate(R.layout.vp_item_special_topic, container, false);
         TextView tcTitle = inflate.findViewById(R.id.tv_st_title);
-        tcTitle.setText("白金大神全力新作：总裁爹地请接招");
+        tcTitle.setText(data.getTitle());
 
         ImageView ivImg = inflate.findViewById(R.id.iv_st_img);
         //设置图片圆角角度
         RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(DensityUtils.dp2px(context, 4)));
         GlideApp.with(context)
-                .load(R.mipmap.banner_place_holder)
+                .load(data.getHttp_image())
                 .apply(options)
                 .placeholder(R.mipmap.banner_place_holder)
                 .error(R.mipmap.banner_place_holder)
                 .into(ivImg);
 
+        inflate.setOnClickListener(view -> {
+            if (mOnPagerItemClickListener != null) {
+                mOnPagerItemClickListener.onItemClick(data.getNovel_id());
+            }
+        });
+
         container.addView(inflate);
 
         return inflate;
+    }
+
+    public void setmOnPagerItemClickListener(OnPagerItemClickListener mOnPagerItemClickListener) {
+        this.mOnPagerItemClickListener = mOnPagerItemClickListener;
+    }
+
+    private OnPagerItemClickListener mOnPagerItemClickListener;
+
+    public interface OnPagerItemClickListener {
+        void onItemClick(String bookID);
     }
 }

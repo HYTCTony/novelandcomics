@@ -18,6 +18,8 @@
 
     <string name="txt_opening">正在打开&#8230;</string>
 
+    <string name="txt_plz_select_withdrawal_money">请选择提现金额！</string>
+
     <string name="hint_modify_success">修改成功！</string>
     <string name="txt_books_do_not_exist">抱歉，书籍不存在！</string>
 
@@ -114,6 +116,11 @@
     <string name="hint_not_logged_in">还未登录账号哦</string>
     <string name="hint_login_2_get_welfare">登录领取海量福利！</string>
     <string name="txt_sign_in_immediately">立即签到</string>
+    <string name="txt_already_sign_in">已经签到</string>
+    <string name="txt_already_received">已领取</string>
+    <string name="txt_go2_received">去领取</string>
+
+    <string name="txt_friend_reading_time_x">好友阅读%1$d分钟</string>
 
     <string name="txt_go2_reading">去阅读</string>
     <string name="txt_go2_watch">去观看</string>
@@ -192,6 +199,7 @@
 
     <string name="txt_goldcoin_balance">金币余额</string>
     <string name="txt_go2_withdrawal">去提现</string>
+    <string name="txt_confirm_withdrawal">确定提现</string>
     <string name="txt_gold_coin">金币</string>
     <string name="txt_money_yuan">现金（元）</string>
     <string name="txt_money_withdrawal">现金提现</string>
@@ -221,6 +229,7 @@
     <string name="txt_continuous_sign_in_day_x">连续签到%1$d天</string>
     <string name="txt_congratulations_get_gold_coin_x">恭喜获得+%1$d金币</string>
     <string name="txt_add_gold_coin_x">+%1$d金币</string>
+    <string name="txt_del_gold_coin_x">-%1$d金币</string>
     <string name="txt_most_gold_coin_x">最高%1$d金币</string>
     <string name="txt_non_arrival">未到</string>
     <string name="txt_overdue">过期</string>

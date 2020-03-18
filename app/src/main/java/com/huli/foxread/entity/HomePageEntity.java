@@ -7,8 +7,9 @@ public class HomePageEntity implements Serializable {
     private HpHotNovelET hot_novel;                         //高分精选
     private List<BookEntity> rank_novel;                    //今日大热榜
     private List<HpClassifyNvET> classify_novel;            //分类佳作
-    private List<SearchEntity> search_novel;                  //实时热搜
+    private List<SearchEntity> search_novel;                //实时热搜
     private List<HpNewBookET> new_or_original;              //新书抢先
+    private List<HpSpecialEntity> special;                          //专题
 
     public HpHotNovelET getHot_novel() {
         return hot_novel;
@@ -48,5 +49,13 @@ public class HomePageEntity implements Serializable {
 
     public void setNew_or_original(List<HpNewBookET> new_or_original) {
         this.new_or_original = new_or_original;
+    }
+
+    public List<HpSpecialEntity> getSpecial() {
+        return special;
+    }
+
+    public void setSpecial(List<HpSpecialEntity> special) {
+        this.special = special;
     }
 }

@@ -220,7 +220,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                                     .setConvertListener(viewConvertListener)
                                     .setDimAmout(0.5f)
                                     .setShowBottom(true)
-                                    .setAnimStyle(R.style.DialogAnimation)
+                                    .setAnimStyle(R.style.PaymentDialogAnim)
                                     /*.setOnDismissListener(new DialogInterface.OnDismissListener() {
                                         @Override
                                         public void onDismiss(DialogInterface dialog) {

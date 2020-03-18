@@ -25,6 +25,7 @@ import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.BookMultiEntity;
 import com.huli.foxread.entity.HomePageBGEntity;
 import com.huli.foxread.entity.HpBGPraiseNvET;
+import com.huli.foxread.entity.HpSpecialEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
@@ -218,7 +219,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
         }
     }
 
-    private void initSpecialTopicView(LayoutInflater inflater) {
+    private void initSpecialTopicView(LayoutInflater inflater, List<HpSpecialEntity> specialList) {
         if (headViewSpecial == null) {
             headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
             mAdapter.setHeaderView(headViewSpecial, 8);
@@ -232,12 +233,14 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
             vpSpt.setPageMargin(DensityUtils.dp2px(mActivity, 16));
         }
 
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            list.add(i);
-        }
-        vpSpt.setOffscreenPageLimit(list.size());
-        vpSpt.setAdapter(new SpecialTopicPagerAdapter(getContext(), list));
+        vpSpt.setOffscreenPageLimit(specialList.size());
+        SpecialTopicPagerAdapter stPagerAdapter = new SpecialTopicPagerAdapter(getContext(), specialList);
+        stPagerAdapter.setmOnPagerItemClickListener(bookID -> {
+            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, bookID);
+            startActivity(intent);
+        });
+        vpSpt.setAdapter(stPagerAdapter);
     }
 
     private void initPraiseNvView(LayoutInflater inflater, List<HpBGPraiseNvET> praiseNvList) {
@@ -384,7 +387,9 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                                 initPraiseNvView(inflater, praiseNvList);
                             }
 
-                            initSpecialTopicView(inflater);
+                            //专题
+                            List<HpSpecialEntity> specialList = hpDatas.getSpecial();
+                            initSpecialTopicView(inflater, specialList);
 
                             //男生|女生都喜欢（高分精选）
                             if (headViewHighScore == null) {

@@ -14,12 +14,14 @@ import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.GoldCoinInfoBean;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
 import com.huli.foxread.ui.adapters.WithdrawalGoldAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
 import java.util.List;
@@ -34,7 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class WithdrawalActivity extends BaseActivity implements View.OnClickListener {
 
-    private TextView tvExchangeYuan;
+    private TextView tvGoldBalance, tvExchangeYuan;
     private TextView btnRecord;
     private TextView btnWithdrawal;
 
@@ -71,6 +73,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         initToolBar(toolbar, R.string.txt_gold_coin_withdrawal);
         StatusBarUtils.offsetView(this, toolbar);
 
+        tvGoldBalance = $(R.id.tv_my_gold_coin_balance);
         tvExchangeYuan = $(R.id.tv_my_gold_coin_balance_exchange_yuan);
         btnRecord = $(R.id.tv_asBtn_withdrawal_record);
         btnWithdrawal = $(R.id.btn_gold_coin_withdrawal);
@@ -97,10 +100,12 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void doBusiness(Context mContext) {
-        tvExchangeYuan.setText(("10.5元"));
+//        tvExchangeYuan.setText((0 + getString(R.string.unit_yuan)));
 
         tvWithdrawalTips.setText("1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功"
         );
+
+        reqMyGoldCoinInfo();
 
         reqWithdrawalCombo();
     }
@@ -170,5 +175,27 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                 });
     }
 
+
+    /**
+     * 获取金币信息
+     */
+    private void reqMyGoldCoinInfo() {
+        OkGo.<String>get(Consts.GOLD_COIN_INFO_API)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheTime(5 * 60 * 1000)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<GoldCoinInfoBean> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<GoldCoinInfoBean>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            GoldCoinInfoBean data = entity.getData();
+                            tvGoldBalance.setText(String.valueOf(data.getScore()));
+                            tvExchangeYuan.setText((data.getScore_money() + getString(R.string.unit_yuan)));
+                        }
+                    }
+                });
+    }
 
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
@@ -27,6 +28,10 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +122,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void doBusiness(Context mContext) {
+        EventBus.getDefault().register(this);
 
         changeUIbyIsVisitor(mContext);
 
@@ -127,6 +133,18 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         wzAdapter.setNewData(list);
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginChangeEvent(LoginChangeEvent event){
+        changeUIbyIsVisitor(mActivity);
+    }
+
 
     private void changeUIbyIsVisitor(Context mContext) {
         boolean isVisitor = UserInfoCache.getIsVisitor(mContext);

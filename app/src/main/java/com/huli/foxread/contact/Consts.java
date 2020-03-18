@@ -16,6 +16,8 @@ public interface Consts {
     String MEMBERSHIP_AGREEMENT_URL = BASE_URL + "/api/clause/detail?id=4";
     /*邀请好友说明*/
     String INVITE_FRIENDS_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=5";
+    /*签到说明*/
+    String SIGN_IN_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=6";
 
     String USE_UNIQUE_ID_LOGIN_OR_REG_API = NOT_CPL_URL + Func.USER_VISITOR_LOGIN;
     String USER_SET_GENDER_API = NOT_CPL_URL + Func.USER_SET_GENDER;
@@ -68,6 +70,11 @@ public interface Consts {
 
 
     String WELFARE_LIST_API = NOT_CPL_URL + Func.WELFARE_LIST;
+    String WELFARE_COMPLETE_API = NOT_CPL_URL + Func.WELFARE_COMPLETE;
+    String WELFARE_SIGNIN_API = NOT_CPL_URL + Func.WELFARE_SIGNIN;
+
+    //邀请好友页面信息
+    String WELFARE_INVITE_API = NOT_CPL_URL + Func.WELFARE_INVITE;
 
 
 
@@ -78,6 +85,12 @@ public interface Consts {
     String WITHDRAWAL_MONEY_API = NOT_CPL_URL + Func.WITHDRAWAL_MONEY;
     String WITHDRAWAL_RECORD_API = NOT_CPL_URL + Func.WITHDRAWAL_RECORD;
     /*提现*/
+
+    /*我的金币相关*/
+    String GOLD_COIN_INFO_API = NOT_CPL_URL + Func.GOLD_COIN_INFO;
+    String GOLD_EARNINGS_LIST_API = NOT_CPL_URL + Func.GOLD_EARNINGS_LIST;
+    /*我的金币相关*/
+
 
     /*已邀好友*/
     String INVITATION_INDEX_API = NOT_CPL_URL + Func.INVITATION_INDEX;
@@ -168,6 +181,9 @@ public interface Consts {
     String WITHDRAWAL_PLAN_ID = "id";
 
     String VIP_COMBO_ID = "id";
+
+    String MISSION_ID = "id";
+    String SUB_MISSION_ID = "sub_id";
 
 
     String TEL = "tel";

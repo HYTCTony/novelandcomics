@@ -15,12 +15,15 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
@@ -159,6 +162,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                             JSONObject object = JSONObject.parseObject(entity.getData());
                             String token = object.getString("token");
                             UserInfoCache.saveToken(SettingActivity.this, token);
+
+                            EventBus.getDefault().post(new LoginChangeEvent(false));
 
                             setResult(RESULT_OK);
                             finish();
