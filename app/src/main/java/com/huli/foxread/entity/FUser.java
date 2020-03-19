@@ -16,6 +16,7 @@ public class FUser implements Serializable {
     private String distribution = "";   //红包码(邀请码)
     private int is_new_man = 0;         //是否为新用户:0=不是,1=是
     private int is_vip = 0;             //是否为vip:0=不是,1=是
+    private long vip_end = 0;           //会员结束时间
     private int is_visitor = 1;         //是否为游客:0=不是,1=是
     private int is_invited = -1;        //是否已填写邀请码:0未被邀请，1已被邀请，-1游客身份无法邀请
     private int message_sum = 0;        //通知数量
@@ -123,6 +124,14 @@ public class FUser implements Serializable {
 
     public void setIs_vip(int is_vip) {
         this.is_vip = is_vip;
+    }
+
+    public long getVip_end() {
+        return vip_end;
+    }
+
+    public void setVip_end(long vip_end) {
+        this.vip_end = vip_end;
     }
 
     public int getIs_visitor() {

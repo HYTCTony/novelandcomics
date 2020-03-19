@@ -265,6 +265,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             headViewNewBooks = inflater.inflate(R.layout.layout_rv_head_multiitem_books, recyclerView, false);
             mAdapter.setHeaderView(headViewNewBooks, 5);
             $(headViewNewBooks, R.id.tv_asBtn_newBooks_refresh).setOnClickListener(this);
+            $(headViewNewBooks, R.id.tv_asBtn_newBooks_refresh).setVisibility(View.GONE);
             rvLeadUpBooks = $(headViewNewBooks, R.id.recyclerView_new_books);
             rvLeadUpBooks.setLayoutManager(new GridLayoutManager(mActivity, 4));
         }
@@ -319,6 +320,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             mAdapter.setHeaderView(headViewTopSearch, 4);
 
             $(headViewTopSearch, R.id.tv_asBtn_get_a_new_batch_top_search).setOnClickListener(this);
+            $(headViewTopSearch, R.id.tv_asBtn_get_a_new_batch_top_search).setVisibility(View.GONE);
             rvTopSearch = $(headViewTopSearch, R.id.recyclerView_top_search);
             rvTopSearch.setNestedScrollingEnabled(false);
             rvTopSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
@@ -344,6 +346,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                     Tos.showShort(mActivity, "点个锤子，这个模块没了！");
                 }
             });
+            $(headViewSpecial, R.id.tv_asBtn_special_topic_more).setVisibility(View.GONE);
             vpSpt = $(headViewSpecial, R.id.viewPager_special_topic);
             vpSpt.setPageMargin(DensityUtils.dp2px(mActivity, 16));
         }
@@ -363,6 +366,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             headViewExcellentWorks = inflater.inflate(R.layout.layout_rc_head_sb_classify_excellent_work, recyclerView, false);
             mAdapter.setHeaderView(headViewExcellentWorks, 2);
             $(headViewExcellentWorks, R.id.tv_asBtn_excellent_work_more).setOnClickListener(this);
+            $(headViewExcellentWorks, R.id.tv_asBtn_excellent_work_more).setVisibility(View.GONE);
             vpExWorks = $(headViewExcellentWorks, R.id.viewPager_excellent_works);
             vpExWorks.setPageMargin(DensityUtils.dp2px(mActivity, 16));
         }
@@ -380,6 +384,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             headViewHot = inflater.inflate(R.layout.layout_rv_head_sb_hotlist_today, recyclerView, false);
             mAdapter.setHeaderView(headViewHot, 1);
             $(headViewHot, R.id.tv_asBtn_full_list).setOnClickListener(this);
+            $(headViewHot, R.id.tv_asBtn_full_list).setVisibility(View.GONE);
             rvHot = $(headViewHot, R.id.recyclerView_hotlist);
             rvHot.setNestedScrollingEnabled(false);
             rvHot.setLayoutManager(new GridLayoutManager(mActivity, 2));

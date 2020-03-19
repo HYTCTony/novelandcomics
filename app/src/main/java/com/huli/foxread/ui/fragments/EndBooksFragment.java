@@ -1,18 +1,24 @@
 package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.HpBGPraiseNvET;
 import com.huli.foxread.entity.sections.NEbookSection;
+import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.adapters.SectionNewBookAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.lzy.okgo.OkGo;
@@ -25,7 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EndBooksFragment extends BaseFragment {
+public class EndBooksFragment extends BaseFragment implements OnItemClickListener {
 
     private RecyclerView recyclerView;
     private SectionNewBookAdapter mAdapter;
@@ -60,7 +66,7 @@ public class EndBooksFragment extends BaseFragment {
 
     @Override
     public void setListener() {
-
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -78,6 +84,18 @@ public class EndBooksFragment extends BaseFragment {
         }
         reqFindEndBooks(url);
     }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        NEbookSection<BookEntity> nEbookSection = mAdapter.getData().get(position);
+        BookEntity book = nEbookSection.getObject();
+        if (book != null) {
+            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, book.getId());
+            startActivity(intent);
+        }
+    }
+
 
    /* private List<NbSection<NewBookEntity>> initDatas() {
         List<NbSection<NewBookEntity>> list = new ArrayList<>();
@@ -137,7 +155,7 @@ public class EndBooksFragment extends BaseFragment {
                             for (int i = 0; i < data.size(); i++) {
                                 HpBGPraiseNvET hpBGPraiseNvET = data.get(i);
                                 List<BookEntity> novels = hpBGPraiseNvET.getNovel();
-                                list.add(new NEbookSection<>(true, true, hpBGPraiseNvET.getId(), hpBGPraiseNvET.getTheme_id(), hpBGPraiseNvET.getName(), null));
+                                list.add(new NEbookSection<>(true, false, hpBGPraiseNvET.getId(), hpBGPraiseNvET.getTheme_id(), hpBGPraiseNvET.getName(), null));
                                 for (int j = 0; j < novels.size(); j++) {
                                     list.add(new NEbookSection<>(false, novels.get(j)));
                                 }

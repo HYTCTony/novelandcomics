@@ -23,8 +23,9 @@ public class VipComboAdapter extends BaseQuickAdapter<ReChargeSetEntity, BaseVie
     private NumberFormat nf;
     private int checkPos = 0;
 
-    public VipComboAdapter() {
+    public VipComboAdapter(OnVipComboSelectListenr onVipComboSelectListenr) {
         super(R.layout.recy_grid_item_vip_combo);
+        this.onVipComboSelectListenr = onVipComboSelectListenr;
         nf = NumberFormat.getCurrencyInstance(Locale.CHINA);
         nf.setMaximumFractionDigits(2);
         nf.setMinimumFractionDigits(0);
@@ -49,7 +50,9 @@ public class VipComboAdapter extends BaseQuickAdapter<ReChargeSetEntity, BaseVie
 
         int position = holder.getLayoutPosition();
         if (checkPos == position) {
-            selectedComboId = data.getId();
+            if(onVipComboSelectListenr!=null){
+                onVipComboSelectListenr.onVipComboSelect(data.getId(), data.getDiscount_price());
+            }
             checkBox.setChecked(true);
             holder.setTextColorRes(R.id.tv_combo_duration, R.color.txt_brownness_8b7342);
             holder.setTextColorRes(R.id.tv_combo_real_price, R.color.txt_brownness_8b7342);
@@ -69,15 +72,21 @@ public class VipComboAdapter extends BaseQuickAdapter<ReChargeSetEntity, BaseVie
                 } else {
                     checkPos = position;
                     checkBox.setChecked(true);
+                    if(onVipComboSelectListenr!=null){
+                        onVipComboSelectListenr.onVipComboSelect(data.getId(), data.getDiscount_price());
+                    }
                 }
                 notifyDataSetChanged();
             }
         });
     }
 
-    private String selectedComboId;
 
-    public String getSelectedComboId() {
-        return selectedComboId;
+    public void setOnVipComboSelectListenr(OnVipComboSelectListenr onVipComboSelectListenr) {
+        this.onVipComboSelectListenr = onVipComboSelectListenr;
+    }
+    private OnVipComboSelectListenr onVipComboSelectListenr;
+    public interface OnVipComboSelectListenr{
+        void onVipComboSelect(String comboId, double discountPrice);
     }
 }

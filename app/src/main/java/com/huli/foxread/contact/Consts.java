@@ -81,7 +81,8 @@ public interface Consts {
     String WELFARE_LIST_API = NOT_CPL_URL + Func.WELFARE_LIST;
     String WELFARE_COMPLETE_API = NOT_CPL_URL + Func.WELFARE_COMPLETE;
     String WELFARE_USERLIST_API = NOT_CPL_URL + Func.WELFARE_USERLIST;
-    String WELFARE_SIGNIN_API = NOT_CPL_URL + Func.WELFARE_SIGNIN;
+    String WELFARE_SIGNIN_API = NOT_CPL_URL + Func.WELFARE_SIGNIN_INFO;
+    String WELFARE_COMPLETESINGIN_API = NOT_CPL_URL + Func.WELFARE_COMPLETESINGIN;
 
     //邀请好友页面信息
     String WELFARE_INVITE_API = NOT_CPL_URL + Func.WELFARE_INVITE;
@@ -99,6 +100,8 @@ public interface Consts {
     String GOLD_COIN_INFO_API = NOT_CPL_URL + Func.GOLD_COIN_INFO;
     String GOLD_EARNINGS_LIST_API = NOT_CPL_URL + Func.GOLD_EARNINGS_LIST;
     /*我的金币相关*/
+    //绑银行卡
+    String BANK_CREATE_API = NOT_CPL_URL + Func.BANK_CREATE;
 
 
     /*已邀好友*/
@@ -109,6 +112,8 @@ public interface Consts {
     String ORDER_RECHARGE_API = NOT_CPL_URL + Func.ORDER_RECHARGE;
     /*创建订单*/
     String ORDER_CREATE_API = NOT_CPL_URL + Func.ORDER_CREATE;
+    String PAY_WECHAT_API = NOT_CPL_URL + Func.PAY_WECHAT;
+    String PAY_ALIPAY_API = NOT_CPL_URL + Func.PAY_ALIPAY;
 
 
     /***gender***/
@@ -149,7 +154,7 @@ public interface Consts {
     /***福利任务跳转判断***/
 
 
-    //*************************Param******************************
+    //*************************Param key******************************
     String D_TOKEN = "token";
     String DATAS = "datas";             //最终的Map参数名
 
@@ -194,10 +199,20 @@ public interface Consts {
 
     String WITHDRAWAL_PLAN_ID = "id";
 
+    /*银行卡*/
+    String ID_CARD_NUMBER = "id_card";
+    String BANK_NAME = "bank_name";
+    String BANK_ADDRESS = "address";
+    String BANK_ACCOUNT = "account";
+    String CARDHOLDER_NAME = "name";
+    /*银行卡*/
+
     String VIP_COMBO_ID = "id";
 
     String MISSION_ID = "id";
-    String SUB_MISSION_ID = "sub_id";
+    String SUB_MISSION_ID = "lower_id";
+
+    String ORDER_ID = "order_id";
 
 
     String TEL = "tel";

@@ -45,6 +45,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.activities.TransparencyActivity"
+            android:theme="@style/AppTheme.transparent"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.activities.ClassifyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
@@ -222,6 +228,11 @@
 
         <activity
             android:name=".ui.activities.CommonWebActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.BankCardBindActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 

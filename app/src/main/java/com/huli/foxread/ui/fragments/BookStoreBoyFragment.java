@@ -223,6 +223,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
         if (headViewSpecial == null) {
             headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
             mAdapter.setHeaderView(headViewSpecial, 8);
+            $(headViewSpecial, R.id.tv_asBtn_special_topic_more).setVisibility(View.GONE);
             $(headViewSpecial, R.id.tv_asBtn_special_topic_more).setOnClickListener(new OnClickEvent() {
                 @Override
                 public void singleClick(View v) {
@@ -251,6 +252,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
             mAdapter.setHeaderView(headViewPraiseGood, i + 1);
             $(headViewPraiseGood, R.id.tv_asBtn_praise_good_refresh).setOnClickListener(this);
             $(headViewPraiseGood, R.id.tv_asBtn_praise_good_refresh).setTag(bgPraiseNvET.getId());
+            $(headViewPraiseGood, R.id.tv_asBtn_praise_good_refresh).setVisibility(View.GONE);
             TextView tvTitle = $(headViewPraiseGood, R.id.tv_title_bar_praise_good);
             tvTitle.setText(bgPraiseNvET.getName());
             RecyclerView rvLeadUpBooks = $(headViewPraiseGood, R.id.recyclerView_praise_good_books);

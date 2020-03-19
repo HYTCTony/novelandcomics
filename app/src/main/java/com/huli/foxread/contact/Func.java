@@ -369,7 +369,14 @@ public interface Func {
      * 头：token---token(Y)
      * 参数：
      */
-    String WELFARE_SIGNIN = "/welfare/signIn";
+    String WELFARE_SIGNIN_INFO = "/welfare/signIn";
+
+    /**
+     * 用途：普通签到提交(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_COMPLETESINGIN = "/welfare/completeSingIn";
 
     /**
      * 用途：邀请详情(GET)
@@ -377,7 +384,6 @@ public interface Func {
      * 参数：
      */
     String WELFARE_INVITE = "/welfare/invite";
-
 
 
     /**
@@ -440,6 +446,18 @@ public interface Func {
      */
     String GOLD_EARNINGS_LIST = "/score/index";
 
+    /**
+     * 用途：绑定银行卡（POST）
+     * 头：token---token(Y)
+     * 参数：
+     * id_card --- 持卡人身份证号码
+     * bank_name --- 开户银行名称
+     * address --- 开户银行地址
+     * account --- 银行卡账户
+     * name --- 持卡人姓名
+     */
+    String BANK_CREATE = "/bank/create";
+
 
     /**
      * 用途：已邀好友
@@ -463,6 +481,22 @@ public interface Func {
      * id --- 套餐ID
      */
     String ORDER_CREATE = "/order/create";
+
+    /**
+     * 用途：微信支付（POST）
+     * 头：token---token(Y)
+     * 参数：
+     * order_id --- 套餐ID
+     */
+    String PAY_WECHAT = "/pay/wx";
+
+    /**
+     * 用途：支付宝支付（POST）
+     * 头：token---token(Y)
+     * 参数：
+     * order_id --- 套餐ID
+     */
+    String PAY_ALIPAY = "/pay/ali";
 
 
 }

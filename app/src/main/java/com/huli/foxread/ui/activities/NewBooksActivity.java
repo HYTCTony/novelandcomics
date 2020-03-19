@@ -1,14 +1,18 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.HpBGPraiseNvET;
@@ -25,7 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class NewBooksActivity extends BaseActivity {
+public class NewBooksActivity extends BaseActivity implements OnItemClickListener {
 
     private RecyclerView recyclerView;
     private SectionNewBookAdapter mAdapter;
@@ -60,7 +64,7 @@ public class NewBooksActivity extends BaseActivity {
 
     @Override
     public void setListener() {
-
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -86,6 +90,19 @@ public class NewBooksActivity extends BaseActivity {
         }
         reqFindNewBooks(url);
     }
+
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        NEbookSection<BookEntity> nEbookSection = mAdapter.getData().get(position);
+        BookEntity book = nEbookSection.getObject();
+        if (book != null) {
+            Intent intent = new Intent(this, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, book.getId());
+            startActivity(intent);
+        }
+    }
+
 
 
    /* private List<NbSection<NewBookEntity>> initDatas() {
@@ -146,7 +163,7 @@ public class NewBooksActivity extends BaseActivity {
                             for (int i = 0; i < data.size(); i++) {
                                 HpBGPraiseNvET hpBGPraiseNvET = data.get(i);
                                 List<BookEntity> novels = hpBGPraiseNvET.getNovel();
-                                list.add(new NEbookSection<>(true, true, hpBGPraiseNvET.getId(), hpBGPraiseNvET.getTheme_id(), hpBGPraiseNvET.getName(), null));
+                                list.add(new NEbookSection<>(true, false, hpBGPraiseNvET.getId(), hpBGPraiseNvET.getTheme_id(), hpBGPraiseNvET.getName(), null));
                                 for (int j = 0; j < novels.size(); j++) {
                                     list.add(new NEbookSection<>(false, novels.get(j)));
                                 }

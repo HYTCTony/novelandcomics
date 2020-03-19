@@ -18,7 +18,10 @@ import com.huli.foxread.entity.GoldCoinInfoBean;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
 import com.huli.foxread.ui.adapters.WithdrawalGoldAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -26,6 +29,7 @@ import com.lzy.okgo.model.Response;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -35,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * 金币提现
  */
 public class WithdrawalActivity extends BaseActivity implements View.OnClickListener {
+    private static final int REQCODE_BIND_BANKCARD = 0x1999;
 
     private TextView tvGoldBalance, tvExchangeYuan;
     private TextView btnRecord;
@@ -133,6 +138,15 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQCODE_BIND_BANKCARD) {
+                btnWithdrawal.performLongClick();
+            }
+        }
+    }
 
     /**
      * 金币提现套餐
@@ -167,7 +181,13 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                            TipDialog.show(WithdrawalActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
+                            MessageDialog.show(WithdrawalActivity.this, getString(R.string.txt_withdrawal_success_title),
+                                    DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
+                                    .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
+                                    });
+                        } else if (entity.error_code == 10003) {
+                            Tos.showShort(WithdrawalActivity.this, entity.msg);
+                            startActivityForResult(new Intent(WithdrawalActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
                         } else {
                             TipDialog.show(WithdrawalActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }

@@ -15,7 +15,7 @@ public class WelfareTaskEntity {
     private int frequency;                  //每日可完成任务次数
     private String number;
     private String link;                    //点击链接:h5页面填写api路径,小说内部跳转填写关键字
-    private String http_image;              //图标
+    private String http_logo_image;              //图标
 //    private long createtime;
 //    private long updatetime;
     private int complete_task;              //完成次数，-1未完成，1已完成(
@@ -23,7 +23,7 @@ public class WelfareTaskEntity {
     public WelfareTaskEntity() {
     }
 
-    public WelfareTaskEntity(String id, String name, int type, String content, int status, String welfare_category_id, int reward, int is_new_man, int frequency, String number, String link, String http_image, int complete_task) {
+    public WelfareTaskEntity(String id, String name, int type, String content, int status, String welfare_category_id, int reward, int is_new_man, int frequency, String number, String link, String http_logo_image, int complete_task) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -35,7 +35,7 @@ public class WelfareTaskEntity {
         this.frequency = frequency;
         this.number = number;
         this.link = link;
-        this.http_image = http_image;
+        this.http_logo_image = http_logo_image;
         this.complete_task = complete_task;
     }
 
@@ -135,12 +135,12 @@ public class WelfareTaskEntity {
         this.complete_task = complete_task;
     }
 
-    public String getHttp_image() {
-        return http_image;
+    public String getHttp_logo_image() {
+        return http_logo_image;
     }
 
-    public void setHttp_image(String http_image) {
-        this.http_image = http_image;
+    public void setHttp_logo_image(String http_logo_image) {
+        this.http_logo_image = http_logo_image;
     }
 
 }

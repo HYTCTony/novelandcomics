@@ -20,6 +20,7 @@ public class WelfareReadMissionAdapter extends BaseQuickAdapter<WelfareReadTaskE
 
     public WelfareReadMissionAdapter() {
         super(R.layout.recy_list_item_reading_mission);
+        addChildClickViewIds(R.id.btn_welfare_mission_action);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class WelfareReadMissionAdapter extends BaseQuickAdapter<WelfareReadTaskE
         }
 
         GlideApp.with(getContext())
-                .load(data.getHttp_image())
+                .load(data.getHttp_logo_image())
                 .into((ImageView) holder.getView(R.id.iv_mission_icon));
     }
 

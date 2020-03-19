@@ -31,7 +31,7 @@
         app:layout_constraintRight_toRightOf="@+id/tv_sign_in_flag"
         app:layout_constraintLeft_toLeftOf="@+id/tv_sign_in_flag"
         app:layout_constraintTop_toBottomOf="@+id/tv_sign_in_flag"
-        android:textColor="@color/txt_red"
+        android:textColor="@color/txt_dark_gold"
         android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

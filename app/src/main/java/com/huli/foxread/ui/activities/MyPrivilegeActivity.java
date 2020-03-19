@@ -1,8 +1,11 @@
 package com.huli.foxread.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -16,30 +19,41 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alipay.sdk.app.PayTask;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.PaymentInfoEntity;
 import com.huli.foxread.entity.ReChargeSetEntity;
+import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.listeners.OnClickEvent;
+import com.huli.foxread.payment.PayResult;
 import com.huli.foxread.ui.adapters.VipComboAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.dialogs.PaymentSelectDialog;
 import com.huli.foxread.ui.widget.CheckBoxSample;
+import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -47,7 +61,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyPrivilegeActivity extends BaseActivity implements View.OnClickListener {
+public class MyPrivilegeActivity extends BaseActivity implements View.OnClickListener, VipComboAdapter.OnVipComboSelectListenr {
 
     private TextView tvVipTypeTitle, tvVipTime, tvVipTips, tvAccountSetup;
     private ImageView ivIconVipSymbol;
@@ -60,6 +74,40 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
     private VipComboAdapter mAdapter;
     private TextView tvServiceAgreement;
     private Button btnOpenOrRenew;
+
+    private String selectedComboId;
+
+
+    private static final int SDK_PAY_FLAG = 1;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @SuppressWarnings("unused")
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+//                        Toast.makeText(OnlinePaymentActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+//                        Intent intent = new Intent(OnlinePaymentActivity.this, PaySuccessActivity.class);
+//                        startActivity(intent);
+                        reqUserInfo();
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                        Tos.showShort(MyPrivilegeActivity.this, "支付失败");
+                    }
+                    break;
+                }
+            }
+        }
+    };
 
     @Override
     public void initParms(Bundle parms) {
@@ -95,7 +143,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         recyclerView = $(R.id.recyclerView_vip_packages);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DensityUtils.dp2px(this, 16), true));
-        mAdapter = new VipComboAdapter();
+        mAdapter = new VipComboAdapter(this);
         recyclerView.setAdapter(mAdapter);
 
         tvServiceAgreement = $(R.id.tv_agree_service_agreement);
@@ -141,7 +189,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         boolean isVip = UserInfoCache.getIsVip(this);
         displayVipUI(isVip);
 
-        btnOpenOrRenew.setText("12.00元 立即开通");
+        btnOpenOrRenew.setText("立即开通");
 
         reqRechargeCombo();
     }
@@ -156,9 +204,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.btn_open_or_renew_vip:
-                String comboId = mAdapter.getSelectedComboId();
-                if (!TextUtils.isEmpty(comboId)) {
-                    reqSubmitOrder(comboId);
+                if (!TextUtils.isEmpty(selectedComboId)) {
+                    reqSubmitOrder(selectedComboId);
                 }
                 break;
 
@@ -167,11 +214,18 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
+
+    @Override
+    public void onVipComboSelect(String comboId, double discountPrice) {
+        selectedComboId = comboId;
+        btnOpenOrRenew.setText((new DecimalFormat("######0.00").format(discountPrice) + getString(R.string.txt_yuan_open)));
+    }
+
     private void displayVipUI(boolean isVip) {
         if (isVip) {
-            tvVipTypeTitle.setText("包月VIP");
-            //TODO VIP 到期时间
-            tvVipTime.setText("到期时间：2020-3-14");
+            tvVipTypeTitle.setText(R.string.txt_monthly_vip);
+            tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
+                    DateTimeUtil.formatDateTime(UserInfoCache.getVipEndtime(this), "yyyy-MM-dd")));
             tvVipTips.setText(R.string.txt_tips_vip_state);
             tvAccountSetup.setVisibility(View.GONE);
             ivIconVipSymbol.setVisibility(View.VISIBLE);
@@ -182,57 +236,6 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             tvAccountSetup.setVisibility(View.VISIBLE);
             ivIconVipSymbol.setVisibility(View.GONE);
         }
-    }
-
-
-    /**
-     * 充值列表
-     */
-    private void reqRechargeCombo() {
-        OkGo.<String>get(Consts.ORDER_RECHARGE_API)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<ReChargeSetEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<ReChargeSetEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<ReChargeSetEntity> datas = entity.getData();
-                            mAdapter.setNewData(datas);
-                        }
-                    }
-                });
-    }
-
-    private void reqSubmitOrder(String comboId) {
-        OkGo.<String>post(Consts.ORDER_CREATE_API)
-                .params(Consts.VIP_COMBO_ID, comboId)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PaymentInfoEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PaymentInfoEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PaymentInfoEntity data = entity.getData();
-                            PaymentSelectDialog.newInstance(data)
-                                    .setLayoutId(R.layout.dialog_payment_select)
-                                    .setConvertListener(viewConvertListener)
-                                    .setDimAmout(0.5f)
-                                    .setShowBottom(true)
-                                    .setAnimStyle(R.style.PaymentDialogAnim)
-                                    /*.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialog) {
-                                            Tos.showShort(MyPrivilegeActivity.this, "支付取消...");
-                                        }
-                                    })*/
-                                    .show(getSupportFragmentManager());
-                        } else {
-                            TipDialog.show(MyPrivilegeActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
     }
 
 
@@ -260,12 +263,13 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void singleClick(View v) {
                 if (cbWechat.isChecked()) {
-                    //TODO 去支付
-                    Tos.showShort(MyPrivilegeActivity.this, "微信支付");
+                    //TODO 微信支付
+                    TipDialog.show(MyPrivilegeActivity.this, "微信支付尚未启用！", TipDialog.TYPE.ERROR);
+//                    reqChannelsAndPayment(Consts.PAY_WECHAT_API, data.getOrder_sn());
                     dialog.dismiss();
                 } else if (cbAlipay.isChecked()) {
-                    //TODO 去支付
-                    Tos.showShort(MyPrivilegeActivity.this, "支付宝");
+                    //TODO 支付宝支付
+                    reqChannelsAndPayment(Consts.PAY_ALIPAY_API, data.getOrder_sn());
                     dialog.dismiss();
                 } else {
                     Tos.showShort(MyPrivilegeActivity.this, R.string.txt_plz_select_payment_way);
@@ -275,4 +279,125 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         });
     };
 
+
+    /**
+     * 获取充值列表
+     */
+    private void reqRechargeCombo() {
+        OkGo.<String>get(Consts.ORDER_RECHARGE_API)
+                .execute(new LtbCallback(this) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<ReChargeSetEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<ReChargeSetEntity>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            List<ReChargeSetEntity> datas = entity.getData();
+                            mAdapter.setNewData(datas);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 提交订单
+     */
+    private void reqSubmitOrder(String comboId) {
+        OkGo.<String>post(Consts.ORDER_CREATE_API)
+                .params(Consts.VIP_COMBO_ID, comboId)
+                .execute(new LtbCallback(this) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<PaymentInfoEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PaymentInfoEntity>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            PaymentInfoEntity data = entity.getData();
+                            PaymentSelectDialog.newInstance(data)
+                                    .setLayoutId(R.layout.dialog_payment_select)
+                                    .setConvertListener(viewConvertListener)
+                                    .setDimAmout(0.5f)
+                                    .setShowBottom(true)
+                                    .setAnimStyle(R.style.PaymentDialogAnim)
+                                    .show(getSupportFragmentManager());
+                        } else {
+                            TipDialog.show(MyPrivilegeActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+
+    /**
+     * 选择支付通道--->发起支付
+     */
+    private void reqChannelsAndPayment(String payChannelsUrl, String orderId) {
+        OkGo.<String>post(payChannelsUrl)
+                .params(Consts.ORDER_ID, orderId)
+                .execute(new LtbCallback(this) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            if (payChannelsUrl.equals(Consts.PAY_ALIPAY_API)) {
+                                String orderInfo = entity.getData();
+                                Runnable payRunnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        PayTask alipay = new PayTask(MyPrivilegeActivity.this);
+                                        Map<String, String> result = alipay.payV2(orderInfo, true);
+                                        Message msg = new Message();
+                                        msg.what = SDK_PAY_FLAG;
+                                        msg.obj = result;
+                                        mHandler.sendMessage(msg);
+                                    }
+                                };
+                                Thread payThread = new Thread(payRunnable);
+                                payThread.start();
+                            }
+                        } else {
+                            TipDialog.show(MyPrivilegeActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取用户信息---刷新会员时间
+     */
+    private void reqUserInfo() {
+        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
+                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this,
+                        new TypeReference<LzyResponse<FUser>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<FUser>> response) {
+                        if (response.body().error_code == 0) {
+                            FUser data = response.body().getData();
+                            UserInfoCache.saveCacheAll(MyPrivilegeActivity.this, data);
+                            tvVipTypeTitle.setText(R.string.txt_monthly_vip);
+                            tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
+                                    DateTimeUtil.formatDateTime(UserInfoCache.getVipEndtime(MyPrivilegeActivity.this), "yyyy-MM-dd")));
+                            tvVipTips.setText(R.string.txt_tips_vip_state);
+                            tvAccountSetup.setVisibility(View.GONE);
+                            ivIconVipSymbol.setVisibility(View.VISIBLE);
+
+                            EventBus.getDefault().post(new VipChargerEvent(true));
+
+                            MessageDialog.build(MyPrivilegeActivity.this)
+                                    .setTitle("支付成功")
+                                    .setMessage("快去体验吧")
+                                    .setOkButton("去体验")
+                                    .setCancelButton("再看看")
+                                    .setCustomView(R.layout.dialog_payment_success, (dialog, v) -> {
+                                    }).setOnOkButtonClickListener((baseDialog, v) -> {
+                                finish();
+                                return false;
+                            }).show();
+                        }
+                    }
+                });
+    }
 }

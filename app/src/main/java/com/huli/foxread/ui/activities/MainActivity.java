@@ -19,6 +19,8 @@ import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import androidx.core.content.ContextCompat;
@@ -78,6 +80,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void doBusiness(Context mContext) {
+//        EventBus.getDefault().register();
         switch2Bookstore();
     }
 

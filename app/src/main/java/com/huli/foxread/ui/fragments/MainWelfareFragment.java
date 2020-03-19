@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -86,6 +87,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     private View headViewNewBie;
     private RecyclerView rvNewbie;
 
+    private View headViewReadingMission;
+
     private View headViewDaily;
     private RecyclerView rvDaily;
 
@@ -152,14 +155,14 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
             reqGetWerfareTasks(false);
         });
-        mAdapter.addChildClickViewIds(R.id.btn_welfare_mission_action);
+
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.btn_welfare_mission_action) {
                 WelfareReadTaskEntity data = mAdapter.getData().get(position);
                 if (data.getComplete_task() == 0) {
                     ((MainActivity) mActivity).switch2Bookstore();
                 } else {
-                    Tos.showShort(mActivity, "领取奖励");
+                    reqMissionComplete(data.getId(), data.getSubTaskId());
                 }
             }
         });
@@ -276,6 +279,34 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
     }
 
+    private void initReadingMossion(List<WelfareReadTaskEntity> readTasks) {
+        if (headViewReadingMission == null) {
+            headViewReadingMission = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_welfare_reading_mission, recyclerView, false);
+            mAdapter.addHeaderView(headViewReadingMission);
+        }
+
+        List<WelfareReadTaskEntity> readMissions = new ArrayList<>();           //自己构建的Adapter数据
+        for (int i = 0; i < readTasks.size(); i++) {
+            WelfareReadTaskEntity pTask = readTasks.get(i);
+
+            List<ReadSubTaskBean> subTasks = pTask.getTask();   //获取子任务
+            if (subTasks != null && subTasks.size() > 0) {      //有子任务
+                for (int j = 0; j < subTasks.size(); j++) {
+                    ReadSubTaskBean wfSubTaskBean = subTasks.get(j);
+
+                    readMissions.add(new WelfareReadTaskEntity(pTask.getId(), wfSubTaskBean.getName(), pTask.getType(), pTask.getContent(), pTask.getStatus(),
+                            pTask.getWelfare_category_id(), wfSubTaskBean.getReward(), pTask.getIs_new_man(), pTask.getFrequency(), pTask.getNumber(),
+                            pTask.getLink(), pTask.getHttp_logo_image(), wfSubTaskBean.getComplete_task(), wfSubTaskBean.getId(), null));
+                }
+            } else {
+                pTask.setTask(null);
+                readMissions.add(pTask);
+            }
+        }
+        mAdapter.setNewData(readMissions);
+    }
+
+
     private void initDailyLayout(List<WelfareTaskEntity> datas) {
         if (headViewDaily == null) {
             headViewDaily = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_daily_mission, recyclerView, false);
@@ -313,14 +344,11 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         mNewbieAdapter.setNewData(mission.getOther_new());
         mNewbieAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             WelfareTaskEntity data = mNewbieAdapter.getData().get(position);
-            if (data.getLink().equals(Consts.INVITATION)) {
+            if (data.getLink().equals(Consts.INVITATION)) {                     //去邀请
                 go2InviteFriend();
-//                    Tos.showShort(mActivity, "去邀请");
-            } else if (data.getLink().equals(Consts.BE_INVITATION)) {
+            } else if (data.getLink().equals(Consts.BE_INVITATION)) {           //去填写
                 go2FillInviteCode();
-//                    Tos.showShort(mActivity, "去填写");
-            } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
-//                    Tos.showShort(mActivity, "去阅读");
+            } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {        //去阅读
                 ((MainActivity) mActivity).switch2Bookstore();
             }
         });
@@ -339,7 +367,11 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                     @Override
                     public void singleClick(View v) {
                         //完成新人签到任务
-                        reqNewbieSignIn(newSignInMission.getId());
+                        if (UserInfoCache.getIsVisitor(mActivity)) {
+                            startActivity(new Intent(mActivity, LoginActivity.class));
+                            return;
+                        }
+                        reqMissionComplete(newSignInMission.getId(), null);
                     }
                 });
             } else {
@@ -350,13 +382,14 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             }
 
             int completeSum = newSignInMission.getComplete_sum();
+            Log.e("ssssss", "wwwww===" + completeSum);
             List<StepBean> stepsBeanList = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 StepBean stepBean;
                 if (i < completeSum) {
-                    stepBean = new StepBean(String.format(getString(R.string.txt_day_x), i + 1), 1);
+                    stepBean = new StepBean(String.format(getString(R.string.txt_day_x), i + 1), StepBean.STEP_COMPLETED);
                 } else {
-                    stepBean = new StepBean(String.format(getString(R.string.txt_day_x), i + 1), -1);
+                    stepBean = new StepBean(String.format(getString(R.string.txt_day_x), i + 1), StepBean.STEP_UNDO);
                 }
                 stepsBeanList.add(stepBean);
             }
@@ -364,7 +397,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                     .setTextSize(10)//set textSize
                     .setStepsViewIndicatorCompletedLineColor(ContextCompat.getColor(mActivity, R.color.txt_red))//设置StepsViewIndicator完成线的颜色
                     .setStepsViewIndicatorUnCompletedLineColor(ContextCompat.getColor(mActivity, R.color.txt_gray))//设置StepsViewIndicator未完成线的颜色
-                    .setStepViewComplectedTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray))//设置StepsView text完成的颜色
+                    .setStepViewComplectedTextColor(ContextCompat.getColor(mActivity, R.color.txt_red))//设置StepsView text完成的颜色
                     .setStepViewUnComplectedTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray))//设置StepsView text未完成的颜色
                     .setStepsViewIndicatorCompleteIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_complted_red_packet))//设置StepsViewIndicator CompleteIcon
                     .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(mActivity, R.drawable.ic_stepview_default_red_packet))//设置StepsViewIndicator DefaultIcon
@@ -373,7 +406,6 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             $(headViewNewBie, R.id.ctl_gold_coin_daily_newbie).setVisibility(View.GONE);
         }
     }
-
 
     private void initTopLayout() {
         headViewTop = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_welfare_top, recyclerView, false);
@@ -454,27 +486,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
                             //阅读任务
                             List<WelfareReadTaskEntity> readTasks = welfareEntity.getRead();        //得到的数据
-                            List<WelfareReadTaskEntity> readMissions = new ArrayList<>();           //自己构建的Adapter数据
-                            for (int i = 0; i < readTasks.size(); i++) {
-                                WelfareReadTaskEntity pTask = readTasks.get(i);
-
-                                List<ReadSubTaskBean> subTasks = pTask.getTask();   //获取子任务
-                                if (subTasks != null && subTasks.size() > 0) {      //有子任务
-                                    for (int j = 0; j < subTasks.size(); j++) {
-                                        ReadSubTaskBean wfSubTaskBean = subTasks.get(j);
-
-                                        readMissions.add(new WelfareReadTaskEntity(pTask.getId(), wfSubTaskBean.getName(), pTask.getType(), pTask.getContent(), pTask.getStatus(),
-                                                pTask.getWelfare_category_id(), wfSubTaskBean.getReward(), pTask.getIs_new_man(), pTask.getFrequency(), pTask.getNumber(),
-                                                pTask.getLink(), pTask.getHttp_image(), wfSubTaskBean.getComplete_task(), wfSubTaskBean.getId(), null));
-                                    }
-                                } else {
-                                    pTask.setTask(null);
-                                    readMissions.add(pTask);
-                                }
-                            }
-                            View headViewReadingMission = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_welfare_reading_mission, recyclerView, false);
-                            mAdapter.addHeaderView(headViewReadingMission);
-                            mAdapter.setNewData(readMissions);
+                            initReadingMossion(readTasks);
                         }
                     }
 
@@ -486,12 +498,14 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                 });
     }
 
+
     /**
-     * 新人签到
+     * 完成任务领取奖励
      */
-    private void reqNewbieSignIn(String missionId) {
+    private void reqMissionComplete(String missionId, String subMissionId) {
         OkGo.<String>get(Consts.WELFARE_COMPLETE_API)
                 .params(Consts.MISSION_ID, missionId)
+                .params(Consts.SUB_MISSION_ID, subMissionId)
                 .execute(new LtbCallback((AppCompatActivity) mActivity) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -532,11 +546,19 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
 
     private void go2FillInviteCode() {
+        if (UserInfoCache.getIsVisitor(mActivity)) {
+            startActivity(new Intent(mActivity, LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
         startActivityForResult(intent, REQCODE_FILL_INVITE_CODE);
     }
 
     private void go2InviteFriend() {
+        if (UserInfoCache.getIsVisitor(mActivity)) {
+            startActivity(new Intent(mActivity, LoginActivity.class));
+            return;
+        }
         Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
         startActivity(intent);
     }

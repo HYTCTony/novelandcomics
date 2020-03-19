@@ -1,6 +1,7 @@
 package com.huli.foxread.interceptors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
@@ -9,20 +10,27 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.eventbus.LoginChangeEvent;
+import com.huli.foxread.ui.activities.TransparencyActivity;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.utils.IOUtils;
-import com.lzy.okgo.utils.OkLogger;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.EOFException;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.UnsupportedCharsetException;
 
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.internal.http.HttpHeaders;
+import okio.Buffer;
+import okio.BufferedSource;
 
 import static com.alibaba.fastjson.util.IOUtils.UTF8;
 
@@ -43,36 +51,69 @@ public class TokenInterceptor implements Interceptor {
         Request request = chain.request();
         Response response = chain.proceed(request);
 
+        ResponseBody responseBody = response.body();
+        long contentLength = responseBody.contentLength();
+
+        //注意 >>>>>>>>> okhttp3.4.1这里变成了 !HttpHeader.hasBody(response)
+        //if (!HttpEngine.hasBody(response)) {
+        if (!HttpHeaders.hasBody(response)) { //HttpHeader -> 改成了 HttpHeaders，看版本进行选择
+            //END HTTP
+        } else if (bodyEncoded(response.headers())) {
+            //HTTP (encoded body omitted)
+        } else {
+            BufferedSource source = responseBody.source();
+            source.request(Long.MAX_VALUE); // Buffer the entire body.
+            Buffer buffer = source.buffer();
+
+            Charset charset = UTF8;
+            MediaType contentType = responseBody.contentType();
+            if (contentType != null) {
+                try {
+                    charset = contentType.charset(UTF8);
+                } catch (UnsupportedCharsetException e) {
+                    //Couldn't decode the response body; charset is likely malformed.
+                    return response;
+                }
+            }
+
+            if (!isPlaintext(buffer)) {
+                return response;
+            }
+
+            if (contentLength != 0) {
+                //获取到response的body的string字符串
+                //do something .... <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                String result = buffer.clone().readString(charset);
+
+                JSONObject jsonObject = JSONObject.parseObject(result);
+                int errorCode = jsonObject.getIntValue("error_code");
+                // error_code 状态码10001  ---Token失效    10010 被顶号
+                if (errorCode == 10001 || errorCode == 10010) {
+                    String token = syncNewToken();
+                    EventBus.getDefault().post(new LoginChangeEvent(false));
+
+                    Intent intent = new Intent(context, TransparencyActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
+            }
+        }
+        return response;
+
+
+       /* Request request = chain.request();
+        Response response = chain.proceed(request);
+
         //不拦截获取token的方法
         if (request.url().toString().contains(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)) {
             return response;
         }
-        return checkTokenResponse(chain, response);
+        return checkTokenResponse(chain, response);*/
 
-      /*  if (isTokenExpired(response)) {//根据和服务端的约定判断token过期
-            //同步请求方式，获取最新的Token
-            String newToken = syncNewToken();
-            if (TextUtils.isEmpty(newToken)) {
-                tryTime = 0;
-                return response;
-            }
-            //TODO 然后刷新用户信息？要不要叫后台新写一个刷新token的同时刷新用户信息？
-
-            //使用新的Token，创建新的请求
-            Request newRequest = chain.request();
-            Request.Builder requestBuilder = newRequest.newBuilder();
-            requestBuilder.header(Consts.TOKEN, newToken);      //添加(替换)到头
-
-            //重新请求
-            return chain.proceed(requestBuilder.build());
-        }
-
-        Log.e("isTokenExpired", "没过期====" + response.body());
-        return response;*/
     }
 
     /*token失效时自动取获取一次，然后判断重新请求原接口*/
-    private Response checkTokenResponse(Chain chain, Response response) {
+   /* private Response checkTokenResponse(Chain chain, Response response) {
         Response.Builder builder = response.newBuilder();
         Response clone = builder.build();
         ResponseBody responseBody = clone.body();
@@ -83,6 +124,13 @@ public class TokenInterceptor implements Interceptor {
                     byte[] bytes = IOUtils.toByteArray(responseBody.byteStream());
                     MediaType contentType = responseBody.contentType();
                     String body = new String(bytes, getCharset(contentType));
+
+                    JSONObject jsonObject = JSONObject.parseObject(body);
+                    int errorCode = jsonObject.getIntValue("error_code");
+                    if (errorCode == 10001 || errorCode == 10010) {
+                        context.startActivity(new Intent(context, TransparencyActivity.class));
+                    }
+                    return builder.body(responseBody).build();
 
                     if (isTokenExpired(body)) {
                         //同步请求方式，获取最新的Token
@@ -100,6 +148,7 @@ public class TokenInterceptor implements Interceptor {
 //                            Response proceed = chain.proceed(requestBuilder.build());
 //                            return checkTokenResponse(chain,proceed);
                         }
+
                     }
                     responseBody = ResponseBody.create(responseBody.contentType(), bytes);
                     return response.newBuilder().body(responseBody).build();
@@ -111,18 +160,18 @@ public class TokenInterceptor implements Interceptor {
         } finally {
         }
         return response;
-    }
+    }*/
 
-    private static Charset getCharset(MediaType contentType) {
+   /* private static Charset getCharset(MediaType contentType) {
         Charset charset = contentType != null ? contentType.charset(UTF8) : UTF8;
         if (charset == null) charset = UTF8;
         return charset;
     }
 
-    /**
+    *//**
      * Returns true if the body in question probably contains human readable text. Uses a small sample
      * of code points to detect unicode control characters commonly used in binary file signatures.
-     */
+     *//*
     private static boolean isPlaintext(MediaType mediaType) {
         if (mediaType == null) return false;
         if (mediaType.type() != null && mediaType.type().equals("text")) {
@@ -135,21 +184,7 @@ public class TokenInterceptor implements Interceptor {
                 return true;
         }
         return false;
-    }
-
-    /**
-     * 根据Response，判断Token是否失效
-     *
-     * @return error_code 状态码10001  ---Token失效
-     */
-    private boolean isTokenExpired(String body) {
-        JSONObject jsonObject = JSONObject.parseObject(body);
-        int errorCode = jsonObject.getIntValue("error_code");
-        if (errorCode == 10001) {
-            return true;
-        }
-        return false;
-    }
+    }*/
 
 
     /**
@@ -186,6 +221,31 @@ public class TokenInterceptor implements Interceptor {
             return null;
         }
         return null;
+    }
+
+    static boolean isPlaintext(Buffer buffer) throws EOFException {
+        try {
+            Buffer prefix = new Buffer();
+            long byteCount = buffer.size() < 64 ? buffer.size() : 64;
+            buffer.copyTo(prefix, 0, byteCount);
+            for (int i = 0; i < 16; i++) {
+                if (prefix.exhausted()) {
+                    break;
+                }
+                int codePoint = prefix.readUtf8CodePoint();
+                if (Character.isISOControl(codePoint) && !Character.isWhitespace(codePoint)) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (EOFException e) {
+            return false; // Truncated UTF-8 sequence.
+        }
+    }
+
+    private boolean bodyEncoded(Headers headers) {
+        String contentEncoding = headers.get("Content-Encoding");
+        return contentEncoding != null && !contentEncoding.equalsIgnoreCase("identity");
     }
 
 }

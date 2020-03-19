@@ -121,7 +121,7 @@ public class FrLaunchActivity extends BaseActivity {
         }
     }
 
-    private int count = 1;
+    private int count = 3;
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {

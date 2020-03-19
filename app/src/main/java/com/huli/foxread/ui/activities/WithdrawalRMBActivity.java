@@ -18,14 +18,18 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
 import com.huli.foxread.ui.adapters.WithdrawalMoneyAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -35,6 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * RMB提现
  */
 public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickListener {
+    private static final int REQCODE_BIND_BANKCARD = 0x1999;
 
     private TextView btnRecord;
     private TextView tvBalance;
@@ -126,9 +131,9 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.btn_money_withdrawal:
                 String planId = mAdapter.getSelectPlanId();
-                if(TextUtils.isEmpty(planId)){
+                if (TextUtils.isEmpty(planId)) {
                     Tos.showShort(this, R.string.txt_plz_select_withdrawal_money);
-                   return;
+                    return;
                 }
                 reqMoneyWithdrawal(planId);
                 break;
@@ -136,6 +141,17 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQCODE_BIND_BANKCARD) {
+                btnConfirm.performLongClick();
+            }
+        }
+    }
+
 
     /**
      * 现金（RMB）提现套餐
@@ -169,7 +185,15 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-
+                            MessageDialog.show(WithdrawalRMBActivity.this, getString(R.string.txt_withdrawal_success_title),
+                                    DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
+                                    .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
+                                    });
+                        } else if (entity.error_code == 10003) {
+                            Tos.showShort(WithdrawalRMBActivity.this, entity.msg);
+                            startActivityForResult(new Intent(WithdrawalRMBActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
+                        } else {
+                            TipDialog.show(WithdrawalRMBActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });

@@ -24,13 +24,12 @@ import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TaskProgressBar;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.CustomDialog;
+import com.kongzue.dialog.v3.TipDialog;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -55,6 +54,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private TextView tvExtraNeedDay1, tvExtraNeedDay2, tvExtraNeedDay3, tvExtraNeedDay4, tvExtraNeedDay5;*/
 
     private TextView tvGrpPeopleCount;
+    private int signFlag = 0;   //1是已签到
+    private int getGb;          //签到能拿的金币
+    private int continuousSignInCount = 0;      //连续签到天数
 
     @Override
     protected void setStatusBar() {
@@ -126,24 +128,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
         tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
 
-
-
-        /*List<String> list = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            list.add("ssssssss" + i);
-        }
-        mAdapter.setNewData(list);*/
-
-        /*int days = 2;
-        int gb = 1100;
-        SpannableString spannableString = new SpannableString(String.format(getString(R.string.txt_more_gold_signed_in_this_week_xx), days, gb));
-        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.txt_red)),
-                spannableString.length() - 2 - String.valueOf(gb).length(),
-                spannableString.length() - 2,
-                Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        tvMoreGoldCoin.setText(spannableString);
-
-        taskProgressBar.setCurProgress(5, 200);
+        /*taskProgressBar.setCurProgress(5, 200);
         taskProgressBar.setMaxProgress(10);
         tvProgress.setText("5/10");*/
 
@@ -173,15 +158,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.tv_asBtn_sign_in:
-                CustomDialog.show(SignInActivity.this, R.layout.layout_custom_dialog_sign_in_success, new CustomDialog.OnBindView() {
-                    @Override
-                    public void onBind(final CustomDialog dialog, View v) {
-                        TextView tvGetGold = v.findViewById(R.id.iv_get_gold_coin_count);
-                        tvGetGold.setText(String.format(getString(R.string.txt_get_goldcoin_x), 200));
-                        v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
-                        v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
-                    }
-                });
+                if (signFlag != 1) {
+                    reqSignIn();
+                }
                 break;
 
             default:
@@ -189,7 +168,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private int getGb;          //签到能拿的金币
 
     /**
      * 获取签到详情
@@ -203,25 +181,39 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 new TypeReference<LzyResponse<SignDetailEntity>>() {
                                 });
                         if (entity.error_code == 0) {
-                            //TODO ---------
                             SignDetailEntity data = entity.getData();
-                            int signFlag = data.getSign_successions();          //是否已签到标记
+                            signFlag = data.getFrequency();          //是否已签到标记
+                            getGb = data.getReward();       //签到的奖励
+                            continuousSignInCount = data.getSign_successions();
+
                             WelfareTaskEntity welfare = data.getWelfare();
                             String number = welfare.getNumber();
-                            tvGrpPeopleCount.setText((number + "人已领"));
-
-                            getGb = data.getReward();
-                            SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
-                            spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
-                                    spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
-                                    spanbs.length() - 2,
-                                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            tvTitleSignIn.setText(spanbs);
-                            tvSignInState.setText(String.format(getString(R.string.txt_sign_in_state_this_week_xx), 2, 1));
-
+                            tvGrpPeopleCount.setText((number + getString(R.string.txt_people_already_receive)));
                             mAdapter.setNewData(data.getList());
-                        } else {
 
+                            if (signFlag != 1) {
+                                reqSignIn();
+                            }else {
+                                mAdapter.setSignInChange(true);
+                                signFlag = 1;
+                                btnSignIn.setEnabled(false);
+                                btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
+                                btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
+                                btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount + 1)));
+
+                                SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
+                                spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
+                                        spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
+                                        spanbs.length() - 2,
+                                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                tvTitleSignIn.setText(spanbs);
+
+                            }
+
+                            setResult(RESULT_OK);
+                        } else {
+                            TipDialog.show(SignInActivity.this, entity.msg, TipDialog.TYPE.ERROR)
+                                    .setOnDismissListener(() -> finish());
                         }
                     }
                 });
@@ -231,19 +223,39 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
      * 签到
      */
     private void reqSignIn() {
-        OkGo.<String>get(Consts.WELFARE_COMPLETE_API)
+        OkGo.<String>get(Consts.WELFARE_COMPLETESINGIN_API)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(),
                                 new TypeReference<LzyResponse<String>>() {
                                 });
-                       /* if (entity.error_code == 0) {
-                            reqGetWerfareTasks(false);
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
+                        if (entity.error_code == 0) {
+                            mAdapter.setSignInChange(true);
+                            signFlag = 1;
+                            btnSignIn.setEnabled(false);
+                            btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
+                            btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
+                            btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount + 1)));
+
+                            SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
+                            spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
+                                    spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
+                                    spanbs.length() - 2,
+                                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                            tvTitleSignIn.setText(spanbs);
+
+
+                            //弹窗提示签到成功
+                            CustomDialog.show(SignInActivity.this, R.layout.layout_custom_dialog_sign_in_success, (dialog, v) -> {
+                                TextView tvGetGold = v.findViewById(R.id.iv_get_gold_coin_count);
+                                tvGetGold.setText(String.format(getString(R.string.txt_get_goldcoin_x), getGb));
+                                v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
+                                v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
+                            });
                         } else {
-                            Tos.showShort(mActivity, entity.msg);
-                        }*/
+                            Tos.showShort(SignInActivity.this, entity.msg);
+                        }
                     }
                 });
     }

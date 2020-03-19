@@ -18,9 +18,12 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import androidx.core.content.ContextCompat;
 
 public class GenderChoiceActivity extends BaseActivity {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
@@ -32,6 +35,13 @@ public class GenderChoiceActivity extends BaseActivity {
     private Button btnConfirm;
 
     private int gender = 0;
+
+
+    @Override
+    protected void setStatusBar() {
+        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.color_f2), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
+    }
 
     @Override
     public void initParms(Bundle parms) {

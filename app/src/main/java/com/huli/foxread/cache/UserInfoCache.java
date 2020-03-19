@@ -15,7 +15,7 @@ public class UserInfoCache {
         SPFUtils.put(context, Common.KEY_USERNAME, info.getUsername());
         SPFUtils.put(context, Common.KEY_NICKNAME, info.getNickname());
         SPFUtils.put(context, Common.KEY_MOBILE, info.getMobile());
-        SPFUtils.put(context, Common.KEY_AVATAR, info.getHttp_avatar());
+        SPFUtils.put(context, Common.KEY_HTTP_AVATAR, info.getHttp_avatar());
         SPFUtils.put(context, Common.KEY_GENDER, info.getGender());
         SPFUtils.put(context, Common.KEY_MONEY, info.getMoney());
         SPFUtils.put(context, Common.KEY_SCORE, info.getScore());
@@ -23,6 +23,7 @@ public class UserInfoCache {
         SPFUtils.put(context, Common.KEY_DISTRIBUTION, info.getDistribution());
         SPFUtils.put(context, Common.KEY_IS_NEW_MAN, info.getIs_new_man() == 1);
         SPFUtils.put(context, Common.KEY_IS_VIP, info.getIs_vip() == 1);
+        SPFUtils.put(context, Common.KEY_VIP_ENDTIME, info.getVip_end());
         SPFUtils.put(context, Common.KEY_IS_VISITOR, info.getIs_visitor() == 1);
         SPFUtils.put(context, Common.KEY_IS_INVITED, info.getIs_invited());
         SPFUtils.put(context, Common.KEY_MSG_NUM, info.getMessage_sum());
@@ -48,7 +49,7 @@ public class UserInfoCache {
     }
 
     public static void saveHeadPic(Context context, String headPic) {
-        SPFUtils.put(context, Common.KEY_AVATAR, headPic);
+        SPFUtils.put(context, Common.KEY_HTTP_AVATAR, headPic);
     }
 
     public static void saveGender(Context context, int gender) {
@@ -77,6 +78,10 @@ public class UserInfoCache {
 
     public static void saveIsVip(Context context, int flagIsVip) {
         SPFUtils.put(context, Common.KEY_IS_VIP, flagIsVip == 1);
+    }
+
+    public static void saveVipEndtime(Context context, long VipEndtime) {
+        SPFUtils.put(context, Common.KEY_VIP_ENDTIME, VipEndtime);
     }
 
     public static void saveIsVisitor(Context context, int flagIsVisitor) {
@@ -114,7 +119,7 @@ public class UserInfoCache {
     }
 
     public static String getHeadPic(Context context) {
-        return (String) SPFUtils.get(context, Common.KEY_AVATAR, "");
+        return (String) SPFUtils.get(context, Common.KEY_HTTP_AVATAR, "");
     }
 
     public static int getGender(Context context) {
@@ -145,6 +150,10 @@ public class UserInfoCache {
         return (boolean) SPFUtils.get(context, Common.KEY_IS_VIP, false);
     }
 
+    public static long getVipEndtime(Context context) {
+        return (long) SPFUtils.get(context, Common.KEY_VIP_ENDTIME, 0L);
+    }
+
     public static boolean getIsVisitor(Context context) {
         return (boolean) SPFUtils.get(context, Common.KEY_IS_VISITOR, true);
     }
@@ -170,7 +179,7 @@ public class UserInfoCache {
         SPFUtils.remove(context, Common.KEY_USERNAME);
         SPFUtils.remove(context, Common.KEY_NICKNAME);
         SPFUtils.remove(context, Common.KEY_MOBILE);
-        SPFUtils.remove(context, Common.KEY_AVATAR);
+        SPFUtils.remove(context, Common.KEY_HTTP_AVATAR);
         SPFUtils.remove(context, Common.KEY_GENDER);
         SPFUtils.remove(context, Common.KEY_MONEY);
         SPFUtils.remove(context, Common.KEY_SCORE);
@@ -178,6 +187,7 @@ public class UserInfoCache {
         SPFUtils.remove(context, Common.KEY_DISTRIBUTION);
         SPFUtils.remove(context, Common.KEY_IS_NEW_MAN);
         SPFUtils.remove(context, Common.KEY_IS_VIP);
+        SPFUtils.remove(context, Common.KEY_VIP_ENDTIME);
         SPFUtils.remove(context, Common.KEY_IS_VISITOR);
         SPFUtils.remove(context, Common.KEY_IS_INVITED);
         SPFUtils.remove(context, Common.KEY_MSG_NUM);

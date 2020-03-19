@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">狐狸小说</string>
 
+    <string name="rule_id_card_Num">0123456789Xx</string>
     <string name="loading">加载中&#8230;</string>
     <string name="txt_network_maybe_exceptions">服务器连接可能存在异常&#8230;</string>
     <string name="txt_logon_failure">登录失效，请重新登录！</string>
@@ -15,6 +16,9 @@
     <string name="txt_login_success">登录成功！</string>
 
     <string name="tips_copy_success">复制成功，快去分享吧！</string>
+
+    <string name="txt_login_expired">登录已过期</string>
+    <string name="txt_plz_log_in_again">登录已过期</string>
 
     <string name="txt_opening">正在打开&#8230;</string>
 
@@ -35,12 +39,16 @@
     <string name="txt_not_available">暂无</string>
     <string name="txt_all">全部</string>
 
-    <string name="txt_female">女</string>
-    <string name="txt_male">男</string>
+    <string name="txt_female">女生</string>
+    <string name="txt_male">男生</string>
     <string name="hint_select_your_gender">请选择您的性别\n我们将为您推荐精彩书籍！</string>
 
     <string name="txt_unbind">未绑定</string>
     <string name="txt_has_been_bind">已绑定</string>
+
+
+    <string name="txt_bind_bankcard">绑定银行卡</string>
+    <string name="txt_submit_2_bind">提交绑定</string>
 
     <string name="txt_done">完成</string>
     <string name="txt_select_all">全选</string>
@@ -64,6 +72,9 @@
 
     <string name="txt_recommend">推荐</string>
     <string name="txt_day_x">第%1$d天</string>
+
+
+    <string name="txt_today">今天</string>
 
     <string name="txt_explain">说明</string>
     <string name="txt_got_it">知道了</string>
@@ -306,8 +317,14 @@
     <string name="txt_cellphone_or_wechat_number">手机号码/微信号</string>
     <string name="txt_submit_feedback">提交反馈</string>
 
+    <string name="txt_withdrawal_success_title">提现申请已提交，等待人工审核</string>
+
     <string name="txt_wechat_pay">微信支付</string>
     <string name="txt_alipay">支付宝</string>
+
+    <string name="txt_yuan_open">元 立即开通</string>
+    <string name="txt_monthly_vip">包月VIP</string>
+    <string name="txt_vip_end_time_colon">到期时间：%1$s</string>
 
     <string name="expand">展开</string>
     <string name="collapse">收起</string>

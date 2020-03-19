@@ -20,6 +20,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.LoginChangeEvent;
+import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
 import com.huli.foxread.ui.activities.InviteFriendsActivity;
@@ -96,7 +97,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvNickname = $(view, R.id.tv_user_nickname);
         tvUserId = $(view, R.id.tv_user_id);
         $(view, R.id.ll_my_gold_coin_mine).setOnClickListener(this);
-//        $(view, R.id.ll_today_gold_coin_mine).setOnClickListener(this);
+        $(view, R.id.ll_today_gold_coin_mine).setOnClickListener(this);
 //        $(view, R.id.ll_today_reading_count_mine).setOnClickListener(this);
         tvMyGoldCoin = $(view, R.id.tv_my_gold_coin_mine);
         tvTodayGoldCoin = $(view, R.id.tv_today_gold_coin_mine);
@@ -147,9 +148,17 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         MineWelfareZoneEntity data = wzAdapter.getData().get(position);
         String link = data.getLink();
         if (link.equals(Consts.INVITATION)) {       //去邀请
+            if(UserInfoCache.getIsVisitor(mActivity)){
+                startActivity(new Intent(mActivity, LoginActivity.class));
+                return;
+            }
             Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
             startActivity(intent);
         } else if (data.getLink().equals(Consts.BE_INVITATION)) {       //去填写邀请码
+            if(UserInfoCache.getIsVisitor(mActivity)){
+                startActivity(new Intent(mActivity, LoginActivity.class));
+                return;
+            }
             Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
             startActivity(intent);
         } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
@@ -168,6 +177,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLoginChangeEvent(LoginChangeEvent event) {
         changeUIbyIsVisitor(mActivity);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onVipChargerEvent(VipChargerEvent event) {
+        changeUIbyIsVip(mActivity);
     }
 
 
@@ -244,6 +258,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivityForResult(new Intent(mActivity, UserBasicInfoActivity.class), REQCODE_USER_ATTR);
                 break;
             case R.id.ll_my_gold_coin_mine:
+            case R.id.ll_today_gold_coin_mine:
                 if (UserInfoCache.getIsVisitor(mActivity)) {
                     go2LoginAndResult();
                 } else {
@@ -350,6 +365,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                     }
                 });
     }
+
 
 
 }

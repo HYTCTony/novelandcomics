@@ -28,11 +28,11 @@ public interface Common {
 
     String USER_DTO = "user_dto";
 
+    String KEY_AVATAR = "avatar";
     String KEY_USER_ID = "user_id";
     String KEY_USERNAME = "username";
     String KEY_NICKNAME = "nickname";
     String KEY_MOBILE = "mobile";
-    String KEY_AVATAR = "avatar";
     String KEY_GENDER = "gender";
     String KEY_MONEY = "money";
     String KEY_SCORE = "score";
@@ -40,6 +40,7 @@ public interface Common {
     String KEY_DISTRIBUTION = "distribution";
     String KEY_IS_NEW_MAN = "is_new_man";
     String KEY_IS_VIP = "is_vip";
+    String KEY_VIP_ENDTIME = "vip_endtime";
     String KEY_IS_VISITOR = "is_visitor";
     String KEY_IS_INVITED = "is_invited";
     String KEY_HTTP_AVATAR = "http_avatar";

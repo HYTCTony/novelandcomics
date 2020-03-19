@@ -53,7 +53,7 @@ public class WelfareMissionAdapter extends BaseQuickAdapter<WelfareTaskEntity, B
         }
 
         GlideApp.with(getContext())
-                .load(data.getHttp_image())
+                .load(data.getHttp_logo_image())
                 .into((ImageView) holder.getView(R.id.iv_mission_icon));
     }
 
