@@ -56,7 +56,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainMineFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener {
 
-    private static final int REQCODE_LOGIN = 0x5688;
+    public static final int REQCODE_LOGIN = 0x5688;
     private static final int REQCODE_SETTING_AC = 0x8865;
     public static final int REQCODE_USER_ATTR = 0x9999;
 

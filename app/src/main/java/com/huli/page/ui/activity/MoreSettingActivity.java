@@ -10,12 +10,14 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.huli.foxread.R;
+import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.ui.base.BaseViewActivity;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.TintTypedArray;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 
 public class MoreSettingActivity extends BaseViewActivity {
@@ -61,6 +63,9 @@ public class MoreSettingActivity extends BaseViewActivity {
 
     @Override
     protected void initView() {
+        StatusBarUtils.setTransparentForImageView(mContext, toolbar);
+        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.conversion_type_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

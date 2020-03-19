@@ -19,6 +19,8 @@ import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.utils.Tos;
+import com.huli.page.ui.activity.MoreSettingActivity;
+import com.huli.page.utils.DataCleanManager;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -94,9 +96,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void doBusiness(Context mContext) {
         tvNickname.setText(UserInfoCache.getUserName(this));
-        tvPushNotifyState.setText("未开启");
-        tvCacheSize.setText("256.89M");
-
+        tvPushNotifyState.setText("已开启");
+        String cache = "0.00M";
+        try {
+            cache = DataCleanManager.getTotalCacheSize(mContext);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tvCacheSize.setText(cache);
         switchNightMode.setChecked(true);
     }
 
@@ -107,18 +114,23 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivityForResult(new Intent(this, UserBasicInfoActivity.class), MainMineFragment.REQCODE_USER_ATTR);
                 break;
             case R.id.rtl_asBtn_push_notification:
-
+                MessageDialog.show(this, R.string.txt_empty, R.string.hint_content_push_message, R.string.txt_confirm)
+                        .setOnOkButtonClickListener((baseDialog, v) -> {
+                            baseDialog.doDismiss();
+                            return false;
+                        });
                 break;
             case R.id.rtl_asBtn_clear_cache:
                 MessageDialog.show(this, R.string.txt_clear_cache, R.string.hint_content_clear_cache, R.string.txt_confirm, R.string.txt_cancel)
                         .setOnOkButtonClickListener((baseDialog, v) -> {
-                            Tos.showShort(SettingActivity.this, "确定");
+                            DataCleanManager.clearAllCache(SettingActivity.this);
+                            tvCacheSize.setText("0.00k");
                             baseDialog.doDismiss();
                             return false;
                         });
                 break;
             case R.id.tv_asBtn_reader_settings:
-
+                startActivity(new Intent(SettingActivity.this, MoreSettingActivity.class));
                 break;
             case R.id.tv_asBtn_account_security:
                 startActivity(new Intent(this, AccountSecurityActivity.class));
