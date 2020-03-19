@@ -42,7 +42,7 @@
     <string name="txt_unbind">未绑定</string>
     <string name="txt_has_been_bind">已绑定</string>
 
-    <string name="txt_done">完成</string>
+    <string name="txt_done">取消</string>
     <string name="txt_select_all">全选</string>
     <string name="txt_manage">管理</string>
     <string name="txt_search">搜索</string>
@@ -111,6 +111,7 @@
     <string name="txt_total_reading_time_min">今日已阅读(分钟)</string>
     <string name="txt_sign_in_for_gold">签到领金币</string>
     <string name="txt_markread">读到：</string>
+    <string name="txt_markread_null">未读</string>
     <string name="txt_welfare_center">福利中心</string>
     <string name="txt_click_2_login">点击\n登录</string>
     <string name="txt_gold_coin_usable">可用金币</string>
@@ -249,7 +250,7 @@
     <string name="txt_people_already_receive">人已领</string>
 
     <string name="txt_reading_records">阅读记录</string>
-    <string name="txt_del_books_x">删除书籍（%1$d）</string>
+    <string name="txt_del_books_x">删除记录（%1$d）</string>
     <string name="txt_add_to_bookcase_x">加入书架（%1$d）</string>
 
     <string name="txt_setting">设置</string>
@@ -275,6 +276,8 @@
     <string name="txt_wechat">微信</string>
     <string name="hint_content_clear_cache">清理的缓存包括未在书架的书籍缓存，以及广告的图片、视频缓存、是否清理？</string>
     <string name="hint_content_push_message">关闭通知，请前往手机系统设置-【通知中心】-【狐狸免费小说】</string>
+    <string name="hint_content_no_book_message">这本书正在上传，未能获取到书籍内容，请稍后再来。</string>
+    <string name="hint_content_exceed_limit_message">一次加入书架不能超过15本书！</string>
     <string name="txt_change_avatar">更换头像</string>
 
     <string name="txt_hint_input_nickname">请输入昵称</string>

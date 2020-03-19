@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.adapters;
 
+import android.text.TextUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +32,11 @@ public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVie
         } else {
             helper.setText(R.id.tv_book_name, item.getNovel_name());
             helper.setText(R.id.tv_book_state, item.getIs_end() == 0 ? "连载" : "完结");
-            helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread) + item.getLastChapter()));
+            if (TextUtils.isEmpty(item.getLastChapter())) {
+                helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread_null)));
+            } else {
+                helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread) + item.getLastChapter()));
+            }
             helper.setVisible(R.id.iv_add_book, false);
             helper.setVisible(R.id.tv_book_state, true);
             helper.setVisible(R.id.tv_reading, true);

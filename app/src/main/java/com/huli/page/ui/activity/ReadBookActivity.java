@@ -113,6 +113,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private Animation mBottomOutAnim;
     /****************数据及绑定**********************/
     List<TxtChapter> mChapters = new ArrayList<>();
+    List<BookChapter> bookChapters = new ArrayList<>();
     private CatalogAdapter catalogAdapter;
     BookShelfListBean data;
     /**********************控制屏幕常亮**************/
@@ -375,6 +376,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Override
     public void showCategory(List<BookChapter> bookChapters) {
+        this.bookChapters = bookChapters;
         mPageLoader.getCollBook().setBookChapters(bookChapters);
         mPageLoader.refreshChapterList();
 
@@ -587,6 +589,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             mPageLoader.saveRecord();
         }
         doPolling();
+        int pos = mPageLoader.getChapterPos();
+        if (!bookChapters.isEmpty() && pos >= 0)
+            presenter.recordRead(ReadBookActivity.this, mBookId, bookChapters.get(pos).getId(), bookChapters.get(pos).getName(), pos + 1);
     }
 
     @Override
@@ -702,7 +707,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private void doPolling() {
-        presenter.recordRead(ReadBookActivity.this);//asyn network
+        presenter.recordDuration(ReadBookActivity.this);//asyn network
         mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
     }
 

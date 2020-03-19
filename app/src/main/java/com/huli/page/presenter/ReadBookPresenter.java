@@ -102,9 +102,9 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     }
 
     @Override
-    public void recordRead(AppCompatActivity context) {
+    public void recordDuration(AppCompatActivity context) {
         checkViewAttached();
-        OkGo.<String>get(Consts.RECORD_READ_API)
+        OkGo.<String>get(Consts.RECORD_DURATION_API)
                 .execute(new LtbCallback(context, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -113,9 +113,30 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                     new TypeReference<LzyResponse<List<String>>>() {
                                     });
                             if (entity.error_code == 0) {
-                                Log.d(TAG, "记录成功");
-                            } else {
-                                view.onFailure(entity.error_code, entity.msg);
+                                Log.d(TAG, "记录时间");
+                            }
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void recordRead(AppCompatActivity context, String bookId, String chapterId, String chapterName, int chapter) {
+        checkViewAttached();
+        OkGo.<String>post(Consts.RECORD_CREATE_API)
+                .params(Consts.BOOK_ID, bookId)
+                .params(Consts.CHAPTER_ID, chapterId)
+                .params(Consts.CHAPTER_NAME, chapterName)
+                .params(Consts.CHAPTER, chapter)
+                .execute(new LtbCallback(context, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (isViewAttached()) {
+                            LzyResponse<List<String>> entity = JSONObject.parseObject(response.body(),
+                                    new TypeReference<LzyResponse<List<String>>>() {
+                                    });
+                            if (entity.error_code == 0) {
+                                Log.d(TAG, "提交阅读");
                             }
                         }
                     }

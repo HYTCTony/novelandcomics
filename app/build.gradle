@@ -19,8 +19,8 @@ android {
 
     signingConfigs {
         debug {
-//            storeFile file("C:/Users/hp/.android/debug.keystore")
-            storeFile file("C:/Users/Lili/.android/debug.keystore")
+            storeFile file("C:/Users/hp/.android/debug.keystore")
+//            storeFile file("C:/Users/Lili/.android/debug.keystore")
 //            storePassword "android"
 //            keyAlias "androiddebugkey"
 //            keyPassword "android"
@@ -155,5 +155,7 @@ dependencies {
     api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     //弹窗
     api 'com.lxj:xpopup:1.6.9'
+    //动画
+    api 'com.airbnb.android:lottie:3.0.1'
 
 }

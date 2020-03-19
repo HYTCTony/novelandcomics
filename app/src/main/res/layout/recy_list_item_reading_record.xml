@@ -25,7 +25,6 @@
         android:layout_marginStart="@dimen/dp_16"
         android:textColor="@color/txt_black_191919"
         android:textSize="@dimen/sp_16"
-        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
         app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
         tools:text="末世四万年" />
@@ -36,34 +35,33 @@
         android:layout_height="wrap_content"
         android:textColor="@color/txt_gray"
         android:textSize="@dimen/sp_12"
-        app:layout_constraintBottom_toTopOf="@+id/tv_read_book_progress"
+        app:layout_constraintBottom_toTopOf="@+id/tv_last_reading_time"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_book_name"
         tools:text="第163章 事与愿违" />
 
-    <TextView
-        android:id="@+id/tv_read_book_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:drawableStart="@drawable/ic_bookmark_progress_12dp"
-        android:drawablePadding="@dimen/dp_4"
-        android:gravity="center_vertical"
-        android:textColor="@color/txt_gray_999"
-        android:textSize="@dimen/sp_12"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
-        app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
-        tools:text="36.5%" />
+    <!--    <TextView
+            android:id="@+id/tv_read_book_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_bookmark_progress_12dp"
+            android:drawablePadding="@dimen/dp_4"
+            android:gravity="center_vertical"
+            android:visibility="visible"
+            android:textColor="@color/txt_gray_999"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+            tools:text="0.0%" />-->
 
     <TextView
         android:id="@+id/tv_last_reading_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
         android:textColor="@color/txt_gray_999"
         android:textSize="@dimen/sp_12"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_read_book_progress"
-        app:layout_constraintLeft_toRightOf="@+id/tv_read_book_progress"
-        app:layout_constraintTop_toTopOf="@+id/tv_read_book_progress"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
         tools:text="刚刚" />
 
     <androidx.appcompat.widget.AppCompatCheckBox

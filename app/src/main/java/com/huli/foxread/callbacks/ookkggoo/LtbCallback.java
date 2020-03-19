@@ -61,7 +61,7 @@ public abstract class LtbCallback extends StringCallback {
         if (isShowDialog) {
             try {
                 show = LoadingDialog.newInstance()
-                        .setDimAmout(0f)
+                        .setDimAmout(0.1f)
                         .setOutCancel(false)
                         .setBackCancel(false)
                         .setOnDismissListener(dialog -> OkGo.getInstance().cancelTag(reqTag))

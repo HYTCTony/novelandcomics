@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import com.huli.foxread.R;
 import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.ui.dialogs.base.ViewHolder;
-import com.huli.foxread.ui.widget.LoadingView;
 
 
 /**
@@ -15,8 +14,6 @@ import com.huli.foxread.ui.widget.LoadingView;
  * .show(getSupportFragmentManager());
  */
 public class LoadingDialog extends BaseDialog {
-
-    private LoadingView loadingView;
 
     public static LoadingDialog newInstance() {
         return new LoadingDialog();
@@ -30,13 +27,10 @@ public class LoadingDialog extends BaseDialog {
 
     @Override
     public void convertView(ViewHolder holder, BaseDialog dialog) {
-        loadingView = holder.getView(R.id.loadingView_douyin);
-        loadingView.start();
     }
 
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        loadingView.stop();
     }
 }

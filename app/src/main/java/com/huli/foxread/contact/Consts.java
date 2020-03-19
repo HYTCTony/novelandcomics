@@ -65,6 +65,7 @@ public interface Consts {
 
 
     String BOOKRACK_ADD_API = NOT_CPL_URL + Func.BOOKRACK_ADD;
+    String BOOKRACK_ADD_BATCH_API = NOT_CPL_URL + Func.BOOKRACK_ADD_BATCH;
     String BOOKRACK_DEL_API = NOT_CPL_URL + Func.BOOKRACK_DEL;
     String BOOKRACK_GETLIST_API = NOT_CPL_URL + Func.BOOKRACK_GETLIST;
 
@@ -72,7 +73,10 @@ public interface Consts {
 
     String NOVEL_NOVELCHAPTERLIST_API = NOT_CPL_URL + Func.NOVEL_NOVELCHAPTERLIST;
 
+    String RECORD_DURATION_API = NOT_CPL_URL + Func.RECORD_DURATION;
+    String RECORD_CREATE_API = NOT_CPL_URL + Func.RECORD_CREATE;
     String RECORD_READ_API = NOT_CPL_URL + Func.RECORD_READ;
+    String RECORD_DELETE_API = NOT_CPL_URL + Func.RECORD_DELETE;
 
 
     String READ_NOVEL_RECORD_API = NOT_CPL_URL + Func.READ_NOVEL_RECORD;
@@ -171,6 +175,11 @@ public interface Consts {
 
     String NOVEL_ID = "id";
     String NOVEL_IDS = "ids";
+
+    String BOOK_ID = "novel_id";
+    String CHAPTER_ID = "chapter_id";
+    String CHAPTER_NAME = "chapter_name";
+    String CHAPTER = "chapter";
 
     String CAT_PID = "id";
     String CAT_ID = "classify_id";
