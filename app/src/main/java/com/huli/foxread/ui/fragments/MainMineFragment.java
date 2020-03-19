@@ -147,10 +147,10 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         MineWelfareZoneEntity data = wzAdapter.getData().get(position);
         String link = data.getLink();
         if (link.equals(Consts.INVITATION)) {       //去邀请
-            Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
+            Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
             startActivity(intent);
         } else if (data.getLink().equals(Consts.BE_INVITATION)) {       //去填写邀请码
-            Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
+            Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
             startActivity(intent);
         } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
             ((MainActivity) mActivity).switch2Bookstore();
