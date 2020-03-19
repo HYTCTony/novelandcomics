@@ -19,7 +19,6 @@ import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
-import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideEngine;
 import com.huli.foxread.ui.base.BaseActivity;

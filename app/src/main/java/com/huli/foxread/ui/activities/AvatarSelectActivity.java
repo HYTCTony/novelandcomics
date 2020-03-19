@@ -67,7 +67,6 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
         recyclerView = $(R.id.recyclerView_system_avatar);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         headPicUrl = UserInfoCache.getHeadPic(this);
-        headPicUrl = "http://novel.hongyutiancheng.com.cn/uploads/20200316/49ddb9e07d37460b60799b3167742edd.jpg";
         mAdapter = new SectionAvatarAdapter(headPicUrl, this);
         recyclerView.setAdapter(mAdapter);
 
@@ -97,6 +96,8 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
         headPicUrl = avatarUrl;
         this.paramValue = paramValue;
         flBottomBar.setVisibility(View.VISIBLE);
+
+        GlideUtil.loadCircle(this, ivCurAvatar, headPicUrl);
     }
 
 

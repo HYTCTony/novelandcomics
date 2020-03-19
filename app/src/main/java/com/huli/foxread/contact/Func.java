@@ -349,7 +349,6 @@ public interface Func {
     String WELFARE_NEWUSERSIGN = "/welfare/welfareNewUserSign";
 
     /**
-     * 用途：累计阅读福利(GET)
      * 用途：完成福利任务(GET)
      * 头：token---token(Y)
      * 参数：

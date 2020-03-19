@@ -245,6 +245,8 @@
     <string name="txt_login_title_cellphone">手机号快速登录</string>
     <string name="txt_today_signin_add_goldcoin_x">今日签到+%1$d金币</string>
 
+    <string name="txt_people_already_receive">人已领</string>
+
     <string name="txt_reading_records">阅读记录</string>
     <string name="txt_del_books_x">删除书籍（%1$d）</string>
     <string name="txt_add_to_bookcase_x">加入书架（%1$d）</string>

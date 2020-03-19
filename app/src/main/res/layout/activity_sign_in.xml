@@ -84,6 +84,7 @@
                     android:layout_marginStart="@dimen/dp_24"
                     android:layout_marginTop="@dimen/dp_4"
                     android:textColor="@color/txt_gray"
+
                     android:textSize="@dimen/sp_10"
                     app:layout_constraintLeft_toLeftOf="@+id/tv_title_sign_in"
                     app:layout_constraintTop_toBottomOf="@+id/tv_title_sign_in"
@@ -117,6 +118,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/dp_16"
                     android:background="@drawable/shape_round_edittext_graybg"
                     android:gravity="center_vertical"
@@ -511,11 +513,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_6"
-            android:drawableEnd="@drawable/ic_arrow_right_white_12dp"
             android:drawablePadding="@dimen/dp_4"
             android:text="@string/txt_my_gold_coin"
             android:textColor="@color/txt_white"
             android:textSize="@dimen/sp_12" />
+<!--            android:drawableEnd="@drawable/ic_arrow_right_white_12dp"-->
     </LinearLayout>
 
     <LinearLayout
@@ -536,17 +538,17 @@
             android:textColor="@color/txt_white"
             android:textSize="@dimen/sp_24"
             android:textStyle="bold"
-            tools:text="1100" />
+            tools:text="100" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_6"
-            android:drawableEnd="@drawable/ic_arrow_right_white_12dp"
             android:drawablePadding="@dimen/dp_4"
             android:text="@string/txt_today_gold_coin"
             android:textColor="@color/txt_white"
             android:textSize="@dimen/sp_12" />
+<!--            android:drawableEnd="@drawable/ic_arrow_right_white_12dp"-->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

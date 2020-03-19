@@ -80,6 +80,7 @@ public interface Consts {
 
     String WELFARE_LIST_API = NOT_CPL_URL + Func.WELFARE_LIST;
     String WELFARE_COMPLETE_API = NOT_CPL_URL + Func.WELFARE_COMPLETE;
+    String WELFARE_USERLIST_API = NOT_CPL_URL + Func.WELFARE_USERLIST;
     String WELFARE_SIGNIN_API = NOT_CPL_URL + Func.WELFARE_SIGNIN;
 
     //邀请好友页面信息
@@ -144,6 +145,7 @@ public interface Consts {
     String INVITATION = "Invitation";               //去邀请好友
     String BE_INVITATION = "be_Invitation";         //填写邀请码
     String EVERYDAY_READING = "everyday_reading";      //跳到书城
+    String READING = "reading";                     //跳到书城
     /***福利任务跳转判断***/
 
 

@@ -1,7 +1,5 @@
 package com.huli.foxread.ui.adapters;
 
-import android.view.View;
-
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
@@ -15,7 +13,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 public class SectionAvatarAdapter extends BaseSectionQuickAdapter<AvatarSection<SysAvatarEntity>, BaseViewHolder> {
 
     private String inUseAvatarUrl;
-    private int checkPos = 1;
+    private int checkPos = 0;
     private boolean isInit = true;
 
     public SectionAvatarAdapter(String inUseAvatarUrl, OnRecyAvatarCheckListener mOnRecyAvatarCheckListener) {

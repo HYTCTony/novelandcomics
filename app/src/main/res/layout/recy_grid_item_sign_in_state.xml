@@ -4,22 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_round_edittext_graybg">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tv_sign_in_flag"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_12"
-        android:layout_marginBottom="@dimen/dp_12"
+        android:background="@drawable/shape_round_edittext_graybg"
         android:drawablePadding="@dimen/dp_6"
         android:gravity="center_horizontal"
+        android:paddingTop="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_12"
         android:textSize="@dimen/sp_10"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:drawableTop="@drawable/ic_un_sign_in_ws"
         tools:text="@string/txt_non_arrival" />
+
+    <TextView
+        android:id="@+id/tv_reward"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:textSize="@dimen/sp_12"
+        tools:text="50"
+        app:layout_constraintRight_toRightOf="@+id/tv_sign_in_flag"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_sign_in_flag"
+        app:layout_constraintTop_toBottomOf="@+id/tv_sign_in_flag"
+        android:textColor="@color/txt_red"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

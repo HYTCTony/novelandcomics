@@ -9,12 +9,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
+import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
+import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.MyPrivilegeActivity;
@@ -28,21 +38,23 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class MainMineFragment extends BaseFragment implements View.OnClickListener {
+public class MainMineFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener {
 
     private static final int REQCODE_LOGIN = 0x5688;
     private static final int REQCODE_SETTING_AC = 0x8865;
@@ -118,6 +130,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         btnLogin.setOnClickListener(this);
         btnOpenVip.setOnClickListener(this);
         ivUserHeadImg.setOnClickListener(this);
+        wzAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -126,12 +139,24 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
         changeUIbyIsVisitor(mContext);
 
-        List<String> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add("ssssss" + i);
-        }
-        wzAdapter.setNewData(list);
+        reqMineWelfareZone();
+    }
 
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        MineWelfareZoneEntity data = wzAdapter.getData().get(position);
+        String link = data.getLink();
+        if (link.equals(Consts.INVITATION)) {       //去邀请
+            Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
+            startActivity(intent);
+        } else if (data.getLink().equals(Consts.BE_INVITATION)) {       //去填写邀请码
+            Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
+            startActivity(intent);
+        } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
+            ((MainActivity) mActivity).switch2Bookstore();
+        } else if (data.getLink().equals(Consts.READING)) {
+            ((MainActivity) mActivity).switch2Bookstore();
+        }
     }
 
     @Override
@@ -141,7 +166,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginChangeEvent(LoginChangeEvent event){
+    public void onLoginChangeEvent(LoginChangeEvent event) {
         changeUIbyIsVisitor(mActivity);
     }
 
@@ -291,7 +316,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         startActivityForResult(new Intent(mActivity, LoginActivity.class), REQCODE_LOGIN);
     }
 
-
     private void initRecyWelfareZone(View view) {
         rvWelfareZone = $(view, R.id.recyclerView_welfare_zone);
         LinearLayoutManager llManager = new LinearLayoutManager(mActivity) {
@@ -306,4 +330,26 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         wzAdapter = new WelfareZoneMineAdapter();
         rvWelfareZone.setAdapter(wzAdapter);
     }
+
+
+    /**
+     * 福利专区
+     */
+    private void reqMineWelfareZone() {
+        OkGo.<String>get(Consts.WELFARE_USERLIST_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<List<MineWelfareZoneEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<MineWelfareZoneEntity>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            List<MineWelfareZoneEntity> datas = entity.getData();
+                            wzAdapter.setNewData(datas);
+                        }
+                    }
+                });
+    }
+
+
 }
