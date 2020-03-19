@@ -31,7 +31,6 @@ import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
-import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
 import com.huli.foxread.ui.widget.ChapterPopup;
 import com.huli.foxread.ui.widget.ExpandableTextView;
 import com.huli.foxread.utils.DensityUtils;
@@ -41,6 +40,7 @@ import com.huli.foxread.utils.UnitConverUtil;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.ui.activity.ReadBookActivity;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
 import com.lxj.xpopup.XPopup;
@@ -233,6 +233,10 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 reqRelatedRecoBooks(nId);
                 break;
             case R.id.btn_add_a_bookcase_dt:
+                if (isCollected) {
+                    TipDialog.show(BookDetailsActivity.this, "已经加入书架！", TipDialog.TYPE.ERROR);
+                    return;
+                }
                 reqAddBookrack(nId);
                 break;
             case R.id.btn_begin_reading_dt:
@@ -307,9 +311,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private void reqNovelDetails(String novelId) {
         OkGo.<String>get(Consts.NOVEL_DETAILS_API)
                 .params(Consts.NOVEL_ID, novelId)
-                .cacheTime(2 * 60 * 1000)
+                .cacheTime(20 * 1000)
                 .cacheKey(Consts.NOVEL_DETAILS_API + "_" + novelId)
-                .cacheMode(CacheMode.IF_NONE_CACHE_REQUEST)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -322,7 +326,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             tvHotFlag.setVisibility(data.getIs_hot() == 1 ? View.VISIBLE : View.GONE);
                             tvBookName.setText(data.getNovel_name());
                             tvBookAuthor.setText(data.getAuthor());
-//                            tvBookTips.setText("科幻热血·连载·320万字");
                             String bookTagStr = data.getClassify_name()
                                     + "·" + ((data.getIs_end() == 1) ? "完结" : "连载")
                                     + "·" + UnitConverUtil.formatNumUnit(BookDetailsActivity.this, data.getWord(), R.string.unit_word_w);
@@ -457,7 +460,14 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                 tvNewestSectionName.setText(newChapter.getName());
                             }
                         } else {
-                            TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+                            chapter = -1;
+                            MessageDialog.show(BookDetailsActivity.this, R.string.nb_common_tip, R.string.hint_content_no_book_message, R.string.txt_got_it)
+                                    .setCancelable(false)
+                                    .setOnOkButtonClickListener((baseDialog, v) -> {
+                                        finish();
+                                        baseDialog.doDismiss();
+                                        return false;
+                                    });
                         }
                     }
                 });
@@ -471,10 +481,10 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
             if (data == null) {
                 return;
             }
-
             isCollected = data.getBooleanExtra(RESULT_IS_COLLECTED, false);
             if (isCollected) {
-                tvBookReader.setText("继续阅读");
+                btnAddBookcase.setText("已加入书架");
+                btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
             }
         }
     }

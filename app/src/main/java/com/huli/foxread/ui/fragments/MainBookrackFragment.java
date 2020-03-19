@@ -3,6 +3,7 @@ package com.huli.foxread.ui.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,8 +24,10 @@ import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.eventbus.LoginChangeEvent;
+import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
@@ -44,6 +47,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -61,6 +65,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,10 +77,13 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     private RecyclerView recyclerView;
     private BookRackAdapter mAdapter;
 
+    private CardView cardSpecialRecommend;
     private ImageView ivookCoverPush;
     private TextView tvBookNamePush, tvBookIntroPush, tvTotalReadingTimeToday, tvAsBtnSignIngGold;
 
     private List<BookShelfListBean> data = new ArrayList<>();
+
+    private String specialBookId;
 
     @Override
     public int bindLayout() {
@@ -102,6 +110,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
         appBarLayout = $(view, R.id.appBarLayout_bookrack);
 
+        cardSpecialRecommend = $(view, R.id.card_special_recommend);
         tvTotalReadingTimeToday = $(view, R.id.tv_total_reading_time_today);
         tvAsBtnSignIngGold = $(view, R.id.tv_asBtn_sign_in_4_gold);
         ivookCoverPush = $(view, R.id.iv_book_cover_push);
@@ -139,6 +148,18 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 }
             }
         });
+        cardSpecialRecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(specialBookId)) {
+                    Toast.makeText(mActivity, "获取书籍失败！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, specialBookId);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -147,10 +168,14 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         getUserReadTime();
         data.add(new BookShelfListBean());
         mAdapter.setNewData(data);
-        reqGetBooks();
         getSpecialBook();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        reqGetBooks();
+    }
 
     @Override
     public void onDestroy() {
@@ -166,6 +191,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         } else {
             mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
         }
+        reqGetBooks();
     }
 
 
@@ -312,7 +338,10 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void reqGetBooks() {
         OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                .cacheTime(12 * 60 * 1000)
+                .cacheKey(Consts.NOVEL_DETAILS_API + "_bookShelf")
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         data.clear();
@@ -335,7 +364,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void getSpecialBook() {
         OkGo.<String>get(Consts.SPECIAL_BOOK_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<BookShelfListBean> entity = JSONObject.parseObject(response.body(),
@@ -343,6 +372,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 });
                         if (entity.error_code == 0) {
                             BookShelfListBean data = entity.getData();
+                            specialBookId = data.getId();
                             Glide.with(getActivity())
                                     .load(data.getHttp_image())
                                     .placeholder(R.drawable.ic_book_loading)
@@ -363,7 +393,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void getUserReadTime() {
         OkGo.<String>get(Consts.USER_READ_TIME_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity) {
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(),

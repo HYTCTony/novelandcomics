@@ -96,7 +96,7 @@ public interface Func {
      * page (Y）--- 页码,默认1
      * page_size (Y）--- 页数据量,默认15
      */
-    String MSG_LIST = "/Message/messageList";
+    String MSG_LIST = "/message/read";
 
 
     /**
@@ -263,6 +263,13 @@ public interface Func {
      * id---小说id
      */
     String BOOKRACK_ADD = "/bookshelf/addBookshelf";
+    /**
+     * 用途：批量加入书架(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * id---小说id
+     */
+    String BOOKRACK_ADD_BATCH = "/bookshelf/addBatch";
 
     /**
      * 用途：删除书架书籍(POST)
@@ -391,11 +398,27 @@ public interface Func {
      * 头：token---token(Y)
      */
     String NOVEL_NOVELCHAPTERLIST = "/novel/novelChapterList";
+
     /**
      * 记录阅读时间
      * 头：token---token(Y)
      */
-    String RECORD_READ = "/duration/create";
+    String RECORD_DURATION= "/duration/create";
+    /**
+     * 提交阅读记录
+     * 头：token---token(Y)
+     */
+    String RECORD_CREATE= "/record/create";
+    /**
+     * 获取阅读记录
+     * 头：token---token(Y)
+     */
+    String RECORD_READ= "/record/read";
+    /**
+     * 删除阅读记录
+     * 头：token---token(Y)
+     */
+    String RECORD_DELETE= "/record/delete";
 
 
     /**

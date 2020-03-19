@@ -157,5 +157,7 @@ dependencies {
     api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     //弹窗
     api 'com.lxj:xpopup:1.6.9'
+    //动画
+    api 'com.airbnb.android:lottie:3.0.1'
 
 }

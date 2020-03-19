@@ -114,7 +114,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 startActivityForResult(new Intent(this, UserBasicInfoActivity.class), MainMineFragment.REQCODE_USER_ATTR);
                 break;
             case R.id.rtl_asBtn_push_notification:
-                MessageDialog.show(this, R.string.txt_empty, R.string.hint_content_push_message, R.string.txt_confirm)
+                MessageDialog.show(this, R.string.txt_empty, R.string.hint_content_push_message, R.string.txt_got_it)
                         .setOnOkButtonClickListener((baseDialog, v) -> {
                             baseDialog.doDismiss();
                             return false;
