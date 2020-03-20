@@ -1,7 +1,6 @@
 package com.huli.foxread.utils;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -92,6 +91,7 @@ public class DateTimeUtil {
 
     /**
      * 生日转换成年龄
+     *
      * @param strDate
      * @return
      */

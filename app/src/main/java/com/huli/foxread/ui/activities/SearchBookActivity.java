@@ -157,6 +157,9 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if(onMoreClick()){
+            return;
+        }
         BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
@@ -168,11 +171,16 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_search:
+                if(onMoreClick()){
+                    return;
+                }
                 String keyword = etKeyword.getText().toString();
                 if (TextUtils.isEmpty(keyword)) {
                     Tos.showShort(this, R.string.txt_plz_input_keyword);
                     return;
                 }
+                keyword = keyword.trim();
+
                 addHistoryLabel(keyword);
                 //点击搜索的时候隐藏软键盘
                 hideKeyboard(etKeyword);
@@ -204,7 +212,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     private void clearHistoryLabel() {
         sLabelHistory.setLabels(new ArrayList<>());
-        sLabelHistory.setVisibility(View.GONE);
+//        sLabelHistory.setVisibility(View.GONE);
     }
 
     private void addHistoryLabel(String keyword) {

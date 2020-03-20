@@ -6432,7 +6432,7 @@ com.huli.foxread.ui.adapters.SHotBooksAdapter -> com.huli.foxread.ui.adapters.SH
 com.huli.foxread.ui.adapters.SectionNewBookAdapter -> com.huli.foxread.ui.adapters.SectionNewBookAdapter:
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.sections.NbSection) -> a
     void convertHeader(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.sections.NbSection) -> b
-com.huli.foxread.ui.adapters.SignInActivity -> com.huli.foxread.ui.adapters.SignInActivity:
+com.huli.foxread.ui.activities.SignInActivity -> com.huli.foxread.ui.activities.SignInActivity:
     android.widget.TextView tvMoreGoldCoin -> n
     android.widget.TextView tvExtraCount1 -> q
     android.widget.TextView tvProgress -> p
@@ -6456,8 +6456,8 @@ com.huli.foxread.ui.adapters.SignInActivity -> com.huli.foxread.ui.adapters.Sign
     android.widget.TextView btnSignIn -> k
     android.widget.TextView tvSignInState -> j
     void setStatusBar() -> b
-com.huli.foxread.ui.adapters.SignInActivity$1 -> com.huli.foxread.ui.adapters.SignInActivity$a:
-    com.huli.foxread.ui.adapters.SignInActivity this$0 -> a
+com.huli.foxread.ui.activities.SignInActivity$1 -> com.huli.foxread.ui.activities.SignInActivity$a:
+    com.huli.foxread.ui.activities.SignInActivity this$0 -> a
     void lambda$onBind$8(com.kongzue.dialog.v3.CustomDialog,android.view.View) -> a
     void lambda$onBind$9(com.kongzue.dialog.v3.CustomDialog,android.view.View) -> b
 com.huli.foxread.ui.adapters.VipComboAdapter -> com.huli.foxread.ui.adapters.VipComboAdapter:

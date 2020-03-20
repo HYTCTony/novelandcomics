@@ -122,6 +122,9 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
     @Override
     public void setListener() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(onMoreClick()){
+                return;
+            }
             BookEntity entity = mAdapter.getData().get(position);
             Intent intent = new Intent(mActivity, BookDetailsActivity.class);
             intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
@@ -311,14 +314,14 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                 }
             });
             rvLeadUpBooks.setAdapter(lubAdapter);
-            lubAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    BookMultiEntity data = lubAdapter.getData().get(position);
-                    Intent intent = new Intent(mActivity, BookDetailsActivity.class);
-                    intent.putExtra(Common.KEY_BOOK_ID, data.getId());
-                    startActivity(intent);
+            lubAdapter.setOnItemClickListener((adapter, view, position) -> {
+                if(onMoreClick()){
+                    return;
                 }
+                BookMultiEntity data = lubAdapter.getData().get(position);
+                Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, data.getId());
+                startActivity(intent);
             });
         }
     }

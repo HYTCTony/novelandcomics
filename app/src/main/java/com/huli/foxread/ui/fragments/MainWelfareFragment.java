@@ -1,15 +1,12 @@
 package com.huli.foxread.ui.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +21,8 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoader2;
 import com.huli.foxread.entity.BannerADEntity;
+import com.huli.foxread.entity.CapitalEntity;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.NewBieSignInTaskEntity;
 import com.huli.foxread.entity.NormalSignInTaskEntity;
 import com.huli.foxread.entity.ReadSubTaskBean;
@@ -38,7 +37,7 @@ import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
-import com.huli.foxread.ui.adapters.SignInActivity;
+import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.adapters.WelfareMissionAdapter;
 import com.huli.foxread.ui.adapters.WelfareReadMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
@@ -48,6 +47,8 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -60,20 +61,21 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainWelfareFragment extends BaseFragment implements OnBannerListener, View.OnClickListener {
+public class MainWelfareFragment extends BaseFragment implements OnBannerListener, View.OnClickListener, OnRefreshListener {
     private static final int REQCODE_FILL_INVITE_CODE = 0x1234;
     private static final int REQCODE_NOR_SIGNIN = 0x5241;
 
     private SmartRefreshLayout mRefreshLayout;
     private TextView btnClick2Login;
     private LinearLayout btnGoldCoinUsable;
-    private TextView tvGoldCoin;
+    private TextView tvGoldCoin;            //金币余额
 
     private RecyclerView recyclerView;
     private WelfareReadMissionAdapter mAdapter;
@@ -92,8 +94,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     private View headViewDaily;
     private RecyclerView rvDaily;
 
+    private int signInFlag = -1;
 
-//    private boolean completeInit;       //是否完成初始化，防止网络状态异常导致没有初始化
 
     @Override
     public int bindLayout() {
@@ -115,33 +117,15 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         btnGoldCoinUsable = $(view, R.id.ll_asBtn_gold_coin_usable);
         tvGoldCoin = $(view, R.id.tv_gold_coin_usable);
 
-        ImageView imageView = $(view, R.id.iv_welfare_login_icon);
         tvGoldCoinCount = $(view, R.id.tv_gold_coin_count_today_sign_in);
         tvSignInCount = $(view, R.id.tv_continuous_sign_in_count);
         btnSignInNow = $(view, R.id.tv_asBtn_sign_in_now);
-
-//        GlideUtil.loadRoundSquare(mActivity, imageView, "url", 0);
 
         recyclerView = $(view, R.id.recyclerView_reading_task);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new WelfareReadMissionAdapter();
         recyclerView.setAdapter(mAdapter);
         initTopLayout();
-
-//        LayoutInflater inflater = LayoutInflater.from(mActivity);
-//        View headViewTop = inflater.inflate(R.layout.layout_rv_head_welfare_top, recyclerView, false);
-//        View headViewNewbie = inflater.inflate(R.layout.layout_rv_head_newbie_mission, recyclerView, false);
-//        View headViewDaily = inflater.inflate(R.layout.layout_rv_head_daily_mission, recyclerView, false);
-
-//        mAdapter.addHeaderView(headViewTop, 0);
-//        mAdapter.addHeaderView(headViewNewbie, 1);
-//        mAdapter.addHeaderView(headViewDaily, 2);
-
-//        initTopLayout(headViewTop);
-
-//        initNewbieMission(headViewNewbie);
-
-//        initDailyLayout(headViewDaily);
     }
 
     @Override
@@ -149,12 +133,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         btnClick2Login.setOnClickListener(this);
         btnGoldCoinUsable.setOnClickListener(this);
         btnSignInNow.setOnClickListener(this);
-
-        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            reqTopBannerData();
-
-            reqGetWerfareTasks(false);
-        });
+        mRefreshLayout.setOnRefreshListener(this);
 
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.btn_welfare_mission_action) {
@@ -185,11 +164,22 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginChangeEvent(LoginChangeEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onUserInfoChangeEvent(FUser event) {
         displayIsLoginUI(mActivity);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onCapitalRefreshEvent(CapitalEntity event) {
+        tvGoldCoin.setText(String.valueOf(event.getScore()));
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        reqGetWerfareTasks(false);
+    }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -207,14 +197,17 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         } else {
             btnClick2Login.setVisibility(View.GONE);
             btnGoldCoinUsable.setVisibility(View.VISIBLE);
-
-            int goldCoinCount = UserInfoCache.getScore(context);
-            tvGoldCoin.setText(String.valueOf(goldCoinCount));
         }
     }
 
 
-    private int signInFlag = -1;
+    @Override
+    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        reqTopBannerData();
+        reqGetWerfareTasks(false);
+
+        ((MainActivity)mActivity).reqMyCapitalDetail();
+    }
 
     @Override
     public void onClick(View view) {
@@ -270,13 +263,13 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+       /* if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQCODE_FILL_INVITE_CODE) {
                 reqGetWerfareTasks(false);
             } else if (requestCode == REQCODE_NOR_SIGNIN) {
                 reqGetWerfareTasks(false);
             }
-        }
+        }*/
     }
 
     private void initReadingMossion(List<WelfareReadTaskEntity> readTasks) {
@@ -382,7 +375,6 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             }
 
             int completeSum = newSignInMission.getComplete_sum();
-            Log.e("ssssss", "wwwww===" + completeSum);
             List<StepBean> stepsBeanList = new ArrayList<>();
             for (int i = 0; i < 7; i++) {
                 StepBean stepBean;
@@ -563,6 +555,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         startActivity(intent);
     }
 
+    //字符串中的数字变色
     private static SpannableStringBuilder setNumColor(Context context, String str) {
         SpannableStringBuilder style = new SpannableStringBuilder(str);
         for (int i = 0; i < str.length(); i++) {
@@ -573,4 +566,5 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
         return style;
     }
+
 }

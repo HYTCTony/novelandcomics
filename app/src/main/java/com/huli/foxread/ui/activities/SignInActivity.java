@@ -1,4 +1,4 @@
-package com.huli.foxread.ui.adapters;
+package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +19,11 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.SignDetailEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
-import com.huli.foxread.ui.activities.CommonWebActivity;
+import com.huli.foxread.ui.adapters.WeekSignInStateAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TaskProgressBar;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
@@ -54,8 +53,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private TextView tvExtraNeedDay1, tvExtraNeedDay2, tvExtraNeedDay3, tvExtraNeedDay4, tvExtraNeedDay5;*/
 
     private TextView tvGrpPeopleCount;
-    private int signFlag = 0;   //1是已签到
-    private int getGb;          //签到能拿的金币
+    private int signFlag = 0;                   //1是已签到
+    private int getGb;                          //签到能拿的金币
     private int continuousSignInCount = 0;      //连续签到天数
 
     @Override
@@ -146,7 +145,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
         tvGrpPeopleCount.setText("0人已领");
 
-        getSignInInfo();
+        reqSignIn();
     }
 
     @Override
@@ -191,24 +190,21 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             tvGrpPeopleCount.setText((number + getString(R.string.txt_people_already_receive)));
                             mAdapter.setNewData(data.getList());
 
-                            if (signFlag != 1) {
-                                reqSignIn();
-                            }else {
+                            if (signFlag == 1) {
                                 mAdapter.setSignInChange(true);
-                                signFlag = 1;
-                                btnSignIn.setEnabled(false);
-                                btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
-                                btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
-                                btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount + 1)));
-
-                                SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
-                                spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
-                                        spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
-                                        spanbs.length() - 2,
-                                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                                tvTitleSignIn.setText(spanbs);
-
                             }
+
+                            btnSignIn.setEnabled(false);
+                            btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
+                            btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
+                            btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount + 1)));
+
+                            SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
+                            spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
+                                    spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
+                                    spanbs.length() - 2,
+                                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                            tvTitleSignIn.setText(spanbs);
 
                             setResult(RESULT_OK);
                         } else {
@@ -231,10 +227,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                            mAdapter.setSignInChange(true);
                             signFlag = 1;
                             btnSignIn.setEnabled(false);
-                            btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
+                           /* btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
                             btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
                             btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount + 1)));
 
@@ -243,7 +238,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                     spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
                                     spanbs.length() - 2,
                                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            tvTitleSignIn.setText(spanbs);
+                            tvTitleSignIn.setText(spanbs);*/
 
 
                             //弹窗提示签到成功
@@ -253,9 +248,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
                                 v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
                             });
-                        } else {
-                            Tos.showShort(SignInActivity.this, entity.msg);
                         }
+
+                        getSignInInfo();
                     }
                 });
     }

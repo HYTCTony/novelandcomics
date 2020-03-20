@@ -151,6 +151,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     @Override
     public void setListener() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(onMoreClick()){
+                return;
+            }
             BookEntity entity = mAdapter.getData().get(position);
             Intent intent = new Intent(mActivity, BookDetailsActivity.class);
             intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
@@ -329,6 +332,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         AttTopSearchAdapter attTopSearchAdapter = new AttTopSearchAdapter(searchNvList);
         rvTopSearch.setAdapter(attTopSearchAdapter);
         attTopSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(onMoreClick()){
+                return;
+            }
             SearchEntity entity = attTopSearchAdapter.getData().get(position);
             Intent intent = new Intent(mActivity, BookDetailsActivity.class);
             intent.putExtra(Common.KEY_BOOK_ID, entity.getNovel_id());
@@ -354,6 +360,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         vpSpt.setOffscreenPageLimit(specialList.size());
         SpecialTopicPagerAdapter stPagerAdapter = new SpecialTopicPagerAdapter(getContext(), specialList);
         stPagerAdapter.setmOnPagerItemClickListener(bookID -> {
+            if(onMoreClick()){
+                return;
+            }
             Intent intent = new Intent(mActivity, BookDetailsActivity.class);
             intent.putExtra(Common.KEY_BOOK_ID, bookID);
             startActivity(intent);
@@ -393,6 +402,9 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         HotTodayAdapter hotTodayAdapter = new HotTodayAdapter(rankNvList);
         rvHot.setAdapter(hotTodayAdapter);
         hotTodayAdapter.setOnItemClickListener((adapter, view, position) -> {
+            if(onMoreClick()){
+                return;
+            }
             BookEntity entity = hotTodayAdapter.getData().get(position);
             Intent intent = new Intent(mActivity, BookDetailsActivity.class);
             intent.putExtra(Common.KEY_BOOK_ID, entity.getId());

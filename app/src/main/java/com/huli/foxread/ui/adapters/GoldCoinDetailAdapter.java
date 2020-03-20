@@ -19,7 +19,7 @@ public class GoldCoinDetailAdapter extends BaseQuickAdapter<GoldExpenditureBean,
     @Override
     protected void convert(@NonNull BaseViewHolder holder, GoldExpenditureBean data) {
         holder.setText(R.id.tv_title_gc_dt, data.getMemo());
-        holder.setText(R.id.tv_time_gc_dt, DateTimeUtil.formatDateTime(data.getCreatetime()));
+        holder.setText(R.id.tv_time_gc_dt, DateTimeUtil.formatDateTime(data.getCreatetime() * 1000));
         int goldCoinCount = data.getScore();
         if (goldCoinCount >= 0) {
             holder.setTextColor(R.id.tv_gold_coin_count_gc_dt, ContextCompat.getColor(getContext(), R.color.txt_red));

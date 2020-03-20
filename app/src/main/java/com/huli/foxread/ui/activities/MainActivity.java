@@ -5,11 +5,20 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.CapitalEntity;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
@@ -18,6 +27,8 @@ import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -80,10 +91,16 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void doBusiness(Context mContext) {
-//        EventBus.getDefault().register();
         switch2Bookstore();
+
+        reqUserInfo();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reqMyCapitalDetail();
+    }
 
     @Override
     public void onTabSelect(int position) {
@@ -184,6 +201,46 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    /**
+     * 我的资金详情
+     */
+    public void reqMyCapitalDetail() {
+        OkGo.<String>get(Consts.USER_CAPITAL_API)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<CapitalEntity>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            CapitalEntity data = entity.getData();
+                            EventBus.getDefault().postSticky(data);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取用户信息
+     */
+    public void reqUserInfo() {
+        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
+                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
+                        new TypeReference<LzyResponse<FUser>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<FUser>> response) {
+                        if (response.body().error_code == 0) {
+                            FUser data = response.body().getData();
+                            UserInfoCache.saveCacheAll(MainActivity.this, data);
+
+                            EventBus.getDefault().postSticky(data);
+                        }
+                    }
+                });
     }
 
 }

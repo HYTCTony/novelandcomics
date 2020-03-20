@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -17,6 +18,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.HpBGPraiseNvET;
 import com.huli.foxread.entity.sections.NEbookSection;
+import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.adapters.SectionNewBookAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.lzy.okgo.OkGo;
@@ -31,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NewBooksActivity extends BaseActivity implements OnItemClickListener {
 
+    private ImageView btnSearch;
     private RecyclerView recyclerView;
     private SectionNewBookAdapter mAdapter;
 
@@ -56,6 +59,7 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
         Toolbar toolbar = $(R.id.toolbar_normal);
         initToolBar(toolbar, R.string.txt_new_book);
 
+        btnSearch = $(R.id.iv_asBtn_search);
         recyclerView = $(R.id.recyclerView_new_book);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         mAdapter = new SectionNewBookAdapter();
@@ -64,6 +68,14 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
 
     @Override
     public void setListener() {
+        btnSearch.setOnClickListener(new OnClickEvent() {
+            @Override
+            public void singleClick(View v) {
+                Intent intent = new Intent(NewBooksActivity.this, SearchBookActivity.class);
+                intent.putExtra(Consts.TYPE, mType);
+                startActivity(intent);
+            }
+        });
         mAdapter.setOnItemClickListener(this);
     }
 

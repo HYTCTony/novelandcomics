@@ -18,6 +18,6 @@ public class ClassifyAdapter extends BaseQuickAdapter<CategoryEntity, BaseViewHo
     protected void convert(@NonNull BaseViewHolder holder, CategoryEntity item) {
         holder.setText(R.id.tv_book_classify_type_title, item.getName());
         holder.setText(R.id.tv_book_classify_number_total, item.getNovel_sum() + "部");
-        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_classify_type), item.getImage(), 0);
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_classify_type), item.getHttp_image(), 0);
     }
 }

@@ -15,6 +15,7 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.MainMineFragment;
@@ -175,7 +176,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                             String token = object.getString("token");
                             UserInfoCache.saveToken(SettingActivity.this, token);
 
-                            EventBus.getDefault().post(new LoginChangeEvent(false));
+                            FUser fUser = new FUser();
+                            fUser.setToken(token);
+                            EventBus.getDefault().postSticky(fUser);
 
                             setResult(RESULT_OK);
                             finish();

@@ -71,7 +71,7 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
         btnAll.setOnClickListener(new OnClickEvent() {
             @Override
             public void singleClick(View v) {
-                Tos.showShort(mActivity, btnAll.getText());
+//                Tos.showShort(mActivity, btnAll.getText());
             }
         });
 
@@ -93,6 +93,9 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if(onMoreClick()){
+            return;
+        }
         BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(mActivity, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());

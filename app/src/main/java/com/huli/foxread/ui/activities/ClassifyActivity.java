@@ -1,8 +1,10 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
@@ -10,6 +12,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CategoryEntity;
+import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.ClassifyFragment;
 import com.huli.foxread.ui.widget.NoScrollViewPager;
@@ -32,9 +35,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-
 public class ClassifyActivity extends BaseActivity {
 
+    private ImageView btnSearch;
     private VerticalTabLayout tabLayout;
     private NoScrollViewPager viewPager;
 
@@ -60,6 +63,7 @@ public class ClassifyActivity extends BaseActivity {
         Toolbar toolbar = $(R.id.toolbar_normal);
         initToolBar(toolbar, R.string.txt_classify);
 
+        btnSearch = $(R.id.iv_asBtn_search);
         tabLayout = $(R.id.verticaltablayout_classify);
         viewPager = $(R.id.noScrollViewPager_content_classify);
         viewPager.setNoScroll(true);
@@ -70,6 +74,14 @@ public class ClassifyActivity extends BaseActivity {
 
     @Override
     public void setListener() {
+        btnSearch.setOnClickListener(new OnClickEvent() {
+            @Override
+            public void singleClick(View v) {
+                Intent intent = new Intent(ClassifyActivity.this, SearchBookActivity.class);
+                intent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

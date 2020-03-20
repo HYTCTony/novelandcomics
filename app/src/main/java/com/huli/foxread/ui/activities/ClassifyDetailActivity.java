@@ -121,7 +121,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
         stackLabel_2.setSelectMode(true, stack2Datas.subList(0, 1));
         stackLabel_3.setSelectMode(true, stack3Datas.subList(0, 1));
         stackLabel_4.setSelectMode(true, stack4Datas.subList(0, 1));
-        tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, stack4Datas.subList(0, 1)));
+        tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, stack4Datas.get(0)));
 
     }
 

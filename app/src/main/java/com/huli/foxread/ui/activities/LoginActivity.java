@@ -25,7 +25,6 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.StatusBarUtils;
@@ -39,7 +38,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
@@ -227,10 +225,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                             TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
                                     .setOnDismissListener(() -> {
-                                        EventBus.getDefault().post(new LoginChangeEvent(true));
-                                        setResult(RESULT_OK);
                                         finish();
                                     });
+                            EventBus.getDefault().postSticky(data);
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
                         }

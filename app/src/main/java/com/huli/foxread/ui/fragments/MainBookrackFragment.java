@@ -26,14 +26,14 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.eventbus.LoginChangeEvent;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SearchBookActivity;
+import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.adapters.BookRackAdapter;
-import com.huli.foxread.ui.adapters.SignInActivity;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
@@ -142,7 +142,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             @Override
             public void onClick(View v) {
                 if (UserInfoCache.getIsVisitor(mActivity)) {
-                    startActivityForResult(new Intent(mActivity, LoginActivity.class), MainMineFragment.REQCODE_LOGIN);
+                    startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
                     startActivity(new Intent(mActivity, SignInActivity.class));
                 }
@@ -183,8 +183,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginChangeEvent(LoginChangeEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onUserInfoChangeEvent(FUser event) {
         boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
         if (isVisitor) {
             mToolbar.setTitle(R.string.txt_say_hi);

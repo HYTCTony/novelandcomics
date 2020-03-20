@@ -10,13 +10,13 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
-import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -88,6 +88,7 @@ public class InvitationCodeActivity extends BaseActivity {
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
+                            UserInfoCache.saveIsInvited(InvitationCodeActivity.this, 1);
                             TipDialog.show(InvitationCodeActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
                                     .setOnDismissListener(() -> {
                                         setResult(RESULT_OK);

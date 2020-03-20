@@ -11,7 +11,7 @@ public class CategoryEntity implements Serializable {
     private int pid;
     private String status;
     private int novel_sum;
-    private String image;
+    private String http_image;
     private int grade;
 
     public int getId() {
@@ -54,12 +54,12 @@ public class CategoryEntity implements Serializable {
         this.novel_sum = novel_sum;
     }
 
-    public String getImage() {
-        return image;
+    public String getHttp_image() {
+        return http_image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setHttp_image(String http_image) {
+        this.http_image = http_image;
     }
 
     public int getGrade() {

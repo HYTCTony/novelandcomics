@@ -1,6 +1,5 @@
 package com.huli.foxread.ui.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -16,10 +15,12 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.CapitalEntity;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
-import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
@@ -31,14 +32,15 @@ import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.MyPrivilegeActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SettingActivity;
+import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.activities.UserBasicInfoActivity;
 import com.huli.foxread.ui.activities.WithdrawalActivity;
-import com.huli.foxread.ui.adapters.SignInActivity;
 import com.huli.foxread.ui.adapters.WelfareZoneMineAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -71,6 +73,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     private TextView tvHuliVip, tvVipAdvantage;
     private TextView btnOpenVip;
 
+    private View btnIviter;
+
     private RecyclerView rvWelfareZone;
     private WelfareZoneMineAdapter wzAdapter;
 
@@ -87,7 +91,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void initView(View view) {
-
         layoutNotLogin = $(view, R.id.ll_not_login_show_mine);
         layoutLogged = $(view, R.id.ctl_logged_show_mine);
 
@@ -108,6 +111,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvVipAdvantage = $(view, R.id.tv_huli_vip_advantage_tip);
         btnOpenVip = $(view, R.id.tv_asBtn_open_membership_account);
 
+        btnIviter = $(view, R.id.rtl_asBtn_inviter);
         $(view, R.id.ll_asBtn_sign_in_4_gold).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_my_privilege).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_msg_notify).setOnClickListener(this);
@@ -118,12 +122,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
 
-        if (UserInfoCache.getIsInvited(mActivity) == 0) {
-            //如果未填写邀请码
-            $(view, R.id.rtl_asBtn_inviter).setVisibility(View.VISIBLE);
-        } else {
-            $(view, R.id.rtl_asBtn_inviter).setVisibility(View.GONE);
-        }
+        changeUIbyIsVisitor(mActivity);
+        changeUIbyIsVip(mActivity);
     }
 
     @Override
@@ -137,10 +137,14 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
+    }
 
-        changeUIbyIsVisitor(mContext);
+    @Override
+    public void onResume() {
+        super.onResume();
 
         reqMineWelfareZone();
+        getUserReadTime();
     }
 
     @Override
@@ -148,14 +152,14 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         MineWelfareZoneEntity data = wzAdapter.getData().get(position);
         String link = data.getLink();
         if (link.equals(Consts.INVITATION)) {       //去邀请
-            if(UserInfoCache.getIsVisitor(mActivity)){
+            if (UserInfoCache.getIsVisitor(mActivity)) {
                 startActivity(new Intent(mActivity, LoginActivity.class));
                 return;
             }
             Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
             startActivity(intent);
         } else if (data.getLink().equals(Consts.BE_INVITATION)) {       //去填写邀请码
-            if(UserInfoCache.getIsVisitor(mActivity)){
+            if (UserInfoCache.getIsVisitor(mActivity)) {
                 startActivity(new Intent(mActivity, LoginActivity.class));
                 return;
             }
@@ -174,14 +178,21 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginChangeEvent(LoginChangeEvent event) {
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onUserInfoChangeEvent(FUser event) {
         changeUIbyIsVisitor(mActivity);
+        changeUIbyIsVip(mActivity);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onVipChargerEvent(VipChargerEvent event) {
         changeUIbyIsVip(mActivity);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onCapitalRefreshEvent(CapitalEntity event) {
+        tvMyGoldCoin.setText(String.valueOf(event.getScore()));
+        tvTodayGoldCoin.setText(String.valueOf(event.getToday_score()));
     }
 
 
@@ -197,6 +208,15 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
             changeUIbyIsVip(mContext);
         }
+
+        //是否已经填写邀请码
+        if (UserInfoCache.getIsInvited(mActivity) == 0) {
+            //如果未填写邀请码
+            btnIviter.setVisibility(View.VISIBLE);
+        } else {
+            btnIviter.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -219,14 +239,17 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
+    /**
+     * 显示用户信息
+     *
+     * @param mContext
+     */
     private void displayUserInfo(Context mContext) {
         GlideUtil.loadCircle(mContext, ivUserHeadImg, UserInfoCache.getHeadPic(mContext));
         tvNickname.setText(UserInfoCache.getUserName(mContext));
         tvUserId.setText((getString(R.string.txt_id_colon) + UserInfoCache.getUserId(mContext)));
         tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
         tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
-//        tvTodayReadingTime.setText();
-        //TODO 今日阅读时间
     }
 
 
@@ -308,7 +331,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+       /* if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQCODE_LOGIN:
                 case REQCODE_SETTING_AC:
@@ -324,11 +347,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
             if (requestCode == REQCODE_SETTING_AC) {
                 displayUserInfo(mActivity);
             }
-        }
+        }*/
     }
 
     private void go2LoginAndResult() {
-        startActivityForResult(new Intent(mActivity, LoginActivity.class), REQCODE_LOGIN);
+        startActivity(new Intent(mActivity, LoginActivity.class));
     }
 
     private void initRecyWelfareZone(View view) {
@@ -366,6 +389,24 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 });
     }
 
-
+    /**
+     * 获取用户阅读时间
+     */
+    private void getUserReadTime() {
+        OkGo.<String>get(Consts.USER_READ_TIME_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            tvTodayReadingTime.setText(entity.getData());
+                        } else {
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
 
 }

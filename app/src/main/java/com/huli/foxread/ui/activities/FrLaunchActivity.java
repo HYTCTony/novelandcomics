@@ -86,7 +86,7 @@ public class FrLaunchActivity extends BaseActivity {
     public void doBusiness(Context mContext) {
 
         //启动页延长显示时间   至少800毫秒 防止一闪而过
-        mHandler.sendEmptyMessageDelayed(9, 800);
+        mHandler.sendEmptyMessageDelayed(9, 1000);
     }
 
     private void start(){

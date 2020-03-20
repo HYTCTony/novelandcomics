@@ -85,7 +85,7 @@ public abstract class BaseFragment extends Fragment {
     protected boolean onMoreClick() {
         boolean flag = false;
         long time = System.currentTimeMillis() - lastClickTime;
-        if (time < 600) {
+        if (time < 800) {
             flag = true;
         }
         lastClickTime = System.currentTimeMillis();

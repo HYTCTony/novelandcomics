@@ -3,6 +3,7 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +22,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -95,9 +97,17 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_search:
+                if(onMoreClick()){
+                    return;
+                }
                 String keyword = etKeyword.getText().toString();
+                if (TextUtils.isEmpty(keyword)) {
+                    Tos.showShort(this, R.string.txt_plz_input_keyword);
+                    return;
+                }
                 //点击搜索的时候隐藏软键盘
                 hideKeyboard(etKeyword);
+                keyword = keyword.trim();
                 reqCategoryDatas(keyword, true);
                 break;
             default:
@@ -108,6 +118,9 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if(onMoreClick()){
+            return;
+        }
         BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
@@ -130,7 +143,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
 
     private void reqCategoryDatas(String keyword, boolean showDialog) {
-        OkGo.<String>post(Consts.NOVEL_CHOICE_API)
+        OkGo.<String>post(Consts.NOVEL_KEYWORD_API)
                 .params(Consts.FILTRATE_KEYWORD, keyword)
                 .execute(new LtbCallback(this, showDialog) {
                     @Override

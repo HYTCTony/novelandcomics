@@ -27,6 +27,14 @@ public interface Func {
     String USER_INFO = "/user/index";
 
     /**
+     * 用途：用户资金详情
+     * 头：token---token(Y)
+     * 参数：
+     * return 用户信息
+     */
+    String USER_CAPITAL = "/user/capital";
+
+    /**
      * 用途：手机号登录
      * 参数：
      * mobile (Y）--- 手机号
@@ -158,7 +166,7 @@ public interface Func {
      * type --- 1=热门排行榜,2=完结热门排行榜,3=新书热门排行榜4=热搜排行榜
      * form --- 1=男生 , 2=女生
      */
-    String INDEX_RANKING = "/index/hotNovelList";
+    String INDEX_RANKING = "/index/rankingList";
 
     /**
      * 用途：分类(GET)
@@ -186,9 +194,18 @@ public interface Func {
      * status --- 状态:1=按热度,2=按评分,3=新上架
      * page --- 页码,默认1
      * page_size --- 每页数据量，默认15
-     * keyword --- 关键字查询(使用该查询无法使用其它条件筛选)
      */
     String NOVEL_CHOICE = "/novel/Choice";
+
+    /**
+     * 用途：小说按条件刷选(POST)
+     * 头：token(Y)
+     * 参数：
+     * keyword --- 关键字
+     * page --- 页码,默认1
+     * page_size --- 每页数据量，默认15
+     */
+    String NOVEL_KEYWORD = "/novel/keyword";
 
     /**
      * 用途：热门(POST)

@@ -87,6 +87,9 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        if(onMoreClick()){
+            return;
+        }
         NEbookSection<BookEntity> nEbookSection = mAdapter.getData().get(position);
         BookEntity book = nEbookSection.getObject();
         if (book != null) {

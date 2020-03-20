@@ -11,7 +11,7 @@ public class FUser implements Serializable {
     private String http_avatar = "";
     private int gender = 0;             //性别:0=男,1=女 （未填写性别为-1）
     private double money = 0d;          //邀请人得到的RMB
-    private int score = 0;              //积分(就是金币，可以转换成RMB)
+    private int score = 0;              //积分(就是余额金币，可以转换成RMB)
     private int today_score = 0;
     private String distribution = "";   //红包码(邀请码)
     private int is_new_man = 0;         //是否为新用户:0=不是,1=是
@@ -21,6 +21,9 @@ public class FUser implements Serializable {
     private int is_invited = -1;        //是否已填写邀请码:0未被邀请，1已被邀请，-1游客身份无法邀请
     private int message_sum = 0;        //通知数量
     private String token = "";
+
+    public FUser() {
+    }
 
     public String getId() {
         return id;

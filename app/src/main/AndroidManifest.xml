@@ -47,8 +47,7 @@
         <activity
             android:name=".ui.activities.TransparencyActivity"
             android:theme="@style/AppTheme.transparent"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
 
         <activity
             android:name=".ui.activities.ClassifyActivity"
@@ -152,7 +151,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.adapters.SignInActivity"
+            android:name=".ui.activities.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 

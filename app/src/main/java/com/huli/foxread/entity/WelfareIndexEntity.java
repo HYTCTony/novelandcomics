@@ -9,7 +9,6 @@ public class WelfareIndexEntity {
     private List<WelfareReadTaskEntity> read;               //阅读任务
 //    private List<WelfareTaskEntity> advanced;             //扩展任务
 
-
     public NormalSignInTaskEntity getSign_in() {
         return sign_in;
     }
@@ -41,4 +40,5 @@ public class WelfareIndexEntity {
     public void setRead(List<WelfareReadTaskEntity> read) {
         this.read = read;
     }
+
 }

@@ -8,7 +8,7 @@ public class GoldExpenditureBean {
     private String user_id;
     private int score;              //金币数量
     private String memo;            //title
-    private long createtime;
+    private long createtime;        //秒
 
     public String getId() {
         return id;
