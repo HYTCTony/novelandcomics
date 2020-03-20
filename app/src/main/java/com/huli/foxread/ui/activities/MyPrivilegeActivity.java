@@ -379,7 +379,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                             UserInfoCache.saveCacheAll(MyPrivilegeActivity.this, data);
                             tvVipTypeTitle.setText(R.string.txt_monthly_vip);
                             tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
-                                    DateTimeUtil.formatDateTime(UserInfoCache.getVipEndtime(MyPrivilegeActivity.this), "yyyy-MM-dd")));
+                                    DateTimeUtil.formatDateTime(UserInfoCache.getVipEndtime(MyPrivilegeActivity.this) * 1000, "yyyy-MM-dd")));
                             tvVipTips.setText(R.string.txt_tips_vip_state);
                             tvAccountSetup.setVisibility(View.GONE);
                             ivIconVipSymbol.setVisibility(View.VISIBLE);
