@@ -1,9 +1,11 @@
 package com.huli.page.model.bean;
 
 
+import com.huli.foxread.FrApp;
 import com.huli.page.model.dao.BookChapterDao;
 import com.huli.page.model.dao.BookShelfListBeanDao;
 import com.huli.page.model.dao.DaoSession;
+import com.huli.page.utils.StringUtils;
 
 import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
@@ -163,7 +165,7 @@ public class BookShelfListBean implements Serializable {
     }
 
     public String getNovel_name() {
-        return this.novel_name;
+        return StringUtils.convertCC(novel_name, FrApp.getInstance());
     }
 
     public void setNovel_name(String novel_name) {
@@ -187,7 +189,7 @@ public class BookShelfListBean implements Serializable {
     }
 
     public String getAuthor() {
-        return this.author;
+        return StringUtils.convertCC(author, FrApp.getInstance());
     }
 
     public void setAuthor(String author) {
@@ -203,7 +205,7 @@ public class BookShelfListBean implements Serializable {
     }
 
     public String getCopyright_name() {
-        return copyright_name;
+        return StringUtils.convertCC(copyright_name, FrApp.getInstance());
     }
 
     public void setCopyright_name(String copyright_name) {
@@ -259,7 +261,7 @@ public class BookShelfListBean implements Serializable {
     }
 
     public String getClassify_name() {
-        return this.classify_name;
+        return StringUtils.convertCC(classify_name, FrApp.getInstance());
     }
 
     public void setClassify_name(String classify_name) {
@@ -355,7 +357,7 @@ public class BookShelfListBean implements Serializable {
     }
 
     public String getLastRead() {
-        return this.lastRead;
+        return StringUtils.convertCC(lastRead, FrApp.getInstance());
     }
 
     public void setLastRead(String lastRead) {
@@ -363,7 +365,7 @@ public class BookShelfListBean implements Serializable {
     }
 
     public String getLastChapter() {
-        return this.lastChapter;
+        return StringUtils.convertCC(lastChapter, FrApp.getInstance());
     }
 
     public void setLastChapter(String lastChapter) {

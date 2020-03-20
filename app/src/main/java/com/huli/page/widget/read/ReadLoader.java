@@ -1341,6 +1341,9 @@ public abstract class ReadLoader {
         if (mPageChangeListener != null) {
             mPageChangeListener.onPageChange(pos);
         }
+        if (pos >= mCurPageList.size()) {
+            pos = mCurPageList.size() - 1;
+        }
         return mCurPageList.get(pos);
     }
 

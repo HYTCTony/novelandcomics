@@ -381,9 +381,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mPageLoader.refreshChapterList();
 
         // 如果是目录更新的情况，那么就需要存储更新数据
-        if (data.getIsUpdate() && isCollected) {
-            BookRepository.getInstance().saveBookChaptersToAsync(bookChapters);
-        }
+//        if (data.getIsUpdate() && isCollected) {
+//            BookRepository.getInstance().saveBookChaptersToAsync(bookChapters);
+//        }
     }
 
     @Override

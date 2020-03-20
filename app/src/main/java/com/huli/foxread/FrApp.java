@@ -20,6 +20,8 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.simple.spiderman.SpiderMan;
+import com.tencent.bugly.Bugly;
 
 import java.util.logging.Level;
 
@@ -64,12 +66,12 @@ public class FrApp extends Application implements ActivityState {
         });
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();
         sInstance = this;
-
+        //放在其他库初始化前
+        SpiderMan.init(this);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new TokenInterceptor(sInstance));
 
@@ -95,6 +97,11 @@ public class FrApp extends Application implements ActivityState {
         DialogSettings.buttonPositiveTextInfo = new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.txt_red));
         DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
         DialogSettings.theme = DialogSettings.THEME.LIGHT;
+
+//        if (Constant.STABLE_SERVER)
+            Bugly.init(getApplicationContext(), "a5471c79fd", true);
+//        else
+//            CrashReport.initCrashReport(getApplicationContext(), "a5471c79fd", true);
     }
 
 

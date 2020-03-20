@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.ReadRecordEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
@@ -151,6 +153,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                     Toast.makeText(this, "请选择书籍记录", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                Log.d(TAG, mAdapter.getSelectedIds());
                 reqDeleteBookRecord(mAdapter.getSelectedIds());
                 break;
             case R.id.tv_asBtn_add_to_bookcase:
@@ -168,7 +171,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 Log.d(TAG, mAdapter.getSelectedIds());
-                reqAddBookrack(mAdapter.getSelectedIds());
+                reqAddBookrack(mAdapter.getSelectedBookId());
                 break;
             default:
                 break;
@@ -181,6 +184,11 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
             int count = mAdapter.funCheck(position);
             btnDelBooks.setText(String.format(getString(R.string.txt_del_books_x), count));
             btnAddBookcase.setText(String.format(getString(R.string.txt_add_to_bookcase_x), count));
+        } else {
+            ReadRecordEntity data = (ReadRecordEntity) adapter.getItem(position);
+            Intent intent = new Intent(ReadingRecordActivity.this, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, data.getNovel_id());
+            startActivity(intent);
         }
     }
 
@@ -244,7 +252,6 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 });
                         if (entity.error_code == 0) {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
-                            //TODO do something
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
@@ -267,8 +274,15 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
+                            curPage = 1;
+                            reqReadingRecord(curPage);
+                            btnDone.setVisibility(View.GONE);
+                            btnSelectAll.setVisibility(View.GONE);
+                            layoutBottomBar.setVisibility(View.GONE);
+                            btnManagerRecords.setVisibility(View.VISIBLE);
+                            isManagerMode = false;
+                            mAdapter.setManagerMode(isManagerMode);
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
-                            //TODO do something
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }

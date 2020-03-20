@@ -425,7 +425,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                 });
                         if (entity.error_code == 0) {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
-                            //TODO do something
+                            isCollected = true;
+                            btnAddBookcase.setText("已加入书架");
+                            btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
                         } else {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
@@ -448,7 +450,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                 new TypeReference<LzyResponse<List<BookChapter>>>() {
                                 });
                         if (entity.error_code == 0) {
-
                             chapters.clear();
                             chapters.addAll(entity.getData());
                             //目录章节数
