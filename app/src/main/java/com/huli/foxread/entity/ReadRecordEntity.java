@@ -5,7 +5,7 @@ import com.huli.page.model.bean.BookShelfListBean;
 public class ReadRecordEntity {
     private int id;
     private int user_id;
-    private int novel_id;
+    private String novel_id;
     private int chapter_id;
     private int chapter;
     private String chapter_name;
@@ -29,11 +29,11 @@ public class ReadRecordEntity {
         this.user_id = user_id;
     }
 
-    public int getNovel_id() {
+    public String getNovel_id() {
         return novel_id;
     }
 
-    public void setNovel_id(int novel_id) {
+    public void setNovel_id(String novel_id) {
         this.novel_id = novel_id;
     }
 

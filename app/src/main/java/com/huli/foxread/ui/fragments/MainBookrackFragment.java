@@ -1,6 +1,5 @@
 package com.huli.foxread.ui.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -165,7 +164,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
-        getUserReadTime();
         data.add(new BookShelfListBean());
         mAdapter.setNewData(data);
         getSpecialBook();
@@ -175,6 +173,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     public void onResume() {
         super.onResume();
         reqGetBooks();
+        getUserReadTime();
     }
 
     @Override
@@ -231,36 +230,34 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 //            recyclerView.setNestedScrollingEnabled(true);
 //        }
 //        fff = !fff;
-        BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
-        new XPopup.Builder(getActivity())
-                .setPopupCallback(new XPopupCallback() {
-                    @Override
-                    public void onShow() {
-                        Log.e("tag", "onShow");
-                    }
+        if (position != data.size() - 1) {
+            BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
+            new XPopup.Builder(getActivity())
+                    .setPopupCallback(new XPopupCallback() {
+                        @Override
+                        public void onShow() {
+                            Log.e("tag", "onShow");
+                        }
 
-                    @Override
-                    public void onDismiss() {
-                        Log.e("tag", "onDismiss");
-                    }
-                }).asConfirm("温馨提示", "是否删除这本书？", new OnConfirmListener() {
-            @Override
-            public void onConfirm() {
-                reqDelBooks(bean.getId());
-                ProgressDialog progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("正在删除中");
-                progressDialog.show();
-                BookRepository.getInstance().deleteCollBookInRx(bean)
-                        .compose(RxUtils::toSimpleSingle)
-                        .subscribe(
-                                (Void) -> {
-                                    data.remove(position);
-                                    adapter.notifyDataSetChanged();
-                                    progressDialog.dismiss();
-                                }
-                        );
-            }
-        }, null, false).show();
+                        @Override
+                        public void onDismiss() {
+                            Log.e("tag", "onDismiss");
+                        }
+                    }).asConfirm("温馨提示", "是否删除这本书？", new OnConfirmListener() {
+                @Override
+                public void onConfirm() {
+                    reqDelBooks(bean.getId());
+                    BookRepository.getInstance().deleteCollBookInRx(bean)
+                            .compose(RxUtils::toSimpleSingle)
+                            .subscribe(
+                                    (Void) -> {
+                                        data.remove(position);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                            );
+                }
+            }, null, false).show();
+        }
         return true;
     }
 

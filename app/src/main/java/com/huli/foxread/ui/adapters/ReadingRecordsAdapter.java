@@ -61,6 +61,20 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         return buffer.toString();
     }
 
+    public String getSelectedBookId() {
+        StringBuffer buffer = new StringBuffer();
+        int cc = 0;
+        for (int i = 0; i < selectLists.size(); i++) {
+            if (selectLists.valueAt(i)) {
+                cc++;
+                buffer.append(getData().get(i).getNovel_id());
+                buffer.append(",");
+            }
+        }
+        buffer.deleteCharAt(buffer.length() - 1);
+        return buffer.toString();
+    }
+
     public int funCheck(int position) {
         //TODO 通过position获取 id 作为 key
 //        selectLists.put(key, !selectLists.get(key));

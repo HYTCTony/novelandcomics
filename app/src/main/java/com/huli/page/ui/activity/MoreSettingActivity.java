@@ -56,16 +56,20 @@ public class MoreSettingActivity extends BaseViewActivity {
         super.initToolbar(toolbar);
     }
 
-    private void initSwitchStatus() {
-        mScVolume.setChecked(isVolumeTurnPage);
-        mScFullScreen.setChecked(isFullScreen);
-    }
-
     @Override
     protected void initView() {
         StatusBarUtils.setTransparentForImageView(mContext, toolbar);
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
         StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
+
+        mSettingManager = ReadSettingManager.getInstance();
+        isVolumeTurnPage = mSettingManager.isVolumeTurnPage();
+        isFullScreen = mSettingManager.isFullScreen();
+        convertType = mSettingManager.getConvertType();
+
+        mScVolume.setChecked(isVolumeTurnPage);
+        mScFullScreen.setChecked(isFullScreen);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.conversion_type_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -86,10 +90,6 @@ public class MoreSettingActivity extends BaseViewActivity {
             }
         });
 
-        mSettingManager = ReadSettingManager.getInstance();
-        isVolumeTurnPage = mSettingManager.isVolumeTurnPage();
-        isFullScreen = mSettingManager.isFullScreen();
-        convertType = mSettingManager.getConvertType();
 
         mRlVolume.setOnClickListener(
                 (v) -> {
@@ -114,7 +114,7 @@ public class MoreSettingActivity extends BaseViewActivity {
                     mSettingManager.setFullScreen(isFullScreen);
                 }
         );
-        initSwitchStatus();
+
     }
 
 }

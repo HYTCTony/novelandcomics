@@ -1,6 +1,7 @@
 package com.huli.page.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.huli.foxread.FrApp;
 import com.zqc.opencc.android.lib.ChineseConverter;
@@ -137,7 +138,7 @@ public class StringUtils {
         ConversionType currentConversionType = ConversionType.S2TWP;
         int convertType = SharedPreUtils.getInstance().getInt(SHARED_READ_CONVERT_TYPE, 0);
 
-        if (input.length() == 0)
+        if (TextUtils.isEmpty(input))
             return "";
 
         switch (convertType) {
