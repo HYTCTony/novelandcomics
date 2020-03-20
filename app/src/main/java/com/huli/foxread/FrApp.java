@@ -99,7 +99,7 @@ public class FrApp extends Application implements ActivityState {
         DialogSettings.theme = DialogSettings.THEME.LIGHT;
 
 //        if (Constant.STABLE_SERVER)
-            Bugly.init(getApplicationContext(), "a5471c79fd", true);
+            Bugly.init(getApplicationContext(), "a5471c79fd", false);
 //        else
 //            CrashReport.initCrashReport(getApplicationContext(), "a5471c79fd", true);
     }
