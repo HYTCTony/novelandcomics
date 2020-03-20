@@ -39,6 +39,7 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -141,6 +142,12 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         changeUIbyIsVisitor(mContext);
 
         reqMineWelfareZone();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUserReadTime();
     }
 
     @Override
@@ -366,6 +373,24 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 });
     }
 
-
+    /**
+     * 获取用户阅读时间
+     */
+    private void getUserReadTime() {
+        OkGo.<String>get(Consts.USER_READ_TIME_API)
+                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            tvTodayReadingTime.setText(entity.getData());
+                        } else {
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
 
 }
