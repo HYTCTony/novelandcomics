@@ -5,36 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/txt_white"
+        android:text="@string/txt_huli_culture_literature"
+        android:layout_marginBottom="@dimen/dp_36"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="wrap_content"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_advertising"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:visibility="gone">
 
         <ImageView
             android:id="@+id/iv_advertising_picture"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_0"
-            android:layout_marginBottom="@dimen/dp_56"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_default_ad"
-            app:layout_constraintBottom_toTopOf="@+id/iv_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="1"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"/>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/iv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_56"
+            android:visibility="gone"
             android:layout_marginBottom="@dimen/dp_56"
             android:src="@mipmap/splash_logo_tt"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription" />-->
 
         <Button
             android:id="@+id/btn_skip_ad"

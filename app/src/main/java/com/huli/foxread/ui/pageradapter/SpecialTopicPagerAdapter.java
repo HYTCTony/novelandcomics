@@ -69,8 +69,8 @@ public class SpecialTopicPagerAdapter extends PagerAdapter {
         GlideApp.with(context)
                 .load(data.getHttp_image())
                 .apply(options)
-                .placeholder(R.mipmap.banner_place_holder)
-                .error(R.mipmap.banner_place_holder)
+                .placeholder(R.mipmap.img_holder_special_topic)
+                .error(R.mipmap.img_holder_special_topic)
                 .into(ivImg);
 
         inflate.setOnClickListener(view -> {
@@ -78,9 +78,7 @@ public class SpecialTopicPagerAdapter extends PagerAdapter {
                 mOnPagerItemClickListener.onItemClick(data.getNovel_id());
             }
         });
-
         container.addView(inflate);
-
         return inflate;
     }
 

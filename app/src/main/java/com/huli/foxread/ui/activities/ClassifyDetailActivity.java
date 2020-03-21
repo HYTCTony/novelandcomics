@@ -3,6 +3,7 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -134,14 +135,14 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
         stackLabel_1.setOnLabelClickListener((index, v, s) -> {
 //                Log.e(TAG, "1***选中===" + s + "----" + index);
-            if (index == 0) {
-                isParent = 1;
-                subCatID = pCatId;
-            } else {
-                if (datas != null && datas.size() > index) {
+            if (index > 0) {
+                if (datas != null && datas.size() >= index) {
                     isParent = 0;
-                    subCatID = datas.get(index).getId();
+                    subCatID = datas.get(index - 1).getId();
                 }
+            } else {
+                subCatID = pCatId;
+                isParent = 1;
             }
             paramCurPage = 0;
             reqCategoryDatas(false);
@@ -229,7 +230,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
 
     @Override
-    public void onItemClick(BaseQuickAdapter  adapter, View view, int position) {
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());

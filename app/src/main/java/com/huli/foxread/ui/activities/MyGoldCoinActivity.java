@@ -13,7 +13,7 @@ import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.GoldCoinInfoBean;
+import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.GoldExpenditureBean;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.GoldCoinDetailAdapter;
@@ -22,12 +22,15 @@ import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.text.DecimalFormat;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -115,9 +118,13 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
         tvAccumulatedGold.setText((getString(R.string.txt_accumulated_gold_colon) + "0"));
         tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + "0"));
 
-        reqMyGoldCoinInfo();
-
         reqEarningsDetail(curPage, true);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reqMyCapitalDetail();
     }
 
     @Override
@@ -134,31 +141,42 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+
     /**
-     * 获取金币信息
+     * 我的资金详情
      */
-    private void reqMyGoldCoinInfo() {
-        OkGo.<String>get(Consts.GOLD_COIN_INFO_API)
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-                .cacheTime(5 * 60 * 1000)
+    public void reqMyCapitalDetail() {
+        OkGo.<String>get(Consts.USER_CAPITAL_API)
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<GoldCoinInfoBean> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<GoldCoinInfoBean>>() {
+                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<CapitalEntity>>() {
                                 });
                         if (entity.error_code == 0) {
-                            GoldCoinInfoBean data = entity.getData();
-                            tvGoldBalance.setText(String.valueOf(data.getScore()));
-                            tvExchangeYuan.setText((data.getScore_money() + getString(R.string.unit_yuan)));
-                            tvAccumulatedGold.setText((getString(R.string.txt_accumulated_gold_colon) + data.getScore_total()));
-                            tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + data.getScore_today()));
+                            CapitalEntity data = entity.getData();
+
+                            int goldCoinBalance = data.getScore();
+                            tvGoldBalance.setText(String.valueOf(goldCoinBalance));
+
+                            double exchangeMoney;       //金币余额转换RMB
+                            try {
+                                exchangeMoney = (double) goldCoinBalance / data.getProportion();
+                            } catch (Exception e) {
+                                exchangeMoney = 0;
+                            }
+                            DecimalFormat df = new DecimalFormat("#######.##" + getString(R.string.unit_yuan));
+                            tvExchangeYuan.setText(df.format(exchangeMoney));
+
+                            tvAccumulatedGold.setText((getString(R.string.txt_accumulated_gold_colon) + data.getScore_sum()));
+                            tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + data.getToday_score()));
                         } else {
                             Tos.showShort(MyGoldCoinActivity.this, entity.msg);
                         }
                     }
                 });
     }
+
 
     /**
      * 金币收益明细

@@ -65,7 +65,7 @@ import androidx.viewpager.widget.ViewPager;
 public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnClickListener, OnBannerListener {
 
     private SmartRefreshLayout mRefreshLayout;
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     private BooksListAdapter mAdapter;
 
     private Banner mBanner;

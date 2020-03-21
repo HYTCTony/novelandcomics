@@ -43,12 +43,21 @@ public class WelfareReadMissionAdapter extends BaseQuickAdapter<WelfareReadTaskE
         }
         holder.setText(R.id.tv_welfare_mission_explain, setNumColor(getContext(), data.getContent()));
 //        holder.setText(R.id.btn_welfare_mission_action, R.string.txt_go2_reading);
-        if (data.getComplete_task() == 0) {
+        if (data.getState() == 0) {
+            holder.setEnabled(R.id.btn_welfare_mission_action, true);
+            holder.setTextColorRes(R.id.btn_welfare_mission_action, R.color.txt_red);
             holder.setText(R.id.btn_welfare_mission_action, R.string.txt_go2_reading);
             holder.setBackgroundResource(R.id.btn_welfare_mission_action, R.drawable.shape_btn_bg_semicircle_border_red);
-        } else {
+        } else if (data.getState() == 1) {
+            holder.setEnabled(R.id.btn_welfare_mission_action, true);
+            holder.setTextColorRes(R.id.btn_welfare_mission_action, R.color.txt_white);
             holder.setText(R.id.btn_welfare_mission_action, R.string.txt_can_receive);
             holder.setBackgroundResource(R.id.btn_welfare_mission_action, R.drawable.ripple_semicircle_btn_gradual_bg_red);
+        } else {
+            holder.setEnabled(R.id.btn_welfare_mission_action, false);
+            holder.setTextColorRes(R.id.btn_welfare_mission_action, R.color.txt_black);
+            holder.setText(R.id.btn_welfare_mission_action, R.string.txt_already_received);
+            holder.setBackgroundResource(R.id.btn_welfare_mission_action, R.drawable.shape_btn_semicircle_bg_disabled);
         }
 
         GlideApp.with(getContext())
@@ -58,7 +67,7 @@ public class WelfareReadMissionAdapter extends BaseQuickAdapter<WelfareReadTaskE
 
 
     private static SpannableStringBuilder setNumColor(Context context, String str) {
-        if(TextUtils.isEmpty(str)){
+        if (TextUtils.isEmpty(str)) {
             return null;
         }
         SpannableStringBuilder style = new SpannableStringBuilder(str);

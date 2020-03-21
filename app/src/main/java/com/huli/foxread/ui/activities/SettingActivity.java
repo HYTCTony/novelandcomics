@@ -16,7 +16,6 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.utils.Tos;

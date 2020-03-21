@@ -10,6 +10,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.listener.GridSpanSizeLookup;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -68,7 +69,7 @@ import androidx.viewpager.widget.ViewPager;
 public class SelectionBookFragment extends BaseFragment implements View.OnClickListener, OnBannerListener {
 
     private SmartRefreshLayout mRefreshLayout;
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
     private BooksListAdapter mAdapter;
 
     private Banner mBanner;
@@ -160,24 +161,16 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             startActivity(intent);
         });
         // 设置加载更多监听事件
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                reqHighMarksDatas(curPage);
-            }
-        });
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqHighMarksDatas(curPage));
 
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
 //                reqTopBannerData();
 
-                reqIndexDatas(false);
+            reqIndexDatas(false);
 
-                //可以上拉加载
-                curPage = 0;
-                mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-            }
+            //可以上拉加载
+            curPage = 1;
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
     }
 
@@ -559,7 +552,6 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                     }
                 });
     }
-
 
     /**
      * banner

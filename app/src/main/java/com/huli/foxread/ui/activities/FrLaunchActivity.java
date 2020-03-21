@@ -35,6 +35,8 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
+import java.net.URL;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -89,7 +91,7 @@ public class FrLaunchActivity extends BaseActivity {
         mHandler.sendEmptyMessageDelayed(9, 1000);
     }
 
-    private void start(){
+    private void start() {
         //token为空 判定为APP安装后第一次登录，反之。
         String token = UserInfoCache.getToken(this);
 
@@ -130,7 +132,7 @@ public class FrLaunchActivity extends BaseActivity {
                 if (count > 0) {
                     mHandler.sendEmptyMessageDelayed(0, 1000);
                 }
-            }else if(msg.what==9){
+            } else if (msg.what == 9) {
                 start();
             }
             return false;
@@ -217,12 +219,14 @@ public class FrLaunchActivity extends BaseActivity {
      */
     private void reqInitUserInfo() {
         OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
+                .tag(Consts.USERS_INFO_API + "_launch")
                 .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
                         new TypeReference<LzyResponse<FUser>>() {
                         }) {
                     @Override
                     public void onSuccess(Response<LzyResponse<FUser>> response) {
-                        if (response.body().error_code == 0) {
+                        int errorCode = response.body().error_code;
+                        if (errorCode == 0) {
                             FUser data = response.body().getData();
                             UserInfoCache.saveCacheAll(FrLaunchActivity.this, data);
                             // 游客登录 是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
@@ -232,9 +236,12 @@ public class FrLaunchActivity extends BaseActivity {
                             if (gender == -1) {
                                 startActivity(new Intent(mContext, GenderChoiceActivity.class));
                                 finish();
+                                return;
                             } else {
                                 reqAdsFromNet();
                             }
+                        } else if (errorCode == 10001 || errorCode == 10010) {
+                            reqAdsFromNet();
                         }
                     }
                 });
@@ -283,7 +290,6 @@ public class FrLaunchActivity extends BaseActivity {
                             adEntity = response.body().getData();
                             GlideApp.with(FrLaunchActivity.this)
                                     .load(adEntity.getImageText())
-                                    .error(R.drawable.img_default_ad)
                                     .into(new CustomTarget<Drawable>() {
                                         @Override
                                         public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -324,16 +330,32 @@ public class FrLaunchActivity extends BaseActivity {
             @Override
             public void singleClick(View v) {
                 // 打开浏览器
-                autoSkip = false;
-                Uri uri = Uri.parse(adUrl);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+//                autoSkip = false;
+                if (isUrl(adUrl)) {
+                    Uri uri = Uri.parse(adUrl);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
             }
         });
 
         layoutAdvertising.setVisibility(View.VISIBLE);
         btnSkip.setText(String.format(getString(R.string.txt_skip_x), count));
         mHandler.sendEmptyMessageDelayed(0, 1000);
+    }
+
+
+    private boolean isUrl(String link) {
+        try {
+            URL url = new URL(link);
+            if (url.getHost() != null) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 

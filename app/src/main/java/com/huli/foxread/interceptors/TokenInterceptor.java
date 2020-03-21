@@ -10,7 +10,6 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.ui.activities.TransparencyActivity;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.lzy.okgo.OkGo;
@@ -51,6 +50,13 @@ public class TokenInterceptor implements Interceptor {
         Request request = chain.request();
         Response response = chain.proceed(request);
 
+        //不拦截获取token的方法
+        String url = request.url().toString();
+        if (url.contains(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API) || url.contains(Consts.ADS_TAIL_API)
+                || url.contains(Consts.USER_MOBILE_LOGIN_API) || request.tag().equals(Consts.USERS_INFO_API + "_launch")) {
+            return response;
+        }
+
         ResponseBody responseBody = response.body();
         long contentLength = responseBody.contentLength();
 
@@ -90,7 +96,6 @@ public class TokenInterceptor implements Interceptor {
                 // error_code 状态码10001  ---Token失效    10010 被顶号
                 if (errorCode == 10001 || errorCode == 10010) {
                     String token = syncNewToken();
-                    EventBus.getDefault().post(new LoginChangeEvent(false));
 
                     Intent intent = new Intent(context, TransparencyActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -214,6 +219,11 @@ public class TokenInterceptor implements Interceptor {
                     UserInfoCache.clearCache(context);
                     //保存新的token
                     UserInfoCache.saveToken(context, newToken);
+
+                    FUser fUser = new FUser();
+                    fUser.setToken(newToken);
+                    EventBus.getDefault().postSticky(fUser);      //通知改变UI
+
                     return newToken;
                 }
             }

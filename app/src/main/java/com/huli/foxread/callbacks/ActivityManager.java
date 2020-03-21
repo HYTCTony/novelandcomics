@@ -148,7 +148,7 @@ public class ActivityManager implements Application.ActivityLifecycleCallbacks {
 
     public void finishAll() {
         for (Activity activity : activities) {
-            finishActivity(activity);
+            activity.finish();
         }
         activities.clear();
     }

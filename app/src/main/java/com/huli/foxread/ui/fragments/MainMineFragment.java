@@ -3,6 +3,7 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +39,7 @@ import com.huli.foxread.ui.activities.WithdrawalActivity;
 import com.huli.foxread.ui.adapters.WelfareZoneMineAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
+import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.kongzue.dialog.v3.TipDialog;
@@ -288,8 +290,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                     startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
                 }
                 break;
-            case R.id.rtl_asBtn_my_privilege:                   //VIP
-            case R.id.tv_asBtn_open_membership_account:         //VIP
+            case R.id.rtl_asBtn_my_privilege:                   //go2 VIP页面
+            case R.id.tv_asBtn_open_membership_account:         //go2 VIP页面
                 if (UserInfoCache.getIsVisitor(mActivity)) {
                     go2LoginAndResult();
                 } else {

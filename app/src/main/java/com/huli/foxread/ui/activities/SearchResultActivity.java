@@ -100,7 +100,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                 if(onMoreClick()){
                     return;
                 }
-                String keyword = etKeyword.getText().toString();
+                String keyword = etKeyword.getText().toString().trim();
                 if (TextUtils.isEmpty(keyword)) {
                     Tos.showShort(this, R.string.txt_plz_input_keyword);
                     return;
