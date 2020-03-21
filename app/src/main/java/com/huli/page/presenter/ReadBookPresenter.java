@@ -14,6 +14,7 @@ import com.huli.page.presenter.contract.ReadBookContract;
 import com.huli.page.ui.base.BasePresenter;
 import com.huli.page.widget.page.TxtChapter;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
 import java.util.List;
@@ -49,6 +50,9 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
         checkViewAttached();
         OkGo.<String>get(Consts.NOVEL_NOVELCHAPTERLIST_API)
                 .params(Consts.NOVEL_ID, bookId)
+                .cacheTime(8 * 60 * 60 * 1000)
+                .cacheKey(Consts.NOVEL_NOVELCHAPTERLIST_API + bookId)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new LtbCallback(context, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -62,6 +66,12 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                 view.onFailure(entity.error_code, entity.msg);
                             }
                         }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
                     }
                 });
     }

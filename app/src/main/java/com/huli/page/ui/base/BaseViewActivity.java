@@ -63,9 +63,6 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(
-                (v) -> finish()
-        );
     }
 
     @Override

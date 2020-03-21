@@ -7,6 +7,7 @@ import android.util.Log;
 import com.huli.foxread.callbacks.ActivityManager;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.interceptors.TokenInterceptor;
+import com.huli.foxread.ui.activities.MainActivity;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
@@ -20,8 +21,8 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
-import com.simple.spiderman.SpiderMan;
 import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 
 import java.util.logging.Level;
 
@@ -71,7 +72,7 @@ public class FrApp extends Application implements ActivityState {
         super.onCreate();
         sInstance = this;
         //放在其他库初始化前
-        SpiderMan.init(this);
+//        SpiderMan.init(this);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new TokenInterceptor(sInstance));
 
@@ -98,10 +99,8 @@ public class FrApp extends Application implements ActivityState {
         DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
         DialogSettings.theme = DialogSettings.THEME.LIGHT;
 
-//        if (Constant.STABLE_SERVER)
-            Bugly.init(getApplicationContext(), "a5471c79fd", false);
-//        else
-//            CrashReport.initCrashReport(getApplicationContext(), "a5471c79fd", true);
+        initBugly();
+
     }
 
 
@@ -133,5 +132,20 @@ public class FrApp extends Application implements ActivityState {
     @Override
     public void isBack() {
         Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到后台");
+    }
+
+    private void initBugly() {
+        /**
+         * 设置升级检查周期为60s(默认检查周期为0s)，60s内SDK不重复向后台请求策略);
+         */
+        Beta.upgradeCheckPeriod = 60 * 1000;
+        /**
+         * 只允许在MainActivity上显示更新弹窗，其他activity上不显示弹窗;
+         * 不设置会默认所有activity都可以显示弹窗;
+         */
+        Beta.canShowUpgradeActs.add(MainActivity.class);
+
+        Bugly.init(getApplicationContext(), "a5471c79fd", false);
+
     }
 }

@@ -338,6 +338,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void initToolbar(Toolbar toolbar) {
         setTitle(data.getNovel_name());
+        toolbar.setNavigationOnClickListener(
+                (v) -> onBackPressed()
+        );
         super.initToolbar(toolbar);
     }
 
@@ -356,8 +359,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                                 if (data.getIsUpdate() && !data.getIsLocal()) {
                                     presenter.loadCategory(ReadBookActivity.this, mBookId);
                                 }
-                                if (throwable != null)
-                                    Log.e(TAG, throwable.getMessage());
                             }
                     );
             CompositeDisposable mDisposable = new CompositeDisposable();
@@ -421,6 +422,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     }
                     mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
                     catalogAdapter.notifyDataSetChanged();
+                } else {
+                    showToast("已经是最后一张了！");
                 }
                 break;
             case R.id.read_tv_category:
@@ -560,7 +563,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         try {
             if (mBrightObserver != null) {
                 if (!isRegistered) {
-                    final ContentResolver cr = getContentResolver();
+                    ContentResolver cr = getContentResolver();
                     cr.unregisterContentObserver(mBrightObserver);
                     cr.registerContentObserver(BRIGHTNESS_MODE_URI, false, mBrightObserver);
                     cr.registerContentObserver(BRIGHTNESS_URI, false, mBrightObserver);
@@ -674,7 +677,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             // 非全屏下才收缩，全屏下直接退出
             if (!ReadSettingManager.getInstance().isFullScreen()) {
                 toggleMenu(true);
-                return;
             }
         } else if (mSettingDialog.isShowing()) {
             mSettingDialog.dismiss();
@@ -684,8 +686,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             return;
         }
 
-        if (!data.getIsLocal() && !isCollected
-                && !data.getBookChapters().isEmpty()) {
+        if (!data.getIsLocal() && !isCollected && !data.getBookChapters().isEmpty()) {
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle("加入书架")
                     .setMessage("喜欢本书就加入书架吧")
