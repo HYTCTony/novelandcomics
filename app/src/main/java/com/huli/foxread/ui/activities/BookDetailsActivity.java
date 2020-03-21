@@ -45,7 +45,6 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
 import com.lxj.xpopup.XPopup;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
@@ -279,28 +278,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_report) {
-//            new XPopup.Builder(BookDetailsActivity.this)
-//                    .asCenterList("请选择举报原因", new String[]{"广告", "盗用内容", "骗子", "威胁"},
-//                            new OnSelectListener() {
-//                                @Override
-//                                public void onSelect(int position, String text) {
-//                                    report(nId, text);
-//                                }
-//                            })
-//                    .show();
             startActivity(new Intent(BookDetailsActivity.this, GoToFeedBackActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * 举报小说
-     *
-     * @param novelId 小说ID
-     * @param reason  举报内容
-     */
-    private void report(String novelId, String reason) {
-        Toast.makeText(BookDetailsActivity.this, "举报成功", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -311,9 +291,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private void reqNovelDetails(String novelId) {
         OkGo.<String>get(Consts.NOVEL_DETAILS_API)
                 .params(Consts.NOVEL_ID, novelId)
-                .cacheTime(20 * 1000)
-                .cacheKey(Consts.NOVEL_DETAILS_API + "_" + novelId)
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {

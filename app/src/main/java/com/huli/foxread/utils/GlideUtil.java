@@ -1,6 +1,7 @@
 package com.huli.foxread.utils;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
@@ -43,6 +44,21 @@ public class GlideUtil {
                 .into(view);
     }
 
+    /**
+     * 加载圆形图片
+     *
+     * @param context
+     * @param view
+     * @param drawable
+     */
+    public static void loadCircle(Context context, ImageView view, Drawable drawable) {
+        GlideApp.with(context)
+                .load(drawable)
+                .placeholder(R.color.hl_read_bg_1)
+                .error(R.color.hl_read_bg_1)
+                .transform(new CircleCrop())
+                .into(view);
+    }
 
     /**
      * 加载圆角图片

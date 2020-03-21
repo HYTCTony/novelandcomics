@@ -75,10 +75,29 @@
     <color name="nb_read_font_4">#383429</color>
     <color name="nb_read_font_5">#627176</color>
 
-    <color name="nb_read_bg_night">#000000</color>
-    <color name="nb_read_font_night">#99ffffff</color>
+    <color name="hl_read_bg_1">#F6F6F6</color>
+    <color name="hl_read_bg_2">#FAE5E0</color>
+    <color name="hl_read_bg_3">#EBDABC</color>
+    <color name="hl_read_bg_4">#DAE2CD</color>
+    <color name="hl_read_bg_5">#CED6E1</color>
+    <color name="hl_read_bg_6">#171B26</color>
+    <color name="hl_read_bg_7">#F8EFE6</color>
+    <color name="hl_read_bg_8">#D5E3D2</color>
+
+    <color name="hl_read_font_1">#333333</color>
+    <color name="hl_read_font_2">#1F0000</color>
+    <color name="hl_read_font_3">#483318</color>
+    <color name="hl_read_font_4">#1F241E</color>
+    <color name="hl_read_font_5">#293038</color>
+    <color name="hl_read_font_6">#6C757E</color>
+    <color name="hl_read_font_7">#231806</color>
+    <color name="hl_read_font_8">#091507</color>
+
+
+    <color name="hl_read_bg_night">#0D0D0D</color>
+    <color name="hl_read_font_night">#848484</color>
 
     <!--button-->
-    <color name="nb_widget_button_normal">@color/white</color>
-    <color name="nb_widget_button_selected">#E3E3E3</color>
+    <color name="hl_widget_button_normal">@color/white</color>
+    <color name="hl_widget_button_selected">#E3E3E3</color>
 </resources>

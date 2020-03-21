@@ -322,7 +322,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                            //TODO 刷新数据
+
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
@@ -335,8 +335,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void reqGetBooks() {
         OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
-                .cacheTime(12 * 60 * 1000)
-                .cacheKey(Consts.NOVEL_DETAILS_API + "_bookShelf")
+                .cacheTime(8 * 60 * 60 * 1000)
+                .cacheKey(Consts.BOOKRACK_GETLIST_API + "_bookShelf")
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
@@ -353,6 +353,13 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                         data.add(new BookShelfListBean());
                         mAdapter.notifyDataSetChanged();
                     }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
+
                 });
     }
 
@@ -361,6 +368,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void getSpecialBook() {
         OkGo.<String>get(Consts.SPECIAL_BOOK_API)
+                .cacheTime(60 * 60 * 1000)
+                .cacheKey(Consts.SPECIAL_BOOK_API + "_bookShelf")
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {

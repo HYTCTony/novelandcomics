@@ -561,8 +561,7 @@ public abstract class ReadLoader {
         }
 
         //存储到数据库
-        BookRepository.getInstance()
-                .saveBookRecord(mBookRecord);
+        BookRepository.getInstance().saveBookRecord(mBookRecord);
     }
 
     /**

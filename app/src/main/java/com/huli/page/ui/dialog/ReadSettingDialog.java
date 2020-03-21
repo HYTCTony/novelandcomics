@@ -16,6 +16,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.huli.foxread.R;
+import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
+import com.huli.foxread.utils.DensityUtils;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.ui.activity.MoreSettingActivity;
 import com.huli.page.ui.activity.ReadBookActivity;
@@ -137,15 +139,17 @@ public class ReadSettingDialog extends Dialog {
 
     private void setUpAdapter() {
         Drawable[] drawables = {
-                getDrawable(R.color.nb_read_bg_1)
-                , getDrawable(R.color.nb_read_bg_2)
-                , getDrawable(R.color.nb_read_bg_3)
-                , getDrawable(R.color.nb_read_bg_4)
-                , getDrawable(R.color.nb_read_bg_5)};
+                getDrawable(R.drawable.oval_bg_hl_read_1)
+                , getDrawable(R.drawable.oval_bg_hl_read_2)
+                , getDrawable(R.drawable.oval_bg_hl_read_3)
+                , getDrawable(R.drawable.oval_bg_hl_read_4)
+                , getDrawable(R.drawable.oval_bg_hl_read_5)
+                , getDrawable(R.drawable.oval_bg_hl_read_6)};
 
         mPageStyleAdapter = new PageStyleAdapter();
-        mRvBg.setLayoutManager(new GridLayoutManager(getContext(), 5));
+        mRvBg.setLayoutManager(new GridLayoutManager(getContext(), 6));
         mRvBg.setAdapter(mPageStyleAdapter);
+        mRvBg.addItemDecoration(new GridSpacingItemDecoration(6, DensityUtils.dp2px(getContext(), 4), true));
         mPageStyleAdapter.refreshItems(Arrays.asList(drawables));
 
         mPageStyleAdapter.setPageStyleChecked(mPageStyle);

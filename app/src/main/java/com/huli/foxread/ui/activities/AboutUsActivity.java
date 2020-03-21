@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
@@ -17,7 +18,11 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.PackageUtils;
-import com.huli.foxread.utils.Tos;
+import com.huli.page.utils.FileUtils;
+import com.huli.page.utils.TimeUtils;
+import com.kongzue.dialog.v3.MessageDialog;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.beta.UpgradeInfo;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -29,6 +34,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     private TextView btnViewDetail;
     private Button btnUpdate;
     private TextView tvPolicy;
+    StringBuilder info = new StringBuilder();
 
     @Override
     public void initParms(Bundle parms) {
@@ -104,21 +110,60 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         tvPolicy.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
         tvPolicy.setHighlightColor(ContextCompat.getColor(this, R.color.transparent));
         tvPolicy.setText(spannableString);
+        loadUpgradeInfo();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_view_detail:
-                //TODO
-                Tos.showShort(this, "查看详情");
+                String title = "新版本内容";
+                String message = info.toString();
+                if (TextUtils.isEmpty(message)) {
+                    title = "已是最新版本";
+                }
+                MessageDialog.show(AboutUsActivity.this, title, message, "知道了")
+                        .setCancelable(false)
+                        .setOnOkButtonClickListener((baseDialog, v) -> {
+                            baseDialog.doDismiss();
+                            return false;
+                        });
                 break;
             case R.id.btn_update_app_version:
-                //TODO
-                Tos.showShort(this, "更新");
+                /***** 检查更新 *****/
+                Beta.checkUpgrade();
                 break;
             default:
                 break;
         }
     }
+
+    private void loadUpgradeInfo() {
+        if (btnUpdate == null)
+            return;
+
+        /***** 获取升级信息 *****/
+        UpgradeInfo upgradeInfo = Beta.getUpgradeInfo();
+
+        if (upgradeInfo == null) {
+            btnUpdate.setText("已是最新版本");
+            btnUpdate.setBackgroundResource(R.drawable.ripple_round_btn_gradual_bg_grey);
+            return;
+        }
+//        info.append("id: ").append(upgradeInfo.id).append("\n");
+        info.append("标题: ").append(upgradeInfo.title).append("\n");
+        info.append("升级说明: ").append(upgradeInfo.newFeature).append("\n");
+//        info.append("versionCode: ").append(upgradeInfo.versionCode).append("\n");
+        info.append("版本号: ").append(upgradeInfo.versionName).append("\n");
+        info.append("发布时间: ").append(TimeUtils.yyyyMMddHHmmss(upgradeInfo.publishTime)).append("\n");
+//        info.append("安装包Md5: ").append(upgradeInfo.apkMd5).append("\n");
+        info.append("安装包下载地址: ").append(upgradeInfo.apkUrl).append("\n");
+        info.append("安装包大小: ").append(FileUtils.getFileSize(upgradeInfo.fileSize)).append("\n");
+//        info.append("弹窗间隔（ms）: ").append(upgradeInfo.popInterval).append("\n");
+//        info.append("弹窗次数: ").append(upgradeInfo.popTimes).append("\n");
+//        info.append("发布类型: ").append(upgradeInfo.publishType == 0 ? "测试" : "正式").append("\n");
+//        info.append("弹窗类型（1:建议 2:强制 3:手工）: ").append(upgradeInfo.upgradeType);
+
+    }
+
 }

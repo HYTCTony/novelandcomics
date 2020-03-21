@@ -9,7 +9,7 @@ import com.huli.foxread.R;
 
 public class PageStyleHolder extends ViewHolderImpl<Drawable> {
 
-    private View mReadBg;
+    private ImageView mReadBg;
     private ImageView mIvChecked;
 
     @Override
@@ -20,7 +20,7 @@ public class PageStyleHolder extends ViewHolderImpl<Drawable> {
 
     @Override
     public void onBind(Drawable data, int pos) {
-        mReadBg.setBackground(data);
+        mReadBg.setImageDrawable(data);
         mIvChecked.setVisibility(View.GONE);
     }
 

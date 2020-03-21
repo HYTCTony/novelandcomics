@@ -1,20 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
-def spider_man = "1.1.4"
-
 android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.huli.foxread"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 9
-        versionName "1.0.1"
+        versionCode 4
+        versionName "0.1.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a"
+            abiFilters 'armeabi'
+            abiFilters 'arm64-v8a'
         }
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -157,22 +157,22 @@ dependencies {
     // ORM Database
     implementation 'org.greenrobot:greendao:3.2.2'
     // RxJava
-    api 'io.reactivex.rxjava2:rxjava:2.2.0'
-    api 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     //日志
-    api 'com.orhanobut:logger:2.2.0'
+    implementation 'com.orhanobut:logger:2.2.0'
     //注解
-    api 'com.jakewharton:butterknife:10.2.1'
+    implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     //下划线
-    api 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     //弹窗
-    api 'com.lxj:xpopup:1.6.9'
+    implementation 'com.lxj:xpopup:1.6.9'
     //动画
-    api 'com.airbnb.android:lottie:3.0.1'
+    implementation 'com.airbnb.android:lottie:3.0.1'
     //bug监控
     //api 'com.tencent.bugly:crashreport:3.0.0'
-    api 'com.tencent.bugly:crashreport_upgrade:latest.release'
-    api 'com.tencent.bugly:nativecrashreport:latest.release'
-    api "com.simple:spiderman:$spider_man"
+    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    implementation "com.simple:spiderman:1.1.4"
 }
