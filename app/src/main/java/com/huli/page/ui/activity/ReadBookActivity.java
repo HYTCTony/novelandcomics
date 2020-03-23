@@ -503,7 +503,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     private void showSystemBar() {
         //显示
-        SystemBarUtils.showUnStableStatusBar(this);
+        SystemBarUtils.showUnStableNavBar(this);
         if (isFullScreen) {
             SystemBarUtils.showUnStableNavBar(this);
         }

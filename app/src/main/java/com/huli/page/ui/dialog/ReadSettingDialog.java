@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 
 public class ReadSettingDialog extends Dialog {
     private static final String TAG = "ReadSettingDialog";
-    private static final int DEFAULT_TEXT_SIZE = 16;
+    private static final int DEFAULT_TEXT_SIZE = 20;
 
     @BindView(R.id.read_setting_iv_brightness_minus)
     ImageView mIvBrightnessMinus;

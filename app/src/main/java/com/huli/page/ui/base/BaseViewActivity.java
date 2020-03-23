@@ -40,10 +40,10 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(this,
                 null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
         Drawable drawable = a.getDrawable(R.styleable.ActionBar_homeAsUpIndicator);
-        drawable.setColorFilter(white, PorterDuff.Mode.MULTIPLY);
+        drawable.setColorFilter(black, PorterDuff.Mode.MULTIPLY);
         toolbar.setNavigationIcon(drawable);
-        toolbar.setTitleTextColor(white);
-        toolbar.setSubtitleTextColor(white);
+        toolbar.setTitleTextColor(black);
+        toolbar.setSubtitleTextColor(black);
         mContext = this;
         initP();
         initView();

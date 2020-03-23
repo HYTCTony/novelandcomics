@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="300dp"
     android:layout_alignParentBottom="true"
-    android:background="#191919"
+    android:background="@color/hl_read_bg_1"
     android:clickable="true"
     android:orientation="vertical"
     android:paddingLeft="12dp"
@@ -70,7 +70,7 @@
             android:background="@drawable/shape_btn_read_setting_normal"
             android:gravity="center"
             android:text="A -"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/hl_read_font_1"
             android:textSize="14dp" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="50"
-            android:textColor="@color/white"
+            android:textColor="@color/hl_read_font_1"
             android:textSize="14dp" />
 
         <TextView
@@ -92,7 +92,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="A +"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/hl_read_font_1"
             android:textSize="18dp" />
 
         <CheckBox
@@ -137,7 +137,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="覆盖"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/hl_read_font_1"
             android:textSize="14dp" />
 
         <RadioButton
@@ -150,7 +150,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="滑动"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/hl_read_font_1"
             android:textSize="14dp"
             android:visibility="visible" />
 
@@ -164,7 +164,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="滚动"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/hl_read_font_1"
             android:textSize="14dp" />
 
         <RadioButton
@@ -176,7 +176,7 @@
             android:button="@null"
             android:gravity="center"
             android:text="无"
-            android:textColor="#CBCBCB"
+            android:textColor="@color/hl_read_font_1"
             android:textSize="14dp" />
     </RadioGroup>
 
@@ -197,5 +197,5 @@
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:text="更多设置 >>"
-        android:textColor="#CBCBCB" />
+        android:textColor="@color/hl_read_font_1" />
 </LinearLayout>

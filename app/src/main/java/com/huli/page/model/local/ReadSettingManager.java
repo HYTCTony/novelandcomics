@@ -10,7 +10,6 @@ import com.huli.page.widget.page.PageStyle;
  * 阅读器的配置管理
  */
 public class ReadSettingManager {
-    /*************实在想不出什么好记的命名方式。。******************/
     public static final int READ_BG_DEFAULT = 0;
     public static final int READ_BG_1 = 1;
     public static final int READ_BG_2 = 2;
@@ -85,7 +84,7 @@ public class ReadSettingManager {
     }
 
     public int getTextSize() {
-        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(16));
+        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(20));
     }
 
     public boolean isDefaultTextSize() {

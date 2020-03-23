@@ -6,8 +6,8 @@
             <size android:height="1dp" />
 
             <gradient
-                android:endColor="@android:color/darker_gray"
-                android:startColor="@android:color/darker_gray" />
+                android:endColor="@color/hl_read_font_1"
+                android:startColor="@color/hl_read_font_1" />
         </shape>
     </item>
     <item android:id="@android:id/progress">
