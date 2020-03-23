@@ -105,8 +105,6 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void doBusiness(Context mContext) {
-        tvWithdrawalTips.setText("1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功"
-        );
 
         reqMyCapitalDetail();
 

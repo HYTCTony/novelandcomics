@@ -9,9 +9,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.GridSpanSizeLookup;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -39,7 +37,7 @@ import com.huli.foxread.ui.adapters.BooksMultiItemAdapter;
 import com.huli.foxread.ui.base.LazyLoadFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
-import com.huli.foxread.utils.BannerJumpUtil;
+import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
@@ -186,7 +184,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
     public void OnBannerClick(int position) {
         if (bannerDatas != null && bannerDatas.size() > position) {
             BannerADEntity entity = bannerDatas.get(position);
-            BannerJumpUtil.handleBannerJump(mActivity, entity);
+            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump(), entity.getNeed_login());
         }
     }
 

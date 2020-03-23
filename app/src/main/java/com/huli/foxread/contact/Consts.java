@@ -151,14 +151,6 @@ public interface Consts {
     int RANK_BOY = 1;
     int RANK_GIRL = 2;
 
-    /***福利任务跳转判断***/
-    String INVITATION = "Invitation";               //去邀请好友
-    String BE_INVITATION = "be_Invitation";         //填写邀请码
-    String EVERYDAY_READING = "everyday_reading";      //跳到书城
-    String READING = "reading";                     //跳到书城
-    /***福利任务跳转判断***/
-
-
     //*************************Param key******************************
     String D_TOKEN = "token";
     String DATAS = "datas";             //最终的Map参数名

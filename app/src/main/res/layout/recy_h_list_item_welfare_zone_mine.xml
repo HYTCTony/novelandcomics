@@ -15,7 +15,7 @@
         android:id="@+id/ctl_welfare_zone"
         android:layout_width="@dimen/dp_136"
         android:layout_height="@dimen/dp_64"
-        tools:background="#d51">
+        tools:background="#d41">
 
 
         <ImageView

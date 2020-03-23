@@ -1,7 +1,6 @@
 package com.huli.foxread.entity;
 
-public class MineWelfareZoneEntity {
-    private String id;
+public class MineWelfareZoneEntity extends BannerADEntity{
     private String name;
     private String link;
     private String image;
@@ -9,14 +8,6 @@ public class MineWelfareZoneEntity {
     private String gradation_end;
     private int number;
     private String http_image;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

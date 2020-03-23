@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -28,8 +29,12 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AdEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.listeners.OnClickEvent;
+import com.huli.foxread.notchtools.NotchTools;
+import com.huli.foxread.notchtools.core.NotchProperty;
+import com.huli.foxread.notchtools.core.OnNotchCallBack;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
+import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
@@ -52,6 +57,20 @@ public class FrLaunchActivity extends BaseActivity {
     private Button btnSkip;
     private AdEntity adEntity;
     private ImageView ivAdPic;
+
+    @Override
+    protected void setStatusBar() {
+//        StatusBarUtils.setTransparent(this);
+        NotchTools.getFullScreenTools().fullScreenUseStatus(this, new OnNotchCallBack() {
+            @Override
+            public void onNotchPropertyCallback(NotchProperty notchProperty) {
+               /* int marginTop = notchProperty.getMarginTop();
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mBackView.getLayoutParams();
+                layoutParams.topMargin += marginTop;
+                mBackView.setLayoutParams(layoutParams);*/
+            }
+        });
+    }
 
     @Override
     public void initParms(Bundle parms) {

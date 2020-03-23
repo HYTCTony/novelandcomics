@@ -8,9 +8,7 @@ import android.view.View;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.listener.GridSpanSizeLookup;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -40,15 +38,13 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.MultiplePagerAdapter;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
-import com.huli.foxread.utils.BannerJumpUtil;
+import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -57,7 +53,6 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -152,7 +147,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     @Override
     public void setListener() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if(onMoreClick()){
+            if (onMoreClick()) {
                 return;
             }
             BookEntity entity = mAdapter.getData().get(position);
@@ -205,7 +200,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
     public void OnBannerClick(int position) {
         if (bannerDatas != null && bannerDatas.size() > position) {
             BannerADEntity entity = bannerDatas.get(position);
-            BannerJumpUtil.handleBannerJump(mActivity, entity);
+            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump(), entity.getNeed_login());
         }
     }
 
@@ -325,7 +320,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         AttTopSearchAdapter attTopSearchAdapter = new AttTopSearchAdapter(searchNvList);
         rvTopSearch.setAdapter(attTopSearchAdapter);
         attTopSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if(onMoreClick()){
+            if (onMoreClick()) {
                 return;
             }
             SearchEntity entity = attTopSearchAdapter.getData().get(position);
@@ -353,7 +348,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         vpSpt.setOffscreenPageLimit(specialList.size());
         SpecialTopicPagerAdapter stPagerAdapter = new SpecialTopicPagerAdapter(getContext(), specialList);
         stPagerAdapter.setmOnPagerItemClickListener(bookID -> {
-            if(onMoreClick()){
+            if (onMoreClick()) {
                 return;
             }
             Intent intent = new Intent(mActivity, BookDetailsActivity.class);
@@ -395,7 +390,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         HotTodayAdapter hotTodayAdapter = new HotTodayAdapter(rankNvList);
         rvHot.setAdapter(hotTodayAdapter);
         hotTodayAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if(onMoreClick()){
+            if (onMoreClick()) {
                 return;
             }
             BookEntity entity = hotTodayAdapter.getData().get(position);
