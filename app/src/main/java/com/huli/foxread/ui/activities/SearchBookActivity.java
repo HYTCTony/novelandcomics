@@ -26,6 +26,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.HotKeywordBean;
 import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.entity.eventbus.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.SPFUtils;
@@ -34,6 +35,10 @@ import com.kongzue.stacklabelview.StackLabel;
 import com.kongzue.stacklabelview.interfaces.OnLabelClickListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,6 +163,13 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
         reqHotSearchData();
         reqGetHotNovel(curPage + 1);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchRecordEvent(SearchRecordEvent event) {
+        if (!TextUtils.isEmpty(event.getKeyword())) {
+            addHistoryLabel(event.getKeyword());
+        }
     }
 
     @Override

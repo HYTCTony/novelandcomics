@@ -31,6 +31,8 @@ import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.UniqueIdManager;
+import com.kongzue.dialog.interfaces.OnDismissListener;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
@@ -87,8 +89,8 @@ public class FrLaunchActivity extends BaseActivity {
     @Override
     public void doBusiness(Context mContext) {
 
-        //启动页延长显示时间   至少800毫秒 防止一闪而过
-        mHandler.sendEmptyMessageDelayed(9, 1000);
+        //启动页延长显示时间   800毫秒 防止一闪而过
+        mHandler.sendEmptyMessageDelayed(9, 800);
     }
 
     private void start() {
@@ -243,6 +245,18 @@ public class FrLaunchActivity extends BaseActivity {
                         } else if (errorCode == 10001 || errorCode == 10010) {
                             reqAdsFromNet();
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<LzyResponse<FUser>> response) {
+                        super.onError(response);
+                        TipDialog.show(FrLaunchActivity.this, R.string.txt_network_maybe_exceptions, TipDialog.TYPE.ERROR)
+                                .setOnDismissListener(new OnDismissListener() {
+                                    @Override
+                                    public void onDismiss() {
+                                        finish();
+                                    }
+                                });
                     }
                 });
     }

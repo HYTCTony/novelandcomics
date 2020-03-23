@@ -26,6 +26,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
@@ -173,7 +174,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     public void onResume() {
         super.onResume();
         reqGetBooks();
-        getUserReadTime();
+//        getUserReadTime();
     }
 
     @Override
@@ -190,7 +191,12 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         } else {
             mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
         }
-        reqGetBooks();
+//        reqGetBooks();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onReadingTimeEvent(ReadingTimeEvent event) {
+        tvTotalReadingTimeToday.setText(event.getReadMin());
     }
 
 
@@ -388,26 +394,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                     .into(ivookCoverPush);
                             tvBookNamePush.setText(data.getNovel_name());
                             tvBookIntroPush.setText(data.getIntroduce());
-                        } else {
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
-    }
-
-    /**
-     * 获取用户阅读时间
-     */
-    private void getUserReadTime() {
-        OkGo.<String>get(Consts.USER_READ_TIME_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            tvTotalReadingTimeToday.setText(entity.getData());
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }

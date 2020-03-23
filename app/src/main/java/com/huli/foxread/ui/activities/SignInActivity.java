@@ -54,7 +54,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private TextView tvGrpPeopleCount;
     private int signFlag = 0;                   //1是已签到
-    private int getGb;                          //签到能拿的金币
     private int continuousSignInCount = 0;      //连续签到天数
 
     @Override
@@ -181,8 +180,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 });
                         if (entity.error_code == 0) {
                             SignDetailEntity data = entity.getData();
-                            signFlag = data.getFrequency();          //是否已签到标记
-                            getGb = data.getReward();       //签到的奖励
+                            signFlag = data.getFrequency();             //是否已签到标记
+                            int getGb = data.getReward();               //签到获得的金币
                             continuousSignInCount = data.getSign_successions();
 
                             WelfareTaskEntity welfare = data.getWelfare();
@@ -197,7 +196,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             btnSignIn.setEnabled(false);
                             btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
                             btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
-                            btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount + 1)));
+                            btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount)));
 
                             SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
                             spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
@@ -223,8 +222,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
+                        LzyResponse<Integer> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<Integer>>() {
                                 });
                         if (entity.error_code == 0) {
                             signFlag = 1;
@@ -240,6 +239,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             tvTitleSignIn.setText(spanbs);*/
 
+                            int getGb = entity.getData();       //签到的奖励
 
                             //弹窗提示签到成功
                             CustomDialog.show(SignInActivity.this, R.layout.layout_custom_dialog_sign_in_success, (dialog, v) -> {

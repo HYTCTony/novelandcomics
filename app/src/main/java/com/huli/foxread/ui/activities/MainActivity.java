@@ -19,6 +19,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
@@ -29,6 +30,7 @@ import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.ui.fragments.SelectionBookFragment;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -103,6 +105,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     protected void onResume() {
         super.onResume();
         reqMyCapitalDetail();
+        getUserReadTime();
     }
 
     @Override
@@ -265,4 +268,24 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 });
     }
 
+
+    /**
+     * 获取用户阅读时间
+     */
+    private void getUserReadTime() {
+        OkGo.<String>get(Consts.USER_READ_TIME_API)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            EventBus.getDefault().postSticky(new ReadingTimeEvent(entity.getData()));
+                        } else {
+                            TipDialog.show(MainActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
 }

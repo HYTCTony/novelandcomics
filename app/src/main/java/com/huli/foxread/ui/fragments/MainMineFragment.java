@@ -3,7 +3,6 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,12 +15,12 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
+import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
@@ -39,10 +38,8 @@ import com.huli.foxread.ui.activities.WithdrawalActivity;
 import com.huli.foxread.ui.adapters.WelfareZoneMineAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
-import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -146,7 +143,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         super.onResume();
 
         reqMineWelfareZone();
-        getUserReadTime();
+//        getUserReadTime();
     }
 
     @Override
@@ -195,6 +192,12 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     public void onCapitalRefreshEvent(CapitalEntity event) {
         tvMyGoldCoin.setText(String.valueOf(event.getScore()));
         tvTodayGoldCoin.setText(String.valueOf(event.getToday_score()));
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onReadingTimeEvent(ReadingTimeEvent event) {
+        tvTodayReadingTime.setText(event.getReadMin());
     }
 
 
@@ -386,26 +389,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                         if (entity.error_code == 0) {
                             List<MineWelfareZoneEntity> datas = entity.getData();
                             wzAdapter.setNewData(datas);
-                        }
-                    }
-                });
-    }
-
-    /**
-     * 获取用户阅读时间
-     */
-    private void getUserReadTime() {
-        OkGo.<String>get(Consts.USER_READ_TIME_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            tvTodayReadingTime.setText(entity.getData());
-                        } else {
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });

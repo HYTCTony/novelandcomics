@@ -20,11 +20,14 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.eventbus.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -100,15 +103,17 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                 if(onMoreClick()){
                     return;
                 }
-                String keyword = etKeyword.getText().toString().trim();
-                if (TextUtils.isEmpty(keyword)) {
+                keyWord = etKeyword.getText().toString().trim();
+                if (TextUtils.isEmpty(keyWord)) {
                     Tos.showShort(this, R.string.txt_plz_input_keyword);
                     return;
                 }
                 //点击搜索的时候隐藏软键盘
                 hideKeyboard(etKeyword);
-                keyword = keyword.trim();
-                reqCategoryDatas(keyword, true);
+                keyWord = keyWord.trim();
+                reqCategoryDatas(keyWord, true);
+
+                EventBus.getDefault().post(new SearchRecordEvent(keyWord));
                 break;
             default:
                 break;

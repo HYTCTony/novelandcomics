@@ -65,11 +65,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         setListener();
         doBusiness(this);
 
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onResume() {
-        EventBus.getDefault().register(this);
         if (netWorkStateReceiver == null) {
             netWorkStateReceiver = new NetworkConnectChangedReceiver();
         }
@@ -82,13 +82,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        EventBus.getDefault().unregister(this);
         unregisterReceiver(netWorkStateReceiver);
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
