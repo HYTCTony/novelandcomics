@@ -111,11 +111,12 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                                 .setMultipleLines(false)       //是否支持多行输入
                         )
                         .setOnOkButtonClickListener((baseDialog, v1, inputStr) -> {
-                            if (TextUtils.isEmpty(inputStr) || inputStr.length() < 4) {
+                            String name = inputStr.trim();
+                            if (TextUtils.isEmpty(name) || name.length() < 4) {
                                 return true;
                             }
                             //提交请求
-                            reqSetUserProfile(Consts.USERNAME, inputStr);
+                            reqSetUserProfile(Consts.USERNAME, name);
                             return false;
                         });
                 break;

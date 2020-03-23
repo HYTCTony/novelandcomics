@@ -30,7 +30,6 @@ import com.huli.foxread.entity.WelfareIndexEntity;
 import com.huli.foxread.entity.WelfareNewBieTaskEntity;
 import com.huli.foxread.entity.WelfareReadTaskEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
-import com.huli.foxread.entity.eventbus.LoginChangeEvent;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
 import com.huli.foxread.ui.activities.InviteFriendsActivity;
@@ -138,9 +137,9 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId() == R.id.btn_welfare_mission_action) {
                 WelfareReadTaskEntity data = mAdapter.getData().get(position);
-                if (data.getComplete_task() == 0) {
+                if (data.getState() == 0) {
                     ((MainActivity) mActivity).switch2Bookstore();
-                } else {
+                } else if (data.getState() == 1) {
                     reqMissionComplete(data.getId(), data.getSubTaskId());
                 }
             }
@@ -206,7 +205,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         reqTopBannerData();
         reqGetWerfareTasks(false);
 
-        ((MainActivity)mActivity).reqMyCapitalDetail();
+        ((MainActivity) mActivity).reqMyCapitalDetail();
     }
 
     @Override
@@ -289,7 +288,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
                     readMissions.add(new WelfareReadTaskEntity(pTask.getId(), wfSubTaskBean.getName(), pTask.getType(), pTask.getContent(), pTask.getStatus(),
                             pTask.getWelfare_category_id(), wfSubTaskBean.getReward(), pTask.getIs_new_man(), pTask.getFrequency(), pTask.getNumber(),
-                            pTask.getLink(), pTask.getHttp_logo_image(), wfSubTaskBean.getComplete_task(), wfSubTaskBean.getId(), null));
+                            pTask.getLink(), pTask.getHttp_logo_image(), wfSubTaskBean.getComplete_task(), wfSubTaskBean.getId(), wfSubTaskBean.getState(), null));
                 }
             } else {
                 pTask.setTask(null);
@@ -306,6 +305,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             mAdapter.addHeaderView(headViewDaily);
             rvDaily = $(headViewDaily, R.id.recyclerView_daily_mission_welfare);
             rvDaily.setLayoutManager(new LinearLayoutManager(mActivity));
+            rvDaily.setNestedScrollingEnabled(false);
         }
         WelfareMissionAdapter dailyAdapter = new WelfareMissionAdapter();
         rvDaily.setAdapter(dailyAdapter);
@@ -331,6 +331,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             mAdapter.addHeaderView(headViewNewBie);
             rvNewbie = $(headViewNewBie, R.id.recyclerView_newbie_task_welfare);
             rvNewbie.setLayoutManager(new LinearLayoutManager(mActivity));
+            rvNewbie.setNestedScrollingEnabled(false);
         }
         WelfareMissionAdapter mNewbieAdapter = new WelfareMissionAdapter();
         rvNewbie.setAdapter(mNewbieAdapter);
@@ -379,9 +380,9 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             for (int i = 0; i < 7; i++) {
                 StepBean stepBean;
                 if (i < completeSum) {
-                    stepBean = new StepBean(String.format(getString(R.string.txt_day_x), i + 1), StepBean.STEP_COMPLETED);
+                    stepBean = new StepBean(String.format(getResources().getString(R.string.txt_day_x), i + 1), StepBean.STEP_COMPLETED);
                 } else {
-                    stepBean = new StepBean(String.format(getString(R.string.txt_day_x), i + 1), StepBean.STEP_UNDO);
+                    stepBean = new StepBean(String.format(getResources().getString(R.string.txt_day_x), i + 1), StepBean.STEP_UNDO);
                 }
                 stepsBeanList.add(stepBean);
             }
@@ -457,8 +458,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                                 btnSignInNow.setBackgroundResource(R.drawable.shape_btn_semicircle_bg_disabled);
                             }
                             if (!UserInfoCache.getIsVisitor(mActivity)) {
-                                tvGoldCoinCount.setText(setNumColor(mActivity, String.format(getString(R.string.txt_today_signin_add_goldcoin_x), normalSignInTask.getReward())));
-                                tvSignInCount.setText(setNumColor(mActivity, String.format(getString(R.string.txt_continuous_sign_in_day_x), normalSignInTask.getSign_successions())));
+                                tvGoldCoinCount.setText(setNumColor(mActivity, String.format(getResources().getString(R.string.txt_today_signin_add_goldcoin_x), normalSignInTask.getReward())));
+                                tvSignInCount.setText(setNumColor(mActivity, String.format(getResources().getString(R.string.txt_continuous_sign_in_day_x), normalSignInTask.getSign_successions())));
                             } else {
                                 tvGoldCoinCount.setText(null);
                                 tvSignInCount.setText(null);

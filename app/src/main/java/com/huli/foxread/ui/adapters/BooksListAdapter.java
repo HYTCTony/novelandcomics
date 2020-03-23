@@ -27,7 +27,6 @@ public class BooksListAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolde
         helper.setText(R.id.tv_book_author_pen_name, item.getAuthor());
         helper.setText(R.id.tv_book_word_count, UnitConverUtil.formatNumUnit(getContext(), item.getWord(), R.string.unit_word_w));
 
-//        helper.setText(R.id.tv_book_tag, "热血");
         List<String> tags = item.getTag();
         if (tags != null && tags.size() > 0) {
             helper.setVisible(R.id.tv_book_tag, true);

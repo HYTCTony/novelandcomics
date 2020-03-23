@@ -15,6 +15,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
 import com.huli.foxread.ui.adapters.WithdrawalMoneyAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -185,6 +186,7 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
+                            reqMyCapitalDetail();
                             MessageDialog.show(WithdrawalRMBActivity.this, getString(R.string.txt_withdrawal_success_title),
                                     DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
                                     .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
@@ -199,4 +201,23 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
                 });
     }
 
+
+    /**
+     * 我的资金详情
+     */
+    public void reqMyCapitalDetail() {
+        OkGo.<String>get(Consts.USER_CAPITAL_API)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<CapitalEntity>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            CapitalEntity data = entity.getData();
+                            tvBalance.setText(df.format(data.getMoney()));
+                        }
+                    }
+                });
+    }
 }

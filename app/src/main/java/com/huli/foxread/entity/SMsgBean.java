@@ -1,40 +1,60 @@
 package com.huli.foxread.entity;
 
-public class SMsgBean {
-    private int id;
-    private String name;
-    private String http_image;
-    private String content;
+import com.huli.foxread.ui.activities.SMsgPmiBean;
 
-    public int getId() {
+public class SMsgBean {
+    private String id;
+    private String message_id;
+    private String user_id;
+    private int status;
+    private long createtime;
+    private SMsgPmiBean profileMessageIssue;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getMessage_id() {
+        return message_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMessage_id(String message_id) {
+        this.message_id = message_id;
     }
 
-    public String getHttp_image() {
-        return http_image;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setHttp_image(String http_image) {
-        this.http_image = http_image;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getContent() {
-        return content;
+    public int getStatus() {
+        return status;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(long createtime) {
+        this.createtime = createtime;
+    }
+
+    public SMsgPmiBean getProfileMessageIssue() {
+        return profileMessageIssue;
+    }
+
+    public void setProfileMessageIssue(SMsgPmiBean profileMessageIssue) {
+        this.profileMessageIssue = profileMessageIssue;
     }
 }

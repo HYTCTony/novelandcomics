@@ -8,6 +8,7 @@ public class ReadSubTaskBean {
     private int duration;
     private String name;
     private int reward;
+    private int state;              //0去阅读，1可完成，2已完成
     private int complete_task;
 
     public String getId() {
@@ -26,6 +27,14 @@ public class ReadSubTaskBean {
         this.duration = duration;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getReward() {
         return reward;
     }
@@ -34,12 +43,12 @@ public class ReadSubTaskBean {
         this.reward = reward;
     }
 
-    public String getName() {
-        return name;
+    public int getState() {
+        return state;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setState(int state) {
+        this.state = state;
     }
 
     public int getComplete_task() {

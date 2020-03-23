@@ -1,14 +1,17 @@
 package com.huli.foxread.ui.adapters;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.SMsgBean;
+import com.huli.foxread.ui.activities.SMsgPmiBean;
+import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
 
 import androidx.annotation.NonNull;
 
-public class MsgNotifyAdapter extends BaseQuickAdapter<SMsgBean, BaseViewHolder> {
+public class MsgNotifyAdapter extends BaseQuickAdapter<SMsgBean, BaseViewHolder> implements LoadMoreModule {
 
 
     public MsgNotifyAdapter() {
@@ -17,10 +20,11 @@ public class MsgNotifyAdapter extends BaseQuickAdapter<SMsgBean, BaseViewHolder>
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, SMsgBean item) {
-        GlideUtil.loadCircle(getContext(), holder.findView(R.id.iv_sender_headImg), item.getHttp_image());
-        holder.setText(R.id.tv_sender_nickname, item.getName());
-        holder.setText(R.id.tv_msg_content, "一代仙君为天道不容，强行超脱之...");
-        holder.setText(R.id.tv_msg_send_time, "20:26");
-        holder.setText(R.id.tv_sub_msg_count, "12");
+        SMsgPmiBean issue = item.getProfileMessageIssue();
+        GlideUtil.loadCircle(getContext(), holder.findView(R.id.iv_sender_headImg), issue.getHttp_image());
+        holder.setText(R.id.tv_sender_nickname, issue.getName());
+        holder.setText(R.id.tv_msg_content, issue.getContent());
+        holder.setText(R.id.tv_msg_send_time, DateTimeUtil.formatDateTime(item.getCreatetime(), DateTimeUtil.DF_YYYY_MM_DD_HH_MM));
+//        holder.setText(R.id.tv_sub_msg_count, "12");
     }
 }

@@ -46,21 +46,22 @@ public class TransparencyActivity extends BaseActivity {
         MessageDialog.build(this)
                 .setTitle(R.string.txt_login_expired)
                 .setMessage(R.string.txt_plz_log_in_again)
-                .setOnOkButtonClickListener(new OnDialogButtonClickListener() {
-                    @Override
-                    public boolean onClick(BaseDialog baseDialog, View v) {
-                        Intent intent = new Intent(TransparencyActivity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        finish();
-                        return false;
-                    }
+                .setOkButton("去登陆")
+                .setCancelButton("算了")
+                .setOnOkButtonClickListener((baseDialog, v) -> {
+                    Intent intent = new Intent(TransparencyActivity.this, LoginActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                    return false;
                 })
-                .setCancelable(false).setOnBackClickListener(() -> true).show();
+                .setOnCancelButtonClickListener((baseDialog, v) -> {
+                    finish();
+                    return false;
+                })
+                .setCancelable(false)
+                .setOnBackClickListener(() -> true)
+                .show();
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
 }

@@ -389,7 +389,7 @@ public interface Func {
     String WELFARE_USERLIST = "/welfare/userlist";
 
     /**
-     * 用途：普通签到详情(GET)
+     * 用途：普通   签到详情(GET)
      * 头：token---token(Y)
      * 参数：
      */

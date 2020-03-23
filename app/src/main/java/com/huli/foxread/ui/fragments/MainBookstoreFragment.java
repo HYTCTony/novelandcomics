@@ -18,11 +18,12 @@ import com.huli.foxread.utils.StatusBarUtils;
 import java.util.ArrayList;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 public class MainBookstoreFragment extends BaseFragment implements OnTabSelectListener {
 
-    private SlidingTabLayout slidingTabLayout;
+    public SlidingTabLayout slidingTabLayout;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments = new ArrayList<>();
 

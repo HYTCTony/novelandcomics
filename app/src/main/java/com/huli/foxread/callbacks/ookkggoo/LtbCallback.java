@@ -44,12 +44,6 @@ public abstract class LtbCallback extends StringCallback {
     }
 
     @Override
-    public void onError(Response<String> response) {
-        super.onError(response);
-        Tos.showShort(mContext, R.string.txt_network_maybe_exceptions);
-    }
-
-    @Override
     public void onFinish() {
         super.onFinish();
         dismissLoadingDialog();

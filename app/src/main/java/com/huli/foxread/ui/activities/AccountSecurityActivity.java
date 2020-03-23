@@ -40,6 +40,9 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
         tvAccountId = $(R.id.tv_user_account_id);
         tvTelNum = $(R.id.tv_user_cellphone_number);
         tvWechatBindingState = $(R.id.tv_user_wechat_binding_state);
+
+
+        findViewById(R.id.tv_asBtn_account_security).setVisibility(View.GONE);
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.GoldCoinInfoBean;
+import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
 import com.huli.foxread.ui.adapters.WithdrawalGoldAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -24,9 +24,9 @@ import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -105,12 +105,10 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void doBusiness(Context mContext) {
-//        tvExchangeYuan.setText((0 + getString(R.string.unit_yuan)));
-
         tvWithdrawalTips.setText("1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功\n1、微信提现步骤：选择提现金额---微信授权---提现成功"
         );
 
-        reqMyGoldCoinInfo();
+        reqMyCapitalDetail();
 
         reqWithdrawalCombo();
     }
@@ -185,6 +183,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                                     DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
                                     .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
                                     });
+                            reqMyCapitalDetail();
                         } else if (entity.error_code == 10003) {
                             Tos.showShort(WithdrawalActivity.this, entity.msg);
                             startActivityForResult(new Intent(WithdrawalActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
@@ -197,22 +196,30 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
 
     /**
-     * 获取金币信息
+     * 我的资金详情
      */
-    private void reqMyGoldCoinInfo() {
-        OkGo.<String>get(Consts.GOLD_COIN_INFO_API)
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-                .cacheTime(5 * 60 * 1000)
+    public void reqMyCapitalDetail() {
+        OkGo.<String>get(Consts.USER_CAPITAL_API)
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<GoldCoinInfoBean> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<GoldCoinInfoBean>>() {
+                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<CapitalEntity>>() {
                                 });
                         if (entity.error_code == 0) {
-                            GoldCoinInfoBean data = entity.getData();
-                            tvGoldBalance.setText(String.valueOf(data.getScore()));
-                            tvExchangeYuan.setText((data.getScore_money() + getString(R.string.unit_yuan)));
+                            CapitalEntity data = entity.getData();
+
+                            int goldCoinBalance = data.getScore();
+                            tvGoldBalance.setText(String.valueOf(goldCoinBalance));
+
+                            double exchangeMoney;       //金币余额转换RMB
+                            try {
+                                exchangeMoney = (double) goldCoinBalance / data.getProportion();
+                            } catch (Exception e) {
+                                exchangeMoney = 0;
+                            }
+                            DecimalFormat df = new DecimalFormat("#######.##" + getString(R.string.unit_yuan));
+                            tvExchangeYuan.setText(df.format(exchangeMoney));
                         }
                     }
                 });

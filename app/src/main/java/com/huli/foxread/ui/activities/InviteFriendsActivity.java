@@ -57,6 +57,8 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
     //获取剪贴板管理器：
     private ClipboardManager cm;
 
+    private boolean isInit = true;
+
     @Override
     protected void setStatusBar() {
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.transparent), 0);
@@ -117,9 +119,13 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
     public void doBusiness(Context mContext) {
         tvInviteCode.setText(UserInfoCache.getDistribution(mContext));
 
-        reqInviteFriendsInfo();
-
         cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reqInviteFriendsInfo(isInit);
     }
 
     @Override
@@ -142,6 +148,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.btn_immediately_invite:
                 //TODO 立即邀请
+                Tos.showShort(this, "立即邀请");
                 break;
             default:
                 break;
@@ -207,9 +214,10 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
     /**
      * 邀请好友页面信息
      */
-    private void reqInviteFriendsInfo() {
+    private void reqInviteFriendsInfo(boolean showDialog) {
+        isInit = false;
         OkGo.<String>get(Consts.WELFARE_INVITE_API)
-                .execute(new LtbCallback(this) {
+                .execute(new LtbCallback(this, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<InviteFriendsPageBean> entity = JSONObject.parseObject(response.body(),

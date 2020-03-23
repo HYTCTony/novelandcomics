@@ -1,10 +1,14 @@
 package com.huli.foxread.entity;
 
+/**
+ * 我的资产
+ */
 public class CapitalEntity {
     private int score;
     private int today_score;
     private int score_sum;
     private double money;
+    private int proportion;     //金币兑换RMB比例  ： 如1000就是1000金币兑换1RMB
 
     public int getScore() {
         return score;
@@ -36,5 +40,13 @@ public class CapitalEntity {
 
     public void setMoney(double money) {
         this.money = money;
+    }
+
+    public int getProportion() {
+        return proportion;
+    }
+
+    public void setProportion(int proportion) {
+        this.proportion = proportion;
     }
 }

@@ -53,11 +53,6 @@ public abstract class LtbJsonCallback<T> extends AbsCallback<T> {
         showLoadingDialog();
     }
 
-    @Override
-    public void onError(com.lzy.okgo.model.Response<T> response) {
-        super.onError(response);
-        Tos.showShort(mContext, R.string.txt_network_maybe_exceptions);
-    }
 
     @Override
     public void onFinish() {

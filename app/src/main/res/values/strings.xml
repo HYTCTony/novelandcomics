@@ -1,5 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">狐狸小说</string>
+    <string name="app_name">一起看书</string>
+
+    <string name="txt_huli_culture_literature">狐狸文化&#8195;文学作品</string>
 
     <string name="rule_id_card_Num">0123456789Xx</string>
     <string name="loading">加载中&#8230;</string>
@@ -13,12 +15,13 @@
     <string name="txt_reconnection">重新连接</string>
     <string name="txt_plz_select_a_pic">请选择一张图片</string>
     <string name="txt_say_hi">Hi小说萌新</string>
-    <string name="txt_login_success">登录成功！</string>
+    <string name="txt_login_success">登录成功</string>
 
+    <string name="txt_develop_more_filters">展开更多筛选</string>
     <string name="tips_copy_success">复制成功，快去分享吧！</string>
 
     <string name="txt_login_expired">登录已过期</string>
-    <string name="txt_plz_log_in_again">登录已过期</string>
+    <string name="txt_plz_log_in_again">请重新登录</string>
 
     <string name="txt_opening">正在打开&#8230;</string>
 
@@ -46,7 +49,6 @@
     <string name="txt_unbind">未绑定</string>
     <string name="txt_has_been_bind">已绑定</string>
 
-
     <string name="txt_bind_bankcard">绑定银行卡</string>
     <string name="txt_submit_2_bind">提交绑定</string>
 
@@ -72,7 +74,6 @@
 
     <string name="txt_recommend">推荐</string>
     <string name="txt_day_x">第%1$d天</string>
-
 
     <string name="txt_today">今天</string>
 

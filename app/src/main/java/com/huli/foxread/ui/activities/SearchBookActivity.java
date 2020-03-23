@@ -26,6 +26,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.HotKeywordBean;
 import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.entity.eventbus.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.SPFUtils;
@@ -34,6 +35,10 @@ import com.kongzue.stacklabelview.StackLabel;
 import com.kongzue.stacklabelview.interfaces.OnLabelClickListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,15 +154,27 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     @Override
     public void doBusiness(Context mContext) {
         List<String> historySearchList = getHistorySearchSp(mContext, Common.SPFKEY_SEARCH_HISTORY);
-        sLabelHistory.setLabels(historySearchList);
+        if (historySearchList != null && historySearchList.size() > 0) {
+            sLabelHistory.setVisibility(View.VISIBLE);
+            sLabelHistory.setLabels(historySearchList);
+        } else {
+            sLabelHistory.setVisibility(View.GONE);
+        }
 
         reqHotSearchData();
         reqGetHotNovel(curPage + 1);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSearchRecordEvent(SearchRecordEvent event) {
+        if (!TextUtils.isEmpty(event.getKeyword())) {
+            addHistoryLabel(event.getKeyword());
+        }
+    }
+
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if(onMoreClick()){
+        if (onMoreClick()) {
             return;
         }
         BookEntity entity = mAdapter.getData().get(position);
@@ -171,15 +188,14 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_search:
-                if(onMoreClick()){
+                if (onMoreClick()) {
                     return;
                 }
-                String keyword = etKeyword.getText().toString();
+                String keyword = etKeyword.getText().toString().trim();
                 if (TextUtils.isEmpty(keyword)) {
                     Tos.showShort(this, R.string.txt_plz_input_keyword);
                     return;
                 }
-                keyword = keyword.trim();
 
                 addHistoryLabel(keyword);
                 //点击搜索的时候隐藏软键盘
@@ -212,7 +228,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     private void clearHistoryLabel() {
         sLabelHistory.setLabels(new ArrayList<>());
-//        sLabelHistory.setVisibility(View.GONE);
+        sLabelHistory.setVisibility(View.GONE);
     }
 
     private void addHistoryLabel(String keyword) {
@@ -221,9 +237,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             return;
         }
         sLabelHistory.addLabel(keyword);
-        if (sLabelHistory.getVisibility() != View.VISIBLE) {
-            sLabelHistory.setVisibility(View.VISIBLE);
-        }
+        sLabelHistory.setVisibility(View.VISIBLE);
         saveHistorySearchSp(this, Common.SPFKEY_SEARCH_HISTORY, sLabelHistory.getLabels());
     }
 

@@ -19,14 +19,18 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
+import com.huli.foxread.ui.fragments.SelectionBookFragment;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -35,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -100,6 +105,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     protected void onResume() {
         super.onResume();
         reqMyCapitalDetail();
+        getUserReadTime();
     }
 
     @Override
@@ -109,7 +115,26 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void onTabReselect(int position) {
+        if (position == 0) {
+            try {
+                MainBookstoreFragment bookStoreFrag = (MainBookstoreFragment) getSupportFragmentManager().getFragments().get(position);
+                int currentTab = bookStoreFrag.slidingTabLayout.getCurrentTab();
+                Fragment fragment = bookStoreFrag.getChildFragmentManager().getFragments().get(currentTab);
+                if (fragment instanceof SelectionBookFragment) {
+                    SelectionBookFragment selectionBookFrag = (SelectionBookFragment) fragment;
+                    if (selectionBookFrag.recyclerView.canScrollVertically(-1)) {           //判断RecyclerView是否在顶部
+                        selectionBookFrag.recyclerView.smoothScrollToPosition(0);
+                    }
+                } else if (fragment instanceof BookStoreBoyFragment) {
+                    BookStoreBoyFragment bsbFrag = (BookStoreBoyFragment) fragment;
+                    if (bsbFrag.recyclerView.canScrollVertically(-1)) {                     //判断RecyclerView是否在顶部
+                        bsbFrag.recyclerView.smoothScrollToPosition(0);
+                    }
+                }
+            } catch (Exception e) {
 
+            }
+        }
     }
 
     /**
@@ -243,4 +268,24 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 });
     }
 
+
+    /**
+     * 获取用户阅读时间
+     */
+    private void getUserReadTime() {
+        OkGo.<String>get(Consts.USER_READ_TIME_API)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            EventBus.getDefault().postSticky(new ReadingTimeEvent(entity.getData()));
+                        } else {
+                            TipDialog.show(MainActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
 }

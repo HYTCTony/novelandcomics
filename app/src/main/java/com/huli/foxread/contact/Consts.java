@@ -103,7 +103,6 @@ public interface Consts {
     /*提现*/
 
     /*我的金币相关*/
-    String GOLD_COIN_INFO_API = NOT_CPL_URL + Func.GOLD_COIN_INFO;
     String GOLD_EARNINGS_LIST_API = NOT_CPL_URL + Func.GOLD_EARNINGS_LIST;
     /*我的金币相关*/
     //绑银行卡

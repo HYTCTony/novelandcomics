@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/col_yellow_ffcc02" />
-    <item android:bottom="@dimen/dp_72">
+    <item android:drawable="@drawable/bg_splash_launch" />
+    <item android:top="@dimen/dp_128">
         <bitmap
-            android:gravity="center_horizontal"
+            android:gravity="center_horizontal|top"
             android:scaleType="centerCrop"
             android:src="@mipmap/splash_center_startpage"
             android:tileMode="disabled" />
     </item>
-
-    <item android:bottom="@dimen/dp_56">
-        <bitmap
-            android:gravity="bottom"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/splash_logo_tt"
-            android:tileMode="disabled" />
-    </item>
-
 </layer-list>

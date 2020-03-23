@@ -18,6 +18,7 @@
         app:labelBackground="@color/transparent"
         app:minSelectNum="1"
         app:layout_constraintTop_toTopOf="parent"
+        app:maxLines="3"
         app:maxSelectNum="1"
         app:paddingHorizontal="@dimen/dp_8"
         app:paddingVertical="@dimen/dp_4"
@@ -41,6 +42,7 @@
         android:id="@+id/stackLabelView_filter_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:maxLines="3"
         app:deleteButton="false"
         app:itemMargin="@dimen/dp_6"
         app:labelBackground="@color/transparent"
@@ -61,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_8"
-        android:text="展开更多筛选"
+        android:text="@string/txt_develop_more_filters"
         app:layout_constraintBottom_toBottomOf="@+id/stackLabelView_filter_2"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/stackLabelView_filter_2" />
@@ -71,8 +73,8 @@
         android:id="@+id/ll_more_filter_layout"
         app:layout_constraintTop_toBottomOf="@+id/stackLabelView_filter_2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:visibility="gone"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <View
@@ -94,6 +96,7 @@
             app:maxSelectNum="1"
             app:minSelectNum="1"
             app:paddingHorizontal="@dimen/dp_8"
+            app:maxLines="3"
             app:paddingVertical="@dimen/dp_4"
             app:selectBackground="@drawable/shape_btn_bg_semicircle_border_red"
             app:selectMode="true"
@@ -121,6 +124,7 @@
             app:maxSelectNum="1"
             app:minSelectNum="1"
             app:paddingHorizontal="@dimen/dp_8"
+            app:maxLines="3"
             app:paddingVertical="@dimen/dp_4"
             app:selectBackground="@drawable/shape_btn_bg_semicircle_border_red"
             app:selectMode="true"

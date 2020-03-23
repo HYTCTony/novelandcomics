@@ -19,7 +19,7 @@ public class InvitedFriendsAdapter extends BaseQuickAdapter<InvitedFriendInfo, B
     @Override
     protected void convert(@NonNull BaseViewHolder holder, InvitedFriendInfo data) {
         holder.setText(R.id.tv_username_friend, data.getProfileUser().getUsername());
-        holder.setText(R.id.tv_invited_time_friend, DateTimeUtil.formatDateTime(data.getCreatetime()));
+        holder.setText(R.id.tv_invited_time_friend, DateTimeUtil.formatDateTime(data.getCreatetime() * 1000));
         GlideUtil.loadCircle(getContext(), holder.getView(R.id.iv_headImg_friend), data.getProfileUser().getHttp_avatar());
     }
 }

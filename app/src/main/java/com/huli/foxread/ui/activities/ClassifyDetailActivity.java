@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
@@ -37,7 +38,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ClassifyDetailActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener {
+public class ClassifyDetailActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener, OnLoadMoreListener {
 
     private RecyclerView recyclerView;
     private BooksListAdapter mAdapter;
@@ -121,9 +122,12 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
         stackLabel_2.setSelectMode(true, stack2Datas.subList(0, 1));
         stackLabel_3.setSelectMode(true, stack3Datas.subList(0, 1));
         stackLabel_4.setSelectMode(true, stack4Datas.subList(0, 1));
-        tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, stack4Datas.get(0)));
+        filter4Str = stack4Datas.get(0);
+        tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, filter4Str));
 
     }
+
+    private String filter4Str = "";
 
     @Override
     public void setListener() {
@@ -134,15 +138,20 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
         stackLabel_1.setOnLabelClickListener((index, v, s) -> {
 //                Log.e(TAG, "1***选中===" + s + "----" + index);
-            if (index == 0) {
-                isParent = 1;
-                subCatID = pCatId;
-            } else {
-                if (datas != null && datas.size() > index) {
+            if (index > 0) {
+                if (datas != null && datas.size() >= index) {
+                    tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), s, filter4Str));
+
                     isParent = 0;
-                    subCatID = datas.get(index).getId();
+                    subCatID = datas.get(index - 1).getId();
                 }
+            } else {
+                tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, filter4Str));
+
+                subCatID = pCatId;
+                isParent = 1;
             }
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             paramCurPage = 0;
             reqCategoryDatas(false);
         });
@@ -151,20 +160,24 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 //                Log.e(TAG, "2***选中===" + s + "----" + index);
             paramIsEnd = index;
             paramCurPage = 0;
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             reqCategoryDatas(false);
         });
         stackLabel_3.setOnLabelClickListener((index, v, s) -> {
 //                Log.e(TAG, "3***选中===" + s + "----" + index);
             paramWordsNum = index;
             paramCurPage = 0;
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             reqCategoryDatas(false);
         });
         stackLabel_4.setOnLabelClickListener((index, v, s) -> {
 //                Log.e(TAG, "4***选中===" + s + "----" + index);
-            tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, s));
+            filter4Str = s;
+            tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, filter4Str));
 
             paramStatus = index + 1;
             paramCurPage = 0;
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             reqCategoryDatas(false);
         });
 
@@ -173,7 +186,9 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
         ivCoverThird.setOnClickListener(this);
 
         mAdapter.setOnItemClickListener(this);
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(this);
     }
+
 
     @Override
     public void doBusiness(Context mContext) {
@@ -212,6 +227,12 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
 
     @Override
+    public void onLoadMore() {
+        reqCategoryDatas(false);
+    }
+
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_top3_bookCover_first:
@@ -229,7 +250,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
 
     @Override
-    public void onItemClick(BaseQuickAdapter  adapter, View view, int position) {
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
