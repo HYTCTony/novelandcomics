@@ -1,14 +1,11 @@
 package com.huli.foxread.callbacks.ookkggoo;
 
-import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.ui.dialogs.LoadingDialog;
 import com.huli.foxread.ui.dialogs.base.BaseDialog;
-import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,7 +35,7 @@ public abstract class LtbCallback extends StringCallback {
         reqTag = request.getTag();
 
 //        request.headers(Consts.VER, PackageUtils.getVersionName(mContext));
-        request.headers(Consts.TOKEN, UserInfoCache.getToken(mContext));
+        request.headers(Consts.TOKEN, TokenCache.getToken(mContext));
 
         showLoadingDialog();
     }

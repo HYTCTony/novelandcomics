@@ -174,7 +174,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     public void onResume() {
         super.onResume();
         reqGetBooks();
-//        getUserReadTime();
     }
 
     @Override
@@ -315,8 +314,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     }
 
     /**
-     * @param novelIds ["56","32","99","5","796"]
-     * @param novelIds List也行
+     * 删除书架书籍
      */
     private void reqDelBooks(String novelIds) {
         OkGo.<String>post(Consts.BOOKRACK_DEL_API)

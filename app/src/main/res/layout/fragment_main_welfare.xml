@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/smartRefreshLayout_welfare"
-    android:background="@color/color_f2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_f2">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -88,11 +88,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
                     android:layout_marginTop="@dimen/dp_180"
-                    app:layout_collapseMode="parallax"
                     android:layout_marginEnd="@dimen/dp_16"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="@dimen/dp_8"
-                    app:cardElevation="@dimen/dp_0">
+                    app:cardElevation="@dimen/dp_0"
+                    app:layout_collapseMode="parallax">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -114,24 +114,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_8"
-                            android:hint="@string/hint_not_logged_in"
                             android:textColorHint="@color/txt_black"
                             android:textSize="@dimen/sp_14"
                             app:layout_constraintBottom_toTopOf="@+id/tv_continuous_sign_in_count"
                             app:layout_constraintLeft_toRightOf="@+id/iv_welfare_login_icon"
-                            app:layout_constraintTop_toTopOf="@+id/iv_welfare_login_icon" />
+                            app:layout_constraintTop_toTopOf="@+id/iv_welfare_login_icon"
+                            tools:text="@string/hint_not_logged_in" />
 
                         <TextView
                             android:id="@+id/tv_continuous_sign_in_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/dp_8"
-                            android:hint="@string/hint_login_2_get_welfare"
                             android:textColorHint="@color/txt_gray"
                             android:textSize="@dimen/sp_10"
                             app:layout_constraintBottom_toBottomOf="@+id/iv_welfare_login_icon"
                             app:layout_constraintLeft_toRightOf="@+id/iv_welfare_login_icon"
-                            app:layout_constraintTop_toBottomOf="@+id/tv_gold_coin_count_today_sign_in" />
+                            app:layout_constraintTop_toBottomOf="@+id/tv_gold_coin_count_today_sign_in"
+                            tools:text="@string/hint_login_2_get_welfare" />
 
                         <TextView
                             android:id="@+id/tv_asBtn_sign_in_now"

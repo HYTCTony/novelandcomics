@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.SignDetailEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
 import com.huli.foxread.ui.adapters.WeekSignInStateAdapter;
@@ -29,6 +29,10 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -123,8 +127,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void doBusiness(Context mContext) {
-        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
-        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
+//        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
+//        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
 
         /*taskProgressBar.setCurProgress(5, 200);
         taskProgressBar.setMaxProgress(10);
@@ -147,6 +151,13 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         reqSignIn();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onCapitalRefreshEvent(CapitalEntity event) {
+        tvMyGoldCoin.setText(String.valueOf(event.getScore()));
+        tvTodayGoldCoin.setText(String.valueOf(event.getToday_score()));
+    }
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -168,11 +179,33 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
 
     /**
+     * 我的资金详情
+     */
+    public void reqMyCapitalDetail() {
+        OkGo.<String>get(Consts.USER_CAPITAL_API)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<CapitalEntity>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            CapitalEntity data = entity.getData();
+
+                            tvMyGoldCoin.setText(String.valueOf(data.getScore()));
+                            tvTodayGoldCoin.setText(String.valueOf(data.getToday_score()));
+                        }
+                    }
+                });
+    }
+
+
+    /**
      * 获取签到详情
      */
     private void getSignInInfo() {
         OkGo.<String>get(Consts.WELFARE_SIGNIN_API)
-                .execute(new LtbCallback(this) {
+                .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<SignDetailEntity> entity = JSONObject.parseObject(response.body(),
@@ -248,8 +281,13 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
                                 v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
                             });
+                            reqMyCapitalDetail();
                         }
+                    }
 
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
                         getSignInInfo();
                     }
                 });

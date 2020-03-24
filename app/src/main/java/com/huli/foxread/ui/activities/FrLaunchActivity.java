@@ -1,6 +1,5 @@
 package com.huli.foxread.ui.activities;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -13,7 +12,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -21,6 +19,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
@@ -28,15 +27,14 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AdEntity;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.notchtools.NotchTools;
 import com.huli.foxread.notchtools.core.NotchProperty;
 import com.huli.foxread.notchtools.core.OnNotchCallBack;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
-import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.UniqueIdManager;
-import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -49,9 +47,6 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class FrLaunchActivity extends BaseActivity {
-
-    private static final String[] PHONE_STATE = {Manifest.permission.READ_PHONE_STATE};
-    private static final int RC_PHONE_STATE_PERM = 124;
 
     private ConstraintLayout layoutAdvertising;
     private Button btnSkip;
@@ -114,7 +109,7 @@ public class FrLaunchActivity extends BaseActivity {
 
     private void start() {
         //token为空 判定为APP安装后第一次登录，反之。
-        String token = UserInfoCache.getToken(this);
+        String token = TokenCache.getToken(this);
 
         if (!TextUtils.isEmpty(token)) {
             if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
@@ -178,63 +173,6 @@ public class FrLaunchActivity extends BaseActivity {
     }
 
 
-
-   /* @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }
-
-
-    private boolean hasReadPhoneStatePermissions() {
-        return EasyPermissions.hasPermissions(this, PHONE_STATE);
-    }
-
-
-
-    @AfterPermissionGranted(RC_PHONE_STATE_PERM)
-    public void readPhoneStateTask() {
-        if (hasReadPhoneStatePermissions()) {
-            if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
-                reqInitUserInfo();
-            } else {
-                goMain();
-            }
-        } else {
-            // Ask for both permissions
-            EasyPermissions.requestPermissions(this, getString(R.string.rationale_phone_state), RC_PHONE_STATE_PERM, PHONE_STATE);
-        }
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        Log.e(TAG, "权限授予");
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        // (Optional) Check whether the user denied any permissions and checked "NEVER ASK AGAIN."
-        // This will display a dialog directing them to enable the permission in app settings.
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this).build().show();
-        }
-        //TODO 弹出提示框不给权限(不能取消)-----点确定----退出
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-            String yes = getString(R.string.yes);
-            String no = getString(R.string.no);
-            // Do something after user returned from app settings screen, like showing a Toast.
-            TipDialog.show(this, R.string.txt_no_relevant_permission, TipDialog.TYPE.ERROR);
-        }
-    }
-*/
-
     /**
      * 获取用户信息
      */
@@ -270,12 +208,7 @@ public class FrLaunchActivity extends BaseActivity {
                     public void onError(Response<LzyResponse<FUser>> response) {
                         super.onError(response);
                         TipDialog.show(FrLaunchActivity.this, R.string.txt_network_maybe_exceptions, TipDialog.TYPE.ERROR)
-                                .setOnDismissListener(new OnDismissListener() {
-                                    @Override
-                                    public void onDismiss() {
-                                        finish();
-                                    }
-                                });
+                                .setOnDismissListener(() -> finish());
                     }
                 });
     }
@@ -290,15 +223,13 @@ public class FrLaunchActivity extends BaseActivity {
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
+                        LzyResponse<LoginRpsEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<LoginRpsEntity>>() {
                                 });
                         if (entity.error_code == 0) {
                             $(R.id.ctl_no_network_show).setVisibility(View.GONE);
-
-                            JSONObject object = JSONObject.parseObject(entity.getData());
-                            String token = object.getString("token");
-                            UserInfoCache.saveToken(FrLaunchActivity.this, token);
+                            String token = entity.getData().getToken();
+                            TokenCache.saveToken(FrLaunchActivity.this, token);
 
                             reqInitUserInfo();
                         }

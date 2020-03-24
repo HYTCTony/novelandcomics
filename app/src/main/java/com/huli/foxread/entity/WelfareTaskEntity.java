@@ -19,11 +19,12 @@ public class WelfareTaskEntity {
 //    private long createtime;
 //    private long updatetime;
     private int complete_task;              //完成次数，-1未完成，1已完成(
+    private String buttonText;
 
     public WelfareTaskEntity() {
     }
 
-    public WelfareTaskEntity(String id, String name, int type, String content, int status, String welfare_category_id, int reward, int is_new_man, int frequency, String number, String link, String http_logo_image, int complete_task) {
+    public WelfareTaskEntity(String id, String name, int type, String content, int status, String welfare_category_id, int reward, int is_new_man, int frequency, String number, String link, String http_logo_image, int complete_task, String buttonText) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -37,6 +38,7 @@ public class WelfareTaskEntity {
         this.link = link;
         this.http_logo_image = http_logo_image;
         this.complete_task = complete_task;
+        this.buttonText = buttonText;
     }
 
     public String getId() {
@@ -127,14 +129,6 @@ public class WelfareTaskEntity {
         this.link = link;
     }
 
-    public int getComplete_task() {
-        return complete_task;
-    }
-
-    public void setComplete_task(int complete_task) {
-        this.complete_task = complete_task;
-    }
-
     public String getHttp_logo_image() {
         return http_logo_image;
     }
@@ -143,4 +137,19 @@ public class WelfareTaskEntity {
         this.http_logo_image = http_logo_image;
     }
 
+    public int getComplete_task() {
+        return complete_task;
+    }
+
+    public void setComplete_task(int complete_task) {
+        this.complete_task = complete_task;
+    }
+
+    public String getButtonText() {
+        return buttonText;
+    }
+
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;
+    }
 }

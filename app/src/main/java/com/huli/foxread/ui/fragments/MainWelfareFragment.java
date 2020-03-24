@@ -154,7 +154,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
         reqTopBannerData();
 
-        reqGetWerfareTasks(true);
+//        reqGetWerfareTasks(true);
     }
 
     @Override
@@ -277,7 +277,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
                     readMissions.add(new WelfareReadTaskEntity(pTask.getId(), wfSubTaskBean.getName(), pTask.getType(), pTask.getContent(), pTask.getStatus(),
                             pTask.getWelfare_category_id(), wfSubTaskBean.getReward(), pTask.getIs_new_man(), pTask.getFrequency(), pTask.getNumber(),
-                            pTask.getLink(), pTask.getHttp_logo_image(), wfSubTaskBean.getComplete_task(), wfSubTaskBean.getId(), wfSubTaskBean.getState(), null));
+                            pTask.getLink(), pTask.getHttp_logo_image(), wfSubTaskBean.getComplete_task(), null, wfSubTaskBean.getId(), wfSubTaskBean.getState(), null));
                 }
             } else {
                 pTask.setTask(null);
@@ -329,7 +329,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         mNewbieAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             WelfareTaskEntity data = mNewbieAdapter.getData().get(position);
             ClickJumpUtil.handleJump(mActivity, data.getLink(), 1, 1);
-           /* if (data.getLink().equals(Consts.INVITATION)) {                     //去邀请
+           /* if (data.getLink().equals(Consts.INVITATION)) {                   //去邀请
                 go2InviteFriend();
             } else if (data.getLink().equals(Consts.BE_INVITATION)) {           //去填写
                 go2FillInviteCode();
@@ -452,8 +452,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                                 tvGoldCoinCount.setText(setNumColor(mActivity, String.format(getResources().getString(R.string.txt_today_signin_add_goldcoin_x), normalSignInTask.getReward())));
                                 tvSignInCount.setText(setNumColor(mActivity, String.format(getResources().getString(R.string.txt_continuous_sign_in_day_x), normalSignInTask.getSign_successions())));
                             } else {
-                                tvGoldCoinCount.setText(null);
-                                tvSignInCount.setText(null);
+                                tvGoldCoinCount.setText(R.string.hint_not_logged_in);
+                                tvSignInCount.setText(R.string.hint_login_2_get_welfare);
                             }
 
                             //新人任务
@@ -531,24 +531,6 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                 });
     }
 
-
-    private void go2FillInviteCode() {
-        if (UserInfoCache.getIsVisitor(mActivity)) {
-            startActivity(new Intent(mActivity, LoginActivity.class));
-            return;
-        }
-        Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
-        startActivityForResult(intent, REQCODE_FILL_INVITE_CODE);
-    }
-
-    private void go2InviteFriend() {
-        if (UserInfoCache.getIsVisitor(mActivity)) {
-            startActivity(new Intent(mActivity, LoginActivity.class));
-            return;
-        }
-        Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
-        startActivity(intent);
-    }
 
     //字符串中的数字变色
     private static SpannableStringBuilder setNumColor(Context context, String str) {

@@ -1,34 +1,28 @@
 package com.huli.foxread.cache;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.utils.SPFUtils;
 
 public class UserInfoCache {
-    private static String token;
 
     public static void saveCacheAll(Context context, FUser info) {
-        SPFUtils.put(context, Common.KEY_USER_ID, info.getId());
-        SPFUtils.put(context, Common.KEY_USERNAME, info.getUsername());
-        SPFUtils.put(context, Common.KEY_NICKNAME, info.getNickname());
-        SPFUtils.put(context, Common.KEY_MOBILE, info.getMobile());
-        SPFUtils.put(context, Common.KEY_HTTP_AVATAR, info.getHttp_avatar());
-        SPFUtils.put(context, Common.KEY_GENDER, info.getGender());
-        SPFUtils.put(context, Common.KEY_MONEY, info.getMoney());
-        SPFUtils.put(context, Common.KEY_SCORE, info.getScore());
-        SPFUtils.put(context, Common.KEY_TODAY_SCORE, info.getToday_score());
-        SPFUtils.put(context, Common.KEY_DISTRIBUTION, info.getDistribution());
-        SPFUtils.put(context, Common.KEY_IS_NEW_MAN, info.getIs_new_man() == 1);
-        SPFUtils.put(context, Common.KEY_IS_VIP, info.getIs_vip() == 1);
-        SPFUtils.put(context, Common.KEY_VIP_ENDTIME, info.getVip_end());
-        SPFUtils.put(context, Common.KEY_IS_VISITOR, info.getIs_visitor() == 1);
-        SPFUtils.put(context, Common.KEY_IS_INVITED, info.getIs_invited());
-        SPFUtils.put(context, Common.KEY_MSG_NUM, info.getMessage_sum());
-        token = info.getToken();
-        SPFUtils.put(context, Common.KEY_TOKEN, token);
+        saveUserId(context, info.getId());
+        saveUserName(context, info.getUsername());
+        saveNickName(context, info.getNickname());
+        saveMobile(context, info.getMobile());
+        saveHeadPic(context, info.getHttp_avatar());
+        saveGender(context, info.getGender());
+        saveDistribution(context, info.getDistribution());
+        saveIsNewMan(context, info.getIs_new_man());
+        saveIsVip(context, info.getIs_vip());
+        saveVipEndtime(context, info.getVip_end());
+        saveIsVisitor(context, info.getIs_visitor());
+        saveIsInvited(context, info.getIs_invited());
+        saveIsInvited(context, info.getIs_invited());
+        saveMsgNum(context, info.getMessage_sum());
     }
 
     public static void saveUserId(Context context, String userId) {
@@ -54,18 +48,6 @@ public class UserInfoCache {
 
     public static void saveGender(Context context, int gender) {
         SPFUtils.put(context, Common.KEY_GENDER, gender);
-    }
-
-    public static void saveMoney(Context context, double money) {
-        SPFUtils.put(context, Common.KEY_MONEY, money);
-    }
-
-    public static void saveScore(Context context, int score) {
-        SPFUtils.put(context, Common.KEY_SCORE, score);
-    }
-
-    public static void saveTodayScore(Context context, int todayScore) {
-        SPFUtils.put(context, Common.KEY_TODAY_SCORE, todayScore);
     }
 
     public static void saveDistribution(Context context, String distribution) {
@@ -96,11 +78,6 @@ public class UserInfoCache {
         SPFUtils.put(context, Common.KEY_MSG_NUM, msgNum);
     }
 
-    public static void saveToken(Context context, String mToken) {
-        token = mToken;
-        SPFUtils.put(context, Common.KEY_TOKEN, mToken);
-    }
-
 
     public static String getUserId(Context context) {
         return (String) SPFUtils.get(context, Common.KEY_USER_ID, "");
@@ -124,18 +101,6 @@ public class UserInfoCache {
 
     public static int getGender(Context context) {
         return (int) SPFUtils.get(context, Common.KEY_GENDER, 0);
-    }
-
-    public static Double getMoney(Context context) {
-        return (Double) SPFUtils.get(context, Common.KEY_MONEY, 0d);
-    }
-
-    public static int getScore(Context context) {
-        return (int) SPFUtils.get(context, Common.KEY_SCORE, 0);
-    }
-
-    public static int getTodayScore(Context context) {
-        return (int) SPFUtils.get(context, Common.KEY_TODAY_SCORE, 0);
     }
 
     public static String getDistribution(Context context) {
@@ -166,13 +131,6 @@ public class UserInfoCache {
         return (int) SPFUtils.get(context, Common.KEY_MSG_NUM, 0);
     }
 
-    public static String getToken(Context context) {
-        if (!TextUtils.isEmpty(token)) {
-            return token;
-        }
-        return (String) SPFUtils.get(context, Common.KEY_TOKEN, "");
-    }
-
 
     public static void clearCache(Context context) {
         SPFUtils.remove(context, Common.KEY_USER_ID);
@@ -181,9 +139,6 @@ public class UserInfoCache {
         SPFUtils.remove(context, Common.KEY_MOBILE);
         SPFUtils.remove(context, Common.KEY_HTTP_AVATAR);
         SPFUtils.remove(context, Common.KEY_GENDER);
-        SPFUtils.remove(context, Common.KEY_MONEY);
-        SPFUtils.remove(context, Common.KEY_SCORE);
-        SPFUtils.remove(context, Common.KEY_TODAY_SCORE);
         SPFUtils.remove(context, Common.KEY_DISTRIBUTION);
         SPFUtils.remove(context, Common.KEY_IS_NEW_MAN);
         SPFUtils.remove(context, Common.KEY_IS_VIP);
@@ -191,6 +146,5 @@ public class UserInfoCache {
         SPFUtils.remove(context, Common.KEY_IS_VISITOR);
         SPFUtils.remove(context, Common.KEY_IS_INVITED);
         SPFUtils.remove(context, Common.KEY_MSG_NUM);
-        SPFUtils.remove(context, Common.KEY_TOKEN);
     }
 }

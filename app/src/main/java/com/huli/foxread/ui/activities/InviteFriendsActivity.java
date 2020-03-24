@@ -192,7 +192,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onClick(@NonNull View view) {
                 Intent intent = new Intent(InviteFriendsActivity.this, WithdrawalRMBActivity.class);
-                intent.putExtra(Common.KEY_MONEY, myMoney);
+                intent.putExtra(Common.EXTRA_KEY_MONEY, myMoney);
                 startActivity(intent);
             }
 

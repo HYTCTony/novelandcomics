@@ -13,8 +13,14 @@ public class WelfareReadTaskEntity extends WelfareTaskEntity {
     public WelfareReadTaskEntity() {
     }
 
-    public WelfareReadTaskEntity(String id, String name, int type, String content, int status, String welfare_category_id, int reward, int is_new_man, int frequency, String number, String link, String http_image, int complete_task, String subTaskId, int state, List<ReadSubTaskBean> task) {
-        super(id, name, type, content, status, welfare_category_id, reward, is_new_man, frequency, number, link, http_image, complete_task);
+    public WelfareReadTaskEntity(String subTaskId, int state, List<ReadSubTaskBean> task) {
+        this.subTaskId = subTaskId;
+        this.state = state;
+        this.task = task;
+    }
+
+    public WelfareReadTaskEntity(String id, String name, int type, String content, int status, String welfare_category_id, int reward, int is_new_man, int frequency, String number, String link, String http_logo_image, int complete_task, String buttonText, String subTaskId, int state, List<ReadSubTaskBean> task) {
+        super(id, name, type, content, status, welfare_category_id, reward, is_new_man, frequency, number, link, http_logo_image, complete_task, buttonText);
         this.subTaskId = subTaskId;
         this.state = state;
         this.task = task;

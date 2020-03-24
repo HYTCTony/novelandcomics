@@ -38,18 +38,19 @@ public interface Common {
     String SPFKEY_SEARCH_HISTORY = "key_search_history";
 
 
+    String KEY_TOKEN = "token";
+
+    String EXTRA_KEY_MONEY = "key_money";
+    String EXTRA_KEY_SCORE = "key_score";
+    String EXTRA_KEY_TODAY_SCORE = "key_today_score";
+
 
     String USER_DTO = "user_dto";
-
-    String KEY_AVATAR = "avatar";
     String KEY_USER_ID = "user_id";
     String KEY_USERNAME = "username";
     String KEY_NICKNAME = "nickname";
     String KEY_MOBILE = "mobile";
     String KEY_GENDER = "gender";
-    String KEY_MONEY = "money";
-    String KEY_SCORE = "score";
-    String KEY_TODAY_SCORE = "today_score";
     String KEY_DISTRIBUTION = "distribution";
     String KEY_IS_NEW_MAN = "is_new_man";
     String KEY_IS_VIP = "is_vip";
@@ -58,6 +59,5 @@ public interface Common {
     String KEY_IS_INVITED = "is_invited";
     String KEY_HTTP_AVATAR = "http_avatar";
     String KEY_MSG_NUM = "msg_num";
-    String KEY_TOKEN = "token";
 
 }

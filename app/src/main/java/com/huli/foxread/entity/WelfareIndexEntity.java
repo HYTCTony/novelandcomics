@@ -7,7 +7,6 @@ public class WelfareIndexEntity {
     private WelfareNewBieTaskEntity new_man;                //新人任务
     private List<WelfareTaskEntity> day;                    //日常任务
     private List<WelfareReadTaskEntity> read;               //阅读任务
-//    private List<WelfareTaskEntity> advanced;             //扩展任务
 
     public NormalSignInTaskEntity getSign_in() {
         return sign_in;

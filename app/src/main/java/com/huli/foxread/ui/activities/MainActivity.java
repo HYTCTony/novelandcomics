@@ -290,8 +290,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                                 });
                         if (entity.error_code == 0) {
                             EventBus.getDefault().postSticky(new ReadingTimeEvent(entity.getData()));
-                        } else {
-                            TipDialog.show(MainActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });
