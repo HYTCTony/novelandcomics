@@ -11,13 +11,14 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.utils.Tos;
 import com.huli.page.ui.activity.MoreSettingActivity;
 import com.huli.page.utils.DataCleanManager;
@@ -32,6 +33,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
+    public static final int REQCODE_USER_ATTR = 0x9999;
 
     private TextView tvNickname, tvPushNotifyState, tvCacheSize;
     private TextView btnAccountSecurity, btnAboutUs;
@@ -97,7 +99,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void doBusiness(Context mContext) {
         tvNickname.setText(UserInfoCache.getUserName(this));
         tvPushNotifyState.setText("已开启");
-        String cache = "0.00M";
+        String cache = "0.00k";
         try {
             cache = DataCleanManager.getTotalCacheSize(mContext);
         } catch (Exception e) {
@@ -111,7 +113,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rtl_asBtn_user_basic_info:
-                startActivityForResult(new Intent(this, UserBasicInfoActivity.class), MainMineFragment.REQCODE_USER_ATTR);
+                startActivityForResult(new Intent(this, UserBasicInfoActivity.class), REQCODE_USER_ATTR);
                 break;
             case R.id.rtl_asBtn_push_notification:
                 MessageDialog.show(this, R.string.txt_empty, R.string.hint_content_push_message, R.string.txt_got_it)
@@ -150,9 +152,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == MainMineFragment.REQCODE_USER_ATTR) {
+            if (requestCode == REQCODE_USER_ATTR) {
                 tvNickname.setText(UserInfoCache.getUserName(this));
-                setResult(MainMineFragment.REQCODE_USER_ATTR);
             }
         }
     }
@@ -161,23 +162,18 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
      * 正式用户登出
      */
     private void logout() {
-        OkGo.<String>get(Consts.USER_LOGOUT_API)
+        OkGo.<String>post(Consts.USER_LOGOUT_API)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
+                        LzyResponse<LoginRpsEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<LoginRpsEntity>>() {
                                 });
                         if (entity.error_code == 0) {
                             UserInfoCache.clearCache(SettingActivity.this);
+                            TokenCache.saveToken(SettingActivity.this, entity.getData().getToken());
 
-                            JSONObject object = JSONObject.parseObject(entity.getData());
-                            String token = object.getString("token");
-                            UserInfoCache.saveToken(SettingActivity.this, token);
-
-                            FUser fUser = new FUser();
-                            fUser.setToken(token);
-                            EventBus.getDefault().postSticky(fUser);
+                            EventBus.getDefault().postSticky(new FUser());
 
                             setResult(RESULT_OK);
                             finish();

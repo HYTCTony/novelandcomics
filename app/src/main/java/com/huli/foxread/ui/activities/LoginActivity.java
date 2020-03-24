@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
@@ -25,6 +26,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.StatusBarUtils;
@@ -210,23 +212,45 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     private void loginPhone(String tel, String authCode) {
         String uniqueID = UniqueIdManager.getUniqueID(this);
-        OkGo.<LzyResponse<FUser>>post(Consts.USER_MOBILE_LOGIN_API)
+        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USER_MOBILE_LOGIN_API)
                 .params(Consts.MOBILE, tel)
                 .params(Consts.CAPTCHA, authCode)
                 .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
+                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
+                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
+                        if (response.body().error_code == 0) {
+                            LoginRpsEntity data = response.body().getData();
+                            TokenCache.saveToken(LoginActivity.this, data.getToken());
+
+                            reqUserInfo();
+                        } else {
+                            TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取用户信息
+     */
+    private void reqUserInfo() {
+        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
+                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this,
                         new TypeReference<LzyResponse<FUser>>() {
                         }) {
                     @Override
                     public void onSuccess(Response<LzyResponse<FUser>> response) {
-                        if (response.body().error_code == 0) {
+                        int errorCode = response.body().error_code;
+                        if (errorCode == 0) {
                             FUser data = response.body().getData();
                             UserInfoCache.saveCacheAll(LoginActivity.this, data);
 
                             TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> {
-                                        finish();
-                                    });
+                                    .setOnDismissListener(() -> finish());
+
                             EventBus.getDefault().postSticky(data);
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);

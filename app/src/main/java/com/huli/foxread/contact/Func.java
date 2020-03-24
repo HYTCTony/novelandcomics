@@ -3,12 +3,12 @@ package com.huli.foxread.contact;
 public interface Func {
 
     /**
-     * 用途：使用手机唯一标识符注册/登录
+     * 用途：使用手机唯一标识符注册/登录（POST）
      * 参数：
      * unique_id---手机唯一标识符
      * return 用户信息
      */
-    String USER_VISITOR_LOGIN = "/user/visitorlogin";
+    String USER_VISITOR_LOGIN = "/login/visitor";
 
     /**
      * 用途：设置性别---来书籍推荐
@@ -35,20 +35,20 @@ public interface Func {
     String USER_CAPITAL = "/user/capital";
 
     /**
-     * 用途：手机号登录
+     * 用途：手机号登录（POST）
      * 参数：
      * mobile (Y）--- 手机号
      * captcha (Y）--- 验证码
      * identifier( Y）--- 手机唯一标志符
      */
-    String USER_MOBILE_LOGIN = "/user/mobilelogin";
+    String USER_MOBILE_LOGIN = "/login/mobile";
 
     /**
-     * 用途：正式用户登出
+     * 用途：正式用户登出（POST）
      * 头：token---token(Y)
      * 参数：
      */
-    String USER_LOGOUT = "/user/logout";
+    String USER_LOGOUT = "/login/logout";
 
     /**
      * 用途：登录验证码

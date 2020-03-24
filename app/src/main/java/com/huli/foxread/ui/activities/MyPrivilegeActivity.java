@@ -384,7 +384,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                             tvAccountSetup.setVisibility(View.GONE);
                             ivIconVipSymbol.setVisibility(View.VISIBLE);
 
-                            EventBus.getDefault().post(new VipChargerEvent(true));
+                            EventBus.getDefault().postSticky(new VipChargerEvent(true));
 
                             MessageDialog.build(MyPrivilegeActivity.this)
                                     .setTitle("支付成功")

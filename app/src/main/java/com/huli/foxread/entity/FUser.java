@@ -10,9 +10,9 @@ public class FUser implements Serializable {
     private String avatar = "";
     private String http_avatar = "";
     private int gender = 0;             //性别:0=男,1=女 （未填写性别为-1）
-    private double money = 0d;          //邀请人得到的RMB
-    private int score = 0;              //积分(就是余额金币，可以转换成RMB)
-    private int today_score = 0;
+    //    private double money = 0d;          //邀请人得到的RMB
+//    private int score = 0;              //积分(就是余额金币，可以转换成RMB)
+//    private int today_score = 0;
     private String distribution = "";   //红包码(邀请码)
     private int is_new_man = 0;         //是否为新用户:0=不是,1=是
     private int is_vip = 0;             //是否为vip:0=不是,1=是
@@ -20,9 +20,25 @@ public class FUser implements Serializable {
     private int is_visitor = 1;         //是否为游客:0=不是,1=是
     private int is_invited = -1;        //是否已填写邀请码:0未被邀请，1已被邀请，-1游客身份无法邀请
     private int message_sum = 0;        //通知数量
-    private String token = "";
 
+    //游客
     public FUser() {
+    }
+
+    public FUser(String id, String username, String nickname, String mobile, String avatar, String http_avatar, int gender, String distribution, int is_new_man, int is_vip, long vip_end, int is_visitor, int is_invited) {
+        this.id = id;
+        this.username = username;
+        this.nickname = nickname;
+        this.mobile = mobile;
+        this.avatar = avatar;
+        this.http_avatar = http_avatar;
+        this.gender = gender;
+        this.distribution = distribution;
+        this.is_new_man = is_new_man;
+        this.is_vip = is_vip;
+        this.vip_end = vip_end;
+        this.is_visitor = is_visitor;
+        this.is_invited = is_invited;
     }
 
     public String getId() {
@@ -81,7 +97,7 @@ public class FUser implements Serializable {
         this.gender = gender;
     }
 
-    public double getMoney() {
+    /*public double getMoney() {
         return money;
     }
 
@@ -103,7 +119,7 @@ public class FUser implements Serializable {
 
     public void setToday_score(int today_score) {
         this.today_score = today_score;
-    }
+    }*/
 
     public String getDistribution() {
         return distribution;
@@ -161,11 +177,4 @@ public class FUser implements Serializable {
         this.message_sum = message_sum;
     }
 
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
 }

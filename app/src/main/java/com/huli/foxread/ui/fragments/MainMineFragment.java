@@ -48,7 +48,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,10 +55,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class MainMineFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener {
-
-    public static final int REQCODE_LOGIN = 0x5688;
-    private static final int REQCODE_SETTING_AC = 0x8865;
-    public static final int REQCODE_USER_ATTR = 0x9999;
 
     private View layoutLogged, layoutNotLogin;
     private Button btnLogin;
@@ -120,8 +115,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
 
-        changeUIbyIsVisitor(mActivity);
-        changeUIbyIsVip(mActivity);
+        changeUIbyUserInfo(mActivity);
     }
 
     @Override
@@ -142,47 +136,12 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         super.onResume();
 
         reqMineWelfareZone();
-//        getUserReadTime();
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         MineWelfareZoneEntity data = wzAdapter.getData().get(position);
         ClickJumpUtil.handleJump(mActivity, data.getLink(), data.getJump(), data.getNeed_login());
-
-       /* String link = data.getLink();
-        switch (link) {
-            case Consts.INVITATION:       //去邀请
-                if (UserInfoCache.getIsVisitor(mActivity)) {
-                    startActivity(new Intent(mActivity, LoginActivity.class));
-                    return;
-                }
-                startActivity(new Intent(mActivity, InviteFriendsActivity.class));
-                break;
-            case Consts.BE_INVITATION:       //去填写邀请码
-                if (UserInfoCache.getIsVisitor(mActivity)) {
-                    startActivity(new Intent(mActivity, LoginActivity.class));
-                    return;
-                }
-                startActivity(new Intent(mActivity, InvitationCodeActivity.class));
-                break;
-            case Consts.EVERYDAY_READING:
-            case Consts.READING:
-                ((MainActivity) mActivity).switch2Bookstore();
-                break;
-            case Consts.SWITCH2_WELFARE:
-                ((MainActivity) mActivity).switch2Welfare();
-                break;
-            case Consts.GO2_SIGN_IN:
-                if (UserInfoCache.getIsVisitor(mActivity)) {
-                    startActivity(new Intent(mActivity, LoginActivity.class));
-                    return;
-                }
-                startActivity(new Intent(mActivity, SignInActivity.class));
-                break;
-            default:
-                break;
-        }*/
     }
 
     @Override
@@ -193,13 +152,13 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        changeUIbyIsVisitor(mActivity);
-        changeUIbyIsVip(mActivity);
+        changeUIbyUserInfo(mActivity);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onVipChargerEvent(VipChargerEvent event) {
-        changeUIbyIsVip(mActivity);
+        changeUIbyIsVip(event.isBecomingVip());
+        EventBus.getDefault().removeStickyEvent(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -215,7 +174,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void changeUIbyIsVisitor(Context mContext) {
+    private void changeUIbyUserInfo(Context mContext) {
         boolean isVisitor = UserInfoCache.getIsVisitor(mContext);
         if (isVisitor) {
             layoutNotLogin.setVisibility(View.VISIBLE);
@@ -224,9 +183,10 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
             layoutNotLogin.setVisibility(View.GONE);
             layoutLogged.setVisibility(View.VISIBLE);
             displayUserInfo(mContext);
-
-            changeUIbyIsVip(mContext);
         }
+
+        //VIP
+        changeUIbyIsVip(UserInfoCache.getIsVip(mContext));
 
         //是否已经填写邀请码
         if (UserInfoCache.getIsInvited(mActivity) == 0) {
@@ -239,11 +199,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void changeUIbyIsVip(Context mContext) {
-        if (UserInfoCache.getIsVip(mContext)) {
+    private void changeUIbyIsVip(boolean isVip) {
+        if (isVip) {
             //已成为VIP
             tvHuliVip.setText(R.string.txt_you_have_become_a_vip);
-            Drawable drawable = ContextCompat.getDrawable(mContext, R.mipmap.icon_vip_symbol);
+            Drawable drawable = ContextCompat.getDrawable(mActivity, R.mipmap.icon_vip_symbol);
             if (drawable != null) {
                 drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
                 tvHuliVip.setCompoundDrawables(drawable, null, null, null);
@@ -267,8 +227,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         GlideUtil.loadCircle(mContext, ivUserHeadImg, UserInfoCache.getHeadPic(mContext));
         tvNickname.setText(UserInfoCache.getUserName(mContext));
         tvUserId.setText((getString(R.string.txt_id_colon) + UserInfoCache.getUserId(mContext)));
-        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
-        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
+//        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
+//        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
     }
 
 
@@ -291,13 +251,13 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 }
                 break;
             case R.id.iv_asBtn_setting_mine:
-                startActivityForResult(new Intent(mActivity, SettingActivity.class), REQCODE_SETTING_AC);
+                startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.btn_login_mine:
                 go2LoginAndResult();
                 break;
             case R.id.iv_user_headImg:
-                startActivityForResult(new Intent(mActivity, UserBasicInfoActivity.class), REQCODE_USER_ATTR);
+                startActivity(new Intent(mActivity, UserBasicInfoActivity.class));
                 break;
             case R.id.ll_my_gold_coin_mine:
             case R.id.ll_today_gold_coin_mine:
@@ -347,27 +307,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-       /* if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case REQCODE_LOGIN:
-                case REQCODE_SETTING_AC:
-                    changeUIbyIsVisitor(mActivity);
-                    break;
-                case REQCODE_USER_ATTR:                  //修改用户属性返回
-                    displayUserInfo(mActivity);
-                    break;
-                default:
-                    break;
-            }
-        } else if (resultCode == REQCODE_USER_ATTR) {      //修改用户属性返回（中间SettingActivity）
-            if (requestCode == REQCODE_SETTING_AC) {
-                displayUserInfo(mActivity);
-            }
-        }*/
-    }
 
     private void go2LoginAndResult() {
         startActivity(new Intent(mActivity, LoginActivity.class));

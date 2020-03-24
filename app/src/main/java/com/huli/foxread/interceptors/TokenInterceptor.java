@@ -6,10 +6,12 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.ui.activities.TransparencyActivity;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.lzy.okgo.OkGo;
@@ -53,7 +55,8 @@ public class TokenInterceptor implements Interceptor {
         //不拦截获取token的方法
         String url = request.url().toString();
         if (url.contains(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API) || url.contains(Consts.ADS_TAIL_API)
-                || url.contains(Consts.USER_MOBILE_LOGIN_API) || request.tag().equals(Consts.USERS_INFO_API + "_launch")) {
+                || url.contains(Consts.USER_MOBILE_LOGIN_API) || url.contains(Consts.USER_LOGOUT_API)
+                || request.tag().equals(Consts.USERS_INFO_API + "_launch")) {
             return response;
         }
 
@@ -95,6 +98,7 @@ public class TokenInterceptor implements Interceptor {
                 int errorCode = jsonObject.getIntValue("error_code");
                 // error_code 状态码10001  ---Token失效    10010 被顶号
                 if (errorCode == 10001 || errorCode == 10010) {
+                    OkGo.getInstance().cancelAll();
                     String token = syncNewToken();
 
                     Intent intent = new Intent(context, TransparencyActivity.class);
@@ -208,22 +212,19 @@ public class TokenInterceptor implements Interceptor {
             if (response.body() == null) {
                 return null;
             }
-            LzyResponse<String> entity = JSONObject.parseObject(response.body().string(),
-                    new TypeReference<LzyResponse<String>>() {
+            LzyResponse<LoginRpsEntity> entity = JSONObject.parseObject(response.body().string(),
+                    new TypeReference<LzyResponse<LoginRpsEntity>>() {
                     });
             if (entity.error_code == 0) {
-                JSONObject object = JSONObject.parseObject(entity.getData());
-                String newToken = object.getString("token");
+                LoginRpsEntity loginRpsEntity = entity.getData();
+                String newToken = loginRpsEntity.getToken();
                 if (!TextUtils.isEmpty(newToken)) {
                     //清除保存的用户信息
                     UserInfoCache.clearCache(context);
                     //保存新的token
-                    UserInfoCache.saveToken(context, newToken);
+                    TokenCache.saveToken(context, newToken);
 
-                    FUser fUser = new FUser();
-                    fUser.setToken(newToken);
-                    EventBus.getDefault().postSticky(fUser);      //通知改变UI
-
+                    EventBus.getDefault().postSticky(new FUser());      //通知改变UI
                     return newToken;
                 }
             }

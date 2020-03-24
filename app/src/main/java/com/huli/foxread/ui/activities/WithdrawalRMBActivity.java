@@ -62,7 +62,7 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
     @Override
     public void initParms(Bundle parms) {
         if (parms != null) {
-            myMoney = parms.getDouble(Common.KEY_MONEY, 0);
+            myMoney = parms.getDouble(Common.EXTRA_KEY_MONEY, 0);
         }
     }
 
