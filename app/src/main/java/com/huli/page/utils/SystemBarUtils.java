@@ -114,8 +114,7 @@ public class SystemBarUtils {
 
     public static void transparentNavBar(Activity activity) {
         expandNavBar(activity);
-        activity.getWindow()
-                .setNavigationBarColor(activity.getResources().getColor(android.R.color.transparent));
+        activity.getWindow().setNavigationBarColor(activity.getResources().getColor(android.R.color.transparent));
     }
 
     public static void setFlag(Activity activity, int flag) {

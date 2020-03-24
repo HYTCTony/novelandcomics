@@ -39,11 +39,11 @@ import com.huli.page.presenter.ReadBookPresenter;
 import com.huli.page.presenter.contract.ReadBookContract;
 import com.huli.page.ui.adapter.CatalogAdapter;
 import com.huli.page.ui.base.BaseMvpViewActivity;
+import com.huli.page.ui.dialog.BrightnessDialog;
 import com.huli.page.ui.dialog.ReadSettingDialog;
 import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.Constant;
 import com.huli.page.utils.RxUtils;
-import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.StringUtils;
 import com.huli.page.utils.SystemBarUtils;
 import com.huli.page.widget.page.TxtChapter;
@@ -102,10 +102,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     DrawerLayout mDlSlide;
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_book_statu)
+    TextView tvBookStatu;
     @BindColor(R.color.light_translucent)
     int grey;
     /*****************view******************/
     private ReadSettingDialog mSettingDialog;
+    private BrightnessDialog mBrightnessDialog;
     private ReadLoader mPageLoader;
     private Animation mTopInAnim;
     private Animation mTopOutAnim;
@@ -174,6 +179,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         isNightMode = ReadSettingManager.getInstance().isNightMode();
         isFullScreen = ReadSettingManager.getInstance().isFullScreen();
         mBookId = data.getNovel_id();
+
         //获取页面加载器
         mPageLoader = mPvPage.getPageLoader(data);
         //禁止滑动展示DrawerLayout
@@ -181,6 +187,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //侧边打开后，返回键能够起作用
         mDlSlide.setFocusableInTouchMode(false);
         mSettingDialog = new ReadSettingDialog(this, mPageLoader);
+        mBrightnessDialog = new BrightnessDialog(this);
 
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(mContext)
@@ -208,15 +215,20 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //隐藏StatusBar
         mPvPage.post(
                 () -> {
-                    //隐藏
-                    SystemBarUtils.hideStableStatusBar(this);
+                    SystemBarUtils.showStableStatusBar(this);
+                    SystemBarUtils.showStableNavBar(this);
                     if (isFullScreen) {
+                        //隐藏
                         SystemBarUtils.hideStableNavBar(this);
+                        SystemBarUtils.hideStableStatusBar(this);
+                        SystemBarUtils.expandStatusBar(this);
+                        SystemBarUtils.expandNavBar(this);
                     }
                 }
         );
+//        ScreenUtils.getStatusBarHeight();
         //初始化TopMenu
-        appBarLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
+//        appBarLayout.setPadding(0, 0, 0, 0);
         //初始化BottomMenu
         initBottomMenu();
         //获取目录
@@ -333,11 +345,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mSettingDialog.setOnDismissListener(
                 dialog -> hideSystemBar()
         );
+        mBrightnessDialog.setOnDismissListener(
+                dialog -> hideSystemBar()
+        );
     }
 
     @Override
     protected void initToolbar(Toolbar toolbar) {
         setTitle(data.getNovel_name());
+        tvTitle.setText(data.getNovel_name());
         toolbar.setNavigationOnClickListener(
                 (v) -> onBackPressed()
         );
@@ -380,7 +396,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         this.bookChapters = bookChapters;
         mPageLoader.getCollBook().setBookChapters(bookChapters);
         mPageLoader.refreshChapterList();
-
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(data.getIs_end() == 0 ? "未完结" : "已完结");
+        buffer.append("，共" + bookChapters.size() + "章");
+        tvBookStatu.setText(buffer);
         // 如果是目录更新的情况，那么就需要存储更新数据
 //        if (data.getIsUpdate() && isCollected) {
 //            BookRepository.getInstance().saveBookChaptersToAsync(bookChapters);
@@ -403,7 +422,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         }
     }
 
-    @OnClick({R.id.read_tv_pre_chapter, R.id.read_tv_next_chapter, R.id.read_tv_category, R.id.read_tv_night_mode, R.id.read_tv_setting})
+    @OnClick({R.id.read_tv_pre_chapter, R.id.read_tv_next_chapter, R.id.read_tv_category, R.id.read_tv_night_mode, R.id.read_tv_brightness,
+            R.id.read_tv_setting})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.read_tv_pre_chapter:
@@ -423,7 +443,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
                     catalogAdapter.notifyDataSetChanged();
                 } else {
-                    showToast("已经是最后一张了！");
+                    showToast("已经是最后一章了！");
                 }
                 break;
             case R.id.read_tv_category:
@@ -448,6 +468,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 }
                 mPageLoader.setNightMode(isNightMode);
                 toggleNightMode();
+                break;
+            case R.id.read_tv_brightness:
+                toggleMenu(false);
+                mBrightnessDialog.show();
                 break;
             case R.id.read_tv_setting:
                 toggleMenu(false);
@@ -497,39 +521,26 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } else if (mSettingDialog.isShowing()) {
             mSettingDialog.dismiss();
             return true;
+        } else if (mBrightnessDialog.isShowing()) {
+            mBrightnessDialog.dismiss();
+            return true;
         }
         return false;
     }
 
-    private void showSystemBar() {
-        //显示
-        SystemBarUtils.showUnStableNavBar(this);
-        if (isFullScreen) {
-            SystemBarUtils.showUnStableNavBar(this);
-        }
-    }
-
-    private void hideSystemBar() {
-        //隐藏
-        SystemBarUtils.hideStableStatusBar(this);
-        if (isFullScreen) {
-            SystemBarUtils.hideStableNavBar(this);
-        }
-    }
-
     private void initBottomMenu() {
         //判断是否全屏
-        if (ReadSettingManager.getInstance().isFullScreen()) {
-            //还需要设置mBottomMenu的底部高度
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) llBottomMenu.getLayoutParams();
-            params.bottomMargin = ScreenUtils.getNavigationBarHeight();
-            llBottomMenu.setLayoutParams(params);
-        } else {
-            //设置mBottomMenu的底部距离
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) llBottomMenu.getLayoutParams();
-            params.bottomMargin = 0;
-            llBottomMenu.setLayoutParams(params);
-        }
+//        if (ReadSettingManager.getInstance().isFullScreen()) {
+//            //还需要设置mBottomMenu的底部高度
+//            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) llBottomMenu.getLayoutParams();
+//            params.bottomMargin = ScreenUtils.getNavigationBarHeight();
+//            llBottomMenu.setLayoutParams(params);
+//        } else {
+        //设置mBottomMenu的底部距离
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) llBottomMenu.getLayoutParams();
+        params.bottomMargin = 0;
+        llBottomMenu.setLayoutParams(params);
+//        }
     }
 
     //初始化菜单动画
@@ -681,6 +692,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } else if (mSettingDialog.isShowing()) {
             mSettingDialog.dismiss();
             return;
+        } else if (mBrightnessDialog.isShowing()) {
+            mBrightnessDialog.dismiss();
+            return;
         } else if (mDlSlide.isDrawerOpen(GravityCompat.START)) {
             mDlSlide.closeDrawer(GravityCompat.START);
             return;
@@ -741,10 +755,31 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         return super.onKeyDown(keyCode, event);
     }
 
+    private void showSystemBar() {
+        if (isFullScreen) {
+
+        }
+        //显示
+        SystemBarUtils.showStableNavBar(this);
+        SystemBarUtils.showStableStatusBar(this);
+    }
+
+    private void hideSystemBar() {
+        //显示
+        SystemBarUtils.showStableNavBar(this);
+        SystemBarUtils.showStableStatusBar(this);
+        if (isFullScreen) {
+            //隐藏
+            SystemBarUtils.hideStableNavBar(this);
+            SystemBarUtils.hideStableStatusBar(this);
+            SystemBarUtils.expandStatusBar(this);
+            SystemBarUtils.expandNavBar(this);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        SystemBarUtils.hideStableStatusBar(this);
         if (requestCode == REQUEST_MORE_SETTING) {
             boolean fullScreen = ReadSettingManager.getInstance().isFullScreen();
             if (isFullScreen != fullScreen) {
@@ -755,9 +790,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             // 设置显示状态
             if (isFullScreen) {
+                //隐藏
                 SystemBarUtils.hideStableNavBar(this);
+                SystemBarUtils.hideStableStatusBar(this);
+                SystemBarUtils.expandStatusBar(this);
+                SystemBarUtils.expandNavBar(this);
             } else {
+                //显示
                 SystemBarUtils.showStableNavBar(this);
+                SystemBarUtils.showStableStatusBar(this);
             }
         }
     }

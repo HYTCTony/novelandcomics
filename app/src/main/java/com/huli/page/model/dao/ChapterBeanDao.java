@@ -29,7 +29,7 @@ public class ChapterBeanDao extends AbstractDao<ChapterBean, String> {
         public final static Property Links = new Property(2, String.class, "links", false, "LINKS");
         public final static Property Name = new Property(3, String.class, "name", false, "NAME");
         public final static Property Novel_id = new Property(4, String.class, "novel_id", false, "NOVEL_ID");
-        public final static Property Chapter = new Property(5, int.class, "chapter", false, "CHAPTER");
+        public final static Property Chapter_id = new Property(5, int.class, "chapter_id", false, "CHAPTER_ID");
         public final static Property Content_url = new Property(6, String.class, "content_url", false, "CONTENT_URL");
         public final static Property Http_links = new Property(7, String.class, "http_links", false, "HTTP_LINKS");
     }
@@ -52,7 +52,7 @@ public class ChapterBeanDao extends AbstractDao<ChapterBean, String> {
                 "\"LINKS\" TEXT," + // 2: links
                 "\"NAME\" TEXT," + // 3: name
                 "\"NOVEL_ID\" TEXT," + // 4: novel_id
-                "\"CHAPTER\" INTEGER NOT NULL ," + // 5: chapter
+                "\"CHAPTER_ID\" INTEGER NOT NULL ," + // 5: chapter_id
                 "\"CONTENT_URL\" TEXT," + // 6: content_url
                 "\"HTTP_LINKS\" TEXT);"); // 7: http_links
     }
@@ -91,7 +91,7 @@ public class ChapterBeanDao extends AbstractDao<ChapterBean, String> {
         if (novel_id != null) {
             stmt.bindString(5, novel_id);
         }
-        stmt.bindLong(6, entity.getChapter());
+        stmt.bindLong(6, entity.getChapter_id());
  
         String content_url = entity.getContent_url();
         if (content_url != null) {
@@ -132,7 +132,7 @@ public class ChapterBeanDao extends AbstractDao<ChapterBean, String> {
         if (novel_id != null) {
             stmt.bindString(5, novel_id);
         }
-        stmt.bindLong(6, entity.getChapter());
+        stmt.bindLong(6, entity.getChapter_id());
  
         String content_url = entity.getContent_url();
         if (content_url != null) {
@@ -158,7 +158,7 @@ public class ChapterBeanDao extends AbstractDao<ChapterBean, String> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // links
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // name
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // novel_id
-            cursor.getInt(offset + 5), // chapter
+            cursor.getInt(offset + 5), // chapter_id
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // content_url
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // http_links
         );
@@ -172,7 +172,7 @@ public class ChapterBeanDao extends AbstractDao<ChapterBean, String> {
         entity.setLinks(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setName(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setNovel_id(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setChapter(cursor.getInt(offset + 5));
+        entity.setChapter_id(cursor.getInt(offset + 5));
         entity.setContent_url(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setHttp_links(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
      }

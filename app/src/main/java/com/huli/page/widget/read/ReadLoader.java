@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import android.util.Log;
 
 import com.huli.page.model.bean.BookRecordBean;
 import com.huli.page.model.bean.BookShelfListBean;
@@ -23,6 +24,7 @@ import com.huli.page.widget.page.PageMode;
 import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.page.TxtPage;
+import com.huli.page.widget.page.TxtSpecing;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -106,6 +108,8 @@ public abstract class ReadLoader {
     private PageMode mPageMode;
     // 加载器的颜色主题
     private PageStyle mPageStyle;
+    // 加载器的间隔主题
+    private TxtSpecing mTxtSpecing;
     //当前是否是夜间模式
     private boolean isNightMode;
     //书籍绘制区域的宽高
@@ -163,11 +167,20 @@ public abstract class ReadLoader {
         // 获取配置参数
         mPageMode = mSettingManager.getPageMode();
         mPageStyle = mSettingManager.getPageStyle();
+        mTxtSpecing = mSettingManager.getTxtSpecing();
         // 初始化参数
         mMarginWidth = ScreenUtils.dpToPx(DEFAULT_MARGIN_WIDTH);
         mMarginHeight = ScreenUtils.dpToPx(DEFAULT_MARGIN_HEIGHT);
         // 配置文字有关的参数
         setUpTextParams(mSettingManager.getTextSize());
+        // 行间距
+        mTextInterval = mTxtSpecing.getSpecingSize() / 2;
+        mTitleInterval = mTxtSpecing.getSpecingSize() / 2;
+        // 段落间距(大小为字体的高度)
+        mTextPara = mTxtSpecing.getSpecingSize();
+        mTitlePara = mTxtSpecing.getSpecingSize();
+        Log.e(TAG, "行间距" + mTxtSpecing.getSpecingSize());
+        Log.e(TAG, "字体大小" + mSettingManager.getTextSize());
     }
 
     /**
@@ -179,12 +192,6 @@ public abstract class ReadLoader {
         // 文字大小
         mTextSize = textSize;
         mTitleSize = mTextSize + ScreenUtils.spToPx(EXTRA_TITLE_SIZE);
-        // 行间距(大小为字体的一半)
-        mTextInterval = mTextSize / 2;
-        mTitleInterval = mTitleSize / 2;
-        // 段落间距(大小为字体的高度)
-        mTextPara = mTextSize;
-        mTitlePara = mTitleSize;
     }
 
     private void initPaint() {
@@ -355,6 +362,35 @@ public abstract class ReadLoader {
         mTipPaint.setTextSize(textSize);
 
         // 如果屏幕大小加载完成
+        mPageView.drawCurPage(false);
+    }
+
+    public void setTxtSpecing(TxtSpecing txtSpecing) {
+        // 行间距(大小为字体的一半)
+        mTextInterval = txtSpecing.getSpecingSize() / 2;
+        mTitleInterval = txtSpecing.getSpecingSize() / 2;
+        // 段落间距(大小为字体的高度)
+        mTextPara = txtSpecing.getSpecingSize();
+        mTitlePara = txtSpecing.getSpecingSize();
+        // 存储间距大小
+        mSettingManager.setTxtSpecing(txtSpecing);
+        // 取消缓存
+        mPrePageList = null;
+        mNextPageList = null;
+        // 如果当前已经显示数据
+        if (isChapterListPrepare && mStatus == STATUS_FINISH) {
+            // 重新计算当前页面
+            dealLoadPageList(mCurChapterPos);
+
+            // 防止在最后一页，通过修改字体，以至于页面数减少导致崩溃的问题
+            if (mCurPage.position >= mCurPageList.size()) {
+                mCurPage.position = mCurPageList.size() - 1;
+            }
+
+            // 重新获取指定页面
+            mCurPage = mCurPageList.get(mCurPage.position);
+        }
+
         mPageView.drawCurPage(false);
     }
 

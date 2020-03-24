@@ -94,6 +94,13 @@
         <item name="android:colorForeground">#FF2F2F2F</item>
     </style>
 
+    <style name="MySwitchTheme2">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">#FC6D6D</item>
+        <item name="colorSwitchThumbNormal">#FFF1F1F1</item>
+        <item name="android:colorForeground">#b2b2b2</item>
+    </style>
+
     <style name="Btn_Normal">
         <item name="android:textStyle">bold</item>
         <item name="android:gravity">center</item>

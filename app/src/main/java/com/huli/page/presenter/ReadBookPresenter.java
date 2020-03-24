@@ -21,8 +21,6 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static com.huli.foxread.contact.Consts.NOT_CPL_URL;
-
 public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> implements ReadBookContract.Presenter {
     private static final String TAG = "ReadBookPresenter";
 
@@ -83,15 +81,16 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
         // 将要下载章节，转换成网络请求。
         for (int i = 0; i < size; ++i) {
             TxtChapter bookChapter = bookChapters.get(i);
-
-            OkGo.<String>get(NOT_CPL_URL + bookChapter.getLink())
+            OkGo.<String>post(Consts.NOVEL_CONTENT_API)
+                    .params(Consts.BOOK_ID, bookChapter.getBookId())
+                    .params(Consts.CHAPTER_ID, bookChapter.getId())
+                    .params(Consts.CHAPTER, bookChapter.getChapter())
                     .execute(new LtbCallback(context, false) {
                         @Override
                         public void onSuccess(Response<String> response) {
                             if (isViewAttached()) {
-                                LzyResponse<ChapterBean> entity = JSONObject.parseObject(response.body(),
-                                        new TypeReference<LzyResponse<ChapterBean>>() {
-                                        });
+                                LzyResponse<ChapterBean> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<ChapterBean>>() {
+                                });
                                 if (entity.error_code == 0) {
                                     //存储数据
                                     BookRepository.getInstance().saveChapterInfo(bookId, bookChapter.getTitle(), entity.getData().getContent());

@@ -6,7 +6,10 @@ public class TxtChapter {
     public String bookId;
     //章节的链接(网络)
     public String link;
-
+    //章节id
+    public String id;
+    //章节
+    public int chapter;
     //章节名(共用)
     public String title;
     //是否选中
@@ -16,6 +19,22 @@ public class TxtChapter {
     public long start;
     //章节内容在文章中的终止位置(本地)
     public long end;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(int chapter) {
+        this.chapter = chapter;
+    }
 
     public String getBookId() {
         return bookId;

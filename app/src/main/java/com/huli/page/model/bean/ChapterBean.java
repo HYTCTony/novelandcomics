@@ -1,8 +1,8 @@
 package com.huli.page.model.bean;
 
 import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
 
@@ -16,19 +16,21 @@ public class ChapterBean implements Serializable {
     private String links;
     private String name;
     private String novel_id;
-    private int chapter;
+    private int chapter_id;
     private String content_url;
     private String http_links;
 
-    @Generated(hash = 371532115)
+
+    @Generated(hash = 313392147)
     public ChapterBean(String id, String content, String links, String name,
-                       String novel_id, int chapter, String content_url, String http_links) {
+                       String novel_id, int chapter_id, String content_url,
+                       String http_links) {
         this.id = id;
         this.content = content;
         this.links = links;
         this.name = name;
         this.novel_id = novel_id;
-        this.chapter = chapter;
+        this.chapter_id = chapter_id;
         this.content_url = content_url;
         this.http_links = http_links;
     }
@@ -36,6 +38,7 @@ public class ChapterBean implements Serializable {
     @Generated(hash = 1028095945)
     public ChapterBean() {
     }
+
 
     public String getId() {
         return this.id;
@@ -78,11 +81,11 @@ public class ChapterBean implements Serializable {
     }
 
     public int getChapter() {
-        return this.chapter;
+        return this.chapter_id;
     }
 
     public void setChapter(int chapter) {
-        this.chapter = chapter;
+        this.chapter_id = chapter;
     }
 
     public String getContent_url() {
@@ -99,6 +102,14 @@ public class ChapterBean implements Serializable {
 
     public void setHttp_links(String http_links) {
         this.http_links = http_links;
+    }
+
+    public int getChapter_id() {
+        return this.chapter_id;
+    }
+
+    public void setChapter_id(int chapter_id) {
+        this.chapter_id = chapter_id;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.huli.page.ui.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,30 +21,28 @@ public class CatalogAdapter extends BaseQuickAdapter<TxtChapter, BaseViewHolder>
     @Override
     protected void convert(BaseViewHolder helper, TxtChapter item) {
         TextView tv = helper.getView(R.id.category_tv_chapter);
-        //首先判断是否该章已下载
-        Drawable drawable = null;
-
-        //TODO:目录显示设计的有点不好，需要靠成员变量是否为null来判断。
-        //如果没有链接地址表示是本地文件
+        int typeColor = ContextCompat.getColor(getContext(), R.color.txt_gray_999);
         if (item.getLink() == null) {
-            drawable = ContextCompat.getDrawable(getContext(), R.drawable.selector_category_load);
+            helper.setText(R.id.category_tv_type, "已下载");
         } else {
             if (item.getBookId() != null && FileUtils.isChapterCached(item.getBookId(), item.getTitle())) {
-                drawable = ContextCompat.getDrawable(getContext(), R.drawable.selector_category_load);
+                helper.setText(R.id.category_tv_type, "已下载");
+                typeColor = ContextCompat.getColor(getContext(), R.color.txt_gray);
             } else {
-                drawable = ContextCompat.getDrawable(getContext(), R.drawable.selector_category_unload);
+                helper.setText(R.id.category_tv_type, "未下载");
+                typeColor = ContextCompat.getColor(getContext(), R.color.txt_gray_999);
             }
         }
         if (item.isSelect()) {
-            tv.setTextColor(ContextCompat.getColor(getContext(), R.color.light_red));
             tv.setSelected(true);
+            tv.setTextColor(ContextCompat.getColor(getContext(), R.color.light_red));
+            helper.setTextColor(R.id.category_tv_type, ContextCompat.getColor(getContext(), R.color.light_red));
         } else {
             tv.setSelected(false);
-            tv.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+            tv.setTextColor(ContextCompat.getColor(getContext(), R.color.txt_black));
+            helper.setTextColor(R.id.category_tv_type, typeColor);
         }
-        tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         tv.setText(item.getTitle());
-
     }
 
 }

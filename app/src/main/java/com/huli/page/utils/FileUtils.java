@@ -2,7 +2,6 @@ package com.huli.page.utils;
 
 import android.os.Environment;
 
-
 import com.huli.foxread.FrApp;
 
 import java.io.BufferedInputStream;

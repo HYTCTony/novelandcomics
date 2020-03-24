@@ -4,5 +4,5 @@
 	<item android:color="@color/light_red" android:state_pressed="true" />
 	<item android:color="@color/light_red" android:state_selected="true" />
 	<!--必须放在最后一行，否则上面的效果全都不能用-->
-	<item android:color="@color/hl_read_font_1"/>
+	<item android:color="#B2B2B2"/>
 </selector>

@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/read_setting_ll_menu"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@color/hl_read_bg_1"
+    android:background="#101B27"
     android:clickable="true"
-    android:orientation="vertical"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/read_setting_iv_brightness_minus"
@@ -58,66 +59,177 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="字号"
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/read_setting_tv_font_minus"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_weight="2"
             android:background="@drawable/shape_btn_read_setting_normal"
             android:gravity="center"
             android:text="A -"
-            android:textColor="@color/hl_read_font_1"
-            android:textSize="14dp" />
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/read_setting_tv_font"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dp_32"
             android:layout_weight="1"
             android:gravity="center"
             android:text="50"
-            android:textColor="@color/hl_read_font_1"
-            android:textSize="14dp" />
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/read_setting_tv_font_plus"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
             android:layout_marginRight="20dp"
+            android:layout_weight="2"
             android:background="@drawable/shape_btn_read_setting_normal"
             android:gravity="center"
-            android:padding="5dp"
             android:text="A +"
-            android:textColor="@color/hl_read_font_1"
-            android:textSize="18dp" />
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="18sp" />
 
         <CheckBox
             android:id="@+id/read_setting_cb_font_default"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_weight="1"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
             android:gravity="center"
             android:text="默认"
-            android:textColor="@color/selector_btn_read_setting" />
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="14sp" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:text="背景"
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/read_setting_rv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/read_setting_page_spacing"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="间距"
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/read_setting_spacing_small"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_read_specing_small"
+            android:button="@null"
+            android:gravity="center"
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="14dp" />
+
+        <RadioButton
+            android:id="@+id/read_setting_spacing_medium"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_read_specing_medium"
+            android:button="@null"
+            android:gravity="center"
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="14dp"
+            android:visibility="visible" />
+
+        <RadioButton
+            android:id="@+id/read_setting_spacing_big"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_btn_read_specing_big"
+            android:button="@null"
+            android:gravity="center"
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="14dp" />
+
+    </RadioGroup>
 
     <RadioGroup
         android:id="@+id/read_setting_rg_page_mode"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="20dp"
-        android:orientation="horizontal">
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="center"
+            android:text="翻页"
+            android:textColor="@color/txt_gray_b2"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/read_setting_rb_simulation"
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="18dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
@@ -130,72 +242,69 @@
         <RadioButton
             android:id="@+id/read_setting_rb_cover"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="18dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
             android:gravity="center"
             android:text="覆盖"
-            android:textColor="@color/hl_read_font_1"
+            android:textColor="@color/txt_gray_b2"
             android:textSize="14dp" />
 
         <RadioButton
             android:id="@+id/read_setting_rb_slide"
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="18dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
             android:gravity="center"
             android:text="滑动"
-            android:textColor="@color/hl_read_font_1"
+            android:textColor="@color/txt_gray_b2"
             android:textSize="14dp"
             android:visibility="visible" />
 
         <RadioButton
             android:id="@+id/read_setting_rb_scroll"
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginRight="18dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_marginRight="16dp"
             android:layout_weight="1"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
             android:gravity="center"
             android:text="滚动"
-            android:textColor="@color/hl_read_font_1"
+            android:textColor="@color/txt_gray_b2"
             android:textSize="14dp" />
 
         <RadioButton
             android:id="@+id/read_setting_rb_none"
             android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:layout_height="@dimen/dp_32"
             android:layout_weight="1"
             android:background="@drawable/selector_btn_read_setting"
             android:button="@null"
             android:gravity="center"
             android:text="无"
-            android:textColor="@color/hl_read_font_1"
+            android:textColor="@color/txt_gray_b2"
             android:textSize="14dp" />
     </RadioGroup>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/read_setting_rv_bg"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="5dp"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
+        android:layout_height="1dp"
+        android:background="@color/txt_gray_b2" />
 
     <TextView
         android:id="@+id/read_setting_tv_more"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:text="更多设置 >>"
-        android:textColor="@color/hl_read_font_1" />
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="更多设置 >"
+        android:textColor="@color/txt_gray_b2"
+        android:textSize="16sp" />
 </LinearLayout>

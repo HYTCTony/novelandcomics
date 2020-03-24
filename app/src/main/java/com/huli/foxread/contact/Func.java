@@ -249,6 +249,15 @@ public interface Func {
      * id---小说id
      */
     String NOVEL_DETAILS = "/novel/novelDetails";
+    /**
+     * 用途：小说内容(POST)
+     * 头：token---token(Y)
+     * 参数：
+     * novel_id---小说id
+     * chapter_id---章节id
+     * chapter---小说章节
+     */
+    String NOVEL_CONTENT = "/novel/novelContent";
 
     /**
      * 用途：小说详情----相关推荐(GET)

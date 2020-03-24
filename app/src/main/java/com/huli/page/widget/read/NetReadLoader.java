@@ -29,6 +29,8 @@ public class NetReadLoader extends ReadLoader {
         for (BookChapter bean : bookChapters) {
             TxtChapter chapter = new TxtChapter();
             chapter.bookId = bean.getBookId();
+            chapter.id = bean.getId();
+            chapter.chapter = bean.getChapter();
             chapter.title = bean.getName();
             chapter.link = bean.getContent_url();
             txtChapters.add(chapter);
@@ -61,7 +63,6 @@ public class NetReadLoader extends ReadLoader {
         File file = new File(Constant.BOOK_CACHE_PATH + mCollBook.getNovel_id()
                 + File.separator + chapter.title + FileUtils.SUFFIX_NB);
         if (!file.exists()) return null;
-
         Reader reader = new FileReader(file);
         BufferedReader br = new BufferedReader(reader);
         return br;

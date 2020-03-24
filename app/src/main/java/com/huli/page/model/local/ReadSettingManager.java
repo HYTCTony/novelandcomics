@@ -5,6 +5,7 @@ import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.SharedPreUtils;
 import com.huli.page.widget.page.PageMode;
 import com.huli.page.widget.page.PageStyle;
+import com.huli.page.widget.page.TxtSpecing;
 
 /**
  * 阅读器的配置管理
@@ -23,6 +24,7 @@ public class ReadSettingManager {
     public static final String SHARED_READ_TEXT_SIZE = "shared_read_text_size";
     public static final String SHARED_READ_IS_TEXT_DEFAULT = "shared_read_text_default";
     public static final String SHARED_READ_PAGE_MODE = "shared_read_mode";
+    public static final String SHARED_READ_SPECING_MODE = "shared_specing_mode";
     public static final String SHARED_READ_NIGHT_MODE = "shared_night_mode";
     public static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
     public static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
@@ -51,44 +53,54 @@ public class ReadSettingManager {
         sharedPreUtils.putInt(SHARED_READ_BG, pageStyle.ordinal());
     }
 
+    public PageStyle getPageStyle() {
+        int style = sharedPreUtils.getInt(SHARED_READ_BG, PageStyle.BG_0.ordinal());
+        return PageStyle.values()[style];
+    }
+
+    public void setTxtSpecing(TxtSpecing txtSpecing) {
+        sharedPreUtils.putInt(SHARED_READ_SPECING_MODE, txtSpecing.ordinal());
+    }
+
+    public TxtSpecing getTxtSpecing() {
+        int style = sharedPreUtils.getInt(SHARED_READ_SPECING_MODE, TxtSpecing.SP_1.ordinal());
+        return TxtSpecing.values()[style];
+    }
+
     public void setBrightness(int progress) {
         sharedPreUtils.putInt(SHARED_READ_BRIGHTNESS, progress);
-    }
-
-    public void setAutoBrightness(boolean isAuto) {
-        sharedPreUtils.putBoolean(SHARED_READ_IS_BRIGHTNESS_AUTO, isAuto);
-    }
-
-    public void setDefaultTextSize(boolean isDefault) {
-        sharedPreUtils.putBoolean(SHARED_READ_IS_TEXT_DEFAULT, isDefault);
-    }
-
-    public void setTextSize(int textSize) {
-        sharedPreUtils.putInt(SHARED_READ_TEXT_SIZE, textSize);
-    }
-
-    public void setPageMode(PageMode mode) {
-        sharedPreUtils.putInt(SHARED_READ_PAGE_MODE, mode.ordinal());
-    }
-
-    public void setNightMode(boolean isNight) {
-        sharedPreUtils.putBoolean(SHARED_READ_NIGHT_MODE, isNight);
     }
 
     public int getBrightness() {
         return sharedPreUtils.getInt(SHARED_READ_BRIGHTNESS, 40);
     }
 
+    public void setAutoBrightness(boolean isAuto) {
+        sharedPreUtils.putBoolean(SHARED_READ_IS_BRIGHTNESS_AUTO, isAuto);
+    }
+
     public boolean isBrightnessAuto() {
         return sharedPreUtils.getBoolean(SHARED_READ_IS_BRIGHTNESS_AUTO, true);
+    }
+
+    public void setDefaultTextSize(boolean isDefault) {
+        sharedPreUtils.putBoolean(SHARED_READ_IS_TEXT_DEFAULT, isDefault);
+    }
+
+    public boolean isDefaultTextSize() {
+        return sharedPreUtils.getBoolean(SHARED_READ_IS_TEXT_DEFAULT, false);
+    }
+
+    public void setTextSize(int textSize) {
+        sharedPreUtils.putInt(SHARED_READ_TEXT_SIZE, textSize);
     }
 
     public int getTextSize() {
         return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(20));
     }
 
-    public boolean isDefaultTextSize() {
-        return sharedPreUtils.getBoolean(SHARED_READ_IS_TEXT_DEFAULT, false);
+    public void setPageMode(PageMode mode) {
+        sharedPreUtils.putInt(SHARED_READ_PAGE_MODE, mode.ordinal());
     }
 
     public PageMode getPageMode() {
@@ -96,9 +108,8 @@ public class ReadSettingManager {
         return PageMode.values()[mode];
     }
 
-    public PageStyle getPageStyle() {
-        int style = sharedPreUtils.getInt(SHARED_READ_BG, PageStyle.BG_0.ordinal());
-        return PageStyle.values()[style];
+    public void setNightMode(boolean isNight) {
+        sharedPreUtils.putBoolean(SHARED_READ_NIGHT_MODE, isNight);
     }
 
     public boolean isNightMode() {
@@ -118,7 +129,7 @@ public class ReadSettingManager {
     }
 
     public boolean isFullScreen() {
-        return sharedPreUtils.getBoolean(SHARED_READ_FULL_SCREEN, false);
+        return sharedPreUtils.getBoolean(SHARED_READ_FULL_SCREEN, true);
     }
 
     public void setConvertType(int convertType) {

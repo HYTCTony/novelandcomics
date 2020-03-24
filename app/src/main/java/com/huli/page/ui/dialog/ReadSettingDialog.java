@@ -26,6 +26,7 @@ import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.ScreenUtils;
 import com.huli.page.widget.page.PageMode;
 import com.huli.page.widget.page.PageStyle;
+import com.huli.page.widget.page.TxtSpecing;
 import com.huli.page.widget.read.ReadLoader;
 
 import java.util.Arrays;
@@ -57,9 +58,18 @@ public class ReadSettingDialog extends Dialog {
     TextView mTvFontPlus;
     @BindView(R.id.read_setting_cb_font_default)
     CheckBox mCbFontDefault;
+
+    @BindView(R.id.read_setting_page_spacing)
+    RadioGroup mRgSpacingMode;
+    @BindView(R.id.read_setting_spacing_small)
+    RadioButton mRbSpacingSmall;
+    @BindView(R.id.read_setting_spacing_medium)
+    RadioButton mRbSpacingMedium;
+    @BindView(R.id.read_setting_spacing_big)
+    RadioButton mRbSpacingBig;
+
     @BindView(R.id.read_setting_rg_page_mode)
     RadioGroup mRgPageMode;
-
     @BindView(R.id.read_setting_rb_simulation)
     RadioButton mRbSimulation;
     @BindView(R.id.read_setting_rb_cover)
@@ -70,6 +80,7 @@ public class ReadSettingDialog extends Dialog {
     RadioButton mRbScroll;
     @BindView(R.id.read_setting_rb_none)
     RadioButton mRbNone;
+
     @BindView(R.id.read_setting_rv_bg)
     RecyclerView mRvBg;
     @BindView(R.id.read_setting_tv_more)
@@ -82,6 +93,7 @@ public class ReadSettingDialog extends Dialog {
 
     private PageMode mPageMode;
     private PageStyle mPageStyle;
+    private TxtSpecing txtSpecing;
 
     private int mBrightness;
     private int mTextSize;
@@ -125,6 +137,7 @@ public class ReadSettingDialog extends Dialog {
         isTextDefault = mSettingManager.isDefaultTextSize();
         mPageMode = mSettingManager.getPageMode();
         mPageStyle = mSettingManager.getPageStyle();
+        txtSpecing = mSettingManager.getTxtSpecing();
     }
 
     private void initWidget() {
@@ -133,7 +146,7 @@ public class ReadSettingDialog extends Dialog {
         mCbBrightnessAuto.setChecked(isBrightnessAuto);
         mCbFontDefault.setChecked(isTextDefault);
         initPageMode();
-        //RecyclerView
+        initSpecingMode();
         setUpAdapter();
     }
 
@@ -149,7 +162,7 @@ public class ReadSettingDialog extends Dialog {
         mPageStyleAdapter = new PageStyleAdapter();
         mRvBg.setLayoutManager(new GridLayoutManager(getContext(), 6));
         mRvBg.setAdapter(mPageStyleAdapter);
-        mRvBg.addItemDecoration(new GridSpacingItemDecoration(6, DensityUtils.dp2px(getContext(), 4), true));
+        mRvBg.addItemDecoration(new GridSpacingItemDecoration(6, DensityUtils.dp2px(getContext(), 8), false));
         mPageStyleAdapter.refreshItems(Arrays.asList(drawables));
 
         mPageStyleAdapter.setPageStyleChecked(mPageStyle);
@@ -172,6 +185,20 @@ public class ReadSettingDialog extends Dialog {
                 break;
             case SCROLL:
                 mRbScroll.setChecked(true);
+                break;
+        }
+    }
+
+    private void initSpecingMode() {
+        switch (txtSpecing) {
+            case SP_0:
+                mRbSpacingSmall.setChecked(true);
+                break;
+            case SP_1:
+                mRbSpacingMedium.setChecked(true);
+                break;
+            case SP_2:
+                mRbSpacingBig.setChecked(true);
                 break;
         }
     }
@@ -275,6 +302,28 @@ public class ReadSettingDialog extends Dialog {
                         mTvFont.setText(fontSize + "");
                         mReadLoader.setTextSize(fontSize);
                     }
+                }
+        );
+
+        //Spacing Mode 切换
+        mRgSpacingMode.setOnCheckedChangeListener(
+                (group, checkedId) -> {
+                    TxtSpecing txtSpecing;
+                    switch (checkedId) {
+                        case R.id.read_setting_spacing_small:
+                            txtSpecing = TxtSpecing.SP_0;
+                            break;
+                        case R.id.read_setting_spacing_medium:
+                            txtSpecing = TxtSpecing.SP_1;
+                            break;
+                        case R.id.read_setting_spacing_big:
+                            txtSpecing = TxtSpecing.SP_2;
+                            break;
+                        default:
+                            txtSpecing = TxtSpecing.SP_1;
+                            break;
+                    }
+                    mReadLoader.setTxtSpecing(txtSpecing);
                 }
         );
 
