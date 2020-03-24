@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookShelfListBean;
 
@@ -43,16 +44,16 @@ public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVie
             ImageView iv = helper.getView(R.id.iv_book_cover);
             if (item.getIsLocal()) {
                 //本地文件的图片
-                Glide.with(getContext())
+                GlideApp.with(getContext())
                         .load(R.drawable.ic_local_file)
                         .fitCenter()
                         .into(iv);
             } else {
                 //书的图片
-                Glide.with(getContext())
+                GlideApp.with(getContext())
                         .load(item.getHttp_novel_image())
-                        .placeholder(R.drawable.ic_book_loading)
-                        .error(R.drawable.ic_load_error)
+                        .placeholder(R.mipmap.img_holder_rect)
+                        .error(R.mipmap.img_holder_rect)
                         .fitCenter()
                         .into(iv);
             }
