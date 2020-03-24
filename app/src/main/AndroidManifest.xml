@@ -52,9 +52,9 @@
 
         <activity
             android:name=".ui.activities.TransparencyActivity"
-            android:theme="@style/AppTheme.transparent"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleInstance"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@style/AppTheme.transparent" />
 
         <activity
             android:name=".ui.activities.ClassifyActivity"
@@ -105,7 +105,12 @@
         <activity
             android:name=".ui.activities.InvitationCodeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.huli.fill_inviteCode.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activities.MyInviteFriendsActivity"
@@ -113,14 +118,14 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.HasInvitedActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
-
-        <activity
             android:name=".ui.activities.InviteFriendsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.huli.invite_friends.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activities.MyGoldCoinActivity"
@@ -160,7 +165,12 @@
         <activity
             android:name=".ui.activities.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.huli.sign_in.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activities.LoginActivity"

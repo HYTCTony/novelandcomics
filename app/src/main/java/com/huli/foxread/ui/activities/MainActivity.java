@@ -214,6 +214,14 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         changeFragment(0);
     }
 
+    /**
+     * 跳到福利
+     */
+    public void switch2Welfare() {
+        mTabLayout.setCurrentTab(2);
+        changeFragment(2);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

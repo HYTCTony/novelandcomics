@@ -24,9 +24,7 @@ import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
-import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
-import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.MyPrivilegeActivity;
@@ -38,6 +36,7 @@ import com.huli.foxread.ui.activities.WithdrawalActivity;
 import com.huli.foxread.ui.adapters.WelfareZoneMineAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
+import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.lzy.okgo.OkGo;
@@ -149,26 +148,41 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         MineWelfareZoneEntity data = wzAdapter.getData().get(position);
-        String link = data.getLink();
-        if (link.equals(Consts.INVITATION)) {       //去邀请
-            if (UserInfoCache.getIsVisitor(mActivity)) {
-                startActivity(new Intent(mActivity, LoginActivity.class));
-                return;
-            }
-            Intent intent = new Intent(mActivity, InviteFriendsActivity.class);
-            startActivity(intent);
-        } else if (data.getLink().equals(Consts.BE_INVITATION)) {       //去填写邀请码
-            if (UserInfoCache.getIsVisitor(mActivity)) {
-                startActivity(new Intent(mActivity, LoginActivity.class));
-                return;
-            }
-            Intent intent = new Intent(mActivity, InvitationCodeActivity.class);
-            startActivity(intent);
-        } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
-            ((MainActivity) mActivity).switch2Bookstore();
-        } else if (data.getLink().equals(Consts.READING)) {
-            ((MainActivity) mActivity).switch2Bookstore();
-        }
+        ClickJumpUtil.handleJump(mActivity, data.getLink(), data.getJump(), data.getNeed_login());
+
+       /* String link = data.getLink();
+        switch (link) {
+            case Consts.INVITATION:       //去邀请
+                if (UserInfoCache.getIsVisitor(mActivity)) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    return;
+                }
+                startActivity(new Intent(mActivity, InviteFriendsActivity.class));
+                break;
+            case Consts.BE_INVITATION:       //去填写邀请码
+                if (UserInfoCache.getIsVisitor(mActivity)) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    return;
+                }
+                startActivity(new Intent(mActivity, InvitationCodeActivity.class));
+                break;
+            case Consts.EVERYDAY_READING:
+            case Consts.READING:
+                ((MainActivity) mActivity).switch2Bookstore();
+                break;
+            case Consts.SWITCH2_WELFARE:
+                ((MainActivity) mActivity).switch2Welfare();
+                break;
+            case Consts.GO2_SIGN_IN:
+                if (UserInfoCache.getIsVisitor(mActivity)) {
+                    startActivity(new Intent(mActivity, LoginActivity.class));
+                    return;
+                }
+                startActivity(new Intent(mActivity, SignInActivity.class));
+                break;
+            default:
+                break;
+        }*/
     }
 
     @Override

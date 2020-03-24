@@ -40,6 +40,7 @@ import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.adapters.WelfareMissionAdapter;
 import com.huli.foxread.ui.adapters.WelfareReadMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
+import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.TipDialog;
@@ -61,7 +62,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -259,17 +259,6 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-       /* if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQCODE_FILL_INVITE_CODE) {
-                reqGetWerfareTasks(false);
-            } else if (requestCode == REQCODE_NOR_SIGNIN) {
-                reqGetWerfareTasks(false);
-            }
-        }*/
-    }
 
     private void initReadingMossion(List<WelfareReadTaskEntity> readTasks) {
         if (headViewReadingMission == null) {
@@ -312,7 +301,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         dailyAdapter.setNewData(datas);
         dailyAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             WelfareTaskEntity data = dailyAdapter.getData().get(position);
-            if (data.getLink().equals(Consts.INVITATION)) {
+            ClickJumpUtil.handleJump(mActivity, data.getLink(), 1, 1);
+          /*  if (data.getLink().equals(Consts.INVITATION)) {
                 go2InviteFriend();
 //                    Tos.showShort(mActivity, "去邀请");
             } else if (data.getLink().equals(Consts.BE_INVITATION)) {
@@ -321,7 +311,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {
 //                    Tos.showShort(mActivity, "去阅读");
                 ((MainActivity) mActivity).switch2Bookstore();
-            }
+            }*/
         });
     }
 
@@ -338,13 +328,14 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         mNewbieAdapter.setNewData(mission.getOther_new());
         mNewbieAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             WelfareTaskEntity data = mNewbieAdapter.getData().get(position);
-            if (data.getLink().equals(Consts.INVITATION)) {                     //去邀请
+            ClickJumpUtil.handleJump(mActivity, data.getLink(), 1, 1);
+           /* if (data.getLink().equals(Consts.INVITATION)) {                     //去邀请
                 go2InviteFriend();
             } else if (data.getLink().equals(Consts.BE_INVITATION)) {           //去填写
                 go2FillInviteCode();
             } else if (data.getLink().equals(Consts.EVERYDAY_READING)) {        //去阅读
                 ((MainActivity) mActivity).switch2Bookstore();
-            }
+            }*/
         });
 
         HorizontalStepView setpview = $(headViewNewBie, R.id.step_view);
@@ -506,7 +497,10 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
+                            //刷新任务列表
                             reqGetWerfareTasks(false);
+                            //刷新我的资产
+                            ((MainActivity) mActivity).reqMyCapitalDetail();
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
                         } else {
                             Tos.showShort(mActivity, entity.msg);

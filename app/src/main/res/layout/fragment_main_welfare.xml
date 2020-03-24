@@ -23,15 +23,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentScrim="@color/col_red_ff8477"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                 app:titleEnabled="false">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_247"
                     android:background="@drawable/img_frag_welfare_top_bg"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.4"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <LinearLayout
@@ -90,11 +88,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
                     android:layout_marginTop="@dimen/dp_180"
+                    app:layout_collapseMode="parallax"
                     android:layout_marginEnd="@dimen/dp_16"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="@dimen/dp_8"
-                    app:cardElevation="@dimen/dp_0"
-                    app:layout_collapseParallaxMultiplier="0.9">
+                    app:cardElevation="@dimen/dp_0">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
