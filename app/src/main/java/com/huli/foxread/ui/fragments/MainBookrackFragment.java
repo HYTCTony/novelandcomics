@@ -42,6 +42,9 @@ import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.local.BookRepository;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.huli.page.utils.RxUtils;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
@@ -209,7 +212,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if (position != data.size() - 1) {
+        List<BookShelfListBean> datas = mAdapter.getData();
+        if (position != this.data.size() - 1) {
             BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
             if (bean.getIsLocal()) {
                 Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
@@ -237,31 +241,19 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 //        fff = !fff;
         if (position != data.size() - 1) {
             BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
-            new XPopup.Builder(getActivity())
-                    .setPopupCallback(new XPopupCallback() {
-                        @Override
-                        public void onShow() {
-                            Log.e("tag", "onShow");
-                        }
-
-                        @Override
-                        public void onDismiss() {
-                            Log.e("tag", "onDismiss");
-                        }
-                    }).asConfirm("温馨提示", "是否删除这本书？", new OnConfirmListener() {
-                @Override
-                public void onConfirm() {
-                    reqDelBooks(bean.getId());
-                    BookRepository.getInstance().deleteCollBookInRx(bean)
-                            .compose(RxUtils::toSimpleSingle)
-                            .subscribe(
-                                    (Void) -> {
-                                        data.remove(position);
-                                        adapter.notifyDataSetChanged();
-                                    }
-                            );
-                }
-            }, null, false).show();
+            MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "是否删除这本书？", "确定","取消")
+            .setOnOkButtonClickListener((baseDialog, v) -> {
+                reqDelBooks(bean.getId());
+                BookRepository.getInstance().deleteCollBookInRx(bean)
+                        .compose(RxUtils::toSimpleSingle)
+                        .subscribe(
+                                (Void) -> {
+                                    data.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                }
+                        );
+                return false;
+            });
         }
         return true;
     }
@@ -318,7 +310,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void reqDelBooks(String novelIds) {
         OkGo.<String>post(Consts.BOOKRACK_DEL_API)
-                .params(Consts.NOVEL_IDS, novelIds)
+                .params(Consts.NOVEL_ID, novelIds)
                 .execute(new LtbCallback((AppCompatActivity) mActivity) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -356,6 +348,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                         }
                         data.add(new BookShelfListBean());
                         mAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override

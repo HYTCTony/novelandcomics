@@ -242,7 +242,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      * @param novelId 小说ID
      */
     private void reqAddBookrack(String novelId) {
-        OkGo.<String>get(Consts.BOOKRACK_ADD_BATCH_API)
+        OkGo.<String>post(Consts.BOOKRACK_ADD_API)
                 .params(Consts.NOVEL_IDS, novelId)
                 .execute(new LtbCallback(this) {
                     @Override

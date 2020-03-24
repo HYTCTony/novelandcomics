@@ -274,13 +274,14 @@ public interface Func {
     String FEEDBACK_CREAT = "/opinion/create";
 
     /**
-     * 用途：加入书架(GET)
+     * 用途：（单个或批量）加入书架(GET)
      * 头：token---token(Y)
      * 参数：
      * id---小说id
      */
-    String BOOKRACK_ADD = "/bookshelf/addBookshelf";
+    String BOOKRACK_ADD = "/bookshelf/create";
     /**
+     * -----------------------------废弃
      * 用途：批量加入书架(GET)
      * 头：token---token(Y)
      * 参数：
@@ -294,14 +295,15 @@ public interface Func {
      * 参数：
      * ids---小说id数组
      */
-    String BOOKRACK_DEL = "/bookshelf/deleteBookshelf";
+    String BOOKRACK_DEL = "/bookshelf/delete";
 
     /**
      * 用途：获取书架书籍(GET)
      * 头：token---token(Y)
      * 参数：
      */
-    String BOOKRACK_GETLIST = "/bookshelf/bookshelfList";
+    String BOOKRACK_GETLIST = "/bookshelf/read";
+
     /**
      * 书架，推荐一本书
      * 头：token---token(Y)

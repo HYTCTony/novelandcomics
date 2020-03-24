@@ -28,7 +28,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
 
     @Override
     public void reqAddBookrack(AppCompatActivity context, String novelId) {
-        OkGo.<String>get(Consts.BOOKRACK_ADD_API)
+        OkGo.<String>post(Consts.BOOKRACK_ADD_API)
                 .params(Consts.NOVEL_ID, novelId)
                 .execute(new LtbCallback(context) {
                     @Override

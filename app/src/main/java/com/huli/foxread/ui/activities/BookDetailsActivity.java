@@ -392,7 +392,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
      * @param novelId 小说ID
      */
     private void reqAddBookrack(String novelId) {
-        OkGo.<String>get(Consts.BOOKRACK_ADD_API)
+        OkGo.<String>post(Consts.BOOKRACK_ADD_API)
                 .params(Consts.NOVEL_ID, novelId)
                 .execute(new LtbCallback(this) {
                     @Override
