@@ -24,6 +24,7 @@ import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import androidx.annotation.NonNull;
@@ -75,6 +76,7 @@ public class FrApp extends Application implements ActivityState {
 //        SpiderMan.init(this);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new TokenInterceptor(sInstance));
+        builder.connectTimeout(15, TimeUnit.SECONDS);
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度

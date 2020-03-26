@@ -114,7 +114,7 @@
     <string name="txt_get_changed">换一换</string>
     <string name="txt_actual_time_top_search">实时热搜</string>
     <string name="txt_good_book_on_all_over_the_web">全网都在搜的好书</string>
-    <string name="txt_search_count_x">实搜%1$d次</string>
+    <string name="txt_search_count_x">实搜%1$s次</string>
     <string name="txt_new_books_lead_up">新书抢先</string>
     <string name="txt_high_score_well_chosen">高分精选</string>
     <string name="txt_title_exclusive_recommend">全网独家，重磅推荐</string>
