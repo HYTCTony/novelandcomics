@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -101,7 +101,7 @@ public class GenderChoiceActivity extends BaseActivity {
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache.saveGender(GenderChoiceActivity.this, gender);
+                            UserInfoCache2.saveGender(GenderChoiceActivity.this, gender);
                             startActivity(new Intent(GenderChoiceActivity.this, MainActivity.class));
                             finish();
                         } else {

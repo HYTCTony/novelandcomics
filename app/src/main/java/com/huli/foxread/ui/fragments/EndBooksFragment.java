@@ -62,6 +62,7 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 4));
         mAdapter = new SectionNewBookAdapter();
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
     }
 
     @Override

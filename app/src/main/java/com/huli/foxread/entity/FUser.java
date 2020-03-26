@@ -5,30 +5,24 @@ import java.io.Serializable;
 public class FUser implements Serializable {
     private String id = "";
     private String username = "";
-    private String nickname = "";
     private String mobile = "";
     private String avatar = "";
-    private String http_avatar = "";
-    private int gender = 0;             //性别:0=男,1=女 （未填写性别为-1）
-    //    private double money = 0d;          //邀请人得到的RMB
-//    private int score = 0;              //积分(就是余额金币，可以转换成RMB)
-//    private int today_score = 0;
+    private String http_avatar = "";    //头像
+    private int gender = -1;             //性别:0=男,1=女 （未填写性别为-1）
     private String distribution = "";   //红包码(邀请码)
     private int is_new_man = 0;         //是否为新用户:0=不是,1=是
     private int is_vip = 0;             //是否为vip:0=不是,1=是
     private long vip_end = 0;           //会员结束时间
     private int is_visitor = 1;         //是否为游客:0=不是,1=是
     private int is_invited = -1;        //是否已填写邀请码:0未被邀请，1已被邀请，-1游客身份无法邀请
-    private int message_sum = 0;        //通知数量
 
     //游客
     public FUser() {
     }
 
-    public FUser(String id, String username, String nickname, String mobile, String avatar, String http_avatar, int gender, String distribution, int is_new_man, int is_vip, long vip_end, int is_visitor, int is_invited) {
+    public FUser(String id, String username, String mobile, String avatar, String http_avatar, int gender, String distribution, int is_new_man, int is_vip, long vip_end, int is_visitor, int is_invited) {
         this.id = id;
         this.username = username;
-        this.nickname = nickname;
         this.mobile = mobile;
         this.avatar = avatar;
         this.http_avatar = http_avatar;
@@ -55,14 +49,6 @@ public class FUser implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 
     public String getMobile() {
@@ -96,30 +82,6 @@ public class FUser implements Serializable {
     public void setGender(int gender) {
         this.gender = gender;
     }
-
-    /*public double getMoney() {
-        return money;
-    }
-
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getToday_score() {
-        return today_score;
-    }
-
-    public void setToday_score(int today_score) {
-        this.today_score = today_score;
-    }*/
 
     public String getDistribution() {
         return distribution;
@@ -168,13 +130,4 @@ public class FUser implements Serializable {
     public void setIs_invited(int is_invited) {
         this.is_invited = is_invited;
     }
-
-    public int getMessage_sum() {
-        return message_sum;
-    }
-
-    public void setMessage_sum(int message_sum) {
-        this.message_sum = message_sum;
-    }
-
 }

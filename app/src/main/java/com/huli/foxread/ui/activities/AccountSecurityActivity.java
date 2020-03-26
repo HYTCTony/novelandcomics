@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.entity.FUser;
 import com.huli.foxread.ui.base.BaseActivity;
 
 import androidx.appcompat.widget.Toolbar;
@@ -63,8 +64,9 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onResume() {
         super.onResume();
-        phoneNum = UserInfoCache.getMobile(this);
-        tvAccountId.setText(UserInfoCache.getUserId(this));
+        FUser fUser = UserInfoCache2.getUserInfo(this);
+        phoneNum = fUser.getMobile();
+        tvAccountId.setText(fUser.getId());
         tvTelNum.setText(phoneNum.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
         tvWechatBindingState.setText(R.string.txt_unbind);
     }

@@ -24,8 +24,6 @@ import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
-import java.util.Calendar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,6 +66,7 @@ public class RankingSubFeagment extends BaseFragment implements OnItemClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new RankingSubAdapter();
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
     }
 
     @Override
@@ -125,7 +124,7 @@ public class RankingSubFeagment extends BaseFragment implements OnItemClickListe
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if(onMoreClick()){
+        if (onMoreClick()) {
             return;
         }
         RankBookEntity bookEntity = mAdapter.getData().get(position);

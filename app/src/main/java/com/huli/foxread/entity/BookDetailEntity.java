@@ -8,17 +8,17 @@ public class BookDetailEntity implements Serializable {
     private String name;                    //书名
     private float score;                    //评分
     private String file;                    //小说下载链接
-    private int read_sum;                   //阅读次数（万）
+    private int read_sum;                   //阅读次数
     private int is_end;                     //0未完结，1已完结
     private int type;                       //类型:1=男生,2=女生,3=图书
     private int classify_id;                //分类ID
     private String classify_name;           //分类名
-    private int greet;                      //人气值,单位:万
+    private int greet;                      //人气值
     private String author;
-    private float word;                     //小说字说(万)
+    private int word;                     //小说字说
     private int is_new;
     private int is_hot;
-    private float reading_size;             //在读人数（万）
+    private int reading_size;             //在读人数
     private String introduce;
     private String http_image;
     private List<String> tag;
@@ -89,6 +89,14 @@ public class BookDetailEntity implements Serializable {
         this.classify_id = classify_id;
     }
 
+    public String getClassify_name() {
+        return classify_name;
+    }
+
+    public void setClassify_name(String classify_name) {
+        this.classify_name = classify_name;
+    }
+
     public int getGreet() {
         return greet;
     }
@@ -105,11 +113,11 @@ public class BookDetailEntity implements Serializable {
         this.author = author;
     }
 
-    public float getWord() {
+    public int getWord() {
         return word;
     }
 
-    public void setWord(float word) {
+    public void setWord(int word) {
         this.word = word;
     }
 
@@ -129,11 +137,11 @@ public class BookDetailEntity implements Serializable {
         this.is_hot = is_hot;
     }
 
-    public float getReading_size() {
+    public int getReading_size() {
         return reading_size;
     }
 
-    public void setReading_size(float reading_size) {
+    public void setReading_size(int reading_size) {
         this.reading_size = reading_size;
     }
 
@@ -175,13 +183,5 @@ public class BookDetailEntity implements Serializable {
 
     public void setNew_chapter(ChapterBean new_chapter) {
         this.new_chapter = new_chapter;
-    }
-
-    public String getClassify_name() {
-        return classify_name;
-    }
-
-    public void setClassify_name(String classify_name) {
-        this.classify_name = classify_name;
     }
 }

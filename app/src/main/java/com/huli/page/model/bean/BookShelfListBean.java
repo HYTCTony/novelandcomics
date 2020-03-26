@@ -38,16 +38,16 @@ public class BookShelfListBean implements Serializable {
     /**************************************************************/
     private float score;                    //评分
     private String file;                    //小说下载链接
-    private int read_sum;                   //阅读次数（万）
+    private int read_sum;                   //阅读次数
     private int is_end;                     //0未完结，1已完结
     private int type;                       //类型:1=男生,2=女生,3=图书
     private int classify_id;                //分类ID
     private String classify_name;           //分类名
-    private int greet;                      //人气值,单位:万
-    private float word;                     //小说字说(万)
+    private int greet;                      //人气值
+    private int word;                     //小说字说
     private int is_new;
     private int is_hot;
-    private float reading_size;             //在读人数（万）
+    private int reading_size;             //在读人数
     private String introduce;
     private String http_image;
     private int chapter_sum;
@@ -83,13 +83,12 @@ public class BookShelfListBean implements Serializable {
     public BookShelfListBean() {
     }
 
-
-    @Generated(hash = 730251230)
+    @Generated(hash = 2012734400)
     public BookShelfListBean(String id, String novel_id, String user_id, String novel_name,
                              String novel_image, String http_novel_image, String author, float score,
                              String file, int read_sum, int is_end, int type, int classify_id,
-                             String classify_name, int greet, float word, int is_new, int is_hot,
-                             float reading_size, String introduce, String http_image, int chapter_sum,
+                             String classify_name, int greet, int word, int is_new, int is_hot,
+                             int reading_size, String introduce, String http_image, int chapter_sum,
                              int is_exist_bookshelf, long createtime, long updatetime, long deletetime,
                              String lastRead, String lastChapter, boolean isUpdate, boolean isLocal) {
         this.id = id;
@@ -123,7 +122,6 @@ public class BookShelfListBean implements Serializable {
         this.isUpdate = isUpdate;
         this.isLocal = isLocal;
     }
-
 
     public void setBookChapters(List<BookChapter> beans) {
         bookChapterList = beans;
@@ -276,11 +274,11 @@ public class BookShelfListBean implements Serializable {
         this.greet = greet;
     }
 
-    public float getWord() {
+    public int getWord() {
         return this.word;
     }
 
-    public void setWord(float word) {
+    public void setWord(int word) {
         this.word = word;
     }
 
@@ -300,11 +298,11 @@ public class BookShelfListBean implements Serializable {
         this.is_hot = is_hot;
     }
 
-    public float getReading_size() {
+    public int getReading_size() {
         return this.reading_size;
     }
 
-    public void setReading_size(float reading_size) {
+    public void setReading_size(int reading_size) {
         this.reading_size = reading_size;
     }
 

@@ -67,7 +67,7 @@ public abstract class LtbJsonCallback<T> extends AbsCallback<T> {
                 show = LoadingDialog.newInstance()
                         .setDimAmout(0f)
                         .setOutCancel(false)
-                        .setBackCancel(false)
+                        .setBackCancel(true)
                         .setOnDismissListener(dialog -> OkGo.getInstance().cancelTag(reqTag))
                         .show(mContext.getSupportFragmentManager());
             } catch (Exception e) {

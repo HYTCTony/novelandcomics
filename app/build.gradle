@@ -7,8 +7,8 @@ android {
         applicationId "com.huli.foxread"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 6
-        versionName "0.1.6"
+        versionCode 7
+        versionName "0.1.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
@@ -24,8 +24,8 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("C:/Users/hp/.android/debug.keystore")
-//            storeFile file("C:/Users/Lili/.android/debug.keystore")
+//            storeFile file("C:/Users/hp/.android/debug.keystore")
+            storeFile file("C:/Users/Lili/.android/debug.keystore")
 //            storePassword "android"
 //            keyAlias "androiddebugkey"
 //            keyPassword "android"

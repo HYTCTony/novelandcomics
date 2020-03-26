@@ -36,7 +36,7 @@ public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVie
             if (TextUtils.isEmpty(item.getLastChapter())) {
                 helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread_null)));
             } else {
-                helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread) + item.getLastChapter()));
+                helper.setText(R.id.tv_reading, (String.format(getContext().getString(R.string.txt_markread_chapter_x), item.getLastChapter())));
             }
             helper.setVisible(R.id.iv_add_book, false);
             helper.setVisible(R.id.tv_book_state, true);

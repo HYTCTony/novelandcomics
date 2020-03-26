@@ -3,7 +3,6 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,7 +19,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -42,13 +41,8 @@ import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.local.BookRepository;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.huli.page.utils.RxUtils;
-import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
-import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.interfaces.OnConfirmListener;
-import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
@@ -102,11 +96,11 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public void initView(View view) {
         mToolbar = $(view, R.id.toolbar_book_rack);
-        boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
-        if (isVisitor) {
+        FUser fUser = UserInfoCache2.getUserInfo(mActivity);
+        if (fUser.getIs_visitor() == 1) {
             mToolbar.setTitle(R.string.txt_say_hi);
         } else {
-            mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
+            mToolbar.setTitle(fUser.getUsername());
         }
         ((AppCompatActivity) mActivity).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
@@ -137,6 +131,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 getSpecialBook();
                 reqGetBooks();
+                ((MainActivity) mActivity).getUserReadTime();
                 refreshLayout.finishRefresh();
             }
         });
@@ -144,7 +139,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         tvAsBtnSignIngGold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (UserInfoCache.getIsVisitor(mActivity)) {
+                if (UserInfoCache2.getIsVisitor(mActivity)) {
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
                     startActivity(new Intent(mActivity, SignInActivity.class));
@@ -187,11 +182,11 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        boolean isVisitor = UserInfoCache.getIsVisitor(mActivity);
-        if (isVisitor) {
+        int isVisitor = event.getIs_visitor();
+        if (isVisitor == 1) {
             mToolbar.setTitle(R.string.txt_say_hi);
         } else {
-            mToolbar.setTitle(UserInfoCache.getUserName(mActivity));
+            mToolbar.setTitle(event.getUsername());
         }
 //        reqGetBooks();
     }
@@ -241,19 +236,19 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 //        fff = !fff;
         if (position != data.size() - 1) {
             BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
-            MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "是否删除这本书？", "确定","取消")
-            .setOnOkButtonClickListener((baseDialog, v) -> {
-                reqDelBooks(bean.getId());
-                BookRepository.getInstance().deleteCollBookInRx(bean)
-                        .compose(RxUtils::toSimpleSingle)
-                        .subscribe(
-                                (Void) -> {
-                                    data.remove(position);
-                                    adapter.notifyDataSetChanged();
-                                }
-                        );
-                return false;
-            });
+            MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "是否删除这本书？", "确定", "取消")
+                    .setOnOkButtonClickListener((baseDialog, v) -> {
+                        reqDelBooks(bean.getId());
+                        BookRepository.getInstance().deleteCollBookInRx(bean)
+                                .compose(RxUtils::toSimpleSingle)
+                                .subscribe(
+                                        (Void) -> {
+                                            data.remove(position);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                );
+                        return false;
+                    });
         }
         return true;
     }

@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class HotTodayAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolder
     protected void convert(@NonNull BaseViewHolder helper, BookEntity item) {
         GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image(), DensityUtils.dp2px(getContext(), 2));
         helper.setText(R.id.tv_book_title, item.getName());
-        helper.setText(R.id.tv_book_heat_rate, item.getHot() + getContext().getString(R.string.txt_heat_wan));
+        helper.setText(R.id.tv_book_heat_rate, FigureProcessor.formatHeat(getContext(), item.getHot()));
         TextView tvRank = helper.getView(R.id.tv_ranking_hot);
         String rankStr = String.valueOf(helper.getLayoutPosition() + 1);
         tvRank.setText(rankStr);

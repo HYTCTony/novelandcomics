@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.RankBookEntity;
+import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,7 @@ public class RankingSubAdapter extends BaseQuickAdapter<RankBookEntity, BaseView
         GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
         holder.setText(R.id.tv_book_name, item.getName());
         holder.setText(R.id.tv_book_type, item.getAuthor());
-        holder.setText(R.id.tv_book_heat, String.valueOf(item.getHot()));
+        holder.setText(R.id.tv_book_heat, FigureProcessor.formatNum(getContext(), item.getHot()));
 
         int pos = holder.getLayoutPosition();
         holder.setText(R.id.tv_ranking, String.valueOf(pos + 1));

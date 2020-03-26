@@ -13,7 +13,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -71,6 +71,10 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     private RecyclerView rvWelfareZone;
     private WelfareZoneMineAdapter wzAdapter;
 
+    private boolean isVisitor;
+    private boolean isVip;
+    private boolean isInvited;
+
     @Override
     public int bindLayout() {
         return R.layout.fragment_main_mine;
@@ -115,7 +119,9 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
 
-        changeUIbyUserInfo(mActivity);
+        FUser userInfo = UserInfoCache2.getUserInfo(mActivity);
+        isVisitor = userInfo.getIs_visitor() == 1;
+        changeUIbyUserInfo(userInfo);
     }
 
     @Override
@@ -129,6 +135,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
+
+
     }
 
     @Override
@@ -152,11 +160,13 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        changeUIbyUserInfo(mActivity);
+        isVisitor = event.getIs_visitor() == 1;
+        changeUIbyUserInfo(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onVipChargerEvent(VipChargerEvent event) {
+        isVip = event.isBecomingVip();
         changeUIbyIsVip(event.isBecomingVip());
         EventBus.getDefault().removeStickyEvent(event);
     }
@@ -174,26 +184,33 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void changeUIbyUserInfo(Context mContext) {
-        boolean isVisitor = UserInfoCache.getIsVisitor(mContext);
+    /**
+     * 用户信息改变的时候改变UI
+     *
+     * @param fUser
+     */
+    private void changeUIbyUserInfo(FUser fUser) {
+        isVisitor = fUser.getIs_visitor() == 1;
         if (isVisitor) {
             layoutNotLogin.setVisibility(View.VISIBLE);
             layoutLogged.setVisibility(View.GONE);
         } else {
             layoutNotLogin.setVisibility(View.GONE);
             layoutLogged.setVisibility(View.VISIBLE);
-            displayUserInfo(mContext);
+            displayUserInfo(fUser);
         }
 
         //VIP
-        changeUIbyIsVip(UserInfoCache.getIsVip(mContext));
+        isVip = fUser.getIs_vip() == 1;
+        changeUIbyIsVip(isVip);
 
         //是否已经填写邀请码
-        if (UserInfoCache.getIsInvited(mActivity) == 0) {
+        isInvited = fUser.getIs_invited() > 0;
+        if (isInvited) {
+            btnIviter.setVisibility(View.GONE);
+        } else {
             //如果未填写邀请码
             btnIviter.setVisibility(View.VISIBLE);
-        } else {
-            btnIviter.setVisibility(View.GONE);
         }
 
     }
@@ -220,13 +237,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     /**
      * 显示用户信息
-     *
-     * @param mContext
      */
-    private void displayUserInfo(Context mContext) {
-        GlideUtil.loadCircle(mContext, ivUserHeadImg, UserInfoCache.getHeadPic(mContext));
-        tvNickname.setText(UserInfoCache.getUserName(mContext));
-        tvUserId.setText((getString(R.string.txt_id_colon) + UserInfoCache.getUserId(mContext)));
+    private void displayUserInfo(FUser fUser) {
+        GlideUtil.loadCircle(mActivity, ivUserHeadImg, fUser.getHttp_avatar());
+        tvNickname.setText(fUser.getUsername());
+        tvUserId.setText((getString(R.string.txt_id_colon) + fUser.getId()));
 //        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
 //        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
     }
@@ -244,7 +259,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_asBtn_sign_in_4_gold:          //签到
-                if (UserInfoCache.getIsVisitor(mActivity)) {
+                if (isVisitor) {
                     go2LoginAndResult();
                 } else {
                     startActivity(new Intent(mActivity, SignInActivity.class));
@@ -261,7 +276,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.ll_my_gold_coin_mine:
             case R.id.ll_today_gold_coin_mine:
-                if (UserInfoCache.getIsVisitor(mActivity)) {
+                if (isVisitor) {
                     go2LoginAndResult();
                 } else {
                     startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
@@ -269,7 +284,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.rtl_asBtn_my_privilege:                   //go2 VIP页面
             case R.id.tv_asBtn_open_membership_account:         //go2 VIP页面
-                if (UserInfoCache.getIsVisitor(mActivity)) {
+                if (isVisitor) {
                     go2LoginAndResult();
                 } else {
                     startActivity(new Intent(mActivity, MyPrivilegeActivity.class));
@@ -282,14 +297,16 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
                 break;
             case R.id.rtl_asBtn_inviter:
-                if (!UserInfoCache.getIsVisitor(mActivity) && UserInfoCache.getIsInvited(mActivity) == 0) {
-                    startActivity(new Intent(mActivity, InvitationCodeActivity.class));
-                } else {
+                if (isVisitor) {
                     go2LoginAndResult();
+                } else {
+                    if (!isInvited) {
+                        startActivity(new Intent(mActivity, InvitationCodeActivity.class));
+                    }
                 }
                 break;
             case R.id.rtl_asBtn_cash_withdrawal:
-                if (UserInfoCache.getIsVisitor(mActivity)) {
+                if (isVisitor) {
                     go2LoginAndResult();
                 } else {
                     startActivity(new Intent(mActivity, WithdrawalActivity.class));

@@ -18,9 +18,8 @@ import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
-import com.huli.foxread.utils.Tos;
-import com.huli.foxread.utils.UnitConverUtil;
 
 import java.util.List;
 
@@ -86,14 +85,18 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
             if (data != null) {
                 btnAll.setText(data.getName());
                 List<BookEntity> novels = data.getNovel();
-                mAdapter.setNewData(novels);
+                if (novels.size() > 4) {
+                    mAdapter.setNewData(novels.subList(0, 4));
+                } else {
+                    mAdapter.setNewData(novels);
+                }
             }
         }
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if(onMoreClick()){
+        if (onMoreClick()) {
             return;
         }
         BookEntity entity = mAdapter.getData().get(position);
@@ -113,7 +116,7 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
         protected void convert(@NonNull BaseViewHolder helper, BookEntity item) {
             GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover_cew), item.getHttp_image(), 0);
             helper.setText(R.id.tv_book_name, item.getName());
-            helper.setText(R.id.tv_book_viewers_cur, UnitConverUtil.formatNum(getContext(), item.getRead_sum()) + getString(R.string.txt_book_watching_w));
+            helper.setText(R.id.tv_book_viewers_cur, FigureProcessor.formatNum(getContext(), item.getRead_sum()) + getString(R.string.txt_book_watching));
         }
     }
 }

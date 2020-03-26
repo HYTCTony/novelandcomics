@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,9 +11,10 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AvatarGroup;
 import com.huli.foxread.entity.SysAvatarEntity;
@@ -66,7 +68,7 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
 
         recyclerView = $(R.id.recyclerView_system_avatar);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        headPicUrl = UserInfoCache.getHeadPic(this);
+        headPicUrl = UserInfoCache2.getHeadPic(this);
         mAdapter = new SectionAvatarAdapter(headPicUrl, this);
         recyclerView.setAdapter(mAdapter);
 
@@ -142,10 +144,12 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache.saveHeadPic(AvatarSelectActivity.this, headPicUrl);
+//                            UserInfoCache.saveHeadPic(AvatarSelectActivity.this, headPicUrl);
+                            Intent intent = getIntent();
+                            intent.putExtra(Common.KEY_HTTP_AVATAR, headPicUrl);
                             TipDialog.show(AvatarSelectActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
                                     .setOnDismissListener(() -> {
-                                        setResult(RESULT_OK);
+                                        setResult(RESULT_OK, intent);
                                         finish();
                                     });
                         } else {

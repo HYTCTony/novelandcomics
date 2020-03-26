@@ -10,7 +10,7 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -148,7 +148,7 @@ public class BindingCellphoneActivty extends BaseActivity implements View.OnClic
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache.saveMobile(BindingCellphoneActivty.this, tel);
+                            UserInfoCache2.saveMobile(BindingCellphoneActivty.this, tel);
                             TipDialog.show(BindingCellphoneActivty.this, entity.msg, TipDialog.TYPE.ERROR)
                                     .setOnDismissListener(() -> finish());
                         } else {

@@ -64,6 +64,7 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         mAdapter = new SectionNewBookAdapter();
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
     }
 
     @Override

@@ -88,6 +88,7 @@
     <string name="txt_need_2_pay">需支付：%1$s</string>
 
     <string name="unit_ren">人</string>
+    <string name="unit_ren_w">万人</string>
     <string name="unit_yuan">元</string>
     <string name="unit_score">分</string>
     <string name="unit_w">万</string>
@@ -122,7 +123,7 @@
     <string name="txt_praise_good_books">好评佳作</string>
     <string name="txt_total_reading_time_min">今日已阅读(分钟)</string>
     <string name="txt_sign_in_for_gold">签到领金币</string>
-    <string name="txt_markread">读到：</string>
+    <string name="txt_markread_chapter_x">读到：第%1$s章</string>
     <string name="txt_markread_null">未读</string>
     <string name="txt_welfare_center">福利中心</string>
     <string name="txt_click_2_login">点击\n登录</string>
@@ -189,7 +190,9 @@
     <string name="txt_hot_books">热门书籍</string>
 
     <string name="txt_book_watching_w">万人在看</string>
+    <string name="txt_book_watching">人在看</string>
     <string name="txt_book_reader_w">万人在读</string>
+    <string name="txt_book_reader">人在读</string>
     <string name="txt_newest">最新</string>
     <string name="txt_catalogue">目录</string>
     <string name="txt_add_a_bookcase">加入书架</string>

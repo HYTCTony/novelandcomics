@@ -15,7 +15,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.baoyachi.stepview.HorizontalStepView;
 import com.baoyachi.stepview.bean.StepBean;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -31,8 +31,6 @@ import com.huli.foxread.entity.WelfareNewBieTaskEntity;
 import com.huli.foxread.entity.WelfareReadTaskEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
 import com.huli.foxread.listeners.OnClickEvent;
-import com.huli.foxread.ui.activities.InvitationCodeActivity;
-import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
@@ -42,7 +40,6 @@ import com.huli.foxread.ui.adapters.WelfareReadMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -68,8 +65,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MainWelfareFragment extends BaseFragment implements OnBannerListener, View.OnClickListener, OnRefreshListener {
-    private static final int REQCODE_FILL_INVITE_CODE = 0x1234;
-    private static final int REQCODE_NOR_SIGNIN = 0x5241;
 
     private SmartRefreshLayout mRefreshLayout;
     private TextView btnClick2Login;
@@ -93,8 +88,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     private View headViewDaily;
     private RecyclerView rvDaily;
 
-    private int signInFlag = -1;
-
+    private boolean isVisitor;
 
     @Override
     public int bindLayout() {
@@ -150,7 +144,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
 
-        displayIsLoginUI(mContext);
+        isVisitor = UserInfoCache2.getIsVisitor(mActivity);
+        displayIsLoginUI(isVisitor);
 
         reqTopBannerData();
 
@@ -165,7 +160,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        displayIsLoginUI(mActivity);
+        isVisitor = event.getIs_visitor() == 1;
+        displayIsLoginUI(isVisitor);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -188,8 +184,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
     }
 
-    private void displayIsLoginUI(Context context) {
-        boolean isVisitor = UserInfoCache.getIsVisitor(context);
+    private void displayIsLoginUI(boolean isVisitor) {
         if (isVisitor) {
             btnClick2Login.setVisibility(View.VISIBLE);
             btnGoldCoinUsable.setVisibility(View.GONE);
@@ -206,6 +201,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         reqGetWerfareTasks(false);
 
         ((MainActivity) mActivity).reqMyCapitalDetail();
+        ((MainActivity) mActivity).getUserReadTime();
     }
 
     @Override
@@ -221,12 +217,12 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                 startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
                 break;
             case R.id.tv_asBtn_sign_in_now:
-                if (UserInfoCache.getIsVisitor(mActivity)) {
+                if (isVisitor) {
                     //去登陆
                     startActivity(new Intent(mActivity, LoginActivity.class));
                 } else {
                     //签到页面
-                    startActivityForResult(new Intent(mActivity, SignInActivity.class), REQCODE_NOR_SIGNIN);
+                    startActivity(new Intent(mActivity, SignInActivity.class));
                 }
                 break;
             default:
@@ -352,7 +348,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                     @Override
                     public void singleClick(View v) {
                         //完成新人签到任务
-                        if (UserInfoCache.getIsVisitor(mActivity)) {
+                        if (isVisitor) {
                             startActivity(new Intent(mActivity, LoginActivity.class));
                             return;
                         }
@@ -438,7 +434,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
                             //普通签到任务
                             NormalSignInTaskEntity normalSignInTask = welfareEntity.getSign_in();
-                            signInFlag = normalSignInTask.getComplete_task();   //1是已签到，0是未签到
+                            int signInFlag = normalSignInTask.getComplete_task();   //1是已签到，0是未签到
                             if (signInFlag == 0) {
                                 btnSignInNow.setText(R.string.txt_sign_in_immediately);
                                 btnSignInNow.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_white));
@@ -448,7 +444,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                                 btnSignInNow.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray));
                                 btnSignInNow.setBackgroundResource(R.drawable.shape_btn_semicircle_bg_disabled);
                             }
-                            if (!UserInfoCache.getIsVisitor(mActivity)) {
+                            if (!isVisitor) {
                                 tvGoldCoinCount.setText(setNumColor(mActivity, String.format(getResources().getString(R.string.txt_today_signin_add_goldcoin_x), normalSignInTask.getReward())));
                                 tvSignInCount.setText(setNumColor(mActivity, String.format(getResources().getString(R.string.txt_continuous_sign_in_day_x), normalSignInTask.getSign_successions())));
                             } else {
@@ -503,7 +499,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                             ((MainActivity) mActivity).reqMyCapitalDetail();
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
                         } else {
-                            Tos.showShort(mActivity, entity.msg);
+                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });

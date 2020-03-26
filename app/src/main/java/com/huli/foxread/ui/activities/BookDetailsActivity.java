@@ -34,9 +34,9 @@ import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.widget.ChapterPopup;
 import com.huli.foxread.ui.widget.ExpandableTextView;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.UnitConverUtil;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.ui.activity.ReadBookActivity;
@@ -305,16 +305,16 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             tvBookAuthor.setText(data.getAuthor());
                             String bookTagStr = data.getClassify_name()
                                     + "·" + ((data.getIs_end() == 1) ? "完结" : "连载")
-                                    + "·" + UnitConverUtil.formatNumUnit(BookDetailsActivity.this, data.getWord(), R.string.unit_word_w);
+                                    + "·" + FigureProcessor.formatWordNum(BookDetailsActivity.this, data.getWord());
                             tvBookTips.setText(bookTagStr);
-                            tvBookReader.setText(UnitConverUtil.formatNum(BookDetailsActivity.this, data.getReading_size()));
+                            tvBookReader.setText(FigureProcessor.formatNum(BookDetailsActivity.this, data.getReading_size()));
                             float score = data.getScore();
                             tvBookScore.setText(String.valueOf(score));
                             ratingBarScore.setRating(score / 2);
                             expTextView.setText(data.getIntroduce());
 
                             List<String> tags = data.getTag();
-                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
+//                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
                             if (tags != null && tags.size() > 0) {
                                 labelBookTags.setLabels(tags);
                             }

@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:text="@string/txt_book_reader_w"
+                    android:text="@string/txt_book_reader"
                     android:textColor="@color/txt_af80_white"
                     android:textSize="@dimen/sp_10"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_reader_dt"

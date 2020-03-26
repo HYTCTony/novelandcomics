@@ -5,8 +5,8 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
-import com.huli.foxread.utils.UnitConverUtil;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class BooksListAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolde
         helper.setText(R.id.tv_book_score, item.getScore() + getContext().getString(R.string.unit_score));
         helper.setText(R.id.tv_book_description, item.getIntroduce());
         helper.setText(R.id.tv_book_author_pen_name, item.getAuthor());
-        helper.setText(R.id.tv_book_word_count, UnitConverUtil.formatNumUnit(getContext(), item.getWord(), R.string.unit_word_w));
+        helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), item.getWord()));
 
         List<String> tags = item.getTag();
         if (tags != null && tags.size() > 0) {

@@ -236,8 +236,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                     spanbs.length() - 2,
                                     Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             tvTitleSignIn.setText(spanbs);
-
-                            setResult(RESULT_OK);
                         } else {
                             TipDialog.show(SignInActivity.this, entity.msg, TipDialog.TYPE.ERROR)
                                     .setOnDismissListener(() -> finish());

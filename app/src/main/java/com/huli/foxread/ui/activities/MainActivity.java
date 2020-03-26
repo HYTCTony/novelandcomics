@@ -12,7 +12,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -30,7 +30,6 @@ import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.ui.fragments.SelectionBookFragment;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
-import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -105,6 +104,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     protected void onResume() {
         super.onResume();
         reqMyCapitalDetail();
+
         getUserReadTime();
     }
 
@@ -268,7 +268,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     public void onSuccess(Response<LzyResponse<FUser>> response) {
                         if (response.body().error_code == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache.saveCacheAll(MainActivity.this, data);
+                            UserInfoCache2.saveUserInfo(MainActivity.this, data);
 
                             EventBus.getDefault().postSticky(data);
                         }
@@ -280,7 +280,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     /**
      * 获取用户阅读时间
      */
-    private void getUserReadTime() {
+    public void getUserReadTime() {
         OkGo.<String>get(Consts.USER_READ_TIME_API)
                 .execute(new LtbCallback(this, false) {
                     @Override

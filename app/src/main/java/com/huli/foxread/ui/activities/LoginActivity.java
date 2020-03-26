@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -246,7 +246,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         int errorCode = response.body().error_code;
                         if (errorCode == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache.saveCacheAll(LoginActivity.this, data);
+                            UserInfoCache2.saveUserInfo(LoginActivity.this, data);
 
                             TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
                                     .setOnDismissListener(() -> finish());

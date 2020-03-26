@@ -11,7 +11,7 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -67,7 +67,7 @@ public class ChangeBindingActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void doBusiness(Context mContext) {
-        phoneNum = UserInfoCache.getMobile(this);
+        phoneNum = UserInfoCache2.getMobile(this);
         etPhoneNum.setText(phoneNum.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
     }
 

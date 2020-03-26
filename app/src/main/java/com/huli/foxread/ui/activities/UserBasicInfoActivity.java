@@ -14,9 +14,10 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -87,14 +88,21 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
     public void doBusiness(Context mContext) {
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        displayUserInfo(mContext);
+        FUser userInfo = UserInfoCache2.getUserInfo(mContext);
+        displayUserInfo(userInfo);
     }
 
-    private void displayUserInfo(Context mContext) {
-        GlideUtil.loadCircle(mContext, ivHeadImg, UserInfoCache.getHeadPic(mContext));
-        tvNickname.setText(UserInfoCache.getUserName(mContext));
-        tvAccountId.setText(UserInfoCache.getUserId(mContext));
-        tvGender.setText(UserInfoCache.getGender(mContext) == 0 ? getString(R.string.txt_male) : getString(R.string.txt_female));
+    private void displayUserInfo(FUser userInfo) {
+        GlideUtil.loadCircle(this, ivHeadImg, userInfo.getHttp_avatar());
+        tvNickname.setText(userInfo.getUsername());
+        tvAccountId.setText(userInfo.getId());
+        if (userInfo.getGender() == 0) {
+            tvGender.setText(getString(R.string.txt_male));
+        } else if (userInfo.getGender() == 1) {
+            tvGender.setText(getString(R.string.txt_female));
+        } else {
+            tvGender.setText(null);
+        }
     }
 
 
@@ -167,12 +175,14 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
 
         if (resultCode == RESULT_OK) {
             if (requestCode == REQCODE_CHANGE_AVATAR) {
-                String headPicUrl = UserInfoCache.getHeadPic(this);
+//                String headPicUrl = UserInfoCache.getHeadPic(this);
+                String headPicUrl = data.getStringExtra(Common.KEY_HTTP_AVATAR);
                 GlideUtil.loadCircle(UserBasicInfoActivity.this, ivHeadImg, headPicUrl);
                 setResult(RESULT_OK);
 
+                FUser user = UserInfoCache2.saveHeadPic(this, headPicUrl);
                 //通知ui刷新
-                EventBus.getDefault().postSticky(new FUser());
+                EventBus.getDefault().postSticky(user);
             }
         }
     }
@@ -187,22 +197,28 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
+                            FUser userInfo;
                             if (paramKey.equals(Consts.USERNAME)) {
                                 tvNickname.setText(paramValue);
-                                UserInfoCache.saveUserName(UserBasicInfoActivity.this, paramValue);
+                                userInfo = UserInfoCache2.saveUserName(UserBasicInfoActivity.this, paramValue);
+                                setResult(RESULT_OK);
+                                Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
+                                //通知ui刷新
+                                EventBus.getDefault().postSticky(userInfo);
                             } else if (paramKey.equals(Consts.GENDER)) {
                                 if (gender == 0) {
                                     tvGender.setText(getString(R.string.txt_male));
                                 } else if (gender == 1) {
                                     tvGender.setText(getString(R.string.txt_female));
+                                } else {
+                                    gender = -1;
                                 }
-                                UserInfoCache.saveGender(UserBasicInfoActivity.this, gender);
+                                userInfo = UserInfoCache2.saveGender(UserBasicInfoActivity.this, gender);
+                                setResult(RESULT_OK);
+                                Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
+                                //通知ui刷新
+                                EventBus.getDefault().postSticky(userInfo);
                             }
-                            setResult(RESULT_OK);
-                            Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
-
-                            //通知ui刷新
-                            EventBus.getDefault().postSticky(new FUser());
                         } else {
                             Tos.showShort(UserBasicInfoActivity.this, entity.msg);
                         }

@@ -39,10 +39,10 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         public final static Property Classify_id = new Property(12, int.class, "classify_id", false, "CLASSIFY_ID");
         public final static Property Classify_name = new Property(13, String.class, "classify_name", false, "CLASSIFY_NAME");
         public final static Property Greet = new Property(14, int.class, "greet", false, "GREET");
-        public final static Property Word = new Property(15, float.class, "word", false, "WORD");
+        public final static Property Word = new Property(15, int.class, "word", false, "WORD");
         public final static Property Is_new = new Property(16, int.class, "is_new", false, "IS_NEW");
         public final static Property Is_hot = new Property(17, int.class, "is_hot", false, "IS_HOT");
-        public final static Property Reading_size = new Property(18, float.class, "reading_size", false, "READING_SIZE");
+        public final static Property Reading_size = new Property(18, int.class, "reading_size", false, "READING_SIZE");
         public final static Property Introduce = new Property(19, String.class, "introduce", false, "INTRODUCE");
         public final static Property Http_image = new Property(20, String.class, "http_image", false, "HTTP_IMAGE");
         public final static Property Chapter_sum = new Property(21, int.class, "chapter_sum", false, "CHAPTER_SUM");
@@ -87,10 +87,10 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
                 "\"CLASSIFY_ID\" INTEGER NOT NULL ," + // 12: classify_id
                 "\"CLASSIFY_NAME\" TEXT," + // 13: classify_name
                 "\"GREET\" INTEGER NOT NULL ," + // 14: greet
-                "\"WORD\" REAL NOT NULL ," + // 15: word
+                "\"WORD\" INTEGER NOT NULL ," + // 15: word
                 "\"IS_NEW\" INTEGER NOT NULL ," + // 16: is_new
                 "\"IS_HOT\" INTEGER NOT NULL ," + // 17: is_hot
-                "\"READING_SIZE\" REAL NOT NULL ," + // 18: reading_size
+                "\"READING_SIZE\" INTEGER NOT NULL ," + // 18: reading_size
                 "\"INTRODUCE\" TEXT," + // 19: introduce
                 "\"HTTP_IMAGE\" TEXT," + // 20: http_image
                 "\"CHAPTER_SUM\" INTEGER NOT NULL ," + // 21: chapter_sum
@@ -164,10 +164,10 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             stmt.bindString(14, classify_name);
         }
         stmt.bindLong(15, entity.getGreet());
-        stmt.bindDouble(16, entity.getWord());
+        stmt.bindLong(16, entity.getWord());
         stmt.bindLong(17, entity.getIs_new());
         stmt.bindLong(18, entity.getIs_hot());
-        stmt.bindDouble(19, entity.getReading_size());
+        stmt.bindLong(19, entity.getReading_size());
  
         String introduce = entity.getIntroduce();
         if (introduce != null) {
@@ -251,10 +251,10 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             stmt.bindString(14, classify_name);
         }
         stmt.bindLong(15, entity.getGreet());
-        stmt.bindDouble(16, entity.getWord());
+        stmt.bindLong(16, entity.getWord());
         stmt.bindLong(17, entity.getIs_new());
         stmt.bindLong(18, entity.getIs_hot());
-        stmt.bindDouble(19, entity.getReading_size());
+        stmt.bindLong(19, entity.getReading_size());
  
         String introduce = entity.getIntroduce();
         if (introduce != null) {
@@ -313,10 +313,10 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             cursor.getInt(offset + 12), // classify_id
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // classify_name
             cursor.getInt(offset + 14), // greet
-            cursor.getFloat(offset + 15), // word
+            cursor.getInt(offset + 15), // word
             cursor.getInt(offset + 16), // is_new
             cursor.getInt(offset + 17), // is_hot
-            cursor.getFloat(offset + 18), // reading_size
+            cursor.getInt(offset + 18), // reading_size
             cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // introduce
             cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // http_image
             cursor.getInt(offset + 21), // chapter_sum
@@ -349,10 +349,10 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         entity.setClassify_id(cursor.getInt(offset + 12));
         entity.setClassify_name(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setGreet(cursor.getInt(offset + 14));
-        entity.setWord(cursor.getFloat(offset + 15));
+        entity.setWord(cursor.getInt(offset + 15));
         entity.setIs_new(cursor.getInt(offset + 16));
         entity.setIs_hot(cursor.getInt(offset + 17));
-        entity.setReading_size(cursor.getFloat(offset + 18));
+        entity.setReading_size(cursor.getInt(offset + 18));
         entity.setIntroduce(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
         entity.setHttp_image(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
         entity.setChapter_sum(cursor.getInt(offset + 21));

@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -72,16 +72,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         btnUserBasicInfo = $(R.id.rtl_asBtn_user_basic_info);
         btnAccountSecurity = $(R.id.tv_asBtn_account_security);
         btnLogout = $(R.id.btn_logout_account);
-        //游客状态不可见
-        if (UserInfoCache.getIsVisitor(this)) {
-            btnAccountSecurity.setVisibility(View.GONE);
-            btnLogout.setVisibility(View.GONE);
-            btnUserBasicInfo.setVisibility(View.GONE);
-        } else {
-            btnAccountSecurity.setVisibility(View.VISIBLE);
-            btnLogout.setVisibility(View.VISIBLE);
-            btnUserBasicInfo.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -97,7 +87,19 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void doBusiness(Context mContext) {
-        tvNickname.setText(UserInfoCache.getUserName(this));
+        FUser userInfo = UserInfoCache2.getUserInfo(mContext);
+        //游客状态不可见
+        if (userInfo.getIs_visitor() == 1) {
+            btnAccountSecurity.setVisibility(View.GONE);
+            btnLogout.setVisibility(View.GONE);
+            btnUserBasicInfo.setVisibility(View.GONE);
+        } else {
+            btnAccountSecurity.setVisibility(View.VISIBLE);
+            btnLogout.setVisibility(View.VISIBLE);
+            btnUserBasicInfo.setVisibility(View.VISIBLE);
+        }
+
+        tvNickname.setText(userInfo.getUsername());
         tvPushNotifyState.setText("已开启");
         String cache = "0.00k";
         try {
@@ -153,7 +155,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQCODE_USER_ATTR) {
-                tvNickname.setText(UserInfoCache.getUserName(this));
+                tvNickname.setText(UserInfoCache2.getUserName(this));
             }
         }
     }
@@ -170,10 +172,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                                 new TypeReference<LzyResponse<LoginRpsEntity>>() {
                                 });
                         if (entity.error_code == 0) {
-                            UserInfoCache.clearCache(SettingActivity.this);
+                            UserInfoCache2.clearCache(SettingActivity.this);
                             TokenCache.saveToken(SettingActivity.this, entity.getData().getToken());
 
-                            EventBus.getDefault().postSticky(new FUser());
+                            EventBus.getDefault().postSticky(UserInfoCache2.getUserInfo(SettingActivity.this));
 
                             setResult(RESULT_OK);
                             finish();

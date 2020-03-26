@@ -4,8 +4,8 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookMultiEntity;
+import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
-import com.huli.foxread.utils.UnitConverUtil;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class BooksMultiItemAdapter extends BaseMultiItemQuickAdapter<BookMultiEn
                     helper.setGone(R.id.tv_book_tag, true);
                 }
 
-                helper.setText(R.id.tv_book_word_count, UnitConverUtil.formatNumWan(getContext(), item.getWord()));
+                helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), item.getWord()));
                 break;
             case BookMultiEntity.ITEM_FIRST:
                 GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image(), 0);

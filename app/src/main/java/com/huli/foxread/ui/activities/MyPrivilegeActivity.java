@@ -21,7 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alipay.sdk.app.PayTask;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -158,10 +158,10 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void doBusiness(Context mContext) {
-
-        GlideUtil.loadCircle(this, ivHeadImg, UserInfoCache.getHeadPic(this));
-        tvNickname.setText(UserInfoCache.getUserName(this));
-        String phoneNum = UserInfoCache.getMobile(this);
+        FUser userInfo = UserInfoCache2.getUserInfo(mContext);
+        GlideUtil.loadCircle(this, ivHeadImg, userInfo.getHttp_avatar());
+        tvNickname.setText(userInfo.getUsername());
+        String phoneNum = userInfo.getMobile();
         tvTel.setText(phoneNum.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
 
         String str = getString(R.string.txt_agree_service_agreement);
@@ -186,8 +186,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         tvServiceAgreement.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
         tvServiceAgreement.setText(spab);
 
-        boolean isVip = UserInfoCache.getIsVip(this);
-        displayVipUI(isVip);
+        displayVipUI(userInfo);
 
         btnOpenOrRenew.setText("立即开通");
 
@@ -221,11 +220,12 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         btnOpenOrRenew.setText((new DecimalFormat("######0.00").format(discountPrice) + getString(R.string.txt_yuan_open)));
     }
 
-    private void displayVipUI(boolean isVip) {
+    private void displayVipUI(FUser fUser) {
+        boolean isVip = fUser.getIs_vip() == 1;
         if (isVip) {
             tvVipTypeTitle.setText(R.string.txt_monthly_vip);
             tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
-                    DateTimeUtil.formatDateTime(UserInfoCache.getVipEndtime(this) * 1000, "yyyy-MM-dd")));
+                    DateTimeUtil.formatDateTime(fUser.getVip_end() * 1000, "yyyy-MM-dd")));
             tvVipTips.setText(R.string.txt_tips_vip_state);
             tvAccountSetup.setVisibility(View.GONE);
             ivIconVipSymbol.setVisibility(View.VISIBLE);
@@ -376,10 +376,10 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                     public void onSuccess(Response<LzyResponse<FUser>> response) {
                         if (response.body().error_code == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache.saveCacheAll(MyPrivilegeActivity.this, data);
+                            UserInfoCache2.saveUserInfo(MyPrivilegeActivity.this, data);
                             tvVipTypeTitle.setText(R.string.txt_monthly_vip);
                             tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
-                                    DateTimeUtil.formatDateTime(UserInfoCache.getVipEndtime(MyPrivilegeActivity.this) * 1000, "yyyy-MM-dd")));
+                                    DateTimeUtil.formatDateTime(data.getVip_end() * 1000, "yyyy-MM-dd")));
                             tvVipTips.setText(R.string.txt_tips_vip_state);
                             tvAccountSetup.setVisibility(View.GONE);
                             ivIconVipSymbol.setVisibility(View.VISIBLE);

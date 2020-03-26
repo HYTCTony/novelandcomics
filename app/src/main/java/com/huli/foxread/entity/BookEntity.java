@@ -8,16 +8,16 @@ public class BookEntity implements Serializable {
     private String name;                //书名
     private float score;                //评分
     private String file;                //小说下载链接
-    private float read_sum;             //阅读次数（万）
+    private int read_sum;               //阅读次数
     private int is_end;                 //0未完结，1已完结
-    private float greet;                //小说人气值（万）
+    private int greet;                  //小说人气值
     private String author;
-    private float word;                 //小说字数（万）
+    private int word;                   //小说字数
     private int number;                 //被搜索的次数
     private int is_new;
     private int is_hot;
-    private int hot;                    //热度（万）
-    private float reading_size;         //在读人数（万）
+    private int hot;                    //热度
+    private int reading_size;           //在读人数
     private String introduce;
     private String http_image;
     private List<String> tag;
@@ -54,11 +54,11 @@ public class BookEntity implements Serializable {
         this.file = file;
     }
 
-    public float getRead_sum() {
+    public int getRead_sum() {
         return read_sum;
     }
 
-    public void setRead_sum(float read_sum) {
+    public void setRead_sum(int read_sum) {
         this.read_sum = read_sum;
     }
 
@@ -70,11 +70,11 @@ public class BookEntity implements Serializable {
         this.is_end = is_end;
     }
 
-    public float getGreet() {
+    public int getGreet() {
         return greet;
     }
 
-    public void setGreet(float greet) {
+    public void setGreet(int greet) {
         this.greet = greet;
     }
 
@@ -86,12 +86,20 @@ public class BookEntity implements Serializable {
         this.author = author;
     }
 
-    public float getWord() {
+    public int getWord() {
         return word;
     }
 
-    public void setWord(float word) {
+    public void setWord(int word) {
         this.word = word;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public int getIs_new() {
@@ -118,11 +126,11 @@ public class BookEntity implements Serializable {
         this.hot = hot;
     }
 
-    public float getReading_size() {
+    public int getReading_size() {
         return reading_size;
     }
 
-    public void setReading_size(float reading_size) {
+    public void setReading_size(int reading_size) {
         this.reading_size = reading_size;
     }
 
@@ -148,13 +156,5 @@ public class BookEntity implements Serializable {
 
     public void setTag(List<String> tag) {
         this.tag = tag;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 }

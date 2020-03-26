@@ -129,11 +129,6 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onClick(int index, View v, String s) {
                 if (!sLabelHot.isDeleteButton()) {
-                    //TODO 搜索
-                   /* if (hotKwList.size() > index) {
-                        HotKeywordBean data = hotKwList.get(index);
-                        Tos.showShort(SearchBookActivity.this, "热门搜索===" + s);
-                    }*/
                     addHistoryLabel(s);
 
                     // 搜索
@@ -236,7 +231,11 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         if (labelList != null && labelList.contains(keyword)) {
             return;
         }
-        sLabelHistory.addLabel(keyword);
+        if(labelList==null){
+            labelList = new ArrayList<>();
+        }
+        labelList.add(0, keyword);
+        sLabelHistory.setLabels(labelList);
         sLabelHistory.setVisibility(View.VISIBLE);
         saveHistorySearchSp(this, Common.SPFKEY_SEARCH_HISTORY, sLabelHistory.getLabels());
     }

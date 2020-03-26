@@ -20,7 +20,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -34,6 +34,7 @@ import com.huli.foxread.notchtools.core.NotchProperty;
 import com.huli.foxread.notchtools.core.OnNotchCallBack;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
+import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
@@ -102,7 +103,6 @@ public class FrLaunchActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
-
         //启动页延长显示时间   800毫秒 防止一闪而过
         mHandler.sendEmptyMessageDelayed(9, 800);
     }
@@ -168,8 +168,12 @@ public class FrLaunchActivity extends BaseActivity {
 
     public void goMain() {
         mHandler.removeMessages(0);
-        startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
-        finish();
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
+            finish();
+        }else {
+            Tos.showShort(this, R.string.txt_no_network_try_again_later);
+        }
     }
 
 
@@ -187,12 +191,12 @@ public class FrLaunchActivity extends BaseActivity {
                         int errorCode = response.body().error_code;
                         if (errorCode == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache.saveCacheAll(FrLaunchActivity.this, data);
+                            UserInfoCache2.saveUserInfo(FrLaunchActivity.this, data);
                             // 游客登录 是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
                             // 游客登录 是否有性别---> 有：   reqAdsFromNet();
                             // 正式用户登录(肯定有性别)---> reqAdsFromNet();
                             int gender = data.getGender();
-                            if (gender == -1) {
+                            if (gender == -1 && data.getIs_visitor() == 1) {
                                 startActivity(new Intent(mContext, GenderChoiceActivity.class));
                                 finish();
                                 return;

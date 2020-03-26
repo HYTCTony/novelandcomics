@@ -103,7 +103,7 @@
                         <ImageView
                             android:id="@+id/iv_book_cover_push"
                             android:layout_width="@dimen/dp_0"
-                            android:layout_height="@dimen/dp_56"
+                            android:layout_height="@dimen/dp_68"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintDimensionRatio="7:9"
                             app:layout_constraintLeft_toLeftOf="parent"

@@ -54,7 +54,7 @@ public abstract class LtbCallback extends StringCallback {
                 show = LoadingDialog.newInstance()
                         .setDimAmout(0.1f)
                         .setOutCancel(false)
-                        .setBackCancel(false)
+                        .setBackCancel(true)
                         .setOnDismissListener(dialog -> OkGo.getInstance().cancelTag(reqTag))
                         .show(mContext.getSupportFragmentManager());
             } catch (Exception e) {

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -53,6 +53,8 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
 
     //我的现金余额
     private double myMoney;
+
+    private String inviteCode;
 
     //获取剪贴板管理器：
     private ClipboardManager cm;
@@ -117,7 +119,8 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void doBusiness(Context mContext) {
-        tvInviteCode.setText(UserInfoCache.getDistribution(mContext));
+        inviteCode = UserInfoCache2.getDistribution(mContext);
+        tvInviteCode.setText(inviteCode);
 
         cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
     }
@@ -141,7 +144,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.btn_copy:
                 // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("my_invite_code", UserInfoCache.getDistribution(this));
+                ClipData mClipData = ClipData.newPlainText("my_invite_code", inviteCode);
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
                 Tos.showShort(this, R.string.tips_copy_success);

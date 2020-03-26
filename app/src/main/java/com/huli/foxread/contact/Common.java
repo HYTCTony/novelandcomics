@@ -19,6 +19,7 @@ public interface Common {
 
     String SWITCH2_BOOKSTORE = "switch_main_bookstore";         //跳到书城
     String SWITCH2_WELFARE = "switch_main_welfare";             //切换到福利
+    String SIGNIN_NEWBIE = "sign_in_newbie";                    //切换到福利
     /***福利任务跳转判断***/
 
 
@@ -40,6 +41,7 @@ public interface Common {
 
     String KEY_TOKEN = "token";
 
+    String EXTRA_KEY_MSG_NUM = "msg_num";
     String EXTRA_KEY_MONEY = "key_money";
     String EXTRA_KEY_SCORE = "key_score";
     String EXTRA_KEY_TODAY_SCORE = "key_today_score";
@@ -48,7 +50,6 @@ public interface Common {
     String USER_DTO = "user_dto";
     String KEY_USER_ID = "user_id";
     String KEY_USERNAME = "username";
-    String KEY_NICKNAME = "nickname";
     String KEY_MOBILE = "mobile";
     String KEY_GENDER = "gender";
     String KEY_DISTRIBUTION = "distribution";
@@ -58,6 +59,5 @@ public interface Common {
     String KEY_IS_VISITOR = "is_visitor";
     String KEY_IS_INVITED = "is_invited";
     String KEY_HTTP_AVATAR = "http_avatar";
-    String KEY_MSG_NUM = "msg_num";
 
 }
