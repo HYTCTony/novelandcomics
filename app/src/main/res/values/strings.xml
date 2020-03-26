@@ -133,6 +133,7 @@
     <string name="txt_sign_in_immediately">立即签到</string>
     <string name="txt_already_sign_in">已经签到</string>
     <string name="txt_already_received">已领取</string>
+    <string name="txt_already_run_out">已领完</string>
     <string name="txt_go2_received">去领取</string>
 
     <string name="txt_friend_reading_time_x">好友阅读%1$d分钟</string>

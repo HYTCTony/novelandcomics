@@ -339,26 +339,33 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         if (newSignInMission != null) {
             $(headViewNewBie, R.id.ctl_gold_coin_daily_newbie).setVisibility(View.VISIBLE);
             TextView btnReceive = $(headViewNewBie, R.id.btn_receive_nb_signin_rewards);
-            if (newSignInMission.getComplete_task() == 0) {
-                btnReceive.setEnabled(true);
-                btnReceive.setText(R.string.txt_go2_received);
-                btnReceive.setBackgroundResource(R.drawable.ripple_semicircle_btn_gradual_bg_red);
-                btnReceive.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_white));
-                btnReceive.setOnClickListener(new OnClickEvent() {
-                    @Override
-                    public void singleClick(View v) {
-                        //完成新人签到任务
-                        if (isVisitor) {
-                            startActivity(new Intent(mActivity, LoginActivity.class));
-                            return;
+            if (newSignInMission.getComplete_sum() < 7) {
+                if (newSignInMission.getComplete_task() == 0) {
+                    btnReceive.setEnabled(true);
+                    btnReceive.setText(R.string.txt_go2_received);
+                    btnReceive.setBackgroundResource(R.drawable.ripple_semicircle_btn_gradual_bg_red);
+                    btnReceive.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_white));
+                    btnReceive.setOnClickListener(new OnClickEvent() {
+                        @Override
+                        public void singleClick(View v) {
+                            //完成新人签到任务
+                            if (isVisitor) {
+                                startActivity(new Intent(mActivity, LoginActivity.class));
+                                return;
+                            }
+                            reqMissionComplete(newSignInMission.getId(), null);
                         }
-                        reqMissionComplete(newSignInMission.getId(), null);
-                    }
-                });
-            } else {
+                    });
+                } else {
+                    btnReceive.setEnabled(false);
+                    btnReceive.setBackgroundResource(R.drawable.shape_btn_semicircle_bg_disabled);
+                    btnReceive.setText(R.string.txt_already_received);
+                    btnReceive.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray));
+                }
+            }else {
                 btnReceive.setEnabled(false);
                 btnReceive.setBackgroundResource(R.drawable.shape_btn_semicircle_bg_disabled);
-                btnReceive.setText(R.string.txt_already_received);
+                btnReceive.setText(R.string.txt_already_run_out);
                 btnReceive.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray));
             }
 

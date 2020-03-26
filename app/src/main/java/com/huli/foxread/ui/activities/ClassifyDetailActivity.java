@@ -290,8 +290,8 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
                                     BookEntity book2 = bookList.get(1);
                                     BookEntity book3 = bookList.get(2);
                                     ivCoverFirst.setTag(book1.getId());
-                                    ivCoverSecond.setTag(book1.getId());
-                                    ivCoverThird.setTag(book1.getId());
+                                    ivCoverSecond.setTag(book2.getId());
+                                    ivCoverThird.setTag(book3.getId());
                                     GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverFirst, book1.getHttp_image(), 0);
                                     GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverSecond, book2.getHttp_image(), 0);
                                     GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverThird, book3.getHttp_image(), 0);
