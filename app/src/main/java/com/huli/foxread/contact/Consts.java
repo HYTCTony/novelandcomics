@@ -2,8 +2,8 @@ package com.huli.foxread.contact;
 
 public interface Consts {
 
-    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
-//    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";//开发域名
+    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";//测试域名
     String NOT_CPL_URL = BASE_URL + "/api/v1";
 
     String FEEDBACK_URL = BASE_URL + "/api/feedback";

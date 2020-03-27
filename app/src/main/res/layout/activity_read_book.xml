@@ -32,7 +32,7 @@
             android:paddingTop="8dp"
             android:paddingRight="12dp"
             android:paddingBottom="8dp"
-            android:text="1/12"
+            android:text="1/1"
             android:textColor="@color/txt_gray_b2"
             android:visibility="gone"
             tools:visibility="visible" />

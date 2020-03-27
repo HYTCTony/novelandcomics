@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -222,6 +223,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     boolean fff;
 
+    @SuppressLint("CheckResult")
     @Override
     public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
 //        if (!fff) {
@@ -328,7 +330,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
                 .cacheTime(8 * 60 * 60 * 1000)
                 .cacheKey(Consts.BOOKRACK_GETLIST_API + "_bookShelf")
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {

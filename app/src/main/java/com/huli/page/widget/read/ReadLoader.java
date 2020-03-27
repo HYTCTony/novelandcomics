@@ -3,7 +3,6 @@ package com.huli.page.widget.read;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -50,8 +49,8 @@ public abstract class ReadLoader {
     public static final int STATUS_PARSE_ERROR = 6;     // 本地文件解析错误(暂未被使用)
     public static final int STATUS_CATEGORY_EMPTY = 7;  // 获取到的目录为空
     // 默认的显示参数配置
-    private static final int DEFAULT_MARGIN_HEIGHT = 28;
-    private static final int DEFAULT_MARGIN_WIDTH = 18;
+    private static final int DEFAULT_MARGIN_HEIGHT = 32;
+    private static final int DEFAULT_MARGIN_WIDTH = 24;
     private static final int DEFAULT_TIP_SIZE = 12;
     private static final int EXTRA_TITLE_SIZE = 4;
 
@@ -61,7 +60,7 @@ public abstract class ReadLoader {
     protected BookShelfListBean mCollBook;
     // 监听器
     protected ReadLoader.OnPageChangeListener mPageChangeListener;
-
+    //上下文
     private Context mContext;
     // 页面显示类
     private PageWidget mPageView;
@@ -205,6 +204,7 @@ public abstract class ReadLoader {
      * @param txtSpecing
      */
     private void setUpSpecingParams(TxtSpecing txtSpecing) {
+        this.mTxtSpecing = txtSpecing;
         // 段落间距
         mTextPara = txtSpecing.getSpecingSize();
         mTitlePara = txtSpecing.getSpecingSize();
@@ -447,10 +447,8 @@ public abstract class ReadLoader {
         isNightMode = nightMode;
 
         if (isNightMode) {
-            mBatteryPaint.setColor(Color.WHITE);
             setPageStyle(PageStyle.NIGHT);
         } else {
-            mBatteryPaint.setColor(Color.BLACK);
             setPageStyle(mPageStyle);
         }
     }
@@ -477,7 +475,7 @@ public abstract class ReadLoader {
         mTipPaint.setColor(mTextColor);
         mTitlePaint.setColor(mTextColor);
         mTextPaint.setColor(mTextColor);
-
+        mBatteryPaint.setColor(mTextColor);
         mBgPaint.setColor(mBgColor);
 
         mPageView.drawCurPage(false);
@@ -774,11 +772,11 @@ public abstract class ReadLoader {
                 /*****初始化标题的参数********/
                 //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
                 float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top;
+//                Logger.e("tipTop" + tipTop);
                 //根据状态不一样，数据不一样
                 if (mStatus != STATUS_FINISH) {
                     if (isChapterListPrepare) {
-                        canvas.drawText(mChapterList.get(mCurChapterPos).getTitle()
-                                , mMarginWidth, tipTop, mTipPaint);
+                        canvas.drawText(mChapterList.get(mCurChapterPos).getTitle(), mMarginWidth, tipTop, mTipPaint);
                     }
                 } else {
                     canvas.drawText(mCurPage.title, mMarginWidth, tipTop, mTipPaint);
@@ -894,7 +892,6 @@ public abstract class ReadLoader {
             } else {
                 top = mMarginHeight - mTextPaint.getFontMetrics().top;
             }
-
             //设置总距离
             int interval = mTextInterval + (int) mTextPaint.getTextSize();
             int para = mTextPara + (int) mTextPaint.getTextSize();
@@ -1165,8 +1162,7 @@ public abstract class ReadLoader {
         int nextChapter = mCurChapterPos + 1;
 
         // 如果不存在下一章，且下一章没有数据，则不进行加载。
-        if (!hasNextChapter()
-                || !hasChapterData(mChapterList.get(nextChapter))) {
+        if (!hasNextChapter() || !hasChapterData(mChapterList.get(nextChapter))) {
             return;
         }
 

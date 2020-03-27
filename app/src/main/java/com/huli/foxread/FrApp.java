@@ -13,6 +13,10 @@ import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -103,6 +107,7 @@ public class FrApp extends Application implements ActivityState {
 
         initBugly();
 
+        initLog();
     }
 
 
@@ -134,6 +139,20 @@ public class FrApp extends Application implements ActivityState {
     @Override
     public void isBack() {
         Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到后台");
+    }
+
+    protected void initLog() {
+        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false)
+                .methodCount(1)
+                .tag("huli")
+                .build();
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+            @Override
+            public boolean isLoggable(int priority, String tag) {
+                return true;
+            }
+        });
     }
 
     private void initBugly() {
