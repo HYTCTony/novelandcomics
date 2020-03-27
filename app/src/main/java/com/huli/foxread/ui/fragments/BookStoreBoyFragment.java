@@ -120,7 +120,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
     @Override
     public void setListener() {
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if(onMoreClick()){
+            if (onMoreClick()) {
                 return;
             }
             BookEntity entity = mAdapter.getData().get(position);
@@ -276,6 +276,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                         entity.setScore(bookEntity.getScore());
                         entity.setIntroduce(bookEntity.getIntroduce());
                         entity.setHttp_image(bookEntity.getHttp_image());
+                        entity.setWord(bookEntity.getWord());
                         datas.add(entity);
                     } else {
                         entity = new BookMultiEntity();
@@ -287,6 +288,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                         entity.setScore(bookEntity.getScore());
                         entity.setIntroduce(bookEntity.getIntroduce());
                         entity.setHttp_image(bookEntity.getHttp_image());
+                        entity.setWord(bookEntity.getWord());
                         datas.add(entity);
                     }
                 } else {
@@ -299,6 +301,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
                     entity.setScore(bookEntity.getScore());
                     entity.setIntroduce(bookEntity.getIntroduce());
                     entity.setHttp_image(bookEntity.getHttp_image());
+                    entity.setWord(bookEntity.getWord());
                     datas.add(entity);
                 }
             }
@@ -313,7 +316,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
             });
             rvLeadUpBooks.setAdapter(lubAdapter);
             lubAdapter.setOnItemClickListener((adapter, view, position) -> {
-                if(onMoreClick()){
+                if (onMoreClick()) {
                     return;
                 }
                 BookMultiEntity data = lubAdapter.getData().get(position);

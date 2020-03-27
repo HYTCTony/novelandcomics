@@ -61,6 +61,16 @@
 #忽略警告
 -ignorewarnings
 
+####***********************AndroidX***************************####
+-keep class com.google.android.material.** {*;}
+-keep class androidx.** {*;}
+-keep public class * extends androidx.**
+-keep interface androidx.** {*;}
+-dontwarn com.google.android.material.**
+-dontnote com.google.android.material.**
+-dontwarn androidx.**
+####***********************AndroidX***************************####
+
 ##########记录生成的日志数据,gradle build时在本项目根目录输出-start##
 #apk 包内所有 class 的内部结构
 -dump proguard/class_files.txt
@@ -197,7 +207,6 @@ public <methods>;
 
 
 ######引用的其他Module可以直接在app的这个混淆文件里配置
-#-keep class com.dou361.** { *; }
 
 #####GreenDao混淆
 -keep class org.greenrobot.greendao.**{*;}

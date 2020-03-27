@@ -2,6 +2,7 @@ package com.huli.foxread.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -22,6 +23,7 @@ import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.ebsevent.NetworkChangeEvent;
 import com.huli.foxread.receivers.NetworkConnectChangedReceiver;
+import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 
