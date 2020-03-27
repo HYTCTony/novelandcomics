@@ -27,8 +27,8 @@ public class PageWidget extends View {
     private int mViewWidth = 0; // 当前View的宽
     private int mViewHeight = 0; // 当前View的高
 
-    private int mStartX = 0;
-    private int mStartY = 0;
+    private int mStartX = 0;//触摸坐标X
+    private int mStartY = 0;//触摸坐标Y
     private boolean isMove = false;
     // 初始化参数
     private int mBgColor = 0xFFCEC29C;

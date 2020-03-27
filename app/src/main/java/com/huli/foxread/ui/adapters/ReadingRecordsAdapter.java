@@ -67,8 +67,10 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         for (int i = 0; i < selectLists.size(); i++) {
             if (selectLists.valueAt(i)) {
                 cc++;
-                buffer.append(getData().get(i).getNovel_id());
-                buffer.append(",");
+                if (!getData().get(i).getNovel_id().isEmpty()) {
+                    buffer.append(getData().get(i).getNovel_id());
+                    buffer.append(",");
+                }
             }
         }
         buffer.deleteCharAt(buffer.length() - 1);
@@ -76,9 +78,6 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
     }
 
     public int funCheck(int position) {
-        //TODO 通过position获取 id 作为 key
-//        selectLists.put(key, !selectLists.get(key));
-
         selectLists.put(position, !selectLists.get(position));
         notifyItemChanged(position);
         return getSelectedCount();
@@ -86,8 +85,6 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
 
     public int funCheckAll() {
         for (int i = 0; i < getData().size(); i++) {
-            //TODO 通过position获取 id 作为 key
-//            selectLists.put(key, !selectLists.get(key));
             selectLists.put(i, true);
         }
         notifyDataSetChanged();
@@ -100,19 +97,17 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         this.isManagerMode = isManagerMode;
     }
 
-
     @Override
     protected void convert(@NonNull BaseViewHolder holder, ReadRecordEntity item) {
-        holder.setText(R.id.tv_book_name, item.getProfileNovel().getNovel_name());
+        holder.setText(R.id.tv_book_name, item.getProfileNovel() == null ? "书，走丢了" : item.getProfileNovel().getNovel_name());
         holder.setText(R.id.tv_read_book_section, item.getChapter_name());
         holder.setText(R.id.tv_last_reading_time, "阅读时间：" + TimeUtils.formatFriendly(item.getCreatetime()));
-        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getProfileNovel().getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getProfileNovel() == null ? "" :
+                item.getProfileNovel().getHttp_image(), 0);
 
         AppCompatCheckBox checkBox = holder.getView(R.id.checkBoxSample_check_book);
         if (isManagerMode) {
             checkBox.setVisibility(View.VISIBLE);
-            //TODO 通过position获取 id 作为 key
-//            checkBox.setChecked(selectLists.get(key));
             checkBox.setChecked(selectLists.get(holder.getLayoutPosition()));
         } else {
             checkBox.setVisibility(View.GONE);

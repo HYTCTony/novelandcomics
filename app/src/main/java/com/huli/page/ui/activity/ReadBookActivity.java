@@ -17,7 +17,6 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
@@ -29,6 +28,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
+import com.huli.foxread.notchtools.NotchTools;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.BookChapter;
@@ -44,13 +44,14 @@ import com.huli.page.ui.dialog.ReadSettingDialog;
 import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.Constant;
 import com.huli.page.utils.RxUtils;
+import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.StringUtils;
 import com.huli.page.utils.SystemBarUtils;
+import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.read.PageWidget;
 import com.huli.page.widget.read.ReadLoader;
 import com.lzy.okgo.OkGo;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     /***************left slide*******************************/
     @BindView(R.id.read_dl_slide)
     DrawerLayout mDlSlide;
+    @BindView(R.id.ll_drawer_layout)
+    LinearLayout llDrawerLayout;
     @BindView(R.id.rv)
     RecyclerView rv;
     @BindView(R.id.tv_title)
@@ -138,6 +141,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int MSG_POLLING = 3;
     private static final int POLLING_INTERVAL = 5 * 60 * 1000;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -171,29 +175,33 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void initView() {
-        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.black), 0);
-        StatusBarUtils.setAndroidNativeLightStatusBar(this, false);
+        /*初始化数据*/
         data = (BookShelfListBean) getIntent().getSerializableExtra(EXTRA_COLL_BOOK);
         isCollected = getIntent().getBooleanExtra(EXTRA_IS_COLLECTED, false);
         chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, 0);
         isNightMode = ReadSettingManager.getInstance().isNightMode();
         isFullScreen = ReadSettingManager.getInstance().isFullScreen();
         mBookId = data.getNovel_id();
-
         //获取页面加载器
         mPageLoader = mPvPage.getPageLoader(data);
+        /*初始化状态栏*/
+        SystemBarUtils.blackNavBar(mContext);
+        if (!isFullScreen) {
+            appBarLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
+            llDrawerLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
+            SystemBarUtils.cancelFullScreen(mContext);
+        }
+        StatusBarUtils.setColor(mContext, ContextCompat.getColor(mContext, R.color.black), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(mContext, false);
+        hideSystemBar();
         //禁止滑动展示DrawerLayout
         mDlSlide.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         //侧边打开后，返回键能够起作用
         mDlSlide.setFocusableInTouchMode(false);
-        mSettingDialog = new ReadSettingDialog(this, mPageLoader);
-        mBrightnessDialog = new BrightnessDialog(this);
+        mSettingDialog = new ReadSettingDialog(mContext, mPageLoader);
+        mBrightnessDialog = new BrightnessDialog(mContext);
 
         rv.setLayoutManager(new LinearLayoutManager(mContext));
-        rv.addItemDecoration(new HorizontalDividerItemDecoration.Builder(mContext)
-                .color(grey)
-                .sizeResId(R.dimen.dp_0_5)
-                .build());
         catalogAdapter = new CatalogAdapter(mChapters);
         rv.setAdapter(catalogAdapter);
         //夜间模式按钮的状态
@@ -205,32 +213,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         registerReceiver(mReceiver, intentFilter);
         //设置当前Activity的Brightness
         if (ReadSettingManager.getInstance().isBrightnessAuto()) {
-            BrightnessUtils.setDefaultBrightness(this);
+            BrightnessUtils.setDefaultBrightness(mContext);
         } else {
-            BrightnessUtils.setBrightness(this, ReadSettingManager.getInstance().getBrightness());
+            BrightnessUtils.setBrightness(mContext, ReadSettingManager.getInstance().getBrightness());
         }
         //初始化屏幕常亮类
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "keep bright");
-        //隐藏StatusBar
-        mPvPage.post(
-                () -> {
-                    SystemBarUtils.showStableStatusBar(this);
-                    SystemBarUtils.showStableNavBar(this);
-                    if (isFullScreen) {
-                        //隐藏
-                        SystemBarUtils.hideStableNavBar(this);
-                        SystemBarUtils.hideStableStatusBar(this);
-                        SystemBarUtils.expandStatusBar(this);
-                        SystemBarUtils.expandNavBar(this);
-                    }
-                }
-        );
-//        ScreenUtils.getStatusBarHeight();
-        //初始化TopMenu
-//        appBarLayout.setPadding(0, 0, 0, 0);
-        //初始化BottomMenu
-        initBottomMenu();
         //获取目录
         loadCategory();
         if (chapter != 0) {
@@ -455,6 +444,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
                     catalogAdapter.notifyDataSetChanged();
                 }
+                PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
+                llDrawerLayout.setBackgroundResource(mPageStyle.getBgColor());
+                tvTitle.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getFontColor()));
+                tvBookStatu.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getFontColor()));
                 //切换菜单
                 toggleMenu(true);
                 //打开侧滑动栏
@@ -487,7 +480,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private void toggleMenu(boolean hideStatusBar) {
         initMenuAnim();
 
-        if (appBarLayout.getVisibility() == View.VISIBLE) {
+        if (appBarLayout.getVisibility() == View.VISIBLE && llBottomMenu.getVisibility() == VISIBLE) {
             //关闭
             appBarLayout.startAnimation(mTopOutAnim);
             llBottomMenu.startAnimation(mBottomOutAnim);
@@ -528,30 +521,17 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         return false;
     }
 
-    private void initBottomMenu() {
-        //判断是否全屏
-//        if (ReadSettingManager.getInstance().isFullScreen()) {
-//            //还需要设置mBottomMenu的底部高度
-//            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) llBottomMenu.getLayoutParams();
-//            params.bottomMargin = ScreenUtils.getNavigationBarHeight();
-//            llBottomMenu.setLayoutParams(params);
-//        } else {
-        //设置mBottomMenu的底部距离
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) llBottomMenu.getLayoutParams();
-        params.bottomMargin = 0;
-        llBottomMenu.setLayoutParams(params);
-//        }
-    }
-
     //初始化菜单动画
     private void initMenuAnim() {
         if (mTopInAnim != null) return;
 
-        mTopInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_top_in);
-        mTopOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_top_out);
-        mBottomInAnim = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_in);
-        mBottomOutAnim = AnimationUtils.loadAnimation(this, R.anim.slide_bottom_out);
-        //退出的速度要快
+        mTopInAnim = AnimationUtils.loadAnimation(mContext, R.anim.slide_top_in);
+        mTopOutAnim = AnimationUtils.loadAnimation(mContext, R.anim.slide_top_out);
+        mBottomInAnim = AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_in);
+        mBottomOutAnim = AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_out);
+        /*设置弹窗动画执行速度*/
+        mTopInAnim.setDuration(200);
+        mBottomInAnim.setDuration(200);
         mTopOutAnim.setDuration(200);
         mBottomOutAnim.setDuration(200);
     }
@@ -559,11 +539,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private void toggleNightMode() {
         if (isNightMode) {
             tvNightMode.setText(StringUtils.getString(R.string.nb_mode_morning));
-            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_read_menu_morning);
+            Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_read_menu_morning);
             tvNightMode.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
         } else {
             tvNightMode.setText(StringUtils.getString(R.string.nb_mode_night));
-            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.ic_read_menu_night);
+            Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.ic_read_menu_night);
             tvNightMode.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
         }
     }
@@ -652,6 +632,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
         }
     };
+
     // 亮度调节监听
     // 由于亮度调节没有 Broadcast 而是直接修改 ContentProvider 的。所以需要创建一个 Observer 来监听 ContentProvider 的变化情况。
     private ContentObserver mBrightObserver = new ContentObserver(new Handler()) {
@@ -701,7 +682,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         }
 
         if (!data.getIsLocal() && !isCollected && !data.getBookChapters().isEmpty()) {
-            AlertDialog alertDialog = new AlertDialog.Builder(this)
+            AlertDialog alertDialog = new AlertDialog.Builder(mContext)
                     .setTitle("加入书架")
                     .setMessage("喜欢本书就加入书架吧")
                     .setPositiveButton("确定", (dialog, which) -> {
@@ -738,8 +719,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean isVolumeTurnPage = ReadSettingManager
-                .getInstance().isVolumeTurnPage();
+        boolean isVolumeTurnPage = ReadSettingManager.getInstance().isVolumeTurnPage();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (isVolumeTurnPage) {
@@ -757,23 +737,20 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     private void showSystemBar() {
         if (isFullScreen) {
-
+            appBarLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
+            llDrawerLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
+            SystemBarUtils.cancelFullScreen(mContext);
+            StatusBarUtils.setColor(mContext, ContextCompat.getColor(mContext, R.color.black), 0);
+            StatusBarUtils.setAndroidNativeLightStatusBar(mContext, false);
         }
-        //显示
-        SystemBarUtils.showStableNavBar(this);
-        SystemBarUtils.showStableStatusBar(this);
     }
 
     private void hideSystemBar() {
-        //显示
-        SystemBarUtils.showStableNavBar(this);
-        SystemBarUtils.showStableStatusBar(this);
         if (isFullScreen) {
-            //隐藏
-            SystemBarUtils.hideStableNavBar(this);
-            SystemBarUtils.hideStableStatusBar(this);
-            SystemBarUtils.expandStatusBar(this);
-            SystemBarUtils.expandNavBar(this);
+            appBarLayout.setPadding(0, 0, 0, 0);
+            llDrawerLayout.setPadding(0, 0, 0, 0);
+            NotchTools.getFullScreenTools().fullScreenUseStatus(mContext);
+            SystemBarUtils.hideStableNavBar(mContext);
         }
     }
 
@@ -784,21 +761,16 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             boolean fullScreen = ReadSettingManager.getInstance().isFullScreen();
             if (isFullScreen != fullScreen) {
                 isFullScreen = fullScreen;
-                // 刷新BottomMenu
-                initBottomMenu();
             }
-
             // 设置显示状态
             if (isFullScreen) {
-                //隐藏
-                SystemBarUtils.hideStableNavBar(this);
-                SystemBarUtils.hideStableStatusBar(this);
-                SystemBarUtils.expandStatusBar(this);
-                SystemBarUtils.expandNavBar(this);
+                hideSystemBar();
             } else {
-                //显示
-                SystemBarUtils.showStableNavBar(this);
-                SystemBarUtils.showStableStatusBar(this);
+                appBarLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
+                llDrawerLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
+                SystemBarUtils.cancelFullScreen(mContext);
+                StatusBarUtils.setColor(mContext, ContextCompat.getColor(mContext, R.color.black), 0);
+                StatusBarUtils.setAndroidNativeLightStatusBar(mContext, false);
             }
         }
     }

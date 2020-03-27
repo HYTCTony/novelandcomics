@@ -1,7 +1,7 @@
 package com.huli.page.utils;
 
 import android.app.Activity;
-import android.os.Build;
+import android.graphics.Color;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -102,19 +102,22 @@ public class SystemBarUtils {
     }
 
     public static void transparentStatusBar(Activity activity) {
-        if (Build.VERSION.SDK_INT >= 21) {
-            expandStatusBar(activity);
-            activity.getWindow().setStatusBarColor(activity.getResources().getColor(android.R.color.transparent));
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            WindowManager.LayoutParams attrs = activity.getWindow().getAttributes();
-            attrs.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | attrs.flags);
-            activity.getWindow().setAttributes(attrs);
-        }
+        expandStatusBar(activity);
+        activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     public static void transparentNavBar(Activity activity) {
         expandNavBar(activity);
-        activity.getWindow().setNavigationBarColor(activity.getResources().getColor(android.R.color.transparent));
+        activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
+    }
+
+    public static void blackNavBar(Activity activity) {
+//        expandNavBar(activity);
+        activity.getWindow().setNavigationBarColor(Color.BLACK);
+    }
+
+    public static void cancelFullScreen(Activity activity) {
+        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
     public static void setFlag(Activity activity, int flag) {

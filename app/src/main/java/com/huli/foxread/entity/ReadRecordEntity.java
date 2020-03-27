@@ -11,6 +11,7 @@ public class ReadRecordEntity {
     private String chapter_name;
     private long createtime;
     private boolean isSelected;
+    //TODO 判断书籍是否存在
     private BookShelfListBean profileNovel;
 
     public int getId() {

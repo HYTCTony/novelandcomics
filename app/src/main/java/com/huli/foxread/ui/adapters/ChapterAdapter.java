@@ -1,6 +1,5 @@
 package com.huli.foxread.ui.adapters;
 
-import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -22,15 +21,13 @@ public class ChapterAdapter extends BaseQuickAdapter<BookChapter, BaseViewHolder
     @Override
     protected void convert(BaseViewHolder helper, BookChapter item) {
         TextView tv = helper.getView(R.id.category_tv_chapter);
-        //首先判断是否该章已下载
-        Drawable drawable = null;
-
-        if (item.getBookId() != null && FileUtils.isChapterCached(item.getBookId(), item.getName())) {
-            drawable = ContextCompat.getDrawable(getContext(), R.drawable.selector_category_load);
+        if (item.getNovel_id() != null && FileUtils.isChapterCached(item.getNovel_id(), item.getName())) {
+            helper.setText(R.id.category_tv_type, "已下载");
+            helper.setTextColor(R.id.category_tv_type, ContextCompat.getColor(getContext(), R.color.txt_gray_999));
         } else {
-            drawable = ContextCompat.getDrawable(getContext(), R.drawable.selector_category_unload);
+            helper.setText(R.id.category_tv_type, "未下载");
+            helper.setTextColor(R.id.category_tv_type, ContextCompat.getColor(getContext(), R.color.txt_gray_b2));
         }
-        tv.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         tv.setText(item.getName());
     }
 }

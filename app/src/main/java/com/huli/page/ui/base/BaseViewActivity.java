@@ -25,8 +25,8 @@ public abstract class BaseViewActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-    @BindColor(R.color.hl_read_font_night)
-    protected int night;
+    @BindColor(R.color.txt_gray_b2)
+    protected int b2;
     @BindColor(R.color.white)
     protected int white;
     @BindColor(R.color.black)
@@ -42,10 +42,10 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(this,
                 null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
         Drawable drawable = a.getDrawable(R.styleable.ActionBar_homeAsUpIndicator);
-        drawable.setColorFilter(night, PorterDuff.Mode.MULTIPLY);
+        drawable.setColorFilter(b2, PorterDuff.Mode.MULTIPLY);
         toolbar.setNavigationIcon(drawable);
-        toolbar.setTitleTextColor(night);
-        toolbar.setSubtitleTextColor(night);
+        toolbar.setTitleTextColor(b2);
+        toolbar.setSubtitleTextColor(b2);
         mContext = this;
         initP();
         initView();

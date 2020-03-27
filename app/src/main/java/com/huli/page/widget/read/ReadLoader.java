@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
-import android.util.Log;
 
 import com.huli.page.model.bean.BookRecordBean;
 import com.huli.page.model.bean.BookShelfListBean;
@@ -52,7 +51,7 @@ public abstract class ReadLoader {
     public static final int STATUS_CATEGORY_EMPTY = 7;  // 获取到的目录为空
     // 默认的显示参数配置
     private static final int DEFAULT_MARGIN_HEIGHT = 28;
-    private static final int DEFAULT_MARGIN_WIDTH = 15;
+    private static final int DEFAULT_MARGIN_WIDTH = 18;
     private static final int DEFAULT_TIP_SIZE = 12;
     private static final int EXTRA_TITLE_SIZE = 4;
 
@@ -108,7 +107,7 @@ public abstract class ReadLoader {
     private PageMode mPageMode;
     // 加载器的颜色主题
     private PageStyle mPageStyle;
-    // 加载器的间隔主题
+    // 加载器的段落/行间距
     private TxtSpecing mTxtSpecing;
     //当前是否是夜间模式
     private boolean isNightMode;
@@ -172,15 +171,15 @@ public abstract class ReadLoader {
         mMarginWidth = ScreenUtils.dpToPx(DEFAULT_MARGIN_WIDTH);
         mMarginHeight = ScreenUtils.dpToPx(DEFAULT_MARGIN_HEIGHT);
         // 配置文字有关的参数
-        setUpTextParams(mSettingManager.getTextSize());
+        // 文字大小
+        mTextSize = mSettingManager.getTextSize();
+        mTitleSize = mTextSize + ScreenUtils.spToPx(EXTRA_TITLE_SIZE);
         // 行间距
-        mTextInterval = mTxtSpecing.getSpecingSize() / 2;
-        mTitleInterval = mTxtSpecing.getSpecingSize() / 2;
+        mTextInterval = mTxtSpecing.getSpecingSize() / 3 * 2;
+        mTitleInterval = mTxtSpecing.getSpecingSize() / 3 * 2;
         // 段落间距(大小为字体的高度)
         mTextPara = mTxtSpecing.getSpecingSize();
         mTitlePara = mTxtSpecing.getSpecingSize();
-        Log.e(TAG, "行间距" + mTxtSpecing.getSpecingSize());
-        Log.e(TAG, "字体大小" + mSettingManager.getTextSize());
     }
 
     /**
@@ -192,6 +191,28 @@ public abstract class ReadLoader {
         // 文字大小
         mTextSize = textSize;
         mTitleSize = mTextSize + ScreenUtils.spToPx(EXTRA_TITLE_SIZE);
+        // 设置画笔的字体大小
+        mTextPaint.setTextSize(mTextSize);
+        // 设置标题的字体大小
+        mTitlePaint.setTextSize(mTitleSize);
+        // 存储文字大小
+        mSettingManager.setTextSize(mTextSize);
+    }
+
+    /**
+     * 作用：设置与间距相关的参数
+     *
+     * @param txtSpecing
+     */
+    private void setUpSpecingParams(TxtSpecing txtSpecing) {
+        // 段落间距
+        mTextPara = txtSpecing.getSpecingSize();
+        mTitlePara = txtSpecing.getSpecingSize();
+        // 行间距（大小为段落间距的2/3）
+        mTextInterval = txtSpecing.getSpecingSize() / 3 * 2;
+        mTitleInterval = txtSpecing.getSpecingSize() / 3 * 2;
+        // 存储间距大小
+        mSettingManager.setTxtSpecing(txtSpecing);
     }
 
     private void initPaint() {
@@ -366,14 +387,7 @@ public abstract class ReadLoader {
     }
 
     public void setTxtSpecing(TxtSpecing txtSpecing) {
-        // 行间距(大小为字体的一半)
-        mTextInterval = txtSpecing.getSpecingSize() / 2;
-        mTitleInterval = txtSpecing.getSpecingSize() / 2;
-        // 段落间距(大小为字体的高度)
-        mTextPara = txtSpecing.getSpecingSize();
-        mTitlePara = txtSpecing.getSpecingSize();
-        // 存储间距大小
-        mSettingManager.setTxtSpecing(txtSpecing);
+        setUpSpecingParams(txtSpecing);
         // 取消缓存
         mPrePageList = null;
         mNextPageList = null;
@@ -402,13 +416,6 @@ public abstract class ReadLoader {
     public void setTextSize(int textSize) {
         // 设置文字相关参数
         setUpTextParams(textSize);
-
-        // 设置画笔的字体大小
-        mTextPaint.setTextSize(mTextSize);
-        // 设置标题的字体大小
-        mTitlePaint.setTextSize(mTitleSize);
-        // 存储文字大小
-        mSettingManager.setTextSize(mTextSize);
         // 取消缓存
         mPrePageList = null;
         mNextPageList = null;

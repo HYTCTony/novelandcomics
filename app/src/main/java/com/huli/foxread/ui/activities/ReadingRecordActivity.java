@@ -3,7 +3,6 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,6 +25,7 @@ import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.SimpleDividerDecoration;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
+import com.luck.picture.lib.tools.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -153,7 +153,6 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                     Toast.makeText(this, "请选择书籍记录", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d(TAG, mAdapter.getSelectedIds());
                 reqDeleteBookRecord(mAdapter.getSelectedIds());
                 break;
             case R.id.tv_asBtn_add_to_bookcase:
@@ -170,7 +169,6 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                             });
                     return;
                 }
-                Log.d(TAG, mAdapter.getSelectedIds());
                 reqAddBookrack(mAdapter.getSelectedBookId());
                 break;
             default:
@@ -186,6 +184,12 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
             btnAddBookcase.setText(String.format(getString(R.string.txt_add_to_bookcase_x), count));
         } else {
             ReadRecordEntity data = (ReadRecordEntity) adapter.getItem(position);
+            assert data != null;
+            if (data.getProfileNovel() == null) {
+                ToastUtils.s(ReadingRecordActivity.this, "正在删除空的书籍记录...");
+                reqDeleteBookRecord("" + data.getId());
+                return;
+            }
             Intent intent = new Intent(ReadingRecordActivity.this, BookDetailsActivity.class);
             intent.putExtra(Common.KEY_BOOK_ID, data.getNovel_id());
             startActivity(intent);
@@ -243,7 +247,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      */
     private void reqAddBookrack(String novelId) {
         OkGo.<String>post(Consts.BOOKRACK_ADD_API)
-                .params(Consts.NOVEL_IDS, novelId)
+                .params(Consts.NOVEL_ID, novelId)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
