@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_16"
+        android:src="@drawable/ic_binding_phone"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_16"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/txt_black_191919"
+        android:text="@string/txt_binding_cellphone_safer"
+        android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_cellphone_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
+        android:background="@drawable/shape_round_whitebg"
+        android:padding="@dimen/dp_16"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title_login">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_input_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_plz_input_phone_number"
+            app:boxBackgroundMode="none"
+            app:boxStrokeColor="@color/col_orange_ea6b3c"
+            app:endIconCheckable="true"
+            app:endIconDrawable="@drawable/ic_close_gray_18dp"
+            app:endIconMode="clear_text"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_cellphone_number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:drawableStart="@drawable/ic_cellphone_18dp"
+                android:drawablePadding="@dimen/dp_8"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:singleLine="true"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_14"
+                app:hintTextColor="@color/txt_gray_b2" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_input_verification_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/txt_plz_input_verification_code"
+            android:orientation="horizontal"
+            app:boxBackgroundMode="none"
+            app:boxStrokeColor="@color/col_orange_ea6b3c"
+            app:layout_constraintTop_toBottomOf="@+id/til_input_phone_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_auth_code"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_48"
+                android:drawableStart="@drawable/ic_shield_18dp"
+                android:drawablePadding="@dimen/dp_8"
+                android:inputType="number"
+                android:maxLength="6"
+                android:singleLine="true"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_14" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/dp_110"
+            android:layout_height="@dimen/dp_48"
+            android:background="@color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/til_input_verification_code"
+            app:layout_constraintRight_toRightOf="@+id/til_input_verification_code">
+
+            <View
+                android:layout_width="@dimen/dp_1"
+                android:layout_height="@dimen/dp_16"
+                android:background="@color/col_gray_e5e5e5" />
+
+            <com.huli.foxread.ui.widget.TimingButton
+                android:id="@+id/timingButton_get_vCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:text="@string/txt_get_verification_code"
+                android:textColor="@color/txt_red"
+                android:textSize="@dimen/sp_14"
+                app:tb_psText="@string/txt_get_verification_code"
+                app:tb_totalTime="120000" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_confirm_bind_newPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_24"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:background="@drawable/ripple_round_btn_gradual_bg_red"
+            android:text="@string/txt_binding"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/til_input_verification_code" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

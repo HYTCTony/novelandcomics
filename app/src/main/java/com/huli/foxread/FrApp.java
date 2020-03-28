@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.huli.foxread.callbacks.ActivityManager;
 import com.huli.foxread.callbacks.ActivityState;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.kongzue.dialog.util.BaseDialog;
@@ -23,6 +24,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -33,6 +36,8 @@ import androidx.multidex.MultiDex;
 import okhttp3.OkHttpClient;
 
 public class FrApp extends Application implements ActivityState {
+
+    public static final String WECHAT_APP_ID = "wx53ed3b26af319dd0";
 
     private static FrApp sInstance;
 
@@ -103,6 +108,9 @@ public class FrApp extends Application implements ActivityState {
 
         initBugly();
 
+        //友盟
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
+        PlatformConfig.setWeixin(WECHAT_APP_ID,"4f58d7d2894fe8631831d18ed1d6d4be");
     }
 
 

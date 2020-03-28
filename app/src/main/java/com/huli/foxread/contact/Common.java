@@ -23,7 +23,6 @@ public interface Common {
     /***福利任务跳转判断***/
 
 
-
     String KEY_CAT_PID = "cat_p_id";
     String KEY_CAT_TOTAL_BOOK = "cat_total_book";
 
@@ -45,6 +44,8 @@ public interface Common {
     String EXTRA_KEY_MONEY = "key_money";
     String EXTRA_KEY_SCORE = "key_score";
     String EXTRA_KEY_TODAY_SCORE = "key_today_score";
+
+    String EXTRA_KEY_WXRESP = "wechat_resp_entity";
 
 
     String USER_DTO = "user_dto";

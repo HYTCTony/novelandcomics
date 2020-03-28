@@ -68,7 +68,7 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
         phoneNum = fUser.getMobile();
         tvAccountId.setText(fUser.getId());
         tvTelNum.setText(phoneNum.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
-        tvWechatBindingState.setText(R.string.txt_unbind);
+        tvWechatBindingState.setText(fUser.getIs_wx() == 1 ? R.string.txt_has_been_bind : R.string.txt_unbind);
     }
 
     private String phoneNum;

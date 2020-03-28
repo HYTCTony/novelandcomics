@@ -9,12 +9,14 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
@@ -27,6 +29,7 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
+import com.huli.foxread.entity.umeng.WXLoginRespEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.StatusBarUtils;
@@ -35,8 +38,13 @@ import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -169,6 +177,33 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 loginPhone(phoneNum, authCode);
                 break;
             case R.id.tv_asBtn_login_wechat:
+                if (onMoreClick()) {
+                    return;
+                }
+                UMShareAPI.get(this).getPlatformInfo(this, SHARE_MEDIA.WEIXIN, new UMAuthListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+
+                    }
+
+                    @Override
+                    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                        String jsonString = JSON.toJSONString(map);
+                        Log.e("sssssssss", "sssss===" + jsonString);
+                        WXLoginRespEntity wxLoginResp = JSONObject.parseObject(jsonString, WXLoginRespEntity.class);
+                        loginByWeChat(wxLoginResp);
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+                        TipDialog.show(LoginActivity.this, "微信登录失败！", TipDialog.TYPE.ERROR);
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media, int i) {
+                        Tos.showShort(LoginActivity.this, "微信登录取消...");
+                    }
+                });
                 break;
             default:
                 break;
@@ -226,6 +261,38 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             TokenCache.saveToken(LoginActivity.this, data.getToken());
 
                             reqUserInfo();
+                        } else {
+                            TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 微信第三方登录
+     */
+    private void loginByWeChat(WXLoginRespEntity wxLoginResp) {
+        String uniqueID = UniqueIdManager.getUniqueID(this);
+        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USER_WX_LOGIN_API)
+                .params(Consts.USERNAME, wxLoginResp.getName())
+                .params(Consts.UNIONID, wxLoginResp.getUnionid())
+                .params(Consts.OPENID,  wxLoginResp.getOpenid())
+                .params(Consts.UNIQUE_ID, uniqueID)
+                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this,
+                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
+                        if (response.body().error_code == 0) {
+                            LoginRpsEntity data = response.body().getData();
+                            TokenCache.saveToken(LoginActivity.this, data.getToken());
+
+                            reqUserInfo();
+                        } else if (response.body().error_code == 10021) {
+                            Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
+                            intent.putExtra(Common.EXTRA_KEY_WXRESP, wxLoginResp);
+                            startActivity(intent);
+                            finish();
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
                         }

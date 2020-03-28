@@ -44,6 +44,14 @@ public interface Func {
     String USER_MOBILE_LOGIN = "/login/mobile";
 
     /**
+     * 用途：微信登录（POST）
+     * 参数：
+     * code  (Y）--- 微信uuid
+     * identifier( Y）--- 手机唯一标志符
+     */
+    String USER_WX_LOGIN = "/login/wx";
+
+    /**
      * 用途：正式用户登出（POST）
      * 头：token---token(Y)
      * 参数：
@@ -431,22 +439,22 @@ public interface Func {
      * 记录阅读时间
      * 头：token---token(Y)
      */
-    String RECORD_DURATION= "/duration/create";
+    String RECORD_DURATION = "/duration/create";
     /**
      * 提交阅读记录
      * 头：token---token(Y)
      */
-    String RECORD_CREATE= "/record/create";
+    String RECORD_CREATE = "/record/create";
     /**
      * 获取阅读记录
      * 头：token---token(Y)
      */
-    String RECORD_READ= "/record/read";
+    String RECORD_READ = "/record/read";
     /**
      * 删除阅读记录
      * 头：token---token(Y)
      */
-    String RECORD_DELETE= "/record/delete";
+    String RECORD_DELETE = "/record/delete";
 
 
     /**
@@ -482,13 +490,6 @@ public interface Func {
      * 参数：
      */
     String WITHDRAWAL_RECORD = "/withdrawal/read";
-
-    /**
-     * 用途：我的金币相关信息（GET）
-     * 头：token---token(Y)
-     * 参数：
-     */
-    String GOLD_COIN_INFO = "/score/read";
 
     /**
      * 用途：金币收益列表（GET）

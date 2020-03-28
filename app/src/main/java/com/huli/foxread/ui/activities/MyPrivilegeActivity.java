@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.alipay.sdk.app.PayTask;
+import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -31,6 +32,7 @@ import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.PaymentInfoEntity;
 import com.huli.foxread.entity.ReChargeSetEntity;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
+import com.huli.foxread.entity.eventbus.WXPaySuccessEvent;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.payment.PayResult;
 import com.huli.foxread.ui.adapters.VipComboAdapter;
@@ -46,8 +48,14 @@ import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -77,6 +85,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
     private String selectedComboId;
 
+    private IWXAPI iwxapi;      //微信支付
 
     private static final int SDK_PAY_FLAG = 1;
     @SuppressLint("HandlerLeak")
@@ -158,6 +167,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void doBusiness(Context mContext) {
+        iwxapi = WXAPIFactory.createWXAPI(this, FrApp.WECHAT_APP_ID);
+
         FUser userInfo = UserInfoCache2.getUserInfo(mContext);
         GlideUtil.loadCircle(this, ivHeadImg, userInfo.getHttp_avatar());
         tvNickname.setText(userInfo.getUsername());
@@ -263,12 +274,11 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void singleClick(View v) {
                 if (cbWechat.isChecked()) {
-                    //TODO 微信支付
-                    TipDialog.show(MyPrivilegeActivity.this, "微信支付尚未启用！", TipDialog.TYPE.ERROR);
-//                    reqChannelsAndPayment(Consts.PAY_WECHAT_API, data.getOrder_sn());
+                    // 微信支付
+                    reqChannelsAndPayment(Consts.PAY_WECHAT_API, data.getOrder_sn());
                     dialog.dismiss();
                 } else if (cbAlipay.isChecked()) {
-                    //TODO 支付宝支付
+                    // 支付宝支付
                     reqChannelsAndPayment(Consts.PAY_ALIPAY_API, data.getOrder_sn());
                     dialog.dismiss();
                 } else {
@@ -327,43 +337,6 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                 });
     }
 
-
-    /**
-     * 选择支付通道--->发起支付
-     */
-    private void reqChannelsAndPayment(String payChannelsUrl, String orderId) {
-        OkGo.<String>post(payChannelsUrl)
-                .params(Consts.ORDER_ID, orderId)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            if (payChannelsUrl.equals(Consts.PAY_ALIPAY_API)) {
-                                String orderInfo = entity.getData();
-                                Runnable payRunnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        PayTask alipay = new PayTask(MyPrivilegeActivity.this);
-                                        Map<String, String> result = alipay.payV2(orderInfo, true);
-                                        Message msg = new Message();
-                                        msg.what = SDK_PAY_FLAG;
-                                        msg.obj = result;
-                                        mHandler.sendMessage(msg);
-                                    }
-                                };
-                                Thread payThread = new Thread(payRunnable);
-                                payThread.start();
-                            }
-                        } else {
-                            TipDialog.show(MyPrivilegeActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
-    }
-
     /**
      * 获取用户信息---刷新会员时间
      */
@@ -400,4 +373,72 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                     }
                 });
     }
+
+
+    /**
+     * 选择支付通道--->发起支付
+     */
+    private void reqChannelsAndPayment(String payChannelsUrl, String orderId) {
+        OkGo.<String>post(payChannelsUrl)
+                .params(Consts.ORDER_ID, orderId)
+                .execute(new LtbCallback(this) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            if (payChannelsUrl.equals(Consts.PAY_ALIPAY_API)) {
+                                String orderInfo = entity.getData();
+                                Runnable payRunnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        PayTask alipay = new PayTask(MyPrivilegeActivity.this);
+                                        Map<String, String> result = alipay.payV2(orderInfo, true);
+                                        Message msg = new Message();
+                                        msg.what = SDK_PAY_FLAG;
+                                        msg.obj = result;
+                                        mHandler.sendMessage(msg);
+                                    }
+                                };
+                                Thread payThread = new Thread(payRunnable);
+                                payThread.start();
+                            } else if (payChannelsUrl.equals(Consts.PAY_WECHAT_API)) {
+                                String orderInfo = entity.getData();
+                                wechatPay(orderInfo);
+                            }
+                        } else {
+                            TipDialog.show(MyPrivilegeActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 调起微信支付
+     */
+    private void wechatPay(String data) {
+        boolean isPaySupported = iwxapi.getWXAppSupportAPI() >= Build.PAY_SUPPORTED_SDK_INT;
+        if (!isPaySupported) {
+            Tos.showShort(this, "当前微信版本不支持支付功能");
+            return;
+        }
+        JSONObject json = JSONObject.parseObject(data);
+        PayReq req = new PayReq();
+        req.appId = json.getString("appid");
+        req.partnerId = json.getString("partnerid");
+        req.prepayId = json.getString("prepayid");
+        req.packageValue = json.getString("package");
+        req.nonceStr = json.getString("noncestr");
+        req.timeStamp = json.getString("timestamp");
+        req.sign = json.getString("sign");
+        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+        iwxapi.sendReq(req);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWXPaySuccessEvent(WXPaySuccessEvent event) {
+        reqUserInfo();
+    }
+
 }

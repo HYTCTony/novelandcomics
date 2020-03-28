@@ -233,7 +233,10 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
     @Override
     public void OnBannerClick(int position) {
-
+        if (bannerDatas != null && bannerDatas.size() > position) {
+            BannerADEntity entity = bannerDatas.get(position);
+            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump(), entity.getNeed_login());
+        }
     }
 
     //如果你需要考虑更好的体验，可以这么操作

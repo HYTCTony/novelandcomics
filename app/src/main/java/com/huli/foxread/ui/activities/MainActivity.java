@@ -2,6 +2,7 @@ package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -32,6 +33,7 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.ut.device.UTDevice;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -327,6 +327,9 @@
     <string name="txt_cellphone_or_wechat_number">手机号码/微信号</string>
     <string name="txt_submit_feedback">提交反馈</string>
 
+    <string name="txt_binding">绑定</string>
+    <string name="txt_binding_cellphone_safer">绑定手机号，账号更安全</string>
+
     <string name="txt_withdrawal_success_title">提现申请已提交，等待人工审核</string>
     <string name="txt_withdrawal_tips">1. 提现申请将在1&#8211;3个工作日内完成审核，请耐心等待。\n2. 可在“提现记录”中查看提现状态。\n3. 每日阅读、签到或完成福利中心其他任务，均可获得金币，金币可累计提现。</string>
 
