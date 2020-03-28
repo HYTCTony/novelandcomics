@@ -75,7 +75,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView tvNewestSectionName, tvTotalSection;
 
     private TextView btnRelatedRecoRefresh;       //相关推荐---换一换
-    private RecyclerView recyclerView;
     private BookCoverNameAdapter mAdapter;
 
     private TextView tvCopyright;
@@ -142,7 +141,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         initSpecialTopicView();
 
         btnRelatedRecoRefresh = $(R.id.tv_asBtn_related_recommendation_refresh);
-        recyclerView = $(R.id.recyclerView_related_recommendation);
+        RecyclerView recyclerView = $(R.id.recyclerView_related_recommendation);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4) {
             @Override
             public boolean canScrollHorizontally() {

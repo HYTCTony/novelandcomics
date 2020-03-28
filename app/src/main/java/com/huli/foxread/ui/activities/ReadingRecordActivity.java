@@ -154,7 +154,6 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                     return;
                 }
                 reqDeleteBookRecord(mAdapter.getSelectedIds());
-
                 break;
             case R.id.tv_asBtn_add_to_bookcase:
                 if (mAdapter.getSelectedCount() <= 0) {

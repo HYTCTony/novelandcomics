@@ -265,7 +265,7 @@ public interface Func {
      * 参数：
      * id---小说id
      */
-    String NOVEL_NOMINATE = "/novel/nominate";
+    String NOVEL_NOMINATE = "/shove/nominate";
 
     /**
      * 用途：获取反馈分类
@@ -318,7 +318,7 @@ public interface Func {
      * 头：token---token(Y)
      * 参数：
      */
-    String SPECIAL_BOOK = "/novel/special";
+    String SPECIAL_BOOK = "/shove/one";
 
 
     /**
