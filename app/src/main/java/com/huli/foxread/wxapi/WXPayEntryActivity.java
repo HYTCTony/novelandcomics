@@ -2,6 +2,7 @@ package com.huli.foxread.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.huli.foxread.FrApp;
 import com.huli.foxread.contact.Common;
@@ -47,6 +48,8 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     @Override
     public void onResp(BaseResp resp) {
         String result = "";
+        Log.e("ssssssssss", "code===" + resp.errCode);
+        Log.e("ssssssssss", "str===" + resp.errStr);
 
 //		Toast.makeText(this, "baseresp.getType = " + resp.getType() + "-----code===" + resp.errCode, Toast.LENGTH_SHORT).show();
 

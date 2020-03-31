@@ -36,7 +36,7 @@
 
 
     <style name="ThemeSplash" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/main_bitmap_splash_bg</item>
+        <item name="android:windowBackground">@drawable/startpg_bitmap_splash_bg</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <!--<item name="windowActionBar">false</item>-->

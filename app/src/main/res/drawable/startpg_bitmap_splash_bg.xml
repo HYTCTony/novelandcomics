@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/white" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/splash_startpage_center"
+            android:tileMode="disabled" />
+    </item>
+
+    <item android:top="@dimen/dp_80">
+        <bitmap
+            android:gravity="center_horizontal|top"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/splash_startpage_slogan"
+            android:tileMode="disabled" />
+    </item>
+
+    <item>
+        <bitmap
+            android:gravity="center_horizontal|bottom"
+            android:src="@mipmap/splash_startpage_bottom_wave"
+            android:tileMode="disabled" />
+    </item>
+
+    <item android:bottom="@dimen/dp_42">
+        <bitmap
+            android:gravity="center_horizontal|bottom"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/splash_startpage_bottom_icon"
+            android:tileMode="disabled" />
+    </item>
+</layer-list>

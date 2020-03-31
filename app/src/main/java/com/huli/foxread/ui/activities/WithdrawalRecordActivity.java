@@ -75,20 +75,20 @@ public class WithdrawalRecordActivity extends BaseActivity {
             //可以上拉加载
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqGoldWithdrawal(curPage + 1, false));
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqGoldWithdrawal(curPage, false));
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        reqGoldWithdrawal(curPage + 1, true);
+        reqGoldWithdrawal(curPage, true);
     }
 
     /**
      * 金币(现金)提现记录
      */
-    private void reqGoldWithdrawal(int reqPage, boolean showDialog) {
+    private void reqGoldWithdrawal(int page, boolean showDialog) {
         OkGo.<String>post(Consts.WITHDRAWAL_RECORD_API)
-                .params(Consts.PAGE, reqPage)
+                .params(Consts.PAGE, page + 1)
                 .execute(new LtbCallback(this, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {

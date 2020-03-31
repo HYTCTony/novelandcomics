@@ -12,6 +12,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.PaymentInfoEntity;
 import com.huli.foxread.entity.ReChargeSetEntity;
+import com.huli.foxread.entity.WxPayReqEntity;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.entity.eventbus.WXPaySuccessEvent;
 import com.huli.foxread.listeners.OnClickEvent;
@@ -323,6 +325,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                                 });
                         if (entity.error_code == 0) {
                             PaymentInfoEntity data = entity.getData();
+
                             PaymentSelectDialog.newInstance(data)
                                     .setLayoutId(R.layout.dialog_payment_select)
                                     .setConvertListener(viewConvertListener)
@@ -423,15 +426,16 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             Tos.showShort(this, "当前微信版本不支持支付功能");
             return;
         }
-        JSONObject json = JSONObject.parseObject(data);
+        WxPayReqEntity payReqEntity = JSONObject.parseObject(data, WxPayReqEntity.class);
+
         PayReq req = new PayReq();
-        req.appId = json.getString("appid");
-        req.partnerId = json.getString("partnerid");
-        req.prepayId = json.getString("prepayid");
-        req.packageValue = json.getString("package");
-        req.nonceStr = json.getString("noncestr");
-        req.timeStamp = json.getString("timestamp");
-        req.sign = json.getString("sign");
+        req.appId = payReqEntity.getAppid();
+        req.partnerId = payReqEntity.getMch_id();
+        req.prepayId = payReqEntity.getPrepay_id();
+        req.packageValue = payReqEntity.getPackage_value();
+        req.nonceStr = payReqEntity.getNonce_str();
+        req.timeStamp = payReqEntity.getTime_stamp();
+        req.sign = payReqEntity.getSign();
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         iwxapi.sendReq(req);
     }

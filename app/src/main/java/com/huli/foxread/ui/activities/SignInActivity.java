@@ -17,7 +17,8 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
-import com.huli.foxread.entity.SignDetailEntity;
+import com.huli.foxread.entity.NormalSignInEntity;
+import com.huli.foxread.entity.SignInDetailEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
 import com.huli.foxread.ui.adapters.WeekSignInStateAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -207,21 +208,22 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<SignDetailEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<SignDetailEntity>>() {
+                        LzyResponse<SignInDetailEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<SignInDetailEntity>>() {
                                 });
                         if (entity.error_code == 0) {
-                            SignDetailEntity data = entity.getData();
-                            signFlag = data.getFrequency();             //是否已签到标记
-                            int getGb = data.getReward();               //签到获得的金币
-                            continuousSignInCount = data.getSign_successions();
+                            SignInDetailEntity data = entity.getData();
+                            NormalSignInEntity signIn = data.getSign_in();
+                            signFlag = signIn.getStatus();             //是否已签到标记
+                            int getGb = signIn.getReward();               //签到获得的金币
+                            continuousSignInCount = signIn.getSign_successions();
 
                             WelfareTaskEntity welfare = data.getWelfare();
                             String number = welfare.getNumber();
                             tvGrpPeopleCount.setText((number + getString(R.string.txt_people_already_receive)));
                             mAdapter.setNewData(data.getList());
 
-                            if (signFlag == 1) {
+                            if (signFlag == 2) {        //已签到
                                 mAdapter.setSignInChange(true);
                             }
 
@@ -258,16 +260,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         if (entity.error_code == 0) {
                             signFlag = 1;
                             btnSignIn.setEnabled(false);
-                           /* btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
-                            btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
-                            btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount + 1)));
-
-                            SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
-                            spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
-                                    spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
-                                    spanbs.length() - 2,
-                                    Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            tvTitleSignIn.setText(spanbs);*/
 
                             int getGb = entity.getData();       //签到的奖励
 

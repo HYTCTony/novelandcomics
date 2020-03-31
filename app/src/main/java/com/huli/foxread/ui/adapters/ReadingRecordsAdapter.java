@@ -49,31 +49,29 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
 
     public String getSelectedIds() {
         StringBuffer buffer = new StringBuffer();
-        int cc = 0;
-        for (int i = 0; i < selectLists.size(); i++) {
-            if (selectLists.valueAt(i)) {
-                cc++;
+        for (int i = 0; i < getData().size(); i++) {
+            if (getData().get(i).isSelected()) {
                 buffer.append(getData().get(i).getId());
                 buffer.append(",");
             }
         }
-        buffer.deleteCharAt(buffer.length() - 1);
+        if (buffer.length() > 0)
+            buffer.deleteCharAt(buffer.length() - 1);
         return buffer.toString();
     }
 
     public String getSelectedBookId() {
         StringBuffer buffer = new StringBuffer();
-        int cc = 0;
-        for (int i = 0; i < selectLists.size(); i++) {
-            if (selectLists.valueAt(i)) {
-                cc++;
+        for (int i = 0; i < getData().size(); i++) {
+            if (getData().get(i).isSelected()) {
                 if (!getData().get(i).getNovel_id().isEmpty()) {
                     buffer.append(getData().get(i).getNovel_id());
                     buffer.append(",");
                 }
             }
         }
-        buffer.deleteCharAt(buffer.length() - 1);
+        if (buffer.length() > 0)
+            buffer.deleteCharAt(buffer.length() - 1);
         return buffer.toString();
     }
 
@@ -109,6 +107,7 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         if (isManagerMode) {
             checkBox.setVisibility(View.VISIBLE);
             checkBox.setChecked(selectLists.get(holder.getLayoutPosition()));
+            item.setSelected(selectLists.get(holder.getLayoutPosition()));
         } else {
             checkBox.setVisibility(View.GONE);
         }

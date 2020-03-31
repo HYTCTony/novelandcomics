@@ -16,7 +16,7 @@ import java.util.GregorianCalendar;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-public class WeekSignInStateAdapter extends BaseQuickAdapter<SignInDay, BaseViewHolder> {
+public class WeekSignInStateAdapter extends BaseQuickAdapter<Integer, BaseViewHolder> {
 
     private boolean isSignInToday;        //今天是否已签到
 
@@ -25,7 +25,7 @@ public class WeekSignInStateAdapter extends BaseQuickAdapter<SignInDay, BaseView
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder holder, SignInDay data) {
+    protected void convert(@NonNull BaseViewHolder holder, Integer data) {
         TextView tvFlag = holder.getView(R.id.tv_sign_in_flag);
 
 
@@ -51,7 +51,7 @@ public class WeekSignInStateAdapter extends BaseQuickAdapter<SignInDay, BaseView
         }
         tvFlag.setCompoundDrawablesWithIntrinsicBounds(null, dbTop, null, null);
 
-        holder.setText(R.id.tv_reward, String.valueOf(data.getReward()));
+        holder.setText(R.id.tv_reward, String.valueOf(data));
     }
 
     public void setSignInChange(boolean isSign){

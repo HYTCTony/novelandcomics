@@ -98,12 +98,19 @@ public class TokenInterceptor implements Interceptor {
                 int errorCode = jsonObject.getIntValue("error_code");
                 // error_code 状态码10001  ---Token失效    10010 被顶号
                 if (errorCode == 10001 || errorCode == 10010) {
-                    OkGo.getInstance().cancelAll();
-                    String token = syncNewToken();
-
+//                    OkGo.getInstance().cancelAll();
+                    String newToken = syncNewToken();
                     Intent intent = new Intent(context, TransparencyActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
+
+                    Request newRequest = chain.request();
+                    Request.Builder requestBuilder = newRequest.newBuilder();
+                    requestBuilder.removeHeader(Consts.TOKEN);             //添加(替换)到头
+                    requestBuilder.addHeader(Consts.TOKEN, newToken);      //添加(替换)到头
+                    //重新请求原接口
+                    return chain.proceed(requestBuilder.build());
+
                 }
             }
         }
@@ -120,6 +127,7 @@ public class TokenInterceptor implements Interceptor {
         return checkTokenResponse(chain, response);*/
 
     }
+
 
     /*token失效时自动取获取一次，然后判断重新请求原接口*/
    /* private Response checkTokenResponse(Chain chain, Response response) {

@@ -74,6 +74,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 
     private View headViewHot;
     private RecyclerView rvHot;
+    private HotTodayAdapter hotTodayAdapter;
 
     private View headViewExcellentWorks;
     private ViewPager vpExWorks;
@@ -83,9 +84,11 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 
     private View headViewTopSearch;
     private RecyclerView rvTopSearch;
+    private AttTopSearchAdapter attTopSearchAdapter;
 
     private View headViewNewBooks;
     private RecyclerView rvLeadUpBooks;
+    private BooksMultiItemAdapter lubAdapter;
 
     private View headViewHighScore;
 
@@ -116,32 +119,6 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         mAdapter.setHeaderView(headViewTop, 0);
         initBannerView(headViewTop);
         initCenterBar(headViewTop);
-
-
-       /* View headViewHot = inflater.inflate(R.layout.layout_rv_head_sb_hotlist_today, recyclerView, false);
-        mAdapter.setHeaderView(headViewHot, 1);
-        View headViewExcellentWorks = inflater.inflate(R.layout.layout_rc_head_sb_classify_excellent_work, recyclerView, false);
-        mAdapter.setHeaderView(headViewExcellentWorks, 2);
-        View headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
-        mAdapter.setHeaderView(headViewSpecial, 3);
-        View headViewTopSearch = inflater.inflate(R.layout.layout_rv_head_sb_actual_time_top_search, recyclerView, false);
-        mAdapter.setHeaderView(headViewTopSearch, 4);
-        View headViewNewBooks = inflater.inflate(R.layout.layout_rv_head_multiitem_books, recyclerView, false);
-        mAdapter.setHeaderView(headViewNewBooks, 5);
-        View headViewHighScore = inflater.inflate(R.layout.layout_rv_head_normal_title, recyclerView, false);
-        mAdapter.setHeaderView(headViewHighScore, 6);
-
-
-        initHotlistView(headViewHot);
-
-        initExcellentWorksView(headViewExcellentWorks);
-
-        initSpecialTopicView(headViewSpecial);
-
-        initTopSearchView(headViewTopSearch);
-
-        initNewBooksLeadUpView(headViewNewBooks);*/
-
     }
 
     @Override
@@ -159,7 +136,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqHighMarksDatas(curPage));
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-//                reqTopBannerData();
+            reqTopBannerData();
 
             reqIndexDatas(false);
 
@@ -252,15 +229,6 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
 
     /*新书抢先*/
     private void initNewBooksLeadUpView(LayoutInflater inflater, List<BookEntity> novelList) {
-        if (headViewNewBooks == null) {
-            headViewNewBooks = inflater.inflate(R.layout.layout_rv_head_multiitem_books, recyclerView, false);
-            mAdapter.setHeaderView(headViewNewBooks, 5);
-            $(headViewNewBooks, R.id.tv_asBtn_newBooks_refresh).setOnClickListener(this);
-            $(headViewNewBooks, R.id.tv_asBtn_newBooks_refresh).setVisibility(View.GONE);
-            rvLeadUpBooks = $(headViewNewBooks, R.id.recyclerView_new_books);
-            rvLeadUpBooks.setLayoutManager(new GridLayoutManager(mActivity, 4));
-        }
-
         List<BookMultiEntity> datas = new ArrayList<>();
         BookMultiEntity entity;
         for (int i = 0; i < novelList.size(); i++) {
@@ -289,20 +257,31 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                 datas.add(entity);
             }
         }
-        BooksMultiItemAdapter lubAdapter = new BooksMultiItemAdapter(datas);
-        lubAdapter.setGridSpanSizeLookup(new GridSpanSizeLookup() {
-            @Override
-            public int getSpanSize(GridLayoutManager gridLayoutManager, int viewType, int position) {
-                return datas.get(position).getSpanSize();
-            }
-        });
-        rvLeadUpBooks.setAdapter(lubAdapter);
-        lubAdapter.setOnItemClickListener((adapter, view, position) -> {
-            BookEntity entity1 = lubAdapter.getData().get(position);
-            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
-            intent.putExtra(Common.KEY_BOOK_ID, entity1.getId());
-            startActivity(intent);
-        });
+
+        if (headViewNewBooks == null) {
+            headViewNewBooks = inflater.inflate(R.layout.layout_rv_head_multiitem_books, recyclerView, false);
+            mAdapter.setHeaderView(headViewNewBooks, 5);
+            $(headViewNewBooks, R.id.tv_asBtn_newBooks_refresh).setOnClickListener(this);
+            $(headViewNewBooks, R.id.tv_asBtn_newBooks_refresh).setVisibility(View.GONE);
+            rvLeadUpBooks = $(headViewNewBooks, R.id.recyclerView_new_books);
+            rvLeadUpBooks.setLayoutManager(new GridLayoutManager(mActivity, 4));
+            lubAdapter = new BooksMultiItemAdapter(datas);
+            lubAdapter.setGridSpanSizeLookup(new GridSpanSizeLookup() {
+                @Override
+                public int getSpanSize(GridLayoutManager gridLayoutManager, int viewType, int position) {
+                    return datas.get(position).getSpanSize();
+                }
+            });
+            rvLeadUpBooks.setAdapter(lubAdapter);
+            lubAdapter.setOnItemClickListener((adapter, view, position) -> {
+                BookEntity entity1 = lubAdapter.getData().get(position);
+                Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, entity1.getId());
+                startActivity(intent);
+            });
+        } else {
+            lubAdapter.setNewData(datas);
+        }
     }
 
     private void initTopSearchView(LayoutInflater inflater, List<SearchEntity> searchNvList) {
@@ -316,18 +295,20 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             rvTopSearch.setNestedScrollingEnabled(false);
             rvTopSearch.setLayoutManager(new GridLayoutManager(mActivity, 4));
             rvTopSearch.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtils.dp2px(mActivity, 16), false));
+            attTopSearchAdapter = new AttTopSearchAdapter(searchNvList);
+            rvTopSearch.setAdapter(attTopSearchAdapter);
+            attTopSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
+                if (onMoreClick()) {
+                    return;
+                }
+                SearchEntity entity = attTopSearchAdapter.getData().get(position);
+                Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, entity.getNovel_id());
+                startActivity(intent);
+            });
+        } else {
+            attTopSearchAdapter.setNewData(searchNvList);
         }
-        AttTopSearchAdapter attTopSearchAdapter = new AttTopSearchAdapter(searchNvList);
-        rvTopSearch.setAdapter(attTopSearchAdapter);
-        attTopSearchAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (onMoreClick()) {
-                return;
-            }
-            SearchEntity entity = attTopSearchAdapter.getData().get(position);
-            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
-            intent.putExtra(Common.KEY_BOOK_ID, entity.getNovel_id());
-            startActivity(intent);
-        });
     }
 
     private void initSpecialTopicView(LayoutInflater inflater, List<HpSpecialEntity> specialList) {
@@ -386,18 +367,25 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
             rvHot.setNestedScrollingEnabled(false);
             rvHot.setLayoutManager(new GridLayoutManager(mActivity, 2));
             rvHot.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(mActivity, 16), false));
-        }
-        HotTodayAdapter hotTodayAdapter = new HotTodayAdapter(rankNvList);
-        rvHot.setAdapter(hotTodayAdapter);
-        hotTodayAdapter.setOnItemClickListener((adapter, view, position) -> {
-            if (onMoreClick()) {
-                return;
+            hotTodayAdapter = new HotTodayAdapter(rankNvList);
+            rvHot.setAdapter(hotTodayAdapter);
+            hotTodayAdapter.setOnItemClickListener((adapter, view, position) -> {
+                if (onMoreClick()) {
+                    return;
+                }
+                BookEntity entity = hotTodayAdapter.getData().get(position);
+                Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+                startActivity(intent);
+            });
+        } else {
+            if (rankNvList.size() > 0) {
+                hotTodayAdapter.setNewData(rankNvList);
+            } else {
+                mAdapter.removeHeaderView(headViewHot);
+                headViewHot = null;
             }
-            BookEntity entity = hotTodayAdapter.getData().get(position);
-            Intent intent = new Intent(mActivity, BookDetailsActivity.class);
-            intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
-            startActivity(intent);
-        });
+        }
     }
 
     private void initBannerView(View rootView) {
@@ -434,7 +422,7 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
                 .cacheKey(Consts.INDEX_PAGE_API + Consts.TYPE_SELECTION)
                 .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-                .cacheTime(12 * 60 * 60 * 1000)
+                .cacheTime(24 * 60 * 60 * 1000)
                 .execute(new LtbJsonCallback<LzyResponse<HomePageEntity>>((AppCompatActivity) mActivity, isInit,
                         new TypeReference<LzyResponse<HomePageEntity>>() {
                         }) {
@@ -485,7 +473,6 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                             }
                             List<BookEntity> hotNvdata = hpDatas.getHot_novel().getData();
                             mAdapter.setNewData(hotNvdata);
-
                         }
                     }
 
@@ -507,7 +494,6 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                         super.onFinish();
                         mRefreshLayout.finishRefresh();
                     }
-
                 });
     }
 
@@ -569,6 +555,5 @@ public class SelectionBookFragment extends BaseFragment implements View.OnClickL
                     }
                 });
     }
-
 
 }

@@ -200,7 +200,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mDlSlide.setFocusableInTouchMode(false);
         mSettingDialog = new ReadSettingDialog(mContext, mPageLoader);
         mBrightnessDialog = new BrightnessDialog(mContext);
-
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         catalogAdapter = new CatalogAdapter(mChapters);
         rv.setAdapter(catalogAdapter);
@@ -445,9 +444,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     catalogAdapter.notifyDataSetChanged();
                 }
                 PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
-                llDrawerLayout.setBackgroundResource(mPageStyle.getBgColor());
-                tvTitle.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getFontColor()));
-                tvBookStatu.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getFontColor()));
+                llDrawerLayout.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : mPageStyle.getBgColor());
+                tvTitle.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
+                tvBookStatu.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
                 //切换菜单
                 toggleMenu(true);
                 //打开侧滑动栏
@@ -532,8 +531,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         /*设置弹窗动画执行速度*/
         mTopInAnim.setDuration(200);
         mBottomInAnim.setDuration(200);
-        mTopOutAnim.setDuration(200);
-        mBottomOutAnim.setDuration(200);
+        mTopOutAnim.setDuration(150);
+        mBottomOutAnim.setDuration(150);
     }
 
     private void toggleNightMode() {

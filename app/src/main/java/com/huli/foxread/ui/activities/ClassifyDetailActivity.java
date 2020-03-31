@@ -200,25 +200,6 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
             list.add(data);
         }
 
-//        stackLabel_1.setLabels(new String[]{"全部", "总裁豪门", "都市人生", "婚恋爱情", "职场情缘", "民国旧影", "娱乐明星"});
-//        stackLabel_2.setLabels(getResources().getStringArray(R.array.cat_is_end));
-//        stackLabel_3.setLabels(new String[]{"全部", "100万字以下", "100-200万字", "200-300万字", "300万字以上"});
-//        stackLabel_3.setLabels(getResources().getStringArray(R.array.cat_word_num));
-//        stackLabel_4.setLabels(getResources().getStringArray(R.array.cat_state));
-
-//        List<String> selected = Collections.singletonList("全部");
-//        List<String> selected2 = Collections.singletonList("最热");
-//        stackLabel_1.setSelectMode(true, selected);
-
-//        tvClassifyTop3Title.setText(String.format(getString(R.string.txt_category_dt_sub_title), mTitle, "最热"));
-//        GlideUtil.loadRoundRect(this, ivCoverFirst, "url", 0);
-//        GlideUtil.loadRoundRect(this, ivCoverSecond, "url", 0);
-//        GlideUtil.loadRoundRect(this, ivCoverThird, "url", 0);
-//        tvBookNameFirst.setText("豪门千金的超级战神");
-//        tvBookNameSecond.setText("天启时代");
-//        tvBookNameThird.setText("傲娇总裁侨萌妻");
-
-
         reqSubCategory(pCatId);
 
         subCatID = pCatId;

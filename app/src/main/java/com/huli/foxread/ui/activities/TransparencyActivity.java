@@ -50,7 +50,6 @@ public class TransparencyActivity extends BaseActivity {
                 .setCancelButton("算了")
                 .setOnOkButtonClickListener((baseDialog, v) -> {
                     Intent intent = new Intent(TransparencyActivity.this, LoginActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                     return false;

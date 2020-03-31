@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     public void doBusiness(Context mContext) {
         switch2Bookstore();
 
-        reqUserInfo();
+//        reqUserInfo();
     }
 
     @Override

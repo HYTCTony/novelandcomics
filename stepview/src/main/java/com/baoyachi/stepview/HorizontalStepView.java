@@ -178,6 +178,7 @@ public class HorizontalStepView extends LinearLayout implements HorizontalStepsV
                         mTextView.setTypeface(null, Typeface.BOLD);
                         mTextView.setTextColor(mComplectedTextColor);
                     } else {
+                        mTextView.setTypeface(null, Typeface.NORMAL);
                         mTextView.setTextColor(mUnComplectedTextColor);
                     }
 

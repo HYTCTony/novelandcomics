@@ -36,6 +36,7 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.TipDialog;
+import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.umeng.socialize.UMAuthListener;
@@ -189,7 +190,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                         String jsonString = JSON.toJSONString(map);
-                        Log.e("sssssssss", "sssss===" + jsonString);
                         WXLoginRespEntity wxLoginResp = JSONObject.parseObject(jsonString, WXLoginRespEntity.class);
                         loginByWeChat(wxLoginResp);
                     }
@@ -272,13 +272,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      * 微信第三方登录
      */
     private void loginByWeChat(WXLoginRespEntity wxLoginResp) {
+        WaitDialog.show(LoginActivity.this, R.string.loading);
         String uniqueID = UniqueIdManager.getUniqueID(this);
         OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USER_WX_LOGIN_API)
                 .params(Consts.USERNAME, wxLoginResp.getName())
                 .params(Consts.UNIONID, wxLoginResp.getUnionid())
                 .params(Consts.OPENID,  wxLoginResp.getOpenid())
                 .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this,
+                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
                         new TypeReference<LzyResponse<LoginRpsEntity>>() {
                         }) {
                     @Override
@@ -289,6 +290,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                             reqUserInfo();
                         } else if (response.body().error_code == 10021) {
+                            TipDialog.dismiss();
                             Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
                             intent.putExtra(Common.EXTRA_KEY_WXRESP, wxLoginResp);
                             startActivity(intent);
@@ -296,6 +298,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<LzyResponse<LoginRpsEntity>> response) {
+                        super.onError(response);
+                        TipDialog.dismiss();
                     }
                 });
     }
@@ -305,7 +313,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
      */
     private void reqUserInfo() {
         OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
-                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this,
+                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
                         new TypeReference<LzyResponse<FUser>>() {
                         }) {
                     @Override
@@ -322,6 +330,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<LzyResponse<FUser>> response) {
+                        super.onError(response);
+                        TipDialog.dismiss();
                     }
                 });
     }

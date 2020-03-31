@@ -3,7 +3,7 @@ package com.huli.foxread.contact;
 public interface Consts {
 
     String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
-    //    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
     String NOT_CPL_URL = BASE_URL + "/api/v1";
 
     String FEEDBACK_URL = BASE_URL + "/api/feedback";
@@ -30,7 +30,6 @@ public interface Consts {
     String SMS_SEND_API = NOT_CPL_URL + Func.SMS_SEND;
     String BIND_MOBILE_API = NOT_CPL_URL + Func.BIND_MOBILE;
     String UNBIND_MOBILE_API = NOT_CPL_URL + Func.UNBIND_MOBILE;
-    String FILLIN_INVITE_CODE_API = NOT_CPL_URL + Func.FILLIN_INVITE_CODE;
     String SET_USER_PROFILE_API = NOT_CPL_URL + Func.USER_PROFILE;
 
     String MSG_LIST_API = NOT_CPL_URL + Func.MSG_LIST;
@@ -93,9 +92,6 @@ public interface Consts {
     String WELFARE_SIGNIN_API = NOT_CPL_URL + Func.WELFARE_SIGNIN_INFO;
     String WELFARE_COMPLETESINGIN_API = NOT_CPL_URL + Func.WELFARE_COMPLETESINGIN;
 
-    //邀请好友页面信息
-    String WELFARE_INVITE_API = NOT_CPL_URL + Func.WELFARE_INVITE;
-
 
     /*提现*/
     String WITHDRAWAL_MENU_API = NOT_CPL_URL + Func.WITHDRAWAL_MENU;
@@ -112,6 +108,11 @@ public interface Consts {
     String BANK_CREATE_API = NOT_CPL_URL + Func.BANK_CREATE;
 
 
+
+    //邀请好友页面信息
+    String WELFARE_INVITE_API = NOT_CPL_URL + Func.WELFARE_INVITE;
+    //填写邀请码
+    String FILLIN_INVITE_CODE_API = NOT_CPL_URL + Func.FILLIN_INVITE_CODE;
     /*已邀好友*/
     String INVITATION_INDEX_API = NOT_CPL_URL + Func.INVITATION_INDEX;
 

@@ -16,30 +16,8 @@ public class WelfareTaskEntity {
     private String number;
     private String link;                    //点击链接:h5页面填写api路径,小说内部跳转填写关键字
     private String http_logo_image;              //图标
-//    private long createtime;
-//    private long updatetime;
     private int complete_task;              //完成次数，-1未完成，1已完成(
     private String buttonText;
-
-    public WelfareTaskEntity() {
-    }
-
-    public WelfareTaskEntity(String id, String name, int type, String content, int status, String welfare_category_id, int reward, int is_new_man, int frequency, String number, String link, String http_logo_image, int complete_task, String buttonText) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.content = content;
-        this.status = status;
-        this.welfare_category_id = welfare_category_id;
-        this.reward = reward;
-        this.is_new_man = is_new_man;
-        this.frequency = frequency;
-        this.number = number;
-        this.link = link;
-        this.http_logo_image = http_logo_image;
-        this.complete_task = complete_task;
-        this.buttonText = buttonText;
-    }
 
     public String getId() {
         return id;

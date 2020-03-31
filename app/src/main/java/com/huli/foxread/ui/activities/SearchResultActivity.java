@@ -14,12 +14,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.eventbus.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -36,7 +38,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-public class SearchResultActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener {
+public class SearchResultActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener, OnLoadMoreListener {
 
     private EditText etKeyword;
     private TextView btnSearch;
@@ -45,6 +47,8 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     private SHotBooksAdapter mAdapter;
 
     private String keyWord;
+
+    private int curPage = 0;        //当前页码，下一页 +1
 
     @Override
     public void initParms(Bundle parms) {
@@ -73,6 +77,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SHotBooksAdapter();
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
     }
 
     @Override
@@ -87,12 +92,19 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
             return false;
         });
         mAdapter.setOnItemClickListener(this);
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(this);
     }
 
     @Override
     public void doBusiness(Context mContext) {
         etKeyword.setText(keyWord);
-        reqCategoryDatas(keyWord, true);
+        reqCategoryDatas(keyWord, curPage, true);
+    }
+
+
+    @Override
+    public void onLoadMore() {
+        reqCategoryDatas(keyWord, curPage, false);
     }
 
 
@@ -100,7 +112,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_search:
-                if(onMoreClick()){
+                if (onMoreClick()) {
                     return;
                 }
                 keyWord = etKeyword.getText().toString().trim();
@@ -111,7 +123,8 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                 //点击搜索的时候隐藏软键盘
                 hideKeyboard(etKeyword);
                 keyWord = keyWord.trim();
-                reqCategoryDatas(keyWord, true);
+                curPage = 0;
+                reqCategoryDatas(keyWord, curPage, true);
 
                 EventBus.getDefault().post(new SearchRecordEvent(keyWord));
                 break;
@@ -123,7 +136,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        if(onMoreClick()){
+        if (onMoreClick()) {
             return;
         }
         BookEntity entity = mAdapter.getData().get(position);
@@ -136,7 +149,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     /**
      * 隐藏软键盘
      *
-     * @param view :一般为EditText
+     * @param view 一般为EditText
      */
     public void hideKeyboard(View view) {
         InputMethodManager manager = (InputMethodManager) view.getContext()
@@ -147,19 +160,37 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     }
 
 
-    private void reqCategoryDatas(String keyword, boolean showDialog) {
+    private void reqCategoryDatas(String keyword, int page, boolean showDialog) {
         OkGo.<String>post(Consts.NOVEL_KEYWORD_API)
                 .params(Consts.FILTRATE_KEYWORD, keyword)
+                .params(Consts.PAGE, page + 1)
                 .execute(new LtbCallback(this, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<List<BookEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<BookEntity>>>() {
+                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            List<BookEntity> data = entity.getData();
-                            mAdapter.setNewData(data);
+                            PagingWarpper<List<BookEntity>> datas = entity.getData();
+                            curPage = datas.getCurrent_page();
+                            List<BookEntity> bookList = datas.getData();
+                            if (curPage == 1) {
+                                mAdapter.setNewData(bookList);
+                            } else {
+                                mAdapter.addData(bookList);
+                            }
+                            if (datas.getLast_page() <= curPage) {    //没有下一页
+                                mAdapter.getLoadMoreModule().loadMoreEnd();
+                            } else {
+                                mAdapter.getLoadMoreModule().loadMoreComplete();
+                            }
                         }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        mAdapter.getLoadMoreModule().loadMoreFail();
                     }
                 });
     }

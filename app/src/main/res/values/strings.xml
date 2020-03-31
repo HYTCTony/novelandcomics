@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">一起看书</string>
 
-    <string name="txt_huli_culture_literature">狐狸文化&#8195;文学作品</string>
+    <string name="txt_huli_culture_literature">狐狸文化传媒</string>
 
     <string name="rule_id_card_Num">0123456789Xx</string>
     <string name="loading">加载中&#8230;</string>
@@ -123,7 +123,7 @@
     <string name="txt_praise_good_books">好评佳作</string>
     <string name="txt_total_reading_time_min">今日已阅读(分钟)</string>
     <string name="txt_sign_in_for_gold">签到领金币</string>
-    <string name="txt_markread_chapter_x">读到：第%1$s章</string>
+    <string name="txt_markread_chapter_x">读到：%1$s</string>
     <string name="txt_markread_null">未读</string>
     <string name="txt_welfare_center">福利中心</string>
     <string name="txt_click_2_login">点击\n登录</string>

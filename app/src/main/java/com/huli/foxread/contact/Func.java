@@ -91,7 +91,7 @@ public interface Func {
      * 参数：
      * code (Y）--- 邀请码
      */
-    String FILLIN_INVITE_CODE = "/user/bindingInvitationCode";
+    String FILLIN_INVITE_CODE = "/invitation/bind";
 
     /**
      * 用途：修改会员个人信息(POST)
@@ -177,11 +177,11 @@ public interface Func {
     String INDEX_RANKING = "/index/rankingList";
 
     /**
-     * 用途：分类(GET)
+     * 用途：顶级分类(GET)
      * 头：token(Y)
      * 参数：
      */
-    String NOVEL_CATEGORY = "/novel/category";
+    String NOVEL_CATEGORY = "/category/top";
 
     /**
      * 用途：子分类(POST)
@@ -189,7 +189,7 @@ public interface Func {
      * 参数：
      * id --- 大分类ID
      */
-    String NOVEL_CATEGORY_SUB = "/novel/sub";
+    String NOVEL_CATEGORY_SUB = "/category/sub";
 
     /**
      * 用途：小说按条件刷选(POST)
@@ -273,7 +273,7 @@ public interface Func {
      * 参数：
      * id---小说id
      */
-    String NOVEL_NOMINATE = "/novel/nominate";
+    String NOVEL_NOMINATE = "/shove/nominate";
 
     /**
      * 用途：获取反馈分类
@@ -326,7 +326,7 @@ public interface Func {
      * 头：token---token(Y)
      * 参数：
      */
-    String SPECIAL_BOOK = "/novel/special";
+    String SPECIAL_BOOK = "/shove/one";
 
 
     /**
@@ -422,11 +422,11 @@ public interface Func {
     String WELFARE_COMPLETESINGIN = "/welfare/completeSingIn";
 
     /**
-     * 用途：邀请详情(GET)
+     * 用途：邀请详情(奖励)(GET)
      * 头：token---token(Y)
      * 参数：
      */
-    String WELFARE_INVITE = "/welfare/invite";
+    String WELFARE_INVITE = "/invitation/money";
 
 
     /**
