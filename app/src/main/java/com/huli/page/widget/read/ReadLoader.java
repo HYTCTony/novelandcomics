@@ -776,7 +776,8 @@ public abstract class ReadLoader {
                 //根据状态不一样，数据不一样
                 if (mStatus != STATUS_FINISH) {
                     if (isChapterListPrepare) {
-                        canvas.drawText(mChapterList.get(mCurChapterPos).getTitle(), mMarginWidth, tipTop, mTipPaint);
+                        canvas.drawText(mChapterList.get(mCurChapterPos > mChapterList.size() - 1 ? mChapterList.size() - 1 : mCurChapterPos).getTitle(),
+                                mMarginWidth, tipTop, mTipPaint);
                     }
                 } else {
                     canvas.drawText(mCurPage.title, mMarginWidth, tipTop, mTipPaint);

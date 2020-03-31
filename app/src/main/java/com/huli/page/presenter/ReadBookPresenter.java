@@ -107,13 +107,13 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                         }
                     });
         }
-
     }
 
     @Override
-    public void recordDuration(AppCompatActivity context) {
+    public void recordDuration(AppCompatActivity context,int type) {
         checkViewAttached();
         OkGo.<String>get(Consts.RECORD_DURATION_API)
+                .params(Consts.TYPE, type)
                 .execute(new LtbCallback(context, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
