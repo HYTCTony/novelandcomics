@@ -75,6 +75,9 @@ import static android.view.View.VISIBLE;
 public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Presenter> implements ReadBookContract.View {
     private static final String TAG = "ReadBookActivity";
     public static final int REQUEST_MORE_SETTING = 1;
+    public static final int READ_TYPE_START = 1;
+    public static final int READ_TYPE_CONTINUE = 2;
+    public static final int READ_TYPE_STOP = 3;
     // 注册 Brightness 的 uri
     private final Uri BRIGHTNESS_MODE_URI =
             Settings.System.getUriFor(Settings.System.SCREEN_BRIGHTNESS_MODE);
@@ -154,7 +157,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mPageLoader.openChapter();
                     break;
                 case MSG_POLLING:
-                    doPolling();
+                    doPolling(READ_TYPE_CONTINUE);
                     break;
             }
         }
@@ -571,7 +574,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     protected void onResume() {
         super.onResume();
         mWakeLock.acquire();
-        doPolling();
+        doPolling(READ_TYPE_START);
     }
 
     @Override
@@ -581,7 +584,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         if (isCollected) {
             mPageLoader.saveRecord();
         }
-        doPolling();
+        doPolling(READ_TYPE_STOP);
         int pos = mPageLoader.getChapterPos();
         if (!bookChapters.isEmpty() && pos >= 0)
             presenter.recordRead(ReadBookActivity.this, mBookId, bookChapters.get(pos).getId(), bookChapters.get(pos).getName(), pos + 1);
@@ -701,8 +704,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         }
     }
 
-    private void doPolling() {
-        presenter.recordDuration(ReadBookActivity.this);//asyn network
+    private void doPolling(int type) {
+        presenter.recordDuration(ReadBookActivity.this, type);
         mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
     }
 
