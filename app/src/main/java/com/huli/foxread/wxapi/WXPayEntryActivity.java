@@ -2,10 +2,8 @@ package com.huli.foxread.wxapi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.huli.foxread.FrApp;
-import com.huli.foxread.contact.Common;
 import com.huli.foxread.entity.eventbus.WXPaySuccessEvent;
 import com.huli.foxread.utils.Tos;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -48,16 +46,12 @@ public class WXPayEntryActivity extends AppCompatActivity implements IWXAPIEvent
     @Override
     public void onResp(BaseResp resp) {
         String result = "";
-        Log.e("ssssssssss", "code===" + resp.errCode);
-        Log.e("ssssssssss", "str===" + resp.errStr);
 
-//		Toast.makeText(this, "baseresp.getType = " + resp.getType() + "-----code===" + resp.errCode, Toast.LENGTH_SHORT).show();
-
+        EventBus.getDefault().post(new WXPaySuccessEvent(resp.errCode));
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:           //支付成功
 //                Intent intent = new Intent(WXPayEntryActivity.this, Succ.class);
 //                startActivity(intent);
-                EventBus.getDefault().post(new WXPaySuccessEvent(resp.errCode));
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:

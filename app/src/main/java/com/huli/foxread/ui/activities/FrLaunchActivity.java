@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.huli.foxread.GlideApp;
@@ -171,7 +172,7 @@ public class FrLaunchActivity extends BaseActivity {
         if (NetworkUtil.isNetworkAvailable(this)) {
             startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
             finish();
-        }else {
+        } else {
             Tos.showShort(this, R.string.txt_no_network_try_again_later);
         }
     }
@@ -256,24 +257,35 @@ public class FrLaunchActivity extends BaseActivity {
                         int code = response.body().error_code;
                         if (code == 0) {
                             adEntity = response.body().getData();
-                            GlideApp.with(FrLaunchActivity.this)
-                                    .load(adEntity.getImageText())
-                                    .into(new CustomTarget<Drawable>() {
-                                        @Override
-                                        public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                            showAdsLayout(resource, adEntity.getLinks());
-                                        }
+                            String imageUrl = adEntity.getImageText();
+                            if (imageUrl.endsWith(".gif")) {
+                                GlideApp.with(FrLaunchActivity.this)
+                                        .asGif()
+                                        .load(imageUrl)
+                                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                        .into(ivAdPic);
 
-                                        @Override
-                                        public void onLoadCleared(@Nullable Drawable placeholder) {
-                                        }
+                                adsCountDownStart(adEntity.getLink());
+                            } else {
+                                GlideApp.with(FrLaunchActivity.this)
+                                        .load(imageUrl)
+                                        .into(new CustomTarget<Drawable>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                                showAdsLayout(resource, adEntity.getLink());
+                                            }
 
-                                        @Override
-                                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                                            super.onLoadFailed(errorDrawable);
-                                            showAdsLayout(errorDrawable, adEntity.getLinks());
-                                        }
-                                    });
+                                            @Override
+                                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                                            }
+
+                                            @Override
+                                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                                super.onLoadFailed(errorDrawable);
+                                                showAdsLayout(errorDrawable, adEntity.getLink());
+                                            }
+                                        });
+                            }
                         }
                     }
 
@@ -294,6 +306,10 @@ public class FrLaunchActivity extends BaseActivity {
      */
     private void showAdsLayout(Drawable resource, String adUrl) {
         ivAdPic.setImageDrawable(resource);
+        adsCountDownStart(adUrl);
+    }
+
+    private void adsCountDownStart(String adUrl) {
         ivAdPic.setOnClickListener(new OnClickEvent() {
             @Override
             public void singleClick(View v) {

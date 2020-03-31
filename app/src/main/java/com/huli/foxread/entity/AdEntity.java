@@ -4,24 +4,9 @@ import java.io.Serializable;
 
 public class AdEntity implements Serializable {
     private String id;
-    //    private String advertiser;
-//    private String name;
-//    private String introduce;
-//    private int type;
-//    private int stance;
-//    private int outer;
-//    private int show;
     private String imageText;
     private String video;
-    private String links;
-//    private int weigh;
-//    private int clicks;
-//    private int views;
-//    private int status;
-//    private long createtime;
-//    private long updatetime;
-//    private long deletetime;
-
+    private String link;
 
     public String getId() {
         return id;
@@ -47,11 +32,11 @@ public class AdEntity implements Serializable {
         this.video = video;
     }
 
-    public String getLinks() {
-        return links;
+    public String getLink() {
+        return link;
     }
 
-    public void setLinks(String links) {
-        this.links = links;
+    public void setLink(String link) {
+        this.link = link;
     }
 }

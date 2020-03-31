@@ -7,8 +7,8 @@ android {
         applicationId "com.huli.foxread"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 10
-        versionName "0.1.8"
+        versionCode 11
+        versionName "0.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 

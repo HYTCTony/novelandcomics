@@ -12,7 +12,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,7 +31,6 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.PaymentInfoEntity;
 import com.huli.foxread.entity.ReChargeSetEntity;
-import com.huli.foxread.entity.WxPayReqEntity;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.entity.eventbus.WXPaySuccessEvent;
 import com.huli.foxread.listeners.OnClickEvent;
@@ -51,6 +49,7 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.tencent.mm.opensdk.constants.Build;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -204,7 +203,22 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         btnOpenOrRenew.setText("立即开通");
 
         reqRechargeCombo();
+
+        /*receiver = new AppRegister();
+        // 注册广播接受者
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP");//要接收的广播
+        registerReceiver(receiver, intentFilter);//注册接收者*/
+
     }
+
+   /* private AppRegister receiver;
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
+    }*/
 
     @Override
     public void onClick(View view) {
@@ -426,23 +440,25 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             Tos.showShort(this, "当前微信版本不支持支付功能");
             return;
         }
-        WxPayReqEntity payReqEntity = JSONObject.parseObject(data, WxPayReqEntity.class);
 
+        JSONObject json = JSONObject.parseObject(data);
         PayReq req = new PayReq();
-        req.appId = payReqEntity.getAppid();
-        req.partnerId = payReqEntity.getMch_id();
-        req.prepayId = payReqEntity.getPrepay_id();
-        req.packageValue = payReqEntity.getPackage_value();
-        req.nonceStr = payReqEntity.getNonce_str();
-        req.timeStamp = payReqEntity.getTime_stamp();
-        req.sign = payReqEntity.getSign();
+        req.appId = json.getString("appid");
+        req.partnerId = json.getString("partnerid");
+        req.prepayId = json.getString("prepayid");
+        req.packageValue = json.getString("package");
+        req.nonceStr = json.getString("noncestr");
+        req.timeStamp = json.getString("timestamp");
+        req.sign = json.getString("sign");
         // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
         iwxapi.sendReq(req);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWXPaySuccessEvent(WXPaySuccessEvent event) {
-        reqUserInfo();
+        if (event.getCode() == BaseResp.ErrCode.ERR_OK) {
+            reqUserInfo();
+        }
     }
 
 }
