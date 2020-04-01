@@ -4278,8 +4278,8 @@ com.tencent.bugly.crashreport.crash.d
     static void <clinit>()
 com.flyco.tablayout.CommonTabLayout$IndicatorPoint
     final synthetic com.flyco.tablayout.CommonTabLayout this$0
-com.huli.foxread.ui.activities.BindingCellphoneActivty$2$1
-    final synthetic com.huli.foxread.ui.activities.BindingCellphoneActivty$2 this$1
+com.huli.foxread.ui.activities.BindingCellphoneActivity$2$1
+    final synthetic com.huli.foxread.ui.activities.BindingCellphoneActivity$2 this$1
 com.alipay.security.mobile.module.a.a.a
     private static char[] a
 com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
@@ -4539,8 +4539,8 @@ kotlin.text.Charsets
     public static final java.nio.charset.Charset US_ASCII
     public static final java.nio.charset.Charset ISO_8859_1
     public static final kotlin.text.Charsets INSTANCE
-com.huli.foxread.ui.activities.BindingCellphoneActivty$1$1
-    final synthetic com.huli.foxread.ui.activities.BindingCellphoneActivty$1 this$1
+com.huli.foxread.ui.activities.BindingCellphoneActivity$1$1
+    final synthetic com.huli.foxread.ui.activities.BindingCellphoneActivity$1 this$1
 org.greenrobot.eventbus.SubscriberMethodFinder$FindState
     java.lang.Class subscriberClass
 com.tencent.bugly.beta.utils.c

@@ -24,7 +24,7 @@ public class MsgNotifyAdapter extends BaseQuickAdapter<SMsgBean, BaseViewHolder>
         GlideUtil.loadCircle(getContext(), holder.findView(R.id.iv_sender_headImg), issue.getHttp_image());
         holder.setText(R.id.tv_sender_nickname, issue.getName());
         holder.setText(R.id.tv_msg_content, issue.getContent());
-        holder.setText(R.id.tv_msg_send_time, DateTimeUtil.formatDateTime(item.getCreatetime(), DateTimeUtil.DF_YYYY_MM_DD_HH_MM));
+        holder.setText(R.id.tv_msg_send_time, DateTimeUtil.formatDateTime(item.getCreatetime() * 1000, DateTimeUtil.DF_YYYY_MM_DD_HH_MM));
 //        holder.setText(R.id.tv_sub_msg_count, "12");
     }
 }

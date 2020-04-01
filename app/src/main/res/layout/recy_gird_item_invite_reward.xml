@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_invite_award_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:background="@mipmap/img_bg_invite_award"
+        app:layout_constraintBottom_toTopOf="@+id/tv_invite_reward_tips"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_invite_reward_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_bg"
+        app:layout_constraintRight_toRightOf="@+id/iv_invite_award_bg"
+        app:layout_constraintTop_toBottomOf="@+id/iv_invite_award_bg"
+        tools:text="好友阅读15分钟" />
+
+    <TextView
+        android:id="@+id/tv_invite_reward_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_16"
+        tools:text="第一天"
+        android:textColor="@color/txt_white"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_invite_award_bg"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_bg"
+        app:layout_constraintRight_toRightOf="@+id/iv_invite_award_bg" />
+
+    <TextView
+        android:id="@+id/tv_reward_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_16"
+        tools:text="5元"
+        android:textColor="@color/txt_orange_ff6600"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_bg"
+        app:layout_constraintRight_toRightOf="@+id/iv_invite_award_bg"
+        app:layout_constraintTop_toTopOf="@+id/iv_invite_award_bg" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

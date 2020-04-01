@@ -11,6 +11,7 @@ import android.view.View;
 import com.google.android.material.snackbar.Snackbar;
 import com.huli.foxread.R;
 import com.huli.page.utils.KeyBoardUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,7 +73,15 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        MobclickAgent.onResume(this);
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        MobclickAgent.onPause(this);
+        super.onPause();
     }
 
     @Override

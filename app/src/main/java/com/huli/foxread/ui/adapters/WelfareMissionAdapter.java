@@ -23,7 +23,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-public class WelfareReadMissionAdapter extends BaseSectionQuickAdapter<MissionSection<MissionEntity>, BaseViewHolder> {
+public class WelfareMissionAdapter extends BaseSectionQuickAdapter<MissionSection<MissionEntity>, BaseViewHolder> {
 
     private boolean isVip = false;
 
@@ -31,7 +31,7 @@ public class WelfareReadMissionAdapter extends BaseSectionQuickAdapter<MissionSe
         isVip = vip;
     }
 
-    public WelfareReadMissionAdapter() {
+    public WelfareMissionAdapter() {
         super(R.layout.recy_section_head_view_welfare);
         setNormalLayout(R.layout.recy_list_item_reading_mission);
         addChildClickViewIds(R.id.btn_welfare_mission_action);
@@ -76,8 +76,6 @@ public class WelfareReadMissionAdapter extends BaseSectionQuickAdapter<MissionSe
                 .into((ImageView) holder.getView(R.id.iv_mission_icon));
 
 
-
-
         HorizontalStepView setpview = holder.getView(R.id.step_view_newbie_mission);
         int signSuccCount = missionEntity.getSign_successions();
         if (signSuccCount > 0 && signSuccCount <= 7) {
@@ -87,6 +85,14 @@ public class WelfareReadMissionAdapter extends BaseSectionQuickAdapter<MissionSe
                 if (i < signSuccCount) {
                     StepBean stepBean = new StepBean(String.format(getContext().getResources().getString(R.string.txt_day_x), i), StepBean.STEP_COMPLETED);
                     stepsBeanList.add(stepBean);
+                } else if (i == signSuccCount) {
+                    if (missionEntity.getStatus() == 2) {
+                        StepBean stepBean = new StepBean(String.format(getContext().getResources().getString(R.string.txt_day_x), i), StepBean.STEP_COMPLETED);
+                        stepsBeanList.add(stepBean);
+                    } else {
+                        StepBean stepBean = new StepBean(String.format(getContext().getResources().getString(R.string.txt_day_x), i), StepBean.STEP_CURRENT);
+                        stepsBeanList.add(stepBean);
+                    }
                 } else {
                     StepBean stepBean = new StepBean(String.format(getContext().getResources().getString(R.string.txt_day_x), i), StepBean.STEP_UNDO);
                     stepsBeanList.add(stepBean);
@@ -100,7 +106,7 @@ public class WelfareReadMissionAdapter extends BaseSectionQuickAdapter<MissionSe
                     .setStepViewUnComplectedTextColor(ContextCompat.getColor(getContext(), R.color.txt_gray))//设置StepsView text未完成的颜色
                     .setStepsViewIndicatorCompleteIcon(ContextCompat.getDrawable(getContext(), R.drawable.ic_stepview_complted_red_packet))//设置StepsViewIndicator CompleteIcon
                     .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(getContext(), R.drawable.ic_stepview_default_red_packet))//设置StepsViewIndicator DefaultIcon
-                    .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(getContext(), R.drawable.ic_stepview_default_red_packet));//设置StepsViewIndicator AttentionIcon
+                    .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(getContext(), R.drawable.ic_stepview_attention_red_packet));//设置StepsViewIndicator AttentionIcon
         } else {
             setpview.setVisibility(View.GONE);
         }

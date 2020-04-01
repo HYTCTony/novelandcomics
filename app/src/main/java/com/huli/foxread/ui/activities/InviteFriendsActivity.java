@@ -4,6 +4,15 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,6 +21,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -24,9 +34,14 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.InviteFriendsPageBean;
 import com.huli.foxread.entity.InviteRewardBean;
+import com.huli.foxread.handlers.EncodingHandler;
+import com.huli.foxread.ui.adapters.InviteRewardAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
+import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -37,6 +52,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class InviteFriendsActivity extends BaseActivity implements View.OnClickListener {
 
@@ -48,12 +65,13 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
     private TextView tvInvitedNum, tvMyMoney;
     private TextView btnGo2Check, btnGo2Withdrawal;
 
-    private TextView tvDay1Tips, tvDay2Tips, tvDay3Tips;
-    private TextView tvRewardMoneyDay1, tvRewardMoneyDay2, tvRewardMoneyDay3;
+    private RecyclerView recyclerView;
+
+    private TextView btnInviteWx, btnInviteMoments, btnInviteFace2Face;
 
     //我的现金余额
     private double myMoney;
-
+    //我的邀请码
     private String inviteCode;
 
     //获取剪贴板管理器：
@@ -94,15 +112,15 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         btnCopy = $(R.id.btn_copy);
         btnImmediatelyInvite = $(R.id.btn_immediately_invite);
 
+        btnInviteWx = $(R.id.tv_invite_way_wechat);
+        btnInviteMoments = $(R.id.tv_invite_way_moments);
+        btnInviteFace2Face = $(R.id.tv_invite_way_face2face);
+
         tvInvitedNum = $(R.id.tv_has_invited_friends_num);
         tvMyMoney = $(R.id.tv_has_made_money);
-
-        tvDay1Tips = $(R.id.tv_invite_award_day1_tips);
-        tvDay2Tips = $(R.id.tv_invite_award_day2_tips);
-        tvDay3Tips = $(R.id.tv_invite_award_day3_tips);
-        tvRewardMoneyDay1 = $(R.id.tv_reward_money_day1);
-        tvRewardMoneyDay2 = $(R.id.tv_reward_money_day2);
-        tvRewardMoneyDay3 = $(R.id.tv_reward_money_day3);
+        recyclerView = $(R.id.recyclerView_invite_reward);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DensityUtils.dp2px(this, 16)));
 
         btnGo2Check = $(R.id.tv_has_invited_friends_num_go2_check);
         btnGo2Withdrawal = $(R.id.tv_has_made_money_go2_withdrawal);
@@ -115,6 +133,10 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         btnExplain.setOnClickListener(this);
         btnCopy.setOnClickListener(this);
         btnImmediatelyInvite.setOnClickListener(this);
+
+        btnInviteWx.setOnClickListener(this);
+        btnInviteMoments.setOnClickListener(this);
+        btnInviteFace2Face.setOnClickListener(this);
     }
 
     @Override
@@ -150,8 +172,27 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 Tos.showShort(this, R.string.tips_copy_success);
                 break;
             case R.id.btn_immediately_invite:
-                //TODO 立即邀请
-                Tos.showShort(this, "立即邀请");
+                //TODO 立即邀请 --- 弹出分享集成面板
+                CustomDialog.show(this, R.layout.layout_custom_dialog_invite_qrcode, (dialog, v) -> {
+                    v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
+                    ImageView ivQrCode = v.findViewById(R.id.iv_invite_qr_code);
+
+                    displayQrCode(Consts.DOWNLOAD_URL, ivQrCode);
+                });
+            case R.id.tv_invite_way_wechat:
+                //TODO 微信分享
+                break;
+            case R.id.tv_invite_way_moments:
+                //TODO 朋友圈分享
+                break;
+            case R.id.tv_invite_way_face2face:
+                //面对面分享
+                CustomDialog.show(this, R.layout.layout_custom_dialog_invite_qrcode, (dialog, v) -> {
+                    v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
+                    ImageView ivQrCode = v.findViewById(R.id.iv_invite_qr_code);
+
+                    displayQrCode(Consts.DOWNLOAD_URL, ivQrCode);
+                });
                 break;
             default:
                 break;
@@ -233,24 +274,82 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                             tvMyMoney.setText(new DecimalFormat("######0.00").format(myMoney));
 
                             List<InviteRewardBean> list = data.getList();
-                            if (list != null && list.size() >= 3) {
-                                InviteRewardBean rewardDay1 = list.get(0);
-                                InviteRewardBean rewardDay2 = list.get(1);
-                                InviteRewardBean rewardDay3 = list.get(2);
-                                tvDay1Tips.setText(String.format(getString(R.string.txt_friend_reading_time_x), rewardDay1.getDuration()));
-                                tvDay2Tips.setText(String.format(getString(R.string.txt_friend_reading_time_x), rewardDay2.getDuration()));
-                                tvDay3Tips.setText(String.format(getString(R.string.txt_friend_reading_time_x), rewardDay3.getDuration()));
-
-                                DecimalFormat dFormat = new DecimalFormat("#######" + "元");
-                                tvRewardMoneyDay1.setText(dFormat.format(rewardDay1.getMoney()));
-                                tvRewardMoneyDay2.setText(dFormat.format(rewardDay2.getMoney()));
-                                tvRewardMoneyDay3.setText(dFormat.format(rewardDay3.getMoney()));
-                            }
+                            recyclerView.setAdapter(new InviteRewardAdapter(list));
                         } else {
                             TipDialog.show(InviteFriendsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });
     }
+
+
+    /**
+     * 显示二维码
+     */
+    private void displayQrCode(String invitUrl, ImageView imageView) {
+        Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.app_huli_logo_round_small);
+        Bitmap logoBorder = getRoundedCornerBorderBitmap(this, resource);
+        Bitmap qrCodeBm = EncodingHandler.createQRImage(invitUrl, logoBorder, 512);
+        imageView.setImageBitmap(qrCodeBm);
+    }
+
+    /**
+     * 圆角白边图片
+     *
+     * @param bitmap
+     * @return
+     */
+    private static Bitmap getRoundedCornerBorderBitmap(Context context, Bitmap bitmap) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        int mBorderColor = Color.WHITE;
+        float mBorderWidth = (float) DensityUtils.dp2px(context, 4);
+        float mCornerRadius = (float) DensityUtils.dp2px(context, 2);
+
+        Paint mBitmapPaint = new Paint();
+        mBitmapPaint.setAntiAlias(true);
+
+//        Matrix mMatrix = new Matrix();
+        // 将bmp作为着色器，就是在指定区域内绘制bmp
+        BitmapShader mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+//        float scale = 1.0f;
+
+        // shader的变换矩阵，我们这里主要用于放大或者缩小
+//        mMatrix.preScale(scale, scale);
+//        mBitmapShader.setLocalMatrix(mMatrix);
+//        // 设置变换矩阵
+//        mBitmapShader.setLocalMatrix(mMatrix);
+        // 设置shader
+        mBitmapPaint.setShader(mBitmapShader);
+
+
+        Paint mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBorderPaint.setAntiAlias(true);
+        mBorderPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        mBorderPaint.setColor(mBorderColor);
+        mBorderPaint.setStrokeWidth(mBorderWidth);
+
+        Bitmap output = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        RectF mRoundRect = new RectF(mBorderWidth / 2, mBorderWidth / 2, w - mBorderWidth / 2, h - mBorderWidth / 2);
+
+        Path mRoundPath = new Path();
+        mRoundPath.reset();
+        mRoundPath.addRoundRect(mRoundRect,
+                new float[]{mCornerRadius, mCornerRadius,
+                        mCornerRadius, mCornerRadius,
+                        mCornerRadius, mCornerRadius,
+                        mCornerRadius, mCornerRadius},
+                Path.Direction.CW);
+        //绘制描边(其实是圆角矩形)
+        canvas.drawPath(mRoundPath, mBorderPaint);
+
+        canvas.drawPath(mRoundPath, mBitmapPaint);
+
+        return output;
+    }
+
 
 }

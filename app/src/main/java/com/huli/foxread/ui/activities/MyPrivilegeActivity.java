@@ -367,25 +367,28 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                         if (response.body().error_code == 0) {
                             FUser data = response.body().getData();
                             UserInfoCache2.saveUserInfo(MyPrivilegeActivity.this, data);
-                            tvVipTypeTitle.setText(R.string.txt_monthly_vip);
-                            tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
-                                    DateTimeUtil.formatDateTime(data.getVip_end() * 1000, "yyyy-MM-dd")));
-                            tvVipTips.setText(R.string.txt_tips_vip_state);
-                            tvAccountSetup.setVisibility(View.GONE);
-                            ivIconVipSymbol.setVisibility(View.VISIBLE);
 
-                            EventBus.getDefault().postSticky(new VipChargerEvent(true));
+                            if (UserInfoCache2.getIsVip(MyPrivilegeActivity.this)) {
+                                tvVipTypeTitle.setText(R.string.txt_monthly_vip);
+                                tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
+                                        DateTimeUtil.formatDateTime(data.getVip_end() * 1000, "yyyy-MM-dd")));
+                                tvVipTips.setText(R.string.txt_tips_vip_state);
+                                tvAccountSetup.setVisibility(View.GONE);
+                                ivIconVipSymbol.setVisibility(View.VISIBLE);
 
-                            MessageDialog.build(MyPrivilegeActivity.this)
-                                    .setTitle("支付成功")
-                                    .setMessage("快去体验吧")
-                                    .setOkButton("去体验")
-                                    .setCancelButton("再看看")
-                                    .setCustomView(R.layout.dialog_payment_success, (dialog, v) -> {
-                                    }).setOnOkButtonClickListener((baseDialog, v) -> {
-                                finish();
-                                return false;
-                            }).show();
+                                EventBus.getDefault().postSticky(new VipChargerEvent(true));
+
+                                MessageDialog.build(MyPrivilegeActivity.this)
+                                        .setTitle("支付成功")
+                                        .setMessage("快去体验吧")
+                                        .setOkButton("去体验")
+                                        .setCancelButton("再看看")
+                                        .setCustomView(R.layout.dialog_payment_success, (dialog, v) -> {
+                                        }).setOnOkButtonClickListener((baseDialog, v) -> {
+                                    finish();
+                                    return false;
+                                }).show();
+                            }
                         }
                     }
                 });

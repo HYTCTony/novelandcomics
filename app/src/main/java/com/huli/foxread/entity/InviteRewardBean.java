@@ -2,10 +2,10 @@ package com.huli.foxread.entity;
 
 public class InviteRewardBean {
     private String id;
-    private int day;                //第几天
-    private int duration;           //阅读时间
-    private double money;           //奖励
-    private int status;
+    private String type_name;               //第几天
+    private String content;                 //阅读时间
+    private double money;                   //奖励
+    private String http_logo_image;
 
     public String getId() {
         return id;
@@ -15,20 +15,20 @@ public class InviteRewardBean {
         this.id = id;
     }
 
-    public int getDay() {
-        return day;
+    public String getType_name() {
+        return type_name;
     }
 
-    public void setDay(int day) {
-        this.day = day;
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 
-    public int getDuration() {
-        return duration;
+    public String getContent() {
+        return content;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public double getMoney() {
@@ -39,11 +39,11 @@ public class InviteRewardBean {
         this.money = money;
     }
 
-    public int getStatus() {
-        return status;
+    public String getHttp_logo_image() {
+        return http_logo_image;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setHttp_logo_image(String http_logo_image) {
+        this.http_logo_image = http_logo_image;
     }
 }

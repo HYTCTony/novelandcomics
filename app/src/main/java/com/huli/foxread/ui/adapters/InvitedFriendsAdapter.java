@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
+import com.huli.foxread.entity.InvitedFriendBean;
 import com.huli.foxread.entity.InvitedFriendInfo;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
@@ -18,8 +19,13 @@ public class InvitedFriendsAdapter extends BaseQuickAdapter<InvitedFriendInfo, B
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, InvitedFriendInfo data) {
-        holder.setText(R.id.tv_username_friend, data.getProfileUser().getUsername());
-        holder.setText(R.id.tv_invited_time_friend, DateTimeUtil.formatDateTime(data.getCreatetime() * 1000));
-        GlideUtil.loadCircle(getContext(), holder.getView(R.id.iv_headImg_friend), data.getProfileUser().getHttp_avatar());
+
+        holder.setText(R.id.tv_invited_time_friend, DateTimeUtil.formatDateTime(data.getCreatetime() * 1000, "yyyy年MM月dd日 HH:mm:ss"));
+
+        InvitedFriendBean profileUser = data.getProfileUser();
+        if (profileUser != null) {
+            holder.setText(R.id.tv_username_friend, profileUser.getUsername());
+            GlideUtil.loadCircle(getContext(), holder.getView(R.id.iv_headImg_friend), profileUser.getHttp_avatar());
+        }
     }
 }

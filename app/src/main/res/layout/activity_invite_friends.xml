@@ -323,150 +323,13 @@
                     app:layout_constraintLeft_toRightOf="@+id/tv_title_invite_award" />
 
 
-                <ImageView
-                    android:id="@+id/iv_invite_award_day1"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:background="@mipmap/img_bg_invite_award"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_invite_award_day1_tips"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_title_invite_award" />
-
-                <TextView
-                    android:id="@+id/tv_invite_award_day1_tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    tools:text="好友阅读15分钟"
-                    android:textColor="@color/txt_black"
-                    android:textSize="@dimen/sp_12"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_invite_award_day1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_16"
-                    android:text="@string/txt_first_day"
-                    android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_12"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day1" />
-
-                <TextView
-                    android:id="@+id/tv_reward_money_day1"
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_invite_reward"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"
-                    android:text="0元"
-                    android:textColor="@color/txt_orange_ff6600"
-                    android:textSize="@dimen/sp_20"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintTop_toTopOf="@+id/iv_invite_award_day1" />
-
-                <ImageView
-                    android:id="@+id/iv_invite_award_day2"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/dp_0"
-                    android:layout_marginStart="@dimen/dp_16"
-                    android:layout_marginEnd="@dimen/dp_16"
-                    android:background="@mipmap/img_bg_invite_award"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toRightOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintRight_toLeftOf="@+id/iv_invite_award_day3"
-                    app:layout_constraintTop_toTopOf="@+id/iv_invite_award_day1" />
-
-                <TextView
-                    android:id="@+id/tv_invite_award_day2_tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    tools:text="好友阅读15分钟"
-                    android:textColor="@color/txt_black"
-                    android:textSize="@dimen/sp_12"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day2"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day2"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_invite_award_day2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_16"
-                    android:text="@string/txt_second_day"
-                    android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_12"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_invite_award_day2"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day2"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day2" />
-
-                <TextView
-                    android:id="@+id/tv_reward_money_day2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:text="0元"
-                    android:textColor="@color/txt_orange_ff6600"
-                    android:textSize="@dimen/sp_20"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day2"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day2"
-                    app:layout_constraintTop_toTopOf="@+id/iv_invite_award_day2" />
-
-                <ImageView
-                    android:id="@+id/iv_invite_award_day3"
-                    android:layout_width="@dimen/dp_0"
-                    android:layout_height="@dimen/dp_0"
-                    android:background="@mipmap/img_bg_invite_award"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_invite_award_day1"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/iv_invite_award_day1" />
-
-                <TextView
-                    android:id="@+id/tv_invite_award_day3_tips"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    tools:text="好友阅读15分钟"
-                    android:textColor="@color/txt_black"
-                    android:textSize="@dimen/sp_12"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day3"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day3"
-                    app:layout_constraintTop_toBottomOf="@+id/iv_invite_award_day3" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_16"
-                    android:text="@string/txt_third_day"
-                    android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_12"
-                    app:layout_constraintBottom_toBottomOf="@+id/iv_invite_award_day3"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day3"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day3" />
-
-                <TextView
-                    android:id="@+id/tv_reward_money_day3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:text="0元"
-                    android:textColor="@color/txt_orange_ff6600"
-                    android:textSize="@dimen/sp_20"
-                    app:layout_constraintLeft_toLeftOf="@+id/iv_invite_award_day3"
-                    app:layout_constraintRight_toRightOf="@+id/iv_invite_award_day3"
-                    app:layout_constraintTop_toTopOf="@+id/iv_invite_award_day3" />
+                    android:overScrollMode="never"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_invite_award"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -541,13 +404,13 @@
                 </androidx.cardview.widget.CardView>
 
                 <View
-                    app:layout_constraintRight_toLeftOf="@+id/cv_process_step2"
-                    app:layout_constraintLeft_toRightOf="@+id/cv_process_step1"
                     android:layout_width="@dimen/dp_8"
-                    app:layout_constraintBottom_toBottomOf="@+id/cv_process_step1"
-                    app:layout_constraintTop_toTopOf="@+id/cv_process_step1"
+                    android:layout_height="@dimen/dp_1"
                     android:background="@color/col_red"
-                    android:layout_height="@dimen/dp_1"/>
+                    app:layout_constraintBottom_toBottomOf="@+id/cv_process_step1"
+                    app:layout_constraintLeft_toRightOf="@+id/cv_process_step1"
+                    app:layout_constraintRight_toLeftOf="@+id/cv_process_step2"
+                    app:layout_constraintTop_toTopOf="@+id/cv_process_step1" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_process_step2"
@@ -603,13 +466,13 @@
                 </androidx.cardview.widget.CardView>
 
                 <View
-                    app:layout_constraintRight_toLeftOf="@+id/cv_process_step3"
-                    app:layout_constraintLeft_toRightOf="@+id/cv_process_step2"
                     android:layout_width="@dimen/dp_8"
-                    app:layout_constraintBottom_toBottomOf="@+id/cv_process_step1"
-                    app:layout_constraintTop_toTopOf="@+id/cv_process_step1"
+                    android:layout_height="@dimen/dp_1"
                     android:background="@color/col_red"
-                    android:layout_height="@dimen/dp_1"/>
+                    app:layout_constraintBottom_toBottomOf="@+id/cv_process_step1"
+                    app:layout_constraintLeft_toRightOf="@+id/cv_process_step2"
+                    app:layout_constraintRight_toLeftOf="@+id/cv_process_step3"
+                    app:layout_constraintTop_toTopOf="@+id/cv_process_step1" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_process_step3"

@@ -22,6 +22,7 @@ import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 public class ChangeBindingActivity extends BaseActivity implements View.OnClickListener {
@@ -96,6 +97,17 @@ public class ChangeBindingActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == AccountSecurityActivity.REQCODE_ATTR_MODIFY) {
+                setResult(RESULT_OK);
+                finish();
+            }
+        }
+    }
+
     /**
      * 手机号获取验证码
      * token 在LtbCallback中统一添加
@@ -142,8 +154,7 @@ public class ChangeBindingActivity extends BaseActivity implements View.OnClickL
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            startActivity(new Intent(ChangeBindingActivity.this, BindingCellphoneActivty.class));
-                            finish();
+                            startActivityForResult(new Intent(ChangeBindingActivity.this, BindingCellphoneActivity.class), AccountSecurityActivity.REQCODE_ATTR_MODIFY);
                         } else {
                             Tos.showShort(ChangeBindingActivity.this, entity.msg);
                         }

@@ -12,7 +12,7 @@ import com.huli.foxread.utils.DensityUtils;
 import com.youth.banner.loader.ImageLoader;
 
 
-public class GlideImageLoader2 extends ImageLoader {
+public class GlideImageLoaderWf extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
         /**

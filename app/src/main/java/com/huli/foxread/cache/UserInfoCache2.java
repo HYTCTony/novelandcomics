@@ -100,6 +100,13 @@ public class UserInfoCache2 {
         return info;
     }
 
+    public static FUser saveIsBindWechat(Context context, int flagBindWx) {
+        FUser info = getUserInfo(context);
+        info.setIs_wx(flagBindWx);
+        saveUserInfo(context, info);
+        return info;
+    }
+
     public static String getUserId(Context context) {
         FUser info = getUserInfo(context);
         return info.getId();
@@ -153,6 +160,11 @@ public class UserInfoCache2 {
     public static boolean getIsInvited(Context context) {
         FUser info = getUserInfo(context);
         return info.getIs_invited() > 0;
+    }
+
+    public static boolean getIsBindWechat(Context context) {
+        FUser info = getUserInfo(context);
+        return info.getIs_wx() == 1;
     }
 
 

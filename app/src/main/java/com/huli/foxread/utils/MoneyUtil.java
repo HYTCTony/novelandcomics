@@ -7,10 +7,6 @@ public class MoneyUtil {
         if (data == 0) {
             return "0";
         }
-        if (data > 0 && data < 1) {
-            DecimalFormat df = new DecimalFormat("#,###.##");
-            return df.format(data);
-        }
         DecimalFormat df = new DecimalFormat("#,###.00");
         return df.format(data);
     }
@@ -18,10 +14,6 @@ public class MoneyUtil {
     public static String formatToseparaYuan(double data) {
         if (data == 0) {
             return "0元";
-        }
-        if (data > 0 && data < 1) {
-            DecimalFormat df = new DecimalFormat("#,###.##" + "元");
-            return df.format(data);
         }
         DecimalFormat df = new DecimalFormat("#,###.00" + "元");
         return df.format(data);
@@ -33,7 +25,7 @@ public class MoneyUtil {
     }
 
     public static String formatYuan(double data) {
-        DecimalFormat df = new DecimalFormat("########" + "元");
+        DecimalFormat df = new DecimalFormat("########.##" + "元");
         return df.format(data);
     }
 }

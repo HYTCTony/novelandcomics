@@ -17,7 +17,7 @@ import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.engines.GlideImageLoader2;
+import com.huli.foxread.engines.GlideImageLoaderWf;
 import com.huli.foxread.entity.BannerADEntity;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
@@ -30,7 +30,7 @@ import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.SignInActivity;
-import com.huli.foxread.ui.adapters.WelfareReadMissionAdapter;
+import com.huli.foxread.ui.adapters.WelfareMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.StatusBarUtils;
@@ -66,7 +66,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     private TextView tvGoldCoin;            //金币余额
 
     private RecyclerView recyclerView;
-    private WelfareReadMissionAdapter mAdapter;
+    private WelfareMissionAdapter mAdapter;
 
     private View headViewTop;
     private Banner mBanner;
@@ -102,7 +102,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
 
         recyclerView = $(view, R.id.recyclerView_reading_task);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mAdapter = new WelfareReadMissionAdapter();
+        mAdapter = new WelfareMissionAdapter();
         recyclerView.setAdapter(mAdapter);
         initTopLayout();
     }
@@ -252,7 +252,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         //设置banner样式
 //        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
         //设置图片加载器
-        mBanner.setImageLoader(new GlideImageLoader2());
+        mBanner.setImageLoader(new GlideImageLoaderWf());
         //设置banner动画效果
         mBanner.setBannerAnimation(Transformer.Default);
         //设置自动轮播，默认为true

@@ -46,7 +46,9 @@ public interface Func {
     /**
      * 用途：微信登录（POST）
      * 参数：
-     * code  (Y）--- 微信uuid
+     * username   (Y）--- 昵称
+     * unionid    (Y）
+     * openid     (Y）
      * identifier( Y）--- 手机唯一标志符
      */
     String USER_WX_LOGIN = "/login/wx";
@@ -65,6 +67,16 @@ public interface Func {
      * event (Y）--- 事件,更换绑定手机：untying，绑定手机：bind，注册：register，登陆：login
      */
     String SMS_SEND = "/sms/send";
+
+    /**
+     * 用途：（手机号登录后）绑定微信
+     * 头：token---token(Y)
+     * 参数：
+     * unionid (Y）--- 微信unionid
+     * openid  (Y）--- 微信openid
+     * mobile_captcha  (Y）--- 手机验证码
+     */
+    String BINDING_WECHAT = "/binding/wx";
 
     /**
      * 用途：绑定手机
@@ -426,8 +438,7 @@ public interface Func {
      * 头：token---token(Y)
      * 参数：
      */
-    String WELFARE_INVITE = "/invitation/money";
-
+    String WELFARE_INVITE = "/welfare/invite";
 
     /**
      * 用途：小说章节列表(GET)

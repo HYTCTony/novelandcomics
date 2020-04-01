@@ -25,7 +25,7 @@ import com.lzy.okgo.model.Response;
 
 import androidx.appcompat.widget.Toolbar;
 
-public class BindingCellphoneActivty extends BaseActivity implements View.OnClickListener {
+public class BindingCellphoneActivity extends BaseActivity implements View.OnClickListener {
 
     private TimingButton tbtnGetVcode;
     private Button btnBinding;
@@ -119,7 +119,7 @@ public class BindingCellphoneActivty extends BaseActivity implements View.OnClic
                         if (entity.error_code != 0) {
                             tbtnGetVcode.reset();
                         }
-                        Tos.showShort(BindingCellphoneActivty.this, entity.msg);
+                        Tos.showShort(BindingCellphoneActivity.this, entity.msg);
                     }
 
                     @Override
@@ -148,11 +148,14 @@ public class BindingCellphoneActivty extends BaseActivity implements View.OnClic
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache2.saveMobile(BindingCellphoneActivty.this, tel);
-                            TipDialog.show(BindingCellphoneActivty.this, entity.msg, TipDialog.TYPE.ERROR)
-                                    .setOnDismissListener(() -> finish());
+                            UserInfoCache2.saveMobile(BindingCellphoneActivity.this, tel);
+                            TipDialog.show(BindingCellphoneActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
+                                    .setOnDismissListener(() -> {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    });
                         } else {
-                            TipDialog.show(BindingCellphoneActivty.this, entity.msg, TipDialog.TYPE.ERROR);
+                            TipDialog.show(BindingCellphoneActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
 

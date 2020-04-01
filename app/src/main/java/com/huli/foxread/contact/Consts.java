@@ -1,9 +1,10 @@
 package com.huli.foxread.contact;
 
 public interface Consts {
+    String DOWNLOAD_URL = "https://download.hulimedia.com/";
 
-    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
-//    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
+    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
     String NOT_CPL_URL = BASE_URL + "/api/v1";
 
     String FEEDBACK_URL = BASE_URL + "/api/feedback";
@@ -28,6 +29,7 @@ public interface Consts {
     String USER_WX_LOGIN_API = NOT_CPL_URL + Func.USER_WX_LOGIN;
     String USER_LOGOUT_API = NOT_CPL_URL + Func.USER_LOGOUT;
     String SMS_SEND_API = NOT_CPL_URL + Func.SMS_SEND;
+    String BINDING_WECHAT_API = NOT_CPL_URL + Func.BINDING_WECHAT;
     String BIND_MOBILE_API = NOT_CPL_URL + Func.BIND_MOBILE;
     String UNBIND_MOBILE_API = NOT_CPL_URL + Func.UNBIND_MOBILE;
     String SET_USER_PROFILE_API = NOT_CPL_URL + Func.USER_PROFILE;
@@ -173,6 +175,8 @@ public interface Consts {
     String CODE = "code";
     String UNIONID = "unionid";
     String OPENID = "openid";
+
+    String MOBILE_CAPTCHA = "mobile_captcha";
 
     String TYPE = "type";
     String RANK_FORM = "form";

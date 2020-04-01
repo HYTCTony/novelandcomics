@@ -7,16 +7,41 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
+import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
+import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.umeng.WXLoginRespEntity;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.util.InputInfo;
+import com.kongzue.dialog.util.TextInfo;
+import com.kongzue.dialog.v3.InputDialog;
+import com.kongzue.dialog.v3.TipDialog;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.util.Map;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 public class AccountSecurityActivity extends BaseActivity implements View.OnClickListener {
+    public static final int REQCODE_ATTR_MODIFY = 0x1554;
 
     private TextView tvAccountId, tvTelNum, tvWechatBindingState;
+
+    //手机号码
+    private String phoneNum;
 
     @Override
     public void initParms(Bundle parms) {
@@ -55,15 +80,10 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void doBusiness(Context mContext) {
-//        phoneNum = UserInfoCache.getMobile(mContext);
-//        tvAccountId.setText(UserInfoCache.getUserId(mContext));
-//        tvTelNum.setText(phoneNum.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
-//        tvWechatBindingState.setText(R.string.txt_unbind);
+        showUserInfo();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void showUserInfo() {
         FUser fUser = UserInfoCache2.getUserInfo(this);
         phoneNum = fUser.getMobile();
         tvAccountId.setText(fUser.getId());
@@ -71,7 +91,15 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
         tvWechatBindingState.setText(fUser.getIs_wx() == 1 ? R.string.txt_has_been_bind : R.string.txt_unbind);
     }
 
-    private String phoneNum;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQCODE_ATTR_MODIFY) {
+                showUserInfo();
+            }
+        }
+    }
 
     @Override
     public void onClick(View view) {
@@ -79,14 +107,16 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
             case R.id.rtl_asBtn_user_cellphone_number:
                 if (TextUtils.isEmpty(phoneNum)) {
                     //手机号为空（即 微信登录）
-                    startActivity(new Intent(this, BindingCellphoneActivty.class));
+                    startActivityForResult(new Intent(this, WXBindingPhoneActivity.class), REQCODE_ATTR_MODIFY);
                 } else {
                     //手机号不为空
-                    startActivity(new Intent(this, ChangeBindingActivity.class));
+                    startActivityForResult(new Intent(this, ChangeBindingActivity.class), REQCODE_ATTR_MODIFY);
                 }
                 break;
             case R.id.rtl_asBtn_user_wechat:
-
+                if (!UserInfoCache2.getIsBindWechat(this) && !TextUtils.isEmpty(phoneNum)) {
+                    reqAuthCode(phoneNum);
+                }
                 break;
             case R.id.tv_asBtn_account_security:
                 startActivity(new Intent(this, ASecurityActivity.class));
@@ -95,4 +125,105 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
                 break;
         }
     }
+
+
+    /**
+     * 手机号获取验证码
+     *
+     * @param tel
+     */
+    private void reqAuthCode(String tel) {
+        OkGo.<String>post(Consts.SMS_SEND_API)
+                .params(Consts.MOBILE, tel)
+                .params(Consts.EVENT, Consts.SMS_LOGIN)
+                .execute(new LtbCallback(this) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
+                        });
+                        if (entity.error_code == 0) {
+                            String titleStr = getString(R.string.txt_title_bind_wechat);
+                            String contentStr = String.format(getString(R.string.txt_plz_input_verify_code_form_phone_x), tel.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
+                            String okStr = getString(R.string.txt_confirm);
+                            String cancelStr = getString(R.string.txt_cancel);
+                            InputDialog.show(AccountSecurityActivity.this, titleStr, contentStr, okStr, cancelStr)
+                                    .setInputInfo(new InputInfo()
+                                            .setTextInfo(new TextInfo().setFontSize(16))
+                                            .setMAX_LENGTH(6)               //限制最大输入长度
+                                            .setMultipleLines(false)        //是否支持多行输入
+                                    )
+                                    .setCancelable(false)
+                                    .setOnOkButtonClickListener((baseDialog, v1, inputStr) -> {
+                                        String verifyCode = inputStr.trim();
+                                        if (TextUtils.isEmpty(verifyCode)) {
+                                            Tos.showShort(AccountSecurityActivity.this, R.string.txt_plz_input_verification_code);
+                                            return true;
+                                        }
+                                        //获取微信返回信息
+                                        getWechatAuthorizationInfo(verifyCode);
+
+                                        return false;
+                                    });
+                        }
+                        Tos.showShort(AccountSecurityActivity.this, entity.msg);
+                    }
+                });
+    }
+
+    /**
+     * 获取微信返回信息
+     * @param verifyCode 手机验证码
+     */
+    private void getWechatAuthorizationInfo(String verifyCode) {
+        UMShareAPI.get(AccountSecurityActivity.this).getPlatformInfo(AccountSecurityActivity.this, SHARE_MEDIA.WEIXIN, new UMAuthListener() {
+            @Override
+            public void onStart(SHARE_MEDIA share_media) {
+
+            }
+
+            @Override
+            public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                String jsonString = JSON.toJSONString(map);
+                WXLoginRespEntity wxLoginResp = JSONObject.parseObject(jsonString, WXLoginRespEntity.class);
+                bindWechat(wxLoginResp, verifyCode);
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+                TipDialog.show(AccountSecurityActivity.this, "微信授权失败！", TipDialog.TYPE.ERROR);
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA share_media, int i) {
+                Tos.showShort(AccountSecurityActivity.this, "取消微信授权...");
+            }
+        });
+    }
+
+
+    /**
+     * 绑定微信
+     */
+    private void bindWechat(WXLoginRespEntity wxLoginResp, String verifyCode) {
+        OkGo.<LzyResponse<String>>post(Consts.USER_WX_LOGIN_API)
+                .params(Consts.UNIONID, wxLoginResp.getUnionid())
+                .params(Consts.OPENID, wxLoginResp.getOpenid())
+                .params(Consts.MOBILE_CAPTCHA, verifyCode)
+                .execute(new LtbJsonCallback<LzyResponse<String>>(this,
+                        new TypeReference<LzyResponse<String>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<String>> response) {
+                        if (response.body().error_code == 0) {
+                            UserInfoCache2.saveIsBindWechat(AccountSecurityActivity.this, 1);
+                            //改变ui信息
+                            tvWechatBindingState.setText(R.string.txt_has_been_bind);
+                            TipDialog.show(AccountSecurityActivity.this, response.body().msg, TipDialog.TYPE.SUCCESS);
+                        } else {
+                            TipDialog.show(AccountSecurityActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
 }

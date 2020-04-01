@@ -26,6 +26,7 @@ import com.huli.foxread.receivers.NetworkConnectChangedReceiver;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -79,12 +80,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(netWorkStateReceiver, filter);
 
+
+        MobclickAgent.onResume(this);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
         unregisterReceiver(netWorkStateReceiver);
+
+        MobclickAgent.onPause(this);
         super.onPause();
     }
 

@@ -9,7 +9,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +34,7 @@ import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
@@ -277,7 +277,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USER_WX_LOGIN_API)
                 .params(Consts.USERNAME, wxLoginResp.getName())
                 .params(Consts.UNIONID, wxLoginResp.getUnionid())
-                .params(Consts.OPENID,  wxLoginResp.getOpenid())
+                .params(Consts.OPENID, wxLoginResp.getOpenid())
                 .params(Consts.UNIQUE_ID, uniqueID)
                 .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
                         new TypeReference<LzyResponse<LoginRpsEntity>>() {
@@ -288,13 +288,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             LoginRpsEntity data = response.body().getData();
                             TokenCache.saveToken(LoginActivity.this, data.getToken());
 
+                            //获取用户信息
                             reqUserInfo();
-                        } else if (response.body().error_code == 10021) {
-                            TipDialog.dismiss();
-                            Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
-                            intent.putExtra(Common.EXTRA_KEY_WXRESP, wxLoginResp);
-                            startActivity(intent);
-                            finish();
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
                         }
@@ -322,11 +317,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (errorCode == 0) {
                             FUser data = response.body().getData();
                             UserInfoCache2.saveUserInfo(LoginActivity.this, data);
-
-                            TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> finish());
-
                             EventBus.getDefault().postSticky(data);
+
+                            if (!TextUtils.isEmpty(data.getMobile())) {     //微信登录，且绑定手机号、 或者直接手机号登录
+                                TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
+                                        .setOnDismissListener(() -> finish());
+                            } else {        //微信登录，且没绑定手机号
+                                TipDialog.dismiss();
+                                MessageDialog.show(LoginActivity.this, R.string.txt_login_success, R.string.txt_binding_cellphone_hint, R.string.txt_go2_binding, R.string.txt_withhold)
+                                        .setOnOkButtonClickListener((baseDialog, v) -> {
+                                            // 去绑定
+                                            Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                            return false;
+                                        })
+                                        .setOnCancelButtonClickListener((baseDialog, v) -> {
+                                            finish();
+                                            return false;
+                                        });
+                            }
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
                         }

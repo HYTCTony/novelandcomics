@@ -26,9 +26,11 @@ import com.huli.foxread.utils.SomeMonitorEditText;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
+import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -43,11 +45,9 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
 
     private EditText etPhoneNum, etAuthCode;
 
-    private WXLoginRespEntity wxLoginResp;
-
     @Override
     public void initParms(Bundle parms) {
-        wxLoginResp = (WXLoginRespEntity) parms.getSerializable(Common.EXTRA_KEY_WXRESP);
+
     }
 
     @Override
@@ -80,10 +80,7 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void doBusiness(Context mContext) {
-        if (wxLoginResp == null) {
-            TipDialog.show(this, "微信登录失败，请稍后再试...", TipDialog.TYPE.ERROR)
-                    .setOnDismissListener(this::finish);
-        }
+
     }
 
     @Override
@@ -110,7 +107,7 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
                     Tos.showShort(this, R.string.txt_plz_input_verification_code);
                     return;
                 }
-                loginByWeChat(wxLoginResp, phoneNum, authCode);
+                bindingPhone(phoneNum, authCode);
                 break;
             default:
                 break;
@@ -148,68 +145,44 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
     }
 
     /**
-     * 微信第三方登录
+     * 手机号绑定
+     * token 在LtbCallback中统一添加
+     *
+     * @param tel
+     * @param authCode
      */
-    private void loginByWeChat(WXLoginRespEntity wxLoginResp, String phoneNum, String authCode) {
-        String uniqueID = UniqueIdManager.getUniqueID(this);
-        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USER_WX_LOGIN_API)
-                .params(Consts.MOBILE, phoneNum)
+    private void bindingPhone(String tel, String authCode) {
+        OkGo.<String>post(Consts.BIND_MOBILE_API)
+                .params(Consts.MOBILE, tel)
                 .params(Consts.CAPTCHA, authCode)
-                .params(Consts.USERNAME, wxLoginResp.getName())
-                .params(Consts.UNIONID, wxLoginResp.getUnionid())
-                .params(Consts.OPENID, wxLoginResp.getOpenid())
-                .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                        }) {
+                .execute(new LtbCallback(this) {
                     @Override
-                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
-                        if (response.body().error_code == 0) {
-                            LoginRpsEntity data = response.body().getData();
-                            TokenCache.saveToken(WXBindingPhoneActivity.this, data.getToken());
-
-                            reqUserInfo();
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
+                        });
+                        if (entity.error_code == 0) {
+                            UserInfoCache2.saveMobile(WXBindingPhoneActivity.this, tel);
+                            TipDialog.show(WXBindingPhoneActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
+                                    .setOnDismissListener(() -> {
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    });
                         } else {
-                            TipDialog.show(WXBindingPhoneActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
+                            TipDialog.show(WXBindingPhoneActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
                 });
-    }
 
-    /**
-     * 获取用户信息
-     */
-    private void reqUserInfo() {
-        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
-                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this,
-                        new TypeReference<LzyResponse<FUser>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<FUser>> response) {
-                        int errorCode = response.body().error_code;
-                        if (errorCode == 0) {
-                            FUser data = response.body().getData();
-                            UserInfoCache2.saveUserInfo(WXBindingPhoneActivity.this, data);
-
-                            TipDialog.show(WXBindingPhoneActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> finish());
-
-                            EventBus.getDefault().postSticky(data);
-                        } else {
-                            TipDialog.show(WXBindingPhoneActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
     }
 
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-        MessageDialog.show(this, "取消绑定", "现在退出将会取消微信绑定哦~", "继续绑定", "放弃")
+        super.onBackPressed();
+       /* MessageDialog.show(this, "取消绑定", "现在退出将会取消微信绑定哦~", "继续绑定", "放弃")
                 .setOnCancelButtonClickListener((baseDialog, v) -> {
                     finish();
                     return false;
-                });
+                });*/
     }
 }

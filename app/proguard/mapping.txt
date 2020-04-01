@@ -6131,7 +6131,7 @@ com.huli.foxread.ui.activities.AccountSecurityActivity -> com.huli.foxread.ui.ac
     android.widget.TextView tvTelNum -> g
     android.widget.TextView tvAccountId -> f
     android.widget.TextView tvWechatBindingState -> h
-com.huli.foxread.ui.activities.BindingCellphoneActivty -> com.huli.foxread.ui.activities.BindingCellphoneActivty:
+com.huli.foxread.ui.activities.BindingCellphoneActivity -> com.huli.foxread.ui.activities.BindingCellphoneActivity:
     com.huli.foxread.ui.widget.TimingButton tbtnGetVcode -> f
     android.widget.Button btnBinding -> g
 com.huli.foxread.ui.activities.BookDetailsActivity -> com.huli.foxread.ui.activities.BookDetailsActivity:

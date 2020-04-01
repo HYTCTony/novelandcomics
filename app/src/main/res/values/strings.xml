@@ -16,6 +16,9 @@
     <string name="txt_plz_select_a_pic">请选择一张图片</string>
     <string name="txt_say_hi">Hi小说萌新</string>
     <string name="txt_login_success">登录成功</string>
+    <string name="txt_binding_cellphone_hint">您当前没有绑定手机号，要前往绑定吗？</string>
+    <string name="txt_go2_binding">去绑定</string>
+    <string name="txt_withhold">暂不</string>
 
     <string name="txt_develop_more_filters">展开更多筛选</string>
     <string name="tips_copy_success">复制成功，快去分享吧！</string>
@@ -51,6 +54,8 @@
 
     <string name="txt_bind_bankcard">绑定银行卡</string>
     <string name="txt_submit_2_bind">提交绑定</string>
+
+    <string name="txt_your_friend">您的好友</string>
 
     <string name="txt_done">取消</string>
     <string name="txt_select_all">全选</string>
@@ -209,9 +214,6 @@
     <string name="txt_my_invite_code_colon">我的邀请码：</string>
     <string name="txt_invite_award">邀请奖励</string>
     <string name="txt_invite_award_tips">好友阅读一定时长，您可获得当天相应奖励</string>
-    <string name="txt_first_day">第一天</string>
-    <string name="txt_second_day">第二天</string>
-    <string name="txt_third_day">第三天</string>
     <string name="txt_invitation_process">邀请流程</string>
     <string name="txt_wechat_invite">微信邀请</string>
     <string name="txt_moments_invite">朋友圈邀请</string>
@@ -301,6 +303,9 @@
     <string name="txt_hint_input_nickname">请输入昵称</string>
     <string name="hint_nickname_length_limit">昵称为4&#8211;8个字符</string>
     <string name="txt_plz_select_your_gender">请选择您的性别</string>
+
+    <string name="txt_title_bind_wechat">微信绑定</string>
+    <string name="txt_plz_input_verify_code_form_phone_x">请输入手机[%1$s]的验证码</string>
 
     <string name="txt_about_huli">关于狐狸</string>
     <string name="txt_view_detail">查看详情</string>

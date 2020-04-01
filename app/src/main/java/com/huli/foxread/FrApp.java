@@ -24,6 +24,7 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
@@ -110,6 +111,8 @@ public class FrApp extends Application implements ActivityState {
 
         //友盟
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
+        // 选用AUTO页面采集模式
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
         PlatformConfig.setWeixin(WECHAT_APP_ID,"4f58d7d2894fe8631831d18ed1d6d4be");
     }
 

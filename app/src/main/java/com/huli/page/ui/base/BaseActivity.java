@@ -3,6 +3,8 @@ package com.huli.page.ui.base;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
+import com.umeng.analytics.MobclickAgent;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -26,7 +28,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+        MobclickAgent.onResume(this);
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        MobclickAgent.onPause(this);
+        super.onPause();
     }
 
     @Override

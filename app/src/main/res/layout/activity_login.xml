@@ -184,6 +184,7 @@
         android:drawableTop="@drawable/ic_wechat_login"
         android:drawablePadding="@dimen/sp_8"
         android:gravity="center_horizontal"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/dp_8"
         android:text="@string/txt_wechat_login"
         android:textColor="@color/txt_gray"
