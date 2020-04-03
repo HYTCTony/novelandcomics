@@ -89,11 +89,11 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private boolean isCollected = false;
     private int chapter = 0;
 
-    public static void start(Context context, int bookId) {
+   /* public static void start(Context context, int bookId) {
         Intent starter = new Intent(context, BookDetailsActivity.class);
         starter.putExtra(Common.KEY_BOOK_ID, bookId);
         context.startActivity(starter);
-    }
+    }*/
 
     @Override
     protected void setStatusBar() {

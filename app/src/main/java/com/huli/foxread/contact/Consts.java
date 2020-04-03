@@ -7,6 +7,7 @@ public interface Consts {
     String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
     String NOT_CPL_URL = BASE_URL + "/api/v1";
 
+    /*帮助反馈*/
     String FEEDBACK_URL = BASE_URL + "/api/feedback";
     /*用户协议*/
     String USER_AGREEMENT_URL = BASE_URL + "/api/clause/detail?id=1";
@@ -225,22 +226,5 @@ public interface Consts {
     String SUB_MISSION_ID = "lower_id";
 
     String ORDER_ID = "order_id";
-
-
-    String TEL = "tel";
-    String PWD = "pwd";
-    String VERIFY = "verify";           //验证码
-    String OLD_PWD = "old_pwd";
-    String NEW_PWD = "new_pwd";
-    String IS_ONLINE = "is_online";
-    String MONTH = "month";
-    String DAY = "day";
-    String NUM = "num";
-    String SIGNATURE = "signature";
-    String BIRTHDAY = "birthday";
-    String CITY = "city";
-    String CD_KEY = "code";
-    String USER_ID = "user_id";
-
 
 }

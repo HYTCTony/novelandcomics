@@ -27,6 +27,7 @@ import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,6 +70,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         doBusiness(this);
 
         EventBus.getDefault().register(this);
+
+        PushAgent.getInstance(this).onAppStart();
     }
 
     @Override

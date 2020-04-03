@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.huli.foxread.callbacks.ActivityManager;
 import com.huli.foxread.callbacks.ActivityState;
-import com.huli.foxread.contact.Common;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.kongzue.dialog.util.BaseDialog;
@@ -26,7 +25,13 @@ import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
+import com.umeng.message.IUmengRegisterCallback;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.inapp.InAppMessageManager;
 import com.umeng.socialize.PlatformConfig;
+
+import org.android.agoo.xiaomi.MiPushRegistar;
 
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -80,40 +85,17 @@ public class FrApp extends Application implements ActivityState {
         sInstance = this;
         //放在其他库初始化前
 //        SpiderMan.init(this);
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new TokenInterceptor(sInstance));
-        builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-        //log打印级别，决定了log显示的详细程度
-        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
-        //log颜色级别，决定了log在控制台显示的颜色
-        loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);
-
-        OkGo.getInstance()
-                .init(this)
-                .setOkHttpClient(builder.build());
+        initOkgo();  //okgo
 
         registerActivityLifecycleCallbacks(mActivityManager);
 //        registerActivityLifecycleCallbacks(ParallaxHelper.getInstance());
 
-        DialogSettings.init();
-        DialogSettings.DEBUGMODE = true;
-//        DialogSettings.backgroundColor = Color.BLUE;
-//        DialogSettings.titleTextInfo = new TextInfo().setFontSize(50);
-        DialogSettings.buttonTextInfo = new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.txt_gray));
-        DialogSettings.buttonPositiveTextInfo = new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.txt_red));
-        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
-        DialogSettings.theme = DialogSettings.THEME.LIGHT;
+        initKzDialog();      //空祖家的对话框
 
         initBugly();
 
-        //友盟
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
-        // 选用AUTO页面采集模式
-        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
-        PlatformConfig.setWeixin(WECHAT_APP_ID,"4f58d7d2894fe8631831d18ed1d6d4be");
+        initUMeng();     //友盟
     }
 
 
@@ -145,6 +127,69 @@ public class FrApp extends Application implements ActivityState {
     @Override
     public void isBack() {
         Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到后台");
+    }
+
+
+    /**
+     * 空祖家的对话框
+     */
+    private void initKzDialog() {
+        DialogSettings.init();
+        DialogSettings.DEBUGMODE = true;
+//        DialogSettings.backgroundColor = Color.BLUE;
+//        DialogSettings.titleTextInfo = new TextInfo().setFontSize(50);
+        DialogSettings.buttonTextInfo = new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.txt_gray));
+        DialogSettings.buttonPositiveTextInfo = new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.txt_red));
+        DialogSettings.style = DialogSettings.STYLE.STYLE_IOS;
+        DialogSettings.theme = DialogSettings.THEME.LIGHT;
+    }
+
+    /**
+     * 友盟
+     */
+    private void initUMeng() {
+        UMConfigure.init(this, "5e7dce16570df35f91000159", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
+        //友盟---推送
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.register(new IUmengRegisterCallback() {
+            @Override
+            public void onSuccess(String deviceToken) {
+                //注册成功会返回deviceToken deviceToken是推送消息的唯一标志
+                Log.e("FrApp", "注册成功：deviceToken：-------->  " + deviceToken);
+            }
+
+            @Override
+            public void onFailure(String s, String s1) {
+
+            }
+        });
+        //小米
+        MiPushRegistar.register(getApplicationContext(), "2882303761518355168", "5471835523168");
+        InAppMessageManager.getInstance(getApplicationContext()).setInAppMsgDebugMode(true);
+
+        // 选用AUTO页面采集模式
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        PlatformConfig.setWeixin(WECHAT_APP_ID, "4f58d7d2894fe8631831d18ed1d6d4be");
+    }
+
+    /**
+     * okgo网络框架
+     */
+    private void initOkgo() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(new TokenInterceptor(sInstance));
+        builder.connectTimeout(15, TimeUnit.SECONDS);
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        //log打印级别，决定了log显示的详细程度
+        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+        //log颜色级别，决定了log在控制台显示的颜色
+        loggingInterceptor.setColorLevel(Level.SEVERE);
+        builder.addInterceptor(loggingInterceptor);
+
+        OkGo.getInstance()
+                .init(this)
+                .setOkHttpClient(builder.build());
     }
 
     private void initBugly() {

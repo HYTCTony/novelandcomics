@@ -17,6 +17,7 @@ import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
@@ -33,7 +34,8 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
-import com.ut.device.UTDevice;
+import com.umeng.message.inapp.IUmengInAppMsgCloseCallback;
+import com.umeng.message.inapp.InAppMessageManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -57,6 +59,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private MainWelfareFragment welfareFragment;
     private MainMineFragment mineFragment;
 
+    private boolean hasGetUserinfo = false;
+
     @Override
     protected void setStatusBar() {
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.transparent), 0);
@@ -65,7 +69,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void initParms(Bundle parms) {
-
+        if (parms != null) {
+            hasGetUserinfo = parms.getBoolean(Common.EXTRA_HAS_GET_USERINFO, false);
+        }
     }
 
     @Override
@@ -99,7 +105,27 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     public void doBusiness(Context mContext) {
         switch2Bookstore();
 
-//        reqUserInfo();
+        if (!hasGetUserinfo) {
+            reqUserInfo();
+        }
+
+       /* PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.setMessageHandler(new UmengMessageHandler(){
+            @Override
+            public void dealWithCustomMessage(Context context, UMessage uMessage) {
+                Log.e(TAG, "CustomMessage===" + uMessage.custom);
+                //TODO 判断当前Activity显示 然后do something
+//                UTrack.getInstance(context).trackMsgArrival(uMessage);
+            }
+        });*/
+
+        InAppMessageManager.getInstance(this).showCardMessage(this, "main22", new IUmengInAppMsgCloseCallback() {
+            @Override
+            public void onClose() {
+
+            }
+        });
+
     }
 
     @Override

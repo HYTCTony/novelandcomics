@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.huli.foxread.R;
 import com.huli.page.utils.KeyBoardUtils;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +52,8 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         initP();
         initView();
         initToolbar(toolbar);
+
+        PushAgent.getInstance(this).onAppStart();
     }
 
 

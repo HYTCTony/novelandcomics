@@ -129,28 +129,22 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
             startActivity(intent);
         });
         // 设置加载更多监听事件
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                reqHighMarksDatas(curPage + 1);
-            }
-        });
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqHighMarksDatas(curPage + 1));
 
-        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                reqIndexDatas(false);
+        mRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            reqTopBannerData();
 
-                //可以上拉加载
-                curPage = 1;
-                mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-            }
+            reqIndexDatas(false);
+
+            //可以上拉加载
+            curPage = 1;
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
     }
 
     @Override
     public void doBusiness(Context mContext) {
-//        reqIndexDatas(true);
+
     }
 
     @Override

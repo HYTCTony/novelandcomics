@@ -25,6 +25,7 @@ import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AdEntity;
 import com.huli.foxread.entity.FUser;
@@ -170,7 +171,9 @@ public class FrLaunchActivity extends BaseActivity {
     public void goMain() {
         mHandler.removeMessages(0);
         if (NetworkUtil.isNetworkAvailable(this)) {
-            startActivity(new Intent(FrLaunchActivity.this, MainActivity.class));
+            Intent intent = new Intent(FrLaunchActivity.this, MainActivity.class);
+            intent.putExtra(Common.EXTRA_HAS_GET_USERINFO, true);
+            startActivity(intent);
             finish();
         } else {
             Tos.showShort(this, R.string.txt_no_network_try_again_later);
@@ -342,9 +345,4 @@ public class FrLaunchActivity extends BaseActivity {
         }
     }
 
-
-    @Override
-    public void onBackPressed() {
-
-    }
 }

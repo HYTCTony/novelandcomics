@@ -47,6 +47,8 @@ public interface Common {
 
     String EXTRA_KEY_WXRESP = "wechat_resp_entity";
 
+    String EXTRA_HAS_GET_USERINFO = "has_get_user_info";
+
 
     String USER_DTO = "user_dto";
     String KEY_USER_ID = "user_id";

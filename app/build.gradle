@@ -7,13 +7,13 @@ android {
         applicationId "com.huli.foxread"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 11
-        versionName "0.2.1"
+        versionCode 12
+        versionName "0.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
         // 添加一个默认渠道号
-        manifestPlaceholders=[UMENG_CHANNEL_VALUE: "umeng"]
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Umeng"]
 //        flavorDimensions "versionCode"
 
         ndk {
@@ -181,10 +181,13 @@ dependencies {
 
 
     //********************友盟************************
-    implementation  'com.umeng.umsdk:common:2.0.0'
+    implementation 'com.umeng.umsdk:common:2.0.0'
 //    implementation  'com.umeng.umsdk:utdid:1.1.5.3'
-    implementation  'com.umeng.umsdk:analytics:8.0.0'       //统计
+    implementation 'com.umeng.umsdk:analytics:8.0.0'       //统计
     implementation 'com.umeng.umsdk:push:6.0.1'
+    //小米Push通道
+    implementation 'com.umeng.umsdk:xiaomi-push:3.6.17'
+    implementation 'com.umeng.umsdk:xiaomi-umengaccs:1.1.0'
     //PushSDK
 
     //shareSDK
