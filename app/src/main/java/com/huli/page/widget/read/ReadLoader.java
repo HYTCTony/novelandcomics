@@ -1030,15 +1030,12 @@ public abstract class ReadLoader {
         } else {
             dealLoadPageList(prevChapter);
         }
-        return mCurPageList != null ? true : false;
+        return mCurPageList != null;
     }
 
     private boolean hasPrevChapter() {
         //判断是否上一章节为空
-        if (mCurChapterPos - 1 < 0) {
-            return false;
-        }
-        return true;
+        return mCurChapterPos - 1 >= 0;
     }
 
     /**
@@ -1080,10 +1077,7 @@ public abstract class ReadLoader {
 
     private boolean hasNextChapter() {
         // 判断是否到达目录最后一章
-        if (mCurChapterPos + 1 >= mChapterList.size()) {
-            return false;
-        }
-        return true;
+        return mCurChapterPos + 1 < mChapterList.size();
     }
 
     boolean parseCurChapter() {
@@ -1091,7 +1085,7 @@ public abstract class ReadLoader {
         dealLoadPageList(mCurChapterPos);
         // 预加载下一页面
         preLoadNextChapter();
-        return mCurPageList != null ? true : false;
+        return mCurPageList != null;
     }
 
     /**
@@ -1120,7 +1114,7 @@ public abstract class ReadLoader {
         }
         // 预加载下一页面
         preLoadNextChapter();
-        return mCurPageList != null ? true : false;
+        return mCurPageList != null;
     }
 
     private void dealLoadPageList(int chapterPos) {

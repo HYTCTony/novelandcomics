@@ -108,8 +108,7 @@ public class PageWidget extends View {
                 mPageAnim = new NonePageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);
                 break;
             case SCROLL:
-                mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0,
-                        mPageLoader.getMarginHeight(), this, mPageAnimListener);
+                mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0, mPageLoader.getMarginHeight(), this, mPageAnimListener);
                 break;
             default:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);

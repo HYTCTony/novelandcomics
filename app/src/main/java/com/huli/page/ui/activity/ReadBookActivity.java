@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,7 +23,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -51,12 +51,15 @@ import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.read.PageWidget;
 import com.huli.page.widget.read.ReadLoader;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -259,8 +262,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 mProgress.setMax(Math.max(0, count - 1));
                 mProgress.setProgress(0);
                 // 如果处于错误状态，那么就冻结使用
-                if (mPageLoader.getPageStatus() == ReadLoader.STATUS_LOADING
-                        || mPageLoader.getPageStatus() == ReadLoader.STATUS_ERROR) {
+                if (mPageLoader.getPageStatus() == ReadLoader.STATUS_LOADING || mPageLoader.getPageStatus() == ReadLoader.STATUS_ERROR) {
                     mProgress.setEnabled(false);
                 } else {
                     mProgress.setEnabled(true);
@@ -379,7 +381,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     public void reqAddBookrack(String data) {
         exit();
-        showToast("加入成功！");
+        showToast(data);
     }
 
     @Override
@@ -389,7 +391,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mPageLoader.refreshChapterList();
         StringBuffer buffer = new StringBuffer();
         buffer.append(data.getIs_end() == 0 ? "未完结" : "已完结");
-        buffer.append("，共" + bookChapters.size() + "章");
+        buffer.append("，共");
+        buffer.append(bookChapters.size());
+        buffer.append("章");
         tvBookStatu.setText(buffer);
         // 如果是目录更新的情况，那么就需要存储更新数据
 //        if (data.getIsUpdate() && isCollected) {
@@ -565,15 +569,14 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 }
             }
         } catch (Throwable throwable) {
-            if (throwable != null)
-                Log.e(TAG, "register mBrightObserver error! " + throwable);
+            throwable.printStackTrace();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mWakeLock.acquire();
+        mWakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
         doPolling(READ_TYPE_START);
     }
 
@@ -601,8 +604,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 }
             }
         } catch (Throwable throwable) {
-            if (throwable != null)
-                Log.e(TAG, "unregister BrightnessObserver error! " + throwable);
+            throwable.printStackTrace();
         }
     }
 
@@ -624,12 +626,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED)) {
+            if (TextUtils.equals(intent.getAction(), Intent.ACTION_BATTERY_CHANGED)) {
                 int level = intent.getIntExtra("level", 0);
                 mPageLoader.updateBattery(level);
             }
             // 监听分钟的变化
-            else if (intent.getAction().equals(Intent.ACTION_TIME_TICK)) {
+            else if (TextUtils.equals(intent.getAction(), Intent.ACTION_TIME_TICK)) {
                 mPageLoader.updateTime();
             }
         }
@@ -684,21 +686,26 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         }
 
         if (!data.getIsLocal() && !isCollected && !data.getBookChapters().isEmpty()) {
-            AlertDialog alertDialog = new AlertDialog.Builder(mContext)
-                    .setTitle("加入书架")
-                    .setMessage("喜欢本书就加入书架吧")
-                    .setPositiveButton("确定", (dialog, which) -> {
+            MessageDialog.show(ReadBookActivity.this, "加入书架", "喜欢本书就加入书架吧", "确定", "取消")
+                    .setCancelable(true)
+                    .setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
+                        @Override
+                        public boolean onClick(BaseDialog baseDialog, View v) {
+                            exit();
+                            baseDialog.doDismiss();
+                            return false;
+                        }
+                    })
+                    .setOnOkButtonClickListener((baseDialog, v) -> {
                         //设置为已收藏
                         isCollected = true;
                         //设置阅读时间
                         data.setLastRead(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_BOOK_DATE));
                         BookRepository.getInstance().saveBooksListWithAsync(data);
                         presenter.reqAddBookrack(ReadBookActivity.this, mBookId);
-                    })
-                    .setNegativeButton("取消", (dialog, which) -> {
-                        exit();
-                    }).create();
-            alertDialog.show();
+                        baseDialog.doDismiss();
+                        return false;
+                    });
         } else {
             exit();
         }
@@ -794,7 +801,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Override
     public void showToast(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        TipDialog.show(ReadBookActivity.this, msg, TipDialog.TYPE.ERROR);
     }
 
     @Override

@@ -286,6 +286,7 @@ public class SimulationPageAnim extends HorizonPageAnim {
             canvas.clipPath(mPath0);
             canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         mPaint.setColorFilter(mColorMatrixFilter);
@@ -332,15 +333,9 @@ public class SimulationPageAnim extends HorizonPageAnim {
     public void drawCurrentPageShadow(Canvas canvas) {
         double degree;
         if (mIsRTandLB) {
-            degree = Math.PI
-                    / 4
-                    - Math.atan2(mBezierControl1.y - mTouchY, mTouchX
-                    - mBezierControl1.x);
+            degree = Math.PI / 4 - Math.atan2(mBezierControl1.y - mTouchY, mTouchX - mBezierControl1.x);
         } else {
-            degree = Math.PI
-                    / 4
-                    - Math.atan2(mTouchY - mBezierControl1.y, mTouchX
-                    - mBezierControl1.x);
+            degree = Math.PI / 4 - Math.atan2(mTouchY - mBezierControl1.y, mTouchX - mBezierControl1.x);
         }
         // 翻起页阴影顶点与touch点的距离
         double d1 = (float) 25 * 1.414 * Math.cos(degree);
@@ -364,6 +359,7 @@ public class SimulationPageAnim extends HorizonPageAnim {
             canvas.clipPath(mPath0, Region.Op.XOR);
             canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         int leftx;
@@ -399,6 +395,7 @@ public class SimulationPageAnim extends HorizonPageAnim {
             canvas.clipPath(mPath0, Region.Op.XOR);
             canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (mIsRTandLB) {
@@ -462,6 +459,7 @@ public class SimulationPageAnim extends HorizonPageAnim {
             canvas.clipPath(mPath0);
             canvas.clipPath(mPath1, Region.Op.INTERSECT);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -495,7 +493,7 @@ public class SimulationPageAnim extends HorizonPageAnim {
         try {
             canvas.restore();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }
@@ -518,8 +516,7 @@ public class SimulationPageAnim extends HorizonPageAnim {
             mCornerY = mScreenHeight;
         }
 
-        if ((mCornerX == 0 && mCornerY == mScreenHeight)
-                || (mCornerX == mScreenWidth && mCornerY == 0)) {
+        if ((mCornerX == 0 && mCornerY == mScreenHeight) || (mCornerX == mScreenWidth && mCornerY == 0)) {
             mIsRTandLB = true;
         } else {
             mIsRTandLB = false;
@@ -530,22 +527,18 @@ public class SimulationPageAnim extends HorizonPageAnim {
     private void calcPoints() {
         mMiddleX = (mTouchX + mCornerX) / 2;
         mMiddleY = (mTouchY + mCornerY) / 2;
-        mBezierControl1.x = mMiddleX - (mCornerY - mMiddleY)
-                * (mCornerY - mMiddleY) / (mCornerX - mMiddleX);
+        mBezierControl1.x = mMiddleX - (mCornerY - mMiddleY) * (mCornerY - mMiddleY) / (mCornerX - mMiddleX);
         mBezierControl1.y = mCornerY;
         mBezierControl2.x = mCornerX;
 
         float f4 = mCornerY - mMiddleY;
         if (f4 == 0) {
-            mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
-                    * (mCornerX - mMiddleX) / 0.1f;
+            mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX) * (mCornerX - mMiddleX) / 0.1f;
 
         } else {
-            mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
-                    * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
+            mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX) * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
         }
-        mBezierStart1.x = mBezierControl1.x - (mCornerX - mBezierControl1.x)
-                / 2;
+        mBezierStart1.x = mBezierControl1.x - (mCornerX - mBezierControl1.x) / 2;
         mBezierStart1.y = mCornerY;
 
         // 当mBezierStart1.x < 0或者mBezierStart1.x > 480时
@@ -566,36 +559,28 @@ public class SimulationPageAnim extends HorizonPageAnim {
                 mMiddleX = (mTouchX + mCornerX) / 2;
                 mMiddleY = (mTouchY + mCornerY) / 2;
 
-                mBezierControl1.x = mMiddleX - (mCornerY - mMiddleY)
-                        * (mCornerY - mMiddleY) / (mCornerX - mMiddleX);
+                mBezierControl1.x = mMiddleX - (mCornerY - mMiddleY) * (mCornerY - mMiddleY) / (mCornerX - mMiddleX);
                 mBezierControl1.y = mCornerY;
 
                 mBezierControl2.x = mCornerX;
 
                 float f5 = mCornerY - mMiddleY;
                 if (f5 == 0) {
-                    mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
-                            * (mCornerX - mMiddleX) / 0.1f;
+                    mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX) * (mCornerX - mMiddleX) / 0.1f;
                 } else {
-                    mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
-                            * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
+                    mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX) * (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
                 }
 
-                mBezierStart1.x = mBezierControl1.x
-                        - (mCornerX - mBezierControl1.x) / 2;
+                mBezierStart1.x = mBezierControl1.x - (mCornerX - mBezierControl1.x) / 2;
             }
         }
         mBezierStart2.x = mCornerX;
-        mBezierStart2.y = mBezierControl2.y - (mCornerY - mBezierControl2.y)
-                / 2;
+        mBezierStart2.y = mBezierControl2.y - (mCornerY - mBezierControl2.y) / 2;
 
-        mTouchToCornerDis = (float) Math.hypot((mTouchX - mCornerX),
-                (mTouchY - mCornerY));
+        mTouchToCornerDis = (float) Math.hypot((mTouchX - mCornerX), (mTouchY - mCornerY));
 
-        mBezierEnd1 = getCross(new PointF(mTouchX, mTouchY), mBezierControl1, mBezierStart1,
-                mBezierStart2);
-        mBezierEnd2 = getCross(new PointF(mTouchX, mTouchY), mBezierControl2, mBezierStart1,
-                mBezierStart2);
+        mBezierEnd1 = getCross(new PointF(mTouchX, mTouchY), mBezierControl1, mBezierStart1, mBezierStart2);
+        mBezierEnd2 = getCross(new PointF(mTouchX, mTouchY), mBezierControl2, mBezierStart1, mBezierStart2);
 
         mBeziervertex1.x = (mBezierStart1.x + 2 * mBezierControl1.x + mBezierEnd1.x) / 4;
         mBeziervertex1.y = (2 * mBezierControl1.y + mBezierStart1.y + mBezierEnd1.y) / 4;

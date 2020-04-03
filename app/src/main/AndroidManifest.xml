@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.huli.foxread">
 
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -48,7 +47,16 @@
             android:name=".ui.activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="hb3e2m" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activities.TransparencyActivity"
@@ -345,6 +353,19 @@
             </intent-filter>
         </receiver>
         <!-- 支付 End -->
+
+        <!--openinstall-->
+        <meta-data
+            android:name="com.openinstall.APP_KEY"
+            android:value="hb3e2m" />
+
+        <receiver
+            android:name="com.fm.openinstall.InstallReferrerReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

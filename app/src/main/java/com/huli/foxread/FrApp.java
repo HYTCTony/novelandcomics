@@ -1,12 +1,13 @@
 package com.huli.foxread;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import com.huli.foxread.callbacks.ActivityManager;
+import com.fm.openinstall.OpenInstall;
 import com.huli.foxread.callbacks.ActivityState;
-import com.huli.foxread.contact.Common;
+import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.kongzue.dialog.util.BaseDialog;
@@ -46,7 +47,7 @@ public class FrApp extends Application implements ActivityState {
         return sInstance;
     }
 
-    public ActivityManager mActivityManager = ActivityManager.getInstance(this);
+    public MyActivityManager mActivityManager = MyActivityManager.getInstance(this);
 
     //static 代码段可以防止内存泄露
     static {
@@ -113,7 +114,10 @@ public class FrApp extends Application implements ActivityState {
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
         // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
-        PlatformConfig.setWeixin(WECHAT_APP_ID,"4f58d7d2894fe8631831d18ed1d6d4be");
+        PlatformConfig.setWeixin(WECHAT_APP_ID, "4f58d7d2894fe8631831d18ed1d6d4be");
+        if (isMainProcess()) {
+            OpenInstall.init(this);
+        }
     }
 
 
@@ -151,7 +155,7 @@ public class FrApp extends Application implements ActivityState {
         /**
          * 设置升级检查周期为60s(默认检查周期为0s)，60s内SDK不重复向后台请求策略);
          */
-        Beta.upgradeCheckPeriod = 60 * 1000;
+        Beta.upgradeCheckPeriod = 60 * 1000L;
         /**
          * 只允许在MainActivity上显示更新弹窗，其他activity上不显示弹窗;
          * 不设置会默认所有activity都可以显示弹窗;
@@ -160,5 +164,16 @@ public class FrApp extends Application implements ActivityState {
 
         Bugly.init(getApplicationContext(), "a5471c79fd", false);
 
+    }
+
+    public boolean isMainProcess() {
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+            if (appProcess.pid == pid) {
+                return getApplicationInfo().packageName.equals(appProcess.processName);
+            }
+        }
+        return false;
     }
 }

@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import java.util.Stack;
 
-public class ActivityManager implements Application.ActivityLifecycleCallbacks {
+public class MyActivityManager implements Application.ActivityLifecycleCallbacks {
 
     private ActivityState mActivityState;
     //记录Activity，用于判断APP处于前台或后台
@@ -18,24 +18,24 @@ public class ActivityManager implements Application.ActivityLifecycleCallbacks {
     private static Stack<ActivityDetail> store = new Stack<>();*/
 
 
-    private static ActivityManager activityManager;
+    private static MyActivityManager activityManager;
 
     /**
      * Gets instance.
      *
      * @return the instance
      */
-    public static ActivityManager getInstance(ActivityState mActivityState) {
+    public static MyActivityManager getInstance(ActivityState mActivityState) {
         if (activityManager == null)
-            synchronized (ActivityManager.class) {
+            synchronized (MyActivityManager.class) {
                 if (activityManager == null) {
-                    activityManager = new ActivityManager(mActivityState);
+                    activityManager = new MyActivityManager(mActivityState);
                 }
             }
         return activityManager;
     }
 
-    private ActivityManager(ActivityState mActivityState) {
+    private MyActivityManager(ActivityState mActivityState) {
         this.mActivityState = mActivityState;
     }
 
