@@ -425,6 +425,10 @@ public static java.lang.String TABLENAME;
 -keep class com.android.dingtalk.share.ddsharemodule.** { *; }
 -keepattributes Signature
 
+-dontwarn com.fm.openinstall.**
+-keep public class com.fm.openinstall.* {*; }
+-keep public interface com.fm.openinstall.* {*; }
+
 ##统计##
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);

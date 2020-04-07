@@ -259,36 +259,24 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_asBtn_sign_in_4_gold:          //签到
-                if (isVisitor) {
-                    go2LoginAndResult();
-                } else {
-                    startActivity(new Intent(mActivity, SignInActivity.class));
-                }
+                startActivity(new Intent(mActivity, SignInActivity.class));
                 break;
             case R.id.iv_asBtn_setting_mine:
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.btn_login_mine:
-                go2LoginAndResult();
+                LoginActivity.start(mActivity);
                 break;
             case R.id.iv_user_headImg:
                 startActivity(new Intent(mActivity, UserBasicInfoActivity.class));
                 break;
             case R.id.ll_my_gold_coin_mine:
             case R.id.ll_today_gold_coin_mine:
-                if (isVisitor) {
-                    go2LoginAndResult();
-                } else {
-                    startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
-                }
+                startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
                 break;
             case R.id.rtl_asBtn_my_privilege:                   //go2 VIP页面
             case R.id.tv_asBtn_open_membership_account:         //go2 VIP页面
-                if (isVisitor) {
-                    go2LoginAndResult();
-                } else {
-                    startActivity(new Intent(mActivity, MyPrivilegeActivity.class));
-                }
+                startActivity(new Intent(mActivity, MyPrivilegeActivity.class));
                 break;
             case R.id.rtl_asBtn_msg_notify:
                 startActivity(new Intent(mActivity, MsgNotifyActivity.class));
@@ -297,20 +285,12 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
                 break;
             case R.id.rtl_asBtn_inviter:
-                if (isVisitor) {
-                    go2LoginAndResult();
-                } else {
-                    if (!isInvited) {
-                        startActivity(new Intent(mActivity, InvitationCodeActivity.class));
-                    }
+                if (!isInvited) {
+                    startActivity(new Intent(mActivity, InvitationCodeActivity.class));
                 }
                 break;
             case R.id.rtl_asBtn_cash_withdrawal:
-                if (isVisitor) {
-                    go2LoginAndResult();
-                } else {
-                    startActivity(new Intent(mActivity, WithdrawalActivity.class));
-                }
+                startActivity(new Intent(mActivity, WithdrawalActivity.class));
                 break;
             case R.id.rtl_asBtn_mode_adolescent:
 
@@ -322,11 +302,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
             default:
                 break;
         }
-    }
-
-
-    private void go2LoginAndResult() {
-        startActivity(new Intent(mActivity, LoginActivity.class));
     }
 
     private void initRecyWelfareZone(View view) {

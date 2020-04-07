@@ -25,6 +25,9 @@ import com.lzy.okgo.model.Response;
 
 import androidx.appcompat.widget.Toolbar;
 
+/**
+ * 更换绑定手机---第二步
+ */
 public class BindingCellphoneActivity extends BaseActivity implements View.OnClickListener {
 
     private TimingButton tbtnGetVcode;

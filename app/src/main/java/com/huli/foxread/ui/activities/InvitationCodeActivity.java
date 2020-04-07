@@ -69,7 +69,11 @@ public class InvitationCodeActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
-
+        //需要登录
+        if (UserInfoCache2.getIsVisitor(mContext)) {
+            LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
+            return;
+        }
     }
 
 

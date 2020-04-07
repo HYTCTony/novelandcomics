@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.ui.activities.CommonWebActivity;
-import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 
 public class ClickJumpUtil {
@@ -30,10 +28,6 @@ public class ClickJumpUtil {
         } else if (link.startsWith("com.huli")) {
             // 隐示意图打开Activity
             try {
-                if (needLogin == 1 && UserInfoCache2.getIsVisitor(mActivity)) {
-                    mActivity.startActivity(new Intent(mActivity, LoginActivity.class));
-                    return;
-                }
                 Intent intent = new Intent();
                 String[] split = link.split("&");
                 if (split.length >= 2) {

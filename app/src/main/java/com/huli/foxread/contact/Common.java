@@ -4,23 +4,12 @@ package com.huli.foxread.contact;
  * 公共常量
  */
 public interface Common {
-    //隐式意图---书籍详情
-    String INTENT_ACTION_BOOK_DT = "com.huli.book_detail.ACTION_START";
-    //隐式意图---我的特权
-    String INTENT_ACTION_PRIVILEGE = "com.huli.my_privilege.ACTION_START";
 
-    /***福利任务跳转判断***/
-    //隐式意图---填写邀请码
-    String INTENT_ACTION_FILL_INVITECODE = "com.huli.fill_inviteCode.ACTION_START";
-    //隐示意图---邀请Friends
-    String INTENT_ACTION_INVITE_FRIENDS = "com.huli.invite_friends.ACTION_START";
-    //隐式意图---签到
-    String INTENT_ACTION_SIGNIN = "com.huli.sign_in.ACTION_START";
-
+    /***福利任务切换MainActivity判断***/
     String SWITCH2_BOOKSTORE = "switch_main_bookstore";         //跳到书城
     String SWITCH2_WELFARE = "switch_main_welfare";             //切换到福利
     String SIGNIN_NEWBIE = "sign_in_newbie";                    //切换到福利
-    /***福利任务跳转判断***/
+    /***福利任务切换MainActivity判断***/
 
 
     String KEY_CAT_PID = "cat_p_id";

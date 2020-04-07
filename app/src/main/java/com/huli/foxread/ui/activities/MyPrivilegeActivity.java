@@ -12,6 +12,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -65,6 +66,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -168,6 +170,12 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void doBusiness(Context mContext) {
+        //需要登录---返回结果BaseActivity处理
+        if (UserInfoCache2.getIsVisitor(mContext)) {
+            LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
+            return;
+        }
+
         iwxapi = WXAPIFactory.createWXAPI(this, FrApp.WECHAT_APP_ID);
 
         FUser userInfo = UserInfoCache2.getUserInfo(mContext);
@@ -204,21 +212,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
         reqRechargeCombo();
 
-        /*receiver = new AppRegister();
-        // 注册广播接受者
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP");//要接收的广播
-        registerReceiver(receiver, intentFilter);//注册接收者*/
-
     }
 
-   /* private AppRegister receiver;
-
-    @Override
-    protected void onDestroy() {
-        unregisterReceiver(receiver);
-        super.onDestroy();
-    }*/
 
     @Override
     public void onClick(View view) {

@@ -16,6 +16,7 @@ import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoaderWf;
 import com.huli.foxread.entity.BannerADEntity;
@@ -119,7 +120,14 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                 MissionSection<MissionEntity> data = mAdapter.getData().get(position);
                 MissionEntity missionEntity = data.getObject();
                 if (missionEntity.getStatus() == 0) {
-                    ClickJumpUtil.handleJump(mActivity, missionEntity.getLink(), missionEntity.getJump(), missionEntity.getNeed_login());
+                    String mlink = missionEntity.getLink();
+                    if (mlink.equals(Common.SIGNIN_NEWBIE) || mlink.equals(Common.SWITCH2_WELFARE)) {
+                        if (missionEntity.getNeed_login() == 1) {
+                            LoginActivity.start(mActivity);
+                            return;
+                        }
+                    }
+                    ClickJumpUtil.handleJump(mActivity, mlink, missionEntity.getJump(), missionEntity.getNeed_login());
                 } else if (missionEntity.getStatus() == 1) {
                     reqMissionComplete(missionEntity.getId());
                 }
@@ -193,19 +201,13 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
         switch (view.getId()) {
             case R.id.btn_click_2_login:
-                startActivity(new Intent(mActivity, LoginActivity.class));
+                LoginActivity.start(mActivity);
                 break;
             case R.id.ll_asBtn_gold_coin_usable:
                 startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
                 break;
             case R.id.tv_asBtn_sign_in_now:
-                if (isVisitor) {
-                    //去登陆
-                    startActivity(new Intent(mActivity, LoginActivity.class));
-                } else {
-                    //签到页面
-                    startActivity(new Intent(mActivity, SignInActivity.class));
-                }
+                startActivity(new Intent(mActivity, SignInActivity.class));
                 break;
             default:
                 break;

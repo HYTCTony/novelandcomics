@@ -35,7 +35,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                            view.reqAddBookrack("成功!");
+                            view.reqAddBookrack("加入成功!");
                         } else {
                             view.onFailure(entity.error_code, entity.msg);
                         }
@@ -60,8 +60,6 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                     });
                             if (entity.error_code == 0) {
                                 view.showCategory(entity.getData());
-                            } else {
-                                view.onFailure(entity.error_code, entity.msg);
                             }
                         }
                     }
@@ -101,7 +99,6 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                         view.errorChapter();
                                     }
                                     Log.e(TAG, entity.msg);
-                                    view.onFailure(entity.error_code, entity.msg);
                                 }
                             }
                         }
@@ -110,7 +107,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     }
 
     @Override
-    public void recordDuration(AppCompatActivity context,int type) {
+    public void recordDuration(AppCompatActivity context, int type) {
         checkViewAttached();
         OkGo.<String>get(Consts.RECORD_DURATION_API)
                 .params(Consts.TYPE, type)

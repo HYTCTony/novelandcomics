@@ -49,8 +49,7 @@ public class TransparencyActivity extends BaseActivity {
                 .setOkButton("去登陆")
                 .setCancelButton("算了")
                 .setOnOkButtonClickListener((baseDialog, v) -> {
-                    Intent intent = new Intent(TransparencyActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    LoginActivity.start(TransparencyActivity.this);
                     finish();
                     return false;
                 })

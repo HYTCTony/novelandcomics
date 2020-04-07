@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,6 +60,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView btnLoginWechat;
 
     private EditText etPhoneNum, etAuthCode;
+
+    public static final int REQCODE_LOGIN = 0x1688;
+    public static void start4Result(Activity context, int reqCode) {
+        Intent starter = new Intent(context, LoginActivity.class);
+        context.startActivityForResult(starter, reqCode);
+    }
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, LoginActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void setStatusBar() {
@@ -321,7 +333,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
                             if (!TextUtils.isEmpty(data.getMobile())) {     //微信登录，且绑定手机号、 或者直接手机号登录
                                 TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
-                                        .setOnDismissListener(() -> finish());
+                                        .setOnDismissListener(() -> {
+                                            setResult(RESULT_OK);
+                                            finish();
+                                        });
                             } else {        //微信登录，且没绑定手机号
                                 TipDialog.dismiss();
                                 MessageDialog.show(LoginActivity.this, R.string.txt_login_success, R.string.txt_binding_cellphone_hint, R.string.txt_go2_binding, R.string.txt_withhold)
@@ -329,10 +344,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                             // 去绑定
                                             Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
                                             startActivity(intent);
+                                            setResult(RESULT_OK);
                                             finish();
                                             return false;
                                         })
                                         .setOnCancelButtonClickListener((baseDialog, v) -> {
+                                            setResult(RESULT_OK);
                                             finish();
                                             return false;
                                         });

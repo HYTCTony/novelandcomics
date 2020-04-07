@@ -8,13 +8,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -23,7 +16,7 @@ import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.ebsevent.NetworkChangeEvent;
 import com.huli.foxread.receivers.NetworkConnectChangedReceiver;
-import com.huli.foxread.ui.activities.MainActivity;
+import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.umeng.analytics.MobclickAgent;
@@ -32,6 +25,13 @@ import com.umeng.message.PushAgent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -179,6 +179,18 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     public abstract void doBusiness(Context mContext);
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //处理打开的Activity需要登录的情况
+        if (requestCode == LoginActivity.REQCODE_LOGIN) {
+            if (resultCode == RESULT_OK) {
+                doBusiness(this);
+            } else {
+                finish();
+            }
+        }
+    }
 
     protected void setStatusBar() {
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
@@ -261,6 +273,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     private static long lastClickTime;                //最后一次点击的时间
+
     /**
      * 无效的连续点击会重置 间隔时间
      *

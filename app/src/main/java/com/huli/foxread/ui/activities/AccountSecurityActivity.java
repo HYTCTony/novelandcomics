@@ -205,7 +205,7 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
      * 绑定微信
      */
     private void bindWechat(WXLoginRespEntity wxLoginResp, String verifyCode) {
-        OkGo.<LzyResponse<String>>post(Consts.USER_WX_LOGIN_API)
+        OkGo.<LzyResponse<String>>post(Consts.BINDING_WECHAT_API)
                 .params(Consts.UNIONID, wxLoginResp.getUnionid())
                 .params(Consts.OPENID, wxLoginResp.getOpenid())
                 .params(Consts.MOBILE_CAPTCHA, verifyCode)

@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -49,6 +52,7 @@ import com.lzy.okgo.model.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -464,5 +468,28 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
             }
         }
+    }
+
+    //可能存在BookDetailsActivity套娃，这个办法暂不可行
+    @Override
+    public void onBackPressed() {
+        Stack<Activity> activityStack = FrApp.getInstance().mActivityManager.getActivityStack();
+        boolean mainActExist = false;//栈中是否存在MainActivity
+        int selfActCount = 0;
+        for (Activity act : activityStack) {
+            if (act instanceof MainActivity) {
+                mainActExist = true;
+            }
+            if (act instanceof BookDetailsActivity) {
+                selfActCount++;
+            }
+        }
+        if (!mainActExist && selfActCount == 1) {
+            Log.e("MainActivity", "MainActivity---sdsdsdsdsd");
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+        super.onBackPressed();
     }
 }

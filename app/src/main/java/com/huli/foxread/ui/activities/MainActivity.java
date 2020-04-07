@@ -1,6 +1,8 @@
 package com.huli.foxread.ui.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -11,6 +13,10 @@ import com.alibaba.fastjson.TypeReference;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.fm.openinstall.OpenInstall;
+import com.fm.openinstall.listener.AppInstallAdapter;
+import com.fm.openinstall.listener.AppWakeUpAdapter;
+import com.fm.openinstall.model.AppData;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache2;
@@ -40,6 +46,7 @@ import com.umeng.message.inapp.InAppMessageManager;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -104,10 +111,24 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     public void doBusiness(Context mContext) {
         switch2Bookstore();
-
         if (!hasGetUserinfo) {
             reqUserInfo();
         }
+
+        //获取唤醒参数
+        OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
+
+        OpenInstall.getInstall(new AppInstallAdapter() {
+            @Override
+            public void onInstall(AppData appData) {
+                //获取渠道数据
+                String channelCode = appData.getChannel();
+                //获取自定义数据
+                String bindData = appData.getData();
+                Log.d("OpenInstall", "getInstall : installData = " + appData.toString());
+            }
+        });
+
 
        /* PushAgent pushAgent = PushAgent.getInstance(this);
         pushAgent.setMessageHandler(new UmengMessageHandler(){
@@ -125,8 +146,25 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
             }
         });
-
     }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // 此处要调用，否则App在后台运行时，会无法截获
+        OpenInstall.getWakeUp(intent, wakeUpAdapter);
+    }
+
+    AppWakeUpAdapter wakeUpAdapter = new AppWakeUpAdapter() {
+        @Override
+        public void onWakeUp(AppData appData) {
+            //获取渠道数据
+            String channelCode = appData.getChannel();
+            //获取绑定数据
+            String bindData = appData.getData();
+            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString());
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -134,6 +172,21 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         reqMyCapitalDetail();
 
         getUserReadTime();
+
+        Stack<Activity> activityStack = FrApp.getInstance().mActivityManager.getActivityStack();
+        Log.e(TAG, "activityStack.size===" + activityStack.size());
+        boolean mainActExist = false;//栈中是否存在MainActivity
+        for (Activity act : activityStack) {
+            if (act instanceof BookDetailsActivity) {
+                Log.e(TAG, "存在***********");
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        wakeUpAdapter = null;
     }
 
     @Override

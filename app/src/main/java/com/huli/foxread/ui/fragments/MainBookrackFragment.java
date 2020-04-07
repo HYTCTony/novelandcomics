@@ -28,7 +28,6 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
-import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SearchBookActivity;
@@ -140,11 +139,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         tvAsBtnSignIngGold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (UserInfoCache2.getIsVisitor(mActivity)) {
-                    startActivity(new Intent(mActivity, LoginActivity.class));
-                } else {
-                    startActivity(new Intent(mActivity, SignInActivity.class));
-                }
+                startActivity(new Intent(mActivity, SignInActivity.class));
             }
         });
         cardSpecialRecommend.setOnClickListener(new View.OnClickListener() {

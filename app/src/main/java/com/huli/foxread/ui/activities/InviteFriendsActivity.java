@@ -141,6 +141,12 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void doBusiness(Context mContext) {
+        //需要登录
+        if (UserInfoCache2.getIsVisitor(mContext)) {
+            LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
+            return;
+        }
+
         inviteCode = UserInfoCache2.getDistribution(mContext);
         tvInviteCode.setText(inviteCode);
 

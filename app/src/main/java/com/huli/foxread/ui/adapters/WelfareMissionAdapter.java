@@ -56,7 +56,7 @@ public class WelfareMissionAdapter extends BaseSectionQuickAdapter<MissionSectio
         }
         holder.setText(R.id.tv_reward_of_mission, String.format(getContext().getString(R.string.txt_add_gold_coin_x), reward));
 
-        if (missionEntity.getStatus() == 0) {
+        if (missionEntity.getStatus() == 0 || missionEntity.getStatus() == -1) {
             holder.setEnabled(R.id.btn_welfare_mission_action, true);
             holder.setTextColorRes(R.id.btn_welfare_mission_action, R.color.txt_red);
             holder.setBackgroundResource(R.id.btn_welfare_mission_action, R.drawable.shape_btn_bg_semicircle_border_red);

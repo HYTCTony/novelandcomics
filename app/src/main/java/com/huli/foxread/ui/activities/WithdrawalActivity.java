@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -105,6 +106,12 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void doBusiness(Context mContext) {
+        //需要登录
+        if (UserInfoCache2.getIsVisitor(mContext)) {
+            LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
+            return;
+        }
+
 
         reqMyCapitalDetail();
 
