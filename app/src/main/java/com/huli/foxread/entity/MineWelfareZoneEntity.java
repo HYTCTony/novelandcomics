@@ -1,6 +1,6 @@
 package com.huli.foxread.entity;
 
-public class MineWelfareZoneEntity extends BannerADEntity{
+public class MineWelfareZoneEntity{
     private String name;
     private String gradation_start;
     private String gradation_end;
@@ -8,7 +8,6 @@ public class MineWelfareZoneEntity extends BannerADEntity{
     private String http_image;
     private String link;            //链接
     private int jump;               //0打开浏览器， 1应用内跳转
-    private int need_login;         //0不需要登录，1需要登录才有效
 
     public String getName() {
         return name;
@@ -50,33 +49,19 @@ public class MineWelfareZoneEntity extends BannerADEntity{
         this.http_image = http_image;
     }
 
-    @Override
     public String getLink() {
         return link;
     }
 
-    @Override
     public void setLink(String link) {
         this.link = link;
     }
 
-    @Override
     public int getJump() {
         return jump;
     }
 
-    @Override
     public void setJump(int jump) {
         this.jump = jump;
-    }
-
-    @Override
-    public int getNeed_login() {
-        return need_login;
-    }
-
-    @Override
-    public void setNeed_login(int need_login) {
-        this.need_login = need_login;
     }
 }

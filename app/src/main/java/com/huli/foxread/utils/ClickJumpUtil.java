@@ -10,7 +10,7 @@ import com.huli.foxread.ui.activities.MainActivity;
 
 public class ClickJumpUtil {
 
-    public static void handleJump(Activity mActivity, String link, int isJump, int needLogin) {
+    public static void handleJump(Activity mActivity, String link, int isJump) {
         if (link.startsWith("http")) {
             if (isJump == 1) {        //应用内
                 Intent intent = new Intent(mActivity, CommonWebActivity.class);

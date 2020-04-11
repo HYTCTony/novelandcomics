@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -41,10 +42,15 @@ import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.v3.CustomDialog;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -137,6 +143,9 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         btnInviteWx.setOnClickListener(this);
         btnInviteMoments.setOnClickListener(this);
         btnInviteFace2Face.setOnClickListener(this);
+
+        MessageDialog.build(this)
+                .setStyle(DialogSettings.STYLE.STYLE_MATERIAL);
     }
 
     @Override
@@ -179,31 +188,83 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.btn_immediately_invite:
                 //TODO 立即邀请 --- 弹出分享集成面板
-                CustomDialog.show(this, R.layout.layout_custom_dialog_invite_qrcode, (dialog, v) -> {
-                    v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
-                    ImageView ivQrCode = v.findViewById(R.id.iv_invite_qr_code);
-
-                    displayQrCode(Consts.DOWNLOAD_URL, ivQrCode);
-                });
+                new ShareAction(this).withText("hello")
+                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
+                        .setCallback(umShareListener)
+                        .open();
+                break;
             case R.id.tv_invite_way_wechat:
                 //TODO 微信分享
+                new ShareAction(this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
                 break;
             case R.id.tv_invite_way_moments:
                 //TODO 朋友圈分享
+                new ShareAction(this)
+                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
+                        .withText("hello")//分享内容
+                        .setCallback(umShareListener)//回调监听器
+                        .share();
                 break;
             case R.id.tv_invite_way_face2face:
                 //面对面分享
                 CustomDialog.show(this, R.layout.layout_custom_dialog_invite_qrcode, (dialog, v) -> {
                     v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
                     ImageView ivQrCode = v.findViewById(R.id.iv_invite_qr_code);
-
-                    displayQrCode(Consts.DOWNLOAD_URL, ivQrCode);
+                    Bitmap bitmap = createQrCode(Consts.DOWNLOAD_URL);
+                    ivQrCode.setImageBitmap(bitmap);
                 });
                 break;
             default:
                 break;
         }
     }
+
+
+    /**
+     * 分享回调
+     */
+    private UMShareListener umShareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(InviteFriendsActivity.this, "分享成功！", Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(InviteFriendsActivity.this, "分享失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(InviteFriendsActivity.this, "分享取消了...", Toast.LENGTH_LONG).show();
+        }
+    };
+
 
     /**
      * 查看已邀请的好友
@@ -290,13 +351,12 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
 
 
     /**
-     * 显示二维码
+     * 生成二维码
      */
-    private void displayQrCode(String invitUrl, ImageView imageView) {
+    private Bitmap createQrCode(String inviteUrl) {
         Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.app_huli_logo_round_small);
         Bitmap logoBorder = getRoundedCornerBorderBitmap(this, resource);
-        Bitmap qrCodeBm = EncodingHandler.createQRImage(invitUrl, logoBorder, 512);
-        imageView.setImageBitmap(qrCodeBm);
+        return EncodingHandler.createQRImage(inviteUrl, logoBorder, 512);
     }
 
     /**

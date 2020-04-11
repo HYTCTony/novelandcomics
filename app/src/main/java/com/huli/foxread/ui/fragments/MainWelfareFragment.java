@@ -127,7 +127,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                             return;
                         }
                     }
-                    ClickJumpUtil.handleJump(mActivity, mlink, missionEntity.getJump(), missionEntity.getNeed_login());
+                    ClickJumpUtil.handleJump(mActivity, mlink, missionEntity.getJump());
                 } else if (missionEntity.getStatus() == 1) {
                     reqMissionComplete(missionEntity.getId());
                 }
@@ -219,7 +219,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     public void OnBannerClick(int position) {
         if (bannerDatas != null && bannerDatas.size() > position) {
             BannerADEntity entity = bannerDatas.get(position);
-            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump(), entity.getNeed_login());
+            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump());
         }
     }
 

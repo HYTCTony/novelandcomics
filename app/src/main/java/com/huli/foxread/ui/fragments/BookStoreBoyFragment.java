@@ -178,7 +178,7 @@ public class BookStoreBoyFragment extends LazyLoadFragment implements View.OnCli
     public void OnBannerClick(int position) {
         if (bannerDatas != null && bannerDatas.size() > position) {
             BannerADEntity entity = bannerDatas.get(position);
-            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump(), entity.getNeed_login());
+            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump());
         }
     }
 

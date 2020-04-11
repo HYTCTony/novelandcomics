@@ -23,9 +23,9 @@ import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.ReadingRecordsAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.SimpleDividerDecoration;
+import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.luck.picture.lib.tools.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -186,7 +186,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
             ReadRecordEntity data = (ReadRecordEntity) adapter.getItem(position);
             assert data != null;
             if (data.getProfileNovel() == null) {
-                ToastUtils.s(ReadingRecordActivity.this, "正在删除空的书籍记录...");
+                Tos.showShort(ReadingRecordActivity.this, "正在删除空的书籍记录...");
                 reqDeleteBookRecord("" + data.getId());
                 return;
             }

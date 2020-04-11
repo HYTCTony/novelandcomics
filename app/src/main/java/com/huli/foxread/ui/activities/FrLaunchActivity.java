@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.activities;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,12 +46,16 @@ import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class FrLaunchActivity extends BaseActivity {
+public class FrLaunchActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     private ConstraintLayout layoutAdvertising;
     private Button btnSkip;
@@ -109,7 +115,10 @@ public class FrLaunchActivity extends BaseActivity {
         mHandler.sendEmptyMessageDelayed(9, 800);
     }
 
-    private void start() {
+    /**
+     * 启动
+     */
+    private void startInit() {
         //token为空 判定为APP安装后第一次登录，反之。
         String token = TokenCache.getToken(this);
 
@@ -151,7 +160,7 @@ public class FrLaunchActivity extends BaseActivity {
                     mHandler.sendEmptyMessageDelayed(0, 1000);
                 }
             } else if (msg.what == 9) {
-                start();
+                statrInitTask();
             }
             return false;
         }
@@ -343,6 +352,50 @@ public class FrLaunchActivity extends BaseActivity {
         } catch (Exception e) {
             return false;
         }
+    }
+
+
+    private static final int RC_PHONE_STATE_PERM = 124;
+    //    private static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
+    private static final String[] READ_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+
+    private boolean hasPhoneStatePermissions() {
+        return EasyPermissions.hasPermissions(this, READ_PHONE_STATE);
+    }
+
+    @AfterPermissionGranted(RC_PHONE_STATE_PERM)
+    public void statrInitTask() {
+        if (hasPhoneStatePermissions()) {
+            startInit();
+        } else {
+            EasyPermissions.requestPermissions(this,
+                    getString(R.string.rationale_phone_state),
+                    RC_PHONE_STATE_PERM,
+                    READ_PHONE_STATE);
+        }
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+//        Log.e(TAG, "onPermissionsGranted");
+        //如果有注解AfterPermissionGranted --- 有些权限不授予，有些不授予会调用这个方法；全部授予权限这回调用AfterPermissionGrantedd注解的方法
+        /*if (!EasyPermissions.somePermissionPermanentlyDenied(this, Arrays.asList(READ_PHONE_STATE))) {
+        Log.e(TAG, "dsdsds");
+            startInit();
+        }*/
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+//        Log.e(TAG, "onPermissionsDenied");
+        startInit();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
 }

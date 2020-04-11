@@ -149,7 +149,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         MineWelfareZoneEntity data = wzAdapter.getData().get(position);
-        ClickJumpUtil.handleJump(mActivity, data.getLink(), data.getJump(), data.getNeed_login());
+        ClickJumpUtil.handleJump(mActivity, data.getLink(), data.getJump());
     }
 
     @Override

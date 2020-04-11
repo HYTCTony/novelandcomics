@@ -23,12 +23,12 @@ import com.huli.foxread.entity.SignInDetailEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
 import com.huli.foxread.ui.adapters.WeekSignInStateAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.widget.TaskProgressBar;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
