@@ -192,7 +192,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         tvTotalReadingTimeToday.setText(event.getReadMin());
     }
 
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -204,13 +203,13 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         List<BookShelfListBean> datas = mAdapter.getData();
-        if (position != this.data.size() - 1) {
+        if (position != datas.size() - 1) {
             BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
             if (bean.getIsLocal()) {
                 Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
                 return;
             }
-            ReadBookActivity.start(mActivity, bean, true, 0);
+            ReadBookActivity.start(mActivity, bean, true, -1);
         } else {
             ((MainActivity) mActivity).switch2Bookstore();
         }
@@ -277,6 +276,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                     m.setAccessible(true);
                     m.invoke(menu, true);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }

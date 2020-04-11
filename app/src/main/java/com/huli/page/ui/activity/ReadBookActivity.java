@@ -140,7 +140,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private boolean isNightMode = false;
     private boolean isFullScreen = false;
     private boolean isRegistered = false;
-    private int chapter = 0; // 如果是0，则跳转到上一次阅读的页码
+    private int chapter = -1; // 如果是-1，则使用本地阅读记录
     private String mBookId;
     private static final int WHAT_CATEGORY = 1;
     private static final int WHAT_CHAPTER = 2;
@@ -184,7 +184,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         /*初始化数据*/
         data = (BookShelfListBean) getIntent().getSerializableExtra(EXTRA_COLL_BOOK);
         isCollected = getIntent().getBooleanExtra(EXTRA_IS_COLLECTED, false);
-        chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, 0);
+        chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, -1);
         isNightMode = ReadSettingManager.getInstance().isNightMode();
         isFullScreen = ReadSettingManager.getInstance().isFullScreen();
         mBookId = data.getNovel_id();
@@ -227,7 +227,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "keep bright");
         //获取目录
         loadCategory();
-        if (chapter != 0) {
+        if (chapter != -1) {
             mPageLoader.skipToChapter(chapter);
         }
         mPageLoader.setOnPageChangeListener(new ReadLoader.OnPageChangeListener() {
@@ -381,7 +381,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     public void reqAddBookrack(String data) {
         exit();
-        showToast(data);
     }
 
     @Override
@@ -685,7 +684,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             return;
         }
 
-        if (!data.getIsLocal() && !isCollected && !data.getBookChapters().isEmpty()) {
+        if (!data.getIsLocal() && !isCollected && data.getBookChapters() != null && !data.getBookChapters().isEmpty()) {
             MessageDialog.show(ReadBookActivity.this, "加入书架", "喜欢本书就加入书架吧", "确定", "取消")
                     .setCancelable(true)
                     .setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
@@ -746,9 +745,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     private void showSystemBar() {
         if (isFullScreen) {
+            SystemBarUtils.cancelFullScreen(mContext);
             appBarLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
             llDrawerLayout.setPadding(0, ScreenUtils.getStatusBarHeight(), 0, 0);
-            SystemBarUtils.cancelFullScreen(mContext);
             StatusBarUtils.setColor(mContext, ContextCompat.getColor(mContext, R.color.black), 0);
             StatusBarUtils.setAndroidNativeLightStatusBar(mContext, false);
         }
@@ -759,7 +758,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             appBarLayout.setPadding(0, 0, 0, 0);
             llDrawerLayout.setPadding(0, 0, 0, 0);
             NotchTools.getFullScreenTools().fullScreenUseStatus(mContext);
-            SystemBarUtils.hideStableNavBar(mContext);
         }
     }
 

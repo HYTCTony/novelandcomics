@@ -54,8 +54,11 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <!--openinstall-->
+                <!--<data android:scheme="hb3e2m" />-->
+                <!--shareinstall-->
+                <data android:scheme="fefd1097" />
 
-                <data android:scheme="hb3e2m" />
             </intent-filter>
         </activity>
 
@@ -381,6 +384,11 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
+
+        <!--shareinstall-->
+        <meta-data
+            android:name="com.shareinstall.APP_KEY"
+            android:value="A7BKRKRABH6EFH"/>
     </application>
 
 </manifest>

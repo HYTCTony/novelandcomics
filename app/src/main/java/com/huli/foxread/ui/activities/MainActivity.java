@@ -7,16 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.fm.openinstall.OpenInstall;
-import com.fm.openinstall.listener.AppInstallAdapter;
-import com.fm.openinstall.listener.AppWakeUpAdapter;
-import com.fm.openinstall.model.AppData;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache2;
@@ -40,10 +37,16 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.sh.sdk.shareinstall.ShareInstall;
+import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
+import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
+import com.sh.sdk.shareinstall.listener.AppGetInstallListener;
+import com.sh.sdk.shareinstall.listener.AppGetWakeUpListener;
 import com.umeng.message.inapp.IUmengInAppMsgCloseCallback;
 import com.umeng.message.inapp.InAppMessageManager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -114,21 +117,53 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         if (!hasGetUserinfo) {
             reqUserInfo();
         }
-
         //获取唤醒参数
-        OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
+//      OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
+//
+//      OpenInstall.getInstall(new AppInstallAdapter() {
+//          @Override
+//          public void onInstall(AppData appData) {
+//              //获取渠道数据
+//              String channelCode = appData.getChannel();
+//              //获取自定义数据
+//              String bindData = appData.getData();
+//              Log.d("OpenInstall", "OpenInstall : installData = " + appData.toString());
+//              Toast.makeText(mContext, "OpenInstall : installData_install = " + appData.toString(), Toast.LENGTH_LONG).show();
+//          }
+//       });
+        // 获取唤醒参数
+        ShareInstall.getInstance().getWakeUpParams(getIntent(), wakeUpListener);
 
-        OpenInstall.getInstall(new AppInstallAdapter() {
+        ShareInstall.getInstance().getInstallParams(new AppGetInstallListener() {
             @Override
-            public void onInstall(AppData appData) {
-                //获取渠道数据
-                String channelCode = appData.getChannel();
-                //获取自定义数据
-                String bindData = appData.getData();
-                Log.d("OpenInstall", "getInstall : installData = " + appData.toString());
+            public void onGetInstallFinish(String info) {
+                // 客户端获取到的参数是json字符串格式
+                Log.d("ShareInstall", "info = " + info);
+                try {
+                    org.json.JSONObject object = new org.json.JSONObject(info);
+                    // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
+                    String channel = object.optString("channel");
+                    Log.d("ShareInstall", "channel = " + channel);
+                    Log.d("ShareInstall", "ShareInstall : installData_install = = " + info);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
+        AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
+            @Override
+            public void onPreGetNumberSuccess(String secureMobile) {
+                Log.e(TAG, "预取号成功：" + secureMobile);
+                Toast.makeText(mContext, "预取号成功", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onPreGetNumberError(final String msg) {
+                Log.e(TAG, "预取号失败：" + msg);
+                Toast.makeText(mContext, "预取号失败", Toast.LENGTH_LONG).show();
+            }
+        });
 
        /* PushAgent pushAgent = PushAgent.getInstance(this);
         pushAgent.setMessageHandler(new UmengMessageHandler(){
@@ -152,17 +187,37 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         // 此处要调用，否则App在后台运行时，会无法截获
-        OpenInstall.getWakeUp(intent, wakeUpAdapter);
+//        OpenInstall.getWakeUp(intent, wakeUpAdapter);
+        ShareInstall.getInstance().getWakeUpParams(intent, wakeUpListener);
     }
 
-    AppWakeUpAdapter wakeUpAdapter = new AppWakeUpAdapter() {
+//    AppWakeUpAdapter wakeUpAdapter = new AppWakeUpAdapter() {
+//        @Override
+//        public void onWakeUp(AppData appData) {
+//            //获取渠道数据
+//            String channelCode = appData.getChannel();
+//            //获取绑定数据
+//            String bindData = appData.getData();
+//            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString());
+//            Toast.makeText(MainActivity.this, "OpenInstall_wake : installData = " + appData.toString(), Toast.LENGTH_LONG).show();
+//        }
+//    };
+
+    // 注意：SDK调用getWakeUpParams方法获取参数是异步操作，请确保在onGetWakeUpFinish回调中拿到参数后才去处理自己的业务逻辑
+    private AppGetWakeUpListener wakeUpListener = new AppGetWakeUpListener() {
         @Override
-        public void onWakeUp(AppData appData) {
-            //获取渠道数据
-            String channelCode = appData.getChannel();
-            //获取绑定数据
-            String bindData = appData.getData();
-            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString());
+        public void onGetWakeUpFinish(String info) {
+            // 客户端获取到的参数是json字符串格式
+            Log.d("ShareInstall", "info = " + info);
+            try {
+                org.json.JSONObject object = new org.json.JSONObject(info);
+                // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
+                String channel = object.optString("channel");
+                Log.d("ShareInstall", "channel = " + channel);
+                Log.d("ShareInstall", "ShareInstall_wake : installData =  = " + info);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     };
 
@@ -186,7 +241,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        wakeUpAdapter = null;
+//        wakeUpAdapter = null;
+        wakeUpListener = null;
     }
 
     @Override
@@ -213,7 +269,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     }
                 }
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
     }

@@ -91,7 +91,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private String nId;
 
     private boolean isCollected = false;
-    private int chapter = 0;
+    private int chapter = -1;
 
    /* public static void start(Context context, int bookId) {
         Intent starter = new Intent(context, BookDetailsActivity.class);
@@ -242,11 +242,11 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 reqAddBookrack(nId);
                 break;
             case R.id.btn_begin_reading_dt:
-                if (chapter >= 0) {
-                    openBook(chapter);
-                } else {
-                    Toast.makeText(BookDetailsActivity.this, "获取章节失败！", Toast.LENGTH_SHORT).show();
+                if (chapters.isEmpty()) {
+                    TipDialog.show(BookDetailsActivity.this, "获取章节失败！", TipDialog.TYPE.ERROR);
+                    return;
                 }
+                openBook(chapter);
                 break;
             default:
                 break;

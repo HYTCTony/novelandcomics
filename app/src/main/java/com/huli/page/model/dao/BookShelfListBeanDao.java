@@ -42,18 +42,19 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         public final static Property Word = new Property(15, int.class, "word", false, "WORD");
         public final static Property Is_new = new Property(16, int.class, "is_new", false, "IS_NEW");
         public final static Property Is_hot = new Property(17, int.class, "is_hot", false, "IS_HOT");
-        public final static Property Reading_size = new Property(18, int.class, "reading_size", false, "READING_SIZE");
-        public final static Property Introduce = new Property(19, String.class, "introduce", false, "INTRODUCE");
-        public final static Property Http_image = new Property(20, String.class, "http_image", false, "HTTP_IMAGE");
-        public final static Property Chapter_sum = new Property(21, int.class, "chapter_sum", false, "CHAPTER_SUM");
-        public final static Property Is_exist_bookshelf = new Property(22, int.class, "is_exist_bookshelf", false, "IS_EXIST_BOOKSHELF");
-        public final static Property Createtime = new Property(23, long.class, "createtime", false, "CREATETIME");
-        public final static Property Updatetime = new Property(24, long.class, "updatetime", false, "UPDATETIME");
-        public final static Property Deletetime = new Property(25, long.class, "deletetime", false, "DELETETIME");
-        public final static Property LastRead = new Property(26, String.class, "lastRead", false, "LAST_READ");
-        public final static Property LastChapter = new Property(27, String.class, "lastChapter", false, "LAST_CHAPTER");
-        public final static Property IsUpdate = new Property(28, boolean.class, "isUpdate", false, "IS_UPDATE");
-        public final static Property IsLocal = new Property(29, boolean.class, "isLocal", false, "IS_LOCAL");
+        public final static Property Is_copyright = new Property(18, int.class, "is_copyright", false, "IS_COPYRIGHT");
+        public final static Property Reading_size = new Property(19, int.class, "reading_size", false, "READING_SIZE");
+        public final static Property Introduce = new Property(20, String.class, "introduce", false, "INTRODUCE");
+        public final static Property Http_image = new Property(21, String.class, "http_image", false, "HTTP_IMAGE");
+        public final static Property Chapter_sum = new Property(22, int.class, "chapter_sum", false, "CHAPTER_SUM");
+        public final static Property Is_exist_bookshelf = new Property(23, int.class, "is_exist_bookshelf", false, "IS_EXIST_BOOKSHELF");
+        public final static Property Createtime = new Property(24, long.class, "createtime", false, "CREATETIME");
+        public final static Property Updatetime = new Property(25, long.class, "updatetime", false, "UPDATETIME");
+        public final static Property Deletetime = new Property(26, long.class, "deletetime", false, "DELETETIME");
+        public final static Property LastRead = new Property(27, String.class, "lastRead", false, "LAST_READ");
+        public final static Property LastChapter = new Property(28, String.class, "lastChapter", false, "LAST_CHAPTER");
+        public final static Property IsUpdate = new Property(29, boolean.class, "isUpdate", false, "IS_UPDATE");
+        public final static Property IsLocal = new Property(30, boolean.class, "isLocal", false, "IS_LOCAL");
     }
 
     private DaoSession daoSession;
@@ -90,18 +91,19 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
                 "\"WORD\" INTEGER NOT NULL ," + // 15: word
                 "\"IS_NEW\" INTEGER NOT NULL ," + // 16: is_new
                 "\"IS_HOT\" INTEGER NOT NULL ," + // 17: is_hot
-                "\"READING_SIZE\" INTEGER NOT NULL ," + // 18: reading_size
-                "\"INTRODUCE\" TEXT," + // 19: introduce
-                "\"HTTP_IMAGE\" TEXT," + // 20: http_image
-                "\"CHAPTER_SUM\" INTEGER NOT NULL ," + // 21: chapter_sum
-                "\"IS_EXIST_BOOKSHELF\" INTEGER NOT NULL ," + // 22: is_exist_bookshelf
-                "\"CREATETIME\" INTEGER NOT NULL ," + // 23: createtime
-                "\"UPDATETIME\" INTEGER NOT NULL ," + // 24: updatetime
-                "\"DELETETIME\" INTEGER NOT NULL ," + // 25: deletetime
-                "\"LAST_READ\" TEXT," + // 26: lastRead
-                "\"LAST_CHAPTER\" TEXT," + // 27: lastChapter
-                "\"IS_UPDATE\" INTEGER NOT NULL ," + // 28: isUpdate
-                "\"IS_LOCAL\" INTEGER NOT NULL );"); // 29: isLocal
+                "\"IS_COPYRIGHT\" INTEGER NOT NULL ," + // 18: is_copyright
+                "\"READING_SIZE\" INTEGER NOT NULL ," + // 19: reading_size
+                "\"INTRODUCE\" TEXT," + // 20: introduce
+                "\"HTTP_IMAGE\" TEXT," + // 21: http_image
+                "\"CHAPTER_SUM\" INTEGER NOT NULL ," + // 22: chapter_sum
+                "\"IS_EXIST_BOOKSHELF\" INTEGER NOT NULL ," + // 23: is_exist_bookshelf
+                "\"CREATETIME\" INTEGER NOT NULL ," + // 24: createtime
+                "\"UPDATETIME\" INTEGER NOT NULL ," + // 25: updatetime
+                "\"DELETETIME\" INTEGER NOT NULL ," + // 26: deletetime
+                "\"LAST_READ\" TEXT," + // 27: lastRead
+                "\"LAST_CHAPTER\" TEXT," + // 28: lastChapter
+                "\"IS_UPDATE\" INTEGER NOT NULL ," + // 29: isUpdate
+                "\"IS_LOCAL\" INTEGER NOT NULL );"); // 30: isLocal
     }
 
     /** Drops the underlying database table. */
@@ -167,34 +169,35 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         stmt.bindLong(16, entity.getWord());
         stmt.bindLong(17, entity.getIs_new());
         stmt.bindLong(18, entity.getIs_hot());
-        stmt.bindLong(19, entity.getReading_size());
+        stmt.bindLong(19, entity.getIs_copyright());
+        stmt.bindLong(20, entity.getReading_size());
  
         String introduce = entity.getIntroduce();
         if (introduce != null) {
-            stmt.bindString(20, introduce);
+            stmt.bindString(21, introduce);
         }
  
         String http_image = entity.getHttp_image();
         if (http_image != null) {
-            stmt.bindString(21, http_image);
+            stmt.bindString(22, http_image);
         }
-        stmt.bindLong(22, entity.getChapter_sum());
-        stmt.bindLong(23, entity.getIs_exist_bookshelf());
-        stmt.bindLong(24, entity.getCreatetime());
-        stmt.bindLong(25, entity.getUpdatetime());
-        stmt.bindLong(26, entity.getDeletetime());
+        stmt.bindLong(23, entity.getChapter_sum());
+        stmt.bindLong(24, entity.getIs_exist_bookshelf());
+        stmt.bindLong(25, entity.getCreatetime());
+        stmt.bindLong(26, entity.getUpdatetime());
+        stmt.bindLong(27, entity.getDeletetime());
  
         String lastRead = entity.getLastRead();
         if (lastRead != null) {
-            stmt.bindString(27, lastRead);
+            stmt.bindString(28, lastRead);
         }
  
         String lastChapter = entity.getLastChapter();
         if (lastChapter != null) {
-            stmt.bindString(28, lastChapter);
+            stmt.bindString(29, lastChapter);
         }
-        stmt.bindLong(29, entity.getIsUpdate() ? 1L: 0L);
-        stmt.bindLong(30, entity.getIsLocal() ? 1L: 0L);
+        stmt.bindLong(30, entity.getIsUpdate() ? 1L: 0L);
+        stmt.bindLong(31, entity.getIsLocal() ? 1L: 0L);
     }
 
     @Override
@@ -254,34 +257,35 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         stmt.bindLong(16, entity.getWord());
         stmt.bindLong(17, entity.getIs_new());
         stmt.bindLong(18, entity.getIs_hot());
-        stmt.bindLong(19, entity.getReading_size());
+        stmt.bindLong(19, entity.getIs_copyright());
+        stmt.bindLong(20, entity.getReading_size());
  
         String introduce = entity.getIntroduce();
         if (introduce != null) {
-            stmt.bindString(20, introduce);
+            stmt.bindString(21, introduce);
         }
  
         String http_image = entity.getHttp_image();
         if (http_image != null) {
-            stmt.bindString(21, http_image);
+            stmt.bindString(22, http_image);
         }
-        stmt.bindLong(22, entity.getChapter_sum());
-        stmt.bindLong(23, entity.getIs_exist_bookshelf());
-        stmt.bindLong(24, entity.getCreatetime());
-        stmt.bindLong(25, entity.getUpdatetime());
-        stmt.bindLong(26, entity.getDeletetime());
+        stmt.bindLong(23, entity.getChapter_sum());
+        stmt.bindLong(24, entity.getIs_exist_bookshelf());
+        stmt.bindLong(25, entity.getCreatetime());
+        stmt.bindLong(26, entity.getUpdatetime());
+        stmt.bindLong(27, entity.getDeletetime());
  
         String lastRead = entity.getLastRead();
         if (lastRead != null) {
-            stmt.bindString(27, lastRead);
+            stmt.bindString(28, lastRead);
         }
  
         String lastChapter = entity.getLastChapter();
         if (lastChapter != null) {
-            stmt.bindString(28, lastChapter);
+            stmt.bindString(29, lastChapter);
         }
-        stmt.bindLong(29, entity.getIsUpdate() ? 1L: 0L);
-        stmt.bindLong(30, entity.getIsLocal() ? 1L: 0L);
+        stmt.bindLong(30, entity.getIsUpdate() ? 1L: 0L);
+        stmt.bindLong(31, entity.getIsLocal() ? 1L: 0L);
     }
 
     @Override
@@ -316,18 +320,19 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             cursor.getInt(offset + 15), // word
             cursor.getInt(offset + 16), // is_new
             cursor.getInt(offset + 17), // is_hot
-            cursor.getInt(offset + 18), // reading_size
-            cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // introduce
-            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // http_image
-            cursor.getInt(offset + 21), // chapter_sum
-            cursor.getInt(offset + 22), // is_exist_bookshelf
-            cursor.getLong(offset + 23), // createtime
-            cursor.getLong(offset + 24), // updatetime
-            cursor.getLong(offset + 25), // deletetime
-            cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26), // lastRead
-            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // lastChapter
-            cursor.getShort(offset + 28) != 0, // isUpdate
-            cursor.getShort(offset + 29) != 0 // isLocal
+            cursor.getInt(offset + 18), // is_copyright
+            cursor.getInt(offset + 19), // reading_size
+            cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20), // introduce
+            cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21), // http_image
+            cursor.getInt(offset + 22), // chapter_sum
+            cursor.getInt(offset + 23), // is_exist_bookshelf
+            cursor.getLong(offset + 24), // createtime
+            cursor.getLong(offset + 25), // updatetime
+            cursor.getLong(offset + 26), // deletetime
+            cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // lastRead
+            cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // lastChapter
+            cursor.getShort(offset + 29) != 0, // isUpdate
+            cursor.getShort(offset + 30) != 0 // isLocal
         );
         return entity;
     }
@@ -352,18 +357,19 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         entity.setWord(cursor.getInt(offset + 15));
         entity.setIs_new(cursor.getInt(offset + 16));
         entity.setIs_hot(cursor.getInt(offset + 17));
-        entity.setReading_size(cursor.getInt(offset + 18));
-        entity.setIntroduce(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setHttp_image(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
-        entity.setChapter_sum(cursor.getInt(offset + 21));
-        entity.setIs_exist_bookshelf(cursor.getInt(offset + 22));
-        entity.setCreatetime(cursor.getLong(offset + 23));
-        entity.setUpdatetime(cursor.getLong(offset + 24));
-        entity.setDeletetime(cursor.getLong(offset + 25));
-        entity.setLastRead(cursor.isNull(offset + 26) ? null : cursor.getString(offset + 26));
-        entity.setLastChapter(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
-        entity.setIsUpdate(cursor.getShort(offset + 28) != 0);
-        entity.setIsLocal(cursor.getShort(offset + 29) != 0);
+        entity.setIs_copyright(cursor.getInt(offset + 18));
+        entity.setReading_size(cursor.getInt(offset + 19));
+        entity.setIntroduce(cursor.isNull(offset + 20) ? null : cursor.getString(offset + 20));
+        entity.setHttp_image(cursor.isNull(offset + 21) ? null : cursor.getString(offset + 21));
+        entity.setChapter_sum(cursor.getInt(offset + 22));
+        entity.setIs_exist_bookshelf(cursor.getInt(offset + 23));
+        entity.setCreatetime(cursor.getLong(offset + 24));
+        entity.setUpdatetime(cursor.getLong(offset + 25));
+        entity.setDeletetime(cursor.getLong(offset + 26));
+        entity.setLastRead(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
+        entity.setLastChapter(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
+        entity.setIsUpdate(cursor.getShort(offset + 29) != 0);
+        entity.setIsLocal(cursor.getShort(offset + 30) != 0);
      }
     
     @Override

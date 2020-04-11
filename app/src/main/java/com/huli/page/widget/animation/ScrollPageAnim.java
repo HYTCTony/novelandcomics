@@ -262,8 +262,7 @@ public class ScrollPageAnim extends PageAnimation {
      * @param paddingLeft
      * @param paddingTop
      */
-    private void eraseBitmap(Bitmap b, int width, int height,
-                             int paddingLeft, int paddingTop) {
+    private void eraseBitmap(Bitmap b, int width, int height, int paddingLeft, int paddingTop) {
      /*   if (mInitBitmapPix == null) return;
         b.setPixels(mInitBitmapPix, 0, width, paddingLeft, paddingTop, width, height);*/
     }

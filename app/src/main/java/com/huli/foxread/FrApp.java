@@ -4,12 +4,13 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.fm.openinstall.OpenInstall;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
+import com.huli.foxread.utils.AutoLoginUtils;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
@@ -23,6 +24,10 @@ import com.scwang.smartrefresh.layout.api.RefreshFooter;
 import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
+import com.sh.sdk.shareinstall.ShareInstall;
+import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
+import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginInitListener;
+import com.sh.sdk.shareinstall.listener.SDKInitListener;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.umeng.analytics.MobclickAgent;
@@ -99,7 +104,32 @@ public class FrApp extends Application implements ActivityState {
         initUMeng();     //友盟
 
         if (isMainProcess()) {
-            OpenInstall.init(this);
+//            OpenInstall.init(this);
+            ShareInstall.getInstance().init(getApplicationContext(), new SDKInitListener() {
+                @Override
+                public void onSuccess() {
+                    Log.e("Application", "onInitSuccess");
+                }
+
+                @Override
+                public void onError(String s) {
+                    Log.e("Application", "onInitError:" + s);
+                }
+            });
+            AutoLoginManager.getInstance().initAvoidPwd(sInstance, AutoLoginUtils.getCmccConfig(), AutoLoginUtils.getAuthViewDynamicConfig(sInstance),
+                    AutoLoginUtils.getUnicomConfig(), new AvoidPwdLoginInitListener() {
+                        @Override
+                        public void onInitSuccess() {
+                            Toast.makeText(sInstance, "初始化三网SDK成功", Toast.LENGTH_SHORT).show();
+                            Log.e("Application", " AutoLogin onInitSuccess");
+                        }
+
+                        @Override
+                        public void onInitError(String s) {
+                            Toast.makeText(sInstance, "初始化三网SDK失败: " + s, Toast.LENGTH_SHORT).show();
+                            Log.e("Application", " AutoLogin onInitError = " + s);
+                        }
+                    });
         }
     }
 
@@ -212,6 +242,11 @@ public class FrApp extends Application implements ActivityState {
 
     }
 
+    /**
+     * 判断当前进程是否是应用的主进程
+     *
+     * @return
+     */
     public boolean isMainProcess() {
         int pid = android.os.Process.myPid();
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);

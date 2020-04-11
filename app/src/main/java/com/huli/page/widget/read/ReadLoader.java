@@ -50,7 +50,7 @@ public abstract class ReadLoader {
     public static final int STATUS_CATEGORY_EMPTY = 7;  // 获取到的目录为空
     // 默认的显示参数配置
     private static final int DEFAULT_MARGIN_HEIGHT = 32;
-    private static final int DEFAULT_MARGIN_WIDTH = 24;
+    private static final int DEFAULT_MARGIN_WIDTH = 20;
     private static final int DEFAULT_TIP_SIZE = 12;
     private static final int EXTRA_TITLE_SIZE = 4;
 
@@ -147,7 +147,7 @@ public abstract class ReadLoader {
         mPageView = pageView;
         mContext = pageView.getContext();
         mCollBook = collBook;
-        mChapterList = new ArrayList<>(1);
+        mChapterList = new ArrayList<>();
 
         // 初始化数据
         initData();

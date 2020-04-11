@@ -3,8 +3,8 @@ package com.huli.foxread.contact;
 public interface Consts {
     String DOWNLOAD_URL = "https://download.hulimedia.com/";
 
-//    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
-    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
+    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
     String NOT_CPL_URL = BASE_URL + "/api/v1";
 
     /*帮助反馈*/
@@ -23,6 +23,7 @@ public interface Consts {
     String SIGN_IN_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=6";
 
     String USE_UNIQUE_ID_LOGIN_OR_REG_API = NOT_CPL_URL + Func.USER_VISITOR_LOGIN;
+    String USE_PHONE_ONEKEY_LOGIN = NOT_CPL_URL + Func.USER_ONEKEY_LOGIN;
     String USER_SET_GENDER_API = NOT_CPL_URL + Func.USER_SET_GENDER;
     String USERS_INFO_API = NOT_CPL_URL + Func.USER_INFO;
     String USER_CAPITAL_API = NOT_CPL_URL + Func.USER_CAPITAL;

@@ -264,8 +264,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 .params(Consts.CAPTCHA, authCode)
                 .params(Consts.UNIQUE_ID, uniqueID)
                 .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                        }) {
+                        new TypeReference<LzyResponse<LoginRpsEntity>>() {}) {
                     @Override
                     public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
                         if (response.body().error_code == 0) {

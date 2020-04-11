@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,7 +45,6 @@ import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -356,8 +354,8 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
 
     private static final int RC_PHONE_STATE_PERM = 124;
-    //    private static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
-    private static final String[] READ_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+        private static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
+//    private static final String[] READ_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
     private boolean hasPhoneStatePermissions() {
         return EasyPermissions.hasPermissions(this, READ_PHONE_STATE);

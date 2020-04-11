@@ -11,6 +11,11 @@ public interface Func {
     String USER_VISITOR_LOGIN = "/login/visitor";
 
     /**
+     * 用途：使用手机号码一键登录（POST）
+     */
+    String USER_ONEKEY_LOGIN = "/login/cipher";
+
+    /**
      * 用途：设置性别---来书籍推荐
      * 头：token---token
      * 参数：

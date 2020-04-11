@@ -237,7 +237,7 @@
             android:text="仿真"
             android:textColor="#CBCBCB"
             android:textSize="14dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <RadioButton
             android:id="@+id/read_setting_rb_cover"
