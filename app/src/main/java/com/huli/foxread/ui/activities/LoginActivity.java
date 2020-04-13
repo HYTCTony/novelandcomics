@@ -10,6 +10,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,8 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
+import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -58,10 +61,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private TextView tvAgreement;
     private Button btnLogin;
     private TextView btnLoginWechat;
+    private TextView btnOneClickLogin;
 
     private EditText etPhoneNum, etAuthCode;
 
     public static final int REQCODE_LOGIN = 0x1688;
+
     public static void start4Result(Activity context, int reqCode) {
         Intent starter = new Intent(context, LoginActivity.class);
         context.startActivityForResult(starter, reqCode);
@@ -101,6 +106,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tvAgreement = $(R.id.tv_login_agreement);
         btnLogin = $(R.id.btn_login_cellphone);
         btnLoginWechat = $(R.id.tv_asBtn_login_wechat);
+        btnOneClickLogin = $(R.id.tv_asBtn_login_one_click);
 
         etPhoneNum = $(R.id.et_phone_number);
         etAuthCode = $(R.id.et_login_authCode);
@@ -112,6 +118,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         tBtnVCode.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnLoginWechat.setOnClickListener(this);
+        btnOneClickLogin.setOnClickListener(this);
     }
 
     @Override
@@ -217,6 +224,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     }
                 });
                 break;
+            case R.id.tv_asBtn_login_one_click:
+                oneClickLogin();
+                break;
             default:
                 break;
         }
@@ -264,7 +274,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 .params(Consts.CAPTCHA, authCode)
                 .params(Consts.UNIQUE_ID, uniqueID)
                 .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {}) {
+                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
+                        }) {
                     @Override
                     public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
                         if (response.body().error_code == 0) {
@@ -362,6 +373,75 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     public void onError(Response<LzyResponse<FUser>> response) {
                         super.onError(response);
                         TipDialog.dismiss();
+                    }
+                });
+    }
+
+    /**
+     * 一键登录 调起
+     */
+    private void oneClickLogin() {
+        AutoLoginManager.getInstance().doAvoidPwdLogin(this, new AvoidPwdLoginListener() {
+            @Override
+            public void onGetLoginTokenSuccess(String operatorType, String token, String secureMobile) {
+//                Log.e(TAG, "operatorType>>" + operatorType + ">>token>>" + token + ">>secureMobile>>" + secureMobile);
+                /*
+                 * operatorType 运营商类型  1电信 2移动 3联通
+                 * token 移动联通为登录token    电信为accessCode
+                 * secureMobile 移动联通为带星手机号  电信为authCode
+                 */
+                getPhoneNum(operatorType, token, secureMobile);
+                AutoLoginManager.getInstance().closeOperatorActivity();
+            }
+
+            @Override
+            public void onGetLoginTokenFaild(String operatorType, String code, final String errorMsg) {
+                /*
+                 *operatorType 运营商类型  1电信 2移动 3联通
+                 * code  1001用户关闭授权页取消授权 1002其他错误
+                 * errorMsg 错误消息
+                 * errorResultCode 运营商返回的错误码
+                 */
+//                Log.e(TAG, "获取授权码失败：" + errorMsg);
+                AutoLoginManager.getInstance().closeOperatorActivity();
+            }
+
+            @Override
+            public void onOtherWayLogin() {
+                Log.e(TAG, "点击其他登录方式");
+                AutoLoginManager.getInstance().closeOperatorActivity();
+            }
+        });
+    }
+
+
+    /**
+     * 通过运营商一键登录返回的token 调用自身登录
+     * @param operatorType
+     * @param uToken    电信运营商的token
+     * @param authCode
+     */
+    private void getPhoneNum(String operatorType, String uToken, String authCode) {
+        String uniqueID = UniqueIdManager.getUniqueID(this);
+        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USE_PHONE_ONEKEY_LOGIN)
+                .params(Consts.TYPE, operatorType)
+                .params("authCode", operatorType.equals("1") ? authCode : "")
+                .params(Consts.TOKEN, uToken)
+                .params("plantFrom", "1")
+                .params(Consts.UNIQUE_ID, uniqueID)
+                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
+                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
+                        if (response.body().error_code == 0) {
+                            LoginRpsEntity data = response.body().getData();
+                            TokenCache.saveToken(LoginActivity.this, data.getToken());
+
+                            reqUserInfo();
+                        } else {
+                            TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
+                        }
                     }
                 });
     }

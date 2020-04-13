@@ -348,6 +348,10 @@
     <string name="expand">展开</string>
     <string name="collapse">收起</string>
 
+    <string name="txt_one_click_login">一键登录</string>
+    <string name="txt_native_phone_num_one_click_login">本机号码一键登录</string>
+    <string name="txt_other_ways_2_login">其他方式登录</string>
+
     <string name="rationale_phone_state">我们需要获取读取手机状态权限，以完整使用相关功能。</string>
     <string name="txt_no_relevant_permission">没有相关权限</string>
     <string name="yes">Yes</string>

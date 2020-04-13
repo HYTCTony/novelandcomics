@@ -40,8 +40,8 @@ android {
 //            keyPassword "hytc1688"
         }
         release {// 自己的签名文件
-//            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
-            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
+            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+//            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
             storePassword "hytc1688"
             keyAlias "hytc"
             keyPassword "hytc1688"
@@ -112,7 +112,7 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.13'
@@ -191,19 +191,19 @@ dependencies {
     //PushSDK
 
     //shareSDK
-    implementation files('libs/umeng-share-QQ-simplify-6.9.8.jar')
+    /*implementation files('libs/umeng-share-QQ-simplify-6.9.8.jar')
     implementation files('libs/umeng-share-core-6.9.8.jar')
     implementation files('libs/umeng-share-wechat-simplify-6.9.8.jar')
     implementation files('libs/umeng-shareboard-widget-6.9.8.jar')
-    implementation files('libs/umeng-sharetool-6.9.8.jar')
+    implementation files('libs/umeng-sharetool-6.9.8.jar')*/
     //********************友盟************************
     //微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.4.0'
     //Alipay支付
-    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
+//    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
     //openinstall
-    implementation files('libs/OpenInstall_v2.3.1.jar')
-    compile(name: 'CTAccountSdk_HY_v3.7.2_armeabi', ext: 'aar')
-    compile(name: 'ShareInstall_v1.2.6', ext: 'aar')
-    compile(name: 'ShareInstallAutoLogin_v1.2.6', ext: 'aar')
+//    implementation files('libs/OpenInstall_v2.3.1.jar')
+//    implementation(name: 'CTAccountSdk_HY_v3.7.2_armeabi', ext: 'aar')
+//    implementation(name: 'ShareInstall_v1.2.6', ext: 'aar')
+//    implementation(name: 'ShareInstallAutoLogin_v1.2.6', ext: 'aar')
 }

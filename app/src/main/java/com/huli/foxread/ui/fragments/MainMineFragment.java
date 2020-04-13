@@ -3,7 +3,6 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +27,7 @@ import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
+import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.MyPrivilegeActivity;
@@ -43,6 +43,9 @@ import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.UniqueIdManager;
+import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
+import com.kongzue.dialog.util.BaseDialog;
+import com.kongzue.dialog.v3.FullScreenDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -272,40 +275,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.btn_login_mine:
-//                LoginActivity.start(mActivity);
-                AutoLoginManager.getInstance().doAvoidPwdLogin(getActivity(), new AvoidPwdLoginListener() {
-
-                    @Override
-                    public void onGetLoginTokenSuccess(String operatorType, String token, String secureMobile) {
-                        Log.e(TAG, "operatorType>>" + operatorType + ">>token>>" + token + ">>secureMobile>>" + secureMobile);
-                        /**
-                         * operatorType 运营商类型  1电信 2移动 3联通
-                         * token 移动联通为登录token    电信为accessCode
-                         * secureMobile 移动联通为带星手机号  电信为authCode
-                         */
-                        getPhoneNum(operatorType, token, secureMobile);
-                        AutoLoginManager.getInstance().closeOperatorActivity();
-                    }
-
-                    @Override
-                    public void onGetLoginTokenFaild(String operatorType, String code, final String errorMsg) {
-                        /**
-                         *
-                         *operatorType 运营商类型  1电信 2移动 3联通
-                         * code  1001用户关闭授权页取消授权 1002其他错误
-                         * errorMsg 错误消息
-                         * errorResultCode 运营商返回的错误码
-                         */
-                        Log.e(TAG, "获取授权码失败：" + errorMsg);
-                        AutoLoginManager.getInstance().closeOperatorActivity();
-                    }
-
-                    @Override
-                    public void onOtherWayLogin() {
-                        Log.e(TAG, "点击其他登录方式");
-                        AutoLoginManager.getInstance().closeOperatorActivity();
-                    }
-                });
+                LoginActivity.start(mActivity);
                 break;
             case R.id.iv_user_headImg:
                 startActivity(new Intent(mActivity, UserBasicInfoActivity.class));
@@ -342,29 +312,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
             default:
                 break;
         }
-    }
-
-    private void getPhoneNum(String operatorType, String token, String authCode) {
-        String uniqueID = UniqueIdManager.getUniqueID(mActivity);
-        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USE_PHONE_ONEKEY_LOGIN)
-                .params(Consts.TYPE, operatorType)
-                .params("authCode", operatorType.equals("1") ? authCode : "")
-                .params(Consts.TOKEN, token)
-                .params("plantFrom", "1")
-                .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>((AppCompatActivity) mActivity, false,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
-                        if (response.body().error_code == 0) {
-                            LoginRpsEntity data = response.body().getData();
-                            TokenCache.saveToken(mActivity, data.getToken());
-                        } else {
-                            TipDialog.show((AppCompatActivity) mActivity, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
     }
 
     private void initRecyWelfareZone(View view) {

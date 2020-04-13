@@ -1,13 +1,15 @@
 package com.huli.foxread.ui.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -16,6 +18,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
@@ -24,6 +27,7 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -35,10 +39,14 @@ import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.ui.fragments.SelectionBookFragment;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.huli.foxread.utils.UniqueIdManager;
+import com.kongzue.dialog.v3.FullScreenDialog;
+import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.sh.sdk.shareinstall.ShareInstall;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
+import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
 import com.sh.sdk.shareinstall.listener.AppGetInstallListener;
 import com.sh.sdk.shareinstall.listener.AppGetWakeUpListener;
@@ -49,8 +57,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -69,7 +77,10 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private MainWelfareFragment welfareFragment;
     private MainMineFragment mineFragment;
 
-    private boolean hasGetUserinfo = false;
+    private boolean hasGetUserInfo = false;
+
+    //预取号成功标记
+    private boolean flagPreGetSuccess;
 
     @Override
     protected void setStatusBar() {
@@ -80,7 +91,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     public void initParms(Bundle parms) {
         if (parms != null) {
-            hasGetUserinfo = parms.getBoolean(Common.EXTRA_HAS_GET_USERINFO, false);
+            hasGetUserInfo = parms.getBoolean(Common.EXTRA_HAS_GET_USERINFO, false);
         }
     }
 
@@ -114,7 +125,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     public void doBusiness(Context mContext) {
         switch2Bookstore();
-        if (!hasGetUserinfo) {
+        if (!hasGetUserInfo) {
             reqUserInfo();
         }
         //获取唤醒参数
@@ -151,21 +162,10 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             }
         });
 
-        AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
-            @Override
-            public void onPreGetNumberSuccess(String secureMobile) {
-                Log.e(TAG, "预取号成功：" + secureMobile);
-                Toast.makeText(mContext, "预取号成功", Toast.LENGTH_LONG).show();
-            }
+        /*一键登录预取号*/
+        preAvoidPwd1ClickLogin();
 
-            @Override
-            public void onPreGetNumberError(final String msg) {
-                Log.e(TAG, "预取号失败：" + msg);
-                Toast.makeText(mContext, "预取号失败", Toast.LENGTH_LONG).show();
-            }
-        });
-
-       /* PushAgent pushAgent = PushAgent.getInstance(this);
+        /* PushAgent pushAgent = PushAgent.getInstance(this);
         pushAgent.setMessageHandler(new UmengMessageHandler(){
             @Override
             public void dealWithCustomMessage(Context context, UMessage uMessage) {
@@ -203,6 +203,29 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 //        }
 //    };
 
+    /**
+     * 一键登录预取号
+     */
+    private void preAvoidPwd1ClickLogin() {
+        if(!UserInfoCache2.getIsVisitor(this)){
+            return;
+        }
+        AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
+            @Override
+            public void onPreGetNumberSuccess(String secureMobile) {
+                flagPreGetSuccess = true;
+                Log.e(TAG, "预取号成功：" + secureMobile);
+            }
+
+            @Override
+            public void onPreGetNumberError(final String msg) {
+                Log.e(TAG, "预取号失败：" + msg);
+            }
+        });
+    }
+
+
+
     // 注意：SDK调用getWakeUpParams方法获取参数是异步操作，请确保在onGetWakeUpFinish回调中拿到参数后才去处理自己的业务逻辑
     private AppGetWakeUpListener wakeUpListener = new AppGetWakeUpListener() {
         @Override
@@ -228,14 +251,14 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
         getUserReadTime();
 
-        Stack<Activity> activityStack = FrApp.getInstance().mActivityManager.getActivityStack();
+       /* Stack<Activity> activityStack = FrApp.getInstance().mActivityManager.getActivityStack();
         Log.e(TAG, "activityStack.size===" + activityStack.size());
         boolean mainActExist = false;//栈中是否存在MainActivity
         for (Activity act : activityStack) {
             if (act instanceof BookDetailsActivity) {
                 Log.e(TAG, "存在***********");
             }
-        }
+        }*/
     }
 
     @Override
@@ -306,6 +329,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 if (welfareFragment == null) {
                     welfareFragment = new MainWelfareFragment();
                     transaction.add(R.id.fl_frag_content_main, welfareFragment);
+                    sendShowLoginDialogMsg();
                 } else {
                     transaction.show(welfareFragment);
                 }
@@ -315,6 +339,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 if (mineFragment == null) {
                     mineFragment = new MainMineFragment();
                     transaction.add(R.id.fl_frag_content_main, mineFragment);
+                    sendShowLoginDialogMsg();
                 } else {
                     transaction.show(mineFragment);
                 }
@@ -324,6 +349,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         }
         transaction.commit();   //记得提交事务
     }
+
 
     /**
      * 将所有Fragment设置为隐藏
@@ -371,6 +397,111 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    private boolean ignoreLoginDialog;
+
+    private void sendShowLoginDialogMsg() {
+        if (!ignoreLoginDialog) {
+            mHandler.sendEmptyMessageDelayed(121, 500);
+            ignoreLoginDialog = true;
+        }
+    }
+
+    private Handler mHandler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            if (msg.what == 121) {
+                /**
+                 * 一键登陆弹窗
+                 */
+                if (UserInfoCache2.getIsVisitor(MainActivity.this) && flagPreGetSuccess) {
+                    FullScreenDialog.build(MainActivity.this)
+                            .setCustomView(R.layout.dialog_full_screen_one_click_login, (dialog, rootView) -> {
+                                Button btnGo2Login = rootView.findViewById(R.id.btn_one_click_go2_login);
+                                TextView btnOtherWays = rootView.findViewById(R.id.tv_asBtn_other_ways_2_login);
+                                btnGo2Login.setOnClickListener(v -> {
+                                    oneClickLogin();
+                                    dialog.doDismiss();
+                                });
+                                btnOtherWays.setOnClickListener(v -> {
+                                    LoginActivity.start(MainActivity.this);
+                                    dialog.doDismiss();
+                                });
+                            })
+                            .setOkButton("")
+                            .setCancelButton(R.string.txt_cancel)
+                            .setTitle(R.string.txt_one_click_login).show();
+                }
+            }
+            return false;
+        }
+    });
+
+    private void oneClickLogin() {
+        AutoLoginManager.getInstance().doAvoidPwdLogin(this, new AvoidPwdLoginListener() {
+            @Override
+            public void onGetLoginTokenSuccess(String operatorType, String token, String secureMobile) {
+//                Log.e(TAG, "operatorType>>" + operatorType + ">>token>>" + token + ">>secureMobile>>" + secureMobile);
+                /*
+                 * operatorType 运营商类型  1电信 2移动 3联通
+                 * token 移动联通为登录token    电信为accessCode
+                 * secureMobile 移动联通为带星手机号  电信为authCode
+                 */
+                getPhoneNum(operatorType, token, secureMobile);
+                AutoLoginManager.getInstance().closeOperatorActivity();
+            }
+
+            @Override
+            public void onGetLoginTokenFaild(String operatorType, String code, final String errorMsg) {
+                /*
+                 *operatorType 运营商类型  1电信 2移动 3联通
+                 * code  1001用户关闭授权页取消授权 1002其他错误
+                 * errorMsg 错误消息
+                 * errorResultCode 运营商返回的错误码
+                 */
+//                Log.e(TAG, "获取授权码失败：" + errorMsg);
+                AutoLoginManager.getInstance().closeOperatorActivity();
+            }
+
+            @Override
+            public void onOtherWayLogin() {
+                Log.e(TAG, "点击其他登录方式");
+                AutoLoginManager.getInstance().closeOperatorActivity();
+            }
+        });
+    }
+
+    /**
+     * 通过运营商一键登录返回的token 调用自身登录
+     * @param operatorType
+     * @param uToken    电信运营商的token
+     * @param authCode
+     */
+    private void getPhoneNum(String operatorType, String uToken, String authCode) {
+        String uniqueID = UniqueIdManager.getUniqueID(this);
+        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USE_PHONE_ONEKEY_LOGIN)
+                .params(Consts.TYPE, operatorType)
+                .params("authCode", operatorType.equals("1") ? authCode : "")
+                .params(Consts.TOKEN, uToken)
+                .params("plantFrom", "1")
+                .params(Consts.UNIQUE_ID, uniqueID)
+                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
+                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
+                        }) {
+                    @Override
+                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
+                        if (response.body().error_code == 0) {
+                            LoginRpsEntity data = response.body().getData();
+                            TokenCache.saveToken(MainActivity.this, data.getToken());
+
+                            reqUserInfo();
+                        } else {
+                            TipDialog.show(MainActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
     }
 
 
