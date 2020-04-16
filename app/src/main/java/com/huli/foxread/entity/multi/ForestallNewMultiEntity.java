@@ -1,8 +1,12 @@
-package com.huli.foxread.entity;
+package com.huli.foxread.entity.multi;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.huli.foxread.entity.ForestallNewEntity;
 
-public class BookMultiEntity extends BookEntity implements MultiItemEntity {
+/**
+ * 抢先新书多布局
+ */
+public class ForestallNewMultiEntity extends ForestallNewEntity implements MultiItemEntity {
 
     public static final int DETAILED = 1;
     public static final int ITEM_FIRST = 2;

@@ -10,31 +10,17 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
-import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.LoginRpsEntity;
-import com.huli.foxread.entity.umeng.WXLoginRespEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.SomeMonitorEditText;
 import com.huli.foxread.utils.Tos;
-import com.huli.foxread.utils.UniqueIdManager;
-import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
-import com.kongzue.dialog.interfaces.OnDismissListener;
-import com.kongzue.dialog.util.BaseDialog;
-import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
-
-import org.greenrobot.eventbus.EventBus;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -152,16 +138,16 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
      * @param authCode
      */
     private void bindingPhone(String tel, String authCode) {
-        OkGo.<String>post(Consts.BIND_MOBILE_API)
+        OkGo.<String>post(Consts.BINDING_PHONE_API)
                 .params(Consts.MOBILE, tel)
-                .params(Consts.CAPTCHA, authCode)
+                .params(Consts.MOBILE_CAPTCHA, authCode)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache2.saveMobile(WXBindingPhoneActivity.this, tel);
+                            UserInfoCache.saveMobile(WXBindingPhoneActivity.this, tel);
                             TipDialog.show(WXBindingPhoneActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
                                     .setOnDismissListener(() -> {
                                         setResult(RESULT_OK);

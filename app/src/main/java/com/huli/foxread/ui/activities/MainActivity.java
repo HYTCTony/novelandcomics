@@ -19,7 +19,7 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -32,11 +32,11 @@ import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
+import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
-import com.huli.foxread.ui.fragments.SelectionBookFragment;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
@@ -207,7 +207,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 一键登录预取号
      */
     private void preAvoidPwd1ClickLogin() {
-        if(!UserInfoCache2.getIsVisitor(this)){
+        if(!UserInfoCache.getIsTourist(this)){
             return;
         }
         AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
@@ -280,8 +280,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 MainBookstoreFragment bookStoreFrag = (MainBookstoreFragment) getSupportFragmentManager().getFragments().get(position);
                 int currentTab = bookStoreFrag.slidingTabLayout.getCurrentTab();
                 Fragment fragment = bookStoreFrag.getChildFragmentManager().getFragments().get(currentTab);
-                if (fragment instanceof SelectionBookFragment) {
-                    SelectionBookFragment selectionBookFrag = (SelectionBookFragment) fragment;
+                if (fragment instanceof BookStoreSelectionFragment) {
+                    BookStoreSelectionFragment selectionBookFrag = (BookStoreSelectionFragment) fragment;
                     if (selectionBookFrag.recyclerView.canScrollVertically(-1)) {           //判断RecyclerView是否在顶部
                         selectionBookFrag.recyclerView.smoothScrollToPosition(0);
                     }
@@ -416,7 +416,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 /**
                  * 一键登陆弹窗
                  */
-                if (UserInfoCache2.getIsVisitor(MainActivity.this) && flagPreGetSuccess) {
+                if (UserInfoCache.getIsTourist(MainActivity.this) && flagPreGetSuccess) {
                     FullScreenDialog.build(MainActivity.this)
                             .setCustomView(R.layout.dialog_full_screen_one_click_login, (dialog, rootView) -> {
                                 Button btnGo2Login = rootView.findViewById(R.id.btn_one_click_go2_login);
@@ -536,7 +536,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     public void onSuccess(Response<LzyResponse<FUser>> response) {
                         if (response.body().error_code == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache2.saveUserInfo(MainActivity.this, data);
+                            UserInfoCache.saveUserInfo(MainActivity.this, data);
 
                             EventBus.getDefault().postSticky(data);
                         }

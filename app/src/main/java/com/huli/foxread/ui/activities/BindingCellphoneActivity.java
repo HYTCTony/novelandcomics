@@ -10,7 +10,7 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -142,7 +142,7 @@ public class BindingCellphoneActivity extends BaseActivity implements View.OnCli
      */
     private void bindingPhone(String tel, String authCode) {
         WaitDialog.show(this, R.string.loading);
-        OkGo.<String>post(Consts.BIND_MOBILE_API)
+        OkGo.<String>post(Consts.CHANGE_BIND_MOBILE_API)
                 .params(Consts.MOBILE, tel)
                 .params(Consts.CAPTCHA, authCode)
                 .execute(new LtbCallback(this, false) {
@@ -151,7 +151,7 @@ public class BindingCellphoneActivity extends BaseActivity implements View.OnCli
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache2.saveMobile(BindingCellphoneActivity.this, tel);
+                            UserInfoCache.saveMobile(BindingCellphoneActivity.this, tel);
                             TipDialog.show(BindingCellphoneActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
                                     .setOnDismissListener(() -> {
                                         setResult(RESULT_OK);

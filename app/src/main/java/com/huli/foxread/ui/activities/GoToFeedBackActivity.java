@@ -19,7 +19,6 @@ import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.FeedBackTypeBean;
 import com.huli.foxread.entity.ImageBean;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -172,7 +171,7 @@ public class GoToFeedBackActivity extends BaseActivity {
      * 获取反馈分类
      */
     private void reqFeedBackCategory() {
-        OkGo.<String>get(Consts.FEEDBACK_CATEGORY_API)
+        OkGo.<String>get(Consts.OPINION_CATEGORY_API)
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -199,15 +198,15 @@ public class GoToFeedBackActivity extends BaseActivity {
      * @param content   反馈内容
      */
     private void reqFeedBackCreat(String phone, int opinionId, String content) {
-        OkGo.<String>post(Consts.FEEDBACK_CREAT_API)
+        OkGo.<String>post(Consts.OPINION_CREATE_API)
                 .params(Consts.PHONE, phone)
                 .params(Consts.OPINION_CATEGORY_ID, opinionId)
                 .params(Consts.CONTENT, content)
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<List<BookEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<BookEntity>>>() {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
                             TipDialog.show((AppCompatActivity) GoToFeedBackActivity.this, entity.msg, TipDialog.TYPE.SUCCESS).setOnDismissListener(new OnDismissListener() {

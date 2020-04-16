@@ -5,8 +5,7 @@ import java.util.List;
 public class AvatarGroup {
     private String id;
     private String name;
-    private String type;
-    private List<SysAvatarEntity> avatar;
+    private List<SysAvatarEntity> profileAvatar;
 
     public String getId() {
         return id;
@@ -24,19 +23,11 @@ public class AvatarGroup {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public List<SysAvatarEntity> getProfileAvatar() {
+        return profileAvatar;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public List<SysAvatarEntity> getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(List<SysAvatarEntity> avatar) {
-        this.avatar = avatar;
+    public void setProfileAvatar(List<SysAvatarEntity> profileAvatar) {
+        this.profileAvatar = profileAvatar;
     }
 }

@@ -21,7 +21,7 @@ public interface Func {
      * 参数：
      * gender---性别:0=男,1=女
      */
-    String USER_SET_GENDER = "/user/setGender";
+    String USER_SET_GENDER = "/user/gender";
 
     /**
      * 用途：用户信息
@@ -84,16 +84,26 @@ public interface Func {
     String BINDING_WECHAT = "/binding/wx";
 
     /**
-     * 用途：绑定手机
+     * 用途：（微信登录后）绑定手机号
+     * 头：token---token(Y)
+     * 参数：
+     * unionid (Y）--- 微信unionid
+     * openid  (Y）--- 微信openid
+     * mobile_captcha  (Y）--- 手机验证码
+     */
+    String BINDING_PHONE = "/binding/mobile";
+
+    /**
+     * 用途：更换绑定手机
      * 头：token---token(Y)
      * 参数：
      * mobile (Y）--- 手机号
      * captcha (Y）--- 验证码
      */
-    String BIND_MOBILE = "/user/changemobile";
+    String CHANGE_BIND_MOBILE = "/user/changemobile";
 
     /**
-     * 用途：解绑手机（配合 BIND_MOBILE 才能完成手机号更换操作）
+     * 用途：解绑手机（配合 CHANGE_BIND_MOBILE 才能完成手机号更换操作）
      * 头：token---token(Y)
      * 参数：
      * mobile (Y）--- 手机号
@@ -154,10 +164,10 @@ public interface Func {
      * 用途：系统头像列表
      * 头：token(Y)
      */
-    String AVATAR_LIST = "/Avatar/avatarList";
+    String AVATAR_LIST = "/avatar/index";
 
     /**
-     * 用途：首页(GET)
+     * 用途：首页(POST)
      * 头：token(Y)
      * 参数：
      * type---类型:1=男生,2=女生,3=图书,4=精选(Y)
@@ -175,23 +185,38 @@ public interface Func {
     String BANNER_READ = "/banner/read";
 
     /**
-     * 用途：高分精选
+     * 用途：高分精选(GET)
      * 头：token(Y)
      * 参数：
      * page --- 页码,默认1
      * list_rows --- 每页数据量，默认15
      * type --- 1=男生,2=女生,3=图书，精选的时候 男的就传男的女的就传女的
      */
-    String NOVEL_POPULAR = "/novel/popular";
+    String NOVEL_POPULAR = "/index/popular";
+
+    /**
+     * 用途：男生女生猜你喜欢(GET)
+     * 头：token(Y)
+     * 参数：
+     * page --- 页码,默认1
+     * list_rows --- 每页数据量，默认15
+     * type --- 1=男生,2=女生
+     */
+    String PREFER_READ = "/prefer/read";
 
     /**
      * 用途：排行榜(GET)
      * 头：token(Y)
      * 参数：
-     * type --- 1=热门排行榜,2=完结热门排行榜,3=新书热门排行榜4=热搜排行榜
-     * form --- 1=男生 , 2=女生
+     * type --- 1=男生 , 2=女生
+     * form --- 类型:1=热门,2=完结,3=新书,4=热搜
      */
-    String INDEX_RANKING = "/index/rankingList";
+    String POPULAR_RANKING = "/popular/read";
+
+    /**
+     * 用途：排行榜更新时间(GET)
+     */
+    String POPULAR_TIME = "/popular/time";
 
     /**
      * 用途：顶级分类(GET)
@@ -230,7 +255,7 @@ public interface Func {
      * page --- 页码,默认1
      * page_size --- 每页数据量，默认15
      */
-    String NOVEL_KEYWORD = "/novel/keyword";
+    String SEARCH_NOVEL = "/search/novel";
 
     /**
      * 用途：热门(POST)
@@ -247,25 +272,17 @@ public interface Func {
      * 头：token（Y）
      * 参数：
      */
-    String KEYWORD_INDEX = "/keyword/index";
+    String HOT_KEYWORD = "/search/keyword";
 
     /**
-     * 用途：男生新品|女生新品|图书新品|精选新品(GET)
+     * 用途：精品完结（新书）|男生完结（新书）|女生完结（新书）(GET)
      * 头：token(Y)
      * 参数：
+     * type---类型:1=新书，2=完结
      */
-    String NOVEL_COLUMN_BOYNEW = "/novel_column/boyNew";
-    String NOVEL_COLUMN_GIRLNEW = "/novel_column/girlNew";
-    String NOVEL_COLUMN_LIBNEW = "/novel_column/boyNew";
-    String NOVEL_COLUMN_SELECTIONNEW = "/novel_column/boyNew";
-
-    /**
-     * 用途：男生完结|女生完结(GET)
-     * 头：token(Y)
-     * 参数：
-     */
-    String NOVEL_COLUMN_BOYEND = "/novel_column/boyEnd";
-    String NOVEL_COLUMN_GIRLEND = "/novel_column/girlEnd";
+    String NOVEL_COLUMN_SELECTED = "/column/selected";
+    String NOVEL_COLUMN_BOY = "/column/boy";
+    String NOVEL_COLUMN_GIRL = "/column/girl";
 
     /**
      * 用途：小说详情(GET)
@@ -273,7 +290,7 @@ public interface Func {
      * 参数：
      * id---小说id
      */
-    String NOVEL_DETAILS = "/novel/novelDetails";
+    String NOVEL_DETAILS = "/novel/detail";
     /**
      * 用途：小说内容(POST)
      * 头：token---token(Y)
@@ -282,7 +299,7 @@ public interface Func {
      * chapter_id---章节id
      * chapter---小说章节
      */
-    String NOVEL_CONTENT = "/novel/novelContent";
+    String NOVEL_CONTENT = "/novel/content";
 
     /**
      * 用途：小说详情----相关推荐(GET)
@@ -293,19 +310,21 @@ public interface Func {
     String NOVEL_NOMINATE = "/shove/nominate";
 
     /**
-     * 用途：获取反馈分类
+     * 用途：获取用户反馈分类
      * 头：token---token(Y)
      * 参数：
-     * id---小说id
      */
-    String FEEDBACK_CATEGORY = "/opinion/category";
+    String OPINION_CATEGORY = "/opinion/category";
+
     /**
-     * 用途：提交反馈
+     * 用途：提交用户反馈
      * 头：token---token(Y)
      * 参数：
-     * id---小说id
+     * title --- 标题
+     * content --- 内容
+     * complaint_category_id --- 反馈分类
      */
-    String FEEDBACK_CREAT = "/opinion/create";
+    String OPINION_CREATE = "/opinion/create";
 
     /**
      * 用途：（单个或批量）加入书架(GET)
@@ -400,7 +419,7 @@ public interface Func {
      * 头：token---token(Y)
      * 参数：
      */
-    String USER_READ_TIME = "/user/time";
+    String USER_READ_TIME = "/duration/time";
     /**
      * 用途：新用户签到七天福利(GET)
      * 头：token---token(Y)
@@ -449,7 +468,7 @@ public interface Func {
      * 用途：小说章节列表(GET)
      * 头：token---token(Y)
      */
-    String NOVEL_NOVELCHAPTERLIST = "/novel/novelChapterList";
+    String NOVEL_NOVELCHAPTERLIST = "/novel/chapter";
 
     /**
      * 记录阅读时间
@@ -478,6 +497,7 @@ public interface Func {
      * 头：token---token(Y)
      */
     String WITHDRAWAL_MENU = "/withdrawal/menu";
+
     /**
      * 用途：现金提现，提现菜单（套餐）(GET)
      * 头：token---token(Y)
@@ -525,6 +545,25 @@ public interface Func {
      * name --- 持卡人姓名
      */
     String BANK_CREATE = "/bank/create";
+
+    /**
+     * 用途：获取银行卡信息（GET）
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String BANK_READ = "/bank/read";
+
+    /**
+     * 用途：更新银行卡信息（POST）
+     * 头：token---token(Y)
+     * 参数：
+     * id_card --- 持卡人身份证号码
+     * bank_name --- 开户银行名称
+     * address --- 开户银行地址
+     * account --- 银行卡账户
+     * name --- 持卡人姓名
+     */
+    String BANK_UPDATE = "/bank/update";
 
 
     /**

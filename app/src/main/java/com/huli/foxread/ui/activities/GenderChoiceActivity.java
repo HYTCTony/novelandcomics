@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -34,7 +34,7 @@ public class GenderChoiceActivity extends BaseActivity {
 
     private Button btnConfirm;
 
-    private int gender = 0;
+    private int gender = 1;
 
 
     @Override
@@ -69,9 +69,9 @@ public class GenderChoiceActivity extends BaseActivity {
     public void setListener() {
         rgGenderReg.setOnCheckedChangeListener((radioGroup, i) -> {
             if (radioGroup.getCheckedRadioButtonId() == R.id.rb_gender_male_register) {
-                gender = 0;
-            } else {
                 gender = 1;
+            } else {
+                gender = 2;
             }
         });
 
@@ -95,13 +95,13 @@ public class GenderChoiceActivity extends BaseActivity {
     private void reqInitUserGender(int gender) {
         OkGo.<String>post(Consts.USER_SET_GENDER_API)
                 .params(Consts.GENDER, String.valueOf(gender))
-                .execute(new LtbCallback(this, false) {
+                .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache2.saveGender(GenderChoiceActivity.this, gender);
+                            UserInfoCache.saveGender(GenderChoiceActivity.this, gender);
                             startActivity(new Intent(GenderChoiceActivity.this, MainActivity.class));
                             finish();
                         } else {

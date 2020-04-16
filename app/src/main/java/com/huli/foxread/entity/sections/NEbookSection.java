@@ -10,7 +10,6 @@ public class NEbookSection<T> extends JSectionEntity {
     private boolean isHeader;
     private boolean isMore;
     private String id;
-    private String theme_id;
     private String name;
     private T object;
 
@@ -22,11 +21,10 @@ public class NEbookSection<T> extends JSectionEntity {
         this.object = object;
     }
 
-    public NEbookSection(boolean isHeader, boolean isMore, String id, String theme_id, String name, T object) {
+    public NEbookSection(boolean isHeader, boolean isMore, String id, String name, T object) {
         this.isHeader = isHeader;
         this.isMore = isMore;
         this.id = id;
-        this.theme_id = theme_id;
         this.name = name;
         this.object = object;
     }
@@ -49,14 +47,6 @@ public class NEbookSection<T> extends JSectionEntity {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTheme_id() {
-        return theme_id;
-    }
-
-    public void setTheme_id(String theme_id) {
-        this.theme_id = theme_id;
     }
 
     public String getName() {

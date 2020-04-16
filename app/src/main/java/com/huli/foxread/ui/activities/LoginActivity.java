@@ -22,7 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -43,6 +43,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
+import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -225,7 +226,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
                 break;
             case R.id.tv_asBtn_login_one_click:
-                oneClickLogin();
+//                oneClickLogin();
+                preAvoidPwd1ClickLogin();
                 break;
             default:
                 break;
@@ -338,7 +340,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         int errorCode = response.body().error_code;
                         if (errorCode == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache2.saveUserInfo(LoginActivity.this, data);
+                            UserInfoCache.saveUserInfo(LoginActivity.this, data);
                             EventBus.getDefault().postSticky(data);
 
                             if (!TextUtils.isEmpty(data.getMobile())) {     //微信登录，且绑定手机号、 或者直接手机号登录
@@ -375,6 +377,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         TipDialog.dismiss();
                     }
                 });
+    }
+
+    /**
+     * 一键登录预取号
+     */
+    private void preAvoidPwd1ClickLogin() {
+        AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
+            @Override
+            public void onPreGetNumberSuccess(String secureMobile) {
+                Log.e(TAG, "预取号成功：" + secureMobile);
+                oneClickLogin();
+            }
+
+            @Override
+            public void onPreGetNumberError(final String msg) {
+                Log.e(TAG, "预取号失败：" + msg);
+            }
+        });
     }
 
     /**

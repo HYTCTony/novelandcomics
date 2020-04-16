@@ -10,7 +10,7 @@ import android.widget.EditText;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -70,7 +70,7 @@ public class InvitationCodeActivity extends BaseActivity {
     @Override
     public void doBusiness(Context mContext) {
         //需要登录
-        if (UserInfoCache2.getIsVisitor(mContext)) {
+        if (UserInfoCache.getIsTourist(mContext)) {
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
             return;
         }
@@ -92,7 +92,7 @@ public class InvitationCodeActivity extends BaseActivity {
                         LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
                         });
                         if (entity.error_code == 0) {
-                            UserInfoCache2.saveIsInvited(InvitationCodeActivity.this, 1);
+                            UserInfoCache.saveIsInvited(InvitationCodeActivity.this, true);
                             TipDialog.show(InvitationCodeActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
                                     .setOnDismissListener(() -> {
                                         setResult(RESULT_OK);

@@ -4112,8 +4112,8 @@ com.airbnb.lottie.LottieAnimationView$2
     final synthetic com.airbnb.lottie.LottieAnimationView this$0
 com.airbnb.lottie.model.layer.TextLayer$2
     final synthetic com.airbnb.lottie.model.layer.TextLayer this$0
-com.huli.foxread.ui.fragments.SelectionBookFragment$3
-    final synthetic com.huli.foxread.ui.fragments.SelectionBookFragment this$0
+com.huli.foxread.ui.fragments.BookStoreSelectionFragment$3
+    final synthetic com.huli.foxread.ui.fragments.BookStoreSelectionFragment this$0
 com.huli.foxread.ui.fragments.MainMineFragment$3$1
     final synthetic com.huli.foxread.ui.fragments.MainMineFragment$3 this$1
 io.reactivex.internal.operators.observable.ObservableSkipUntil$SkipUntil
@@ -4177,8 +4177,8 @@ kotlin.sequences.IndexingSequence$iterator$1
     final synthetic kotlin.sequences.IndexingSequence this$0
 com.yqritc.recyclerviewflexibledivider.FlexibleDividerDecoration$Builder$4
     final synthetic com.yqritc.recyclerviewflexibledivider.FlexibleDividerDecoration$Builder this$0
-com.huli.foxread.ui.fragments.SelectionBookFragment$5
-    final synthetic com.huli.foxread.ui.fragments.SelectionBookFragment this$0
+com.huli.foxread.ui.fragments.BookStoreSelectionFragment$5
+    final synthetic com.huli.foxread.ui.fragments.BookStoreSelectionFragment this$0
 com.bumptech.glide.load.engine.cache.SafeKeyGenerator$1
     final synthetic com.bumptech.glide.load.engine.cache.SafeKeyGenerator this$0
 com.airbnb.lottie.model.FontCharacter
@@ -4208,8 +4208,8 @@ com.scwang.smartrefresh.layout.SmartRefreshLayout$FlingRunnable
     int mFrame
 com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration$Builder$2
     final synthetic com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration$Builder this$0
-com.huli.foxread.ui.fragments.SelectionBookFragment$8$1
-    final synthetic com.huli.foxread.ui.fragments.SelectionBookFragment$8 this$1
+com.huli.foxread.ui.fragments.BookStoreSelectionFragment$8$1
+    final synthetic com.huli.foxread.ui.fragments.BookStoreSelectionFragment$8 this$1
 com.lxj.xpopup.photoview.PhotoViewAttacher
     static void <clinit>()
 com.huli.foxread.ui.activities.SearchResultActivity$1$1
@@ -4498,8 +4498,8 @@ com.huli.foxread.ui.activities.MsgNotifyActivity
     private com.scwang.smartrefresh.layout.SmartRefreshLayout mRefreshLayout
 com.huli.foxread.ui.activities.AvatarSelectActivity$3$1
     final synthetic com.huli.foxread.ui.activities.AvatarSelectActivity$3 this$1
-com.huli.foxread.ui.fragments.RankingSubFeagment$1
-    final synthetic com.huli.foxread.ui.fragments.RankingSubFeagment this$0
+com.huli.foxread.ui.fragments.RankingSubFragment$1
+    final synthetic com.huli.foxread.ui.fragments.RankingSubFragment this$0
 com.scwang.smartrefresh.header.waterdrop.WaterDropView
     static void <clinit>()
 com.bumptech.glide.load.resource.ImageDecoderResourceDecoder$1$1
@@ -4631,8 +4631,8 @@ com.scwang.smartrefresh.header.internal.MaterialProgressDrawable$Ring
 com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout
     static void <clinit>()
     private com.huli.foxread.ui.widget.verticaltablayout.TabAdapter mTabAdapter
-com.huli.foxread.ui.fragments.SelectionBookFragment$7$1
-    final synthetic com.huli.foxread.ui.fragments.SelectionBookFragment$7 this$1
+com.huli.foxread.ui.fragments.BookStoreSelectionFragment$7$1
+    final synthetic com.huli.foxread.ui.fragments.BookStoreSelectionFragment$7 this$1
 com.tencent.bugly.crashreport.crash.h5.b
     static void <clinit>()
 com.huli.page.ui.adapter.ViewHolderImpl

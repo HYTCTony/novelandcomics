@@ -3,11 +3,12 @@ package com.huli.foxread.interceptors;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
@@ -228,11 +229,11 @@ public class TokenInterceptor implements Interceptor {
                 String newToken = loginRpsEntity.getToken();
                 if (!TextUtils.isEmpty(newToken)) {
                     //清除保存的用户信息
-                    UserInfoCache2.clearCache(context);
+                    UserInfoCache.clearCache(context);
                     //保存新的token
                     TokenCache.saveToken(context, newToken);
 
-                    EventBus.getDefault().postSticky(UserInfoCache2.getUserInfo(context));      //通知改变UI
+                    EventBus.getDefault().postSticky(UserInfoCache.getUserInfo(context));      //通知改变UI
                     return newToken;
                 }
             }

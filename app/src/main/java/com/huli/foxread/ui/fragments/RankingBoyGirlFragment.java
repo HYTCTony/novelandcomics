@@ -29,7 +29,7 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
 
     public static RankingBoyGirlFragment newInstance(int type) {
         Bundle bundle = new Bundle();
-        bundle.putInt(Consts.RANK_FORM, type);
+        bundle.putInt(Consts.RANK_FORM_BG, type);
         RankingBoyGirlFragment frag = new RankingBoyGirlFragment();
         frag.setArguments(bundle);
         return frag;
@@ -58,7 +58,7 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
 
     @Override
     public void doBusiness(Context mContext) {
-        mType = getArguments().getInt(Consts.RANK_FORM);
+        mType = getArguments().getInt(Consts.RANK_FORM_BG);
 
     }
 
@@ -88,7 +88,7 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            return RankingSubFeagment.newInstance(mType, position + 1);
+            return RankingSubFragment.newInstance(mType, position + 1);
         }
 
         @Override

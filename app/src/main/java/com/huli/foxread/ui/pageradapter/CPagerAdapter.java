@@ -13,17 +13,17 @@ public class CPagerAdapter extends FragmentPagerAdapter {
     private List<Fragment> mList;
     private String[] titles;
 
-    /*public CPagerAdapter(@NonNull FragmentManager fm, int behavior, List<Fragment> mList, String[] titles) {
+    public CPagerAdapter(FragmentManager fm, List<Fragment> mList, String[] titles) {
         super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);  //实现懒加载
         this.mList = mList;
         this.titles = titles;
-    }*/
-
-    public CPagerAdapter(FragmentManager fm, List<Fragment> mList, String[] titles) {
-        super(fm);
-        this.mList = mList;
-        this.titles = titles;
     }
+
+//    public CPagerAdapter(FragmentManager fm, List<Fragment> mList, String[] titles) {
+//        super(fm);
+//        this.mList = mList;
+//        this.titles = titles;
+//    }
 
     @Override
     public Fragment getItem(int i) {

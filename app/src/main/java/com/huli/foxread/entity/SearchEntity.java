@@ -8,7 +8,7 @@ public class SearchEntity implements Serializable {
     private String novel_id;
     private int number;
     private int is_top;
-    private BookEntity profile_novel;
+    private BookEntity2 profile_novel;
 
     public String getId() {
         return id;
@@ -42,11 +42,11 @@ public class SearchEntity implements Serializable {
         this.is_top = is_top;
     }
 
-    public BookEntity getProfile_novel() {
+    public BookEntity2 getProfile_novel() {
         return profile_novel;
     }
 
-    public void setProfile_novel(BookEntity profile_novel) {
+    public void setProfile_novel(BookEntity2 profile_novel) {
         this.profile_novel = profile_novel;
     }
 }

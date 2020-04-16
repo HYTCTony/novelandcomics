@@ -13,15 +13,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
@@ -42,15 +39,9 @@ import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.UniqueIdManager;
-import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
-import com.kongzue.dialog.util.BaseDialog;
-import com.kongzue.dialog.v3.FullScreenDialog;
-import com.kongzue.dialog.v3.TipDialog;
+import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
-import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
-import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -80,10 +71,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     private RecyclerView rvWelfareZone;
     private WelfareZoneMineAdapter wzAdapter;
-
-    private boolean isVisitor;
-    private boolean isVip;
-    private boolean isInvited;
 
     @Override
     public int bindLayout() {
@@ -128,10 +115,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.rtl_asBtn_mode_adolescent).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
-
-        FUser userInfo = UserInfoCache2.getUserInfo(mActivity);
-        isVisitor = userInfo.getIs_visitor() == 1;
-        changeUIbyUserInfo(userInfo);
     }
 
     @Override
@@ -146,7 +129,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
 
-
+        FUser userInfo = UserInfoCache.getUserInfo(mActivity);
+        changeUIbyUserInfo(userInfo);
     }
 
     @Override
@@ -170,13 +154,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        isVisitor = event.getIs_visitor() == 1;
         changeUIbyUserInfo(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onVipChargerEvent(VipChargerEvent event) {
-        isVip = event.isBecomingVip();
         changeUIbyIsVip(event.isBecomingVip());
         EventBus.getDefault().removeStickyEvent(event);
     }
@@ -200,7 +182,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
      * @param fUser
      */
     private void changeUIbyUserInfo(FUser fUser) {
-        isVisitor = fUser.getIs_visitor() == 1;
+        boolean isVisitor = fUser.isIs_tourist();
         if (isVisitor) {
             layoutNotLogin.setVisibility(View.VISIBLE);
             layoutLogged.setVisibility(View.GONE);
@@ -211,11 +193,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         }
 
         //VIP
-        isVip = fUser.getIs_vip() == 1;
+        boolean isVip = fUser.isIs_vip();
         changeUIbyIsVip(isVip);
 
         //是否已经填写邀请码
-        isInvited = fUser.getIs_invited() > 0;
+        boolean isInvited = fUser.isIs_invited();
         if (isInvited) {
             btnIviter.setVisibility(View.GONE);
         } else {
@@ -252,8 +234,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         GlideUtil.loadCircle(mActivity, ivUserHeadImg, fUser.getHttp_avatar());
         tvNickname.setText(fUser.getUsername());
         tvUserId.setText((getString(R.string.txt_id_colon) + fUser.getId()));
-//        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
-//        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
     }
 
 
@@ -295,8 +275,10 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
                 break;
             case R.id.rtl_asBtn_inviter:
-                if (!isInvited) {
+                if (!UserInfoCache.getIsInvited(mActivity)) {
                     startActivity(new Intent(mActivity, InvitationCodeActivity.class));
+                }else {
+                    Tos.showShort(mActivity, "您已填写过邀请码！");
                 }
                 break;
             case R.id.rtl_asBtn_cash_withdrawal:
