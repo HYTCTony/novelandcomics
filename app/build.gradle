@@ -7,8 +7,8 @@ android {
         applicationId "com.huli.foxread"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 14
-        versionName "0.2.4"
+        versionCode 15
+        versionName "0.2.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -40,8 +40,8 @@ android {
 //            keyPassword "hytc1688"
         }
         release {// 自己的签名文件
-            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
-//            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
+//            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
             storePassword "hytc1688"
             keyAlias "hytc"
             keyPassword "hytc1688"
@@ -108,6 +108,9 @@ greendao {
 repositories {
     maven {
         url 'https://dl.bintray.com/qichuan/maven/'
+    }
+    flatDir {
+        dirs 'libs'
     }
 }
 
@@ -203,7 +206,7 @@ dependencies {
 //    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
     //openinstall
 //    implementation files('libs/OpenInstall_v2.3.1.jar')
-//    implementation(name: 'CTAccountSdk_HY_v3.7.2_armeabi', ext: 'aar')
+//    implementation(name: 'CTAccountSdk_HY_v3.7.2_all', ext: 'aar')
 //    implementation(name: 'ShareInstall_v1.2.6', ext: 'aar')
 //    implementation(name: 'ShareInstallAutoLogin_v1.2.6', ext: 'aar')
 }

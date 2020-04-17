@@ -10,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -37,6 +38,7 @@ import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.ui.fragments.SelectionBookFragment;
+import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
@@ -128,40 +130,27 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         if (!hasGetUserInfo) {
             reqUserInfo();
         }
-        //获取唤醒参数
-//      OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
-//
-//      OpenInstall.getInstall(new AppInstallAdapter() {
-//          @Override
-//          public void onInstall(AppData appData) {
-//              //获取渠道数据
-//              String channelCode = appData.getChannel();
-//              //获取自定义数据
-//              String bindData = appData.getData();
-//              Log.d("OpenInstall", "OpenInstall : installData = " + appData.toString());
-//              Toast.makeText(mContext, "OpenInstall : installData_install = " + appData.toString(), Toast.LENGTH_LONG).show();
-//          }
-//       });
+
         // 获取唤醒参数
         ShareInstall.getInstance().getWakeUpParams(getIntent(), wakeUpListener);
-
-        ShareInstall.getInstance().getInstallParams(new AppGetInstallListener() {
-            @Override
-            public void onGetInstallFinish(String info) {
-                // 客户端获取到的参数是json字符串格式
-                Log.d("ShareInstall", "info = " + info);
-                try {
-                    org.json.JSONObject object = new org.json.JSONObject(info);
-                    // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
-                    String channel = object.optString("channel");
-                    Log.d("ShareInstall", "channel = " + channel);
-                    Log.d("ShareInstall", "ShareInstall : installData_install = = " + info);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (ShareInstall.getInstance().isFirstInstall()) {
+            ShareInstall.getInstance().getInstallParams(new AppGetInstallListener() {
+                @Override
+                public void onGetInstallFinish(String info) {
+                    // 客户端获取到的参数是json字符串格式
+                    Log.d("ShareInstall", "info = " + info);
+                    try {
+                        org.json.JSONObject object = new org.json.JSONObject(info);
+                        // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
+                        String channel = object.optString("channel");
+                        String invateCode = object.optString("my_invite_code");
+                        SPFUtils.put(MainActivity.this, Common.INVITE_CODE, invateCode);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-
+            });
+        }
         /*一键登录预取号*/
         preAvoidPwd1ClickLogin();
 
@@ -181,6 +170,20 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
             }
         });
+        //获取唤醒参数
+//      OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
+//
+//      OpenInstall.getInstall(new AppInstallAdapter() {
+//          @Override
+//          public void onInstall(AppData appData) {
+//              //获取渠道数据
+//              String channelCode = appData.getChannel();
+//              //获取自定义数据
+//              String bindData = appData.getData();
+//              Log.d("OpenInstall", "OpenInstall : installData = " + appData.toString());
+//              Toast.makeText(mContext, "OpenInstall : installData_install = " + appData.toString(), Toast.LENGTH_LONG).show();
+//          }
+//       });
     }
 
     @Override
@@ -207,23 +210,24 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 一键登录预取号
      */
     private void preAvoidPwd1ClickLogin() {
-        if(!UserInfoCache2.getIsVisitor(this)){
+        if (!UserInfoCache2.getIsVisitor(this)) {
             return;
         }
         AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
             @Override
             public void onPreGetNumberSuccess(String secureMobile) {
-                flagPreGetSuccess = true;
                 Log.e(TAG, "预取号成功：" + secureMobile);
+                Toast.makeText(MainActivity.this, "预取号成功：" + secureMobile, Toast.LENGTH_SHORT).show();
+                flagPreGetSuccess = true;
             }
 
             @Override
-            public void onPreGetNumberError(final String msg) {
+            public void onPreGetNumberError(String msg) {
+                Toast.makeText(MainActivity.this, "预取号失败：" + msg, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "预取号失败：" + msg);
             }
         });
     }
-
 
 
     // 注意：SDK调用getWakeUpParams方法获取参数是异步操作，请确保在onGetWakeUpFinish回调中拿到参数后才去处理自己的业务逻辑
@@ -236,8 +240,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 org.json.JSONObject object = new org.json.JSONObject(info);
                 // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
                 String channel = object.optString("channel");
-                Log.d("ShareInstall", "channel = " + channel);
-                Log.d("ShareInstall", "ShareInstall_wake : installData =  = " + info);
+                String invateCode = object.optString("my_invite_code");
+                if (!ShareInstall.getInstance().isFirstInstall())
+                    SPFUtils.put(MainActivity.this, Common.INVITE_CODE, invateCode);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -475,8 +480,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     /**
      * 通过运营商一键登录返回的token 调用自身登录
+     *
      * @param operatorType
-     * @param uToken    电信运营商的token
+     * @param uToken       电信运营商的token
      * @param authCode
      */
     private void getPhoneNum(String operatorType, String uToken, String authCode) {
@@ -495,7 +501,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                         if (response.body().error_code == 0) {
                             LoginRpsEntity data = response.body().getData();
                             TokenCache.saveToken(MainActivity.this, data.getToken());
-
+                            onResume();
                             reqUserInfo();
                         } else {
                             TipDialog.show(MainActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
@@ -537,13 +543,38 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                         if (response.body().error_code == 0) {
                             FUser data = response.body().getData();
                             UserInfoCache2.saveUserInfo(MainActivity.this, data);
-
+                            //是否已经填写邀请码
+                            boolean isInvited = data.getIs_invited() > 0;
+                            if (!isInvited) {
+                                reqInviteCodeSubmit((String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, ""));
+                            }
                             EventBus.getDefault().postSticky(data);
                         }
                     }
                 });
     }
 
+    /**
+     * 提交邀请码
+     * token在CallBack中统一加到header
+     *
+     * @param inviteCode
+     */
+    private void reqInviteCodeSubmit(String inviteCode) {
+        OkGo.<String>post(Consts.FILLIN_INVITE_CODE_API)
+                .params(Consts.CODE, inviteCode)
+                .execute(new LtbCallback(MainActivity.this) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
+                        });
+                        String code = (String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, "-1");
+                        if (entity.error_code == 0) {
+                            UserInfoCache2.saveIsInvited(MainActivity.this, 1);
+                        }
+                    }
+                });
+    }
 
     /**
      * 获取用户阅读时间

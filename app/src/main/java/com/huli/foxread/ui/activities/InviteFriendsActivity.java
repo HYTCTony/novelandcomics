@@ -144,8 +144,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         btnInviteMoments.setOnClickListener(this);
         btnInviteFace2Face.setOnClickListener(this);
 
-        MessageDialog.build(this)
-                .setStyle(DialogSettings.STYLE.STYLE_MATERIAL);
+        MessageDialog.build(this).setStyle(DialogSettings.STYLE.STYLE_MATERIAL);
     }
 
     @Override
@@ -188,7 +187,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.btn_immediately_invite:
                 //TODO 立即邀请 --- 弹出分享集成面板
-                new ShareAction(this).withText("hello")
+                new ShareAction(this).withText(Consts.DOWNLOAD_URL + "?my_invite_code=" + inviteCode)
                         .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
                         .setCallback(umShareListener)
                         .open();
@@ -197,7 +196,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 //TODO 微信分享
                 new ShareAction(this)
                         .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                        .withText("hello")//分享内容
+                        .withText(Consts.DOWNLOAD_URL + "?my_invite_code=" + inviteCode)//分享内容
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 break;
@@ -205,7 +204,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 //TODO 朋友圈分享
                 new ShareAction(this)
                         .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                        .withText("hello")//分享内容
+                        .withText(Consts.DOWNLOAD_URL + "?my_invite_code=" + inviteCode)//分享内容
                         .setCallback(umShareListener)//回调监听器
                         .share();
                 break;
@@ -214,7 +213,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 CustomDialog.show(this, R.layout.layout_custom_dialog_invite_qrcode, (dialog, v) -> {
                     v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
                     ImageView ivQrCode = v.findViewById(R.id.iv_invite_qr_code);
-                    Bitmap bitmap = createQrCode(Consts.DOWNLOAD_URL);
+                    Bitmap bitmap = createQrCode(Consts.DOWNLOAD_URL + "?my_invite_code=" + inviteCode);
                     ivQrCode.setImageBitmap(bitmap);
                 });
                 break;

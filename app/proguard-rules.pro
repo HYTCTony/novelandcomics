@@ -467,5 +467,14 @@ public static final int *;
 -keep public class **.R$*{
    public static final int *;
 }
+#联通免密登录混淆
+-dontwarn com.unicom.xiaowo.account.shield.**
+-keep class com.unicom.xiaowo.account.shield.**{*;}
+#移动免密登录混淆
+-keep class com.cmic.sso.sdk.**{*;}
+-dontwarn com.cmic.sso.sdk.**
+#电信免密登录混淆
+-keep class cn.com.chinatelecom.account.**{*;}
+-dontwarn cn.com.chinatelecom.account.**
 ##推送##
 #####################友盟################################

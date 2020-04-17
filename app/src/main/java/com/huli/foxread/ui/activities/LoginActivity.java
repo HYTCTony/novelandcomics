@@ -33,6 +33,7 @@ import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.umeng.WXLoginRespEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
+import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
@@ -43,6 +44,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
+import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -84,7 +86,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-
     public void initParms(Bundle parms) {
 
     }
@@ -123,6 +124,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     public void doBusiness(Context mContext) {
+        AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
+            @Override
+            public void onPreGetNumberSuccess(String secureMobile) {
+                //TODO 取号成功，请引导用户进行一键登录，优化用户体验
+                Log.e(TAG, "预取号成功：" + secureMobile);
+            }
+
+            @Override
+            public void onPreGetNumberError(final String msg) {
+                //TODO 取号失败，请隐藏一键登陆按钮，优化用户体验
+                Log.e(TAG, "预取号失败：" + msg);
+            }
+        });
         SpannableString spannableString = new SpannableString(getString(R.string.txt_agree_login_agreement));
         spannableString.setSpan(new ClickableSpan() {
             @Override
@@ -340,6 +354,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             FUser data = response.body().getData();
                             UserInfoCache2.saveUserInfo(LoginActivity.this, data);
                             EventBus.getDefault().postSticky(data);
+                            //是否已经填写邀请码
+                            boolean isInvited = data.getIs_invited() > 0;
+                            if (!isInvited)
+                                reqInviteCodeSubmit((String) SPFUtils.get(LoginActivity.this, Common.INVITE_CODE, ""));
 
                             if (!TextUtils.isEmpty(data.getMobile())) {     //微信登录，且绑定手机号、 或者直接手机号登录
                                 TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
@@ -349,7 +367,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                                         });
                             } else {        //微信登录，且没绑定手机号
                                 TipDialog.dismiss();
-                                MessageDialog.show(LoginActivity.this, R.string.txt_login_success, R.string.txt_binding_cellphone_hint, R.string.txt_go2_binding, R.string.txt_withhold)
+                                MessageDialog.show(LoginActivity.this, R.string.txt_login_success, R.string.txt_binding_cellphone_hint,
+                                        R.string.txt_go2_binding, R.string.txt_withhold)
                                         .setOnOkButtonClickListener((baseDialog, v) -> {
                                             // 去绑定
                                             Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
@@ -417,8 +436,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     /**
      * 通过运营商一键登录返回的token 调用自身登录
+     *
      * @param operatorType
-     * @param uToken    电信运营商的token
+     * @param uToken       电信运营商的token
      * @param authCode
      */
     private void getPhoneNum(String operatorType, String uToken, String authCode) {
@@ -437,10 +457,31 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (response.body().error_code == 0) {
                             LoginRpsEntity data = response.body().getData();
                             TokenCache.saveToken(LoginActivity.this, data.getToken());
-
                             reqUserInfo();
                         } else {
                             TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 提交邀请码
+     * token在CallBack中统一加到header
+     *
+     * @param inviteCode
+     */
+    private void reqInviteCodeSubmit(String inviteCode) {
+        OkGo.<String>post(Consts.FILLIN_INVITE_CODE_API)
+                .params(Consts.CODE, inviteCode)
+                .execute(new LtbCallback(LoginActivity.this) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
+                        });
+                        String code = (String) SPFUtils.get(LoginActivity.this, Common.INVITE_CODE, "-1");
+                        if (entity.error_code == 0) {
+                            UserInfoCache2.saveIsInvited(LoginActivity.this, 1);
                         }
                     }
                 });

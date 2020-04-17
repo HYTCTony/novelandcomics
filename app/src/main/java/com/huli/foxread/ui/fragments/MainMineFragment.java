@@ -13,15 +13,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache2;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
@@ -42,15 +39,8 @@ import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.UniqueIdManager;
-import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
-import com.kongzue.dialog.util.BaseDialog;
-import com.kongzue.dialog.v3.FullScreenDialog;
-import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
-import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
-import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -303,7 +293,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, WithdrawalActivity.class));
                 break;
             case R.id.rtl_asBtn_mode_adolescent:
-
                 break;
             case R.id.rtl_asBtn_help_and_feedback:
                 startActivity(new Intent(mActivity, HelpAndFeedbackActivity.class));
@@ -348,5 +337,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                     }
                 });
     }
+
 
 }
