@@ -40,7 +40,7 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
     private ImageView ivHeadImg;
     private TextView tvNickname, tvGender, tvAccountId;
 
-    private int gender = -1;    //选择性别
+    private int gender = 0;    //选择性别
 
     private ClipboardManager myClipboard;
     private ClipData myClip;
@@ -96,9 +96,9 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
         GlideUtil.loadCircle(this, ivHeadImg, userInfo.getHttp_avatar());
         tvNickname.setText(userInfo.getUsername());
         tvAccountId.setText(userInfo.getId());
-        if (userInfo.getGender() == 0) {
+        if (userInfo.getGender() == Consts.TYPE_BOY) {
             tvGender.setText(getString(R.string.txt_male));
-        } else if (userInfo.getGender() == 1) {
+        } else if (userInfo.getGender() == Consts.TYPE_GIRL) {
             tvGender.setText(getString(R.string.txt_female));
         } else {
             tvGender.setText(null);
@@ -140,18 +140,18 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                             RadioGroup rg = v.findViewById(R.id.radioGroup_gender);
                             rg.setOnCheckedChangeListener((radioGroup, i) -> {
                                 if (radioGroup.getCheckedRadioButtonId() == R.id.rb_man_gender) {
-                                    gender = 0;
+                                    gender = Consts.TYPE_BOY;
                                 } else if (radioGroup.getCheckedRadioButtonId() == R.id.rb_female_gender) {
-                                    gender = 1;
+                                    gender = Consts.TYPE_GIRL;
                                 } else {
-                                    gender = -1;
+                                    gender = 0;
                                 }
                             });
                         })
                         .setOnOkButtonClickListener((baseDialog, v) -> {
-                            if (gender == 0) {
+                            if (gender == Consts.TYPE_BOY) {
                                 tvGender.setText(getString(R.string.txt_male));
-                            } else if (gender == 1) {
+                            } else if (gender == Consts.TYPE_GIRL) {
                                 tvGender.setText(getString(R.string.txt_female));
                             } else {
                                 return true;
@@ -206,12 +206,12 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                                 //通知ui刷新
                                 EventBus.getDefault().postSticky(userInfo);
                             } else if (paramKey.equals(Consts.GENDER)) {
-                                if (gender == 0) {
+                                if (gender == Consts.TYPE_BOY) {
                                     tvGender.setText(getString(R.string.txt_male));
-                                } else if (gender == 1) {
+                                } else if (gender == Consts.TYPE_GIRL) {
                                     tvGender.setText(getString(R.string.txt_female));
                                 } else {
-                                    gender = -1;
+                                    gender = 0;
                                 }
                                 userInfo = UserInfoCache.saveGender(UserBasicInfoActivity.this, gender);
                                 setResult(RESULT_OK);

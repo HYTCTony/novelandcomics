@@ -70,6 +70,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * 我的特权
+ */
 public class MyPrivilegeActivity extends BaseActivity implements View.OnClickListener, VipComboAdapter.OnVipComboSelectListenr {
 
     private TextView tvVipTypeTitle, tvVipTime, tvVipTips, tvAccountSetup;
@@ -152,6 +155,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
         recyclerView = $(R.id.recyclerView_vip_packages);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(3, DensityUtils.dp2px(this, 16), true));
         mAdapter = new VipComboAdapter(this);
         recyclerView.setAdapter(mAdapter);

@@ -52,7 +52,7 @@ public class BookShelfListBean implements Serializable {
     private String introduce;
     private String http_image;
     private int chapter_sum;
-    private int is_exist_bookshelf;      //是否加入书架 0：否  1：是
+    private int is_exist_bookshelf;      //是否加入书架 1：是  2：否
     /******************************************************************/
     public long createtime;
     public long updatetime;

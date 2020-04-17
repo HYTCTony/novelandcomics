@@ -179,6 +179,9 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation "com.simple:spiderman:1.1.4"
 
+    //App升级
+    implementation 'com.github.AlexLiuSheng:CheckVersionLib:2.2.4'
+
 
     //********************友盟************************
     implementation 'com.umeng.umsdk:common:2.0.0'

@@ -170,7 +170,7 @@ public interface Func {
      * 用途：首页(POST)
      * 头：token(Y)
      * 参数：
-     * type---类型:1=男生,2=女生,3=图书,4=精选(Y)
+     * type---类型:1=男生,2=女生,0=精选(Y)
      * page---精选推荐列表页码(Y/N)
      * page_size---精选推荐列表,一页数据量(Y/N)
      */

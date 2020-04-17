@@ -10,7 +10,7 @@
         android:id="@+id/toolbar_normal"
         layout="@layout/layout_toolbar" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:overScrollMode="never"
@@ -283,7 +283,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <FrameLayout
         android:id="@+id/fl_bottom_bar"
