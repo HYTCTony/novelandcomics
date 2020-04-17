@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 public class BookRankingActivity extends BaseActivity {
@@ -27,9 +28,11 @@ public class BookRankingActivity extends BaseActivity {
     private ViewPager viewPager;
     private ArrayList<Fragment> fragments = new ArrayList<>();
 
+    private int mType;      //性别
+
     @Override
     public void initParms(Bundle parms) {
-
+        mType = parms.getInt(Consts.TYPE);
     }
 
     @Override
@@ -57,6 +60,7 @@ public class BookRankingActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(fragments.size());
         viewPager.setAdapter(new CPagerAdapter(getSupportFragmentManager(), fragments, tabTitles));
         tabLayout.setViewPager(viewPager);
+
     }
 
     @Override
@@ -73,6 +77,12 @@ public class BookRankingActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
-
+        if (mType == Consts.TYPE_BOY) {
+            tabLayout.setCurrentTab(0);
+        } else if (mType == Consts.TYPE_GIRL) {
+            tabLayout.setCurrentTab(1);
+        } else {
+            tabLayout.setCurrentTab(0);
+        }
     }
 }

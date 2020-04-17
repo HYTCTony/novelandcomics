@@ -17,6 +17,20 @@
         tools:src="@mipmap/img_holder_rect" />
 
     <TextView
+        android:id="@+id/tv_book_score"
+        android:layout_width="wrap_content"
+        tools:text="9.6分"
+        android:paddingStart="@dimen/dp_4"
+        android:visibility="gone"
+        android:paddingEnd="@dimen/dp_4"
+        android:background="@drawable/shape_mark_right_bottom_round_red"
+        android:textSize="@dimen/sp_10"
+        android:textColor="@color/txt_white"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_book_cover"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        android:layout_height="wrap_content"/>
+
+    <TextView
         android:id="@+id/tv_book_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

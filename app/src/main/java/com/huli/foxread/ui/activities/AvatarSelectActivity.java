@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -68,7 +68,7 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
 
         recyclerView = $(R.id.recyclerView_system_avatar);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        headPicUrl = UserInfoCache2.getHeadPic(this);
+        headPicUrl = UserInfoCache.getHeadPic(this);
         mAdapter = new SectionAvatarAdapter(headPicUrl, this);
         recyclerView.setAdapter(mAdapter);
 
@@ -119,7 +119,7 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
                             List<AvatarGroup> datas = entity.getData();
                             for (int i = 0; i < datas.size(); i++) {
                                 AvatarGroup avatarGroup = datas.get(i);
-                                List<SysAvatarEntity> avatars = avatarGroup.getAvatar();
+                                List<SysAvatarEntity> avatars = avatarGroup.getProfileAvatar();
                                 list.add(new AvatarSection<>(true, avatarGroup.getName(), null));
                                 for (int j = 0; j < avatars.size(); j++) {
                                     list.add(new AvatarSection<>(false, "", avatars.get(j)));

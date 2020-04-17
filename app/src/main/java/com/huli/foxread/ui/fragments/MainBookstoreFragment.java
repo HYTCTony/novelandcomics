@@ -18,7 +18,6 @@ import com.huli.foxread.utils.StatusBarUtils;
 import java.util.ArrayList;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 
 public class MainBookstoreFragment extends BaseFragment implements OnTabSelectListener {
@@ -65,10 +64,9 @@ public class MainBookstoreFragment extends BaseFragment implements OnTabSelectLi
     @Override
     public void doBusiness(Context mContext) {
         String[] tabTitles = getResources().getStringArray(R.array.tab_book_store);
-        fragments.add(new SelectionBookFragment());
+        fragments.add(new BookStoreSelectionFragment());
         fragments.add(BookStoreBoyFragment.newInstance(Consts.TYPE_BOY));
         fragments.add(BookStoreBoyFragment.newInstance(Consts.TYPE_GIRL));
-        fragments.add(BookStoreBoyFragment.newInstance(Consts.TYPE_LIBRARY));
         viewPager.setOffscreenPageLimit(fragments.size());
         viewPager.setAdapter(new CPagerAdapter(getChildFragmentManager(), fragments, tabTitles));
         slidingTabLayout.setViewPager(viewPager);

@@ -11,7 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -84,11 +84,11 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
     }
 
     private void showUserInfo() {
-        FUser fUser = UserInfoCache2.getUserInfo(this);
+        FUser fUser = UserInfoCache.getUserInfo(this);
         phoneNum = fUser.getMobile();
         tvAccountId.setText(fUser.getId());
         tvTelNum.setText(phoneNum.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
-        tvWechatBindingState.setText(fUser.getIs_wx() == 1 ? R.string.txt_has_been_bind : R.string.txt_unbind);
+        tvWechatBindingState.setText(fUser.isIs_wx() ? R.string.txt_has_been_bind : R.string.txt_unbind);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
                 }
                 break;
             case R.id.rtl_asBtn_user_wechat:
-                if (!UserInfoCache2.getIsBindWechat(this) && !TextUtils.isEmpty(phoneNum)) {
+                if (!UserInfoCache.getIsBindWechat(this) && !TextUtils.isEmpty(phoneNum)) {
                     reqAuthCode(phoneNum);
                 }
                 break;
@@ -215,7 +215,7 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
                     @Override
                     public void onSuccess(Response<LzyResponse<String>> response) {
                         if (response.body().error_code == 0) {
-                            UserInfoCache2.saveIsBindWechat(AccountSecurityActivity.this, 1);
+                            UserInfoCache.saveIsBindWechat(AccountSecurityActivity.this, true);
                             //改变ui信息
                             tvWechatBindingState.setText(R.string.txt_has_been_bind);
                             TipDialog.show(AccountSecurityActivity.this, response.body().msg, TipDialog.TYPE.SUCCESS);

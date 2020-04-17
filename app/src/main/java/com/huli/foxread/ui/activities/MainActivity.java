@@ -20,7 +20,7 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -33,6 +33,7 @@ import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
+import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
@@ -210,7 +211,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 一键登录预取号
      */
     private void preAvoidPwd1ClickLogin() {
-        if (!UserInfoCache2.getIsVisitor(this)) {
+        if(!UserInfoCache.getIsTourist(this)){
             return;
         }
         AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
@@ -228,6 +229,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             }
         });
     }
+
 
 
     // 注意：SDK调用getWakeUpParams方法获取参数是异步操作，请确保在onGetWakeUpFinish回调中拿到参数后才去处理自己的业务逻辑
@@ -285,8 +287,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 MainBookstoreFragment bookStoreFrag = (MainBookstoreFragment) getSupportFragmentManager().getFragments().get(position);
                 int currentTab = bookStoreFrag.slidingTabLayout.getCurrentTab();
                 Fragment fragment = bookStoreFrag.getChildFragmentManager().getFragments().get(currentTab);
-                if (fragment instanceof SelectionBookFragment) {
-                    SelectionBookFragment selectionBookFrag = (SelectionBookFragment) fragment;
+                if (fragment instanceof BookStoreSelectionFragment) {
+                    BookStoreSelectionFragment selectionBookFrag = (BookStoreSelectionFragment) fragment;
                     if (selectionBookFrag.recyclerView.canScrollVertically(-1)) {           //判断RecyclerView是否在顶部
                         selectionBookFrag.recyclerView.smoothScrollToPosition(0);
                     }
@@ -501,7 +503,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                         if (response.body().error_code == 0) {
                             LoginRpsEntity data = response.body().getData();
                             TokenCache.saveToken(MainActivity.this, data.getToken());
-                            onResume();
+
                             reqUserInfo();
                         } else {
                             TipDialog.show(MainActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
@@ -542,6 +544,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     public void onSuccess(Response<LzyResponse<FUser>> response) {
                         if (response.body().error_code == 0) {
                             FUser data = response.body().getData();
+                            UserInfoCache.saveUserInfo(MainActivity.this, data);
+
                             UserInfoCache2.saveUserInfo(MainActivity.this, data);
                             //是否已经填写邀请码
                             boolean isInvited = data.getIs_invited() > 0;

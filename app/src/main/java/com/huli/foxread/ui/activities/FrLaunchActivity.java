@@ -22,7 +22,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -54,6 +54,9 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class FrLaunchActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
+
+    /*广告时间*/
+    private int count = 3;
 
     private ConstraintLayout layoutAdvertising;
     private Button btnSkip;
@@ -148,7 +151,6 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         }
     }
 
-    private int count = 3;
     private Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -202,12 +204,13 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                         int errorCode = response.body().error_code;
                         if (errorCode == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache2.saveUserInfo(FrLaunchActivity.this, data);
+                            UserInfoCache.saveUserInfo(FrLaunchActivity.this, data);
                             // 游客登录 是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
                             // 游客登录 是否有性别---> 有：   reqAdsFromNet();
                             // 正式用户登录(肯定有性别)---> reqAdsFromNet();
                             int gender = data.getGender();
-                            if (gender == -1 && data.getIs_visitor() == 1) {
+//                            if (gender == 0 && data.isTourist()) {
+                            if (gender == 0) {
                                 startActivity(new Intent(mContext, GenderChoiceActivity.class));
                                 finish();
                                 return;

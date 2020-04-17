@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -115,7 +115,7 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
     @Override
     public void doBusiness(Context mContext) {
         //需要登录
-        if (UserInfoCache2.getIsVisitor(mContext)) {
+        if (UserInfoCache.getIsTourist(mContext)) {
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
             return;
         }

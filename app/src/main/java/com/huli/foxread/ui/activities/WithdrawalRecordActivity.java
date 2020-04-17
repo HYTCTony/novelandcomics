@@ -6,9 +6,8 @@ import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
@@ -19,12 +18,9 @@ import com.huli.foxread.ui.base.BaseActivity;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -82,7 +78,7 @@ public class WithdrawalRecordActivity extends BaseActivity {
     @Override
     public void doBusiness(Context mContext) {
         //需要登录
-        if (UserInfoCache2.getIsVisitor(mContext)) {
+        if (UserInfoCache.getIsTourist(mContext)) {
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
             return;
         }

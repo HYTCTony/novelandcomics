@@ -11,8 +11,8 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.contact.Common;
-import com.huli.foxread.entity.BookEntity;
-import com.huli.foxread.entity.HpClassifyNvET;
+import com.huli.foxread.entity.GemEntity;
+import com.huli.foxread.entity.GemGroupEntity;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.base.BaseFragment;
@@ -34,7 +34,7 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
 
     private TextView btnAll;
 
-    public static ExWorksShowFargment newInstance(HpClassifyNvET data) {
+    public static ExWorksShowFargment newInstance(GemGroupEntity data) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_KEY, data);
         ExWorksShowFargment mFragment = new ExWorksShowFargment();
@@ -81,10 +81,10 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
     public void doBusiness(Context mContext) {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            HpClassifyNvET data = (HpClassifyNvET) bundle.getSerializable(EXTRA_KEY);
+            GemGroupEntity data = (GemGroupEntity) bundle.getSerializable(EXTRA_KEY);
             if (data != null) {
                 btnAll.setText(data.getName());
-                List<BookEntity> novels = data.getNovel();
+                List<GemEntity> novels = data.getNovel();
                 if (novels.size() > 4) {
                     mAdapter.setNewData(novels.subList(0, 4));
                 } else {
@@ -99,24 +99,24 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
         if (onMoreClick()) {
             return;
         }
-        BookEntity entity = mAdapter.getData().get(position);
+        GemEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(mActivity, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
         startActivity(intent);
     }
 
 
-    private class MyAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolder> {
+    private class MyAdapter extends BaseQuickAdapter<GemEntity, BaseViewHolder> {
 
         public MyAdapter() {
             super(R.layout.recy_grid_item_count4_excellent_works);
         }
 
         @Override
-        protected void convert(@NonNull BaseViewHolder helper, BookEntity item) {
+        protected void convert(@NonNull BaseViewHolder helper, GemEntity item) {
             GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover_cew), item.getHttp_image(), 0);
             helper.setText(R.id.tv_book_name, item.getName());
-            helper.setText(R.id.tv_book_viewers_cur, FigureProcessor.formatNum(getContext(), item.getRead_sum()) + getString(R.string.txt_book_watching));
+            helper.setText(R.id.tv_book_viewers_cur, FigureProcessor.formatNum(getContext(), item.getReading_size()) + getString(R.string.txt_book_watching));
         }
     }
 }

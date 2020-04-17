@@ -22,7 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -239,7 +239,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
                 break;
             case R.id.tv_asBtn_login_one_click:
-                oneClickLogin();
+//                oneClickLogin();
+                preAvoidPwd1ClickLogin();
                 break;
             default:
                 break;
@@ -352,7 +353,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         int errorCode = response.body().error_code;
                         if (errorCode == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache2.saveUserInfo(LoginActivity.this, data);
+                            UserInfoCache.saveUserInfo(LoginActivity.this, data);
                             EventBus.getDefault().postSticky(data);
                             //是否已经填写邀请码
                             boolean isInvited = data.getIs_invited() > 0;
@@ -394,6 +395,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         TipDialog.dismiss();
                     }
                 });
+    }
+
+    /**
+     * 一键登录预取号
+     */
+    private void preAvoidPwd1ClickLogin() {
+        AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
+            @Override
+            public void onPreGetNumberSuccess(String secureMobile) {
+                Log.e(TAG, "预取号成功：" + secureMobile);
+                oneClickLogin();
+            }
+
+            @Override
+            public void onPreGetNumberError(final String msg) {
+                Log.e(TAG, "预取号失败：" + msg);
+            }
+        });
     }
 
     /**

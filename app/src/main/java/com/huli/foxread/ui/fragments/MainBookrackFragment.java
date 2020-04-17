@@ -20,7 +20,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -96,8 +96,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public void initView(View view) {
         mToolbar = $(view, R.id.toolbar_book_rack);
-        FUser fUser = UserInfoCache2.getUserInfo(mActivity);
-        if (fUser.getIs_visitor() == 1) {
+        FUser fUser = UserInfoCache.getUserInfo(mActivity);
+        if (fUser.isIs_tourist()) {
             mToolbar.setTitle(R.string.txt_say_hi);
         } else {
             mToolbar.setTitle(fUser.getUsername());
@@ -178,8 +178,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        int isVisitor = event.getIs_visitor();
-        if (isVisitor == 1) {
+        if (event.isIs_tourist()) {
             mToolbar.setTitle(R.string.txt_say_hi);
         } else {
             mToolbar.setTitle(event.getUsername());

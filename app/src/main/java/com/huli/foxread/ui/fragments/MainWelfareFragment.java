@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -74,8 +74,6 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     private List<BannerADEntity> bannerDatas;
     private TextView tvGoldCoinCount, tvSignInCount;
     private TextView btnSignInNow;
-
-    private boolean isVisitor;
 
     @Override
     public int bindLayout() {
@@ -139,20 +137,22 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
 
-        isVisitor = UserInfoCache2.getIsVisitor(mActivity);
-        displayIsLoginUI(isVisitor);
+        boolean isTourist = UserInfoCache.getIsTourist(mActivity);
+        displayIsLoginUI(isTourist);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
+        OkGo.getInstance().cancelTag(Consts.WELFARE_LIST_API);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        isVisitor = event.getIs_visitor() == 1;
-        displayIsLoginUI(isVisitor);
+        boolean isTourist = event.isIs_tourist();
+        displayIsLoginUI(isTourist);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -175,8 +175,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
     }
 
-    private void displayIsLoginUI(boolean isVisitor) {
-        if (isVisitor) {
+    private void displayIsLoginUI(boolean isTourist) {
+        if (isTourist) {
             btnClick2Login.setVisibility(View.VISIBLE);
             btnGoldCoinUsable.setVisibility(View.GONE);
         } else {
@@ -260,7 +260,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         //设置自动轮播，默认为true
         mBanner.isAutoPlay(true);
         //设置轮播时间
-        mBanner.setDelayTime(3500);
+        mBanner.setDelayTime(4200);
         //设置指示器位置（当banner模式中有指示器时）
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.setOnBannerListener(this);
@@ -278,6 +278,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
      */
     private void reqGetWerfareTasks(boolean showDialog) {
         OkGo.<String>get(Consts.WELFARE_LIST_API)
+                .tag(Consts.WELFARE_LIST_API)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -320,7 +321,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                                     }
                                 }
                             }
-                            mAdapter.setVipMode(UserInfoCache2.getIsVip(mActivity));
+                            mAdapter.setVipMode(UserInfoCache.getIsVip(mActivity));
                             mAdapter.setNewData(list);
                         }
                     }

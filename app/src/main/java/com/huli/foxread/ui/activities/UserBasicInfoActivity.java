@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
@@ -88,7 +88,7 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
     public void doBusiness(Context mContext) {
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
-        FUser userInfo = UserInfoCache2.getUserInfo(mContext);
+        FUser userInfo = UserInfoCache.getUserInfo(mContext);
         displayUserInfo(userInfo);
     }
 
@@ -180,7 +180,7 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                 GlideUtil.loadCircle(UserBasicInfoActivity.this, ivHeadImg, headPicUrl);
                 setResult(RESULT_OK);
 
-                FUser user = UserInfoCache2.saveHeadPic(this, headPicUrl);
+                FUser user = UserInfoCache.saveHeadPic(this, headPicUrl);
                 //通知ui刷新
                 EventBus.getDefault().postSticky(user);
             }
@@ -200,7 +200,7 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                             FUser userInfo;
                             if (paramKey.equals(Consts.USERNAME)) {
                                 tvNickname.setText(paramValue);
-                                userInfo = UserInfoCache2.saveUserName(UserBasicInfoActivity.this, paramValue);
+                                userInfo = UserInfoCache.saveUserName(UserBasicInfoActivity.this, paramValue);
                                 setResult(RESULT_OK);
                                 Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
                                 //通知ui刷新
@@ -213,7 +213,7 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                                 } else {
                                     gender = -1;
                                 }
-                                userInfo = UserInfoCache2.saveGender(UserBasicInfoActivity.this, gender);
+                                userInfo = UserInfoCache.saveGender(UserBasicInfoActivity.this, gender);
                                 setResult(RESULT_OK);
                                 Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
                                 //通知ui刷新

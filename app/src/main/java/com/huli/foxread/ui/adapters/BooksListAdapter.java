@@ -4,7 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
-import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
 
@@ -12,14 +12,14 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class BooksListAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolder> implements LoadMoreModule {
+public class BooksListAdapter extends BaseQuickAdapter<BookEntity2, BaseViewHolder> implements LoadMoreModule {
 
     public BooksListAdapter() {
         super(R.layout.recy_list_item_book_normal);
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, BookEntity item) {
+    protected void convert(@NonNull BaseViewHolder helper, BookEntity2 item) {
         GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
         helper.setText(R.id.tv_book_title, item.getName());
         helper.setText(R.id.tv_book_score, item.getScore() + getContext().getString(R.string.unit_score));

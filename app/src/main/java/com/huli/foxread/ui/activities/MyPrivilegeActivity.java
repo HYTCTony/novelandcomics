@@ -12,7 +12,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,7 +22,7 @@ import com.alibaba.fastjson.TypeReference;
 import com.alipay.sdk.app.PayTask;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -66,7 +65,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -113,7 +111,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                         reqUserInfo();
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Tos.showShort(MyPrivilegeActivity.this, "支付失败");
+                        Tos.showShort(MyPrivilegeActivity.this, R.string.txt_payment_failure);
                     }
                     break;
                 }
@@ -171,14 +169,14 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void doBusiness(Context mContext) {
         //需要登录---返回结果BaseActivity处理
-        if (UserInfoCache2.getIsVisitor(mContext)) {
+        if (UserInfoCache.getIsTourist(mContext)) {
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
             return;
         }
 
         iwxapi = WXAPIFactory.createWXAPI(this, FrApp.WECHAT_APP_ID);
 
-        FUser userInfo = UserInfoCache2.getUserInfo(mContext);
+        FUser userInfo = UserInfoCache.getUserInfo(mContext);
         GlideUtil.loadCircle(this, ivHeadImg, userInfo.getHttp_avatar());
         tvNickname.setText(userInfo.getUsername());
         String phoneNum = userInfo.getMobile();
@@ -208,7 +206,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
         displayVipUI(userInfo);
 
-        btnOpenOrRenew.setText("立即开通");
+        btnOpenOrRenew.setText(R.string.txt_activate_immediately);
 
         reqRechargeCombo();
 
@@ -243,7 +241,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void displayVipUI(FUser fUser) {
-        boolean isVip = fUser.getIs_vip() == 1;
+        boolean isVip = fUser.isIs_vip();
         if (isVip) {
             tvVipTypeTitle.setText(R.string.txt_monthly_vip);
             tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
@@ -361,9 +359,9 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                     public void onSuccess(Response<LzyResponse<FUser>> response) {
                         if (response.body().error_code == 0) {
                             FUser data = response.body().getData();
-                            UserInfoCache2.saveUserInfo(MyPrivilegeActivity.this, data);
+                            UserInfoCache.saveUserInfo(MyPrivilegeActivity.this, data);
 
-                            if (UserInfoCache2.getIsVip(MyPrivilegeActivity.this)) {
+                            if (UserInfoCache.getIsVip(MyPrivilegeActivity.this)) {
                                 tvVipTypeTitle.setText(R.string.txt_monthly_vip);
                                 tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
                                         DateTimeUtil.formatDateTime(data.getVip_end() * 1000, "yyyy-MM-dd")));
@@ -374,10 +372,10 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                                 EventBus.getDefault().postSticky(new VipChargerEvent(true));
 
                                 MessageDialog.build(MyPrivilegeActivity.this)
-                                        .setTitle("支付成功")
-                                        .setMessage("快去体验吧")
-                                        .setOkButton("去体验")
-                                        .setCancelButton("再看看")
+                                        .setTitle(R.string.txt_payment_success)
+                                        .setMessage(R.string.txt_go2_experience_it)
+                                        .setOkButton(R.string.txt_experience_it)
+                                        .setCancelButton(R.string.txt_look_a_little_bit_more)
                                         .setCustomView(R.layout.dialog_payment_success, (dialog, v) -> {
                                         }).setOnOkButtonClickListener((baseDialog, v) -> {
                                     finish();

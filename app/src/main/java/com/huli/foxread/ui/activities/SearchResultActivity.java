@@ -20,7 +20,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.eventbus.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
@@ -139,7 +139,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         if (onMoreClick()) {
             return;
         }
-        BookEntity entity = mAdapter.getData().get(position);
+        BookEntity2 entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
         startActivity(intent);
@@ -161,19 +161,19 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
 
     private void reqCategoryDatas(String keyword, int page, boolean showDialog) {
-        OkGo.<String>post(Consts.NOVEL_KEYWORD_API)
+        OkGo.<String>post(Consts.SEARCH_NOVEL_API)
                 .params(Consts.FILTRATE_KEYWORD, keyword)
                 .params(Consts.PAGE, page + 1)
                 .execute(new LtbCallback(this, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
+                        LzyResponse<PagingWarpper<List<BookEntity2>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity2>>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            PagingWarpper<List<BookEntity>> datas = entity.getData();
+                            PagingWarpper<List<BookEntity2>> datas = entity.getData();
                             curPage = datas.getCurrent_page();
-                            List<BookEntity> bookList = datas.getData();
+                            List<BookEntity2> bookList = datas.getData();
                             if (curPage == 1) {
                                 mAdapter.setNewData(bookList);
                             } else {

@@ -340,6 +340,11 @@
 
     <string name="txt_wechat_pay">微信支付</string>
     <string name="txt_alipay">支付宝</string>
+    <string name="txt_payment_failure">支付失败</string>
+    <string name="txt_payment_success">支付成功</string>
+    <string name="txt_go2_experience_it">快去体验吧</string>
+    <string name="txt_experience_it">去体验</string>
+    <string name="txt_look_a_little_bit_more">再看看</string>
 
     <string name="txt_yuan_open">元 立即开通</string>
     <string name="txt_monthly_vip">包月VIP</string>

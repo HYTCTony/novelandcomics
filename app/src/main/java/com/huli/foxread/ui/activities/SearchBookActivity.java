@@ -17,13 +17,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.entity.HotKeywordBean;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.eventbus.SearchRecordEvent;
@@ -36,7 +35,6 @@ import com.kongzue.stacklabelview.interfaces.OnLabelClickListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -61,7 +59,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     private List<HotKeywordBean> hotKwList = new ArrayList<>();
 
     private int mType = 0;
-    private int curPage = 0;        //当前页码，下一页 +1
+    private int curPage = 0;        //当前页码
 
     @Override
     public void initParms(Bundle parms) {
@@ -138,12 +136,12 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         });
 
         mAdapter.setOnItemClickListener(this);
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
+       /* mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                reqGetHotNovel(curPage + 1);
+                reqGetHotNovel(0);
             }
-        });
+        });*/
     }
 
     @Override
@@ -157,7 +155,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         }
 
         reqHotSearchData();
-        reqGetHotNovel(curPage + 1);
+//        reqGetHotNovel(0);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -172,7 +170,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         if (onMoreClick()) {
             return;
         }
-        BookEntity entity = mAdapter.getData().get(position);
+        BookEntity2 entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
         startActivity(intent);
@@ -231,7 +229,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         if (labelList != null && labelList.contains(keyword)) {
             return;
         }
-        if(labelList==null){
+        if (labelList == null) {
             labelList = new ArrayList<>();
         }
         labelList.add(0, keyword);
@@ -281,7 +279,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
      * 热门搜索---关键词
      */
     private void reqHotSearchData() {
-        OkGo.<String>get(Consts.KEYWORD_INDEX_API)
+        OkGo.<String>get(Consts.HOT_KEYWORD_API)
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -303,22 +301,22 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
     /**
      * 热门书籍
      *
-     * @param reqPage 请求的页码
+     * @param prePage 上一页页码
      */
-    private void reqGetHotNovel(int reqPage) {
+    private void reqGetHotNovel(int prePage) {
         OkGo.<String>post(Consts.NOVEL_HOT_API)
                 .params(Consts.TYPE, mType)
-                .params(Consts.PAGE, reqPage)
+                .params(Consts.PAGE, prePage + 1)
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
+                        LzyResponse<PagingWarpper<List<BookEntity2>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity2>>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            PagingWarpper<List<BookEntity>> data = entity.getData();
+                            PagingWarpper<List<BookEntity2>> data = entity.getData();
                             curPage = data.getCurrent_page();
-                            List<BookEntity> bookList = data.getData();
+                            List<BookEntity2> bookList = data.getData();
                             if (curPage == 1) {
                                 mAdapter.setNewData(bookList);
                             } else {
