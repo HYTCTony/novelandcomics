@@ -356,7 +356,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             UserInfoCache.saveUserInfo(LoginActivity.this, data);
                             EventBus.getDefault().postSticky(data);
                             //是否已经填写邀请码
-                            boolean isInvited = data.getIs_invited() > 0;
+                            boolean isInvited = data.isIs_invited();
                             if (!isInvited)
                                 reqInviteCodeSubmit((String) SPFUtils.get(LoginActivity.this, Common.INVITE_CODE, ""));
 
@@ -500,7 +500,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         });
                         String code = (String) SPFUtils.get(LoginActivity.this, Common.INVITE_CODE, "-1");
                         if (entity.error_code == 0) {
-                            UserInfoCache2.saveIsInvited(LoginActivity.this, 1);
+                            UserInfoCache.saveIsInvited(LoginActivity.this, true);
                         }
                     }
                 });

@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
@@ -120,13 +119,11 @@ public class FrApp extends Application implements ActivityState {
                     AutoLoginUtils.getUnicomConfig(), new AvoidPwdLoginInitListener() {
                         @Override
                         public void onInitSuccess() {
-                            Toast.makeText(sInstance, "初始化三网SDK成功", Toast.LENGTH_SHORT).show();
                             Log.e("Application", " AutoLogin onInitSuccess");
                         }
 
                         @Override
                         public void onInitError(String s) {
-                            Toast.makeText(sInstance, "初始化三网SDK失败: " + s, Toast.LENGTH_SHORT).show();
                             Log.e("Application", " AutoLogin onInitError = " + s);
                         }
                     });

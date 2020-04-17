@@ -13,15 +13,12 @@ import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache2;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
@@ -119,8 +116,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
 
-        FUser userInfo = UserInfoCache2.getUserInfo(mActivity);
-        isVisitor = userInfo.getIs_visitor() == 1;
+        FUser userInfo = UserInfoCache.getUserInfo(mActivity);
         changeUIbyUserInfo(userInfo);
     }
 
@@ -161,13 +157,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onUserInfoChangeEvent(FUser event) {
-        isVisitor = event.getIs_visitor() == 1;
         changeUIbyUserInfo(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onVipChargerEvent(VipChargerEvent event) {
-        isVip = event.isBecomingVip();
         changeUIbyIsVip(event.isBecomingVip());
         EventBus.getDefault().removeStickyEvent(event);
     }

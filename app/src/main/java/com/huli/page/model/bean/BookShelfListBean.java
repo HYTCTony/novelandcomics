@@ -27,7 +27,7 @@ public class BookShelfListBean implements Serializable {
     private String user_id;
     private String novel_name;//书名
     private String novel_image;
-    private String http_novel_image;
+    private String http_novel_image;//封面图
     private String author;
 
     @Transient
@@ -39,7 +39,7 @@ public class BookShelfListBean implements Serializable {
     private float score;                    //评分
     private String file;                    //小说下载链接
     private int read_sum;                   //阅读次数
-    private int is_end;                     //0未完结，1已完结
+    private int is_end;                     //2未完结，1已完结
     private int type;                       //类型:1=男生,2=女生,3=图书
     private int classify_id;                //分类ID
     private String classify_name;           //分类名
@@ -47,19 +47,19 @@ public class BookShelfListBean implements Serializable {
     private int word;                       //小说字说
     private int is_new;
     private int is_hot;
-    private int is_copyright;               //0无版权，1有版权
+    private int is_copyright;               //2无版权，1有版权
     private int reading_size;              //在读人数
-    private String introduce;
+    private String introduce;               //简介
     private String http_image;
     private int chapter_sum;
-    private int is_exist_bookshelf;      //是否加入书架 0：否  1：是
+    private int is_exist_bookshelf;      //是否加入书架 2：否  1：是
     /******************************************************************/
-    public long createtime;
-    public long updatetime;
-    public long deletetime;
+    private long createtime;
+    private long updatetime;
+    private long deletetime;
     //最新阅读日期
     private String lastRead;
-    private String lastChapter;
+    private String chapter_name;
     //是否更新或未阅读lastChapter
     private boolean isUpdate = true;
     //是否是本地文件
@@ -67,27 +67,23 @@ public class BookShelfListBean implements Serializable {
     @ToMany(referencedJoinProperty = "bookId")
     private List<BookChapter> bookChapterList;
 
-    /**
-     * Used to resolve relations
-     */
+    /** Used to resolve relations */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
 
-    /**
-     * Used for active entity operations.
-     */
+    /** Used for active entity operations. */
     @Generated(hash = 314701721)
     private transient BookShelfListBeanDao myDao;
 
-    @Generated(hash = 2103858757)
+    @Generated(hash = 1725956324)
     public BookShelfListBean(String id, String novel_id, String user_id, String novel_name,
-                             String novel_image, String http_novel_image, String author, float score,
-                             String file, int read_sum, int is_end, int type, int classify_id,
-                             String classify_name, int greet, int word, int is_new, int is_hot,
-                             int is_copyright, int reading_size, String introduce, String http_image,
-                             int chapter_sum, int is_exist_bookshelf, long createtime, long updatetime,
-                             long deletetime, String lastRead, String lastChapter, boolean isUpdate,
-                             boolean isLocal) {
+            String novel_image, String http_novel_image, String author, float score,
+            String file, int read_sum, int is_end, int type, int classify_id,
+            String classify_name, int greet, int word, int is_new, int is_hot,
+            int is_copyright, int reading_size, String introduce, String http_image,
+            int chapter_sum, int is_exist_bookshelf, long createtime, long updatetime,
+            long deletetime, String lastRead, String chapter_name, boolean isUpdate,
+            boolean isLocal) {
         this.id = id;
         this.novel_id = novel_id;
         this.user_id = user_id;
@@ -116,10 +112,11 @@ public class BookShelfListBean implements Serializable {
         this.updatetime = updatetime;
         this.deletetime = deletetime;
         this.lastRead = lastRead;
-        this.lastChapter = lastChapter;
+        this.chapter_name = chapter_name;
         this.isUpdate = isUpdate;
         this.isLocal = isLocal;
     }
+
 
     @Generated(hash = 394971066)
     public BookShelfListBean() {
@@ -374,11 +371,11 @@ public class BookShelfListBean implements Serializable {
     }
 
     public String getLastChapter() {
-        return StringUtils.convertCC(lastChapter, FrApp.getInstance());
+        return StringUtils.convertCC(chapter_name, FrApp.getInstance());
     }
 
     public void setLastChapter(String lastChapter) {
-        this.lastChapter = lastChapter;
+        this.chapter_name = lastChapter;
     }
 
     public boolean getIsUpdate() {
@@ -405,6 +402,14 @@ public class BookShelfListBean implements Serializable {
         this.is_exist_bookshelf = is_exist_bookshelf;
     }
 
+    public String getChapter_name() {
+        return this.chapter_name;
+    }
+
+    public void setChapter_name(String chapter_name) {
+        this.chapter_name = chapter_name;
+    }
+
     /**
      * To-many relationship, resolved on first access (and after reset).
      * Changes to to-many relations are not persisted, make changes to the target entity.
@@ -428,9 +433,7 @@ public class BookShelfListBean implements Serializable {
         return bookChapterList;
     }
 
-    /**
-     * Resets a to-many relationship, making the next get call to query for a fresh result.
-     */
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
     @Generated(hash = 1077762221)
     public synchronized void resetBookChapterList() {
         bookChapterList = null;
@@ -472,9 +475,7 @@ public class BookShelfListBean implements Serializable {
         myDao.update(this);
     }
 
-    /**
-     * called by internal mechanisms, do not call yourself.
-     */
+    /** called by internal mechanisms, do not call yourself. */
     @Generated(hash = 1425417835)
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;

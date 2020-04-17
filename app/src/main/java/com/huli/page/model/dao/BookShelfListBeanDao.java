@@ -52,7 +52,7 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         public final static Property Updatetime = new Property(25, long.class, "updatetime", false, "UPDATETIME");
         public final static Property Deletetime = new Property(26, long.class, "deletetime", false, "DELETETIME");
         public final static Property LastRead = new Property(27, String.class, "lastRead", false, "LAST_READ");
-        public final static Property LastChapter = new Property(28, String.class, "lastChapter", false, "LAST_CHAPTER");
+        public final static Property Chapter_name = new Property(28, String.class, "chapter_name", false, "CHAPTER_NAME");
         public final static Property IsUpdate = new Property(29, boolean.class, "isUpdate", false, "IS_UPDATE");
         public final static Property IsLocal = new Property(30, boolean.class, "isLocal", false, "IS_LOCAL");
     }
@@ -101,7 +101,7 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
                 "\"UPDATETIME\" INTEGER NOT NULL ," + // 25: updatetime
                 "\"DELETETIME\" INTEGER NOT NULL ," + // 26: deletetime
                 "\"LAST_READ\" TEXT," + // 27: lastRead
-                "\"LAST_CHAPTER\" TEXT," + // 28: lastChapter
+                "\"CHAPTER_NAME\" TEXT," + // 28: chapter_name
                 "\"IS_UPDATE\" INTEGER NOT NULL ," + // 29: isUpdate
                 "\"IS_LOCAL\" INTEGER NOT NULL );"); // 30: isLocal
     }
@@ -192,9 +192,9 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             stmt.bindString(28, lastRead);
         }
  
-        String lastChapter = entity.getLastChapter();
-        if (lastChapter != null) {
-            stmt.bindString(29, lastChapter);
+        String chapter_name = entity.getChapter_name();
+        if (chapter_name != null) {
+            stmt.bindString(29, chapter_name);
         }
         stmt.bindLong(30, entity.getIsUpdate() ? 1L: 0L);
         stmt.bindLong(31, entity.getIsLocal() ? 1L: 0L);
@@ -280,9 +280,9 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             stmt.bindString(28, lastRead);
         }
  
-        String lastChapter = entity.getLastChapter();
-        if (lastChapter != null) {
-            stmt.bindString(29, lastChapter);
+        String chapter_name = entity.getChapter_name();
+        if (chapter_name != null) {
+            stmt.bindString(29, chapter_name);
         }
         stmt.bindLong(30, entity.getIsUpdate() ? 1L: 0L);
         stmt.bindLong(31, entity.getIsLocal() ? 1L: 0L);
@@ -330,7 +330,7 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
             cursor.getLong(offset + 25), // updatetime
             cursor.getLong(offset + 26), // deletetime
             cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27), // lastRead
-            cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // lastChapter
+            cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28), // chapter_name
             cursor.getShort(offset + 29) != 0, // isUpdate
             cursor.getShort(offset + 30) != 0 // isLocal
         );
@@ -367,7 +367,7 @@ public class BookShelfListBeanDao extends AbstractDao<BookShelfListBean, String>
         entity.setUpdatetime(cursor.getLong(offset + 25));
         entity.setDeletetime(cursor.getLong(offset + 26));
         entity.setLastRead(cursor.isNull(offset + 27) ? null : cursor.getString(offset + 27));
-        entity.setLastChapter(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
+        entity.setChapter_name(cursor.isNull(offset + 28) ? null : cursor.getString(offset + 28));
         entity.setIsUpdate(cursor.getShort(offset + 29) != 0);
         entity.setIsLocal(cursor.getShort(offset + 30) != 0);
      }

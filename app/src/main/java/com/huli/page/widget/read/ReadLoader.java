@@ -25,7 +25,6 @@ import com.huli.page.widget.page.TxtPage;
 import com.huli.page.widget.page.TxtSpecing;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -1357,8 +1356,6 @@ public abstract class ReadLoader {
                 //重置Lines
                 lines.clear();
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

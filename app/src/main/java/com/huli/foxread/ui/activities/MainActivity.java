@@ -10,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -38,7 +37,6 @@ import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
-import com.huli.foxread.ui.fragments.SelectionBookFragment;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
@@ -211,26 +209,22 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 一键登录预取号
      */
     private void preAvoidPwd1ClickLogin() {
-        if(!UserInfoCache.getIsTourist(this)){
+        if (!UserInfoCache.getIsTourist(this)) {
             return;
         }
         AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
             @Override
             public void onPreGetNumberSuccess(String secureMobile) {
                 Log.e(TAG, "预取号成功：" + secureMobile);
-                Toast.makeText(MainActivity.this, "预取号成功：" + secureMobile, Toast.LENGTH_SHORT).show();
                 flagPreGetSuccess = true;
             }
 
             @Override
             public void onPreGetNumberError(String msg) {
-                Toast.makeText(MainActivity.this, "预取号失败：" + msg, Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "预取号失败：" + msg);
             }
         });
     }
-
-
 
     // 注意：SDK调用getWakeUpParams方法获取参数是异步操作，请确保在onGetWakeUpFinish回调中拿到参数后才去处理自己的业务逻辑
     private AppGetWakeUpListener wakeUpListener = new AppGetWakeUpListener() {
@@ -423,7 +417,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 /**
                  * 一键登陆弹窗
                  */
-                if (UserInfoCache2.getIsVisitor(MainActivity.this) && flagPreGetSuccess) {
+                if (UserInfoCache.getIsTourist(MainActivity.this) && flagPreGetSuccess) {
                     FullScreenDialog.build(MainActivity.this)
                             .setCustomView(R.layout.dialog_full_screen_one_click_login, (dialog, rootView) -> {
                                 Button btnGo2Login = rootView.findViewById(R.id.btn_one_click_go2_login);
@@ -546,9 +540,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                             FUser data = response.body().getData();
                             UserInfoCache.saveUserInfo(MainActivity.this, data);
 
-                            UserInfoCache2.saveUserInfo(MainActivity.this, data);
                             //是否已经填写邀请码
-                            boolean isInvited = data.getIs_invited() > 0;
+                            boolean isInvited = data.isIs_invited();
                             if (!isInvited) {
                                 reqInviteCodeSubmit((String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, ""));
                             }
@@ -574,7 +567,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                         });
                         String code = (String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, "-1");
                         if (entity.error_code == 0) {
-                            UserInfoCache2.saveIsInvited(MainActivity.this, 1);
+                            UserInfoCache.saveIsInvited(MainActivity.this, true);
                         }
                     }
                 });
