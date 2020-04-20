@@ -40,8 +40,8 @@
 
     <string-array name="cat_is_end">
         <item>全部</item>
-        <item>连载</item>
         <item>完结</item>
+        <item>连载</item>
     </string-array>
     <string-array name="cat_word_num">
         <item>全部</item>

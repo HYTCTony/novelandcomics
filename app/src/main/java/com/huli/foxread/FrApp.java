@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
@@ -120,13 +119,11 @@ public class FrApp extends Application implements ActivityState {
                     AutoLoginUtils.getUnicomConfig(), new AvoidPwdLoginInitListener() {
                         @Override
                         public void onInitSuccess() {
-//                            Toast.makeText(sInstance, "初始化三网SDK成功", Toast.LENGTH_SHORT).show();
                             Log.e("Application", " AutoLogin onInitSuccess");
                         }
 
                         @Override
                         public void onInitError(String s) {
-//                            Toast.makeText(sInstance, "初始化三网SDK失败: " + s, Toast.LENGTH_SHORT).show();
                             Log.e("Application", " AutoLogin onInitError = " + s);
                         }
                     });
@@ -200,11 +197,17 @@ public class FrApp extends Application implements ActivityState {
         });
         //小米
         MiPushRegistar.register(getApplicationContext(), "2882303761518355168", "5471835523168");
+
+        //debug模式
         InAppMessageManager.getInstance(getApplicationContext()).setInAppMsgDebugMode(true);
 
         // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+
+        //设置微信
         PlatformConfig.setWeixin(WECHAT_APP_ID, "4f58d7d2894fe8631831d18ed1d6d4be");
+        //设置QQ
+        PlatformConfig.setQQZone("1110348959", "flSP26RdIEM63XkC");
     }
 
     /**

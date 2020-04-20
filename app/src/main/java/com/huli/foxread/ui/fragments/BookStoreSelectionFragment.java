@@ -391,22 +391,32 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 fnMulEntity = new ForestallNewMultiEntity();
                 ForestallNewEntity bookEntity = newOrigNvList.get(i);
                 if (i == 0) {
-                    fnMulEntity.setId(bookEntity.getId());
                     fnMulEntity.setItemType(ForestallNewMultiEntity.DETAILED);
                     fnMulEntity.setSpanSize(ForestallNewMultiEntity.SPAN_SIZE_4);
                     fnMulEntity.setId(bookEntity.getId());
                     fnMulEntity.setNovel_id(bookEntity.getNovel_id());
                     fnMulEntity.setStatus(bookEntity.getStatus());
-                    fnMulEntity.setProfileNovel(bookEntity.getProfileNovel());
+                    fnMulEntity.setAuthor(bookEntity.getAuthor());
+                    fnMulEntity.setHttp_image(bookEntity.getHttp_image());
+                    fnMulEntity.setIntroduce(bookEntity.getIntroduce());
+                    fnMulEntity.setIs_end(bookEntity.getIs_end());
+                    fnMulEntity.setNovel_name(bookEntity.getNovel_name());
+                    fnMulEntity.setScore(bookEntity.getScore());
+                    fnMulEntity.setWord(bookEntity.getWord());
                     datas.add(fnMulEntity);
                 } else {
-                    fnMulEntity.setId(bookEntity.getId());
                     fnMulEntity.setItemType(ForestallNewMultiEntity.ITEM_FIRST);
                     fnMulEntity.setSpanSize(ForestallNewMultiEntity.SPAN_SIZE_1);
                     fnMulEntity.setId(bookEntity.getId());
                     fnMulEntity.setNovel_id(bookEntity.getNovel_id());
                     fnMulEntity.setStatus(bookEntity.getStatus());
-                    fnMulEntity.setProfileNovel(bookEntity.getProfileNovel());
+                    fnMulEntity.setAuthor(bookEntity.getAuthor());
+                    fnMulEntity.setHttp_image(bookEntity.getHttp_image());
+                    fnMulEntity.setIntroduce(bookEntity.getIntroduce());
+                    fnMulEntity.setIs_end(bookEntity.getIs_end());
+                    fnMulEntity.setNovel_name(bookEntity.getNovel_name());
+                    fnMulEntity.setScore(bookEntity.getScore());
+                    fnMulEntity.setWord(bookEntity.getWord());
                     datas.add(fnMulEntity);
                 }
             }

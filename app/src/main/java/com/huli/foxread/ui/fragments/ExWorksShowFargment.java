@@ -84,7 +84,7 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
             GemGroupEntity data = (GemGroupEntity) bundle.getSerializable(EXTRA_KEY);
             if (data != null) {
                 btnAll.setText(data.getName());
-                List<GemEntity> novels = data.getNovel();
+                List<GemEntity> novels = data.getProfile_novel_masterpiece();
                 if (novels.size() > 4) {
                     mAdapter.setNewData(novels.subList(0, 4));
                 } else {
@@ -115,7 +115,7 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
         @Override
         protected void convert(@NonNull BaseViewHolder helper, GemEntity item) {
             GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover_cew), item.getHttp_image(), 0);
-            helper.setText(R.id.tv_book_name, item.getName());
+            helper.setText(R.id.tv_book_name, item.getNovel_name());
             helper.setText(R.id.tv_book_viewers_cur, FigureProcessor.formatNum(getContext(), item.getReading_size()) + getString(R.string.txt_book_watching));
         }
     }

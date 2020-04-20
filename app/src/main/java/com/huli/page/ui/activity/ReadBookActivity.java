@@ -389,7 +389,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mPageLoader.getCollBook().setBookChapters(bookChapters);
         mPageLoader.refreshChapterList();
         StringBuffer buffer = new StringBuffer();
-        buffer.append(data.getIs_end() == 0 ? "未完结" : "已完结");
+        buffer.append(data.getIs_end() == 1 ? "已完结" : "未完结");
         buffer.append("，共");
         buffer.append(bookChapters.size());
         buffer.append("章");

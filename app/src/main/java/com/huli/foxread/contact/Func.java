@@ -605,5 +605,11 @@ public interface Func {
      */
     String PAY_ALIPAY = "/pay/ali";
 
+    /**
+     * 用途：检查更新
+     * 参数：
+     */
+    String VERSION_CHECK = "/version/check";
+
 
 }

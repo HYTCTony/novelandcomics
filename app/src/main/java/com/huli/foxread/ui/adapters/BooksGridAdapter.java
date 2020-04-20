@@ -16,8 +16,8 @@ public class BooksGridAdapter extends BaseQuickAdapter<ExclusiveBookEntity, Base
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, ExclusiveBookEntity data) {
-        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), data.getProfileNovel().getHttp_image(), 0);
-        helper.setText(R.id.tv_book_name, data.getProfileNovel().getName());
-        helper.setText(R.id.tv_authorName, data.getProfileNovel().getAuthor());
+        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), data.getHttp_image(), 0);
+        helper.setText(R.id.tv_book_name, data.getNovel_name());
+        helper.setText(R.id.tv_authorName, data.getAuthor());
     }
 }

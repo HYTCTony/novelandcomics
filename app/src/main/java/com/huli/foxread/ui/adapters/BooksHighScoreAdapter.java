@@ -23,11 +23,11 @@ public class BooksHighScoreAdapter extends BaseQuickAdapter<HighScoresEntity, Ba
         GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), data.getHttp_image(), 0);
         helper.setText(R.id.tv_book_title, data.getNovel_name());
         helper.setText(R.id.tv_book_score, data.getScore() + getContext().getString(R.string.unit_score));
-        helper.setText(R.id.tv_book_description, data.getNovel_introduce());
-        helper.setText(R.id.tv_book_author_pen_name, data.getNovel_author());
-        helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), data.getNovel_word()));
+        helper.setText(R.id.tv_book_description, data.getIntroduce());
+        helper.setText(R.id.tv_book_author_pen_name, data.getAuthor());
+        helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), data.getWord()));
 
-        String tagStr = data.getNovel_tag();
+        String tagStr = data.getTag();
         if (!TextUtils.isEmpty(tagStr)) {
             helper.setVisible(R.id.tv_book_tag, true);
             helper.setText(R.id.tv_book_tag, tagStr);

@@ -3,7 +3,7 @@ package com.huli.foxread.entity;
 public class SysAvatarEntity {
     private String id;
     private String name;
-    private String http_image;
+    private String httpImage;
     private String image;           //修改的时候传这个
 
     public String getId() {
@@ -22,12 +22,12 @@ public class SysAvatarEntity {
         this.name = name;
     }
 
-    public String getHttp_image() {
-        return http_image;
+    public String getHttpImage() {
+        return httpImage;
     }
 
-    public void setHttp_image(String http_image) {
-        this.http_image = http_image;
+    public void setHttpImage(String httpImage) {
+        this.httpImage = httpImage;
     }
 
     public String getImage() {

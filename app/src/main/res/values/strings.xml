@@ -110,6 +110,7 @@
     <string name="txt_ranking">排行</string>
     <string name="txt_new_book">新书</string>
     <string name="txt_end">完结</string>
+    <string name="txt_serialize">连载</string>
     <string name="txt_hotlist_today">今日大热榜</string>
     <string name="txt_the_full_list">完整榜单</string>
     <string name="txt_classify_excellent_works">分类佳作</string>
@@ -160,6 +161,8 @@
     <string name="txt_invite_friends">邀请好友</string>
     <string name="txt_go2_invite_friends">去邀请</string>
     <string name="txt_reading_mission">阅读任务</string>
+
+    <string name="txt_invite_book_friend_get_reward">邀请书友得奖励</string>
 
     <string name="welcome_2_fox_fiction">欢迎来到狐狸小说</string>
     <string name="txt_login_or_reg">登录/注册</string>
@@ -357,6 +360,10 @@
     <string name="txt_native_phone_num_one_click_login">本机号码一键登录</string>
     <string name="txt_other_ways_2_login">其他方式登录</string>
 
+    <string name="txt_scan_code_to_download">扫码下载</string>
+    <string name="txt_long_press_to_share">长按二维码去分享</string>
+
+    <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>
     <string name="rationale_phone_state">我们需要获取读取手机状态权限，以完整使用相关功能。</string>
     <string name="txt_no_relevant_permission">没有相关权限</string>
     <string name="yes">Yes</string>

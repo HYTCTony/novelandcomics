@@ -10,9 +10,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.allenliu.versionchecklib.core.http.HttpParams;
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -28,6 +34,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
+import com.huli.foxread.entity.UpdateInfo;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -37,6 +44,7 @@ import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
+import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
@@ -48,10 +56,7 @@ import com.sh.sdk.shareinstall.ShareInstall;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
-import com.sh.sdk.shareinstall.listener.AppGetInstallListener;
 import com.sh.sdk.shareinstall.listener.AppGetWakeUpListener;
-import com.umeng.message.inapp.IUmengInAppMsgCloseCallback;
-import com.umeng.message.inapp.InAppMessageManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -59,6 +64,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -128,6 +134,46 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         if (!hasGetUserInfo) {
             reqUserInfo();
         }
+
+        // 获取唤醒参数
+        ShareInstall.getInstance().getWakeUpParams(getIntent(), wakeUpListener);
+        if (ShareInstall.getInstance().isFirstInstall()) {
+            ShareInstall.getInstance().getInstallParams(info -> {
+                // 客户端获取到的参数是json字符串格式
+                Log.d("ShareInstall", "info = " + info);
+                try {
+                    org.json.JSONObject object = new org.json.JSONObject(info);
+                    // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
+                    String channel = object.optString("channel");
+                    String invateCode = object.optString("my_invite_code");
+                    SPFUtils.put(MainActivity.this, Common.INVITE_CODE, invateCode);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        /*一键登录预取号*/
+        preAvoidPwd1ClickLogin();
+
+        /*友盟推送消息*/
+       /* PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.setMessageHandler(new UmengMessageHandler(){
+            @Override
+            public void dealWithCustomMessage(Context context, UMessage uMessage) {
+                Log.e(TAG, "CustomMessage===" + uMessage.custom);
+                //TODO 判断当前Activity显示 然后do something
+//                UTrack.getInstance(context).trackMsgArrival(uMessage);
+            }
+        });
+
+        InAppMessageManager.getInstance(this).showCardMessage(this, "MainActivity", new IUmengInAppMsgCloseCallback() {
+            @Override
+            public void onClose() {
+
+            }
+        });*/
+
+
         //获取唤醒参数
 //      OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
 //
@@ -142,45 +188,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 //              Toast.makeText(mContext, "OpenInstall : installData_install = " + appData.toString(), Toast.LENGTH_LONG).show();
 //          }
 //       });
-        // 获取唤醒参数
-        ShareInstall.getInstance().getWakeUpParams(getIntent(), wakeUpListener);
 
-        ShareInstall.getInstance().getInstallParams(new AppGetInstallListener() {
-            @Override
-            public void onGetInstallFinish(String info) {
-                // 客户端获取到的参数是json字符串格式
-                Log.d("ShareInstall", "info = " + info);
-                try {
-                    org.json.JSONObject object = new org.json.JSONObject(info);
-                    // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
-                    String channel = object.optString("channel");
-                    Log.d("ShareInstall", "channel = " + channel);
-                    Log.d("ShareInstall", "ShareInstall : installData_install = = " + info);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        /*一键登录预取号*/
-        preAvoidPwd1ClickLogin();
-
-        /* PushAgent pushAgent = PushAgent.getInstance(this);
-        pushAgent.setMessageHandler(new UmengMessageHandler(){
-            @Override
-            public void dealWithCustomMessage(Context context, UMessage uMessage) {
-                Log.e(TAG, "CustomMessage===" + uMessage.custom);
-                //TODO 判断当前Activity显示 然后do something
-//                UTrack.getInstance(context).trackMsgArrival(uMessage);
-            }
-        });*/
-
-        InAppMessageManager.getInstance(this).showCardMessage(this, "main22", new IUmengInAppMsgCloseCallback() {
-            @Override
-            public void onClose() {
-
-            }
-        });
+//        checkNewVersion();
     }
 
     @Override
@@ -207,24 +216,22 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 一键登录预取号
      */
     private void preAvoidPwd1ClickLogin() {
-        if(!UserInfoCache.getIsTourist(this)){
+        if (!UserInfoCache.getIsTourist(this)) {
             return;
         }
         AutoLoginManager.getInstance().preAvoidPwdLogin(new PreGetNumberListener() {
             @Override
             public void onPreGetNumberSuccess(String secureMobile) {
-                flagPreGetSuccess = true;
                 Log.e(TAG, "预取号成功：" + secureMobile);
+                flagPreGetSuccess = true;
             }
 
             @Override
-            public void onPreGetNumberError(final String msg) {
+            public void onPreGetNumberError(String msg) {
                 Log.e(TAG, "预取号失败：" + msg);
             }
         });
     }
-
-
 
     // 注意：SDK调用getWakeUpParams方法获取参数是异步操作，请确保在onGetWakeUpFinish回调中拿到参数后才去处理自己的业务逻辑
     private AppGetWakeUpListener wakeUpListener = new AppGetWakeUpListener() {
@@ -236,8 +243,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 org.json.JSONObject object = new org.json.JSONObject(info);
                 // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
                 String channel = object.optString("channel");
-                Log.d("ShareInstall", "channel = " + channel);
-                Log.d("ShareInstall", "ShareInstall_wake : installData =  = " + info);
+                String invateCode = object.optString("my_invite_code");
+                if (!ShareInstall.getInstance().isFirstInstall())
+                    SPFUtils.put(MainActivity.this, Common.INVITE_CODE, invateCode);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -413,9 +421,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
             if (msg.what == 121) {
-                /**
-                 * 一键登陆弹窗
-                 */
+                /* 一键登陆弹窗 */
                 if (UserInfoCache.getIsTourist(MainActivity.this) && flagPreGetSuccess) {
                     FullScreenDialog.build(MainActivity.this)
                             .setCustomView(R.layout.dialog_full_screen_one_click_login, (dialog, rootView) -> {
@@ -439,6 +445,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         }
     });
 
+    /**
+     * 调起一键登录获取运营商提供的token
+     */
     private void oneClickLogin() {
         AutoLoginManager.getInstance().doAvoidPwdLogin(this, new AvoidPwdLoginListener() {
             @Override
@@ -475,8 +484,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     /**
      * 通过运营商一键登录返回的token 调用自身登录
+     *
      * @param operatorType
-     * @param uToken    电信运营商的token
+     * @param uToken       电信运营商的token
      * @param authCode
      */
     private void getPhoneNum(String operatorType, String uToken, String authCode) {
@@ -496,6 +506,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                             LoginRpsEntity data = response.body().getData();
                             TokenCache.saveToken(MainActivity.this, data.getToken());
 
+                            onResume();
+
                             reqUserInfo();
                         } else {
                             TipDialog.show(MainActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
@@ -503,7 +515,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     }
                 });
     }
-
 
     /**
      * 我的资金详情
@@ -538,12 +549,39 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                             FUser data = response.body().getData();
                             UserInfoCache.saveUserInfo(MainActivity.this, data);
 
+                            //是否已经填写邀请码
+                            boolean isInvited = data.isIs_invited();
+                            String inviteCode = (String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, "");
+                            if (!isInvited) {
+                                reqInviteCodeSubmit(inviteCode);
+                            }
                             EventBus.getDefault().postSticky(data);
                         }
                     }
                 });
     }
 
+    /**
+     * 提交邀请码
+     * token在CallBack中统一加到header
+     *
+     * @param inviteCode
+     */
+    private void reqInviteCodeSubmit(String inviteCode) {
+        OkGo.<String>post(Consts.FILLIN_INVITE_CODE_API)
+                .params(Consts.CODE, inviteCode)
+                .execute(new LtbCallback(MainActivity.this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
+                        });
+                        if (entity.error_code == 0) {
+                            SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
+                            UserInfoCache.saveIsInvited(MainActivity.this, true);
+                        }
+                    }
+                });
+    }
 
     /**
      * 获取用户阅读时间
@@ -562,4 +600,62 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     }
                 });
     }
+
+
+    private void checkNewVersion() {
+        HttpParams httpParams = new HttpParams();
+        httpParams.put(Consts.FACILITY, Consts.DEVICE_ANDROID);
+        httpParams.put(Consts.VERSION_CODE, 2);
+//        httpParams.put(Consts.VERSION_CODE, PackageUtils.getVersionCode(this));
+        AllenVersionChecker
+                .getInstance()
+                .requestVersion()
+                .setRequestUrl(Consts.VERSION_CHECK_API)
+                .setRequestParams(httpParams)
+                .request(new RequestVersionListener() {
+                    @Nullable
+                    @Override
+                    public UIData onRequestVersionSuccess(DownloadBuilder downloadBuilder, String result) {
+//                        Log.e("ssssssssssssss", "result===" + result);
+                        LzyResponse<UpdateInfo> entity = JSONObject.parseObject(result,
+                                new TypeReference<LzyResponse<UpdateInfo>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            UpdateInfo updateInfo = entity.getData();
+                            if (updateInfo.getEnforce() == 1) {
+                                downloadBuilder.setForceUpdateListener(() -> FrApp.getInstance().exitApp());
+                            }
+                            downloadBuilder.setOnCancelListener(() -> Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show());
+                            downloadBuilder.setReadyDownloadCommitClickListener(() -> {
+                                Toast.makeText(MainActivity.this, "commit click", Toast.LENGTH_SHORT).show();
+
+                            });
+
+                            return crateUIData(updateInfo);
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onRequestVersionFailure(String message) {
+
+                    }
+                })
+                .executeMission(this);
+    }
+
+    /**
+     * @return
+     * @important 使用请求版本功能，可以在这里设置downloadUrl
+     * 这里可以构造UI需要显示的数据
+     * UIData 内部是一个Bundle
+     */
+    private UIData crateUIData(UpdateInfo info) {
+        UIData uiData = UIData.create();
+        uiData.setTitle("版本更新");
+        uiData.setDownloadUrl(info.getDownloadurl());
+        uiData.setContent(info.getUpgradetext());
+        return uiData;
+    }
+
 }

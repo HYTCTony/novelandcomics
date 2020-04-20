@@ -3,7 +3,6 @@ package com.huli.foxread.ui.adapters;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.GlideApp;
@@ -32,7 +31,7 @@ public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVie
             helper.setVisible(R.id.tv_reading, false);
         } else {
             helper.setText(R.id.tv_book_name, item.getNovel_name());
-            helper.setText(R.id.tv_book_state, item.getIs_end() == 0 ? "连载" : "完结");
+            helper.setText(R.id.tv_book_state, item.getIs_end() == 1 ? "完结" : "连载");
             if (TextUtils.isEmpty(item.getLastChapter())) {
                 helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread_null)));
             } else {

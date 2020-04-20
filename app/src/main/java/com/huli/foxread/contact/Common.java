@@ -51,5 +51,6 @@ public interface Common {
     String KEY_IS_VISITOR = "is_visitor";
     String KEY_IS_INVITED = "is_invited";
     String KEY_HTTP_AVATAR = "http_avatar";
+    String INVITE_CODE = "invate_code";
 
 }

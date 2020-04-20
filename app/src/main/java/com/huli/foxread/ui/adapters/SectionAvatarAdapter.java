@@ -30,10 +30,10 @@ public class SectionAvatarAdapter extends BaseSectionQuickAdapter<AvatarSection<
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, AvatarSection<SysAvatarEntity> data) {
-        GlideUtil.loadCircle(getContext(), helper.getView(R.id.iv_sys_avatar), data.getObject().getHttp_image());
+        GlideUtil.loadCircle(getContext(), helper.getView(R.id.iv_sys_avatar), data.getObject().getHttpImage());
 
         int position = helper.getLayoutPosition();
-        if (data.getObject().getHttp_image().equals(inUseAvatarUrl)) {
+        if (data.getObject().getHttpImage().equals(inUseAvatarUrl)) {
             if (isInit) {
                 checkPos = position;
                 isInit = false;
@@ -59,7 +59,7 @@ public class SectionAvatarAdapter extends BaseSectionQuickAdapter<AvatarSection<
                 checkPos = position;
                 checkBox.setChecked(true);
                 if (mOnRecyAvatarCheckListener != null) {
-                    mOnRecyAvatarCheckListener.OnAvatarCheck(position, data.getObject().getHttp_image(), data.getObject().getImage());
+                    mOnRecyAvatarCheckListener.OnAvatarCheck(position, data.getObject().getHttpImage(), data.getObject().getImage());
                 }
             }
             notifyDataSetChanged();

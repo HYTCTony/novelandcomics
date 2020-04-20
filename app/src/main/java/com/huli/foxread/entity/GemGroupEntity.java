@@ -7,25 +7,16 @@ import java.util.List;
  * 分类佳作(分组)
  */
 public class GemGroupEntity implements Serializable {
-    private String novel_classify_id;
-    private int sum;
+    private String id;
     private String name;
-    private List<GemEntity> novel;
+    private List<GemEntity> profile_novel_masterpiece;
 
-    public String getNovel_classify_id() {
-        return novel_classify_id;
+    public String getId() {
+        return id;
     }
 
-    public void setNovel_classify_id(String novel_classify_id) {
-        this.novel_classify_id = novel_classify_id;
-    }
-
-    public int getSum() {
-        return sum;
-    }
-
-    public void setSum(int sum) {
-        this.sum = sum;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -36,11 +27,11 @@ public class GemGroupEntity implements Serializable {
         this.name = name;
     }
 
-    public List<GemEntity> getNovel() {
-        return novel;
+    public List<GemEntity> getProfile_novel_masterpiece() {
+        return profile_novel_masterpiece;
     }
 
-    public void setNovel(List<GemEntity> novel) {
-        this.novel = novel;
+    public void setProfile_novel_masterpiece(List<GemEntity> profile_novel_masterpiece) {
+        this.profile_novel_masterpiece = profile_novel_masterpiece;
     }
 }

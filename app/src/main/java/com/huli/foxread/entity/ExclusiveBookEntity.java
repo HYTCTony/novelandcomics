@@ -6,10 +6,9 @@ package com.huli.foxread.entity;
 public class ExclusiveBookEntity {
     private String id;
     private String novel_id;
-    private int status;
-    private int weigh;
-    private int type;
-    private BookEntity2 profileNovel;
+    private String novel_name;
+    private String author;
+    private String http_image;
 
     public String getId() {
         return id;
@@ -27,35 +26,27 @@ public class ExclusiveBookEntity {
         this.novel_id = novel_id;
     }
 
-    public int getStatus() {
-        return status;
+    public String getNovel_name() {
+        return novel_name;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setNovel_name(String novel_name) {
+        this.novel_name = novel_name;
     }
 
-    public int getWeigh() {
-        return weigh;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setWeigh(int weigh) {
-        this.weigh = weigh;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public int getType() {
-        return type;
+    public String getHttp_image() {
+        return http_image;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public BookEntity2 getProfileNovel() {
-        return profileNovel;
-    }
-
-    public void setProfileNovel(BookEntity2 profileNovel) {
-        this.profileNovel = profileNovel;
+    public void setHttp_image(String http_image) {
+        this.http_image = http_image;
     }
 }

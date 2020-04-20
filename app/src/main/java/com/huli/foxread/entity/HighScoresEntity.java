@@ -7,15 +7,13 @@ public class HighScoresEntity {
     private String id;
     private String novel_id;
     private float score;
-    private int status;
     private int weigh;
-    private int type;
     private String novel_name;
-    private String novel_author;
+    private String author;
+    private int word;
+    private String introduce;
     private String http_image;
-    private String novel_tag;
-    private int novel_word;
-    private String novel_introduce;
+    private String tag;
 
     public String getId() {
         return id;
@@ -41,28 +39,12 @@ public class HighScoresEntity {
         this.score = score;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public int getWeigh() {
         return weigh;
     }
 
     public void setWeigh(int weigh) {
         this.weigh = weigh;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public String getNovel_name() {
@@ -73,12 +55,28 @@ public class HighScoresEntity {
         this.novel_name = novel_name;
     }
 
-    public String getNovel_author() {
-        return novel_author;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setNovel_author(String novel_author) {
-        this.novel_author = novel_author;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getWord() {
+        return word;
+    }
+
+    public void setWord(int word) {
+        this.word = word;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
     }
 
     public String getHttp_image() {
@@ -89,27 +87,11 @@ public class HighScoresEntity {
         this.http_image = http_image;
     }
 
-    public String getNovel_tag() {
-        return novel_tag;
+    public String getTag() {
+        return tag;
     }
 
-    public void setNovel_tag(String novel_tag) {
-        this.novel_tag = novel_tag;
-    }
-
-    public int getNovel_word() {
-        return novel_word;
-    }
-
-    public void setNovel_word(int novel_word) {
-        this.novel_word = novel_word;
-    }
-
-    public String getNovel_introduce() {
-        return novel_introduce;
-    }
-
-    public void setNovel_introduce(String novel_introduce) {
-        this.novel_introduce = novel_introduce;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 }

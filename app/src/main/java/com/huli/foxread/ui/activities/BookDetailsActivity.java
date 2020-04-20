@@ -332,14 +332,14 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             spannableString.setSpan(aSize, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             tvCopyright.setText(spannableString);
 
-                            if (data.getIs_exist_bookshelf() == 2) {        //未加入书架，显示“加入书架”四个字
-                                isCollected = false;
-                                btnAddBookcase.setText("加入书架");
-                                btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_black_191919));
-                            } else {
+                            if (data.getIs_exist_bookshelf() == 1) {
                                 isCollected = true;
                                 btnAddBookcase.setText("已加入书架");
                                 btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
+                            } else {
+                                isCollected = false;
+                                btnAddBookcase.setText("加入书架");
+                                btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_black_191919));
                             }
 
                             //请求相关推荐

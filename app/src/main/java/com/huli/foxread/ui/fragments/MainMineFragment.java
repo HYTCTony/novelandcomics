@@ -24,6 +24,7 @@ import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InvitationCodeActivity;
+import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
@@ -111,10 +112,14 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.rtl_asBtn_msg_notify).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_reading_record).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_inviter).setOnClickListener(this);
+        $(view, R.id.rtl_asBtn_invite_friends).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_cash_withdrawal).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_mode_adolescent).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
+
+        FUser userInfo = UserInfoCache.getUserInfo(mActivity);
+        changeUIbyUserInfo(userInfo);
     }
 
     @Override
@@ -234,6 +239,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         GlideUtil.loadCircle(mActivity, ivUserHeadImg, fUser.getHttp_avatar());
         tvNickname.setText(fUser.getUsername());
         tvUserId.setText((getString(R.string.txt_id_colon) + fUser.getId()));
+//        tvMyGoldCoin.setText(String.valueOf(UserInfoCache.getScore(mContext)));
+//        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
     }
 
 
@@ -277,9 +284,12 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
             case R.id.rtl_asBtn_inviter:
                 if (!UserInfoCache.getIsInvited(mActivity)) {
                     startActivity(new Intent(mActivity, InvitationCodeActivity.class));
-                }else {
+                } else {
                     Tos.showShort(mActivity, "您已填写过邀请码！");
                 }
+                break;
+            case R.id.rtl_asBtn_invite_friends:
+                startActivity(new Intent(mActivity, InviteFriendsActivity.class));
                 break;
             case R.id.rtl_asBtn_cash_withdrawal:
                 startActivity(new Intent(mActivity, WithdrawalActivity.class));
@@ -330,5 +340,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                     }
                 });
     }
+
 
 }

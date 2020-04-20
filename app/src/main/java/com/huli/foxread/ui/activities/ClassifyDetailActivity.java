@@ -3,6 +3,7 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -157,7 +158,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
         });
 
         stackLabel_2.setOnLabelClickListener((index, v, s) -> {
-//                Log.e(TAG, "2***选中===" + s + "----" + index);
+                Log.e(TAG, "2***选中===" + s + "----" + index);
             paramIsEnd = index;
             paramCurPage = 0;
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);

@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.activities;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -49,19 +50,25 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
-public class InviteFriendsActivity extends BaseActivity implements View.OnClickListener {
+public class InviteFriendsActivity extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private TextView btnExplain;
     private TextView tvInviteCode;
@@ -79,6 +86,9 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
     private double myMoney;
     //我的邀请码
     private String inviteCode;
+
+    /*要分享的二维码图片*/
+    private Bitmap bmpShare;
 
     //获取剪贴板管理器：
     private ClipboardManager cm;
@@ -144,8 +154,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         btnInviteMoments.setOnClickListener(this);
         btnInviteFace2Face.setOnClickListener(this);
 
-        MessageDialog.build(this)
-                .setStyle(DialogSettings.STYLE.STYLE_MATERIAL);
+        MessageDialog.build(this).setStyle(DialogSettings.STYLE.STYLE_MATERIAL);
     }
 
     @Override
@@ -187,40 +196,72 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
                 Tos.showShort(this, R.string.tips_copy_success);
                 break;
             case R.id.btn_immediately_invite:
-                //TODO 立即邀请 --- 弹出分享集成面板
-                new ShareAction(this).withText("hello")
-                        .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
-                        .setCallback(umShareListener)
-                        .open();
+                //立即邀请 --- 弹出分享集成面板
+                doShare();
                 break;
             case R.id.tv_invite_way_wechat:
-                //TODO 微信分享
-                new ShareAction(this)
-                        .setPlatform(SHARE_MEDIA.WEIXIN)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                //微信分享
+                doShare(SHARE_MEDIA.WEIXIN);
                 break;
             case R.id.tv_invite_way_moments:
-                //TODO 朋友圈分享
-                new ShareAction(this)
-                        .setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE)//传入平台
-                        .withText("hello")//分享内容
-                        .setCallback(umShareListener)//回调监听器
-                        .share();
+                //朋友圈分享
+                doShare(SHARE_MEDIA.WEIXIN_CIRCLE);
                 break;
             case R.id.tv_invite_way_face2face:
                 //面对面分享
                 CustomDialog.show(this, R.layout.layout_custom_dialog_invite_qrcode, (dialog, v) -> {
                     v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
                     ImageView ivQrCode = v.findViewById(R.id.iv_invite_qr_code);
-                    Bitmap bitmap = createQrCode(Consts.DOWNLOAD_URL);
-                    ivQrCode.setImageBitmap(bitmap);
+                    bmpShare = createQrCode(Consts.DOWNLOAD_URL + inviteCode);
+                    ivQrCode.setImageBitmap(bmpShare);
+                    ivQrCode.setOnLongClickListener(v1 -> {
+                        externalStorageTask();
+                        dialog.doDismiss();
+                        return false;
+                    });
                 });
                 break;
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 图片分享调起分享面板
+     */
+    private void doShareImage() {
+        if(bmpShare==null){
+            return;
+        }
+        UMImage umImage = new UMImage(this, bmpShare);
+        new ShareAction(this).withMedia(umImage)
+                .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
+                .setCallback(umShareListener)
+                .open();
+    }
+
+    /**
+     * 调起分享面板
+     */
+    private void doShare() {
+        UMWeb umWeb = new UMWeb(Consts.DOWNLOAD_URL + inviteCode, "这个是title", "这个是content", null);
+        new ShareAction(this).withMedia(umWeb)
+                .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
+                .setCallback(umShareListener)
+                .open();
+    }
+
+    /**
+     * 指定平台分享
+     */
+    private void doShare(SHARE_MEDIA platform) {
+        UMWeb umWeb = new UMWeb(Consts.DOWNLOAD_URL + inviteCode, "这个是title", "这个是content", null);
+        new ShareAction(this)
+                .setPlatform(platform)//传入平台
+                .withMedia(umWeb)
+                .setCallback(umShareListener)//回调监听器
+                .share();
     }
 
 
@@ -265,6 +306,54 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+    /*获取读写内存权限*/
+    private static final int RC_WRITE_EXTERNAL_STORAGE_PERM = 0x722;
+    private static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+//    private static final String[] WRITE_EXTERNAL_STORAGE = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    private boolean hasExternalStoragepermissions() {
+        return EasyPermissions.hasPermissions(this, WRITE_EXTERNAL_STORAGE);
+    }
+
+    /**
+     * 调起分享面板
+     */
+    @AfterPermissionGranted(RC_WRITE_EXTERNAL_STORAGE_PERM)
+    private void externalStorageTask() {
+        if (hasExternalStoragepermissions()) {
+            doShareImage();
+        } else {
+            EasyPermissions.requestPermissions(this,
+                    getString(R.string.rationale_write_external_storage),
+                    RC_WRITE_EXTERNAL_STORAGE_PERM,
+                    WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
 
     /**
      * 查看已邀请的好友
@@ -416,6 +505,4 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
 
         return output;
     }
-
-
 }

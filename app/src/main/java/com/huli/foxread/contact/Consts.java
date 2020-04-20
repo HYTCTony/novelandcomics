@@ -1,7 +1,7 @@
 package com.huli.foxread.contact;
 
 public interface Consts {
-    String DOWNLOAD_URL = "https://download.hulimedia.com/";
+    String DOWNLOAD_URL = "https://download.hulimedia.com/?my_invite_code=";
 
     String BASE_URL = "http://devnovel-v2.hongyutiancheng.com.cn";
 //    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
@@ -129,6 +129,9 @@ public interface Consts {
     String PAY_WECHAT_API = NOT_CPL_URL + Func.PAY_WECHAT;
     String PAY_ALIPAY_API = NOT_CPL_URL + Func.PAY_ALIPAY;
 
+    /*检测更新*/
+    String VERSION_CHECK_API = NOT_CPL_URL + Func.VERSION_CHECK;
+
 
     /***event***/
     String SMS_REGISTER = "register";   //用于注册EVENT
@@ -155,9 +158,13 @@ public interface Consts {
     int TYPE_NEWBOOK = 1;
     int TYPE_ENDBOOK = 2;
 
+    int DEVICE_ANDROID = 1;
+    int DEVICE_IOS = 2;
+
     //*************************Param key******************************
-    String D_TOKEN = "token";
-    String DATAS = "datas";             //最终的Map参数名
+
+    String FACILITY = "facility";
+    String VERSION_CODE = "versionCode";
 
     String TOKEN = "token";
     String VER = "version";             //版本号，加上这个参数，以防止没有参数时无法访问接口****

@@ -344,7 +344,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!--注意：这里要放自己项目在QQ开放平台的id，而且前面的tencent是一定不能省略的，否则在运行的时候，会报QQ配置错误的问题。-->
-                <data android:scheme="tencent1107986151" />
+                <data android:scheme="tencent1110348959" />
             </intent-filter>
         </activity>
         <activity
