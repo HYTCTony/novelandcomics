@@ -3,6 +3,9 @@ package com.huli.foxread.entity;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 书
+ */
 public class BookEntity2 implements Serializable {
     private String id;
     private String name;                //书名

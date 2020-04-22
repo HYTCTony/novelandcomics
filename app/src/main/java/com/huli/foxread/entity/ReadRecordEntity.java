@@ -1,7 +1,8 @@
 package com.huli.foxread.entity;
 
-import com.huli.page.model.bean.BookShelfListBean;
-
+/**
+ * 阅读记录
+ */
 public class ReadRecordEntity {
     private int id;
     private int user_id;
@@ -11,8 +12,7 @@ public class ReadRecordEntity {
     private String chapter_name;
     private long createtime;
     private boolean isSelected;
-    //TODO 判断书籍是否存在
-    private BookShelfListBean profileNovel;
+    private BookEntity2 profileNovel;
 
     public int getId() {
         return id;
@@ -78,11 +78,11 @@ public class ReadRecordEntity {
         isSelected = selected;
     }
 
-    public BookShelfListBean getProfileNovel() {
+    public BookEntity2 getProfileNovel() {
         return profileNovel;
     }
 
-    public void setProfileNovel(BookShelfListBean profileNovel) {
+    public void setProfileNovel(BookEntity2 profileNovel) {
         this.profileNovel = profileNovel;
     }
 }

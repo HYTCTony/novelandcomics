@@ -611,5 +611,11 @@ public interface Func {
      */
     String VERSION_CHECK = "/version/check";
 
+    /**
+     * 用途：获取APP版本详情
+     * 参数：
+     */
+    String VERSION_DETAIL = "/version/detail";
+
 
 }

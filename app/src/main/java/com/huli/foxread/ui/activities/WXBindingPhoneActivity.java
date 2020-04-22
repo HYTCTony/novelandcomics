@@ -18,6 +18,7 @@ import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.SomeMonitorEditText;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -66,7 +67,10 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void doBusiness(Context mContext) {
-
+        if(!TextUtils.isEmpty(UserInfoCache.getMobile(mContext))){
+            TipDialog.show(this, "您已绑定手机号！", TipDialog.TYPE.WARNING)
+                    .setOnDismissListener(this::finish);
+        }
     }
 
     @Override

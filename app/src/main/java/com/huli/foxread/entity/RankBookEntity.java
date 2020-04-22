@@ -14,6 +14,7 @@ public class RankBookEntity {
     private String novel_name;
     private String novel_author;
     private String http_image;
+    private String introduce;
 
     public String getId() {
         return id;
@@ -93,5 +94,13 @@ public class RankBookEntity {
 
     public void setHttp_image(String http_image) {
         this.http_image = http_image;
+    }
+
+    public String getIntroduce() {
+        return introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
     }
 }

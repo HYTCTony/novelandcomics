@@ -189,7 +189,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                                     .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
                                     });
                             reqMyCapitalDetail();
-                        } else if (entity.error_code == 10003) {
+                        } else if (entity.error_code == 10008) {
                             Tos.showShort(WithdrawalActivity.this, entity.msg);
                             startActivityForResult(new Intent(WithdrawalActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
                         } else {

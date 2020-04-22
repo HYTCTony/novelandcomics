@@ -53,9 +53,7 @@ public class MainBookstoreFragment extends BaseFragment implements OnTabSelectLi
         btnSearch.setOnClickListener(new OnClickEvent() {
             @Override
             public void singleClick(View v) {
-                int currentTab = slidingTabLayout.getCurrentTab();
                 Intent intent = new Intent(mActivity, SearchBookActivity.class);
-                intent.putExtra(Consts.TYPE, currentTab == 0 ? 4 : currentTab);
                 startActivity(intent);
             }
         });

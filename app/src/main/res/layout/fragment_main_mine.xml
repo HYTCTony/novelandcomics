@@ -527,41 +527,6 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rtl_asBtn_inviter"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_52"
-                android:layout_marginTop="@dimen/px_1"
-                android:background="@drawable/ripple_normal_btn_bg_white"
-                android:paddingStart="@dimen/dp_16"
-                android:paddingEnd="@dimen/dp_16">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_mine_invited_code"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:gravity="center_vertical"
-                    android:text="@string/txt_inviter"
-                    android:textColor="@color/txt_black"
-                    android:textSize="@dimen/sp_16" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/txt_2_fill_in"
-                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/txt_gray_999"
-                    android:textSize="@dimen/sp_12"
-                    tools:ignore="RelativeOverlap" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:id="@+id/rtl_asBtn_invite_friends"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"

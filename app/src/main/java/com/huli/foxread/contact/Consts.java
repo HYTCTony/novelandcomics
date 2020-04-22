@@ -131,6 +131,8 @@ public interface Consts {
 
     /*检测更新*/
     String VERSION_CHECK_API = NOT_CPL_URL + Func.VERSION_CHECK;
+    /*APP版本详情*/
+    String VERSION_DETAIL_API = NOT_CPL_URL + Func.VERSION_DETAIL;
 
 
     /***event***/
@@ -213,7 +215,7 @@ public interface Consts {
     String POSITION = "position";
 
     String PHONE = "phone";
-    String OPINION_CATEGORY_ID = "opinion_category_id ";
+    String OPINION_CATEGORY_ID = "opinion_category_id";
     String CONTENT = "content";
 
     String WITHDRAWAL_PLAN_ID = "id";

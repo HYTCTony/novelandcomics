@@ -24,6 +24,7 @@ import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.eventbus.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
+import com.huli.foxread.ui.adapters.SearchResultBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
@@ -44,7 +45,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
     private TextView btnSearch;
 
     private RecyclerView recyclerView;
-    private SHotBooksAdapter mAdapter;
+    private SearchResultBooksAdapter mAdapter;
 
     private String keyWord;
 
@@ -75,7 +76,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
         recyclerView = $(R.id.recyclerView_search_hot_books);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new SHotBooksAdapter();
+        mAdapter = new SearchResultBooksAdapter();
         recyclerView.setAdapter(mAdapter);
         mAdapter.setEmptyView(R.layout.layout_empty);
     }

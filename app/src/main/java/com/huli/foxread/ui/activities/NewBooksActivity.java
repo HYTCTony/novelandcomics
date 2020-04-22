@@ -73,7 +73,6 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
             @Override
             public void singleClick(View v) {
                 Intent intent = new Intent(NewBooksActivity.this, SearchBookActivity.class);
-                intent.putExtra(Consts.TYPE, mType);
                 startActivity(intent);
             }
         });

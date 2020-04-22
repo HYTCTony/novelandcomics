@@ -5,7 +5,7 @@ import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.SMsgBean;
-import com.huli.foxread.ui.activities.SMsgPmiBean;
+import com.huli.foxread.entity.SMsgPmiBean;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
 

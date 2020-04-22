@@ -101,7 +101,7 @@ public class ExWorksShowFargment extends BaseFragment implements OnItemClickList
         }
         GemEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(mActivity, BookDetailsActivity.class);
-        intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+        intent.putExtra(Common.KEY_BOOK_ID, entity.getNovel_id());
         startActivity(intent);
     }
 

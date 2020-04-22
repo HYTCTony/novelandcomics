@@ -1,4 +1,4 @@
-package com.huli.foxread.ui.activities;
+package com.huli.foxread.entity;
 
 public class SMsgPmiBean {
     private String id;

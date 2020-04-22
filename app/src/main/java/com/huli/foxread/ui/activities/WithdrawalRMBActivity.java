@@ -193,7 +193,7 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
                                     DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
                                     .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
                                     });
-                        } else if (entity.error_code == 10003) {
+                        } else if (entity.error_code == 10008) {
                             Tos.showShort(WithdrawalRMBActivity.this, entity.msg);
                             startActivityForResult(new Intent(WithdrawalRMBActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
                         } else {

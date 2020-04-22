@@ -25,6 +25,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
@@ -289,7 +290,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 break;
             case R.id.action_search:
                 Intent intent = new Intent(mActivity, SearchBookActivity.class);
-                intent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
                 startActivity(intent);
                 break;
         }
@@ -362,19 +362,19 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<BookShelfListBean> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<BookShelfListBean>>() {
+                        LzyResponse<BookEntity2> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<BookEntity2>>() {
                                 });
                         if (entity.error_code == 0) {
-                            BookShelfListBean data = entity.getData();
+                            BookEntity2 data = entity.getData();
                             specialBookId = data.getId();
-                            Glide.with(getActivity())
+                            Glide.with(mActivity)
                                     .load(data.getHttp_image())
                                     .placeholder(R.drawable.ic_book_loading)
                                     .error(R.drawable.ic_load_error)
                                     .fitCenter()
                                     .into(ivookCoverPush);
-                            tvBookNamePush.setText(data.getNovel_name());
+                            tvBookNamePush.setText(data.getName());
                             tvBookIntroPush.setText(data.getIntroduce());
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);

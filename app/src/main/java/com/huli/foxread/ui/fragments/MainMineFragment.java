@@ -68,8 +68,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     private TextView tvHuliVip, tvVipAdvantage;
     private TextView btnOpenVip;
 
-    private View btnIviter;
-
     private RecyclerView rvWelfareZone;
     private WelfareZoneMineAdapter wzAdapter;
 
@@ -106,12 +104,10 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvVipAdvantage = $(view, R.id.tv_huli_vip_advantage_tip);
         btnOpenVip = $(view, R.id.tv_asBtn_open_membership_account);
 
-        btnIviter = $(view, R.id.rtl_asBtn_inviter);
         $(view, R.id.ll_asBtn_sign_in_4_gold).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_my_privilege).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_msg_notify).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_reading_record).setOnClickListener(this);
-        $(view, R.id.rtl_asBtn_inviter).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_invite_friends).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_cash_withdrawal).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_mode_adolescent).setOnClickListener(this);
@@ -200,16 +196,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         //VIP
         boolean isVip = fUser.isIs_vip();
         changeUIbyIsVip(isVip);
-
-        //是否已经填写邀请码
-        boolean isInvited = fUser.isIs_invited();
-        if (isInvited) {
-            btnIviter.setVisibility(View.GONE);
-        } else {
-            //如果未填写邀请码
-            btnIviter.setVisibility(View.VISIBLE);
-        }
-
     }
 
 
@@ -280,13 +266,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.rtl_asBtn_reading_record:
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
-                break;
-            case R.id.rtl_asBtn_inviter:
-                if (!UserInfoCache.getIsInvited(mActivity)) {
-                    startActivity(new Intent(mActivity, InvitationCodeActivity.class));
-                } else {
-                    Tos.showShort(mActivity, "您已填写过邀请码！");
-                }
                 break;
             case R.id.rtl_asBtn_invite_friends:
                 startActivity(new Intent(mActivity, InviteFriendsActivity.class));

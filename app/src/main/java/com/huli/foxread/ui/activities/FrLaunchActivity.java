@@ -358,7 +358,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
     private static final int RC_PHONE_STATE_PERM = 124;
     private static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
-//    private static final String[] READ_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+//    private static final String[] READ_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private boolean hasPhoneStatePermissions() {
         return EasyPermissions.hasPermissions(this, READ_PHONE_STATE);

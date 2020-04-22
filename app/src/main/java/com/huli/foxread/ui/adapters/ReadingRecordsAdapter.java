@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.adapters;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -11,6 +12,8 @@ import com.huli.foxread.R;
 import com.huli.foxread.entity.ReadRecordEntity;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.page.utils.TimeUtils;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatCheckBox;
@@ -36,21 +39,26 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
     }
 
 
+    @Override
+    public void setNewData(List<ReadRecordEntity> data) {
+        super.setNewData(data);
+        selectLists = new SparseBooleanArray();
+    }
+
     public int getSelectedCount() {
-        int cc = 0;
+        int count = 0;
         for (int i = 0; i < selectLists.size(); i++) {
             if (selectLists.valueAt(i)) {
-                cc++;
+                count++;
             }
         }
-        Log.e("sssss", "getSelectedCount = " + cc);
-        return cc;
+        return count;
     }
 
     public String getSelectedIds() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < getData().size(); i++) {
-            if (getData().get(i).isSelected()) {
+            if (i< selectLists.size() && selectLists.get(i)) {
                 buffer.append(getData().get(i).getId());
                 buffer.append(",");
             }
@@ -61,18 +69,21 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
     }
 
     public String getSelectedBookId() {
-        StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < getData().size(); i++) {
-            if (getData().get(i).isSelected()) {
-                if (!getData().get(i).getNovel_id().isEmpty()) {
-                    buffer.append(getData().get(i).getNovel_id());
-                    buffer.append(",");
+        List<ReadRecordEntity> datas = getData();
+        StringBuilder mBuilder = new StringBuilder();
+        for (int i = 0; i < datas.size(); i++) {
+            ReadRecordEntity entity = datas.get(i);
+            if (i< selectLists.size() && selectLists.get(i)) {
+                String novelId = entity.getProfileNovel().getId();
+                if (!TextUtils.isEmpty(novelId)) {
+                    mBuilder.append(novelId);
+                    mBuilder.append(",");
                 }
             }
         }
-        if (buffer.length() > 0)
-            buffer.deleteCharAt(buffer.length() - 1);
-        return buffer.toString();
+        if (mBuilder.length() > 0)
+            mBuilder.deleteCharAt(mBuilder.length() - 1);
+        return mBuilder.toString();
     }
 
     public int funCheck(int position) {
@@ -97,7 +108,7 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, ReadRecordEntity item) {
-        holder.setText(R.id.tv_book_name, item.getProfileNovel() == null ? "书，走丢了" : item.getProfileNovel().getNovel_name());
+        holder.setText(R.id.tv_book_name, item.getProfileNovel() == null ? "书，走丢了" : item.getProfileNovel().getName());
         holder.setText(R.id.tv_read_book_section, item.getChapter_name());
         holder.setText(R.id.tv_last_reading_time, "阅读时间：" + TimeUtils.formatFriendly(item.getCreatetime()));
         GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getProfileNovel() == null ? "" :
@@ -107,7 +118,6 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         if (isManagerMode) {
             checkBox.setVisibility(View.VISIBLE);
             checkBox.setChecked(selectLists.get(holder.getLayoutPosition()));
-            item.setSelected(selectLists.get(holder.getLayoutPosition()));
         } else {
             checkBox.setVisibility(View.GONE);
         }

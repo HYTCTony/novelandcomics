@@ -73,7 +73,6 @@ public class EndBooksActivity extends BaseActivity {
             @Override
             public void singleClick(View v) {
                 Intent intent = new Intent(EndBooksActivity.this, SearchBookActivity.class);
-                intent.putExtra(Consts.TYPE, mType);
                 startActivity(intent);
             }
         });

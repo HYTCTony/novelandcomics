@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 23
-# pg_map_id: 0a085cf
+# pg_map_id: aaadc1d
 $r8$java8methods$utility$Boolean$hashCode$IZ -> a:
     1:1:int hashCode(boolean) -> a
 $r8$java8methods$utility$Long$hashCode$IJ -> b:
@@ -58210,6 +58210,588 @@ com.allenliu.versionchecklib.v2.ui.VersionService$3 -> com.allenliu.versioncheck
     com.allenliu.versionchecklib.v2.ui.VersionService this$0 -> a
     1:1:void <init>(com.allenliu.versionchecklib.v2.ui.VersionService):328:328 -> <init>
     1:1:void run():331:331 -> run
+com.azhon.appupdate.BuildConfig -> com.azhon.appupdate.a:
+    java.lang.String VERSION_NAME -> g
+    int VERSION_CODE -> f
+    boolean DEBUG -> a
+    java.lang.String APPLICATION_ID -> c
+    java.lang.String LIBRARY_PACKAGE_NAME -> b
+    java.lang.String FLAVOR -> e
+    java.lang.String BUILD_TYPE -> d
+    1:1:void <init>():6:6 -> <init>
+com.azhon.appupdate.R -> com.azhon.appupdate.R:
+    1:1:void <init>():10:10 -> <init>
+com.azhon.appupdate.R$anim -> com.azhon.appupdate.R$anim:
+    1:1:void <init>():13:13 -> <init>
+com.azhon.appupdate.R$attr -> com.azhon.appupdate.R$attr:
+    1:1:void <init>():41:41 -> <init>
+com.azhon.appupdate.R$bool -> com.azhon.appupdate.R$bool:
+    1:1:void <init>():327:327 -> <init>
+com.azhon.appupdate.R$color -> com.azhon.appupdate.R$color:
+    1:1:void <init>():334:334 -> <init>
+com.azhon.appupdate.R$dimen -> com.azhon.appupdate.R$dimen:
+    1:1:void <init>():422:422 -> <init>
+com.azhon.appupdate.R$drawable -> com.azhon.appupdate.R$drawable:
+    1:1:void <init>():543:543 -> <init>
+com.azhon.appupdate.R$id -> com.azhon.appupdate.R$id:
+    1:1:void <init>():659:659 -> <init>
+com.azhon.appupdate.R$integer -> com.azhon.appupdate.R$integer:
+    1:1:void <init>():813:813 -> <init>
+com.azhon.appupdate.R$interpolator -> com.azhon.appupdate.R$interpolator:
+    1:1:void <init>():822:822 -> <init>
+com.azhon.appupdate.R$layout -> com.azhon.appupdate.R$layout:
+    1:1:void <init>():833:833 -> <init>
+com.azhon.appupdate.R$string -> com.azhon.appupdate.R$string:
+    1:1:void <init>():877:877 -> <init>
+com.azhon.appupdate.R$style -> com.azhon.appupdate.R$style:
+    1:1:void <init>():922:922 -> <init>
+com.azhon.appupdate.R$styleable -> com.azhon.appupdate.R$styleable:
+    1:1:void <clinit>():1279:1279 -> <clinit>
+    2:2:void <clinit>():1309:1309 -> <clinit>
+    3:3:void <clinit>():1311:1311 -> <clinit>
+    4:5:void <clinit>():1313:1314 -> <clinit>
+    6:6:void <clinit>():1321:1321 -> <clinit>
+    7:7:void <clinit>():1324:1324 -> <clinit>
+    8:8:void <clinit>():1333:1333 -> <clinit>
+    9:9:void <clinit>():1340:1340 -> <clinit>
+    10:10:void <clinit>():1343:1343 -> <clinit>
+    11:11:void <clinit>():1348:1348 -> <clinit>
+    12:12:void <clinit>():1353:1353 -> <clinit>
+    13:13:void <clinit>():1358:1358 -> <clinit>
+    14:14:void <clinit>():1366:1366 -> <clinit>
+    15:15:void <clinit>():1388:1388 -> <clinit>
+    16:16:void <clinit>():1514:1514 -> <clinit>
+    17:17:void <clinit>():1516:1516 -> <clinit>
+    18:18:void <clinit>():1520:1520 -> <clinit>
+    19:19:void <clinit>():1525:1525 -> <clinit>
+    20:20:void <clinit>():1534:1534 -> <clinit>
+    21:21:void <clinit>():1541:1541 -> <clinit>
+    22:22:void <clinit>():1552:1552 -> <clinit>
+    23:23:void <clinit>():1565:1565 -> <clinit>
+    24:24:void <clinit>():1568:1568 -> <clinit>
+    25:25:void <clinit>():1578:1578 -> <clinit>
+    26:26:void <clinit>():1583:1583 -> <clinit>
+    27:27:void <clinit>():1586:1586 -> <clinit>
+    28:28:void <clinit>():1593:1593 -> <clinit>
+    29:29:void <clinit>():1617:1617 -> <clinit>
+    30:30:void <clinit>():1627:1627 -> <clinit>
+    31:31:void <clinit>():1632:1632 -> <clinit>
+    32:32:void <clinit>():1636:1636 -> <clinit>
+    33:33:void <clinit>():1638:1638 -> <clinit>
+    34:34:void <clinit>():1641:1641 -> <clinit>
+    35:35:void <clinit>():1659:1659 -> <clinit>
+    36:36:void <clinit>():1665:1665 -> <clinit>
+    37:37:void <clinit>():1672:1672 -> <clinit>
+    38:38:void <clinit>():1674:1674 -> <clinit>
+    39:39:void <clinit>():1689:1689 -> <clinit>
+    40:40:void <clinit>():1706:1706 -> <clinit>
+    41:41:void <clinit>():1737:1737 -> <clinit>
+    42:42:void <clinit>():1743:1743 -> <clinit>
+    43:43:void <clinit>():1747:1747 -> <clinit>
+    1:1:void <init>():1277:1277 -> <init>
+com.azhon.appupdate.R$xml -> com.azhon.appupdate.R$xml:
+    1:1:void <init>():1753:1753 -> <init>
+com.azhon.appupdate.base.BaseHttpDownloadManager -> com.azhon.appupdate.b.a:
+    1:1:void <init>():16:16 -> <init>
+com.azhon.appupdate.config.AppUpdateFileProvider -> com.azhon.appupdate.config.AppUpdateFileProvider:
+    1:1:void <init>():15:15 -> <init>
+com.azhon.appupdate.config.UpdateConfiguration -> com.azhon.appupdate.config.a:
+    int dialogButtonTextColor -> l
+    int dialogProgressBarColor -> m
+    boolean forcedUpgrade -> i
+    int dialogImage -> j
+    int dialogButtonColor -> k
+    int notifyId -> a
+    java.util.List onDownloadListeners -> e
+    com.azhon.appupdate.base.BaseHttpDownloadManager httpManager -> c
+    boolean jumpInstallPage -> g
+    boolean showBgdToast -> h
+    com.azhon.appupdate.listener.OnButtonClickListener onButtonClickListener -> f
+    android.app.NotificationChannel notificationChannel -> b
+    boolean showNotification -> d
+    1:1:void <init>():26:26 -> <init>
+    2:2:void <init>():30:30 -> <init>
+    3:3:void <init>():42:42 -> <init>
+    4:4:void <init>():46:46 -> <init>
+    5:5:void <init>():54:54 -> <init>
+    6:6:void <init>():58:58 -> <init>
+    7:7:void <init>():62:62 -> <init>
+    8:8:void <init>():66:66 -> <init>
+    9:9:void <init>():70:70 -> <init>
+    10:10:void <init>():74:74 -> <init>
+    11:11:void <init>():78:78 -> <init>
+    1:1:int getDialogButtonColor():236:236 -> getDialogButtonColor
+    1:1:int getDialogButtonTextColor():251:251 -> getDialogButtonTextColor
+    1:1:int getDialogImage():221:221 -> getDialogImage
+    1:1:int getDialogProgressBarColor():266:266 -> getDialogProgressBarColor
+    1:1:com.azhon.appupdate.base.BaseHttpDownloadManager getHttpManager():107:107 -> getHttpManager
+    1:1:android.app.NotificationChannel getNotificationChannel():161:161 -> getNotificationChannel
+    1:1:int getNotifyId():92:92 -> getNotifyId
+    1:1:com.azhon.appupdate.listener.OnButtonClickListener getOnButtonClickListener():281:281 -> getOnButtonClickListener
+    1:1:java.util.List getOnDownloadListener():131:131 -> getOnDownloadListener
+    1:1:boolean isForcedUpgrade():191:191 -> isForcedUpgrade
+    1:1:boolean isJumpInstallPage():146:146 -> isJumpInstallPage
+    1:1:boolean isShowBgdToast():206:206 -> isShowBgdToast
+    1:1:boolean isShowNotification():176:176 -> isShowNotification
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setButtonClickListener(com.azhon.appupdate.listener.OnButtonClickListener):273:273 -> setButtonClickListener
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setDialogButtonColor(int):228:228 -> setDialogButtonColor
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setDialogButtonTextColor(int):243:243 -> setDialogButtonTextColor
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setDialogImage(int):213:213 -> setDialogImage
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setDialogProgressBarColor(int):258:258 -> setDialogProgressBarColor
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setEnableLog(boolean):115:115 -> setEnableLog
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setForcedUpgrade(boolean):183:183 -> setForcedUpgrade
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setHttpManager(com.azhon.appupdate.base.BaseHttpDownloadManager):99:99 -> setHttpManager
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setJumpInstallPage(boolean):138:138 -> setJumpInstallPage
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setNotificationChannel(android.app.NotificationChannel):153:153 -> setNotificationChannel
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setNotifyId(int):84:84 -> setNotifyId
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setOnDownloadListener(com.azhon.appupdate.listener.OnDownloadListener):123:123 -> setOnDownloadListener
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setShowBgdToast(boolean):198:198 -> setShowBgdToast
+    1:1:com.azhon.appupdate.config.UpdateConfiguration setShowNotification(boolean):168:168 -> setShowNotification
+com.azhon.appupdate.dialog.NumberProgressBar -> com.azhon.appupdate.dialog.NumberProgressBar:
+    java.lang.String INSTANCE_REACHED_BAR_COLOR -> G
+    java.lang.String INSTANCE_UNREACHED_BAR_COLOR -> I
+    int default_reached_color -> l
+    java.lang.String INSTANCE_PROGRESS -> K
+    android.graphics.Paint mTextPaint -> v
+    float mReachedBarHeight -> g
+    java.lang.String mPrefix -> j
+    java.lang.String INSTANCE_PREFIX -> M
+    android.graphics.Paint mReachedBarPaint -> t
+    int mUnreachedBarColor -> d
+    int mCurrentProgress -> b
+    float mOffset -> y
+    int PROGRESS_TEXT_VISIBLE -> V
+    android.graphics.RectF mReachedRectF -> x
+    float mDrawTextStart -> q
+    boolean mDrawReachedBar -> A
+    float default_text_size -> o
+    java.lang.String INSTANCE_TEXT_COLOR -> D
+    java.lang.String INSTANCE_REACHED_BAR_HEIGHT -> F
+    java.lang.String mSuffix -> i
+    java.lang.String INSTANCE_UNREACHED_BAR_HEIGHT -> H
+    int default_unreached_color -> m
+    float mUnreachedBarHeight -> h
+    java.lang.String INSTANCE_MAX -> J
+    int default_text_color -> k
+    android.graphics.Paint mUnreachedBarPaint -> u
+    float mTextSize -> f
+    java.lang.String INSTANCE_SUFFIX -> L
+    java.lang.String INSTANCE_TEXT_VISIBILITY -> N
+    int mTextColor -> e
+    java.lang.String mCurrentDrawText -> s
+    int mReachedBarColor -> c
+    int mMaxProgress -> a
+    boolean mDrawUnreachedBar -> z
+    android.graphics.RectF mUnreachedRectF -> w
+    float mDrawTextEnd -> r
+    java.lang.String INSTANCE_STATE -> C
+    float mDrawTextWidth -> p
+    boolean mIfDrawText -> B
+    java.lang.String INSTANCE_TEXT_SIZE -> E
+    float default_progress_text_offset -> n
+    1:1:void <init>(android.content.Context):157:157 -> <init>
+    2:2:void <init>(android.content.Context,android.util.AttributeSet):161:161 -> <init>
+    3:3:void <init>(android.content.Context,android.util.AttributeSet,int):165:165 -> <init>
+    4:4:void <init>(android.content.Context,android.util.AttributeSet,int):23:23 -> <init>
+    5:5:void <init>(android.content.Context,android.util.AttributeSet,int):28:28 -> <init>
+    6:6:void <init>(android.content.Context,android.util.AttributeSet,int):63:63 -> <init>
+    7:7:void <init>(android.content.Context,android.util.AttributeSet,int):68:68 -> <init>
+    8:10:void <init>(android.content.Context,android.util.AttributeSet,int):71:73 -> <init>
+    11:11:void <init>(android.content.Context,android.util.AttributeSet,int):132:132 -> <init>
+    12:12:void <init>(android.content.Context,android.util.AttributeSet,int):136:136 -> <init>
+    13:13:void <init>(android.content.Context,android.util.AttributeSet,int):146:146 -> <init>
+    14:14:void <init>(android.content.Context,android.util.AttributeSet,int):148:148 -> <init>
+    15:15:void <init>(android.content.Context,android.util.AttributeSet,int):150:150 -> <init>
+    16:19:void <init>(android.content.Context,android.util.AttributeSet,int):167:170 -> <init>
+    20:20:void <init>(android.content.Context,android.util.AttributeSet,int):173:173 -> <init>
+    21:26:void <init>(android.content.Context,android.util.AttributeSet,int):176:181 -> <init>
+    1:3:int measure(int,boolean):201:203 -> a
+    4:4:int measure(int,boolean):207:207 -> a
+    5:5:int measure(int,boolean):211:211 -> a
+    6:6:int measure(int,boolean):213:213 -> a
+    7:9:void calculateDrawRectF():267:269 -> a
+    10:12:void calculateDrawRectF():271:273 -> a
+    13:18:void calculateDrawRectF():275:280 -> a
+    19:19:void calculateDrawRectF():283:283 -> a
+    20:22:void calculateDrawRectF():285:287 -> a
+    23:25:void calculateDrawRectF():290:292 -> a
+    26:30:void calculateDrawRectF():294:298 -> a
+    1:4:void calculateDrawRectFWithoutProgressText():254:257 -> b
+    5:8:void calculateDrawRectFWithoutProgressText():259:262 -> b
+    1:2:void initializePainters():241:242 -> c
+    3:4:void initializePainters():244:245 -> c
+    5:7:void initializePainters():247:249 -> c
+    1:1:float dp2px(float):461:461 -> dp2px
+    1:1:int getMax():333:333 -> getMax
+    1:1:java.lang.String getPrefix():404:404 -> getPrefix
+    1:1:int getProgress():329:329 -> getProgress
+    1:1:float getProgressTextSize():317:317 -> getProgressTextSize
+    1:1:boolean getProgressTextVisibility():476:476 -> getProgressTextVisibility
+    1:1:int getReachedBarColor():325:325 -> getReachedBarColor
+    1:1:float getReachedBarHeight():337:337 -> getReachedBarHeight
+    1:1:java.lang.String getSuffix():392:392 -> getSuffix
+    1:1:int getSuggestedMinimumHeight():191:191 -> getSuggestedMinimumHeight
+    1:1:int getSuggestedMinimumWidth():186:186 -> getSuggestedMinimumWidth
+    1:1:int getTextColor():308:308 -> getTextColor
+    1:1:int getUnreachedBarColor():321:321 -> getUnreachedBarColor
+    1:1:float getUnreachedBarHeight():341:341 -> getUnreachedBarHeight
+    1:1:void incrementProgressBy(int):409:409 -> incrementProgressBy
+    1:2:void onDraw(android.graphics.Canvas):222:223 -> onDraw
+    3:3:void onDraw(android.graphics.Canvas):225:225 -> onDraw
+    4:5:void onDraw(android.graphics.Canvas):228:229 -> onDraw
+    6:7:void onDraw(android.graphics.Canvas):232:233 -> onDraw
+    8:9:void onDraw(android.graphics.Canvas):236:237 -> onDraw
+    1:1:void onMeasure(int,int):196:196 -> onMeasure
+    1:15:void onRestoreInstanceState(android.os.Parcelable):440:454 -> onRestoreInstanceState
+    16:16:void onRestoreInstanceState(android.os.Parcelable):457:457 -> onRestoreInstanceState
+    1:13:android.os.Parcelable onSaveInstanceState():422:434 -> onSaveInstanceState
+    1:2:void setMax(int):378:379 -> setMax
+    1:1:void setPrefix(java.lang.String):397:397 -> setPrefix
+    2:2:void setPrefix(java.lang.String):399:399 -> setPrefix
+    1:3:void setProgress(int):414:416 -> setProgress
+    1:3:void setProgressTextColor(int):351:353 -> setProgressTextColor
+    1:3:void setProgressTextSize(float):345:347 -> setProgressTextSize
+    1:2:void setProgressTextVisibility(com.azhon.appupdate.dialog.NumberProgressBar$ProgressTextVisibility):471:472 -> setProgressTextVisibility
+    1:3:void setReachedBarColor(int):363:365 -> setReachedBarColor
+    1:1:void setReachedBarHeight(float):369:369 -> setReachedBarHeight
+    1:1:void setSuffix(java.lang.String):385:385 -> setSuffix
+    2:2:void setSuffix(java.lang.String):387:387 -> setSuffix
+    1:3:void setUnreachedBarColor(int):357:359 -> setUnreachedBarColor
+    1:1:void setUnreachedBarHeight(float):373:373 -> setUnreachedBarHeight
+    1:1:float sp2px(float):466:466 -> sp2px
+com.azhon.appupdate.dialog.NumberProgressBar$ProgressTextVisibility -> com.azhon.appupdate.dialog.NumberProgressBar$ProgressTextVisibility:
+    com.azhon.appupdate.dialog.NumberProgressBar$ProgressTextVisibility[] $VALUES -> a
+    1:1:void <clinit>():153:153 -> <clinit>
+    2:2:void <clinit>():152:152 -> <clinit>
+    1:1:void <init>(java.lang.String,int):152:152 -> <init>
+    1:1:com.azhon.appupdate.dialog.NumberProgressBar$ProgressTextVisibility valueOf(java.lang.String):152:152 -> valueOf
+    1:1:com.azhon.appupdate.dialog.NumberProgressBar$ProgressTextVisibility[] values():152:152 -> values
+com.azhon.appupdate.dialog.UpdateDialog -> com.azhon.appupdate.dialog.a:
+    android.content.Context context -> a
+    com.azhon.appupdate.manager.DownloadManager manager -> b
+    int install -> l
+    int dialogProgressBarColor -> j
+    int dialogButtonTextColor -> h
+    int dialogButtonColor -> i
+    int dialogImage -> g
+    java.io.File apk -> k
+    com.azhon.appupdate.dialog.NumberProgressBar progressBar -> e
+    android.widget.Button update -> d
+    com.azhon.appupdate.listener.OnButtonClickListener buttonClickListener -> f
+    boolean forcedUpgrade -> c
+    1:1:void <init>(android.content.Context):59:59 -> <init>
+    2:2:void <init>(android.content.Context):56:56 -> <init>
+    3:3:void <init>(android.content.Context):60:60 -> <init>
+    1:14:void init(android.content.Context):67:80 -> a
+    15:26:void initView(android.view.View):84:95 -> a
+    27:28:void initView(android.view.View):97:98 -> a
+    29:30:void initView(android.view.View):100:101 -> a
+    31:38:void initView(android.view.View):103:110 -> a
+    39:41:void initView(android.view.View):112:114 -> a
+    42:45:void initView(android.view.View):117:120 -> a
+    46:48:void initView(android.view.View):129:131 -> a
+    49:52:void initView(android.view.View):133:136 -> a
+    53:53:void initView(android.view.View):138:138 -> a
+    54:54:void installApk():184:184 -> a
+    1:6:void setWindowSize(android.content.Context):142:147 -> b
+    1:5:void done(java.io.File):204:208 -> done
+    1:1:void downloading(int,int):194:194 -> downloading
+    2:2:void downloading(int,int):196:196 -> downloading
+    3:3:void downloading(int,int):198:198 -> downloading
+    1:4:void onClick(android.view.View):152:155 -> onClick
+    5:6:void onClick(android.view.View):158:159 -> onClick
+    7:9:void onClick(android.view.View):161:163 -> onClick
+    10:12:void onClick(android.view.View):166:168 -> onClick
+    13:13:void onClick(android.view.View):170:170 -> onClick
+    14:15:void onClick(android.view.View):173:174 -> onClick
+    16:16:void onClick(android.view.View):176:176 -> onClick
+com.azhon.appupdate.dialog.UpdateDialog$1 -> com.azhon.appupdate.dialog.a$a:
+    com.azhon.appupdate.dialog.UpdateDialog this$0 -> a
+    1:1:void <init>(com.azhon.appupdate.dialog.UpdateDialog):120:120 -> <init>
+com.azhon.appupdate.listener.OnButtonClickListener -> com.azhon.appupdate.c.a:
+    int CANCEL -> b
+    int UPDATE -> a
+com.azhon.appupdate.listener.OnButtonClickListener$ID -> com.azhon.appupdate.c.a$a:
+com.azhon.appupdate.listener.OnDownloadListener -> com.azhon.appupdate.c.b:
+com.azhon.appupdate.manager.DownloadManager -> com.azhon.appupdate.d.a:
+    com.azhon.appupdate.manager.DownloadManager manager -> p
+    java.lang.String apkDescription -> i
+    java.lang.String apkVersionName -> h
+    java.lang.String apkMD5 -> k
+    java.lang.String apkSize -> j
+    boolean state -> l
+    java.lang.String TAG -> n
+    int apkVersionCode -> g
+    int smallIcon -> e
+    com.azhon.appupdate.config.UpdateConfiguration configuration -> f
+    android.content.Context context -> o
+    com.azhon.appupdate.dialog.UpdateDialog dialog -> m
+    java.lang.String apkUrl -> a
+    java.lang.String downloadPath -> c
+    java.lang.String apkName -> b
+    boolean showNewerToast -> d
+    1:1:void <init>():28:28 -> <init>
+    2:2:void <init>():39:39 -> <init>
+    3:3:void <init>():43:43 -> <init>
+    4:4:void <init>():53:53 -> <init>
+    5:5:void <init>():57:57 -> <init>
+    6:6:void <init>():65:65 -> <init>
+    7:7:void <init>():69:69 -> <init>
+    8:8:void <init>():73:73 -> <init>
+    9:9:void <init>():77:77 -> <init>
+    10:10:void <init>():81:81 -> <init>
+    11:11:void <init>():85:85 -> <init>
+    1:2:boolean checkParams():361:362 -> a
+    3:4:boolean checkParams():365:366 -> a
+    5:6:boolean checkParams():369:370 -> a
+    7:9:boolean checkParams():373:375 -> a
+    10:10:boolean checkParams():379:379 -> a
+    11:12:boolean checkParams():381:382 -> a
+    1:1:boolean checkVersionCode():392:392 -> b
+    2:3:boolean checkVersionCode():396:397 -> b
+    1:2:void cancel():345:346 -> cancel
+    3:3:void cancel():349:349 -> cancel
+    4:4:void cancel():351:351 -> cancel
+    5:5:void cancel():354:354 -> cancel
+    1:1:void download():321:321 -> download
+    2:3:void download():325:326 -> download
+    4:6:void download():329:331 -> download
+    7:8:void download():333:334 -> download
+    9:9:void download():336:336 -> download
+    1:1:java.lang.String getApkDescription():252:252 -> getApkDescription
+    1:1:java.lang.String getApkMD5():290:290 -> getApkMD5
+    1:1:java.lang.String getApkName():156:156 -> getApkName
+    1:1:java.lang.String getApkSize():267:267 -> getApkSize
+    1:1:java.lang.String getApkUrl():126:126 -> getApkUrl
+    1:1:int getApkVersionCode():141:141 -> getApkVersionCode
+    1:1:java.lang.String getApkVersionName():237:237 -> getApkVersionName
+    1:1:com.azhon.appupdate.config.UpdateConfiguration getConfiguration():230:230 -> getConfiguration
+    1:1:com.azhon.appupdate.dialog.UpdateDialog getDefaultDialog():314:314 -> getDefaultDialog
+    1:1:java.lang.String getDownloadPath():171:171 -> getDownloadPath
+    1:5:com.azhon.appupdate.manager.DownloadManager getInstance(android.content.Context):101:105 -> getInstance
+    6:6:com.azhon.appupdate.manager.DownloadManager getInstance(android.content.Context):107:107 -> getInstance
+    7:7:com.azhon.appupdate.manager.DownloadManager getInstance(android.content.Context):109:109 -> getInstance
+    8:8:com.azhon.appupdate.manager.DownloadManager getInstance():119:119 -> getInstance
+    1:1:int getSmallIcon():203:203 -> getSmallIcon
+    1:1:boolean isDownloading():307:307 -> isDownloading
+    1:1:boolean isShowNewerToast():196:196 -> isShowNewerToast
+    1:2:void release():406:407 -> release
+    1:1:com.azhon.appupdate.manager.DownloadManager setApkDescription(java.lang.String):259:259 -> setApkDescription
+    1:1:com.azhon.appupdate.manager.DownloadManager setApkMD5(java.lang.String):282:282 -> setApkMD5
+    1:1:com.azhon.appupdate.manager.DownloadManager setApkName(java.lang.String):163:163 -> setApkName
+    1:1:com.azhon.appupdate.manager.DownloadManager setApkSize(java.lang.String):274:274 -> setApkSize
+    1:1:com.azhon.appupdate.manager.DownloadManager setApkUrl(java.lang.String):133:133 -> setApkUrl
+    1:1:com.azhon.appupdate.manager.DownloadManager setApkVersionCode(int):148:148 -> setApkVersionCode
+    1:1:com.azhon.appupdate.manager.DownloadManager setApkVersionName(java.lang.String):244:244 -> setApkVersionName
+    1:1:com.azhon.appupdate.manager.DownloadManager setConfiguration(com.azhon.appupdate.config.UpdateConfiguration):220:220 -> setConfiguration
+    1:1:com.azhon.appupdate.manager.DownloadManager setShowNewerToast(boolean):188:188 -> setShowNewerToast
+    1:1:com.azhon.appupdate.manager.DownloadManager setSmallIcon(int):210:210 -> setSmallIcon
+    1:1:void setState(boolean):300:300 -> setState
+com.azhon.appupdate.manager.HttpDownloadManager -> com.azhon.appupdate.d.b:
+    java.lang.String TAG -> g
+    com.azhon.appupdate.listener.OnDownloadListener listener -> e
+    java.lang.Runnable runnable -> f
+    boolean shutdown -> a
+    java.lang.String apkName -> c
+    java.lang.String apkUrl -> b
+    java.lang.String downloadPath -> d
+    1:1:void <init>(java.lang.String):40:40 -> <init>
+    2:2:void <init>(java.lang.String):36:36 -> <init>
+    3:3:void <init>(java.lang.String):66:66 -> <init>
+    4:4:void <init>(java.lang.String):41:41 -> <init>
+    1:1:java.lang.String access$000(com.azhon.appupdate.manager.HttpDownloadManager):33:33 -> a
+    2:2:void fullDownload():81:81 -> a
+    3:11:void fullDownload():83:91 -> a
+    12:14:void fullDownload():96:98 -> a
+    15:15:void fullDownload():100:100 -> a
+    16:16:void fullDownload():102:102 -> a
+    17:17:void fullDownload():104:104 -> a
+    18:20:void fullDownload():106:108 -> a
+    21:21:void fullDownload():110:110 -> a
+    22:24:void fullDownload():113:115 -> a
+    25:26:void fullDownload():117:118 -> a
+    27:27:void fullDownload():124:124 -> a
+    28:31:void fullDownload():119:122 -> a
+    32:32:void fullDownload():126:126 -> a
+    33:34:void fullDownload():128:129 -> a
+    1:1:java.lang.String access$100(com.azhon.appupdate.manager.HttpDownloadManager):33:33 -> b
+    1:1:void access$200(com.azhon.appupdate.manager.HttpDownloadManager):33:33 -> c
+    1:1:void cancel():63:63 -> cancel
+    1:4:void download(java.lang.String,java.lang.String,com.azhon.appupdate.listener.OnDownloadListener):46:49 -> download
+    5:5:void download(java.lang.String,java.lang.String,com.azhon.appupdate.listener.OnDownloadListener):58:58 -> download
+com.azhon.appupdate.manager.HttpDownloadManager$1 -> com.azhon.appupdate.d.b$a:
+    com.azhon.appupdate.manager.HttpDownloadManager this$0 -> a
+    1:1:void <init>(com.azhon.appupdate.manager.HttpDownloadManager):50:50 -> <init>
+    1:2:java.lang.Thread newThread(java.lang.Runnable):53:54 -> newThread
+com.azhon.appupdate.manager.HttpDownloadManager$2 -> com.azhon.appupdate.d.b$b:
+    com.azhon.appupdate.manager.HttpDownloadManager this$0 -> a
+    1:1:void <init>(com.azhon.appupdate.manager.HttpDownloadManager):66:66 -> <init>
+    1:2:void run():70:71 -> run
+    3:3:void run():73:73 -> run
+com.azhon.appupdate.service.DownloadService -> com.azhon.appupdate.service.DownloadService:
+    java.util.List listeners -> e
+    java.lang.String TAG -> l
+    int lastProgress -> i
+    com.azhon.appupdate.manager.DownloadManager downloadManager -> j
+    boolean showNotification -> f
+    boolean showBgdToast -> g
+    boolean jumpInstallPage -> h
+    java.lang.String apkName -> c
+    android.os.Handler handler -> k
+    java.lang.String apkUrl -> b
+    int smallIcon -> a
+    java.lang.String downloadPath -> d
+    1:1:void <init>():40:40 -> <init>
+    2:2:void <init>():197:197 -> <init>
+    1:1:java.util.List access$000(com.azhon.appupdate.service.DownloadService):40:40 -> a
+    2:4:boolean checkApkMD5():101:103 -> a
+    5:7:void download(com.azhon.appupdate.config.UpdateConfiguration):112:114 -> a
+    8:8:void download(com.azhon.appupdate.config.UpdateConfiguration):116:116 -> a
+    9:10:void download(com.azhon.appupdate.config.UpdateConfiguration):119:120 -> a
+    11:13:void download(com.azhon.appupdate.config.UpdateConfiguration):123:125 -> a
+    1:1:void access$100(com.azhon.appupdate.service.DownloadService):40:40 -> b
+    2:4:void init():65:67 -> b
+    5:8:void init():70:73 -> b
+    9:9:void init():75:75 -> b
+    10:14:void init():77:81 -> b
+    15:18:void init():83:86 -> b
+    19:19:void init():88:88 -> b
+    20:21:void init():90:91 -> b
+    1:2:void releaseResources():243:244 -> c
+    3:4:void releaseResources():246:247 -> c
+    1:3:void cancel():178:180 -> cancel
+    4:4:void cancel():182:182 -> cancel
+    1:2:void done(java.io.File):160:161 -> done
+    3:6:void done(java.io.File):163:166 -> done
+    7:8:void done(java.io.File):169:170 -> done
+    9:9:void done(java.io.File):173:173 -> done
+    1:2:void downloading(int,int):143:144 -> downloading
+    3:7:void downloading(int,int):147:151 -> downloading
+    8:8:void downloading(int,int):155:155 -> downloading
+    1:6:void error(java.lang.Exception):187:192 -> error
+    7:7:void error(java.lang.Exception):194:194 -> error
+    1:2:int onStartCommand(android.content.Intent,int,int):59:60 -> onStartCommand
+    1:3:void start():130:132 -> start
+    4:6:void start():134:136 -> start
+    7:7:void start():138:138 -> start
+com.azhon.appupdate.service.DownloadService$1 -> com.azhon.appupdate.service.DownloadService$a:
+    com.azhon.appupdate.service.DownloadService this$0 -> a
+    1:1:void <init>(com.azhon.appupdate.service.DownloadService):198:198 -> <init>
+    1:1:void handleMessage(android.os.Message):201:201 -> handleMessage
+    2:3:void handleMessage(android.os.Message):228:229 -> handleMessage
+    4:5:void handleMessage(android.os.Message):223:224 -> handleMessage
+    6:7:void handleMessage(android.os.Message):216:217 -> handleMessage
+    8:8:void handleMessage(android.os.Message):220:220 -> handleMessage
+    9:10:void handleMessage(android.os.Message):211:212 -> handleMessage
+    11:12:void handleMessage(android.os.Message):206:207 -> handleMessage
+    13:13:void handleMessage(android.os.Message):203:203 -> handleMessage
+com.azhon.appupdate.utils.ApkUtil -> com.azhon.appupdate.e.a:
+    1:1:void <init>():25:25 -> <init>
+    1:1:boolean deleteOldApk(android.content.Context,java.lang.String):73:73 -> deleteOldApk
+    2:4:boolean deleteOldApk(android.content.Context,java.lang.String):76:78 -> deleteOldApk
+    5:5:boolean deleteOldApk(android.content.Context,java.lang.String):80:80 -> deleteOldApk
+    6:6:boolean deleteOldApk(android.content.Context,java.lang.String):84:84 -> deleteOldApk
+    1:3:int getVersionCode(android.content.Context):56:58 -> getVersionCode
+    4:4:int getVersionCode(android.content.Context):60:60 -> getVersionCode
+    1:3:int getVersionCodeByPath(android.content.Context,java.lang.String):96:98 -> getVersionCodeByPath
+    1:3:java.lang.String getVersionName(android.content.Context):108:110 -> getVersionName
+    4:4:java.lang.String getVersionName(android.content.Context):112:112 -> getVersionName
+    1:4:void installApk(android.content.Context,java.lang.String,java.io.File):34:37 -> installApk
+    5:7:void installApk(android.content.Context,java.lang.String,java.io.File):39:41 -> installApk
+    8:8:void installApk(android.content.Context,java.lang.String,java.io.File):43:43 -> installApk
+    9:10:void installApk(android.content.Context,java.lang.String,java.io.File):45:46 -> installApk
+com.azhon.appupdate.utils.Constant -> com.azhon.appupdate.e.b:
+    java.lang.String AUTHORITIES -> g
+    java.lang.String APK_SUFFIX -> f
+    java.lang.String DEFAULT_CHANNEL_ID -> c
+    java.lang.String TAG -> b
+    java.lang.String THREAD_NAME -> e
+    int HTTP_TIME_OUT -> a
+    java.lang.String DEFAULT_CHANNEL_NAME -> d
+    1:1:void <init>():14:14 -> <init>
+com.azhon.appupdate.utils.DensityUtil -> com.azhon.appupdate.e.c:
+    1:1:void <init>():14:14 -> <init>
+    1:1:int dip2px(android.content.Context,float):19:19 -> dip2px
+    1:1:int px2dip(android.content.Context,float):27:27 -> px2dip
+com.azhon.appupdate.utils.FileUtil -> com.azhon.appupdate.e.d:
+    1:1:void <init>():21:21 -> <init>
+    1:3:void createDirDirectory(java.lang.String):27:29 -> createDirDirectory
+    1:1:java.io.File createFile(java.lang.String,java.lang.String):54:54 -> createFile
+    1:1:java.io.RandomAccessFile createRAFile(java.lang.String,java.lang.String):39:39 -> createRAFile
+    2:2:java.io.RandomAccessFile createRAFile(java.lang.String,java.lang.String):41:41 -> createRAFile
+    1:1:boolean delete(java.lang.String,java.lang.String):76:76 -> delete
+    1:1:boolean fileExists(java.lang.String,java.lang.String):65:65 -> fileExists
+    1:4:java.lang.String getFileMD5(java.io.File):89:92 -> getFileMD5
+    5:7:java.lang.String getFileMD5(java.io.File):94:96 -> getFileMD5
+    8:8:java.lang.String getFileMD5(java.io.File):98:98 -> getFileMD5
+com.azhon.appupdate.utils.LogUtil -> com.azhon.appupdate.e.e:
+    boolean b -> a
+    1:1:void <init>():16:16 -> <init>
+    1:1:void d(java.lang.String,java.lang.String):107:107 -> d
+    1:1:void e(java.lang.String,java.lang.String):35:35 -> e
+    2:3:void e(java.lang.String,int):47:48 -> e
+    4:5:void e(java.lang.String,float):59:60 -> e
+    6:7:void e(java.lang.String,java.lang.Long):71:72 -> e
+    8:9:void e(java.lang.String,double):83:84 -> e
+    10:11:void e(java.lang.String,boolean):95:96 -> e
+    1:1:void enable(boolean):24:24 -> enable
+    1:1:void i(java.lang.String,java.lang.String):119:119 -> i
+com.azhon.appupdate.utils.NotificationUtil -> com.azhon.appupdate.e.f:
+    1:1:void <init>():35:35 -> <init>
+    1:2:androidx.core.app.NotificationCompat$Builder builderNotification(android.content.Context,int,java.lang.String,java.lang.String):47:48 -> a
+    3:7:androidx.core.app.NotificationCompat$Builder builderNotification(android.content.Context,int,java.lang.String,java.lang.String):50:54 -> a
+    8:8:androidx.core.app.NotificationCompat$Builder builderNotification(android.content.Context,int,java.lang.String,java.lang.String):56:56 -> a
+    9:9:androidx.core.app.NotificationCompat$Builder builderNotification(android.content.Context,int,java.lang.String,java.lang.String):58:58 -> a
+    10:11:void afterO(android.app.NotificationManager):180:181 -> a
+    12:12:void afterO(android.app.NotificationManager):185:185 -> a
+    13:13:void afterO(android.app.NotificationManager):188:188 -> a
+    14:14:void afterO(android.app.NotificationManager):190:190 -> a
+    15:15:void afterO(android.app.NotificationManager):194:194 -> a
+    16:16:java.lang.String getNotificationChannelId():204:204 -> a
+    17:18:java.lang.String getNotificationChannelId():208:209 -> a
+    1:2:com.azhon.appupdate.config.UpdateConfiguration requireManagerNotNull():217:218 -> b
+    3:3:com.azhon.appupdate.config.UpdateConfiguration requireManagerNotNull():220:220 -> b
+    1:2:void cancelNotification(android.content.Context):161:162 -> cancelNotification
+    1:2:boolean notificationEnable(android.content.Context):171:172 -> notificationEnable
+    1:1:void showDoneNotification(android.content.Context,int,java.lang.String,java.lang.String,java.lang.String,java.io.File):109:109 -> showDoneNotification
+    2:6:void showDoneNotification(android.content.Context,int,java.lang.String,java.lang.String,java.lang.String,java.io.File):111:115 -> showDoneNotification
+    7:9:void showDoneNotification(android.content.Context,int,java.lang.String,java.lang.String,java.lang.String,java.io.File):117:119 -> showDoneNotification
+    10:10:void showDoneNotification(android.content.Context,int,java.lang.String,java.lang.String,java.lang.String,java.io.File):121:121 -> showDoneNotification
+    11:17:void showDoneNotification(android.content.Context,int,java.lang.String,java.lang.String,java.lang.String,java.io.File):123:129 -> showDoneNotification
+    1:3:void showErrorNotification(android.content.Context,int,java.lang.String,java.lang.String):141:143 -> showErrorNotification
+    4:11:void showErrorNotification(android.content.Context,int,java.lang.String,java.lang.String):145:152 -> showErrorNotification
+    1:3:void showNotification(android.content.Context,int,java.lang.String,java.lang.String):70:72 -> showNotification
+    4:6:void showNotification(android.content.Context,int,java.lang.String,java.lang.String):74:76 -> showNotification
+    1:2:void showProgressNotification(android.content.Context,int,java.lang.String,java.lang.String,int,int):89:90 -> showProgressNotification
+    3:4:void showProgressNotification(android.content.Context,int,java.lang.String,java.lang.String,int,int):93:94 -> showProgressNotification
+com.azhon.appupdate.utils.PermissionUtil -> com.azhon.appupdate.e.g:
+    1:1:void <init>():25:25 -> <init>
+    1:2:boolean checkNotificationPermission(android.content.Context):71:72 -> checkNotificationPermission
+    1:1:boolean checkOreoInstallPermission(android.content.Context):62:62 -> checkOreoInstallPermission
+    1:1:boolean checkStoragePermission(android.content.Context):33:33 -> checkStoragePermission
+    2:2:boolean checkStoragePermission(android.content.Context):37:37 -> checkStoragePermission
+    1:1:void requestPermission(android.app.Activity,int):50:50 -> requestPermission
+com.azhon.appupdate.utils.ScreenUtil -> com.azhon.appupdate.e.h:
+    1:1:void <init>():17:17 -> <init>
+    1:2:int getHeight(android.content.Context):37:38 -> getHeight
+    1:2:int getWith(android.content.Context):26:27 -> getWith
+com.azhon.appupdate.utils.SharePreUtil -> com.azhon.appupdate.e.i:
+    java.lang.String SHARE_NAME -> a
+    1:1:void <init>():22:22 -> <init>
+    1:1:void deleShare(android.content.Context,java.lang.String):113:113 -> deleShare
+    2:2:void deleShare(android.content.Context,java.lang.String):115:115 -> deleShare
+    1:1:void deleShareAll(android.content.Context):124:124 -> deleShareAll
+    2:2:void deleShareAll(android.content.Context):126:126 -> deleShareAll
+    1:2:boolean getBoolean(android.content.Context,java.lang.String,boolean):77:78 -> getBoolean
+    1:2:int getInt(android.content.Context,java.lang.String,int):102:103 -> getInt
+    1:2:java.lang.String getString(android.content.Context,java.lang.String,java.lang.String):51:52 -> getString
+    1:3:java.lang.String lookSharePre(android.content.Context):134:136 -> lookSharePre
+    4:7:java.lang.String lookSharePre(android.content.Context):138:141 -> lookSharePre
+    8:8:java.lang.String lookSharePre(android.content.Context):143:143 -> lookSharePre
+    9:9:java.lang.String lookSharePre(android.content.Context):145:145 -> lookSharePre
+    1:2:void putBoolean(android.content.Context,java.lang.String,boolean):64:65 -> putBoolean
+    1:2:void putInt(android.content.Context,java.lang.String,int):89:90 -> putInt
+    1:2:void putString(android.content.Context,java.lang.String,java.lang.String):37:38 -> putString
 com.baoyachi.stepview.BuildConfig -> com.baoyachi.stepview.a:
     java.lang.String VERSION_NAME -> g
     int VERSION_CODE -> f
@@ -86702,165 +87284,166 @@ com.huli.foxread.R$array -> com.huli.foxread.R$array:
 com.huli.foxread.R$attr -> com.huli.foxread.R$attr:
     1:1:void <init>():107:107 -> <init>
 com.huli.foxread.R$bool -> com.huli.foxread.R$bool:
-    1:1:void <init>():7373:7373 -> <init>
+    1:1:void <init>():8198:8198 -> <init>
 com.huli.foxread.R$color -> com.huli.foxread.R$color:
-    1:1:void <init>():7379:7379 -> <init>
+    1:1:void <init>():8204:8204 -> <init>
 com.huli.foxread.R$dimen -> com.huli.foxread.R$dimen:
-    1:1:void <init>():7713:7713 -> <init>
+    1:1:void <init>():8538:8538 -> <init>
 com.huli.foxread.R$drawable -> com.huli.foxread.R$drawable:
-    1:1:void <init>():8153:8153 -> <init>
+    1:1:void <init>():8978:8978 -> <init>
 com.huli.foxread.R$id -> com.huli.foxread.R$id:
-    1:1:void <init>():8662:8662 -> <init>
+    1:1:void <init>():9493:9493 -> <init>
 com.huli.foxread.R$integer -> com.huli.foxread.R$integer:
-    1:1:void <init>():9723:9723 -> <init>
+    1:1:void <init>():10562:10562 -> <init>
 com.huli.foxread.R$interpolator -> com.huli.foxread.R$interpolator:
-    1:1:void <init>():9746:9746 -> <init>
+    1:1:void <init>():10585:10585 -> <init>
 com.huli.foxread.R$layout -> com.huli.foxread.R$layout:
-    1:1:void <init>():9759:9759 -> <init>
+    1:1:void <init>():10598:10598 -> <init>
 com.huli.foxread.R$menu -> com.huli.foxread.R$menu:
-    1:1:void <init>():10040:10040 -> <init>
+    1:1:void <init>():10881:10881 -> <init>
 com.huli.foxread.R$mipmap -> com.huli.foxread.R$mipmap:
-    1:1:void <init>():10045:10045 -> <init>
+    1:1:void <init>():10886:10886 -> <init>
 com.huli.foxread.R$plurals -> com.huli.foxread.R$plurals:
-    1:1:void <init>():10097:10097 -> <init>
+    1:1:void <init>():10939:10939 -> <init>
 com.huli.foxread.R$raw -> com.huli.foxread.R$raw:
-    1:1:void <init>():10100:10100 -> <init>
+    1:1:void <init>():10942:10942 -> <init>
 com.huli.foxread.R$string -> com.huli.foxread.R$string:
-    1:1:void <init>():10104:10104 -> <init>
+    1:1:void <init>():10946:10946 -> <init>
 com.huli.foxread.R$style -> com.huli.foxread.R$style:
-    1:1:void <init>():10633:10633 -> <init>
+    1:1:void <init>():11488:11488 -> <init>
 com.huli.foxread.R$styleable -> com.huli.foxread.R$styleable:
-    1:1:void <clinit>():11424:11424 -> <clinit>
-    2:2:void <clinit>():11819:11819 -> <clinit>
-    3:3:void <clinit>():11862:11862 -> <clinit>
-    4:4:void <clinit>():11878:11878 -> <clinit>
-    5:5:void <clinit>():11901:11901 -> <clinit>
-    6:6:void <clinit>():11994:11994 -> <clinit>
-    7:7:void <clinit>():12044:12044 -> <clinit>
-    8:8:void <clinit>():12164:12164 -> <clinit>
-    9:9:void <clinit>():12239:12239 -> <clinit>
-    10:10:void <clinit>():12283:12283 -> <clinit>
-    11:11:void <clinit>():12357:12357 -> <clinit>
-    12:12:void <clinit>():12469:12469 -> <clinit>
-    13:13:void <clinit>():12525:12525 -> <clinit>
-    14:14:void <clinit>():12579:12579 -> <clinit>
-    15:15:void <clinit>():12658:12658 -> <clinit>
-    16:16:void <clinit>():12740:12740 -> <clinit>
-    17:17:void <clinit>():12897:12897 -> <clinit>
-    18:18:void <clinit>():13431:13431 -> <clinit>
-    19:19:void <clinit>():15029:15029 -> <clinit>
-    20:20:void <clinit>():15107:15107 -> <clinit>
-    21:21:void <clinit>():15189:15189 -> <clinit>
-    22:22:void <clinit>():15400:15400 -> <clinit>
-    23:23:void <clinit>():15460:15460 -> <clinit>
-    24:24:void <clinit>():15604:15604 -> <clinit>
-    25:25:void <clinit>():15787:15787 -> <clinit>
-    26:26:void <clinit>():15949:15949 -> <clinit>
-    27:27:void <clinit>():15997:15997 -> <clinit>
-    28:28:void <clinit>():16179:16179 -> <clinit>
-    29:29:void <clinit>():16306:16306 -> <clinit>
-    30:30:void <clinit>():16821:16821 -> <clinit>
-    31:31:void <clinit>():16907:16907 -> <clinit>
-    32:32:void <clinit>():16950:16950 -> <clinit>
-    33:33:void <clinit>():17094:17094 -> <clinit>
-    34:34:void <clinit>():17389:17389 -> <clinit>
-    35:35:void <clinit>():17657:17657 -> <clinit>
-    36:36:void <clinit>():17960:17960 -> <clinit>
-    37:37:void <clinit>():18194:18194 -> <clinit>
-    38:38:void <clinit>():18239:18239 -> <clinit>
-    39:39:void <clinit>():18344:18344 -> <clinit>
-    40:40:void <clinit>():18782:18782 -> <clinit>
-    41:41:void <clinit>():18970:18970 -> <clinit>
-    42:42:void <clinit>():19872:19872 -> <clinit>
-    43:43:void <clinit>():20073:20073 -> <clinit>
-    44:44:void <clinit>():21232:21232 -> <clinit>
-    45:45:void <clinit>():21285:21285 -> <clinit>
-    46:46:void <clinit>():21436:21436 -> <clinit>
-    47:47:void <clinit>():21490:21490 -> <clinit>
-    48:48:void <clinit>():21608:21608 -> <clinit>
-    49:49:void <clinit>():21680:21680 -> <clinit>
-    50:50:void <clinit>():21848:21848 -> <clinit>
-    51:51:void <clinit>():21926:21926 -> <clinit>
-    52:52:void <clinit>():21990:21990 -> <clinit>
-    53:53:void <clinit>():22214:22214 -> <clinit>
-    54:54:void <clinit>():22240:22240 -> <clinit>
-    55:55:void <clinit>():22290:22290 -> <clinit>
-    56:56:void <clinit>():22399:22399 -> <clinit>
-    57:57:void <clinit>():22533:22533 -> <clinit>
-    58:58:void <clinit>():22601:22601 -> <clinit>
-    59:59:void <clinit>():22663:22663 -> <clinit>
-    60:60:void <clinit>():22852:22852 -> <clinit>
-    61:61:void <clinit>():23020:23020 -> <clinit>
-    62:62:void <clinit>():23066:23066 -> <clinit>
-    63:63:void <clinit>():23156:23156 -> <clinit>
-    64:64:void <clinit>():23203:23203 -> <clinit>
-    65:65:void <clinit>():23353:23353 -> <clinit>
-    66:66:void <clinit>():23453:23453 -> <clinit>
-    67:67:void <clinit>():23515:23515 -> <clinit>
-    68:68:void <clinit>():23683:23683 -> <clinit>
-    69:69:void <clinit>():23860:23860 -> <clinit>
-    70:70:void <clinit>():23934:23934 -> <clinit>
-    71:71:void <clinit>():24047:24047 -> <clinit>
-    72:72:void <clinit>():24351:24351 -> <clinit>
-    73:73:void <clinit>():24403:24403 -> <clinit>
-    74:74:void <clinit>():24542:24542 -> <clinit>
-    75:75:void <clinit>():24714:24714 -> <clinit>
-    76:76:void <clinit>():24845:24845 -> <clinit>
-    77:77:void <clinit>():24888:24888 -> <clinit>
-    78:78:void <clinit>():24958:24958 -> <clinit>
-    79:79:void <clinit>():24998:24998 -> <clinit>
-    80:80:void <clinit>():25170:25170 -> <clinit>
-    81:81:void <clinit>():25210:25210 -> <clinit>
-    82:82:void <clinit>():25254:25254 -> <clinit>
-    83:83:void <clinit>():25316:25316 -> <clinit>
-    84:84:void <clinit>():25453:25453 -> <clinit>
-    85:85:void <clinit>():25776:25776 -> <clinit>
-    86:86:void <clinit>():25903:25903 -> <clinit>
-    87:87:void <clinit>():25951:25951 -> <clinit>
-    88:88:void <clinit>():26074:26074 -> <clinit>
-    89:89:void <clinit>():26351:26351 -> <clinit>
-    90:90:void <clinit>():26391:26391 -> <clinit>
-    91:91:void <clinit>():26442:26442 -> <clinit>
-    92:92:void <clinit>():26474:26474 -> <clinit>
-    93:93:void <clinit>():26550:26550 -> <clinit>
-    94:94:void <clinit>():26612:26612 -> <clinit>
-    95:95:void <clinit>():26770:26770 -> <clinit>
-    96:96:void <clinit>():26799:26799 -> <clinit>
-    97:97:void <clinit>():26858:26858 -> <clinit>
-    98:98:void <clinit>():27182:27182 -> <clinit>
-    99:99:void <clinit>():27498:27498 -> <clinit>
-    100:100:void <clinit>():27594:27594 -> <clinit>
-    101:101:void <clinit>():27828:27828 -> <clinit>
-    102:102:void <clinit>():28244:28244 -> <clinit>
-    103:103:void <clinit>():28655:28655 -> <clinit>
-    104:104:void <clinit>():28702:28702 -> <clinit>
-    105:105:void <clinit>():28750:28750 -> <clinit>
-    106:106:void <clinit>():28847:28847 -> <clinit>
-    107:107:void <clinit>():28968:28968 -> <clinit>
-    108:108:void <clinit>():29189:29189 -> <clinit>
-    109:109:void <clinit>():29262:29262 -> <clinit>
-    110:110:void <clinit>():29294:29294 -> <clinit>
-    111:111:void <clinit>():29380:29380 -> <clinit>
-    112:112:void <clinit>():29576:29576 -> <clinit>
-    113:113:void <clinit>():29604:29604 -> <clinit>
-    114:114:void <clinit>():29700:29700 -> <clinit>
-    115:115:void <clinit>():30056:30056 -> <clinit>
-    116:116:void <clinit>():30157:30157 -> <clinit>
-    117:117:void <clinit>():30212:30212 -> <clinit>
-    118:118:void <clinit>():30523:30523 -> <clinit>
-    119:119:void <clinit>():31172:31172 -> <clinit>
-    120:120:void <clinit>():31222:31222 -> <clinit>
-    121:121:void <clinit>():31322:31322 -> <clinit>
-    122:122:void <clinit>():31738:31738 -> <clinit>
-    123:123:void <clinit>():31821:31821 -> <clinit>
-    124:124:void <clinit>():31942:31942 -> <clinit>
-    125:125:void <clinit>():32029:32029 -> <clinit>
-    126:126:void <clinit>():32090:32090 -> <clinit>
-    127:127:void <clinit>():32125:32125 -> <clinit>
-    128:128:void <clinit>():32181:32181 -> <clinit>
-    1:1:void <init>():11356:11356 -> <init>
+    1:1:void <clinit>():12285:12285 -> <clinit>
+    2:2:void <clinit>():12717:12717 -> <clinit>
+    3:3:void <clinit>():12760:12760 -> <clinit>
+    4:4:void <clinit>():12776:12776 -> <clinit>
+    5:5:void <clinit>():12799:12799 -> <clinit>
+    6:6:void <clinit>():12898:12898 -> <clinit>
+    7:7:void <clinit>():12954:12954 -> <clinit>
+    8:8:void <clinit>():13074:13074 -> <clinit>
+    9:9:void <clinit>():13165:13165 -> <clinit>
+    10:10:void <clinit>():13212:13212 -> <clinit>
+    11:11:void <clinit>():13292:13292 -> <clinit>
+    12:12:void <clinit>():13422:13422 -> <clinit>
+    13:13:void <clinit>():13486:13486 -> <clinit>
+    14:14:void <clinit>():13553:13553 -> <clinit>
+    15:15:void <clinit>():13641:13641 -> <clinit>
+    16:16:void <clinit>():13731:13731 -> <clinit>
+    17:17:void <clinit>():13892:13892 -> <clinit>
+    18:18:void <clinit>():14477:14477 -> <clinit>
+    19:19:void <clinit>():16225:16225 -> <clinit>
+    20:20:void <clinit>():16303:16303 -> <clinit>
+    21:21:void <clinit>():16385:16385 -> <clinit>
+    22:22:void <clinit>():16596:16596 -> <clinit>
+    23:23:void <clinit>():16656:16656 -> <clinit>
+    24:24:void <clinit>():16809:16809 -> <clinit>
+    25:25:void <clinit>():17020:17020 -> <clinit>
+    26:26:void <clinit>():17204:17204 -> <clinit>
+    27:27:void <clinit>():17254:17254 -> <clinit>
+    28:28:void <clinit>():17449:17449 -> <clinit>
+    29:29:void <clinit>():17576:17576 -> <clinit>
+    30:30:void <clinit>():18134:18134 -> <clinit>
+    31:31:void <clinit>():18230:18230 -> <clinit>
+    32:32:void <clinit>():18274:18274 -> <clinit>
+    33:33:void <clinit>():18418:18418 -> <clinit>
+    34:34:void <clinit>():18713:18713 -> <clinit>
+    35:35:void <clinit>():18981:18981 -> <clinit>
+    36:36:void <clinit>():19290:19290 -> <clinit>
+    37:37:void <clinit>():19553:19553 -> <clinit>
+    38:38:void <clinit>():19601:19601 -> <clinit>
+    39:39:void <clinit>():19708:19708 -> <clinit>
+    40:40:void <clinit>():20146:20146 -> <clinit>
+    41:41:void <clinit>():20342:20342 -> <clinit>
+    42:42:void <clinit>():21244:21244 -> <clinit>
+    43:43:void <clinit>():21445:21445 -> <clinit>
+    44:44:void <clinit>():22605:22605 -> <clinit>
+    45:45:void <clinit>():22667:22667 -> <clinit>
+    46:46:void <clinit>():22835:22835 -> <clinit>
+    47:47:void <clinit>():22889:22889 -> <clinit>
+    48:48:void <clinit>():23015:23015 -> <clinit>
+    49:49:void <clinit>():23087:23087 -> <clinit>
+    50:50:void <clinit>():23255:23255 -> <clinit>
+    51:51:void <clinit>():23338:23338 -> <clinit>
+    52:52:void <clinit>():23404:23404 -> <clinit>
+    53:53:void <clinit>():23651:23651 -> <clinit>
+    54:54:void <clinit>():23678:23678 -> <clinit>
+    55:55:void <clinit>():23730:23730 -> <clinit>
+    56:56:void <clinit>():23866:23866 -> <clinit>
+    57:57:void <clinit>():24017:24017 -> <clinit>
+    58:58:void <clinit>():24085:24085 -> <clinit>
+    59:59:void <clinit>():24147:24147 -> <clinit>
+    60:60:void <clinit>():24336:24336 -> <clinit>
+    61:61:void <clinit>():24520:24520 -> <clinit>
+    62:62:void <clinit>():24569:24569 -> <clinit>
+    63:63:void <clinit>():24666:24666 -> <clinit>
+    64:64:void <clinit>():24714:24714 -> <clinit>
+    65:65:void <clinit>():24884:24884 -> <clinit>
+    66:66:void <clinit>():24984:24984 -> <clinit>
+    67:67:void <clinit>():25048:25048 -> <clinit>
+    68:68:void <clinit>():25227:25227 -> <clinit>
+    69:69:void <clinit>():25405:25405 -> <clinit>
+    70:70:void <clinit>():25479:25479 -> <clinit>
+    71:71:void <clinit>():25592:25592 -> <clinit>
+    72:72:void <clinit>():25929:25929 -> <clinit>
+    73:73:void <clinit>():25985:25985 -> <clinit>
+    74:74:void <clinit>():26124:26124 -> <clinit>
+    75:75:void <clinit>():26296:26296 -> <clinit>
+    76:76:void <clinit>():26441:26441 -> <clinit>
+    77:77:void <clinit>():26489:26489 -> <clinit>
+    78:78:void <clinit>():26559:26559 -> <clinit>
+    79:79:void <clinit>():26603:26603 -> <clinit>
+    80:80:void <clinit>():26775:26775 -> <clinit>
+    81:81:void <clinit>():26817:26817 -> <clinit>
+    82:82:void <clinit>():26865:26865 -> <clinit>
+    83:83:void <clinit>():26929:26929 -> <clinit>
+    84:84:void <clinit>():27076:27076 -> <clinit>
+    85:85:void <clinit>():27453:27453 -> <clinit>
+    86:86:void <clinit>():27589:27589 -> <clinit>
+    87:87:void <clinit>():27637:27637 -> <clinit>
+    88:88:void <clinit>():27760:27760 -> <clinit>
+    89:89:void <clinit>():28067:28067 -> <clinit>
+    90:90:void <clinit>():28129:28129 -> <clinit>
+    91:91:void <clinit>():28169:28169 -> <clinit>
+    92:92:void <clinit>():28221:28221 -> <clinit>
+    93:93:void <clinit>():28254:28254 -> <clinit>
+    94:94:void <clinit>():28330:28330 -> <clinit>
+    95:95:void <clinit>():28394:28394 -> <clinit>
+    96:96:void <clinit>():28561:28561 -> <clinit>
+    97:97:void <clinit>():28590:28590 -> <clinit>
+    98:98:void <clinit>():28651:28651 -> <clinit>
+    99:99:void <clinit>():28993:28993 -> <clinit>
+    100:100:void <clinit>():29309:29309 -> <clinit>
+    101:101:void <clinit>():29405:29405 -> <clinit>
+    102:102:void <clinit>():29649:29649 -> <clinit>
+    103:103:void <clinit>():30065:30065 -> <clinit>
+    104:104:void <clinit>():30476:30476 -> <clinit>
+    105:105:void <clinit>():30523:30523 -> <clinit>
+    106:106:void <clinit>():30574:30574 -> <clinit>
+    107:107:void <clinit>():30677:30677 -> <clinit>
+    108:108:void <clinit>():30803:30803 -> <clinit>
+    109:109:void <clinit>():31024:31024 -> <clinit>
+    110:110:void <clinit>():31113:31113 -> <clinit>
+    111:111:void <clinit>():31147:31147 -> <clinit>
+    112:112:void <clinit>():31233:31233 -> <clinit>
+    113:113:void <clinit>():31453:31453 -> <clinit>
+    114:114:void <clinit>():31485:31485 -> <clinit>
+    115:115:void <clinit>():31590:31590 -> <clinit>
+    116:116:void <clinit>():31982:31982 -> <clinit>
+    117:117:void <clinit>():32083:32083 -> <clinit>
+    118:118:void <clinit>():32139:32139 -> <clinit>
+    119:119:void <clinit>():32461:32461 -> <clinit>
+    120:120:void <clinit>():33195:33195 -> <clinit>
+    121:121:void <clinit>():33255:33255 -> <clinit>
+    122:122:void <clinit>():33366:33366 -> <clinit>
+    123:123:void <clinit>():33826:33826 -> <clinit>
+    124:124:void <clinit>():33909:33909 -> <clinit>
+    125:125:void <clinit>():34030:34030 -> <clinit>
+    126:126:void <clinit>():34129:34129 -> <clinit>
+    127:127:void <clinit>():34197:34197 -> <clinit>
+    128:128:void <clinit>():34232:34232 -> <clinit>
+    129:129:void <clinit>():34292:34292 -> <clinit>
+    1:1:void <init>():12213:12213 -> <init>
 com.huli.foxread.R$xml -> com.huli.foxread.R$xml:
-    1:1:void <init>():32231:32231 -> <init>
+    1:1:void <init>():34342:34342 -> <init>
 com.huli.foxread.cache.ACache -> com.huli.foxread.g.a:
     com.huli.foxread.cache.ACache$ACacheManager mCacheManager -> a
     int MAX_COUNT -> f
@@ -87613,33 +88196,33 @@ com.huli.foxread.entity.BookEntity -> com.huli.foxread.entity.BookEntity:
     1:1:void setTag(java.util.List):158:158 -> setTag
     1:1:void setWord(int):94:94 -> setWord
 com.huli.foxread.entity.BookEntity2 -> com.huli.foxread.entity.BookEntity2:
-    1:1:void <init>():6:6 -> <init>
-    1:1:java.lang.String getAuthor():71:71 -> getAuthor
-    1:1:java.lang.String getHttp_image():87:87 -> getHttp_image
-    1:1:java.lang.String getId():23:23 -> getId
-    1:1:java.lang.String getIntroduce():79:79 -> getIntroduce
-    1:1:int getIs_copyright():55:55 -> getIs_copyright
-    1:1:int getIs_end():47:47 -> getIs_end
-    1:1:java.lang.String getName():31:31 -> getName
-    1:1:int getRead_sum():39:39 -> getRead_sum
-    1:1:float getScore():119:119 -> getScore
-    1:1:int getStatus():63:63 -> getStatus
-    1:1:java.util.List getTag():103:103 -> getTag
-    1:1:java.lang.String getTag_group():95:95 -> getTag_group
-    1:1:int getWord():111:111 -> getWord
-    1:1:void setAuthor(java.lang.String):75:75 -> setAuthor
-    1:1:void setHttp_image(java.lang.String):91:91 -> setHttp_image
-    1:1:void setId(java.lang.String):27:27 -> setId
-    1:1:void setIntroduce(java.lang.String):83:83 -> setIntroduce
-    1:1:void setIs_copyright(int):59:59 -> setIs_copyright
-    1:1:void setIs_end(int):51:51 -> setIs_end
-    1:1:void setName(java.lang.String):35:35 -> setName
-    1:1:void setRead_sum(int):43:43 -> setRead_sum
-    1:1:void setScore(float):123:123 -> setScore
-    1:1:void setStatus(int):67:67 -> setStatus
-    1:1:void setTag(java.util.List):107:107 -> setTag
-    1:1:void setTag_group(java.lang.String):99:99 -> setTag_group
-    1:1:void setWord(int):115:115 -> setWord
+    1:1:void <init>():9:9 -> <init>
+    1:1:java.lang.String getAuthor():74:74 -> getAuthor
+    1:1:java.lang.String getHttp_image():90:90 -> getHttp_image
+    1:1:java.lang.String getId():26:26 -> getId
+    1:1:java.lang.String getIntroduce():82:82 -> getIntroduce
+    1:1:int getIs_copyright():58:58 -> getIs_copyright
+    1:1:int getIs_end():50:50 -> getIs_end
+    1:1:java.lang.String getName():34:34 -> getName
+    1:1:int getRead_sum():42:42 -> getRead_sum
+    1:1:float getScore():122:122 -> getScore
+    1:1:int getStatus():66:66 -> getStatus
+    1:1:java.util.List getTag():106:106 -> getTag
+    1:1:java.lang.String getTag_group():98:98 -> getTag_group
+    1:1:int getWord():114:114 -> getWord
+    1:1:void setAuthor(java.lang.String):78:78 -> setAuthor
+    1:1:void setHttp_image(java.lang.String):94:94 -> setHttp_image
+    1:1:void setId(java.lang.String):30:30 -> setId
+    1:1:void setIntroduce(java.lang.String):86:86 -> setIntroduce
+    1:1:void setIs_copyright(int):62:62 -> setIs_copyright
+    1:1:void setIs_end(int):54:54 -> setIs_end
+    1:1:void setName(java.lang.String):38:38 -> setName
+    1:1:void setRead_sum(int):46:46 -> setRead_sum
+    1:1:void setScore(float):126:126 -> setScore
+    1:1:void setStatus(int):70:70 -> setStatus
+    1:1:void setTag(java.util.List):110:110 -> setTag
+    1:1:void setTag_group(java.lang.String):102:102 -> setTag_group
+    1:1:void setWord(int):118:118 -> setWord
 com.huli.foxread.entity.BookHeat -> com.huli.foxread.entity.c:
     java.lang.String id -> a
     java.lang.String novel_id -> b
@@ -88245,7 +88828,6 @@ com.huli.foxread.entity.ReChargeSetEntity -> com.huli.foxread.entity.c0:
     1:1:void setTitle(java.lang.String):25:25 -> setTitle
 com.huli.foxread.entity.ReadRecordEntity -> com.huli.foxread.entity.d0:
     java.lang.String chapter_name -> f
-    com.huli.page.model.bean.BookShelfListBean profileNovel -> i
     long createtime -> g
     int chapter_id -> d
     int chapter -> e
@@ -88253,14 +88835,15 @@ com.huli.foxread.entity.ReadRecordEntity -> com.huli.foxread.entity.d0:
     int user_id -> b
     java.lang.String novel_id -> c
     int id -> a
-    1:1:void <init>():5:5 -> <init>
+    com.huli.foxread.entity.BookEntity2 profileNovel -> i
+    1:1:void <init>():6:6 -> <init>
     1:1:int getChapter():50:50 -> getChapter
     1:1:int getChapter_id():42:42 -> getChapter_id
     1:1:java.lang.String getChapter_name():58:58 -> getChapter_name
     1:1:long getCreatetime():66:66 -> getCreatetime
     1:1:int getId():18:18 -> getId
     1:1:java.lang.String getNovel_id():34:34 -> getNovel_id
-    1:1:com.huli.page.model.bean.BookShelfListBean getProfileNovel():82:82 -> getProfileNovel
+    1:1:com.huli.foxread.entity.BookEntity2 getProfileNovel():82:82 -> getProfileNovel
     1:1:int getUser_id():26:26 -> getUser_id
     1:1:boolean isSelected():74:74 -> isSelected
     1:1:void setChapter(int):54:54 -> setChapter
@@ -88269,7 +88852,7 @@ com.huli.foxread.entity.ReadRecordEntity -> com.huli.foxread.entity.d0:
     1:1:void setCreatetime(long):70:70 -> setCreatetime
     1:1:void setId(int):22:22 -> setId
     1:1:void setNovel_id(java.lang.String):38:38 -> setNovel_id
-    1:1:void setProfileNovel(com.huli.page.model.bean.BookShelfListBean):86:86 -> setProfileNovel
+    1:1:void setProfileNovel(com.huli.foxread.entity.BookEntity2):86:86 -> setProfileNovel
     1:1:void setSelected(boolean):78:78 -> setSelected
     1:1:void setUser_id(int):30:30 -> setUser_id
 com.huli.foxread.entity.ReadSubTaskBean -> com.huli.foxread.entity.e0:
@@ -88293,25 +88876,39 @@ com.huli.foxread.entity.ReadSubTaskBean -> com.huli.foxread.entity.e0:
     1:1:void setReward(int):43:43 -> setReward
     1:1:void setState(int):51:51 -> setState
 com.huli.foxread.entity.SMsgBean -> com.huli.foxread.entity.f0:
-    com.huli.foxread.ui.activities.SMsgPmiBean profileMessageIssue -> f
+    com.huli.foxread.entity.SMsgPmiBean profileMessageIssue -> f
     long createtime -> e
     java.lang.String id -> a
     int status -> d
     java.lang.String user_id -> c
     java.lang.String message_id -> b
-    1:1:void <init>():5:5 -> <init>
-    1:1:long getCreatetime():46:46 -> getCreatetime
-    1:1:java.lang.String getId():14:14 -> getId
-    1:1:java.lang.String getMessage_id():22:22 -> getMessage_id
-    1:1:com.huli.foxread.ui.activities.SMsgPmiBean getProfileMessageIssue():54:54 -> getProfileMessageIssue
-    1:1:int getStatus():38:38 -> getStatus
-    1:1:java.lang.String getUser_id():30:30 -> getUser_id
-    1:1:void setCreatetime(long):50:50 -> setCreatetime
-    1:1:void setId(java.lang.String):18:18 -> setId
-    1:1:void setMessage_id(java.lang.String):26:26 -> setMessage_id
-    1:1:void setProfileMessageIssue(com.huli.foxread.ui.activities.SMsgPmiBean):58:58 -> setProfileMessageIssue
-    1:1:void setStatus(int):42:42 -> setStatus
-    1:1:void setUser_id(java.lang.String):34:34 -> setUser_id
+    1:1:void <init>():3:3 -> <init>
+    1:1:long getCreatetime():44:44 -> getCreatetime
+    1:1:java.lang.String getId():12:12 -> getId
+    1:1:java.lang.String getMessage_id():20:20 -> getMessage_id
+    1:1:com.huli.foxread.entity.SMsgPmiBean getProfileMessageIssue():52:52 -> getProfileMessageIssue
+    1:1:int getStatus():36:36 -> getStatus
+    1:1:java.lang.String getUser_id():28:28 -> getUser_id
+    1:1:void setCreatetime(long):48:48 -> setCreatetime
+    1:1:void setId(java.lang.String):16:16 -> setId
+    1:1:void setMessage_id(java.lang.String):24:24 -> setMessage_id
+    1:1:void setProfileMessageIssue(com.huli.foxread.entity.SMsgPmiBean):56:56 -> setProfileMessageIssue
+    1:1:void setStatus(int):40:40 -> setStatus
+    1:1:void setUser_id(java.lang.String):32:32 -> setUser_id
+com.huli.foxread.entity.SMsgPmiBean -> com.huli.foxread.entity.g0:
+    java.lang.String id -> a
+    java.lang.String content -> c
+    java.lang.String name -> b
+    java.lang.String http_image -> d
+    1:1:void <init>():3:3 -> <init>
+    1:1:java.lang.String getContent():26:26 -> getContent
+    1:1:java.lang.String getHttp_image():34:34 -> getHttp_image
+    1:1:java.lang.String getId():10:10 -> getId
+    1:1:java.lang.String getName():18:18 -> getName
+    1:1:void setContent(java.lang.String):30:30 -> setContent
+    1:1:void setHttp_image(java.lang.String):38:38 -> setHttp_image
+    1:1:void setId(java.lang.String):14:14 -> setId
+    1:1:void setName(java.lang.String):22:22 -> setName
 com.huli.foxread.entity.SearchEntity -> com.huli.foxread.entity.SearchEntity:
     1:1:void <init>():5:5 -> <init>
     1:1:java.lang.String getId():14:14 -> getId
@@ -88324,7 +88921,7 @@ com.huli.foxread.entity.SearchEntity -> com.huli.foxread.entity.SearchEntity:
     1:1:void setNovel_id(java.lang.String):26:26 -> setNovel_id
     1:1:void setNumber(int):34:34 -> setNumber
     1:1:void setProfile_novel(com.huli.foxread.entity.BookEntity2):50:50 -> setProfile_novel
-com.huli.foxread.entity.SignInDetailEntity -> com.huli.foxread.entity.g0:
+com.huli.foxread.entity.SignInDetailEntity -> com.huli.foxread.entity.h0:
     java.util.List list -> b
     com.huli.foxread.entity.NormalSignInEntity sign_in -> a
     com.huli.foxread.entity.WelfareTaskEntity welfare -> c
@@ -88335,7 +88932,7 @@ com.huli.foxread.entity.SignInDetailEntity -> com.huli.foxread.entity.g0:
     1:1:void setList(java.util.List):23:23 -> setList
     1:1:void setSign_in(com.huli.foxread.entity.NormalSignInEntity):15:15 -> setSign_in
     1:1:void setWelfare(com.huli.foxread.entity.WelfareTaskEntity):31:31 -> setWelfare
-com.huli.foxread.entity.SignInMissionEntity -> com.huli.foxread.entity.h0:
+com.huli.foxread.entity.SignInMissionEntity -> com.huli.foxread.entity.i0:
     java.lang.String content -> g
     java.lang.String type_name -> f
     int jump -> j
@@ -88367,7 +88964,7 @@ com.huli.foxread.entity.SignInMissionEntity -> com.huli.foxread.entity.h0:
     1:1:void setStatus(int):36:36 -> setStatus
     1:1:void setType_name(java.lang.String):60:60 -> setType_name
     1:1:void setVip_reward(int):76:76 -> setVip_reward
-com.huli.foxread.entity.SysAvatarEntity -> com.huli.foxread.entity.i0:
+com.huli.foxread.entity.SysAvatarEntity -> com.huli.foxread.entity.j0:
     java.lang.String id -> a
     java.lang.String httpImage -> c
     java.lang.String name -> b
@@ -88381,30 +88978,30 @@ com.huli.foxread.entity.SysAvatarEntity -> com.huli.foxread.entity.i0:
     1:1:void setId(java.lang.String):14:14 -> setId
     1:1:void setImage(java.lang.String):38:38 -> setImage
     1:1:void setName(java.lang.String):22:22 -> setName
-com.huli.foxread.entity.UpdateInfo -> com.huli.foxread.entity.j0:
+com.huli.foxread.entity.UpdateInfo -> com.huli.foxread.entity.k0:
     java.lang.String versionname -> g
     java.lang.String upgradetext -> f
+    float packagesize -> e
     int version -> b
     int newversion -> c
-    java.lang.String packagesize -> e
     int enforce -> a
     java.lang.String downloadurl -> d
     1:1:void <init>():7:7 -> <init>
     1:1:java.lang.String getDownloadurl():41:41 -> getDownloadurl
     1:1:int getEnforce():17:17 -> getEnforce
     1:1:int getNewversion():33:33 -> getNewversion
-    1:1:java.lang.String getPackagesize():49:49 -> getPackagesize
+    1:1:float getPackagesize():49:49 -> getPackagesize
     1:1:java.lang.String getUpgradetext():57:57 -> getUpgradetext
     1:1:int getVersion():25:25 -> getVersion
     1:1:java.lang.String getVersionname():65:65 -> getVersionname
     1:1:void setDownloadurl(java.lang.String):45:45 -> setDownloadurl
     1:1:void setEnforce(int):21:21 -> setEnforce
     1:1:void setNewversion(int):37:37 -> setNewversion
-    1:1:void setPackagesize(java.lang.String):53:53 -> setPackagesize
+    1:1:void setPackagesize(float):53:53 -> setPackagesize
     1:1:void setUpgradetext(java.lang.String):61:61 -> setUpgradetext
     1:1:void setVersion(int):29:29 -> setVersion
     1:1:void setVersionname(java.lang.String):69:69 -> setVersionname
-com.huli.foxread.entity.WelfarePageEntity -> com.huli.foxread.entity.k0:
+com.huli.foxread.entity.WelfarePageEntity -> com.huli.foxread.entity.l0:
     java.util.List list -> a
     java.util.List banner -> c
     com.huli.foxread.entity.SignInMissionEntity sign_in -> b
@@ -88415,7 +89012,7 @@ com.huli.foxread.entity.WelfarePageEntity -> com.huli.foxread.entity.k0:
     1:1:void setBanner(java.util.List):34:34 -> setBanner
     1:1:void setList(java.util.List):18:18 -> setList
     1:1:void setSign_in(com.huli.foxread.entity.SignInMissionEntity):26:26 -> setSign_in
-com.huli.foxread.entity.WelfareTaskEntity -> com.huli.foxread.entity.l0:
+com.huli.foxread.entity.WelfareTaskEntity -> com.huli.foxread.entity.m0:
     java.lang.String welfare_category_id -> f
     int complete_task -> m
     java.lang.String link -> k
@@ -88459,7 +89056,7 @@ com.huli.foxread.entity.WelfareTaskEntity -> com.huli.foxread.entity.l0:
     1:1:void setStatus(int):59:59 -> setStatus
     1:1:void setType(int):43:43 -> setType
     1:1:void setWelfare_category_id(java.lang.String):67:67 -> setWelfare_category_id
-com.huli.foxread.entity.WithdrawalOptionEntity -> com.huli.foxread.entity.m0:
+com.huli.foxread.entity.WithdrawalOptionEntity -> com.huli.foxread.entity.n0:
     double money -> c
     java.lang.String id -> a
     int need_score -> e
@@ -88479,7 +89076,7 @@ com.huli.foxread.entity.WithdrawalOptionEntity -> com.huli.foxread.entity.m0:
     1:1:void setNeed_score(int):51:51 -> setNeed_score
     1:1:void setRemarks(java.lang.String):43:43 -> setRemarks
     1:1:void setTitle(java.lang.String):27:27 -> setTitle
-com.huli.foxread.entity.WithdrawalRecordBean -> com.huli.foxread.entity.n0:
+com.huli.foxread.entity.WithdrawalRecordBean -> com.huli.foxread.entity.o0:
     double money -> b
     java.lang.String id -> a
     java.lang.String status -> c
@@ -88496,7 +89093,7 @@ com.huli.foxread.entity.WithdrawalRecordBean -> com.huli.foxread.entity.n0:
     1:1:void setMoney(double):23:23 -> setMoney
     1:1:void setSource(java.lang.String):39:39 -> setSource
     1:1:void setStatus(java.lang.String):31:31 -> setStatus
-com.huli.foxread.entity.base.BaseEntity -> com.huli.foxread.entity.o0.a:
+com.huli.foxread.entity.base.BaseEntity -> com.huli.foxread.entity.p0.a:
     java.lang.Object data -> c
     java.lang.String msg -> b
     int error_code -> a
@@ -88508,7 +89105,7 @@ com.huli.foxread.entity.base.BaseEntity -> com.huli.foxread.entity.o0.a:
     1:1:void setError_code(int):16:16 -> setError_code
     1:1:void setMsg(java.lang.String):24:24 -> setMsg
     1:1:java.lang.String toString():37:37 -> toString
-com.huli.foxread.entity.base.PagingWarpper -> com.huli.foxread.entity.o0.b:
+com.huli.foxread.entity.base.PagingWarpper -> com.huli.foxread.entity.p0.b:
     java.lang.Object data -> e
     int last_page -> d
     int per_page -> b
@@ -88525,31 +89122,31 @@ com.huli.foxread.entity.base.PagingWarpper -> com.huli.foxread.entity.o0.b:
     1:1:void setLast_page(int):39:39 -> setLast_page
     1:1:void setPer_page(int):23:23 -> setPer_page
     1:1:void setTotal(int):15:15 -> setTotal
-com.huli.foxread.entity.eventbus.ReadingTimeEvent -> com.huli.foxread.entity.p0.a:
+com.huli.foxread.entity.eventbus.ReadingTimeEvent -> com.huli.foxread.entity.q0.a:
     java.lang.String readMin -> a
     1:1:void <init>():6:6 -> <init>
     2:3:void <init>(java.lang.String):9:10 -> <init>
     1:1:java.lang.String getReadMin():14:14 -> getReadMin
     1:1:void setReadMin(java.lang.String):18:18 -> setReadMin
-com.huli.foxread.entity.eventbus.SearchRecordEvent -> com.huli.foxread.entity.p0.b:
+com.huli.foxread.entity.eventbus.SearchRecordEvent -> com.huli.foxread.entity.q0.b:
     java.lang.String keyword -> a
     1:1:void <init>():6:6 -> <init>
     2:3:void <init>(java.lang.String):9:10 -> <init>
     1:1:java.lang.String getKeyword():14:14 -> getKeyword
     1:1:void setKeyword(java.lang.String):18:18 -> setKeyword
-com.huli.foxread.entity.eventbus.VipChargerEvent -> com.huli.foxread.entity.p0.c:
+com.huli.foxread.entity.eventbus.VipChargerEvent -> com.huli.foxread.entity.q0.c:
     boolean becomingVip -> a
     1:1:void <init>():6:6 -> <init>
     2:3:void <init>(boolean):9:10 -> <init>
     1:1:boolean isBecomingVip():14:14 -> isBecomingVip
     1:1:void setBecomingVip(boolean):18:18 -> setBecomingVip
-com.huli.foxread.entity.eventbus.WXPaySuccessEvent -> com.huli.foxread.entity.p0.d:
+com.huli.foxread.entity.eventbus.WXPaySuccessEvent -> com.huli.foxread.entity.q0.d:
     int code -> a
     1:1:void <init>():13:13 -> <init>
     2:3:void <init>(int):16:17 -> <init>
     1:1:int getCode():21:21 -> getCode
     1:1:void setCode(int):25:25 -> setCode
-com.huli.foxread.entity.multi.BookMultiEntity -> com.huli.foxread.entity.q0.a:
+com.huli.foxread.entity.multi.BookMultiEntity -> com.huli.foxread.entity.r0.a:
     int ITEM_FIRST -> n
     int SPAN_SIZE_4 -> o
     int itemType -> l
@@ -88562,7 +89159,7 @@ com.huli.foxread.entity.multi.BookMultiEntity -> com.huli.foxread.entity.q0.a:
     1:1:int getSpanSize():21:21 -> getSpanSize
     1:1:void setItemType(int):29:29 -> setItemType
     1:1:void setSpanSize(int):25:25 -> setSpanSize
-com.huli.foxread.entity.multi.ForestallNewMultiEntity -> com.huli.foxread.entity.q0.b:
+com.huli.foxread.entity.multi.ForestallNewMultiEntity -> com.huli.foxread.entity.r0.b:
     int ITEM_FIRST -> n
     int SPAN_SIZE_4 -> o
     int itemType -> l
@@ -88574,7 +89171,7 @@ com.huli.foxread.entity.multi.ForestallNewMultiEntity -> com.huli.foxread.entity
     1:1:int getSpanSize():20:20 -> getSpanSize
     1:1:void setItemType(int):28:28 -> setItemType
     1:1:void setSpanSize(int):24:24 -> setSpanSize
-com.huli.foxread.entity.sections.AvatarSection -> com.huli.foxread.entity.r0.a:
+com.huli.foxread.entity.sections.AvatarSection -> com.huli.foxread.entity.s0.a:
     java.lang.Object object -> d
     boolean isHeader -> a
     java.lang.String title -> c
@@ -88590,7 +89187,7 @@ com.huli.foxread.entity.sections.AvatarSection -> com.huli.foxread.entity.r0.a:
     1:1:void setMore(boolean):36:36 -> setMore
     1:1:void setObject(java.lang.Object):56:56 -> setObject
     1:1:void setTitle(java.lang.String):48:48 -> setTitle
-com.huli.foxread.entity.sections.MissionSection -> com.huli.foxread.entity.r0.b:
+com.huli.foxread.entity.sections.MissionSection -> com.huli.foxread.entity.s0.b:
     java.lang.Object object -> b
     java.lang.String title -> a
     1:1:void <init>():12:12 -> <init>
@@ -88600,7 +89197,7 @@ com.huli.foxread.entity.sections.MissionSection -> com.huli.foxread.entity.r0.b:
     1:1:boolean isHeader():39:39 -> isHeader
     1:1:void setObject(java.lang.Object):34:34 -> setObject
     1:1:void setTitle(java.lang.String):26:26 -> setTitle
-com.huli.foxread.entity.sections.NEbookSection -> com.huli.foxread.entity.r0.c:
+com.huli.foxread.entity.sections.NEbookSection -> com.huli.foxread.entity.s0.c:
     java.lang.Object object -> e
     boolean isHeader -> a
     java.lang.String id -> c
@@ -88619,7 +89216,7 @@ com.huli.foxread.entity.sections.NEbookSection -> com.huli.foxread.entity.r0.c:
     1:1:void setMore(boolean):41:41 -> setMore
     1:1:void setName(java.lang.String):57:57 -> setName
     1:1:void setObject(java.lang.Object):65:65 -> setObject
-com.huli.foxread.entity.sections.NbSection -> com.huli.foxread.entity.r0.d:
+com.huli.foxread.entity.sections.NbSection -> com.huli.foxread.entity.s0.d:
     java.lang.Object object -> d
     boolean isHeader -> a
     java.lang.String title -> c
@@ -88635,7 +89232,7 @@ com.huli.foxread.entity.sections.NbSection -> com.huli.foxread.entity.r0.d:
     1:1:void setMore(boolean):36:36 -> setMore
     1:1:void setObject(java.lang.Object):56:56 -> setObject
     1:1:void setTitle(java.lang.String):48:48 -> setTitle
-com.huli.foxread.entity.tab.SignInDay -> com.huli.foxread.entity.s0.a:
+com.huli.foxread.entity.tab.SignInDay -> com.huli.foxread.entity.t0.a:
     long day -> a
     int reward -> b
     1:1:void <init>():3:3 -> <init>
@@ -88643,7 +89240,7 @@ com.huli.foxread.entity.tab.SignInDay -> com.huli.foxread.entity.s0.a:
     1:1:int getReward():16:16 -> getReward
     1:1:void setDay(long):12:12 -> setDay
     1:1:void setReward(int):20:20 -> setReward
-com.huli.foxread.entity.tab.TabEntity -> com.huli.foxread.entity.s0.b:
+com.huli.foxread.entity.tab.TabEntity -> com.huli.foxread.entity.t0.b:
     java.lang.String title -> a
     int selectedIcon -> b
     int unSelectedIcon -> c
@@ -89192,94 +89789,90 @@ com.huli.foxread.ui.activities.-$$Lambda$InviteFriendsActivity$FtScWK_DijKFXv2tL
     com.kongzue.dialog.v3.CustomDialog f$0 -> a
 com.huli.foxread.ui.activities.-$$Lambda$InviteFriendsActivity$rMU7dyIJzpbxE53X2_R6tXrnqig -> com.huli.foxread.ui.activities.t:
     com.huli.foxread.ui.activities.InviteFriendsActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$L6KqT5U8YMCf9bLwWO5W1ZJ9eNk -> com.huli.foxread.ui.activities.u:
+com.huli.foxread.ui.activities.-$$Lambda$JftP1K_6fF1roCI1x4wRgmT9dg4 -> com.huli.foxread.ui.activities.u:
+    com.huli.foxread.ui.activities.WXBindingPhoneActivity f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$L6KqT5U8YMCf9bLwWO5W1ZJ9eNk -> com.huli.foxread.ui.activities.v:
     com.huli.foxread.ui.activities.BookDetailsActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$LoginActivity$11$NcYyVHZnYXfC3y2G3mTdBN7Yfwc -> com.huli.foxread.ui.activities.v:
+com.huli.foxread.ui.activities.-$$Lambda$LoginActivity$11$NcYyVHZnYXfC3y2G3mTdBN7Yfwc -> com.huli.foxread.ui.activities.w:
     com.huli.foxread.ui.activities.LoginActivity$11 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$LoginActivity$11$XO7wOCHhFaWvocuFjEorJXUpY_s -> com.huli.foxread.ui.activities.w:
+com.huli.foxread.ui.activities.-$$Lambda$LoginActivity$11$XO7wOCHhFaWvocuFjEorJXUpY_s -> com.huli.foxread.ui.activities.x:
     com.huli.foxread.ui.activities.LoginActivity$11 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$LoginActivity$11$bjqjP2zYqk-IFwyouQGOTE_gwnA -> com.huli.foxread.ui.activities.x:
+com.huli.foxread.ui.activities.-$$Lambda$LoginActivity$11$bjqjP2zYqk-IFwyouQGOTE_gwnA -> com.huli.foxread.ui.activities.y:
     com.huli.foxread.ui.activities.LoginActivity$11 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MainActivity$12$DDtPtEyJ55bxTH27zRzuMQsoZ-E -> com.huli.foxread.ui.activities.y:
-    com.huli.foxread.ui.activities.MainActivity$12 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MainActivity$12$JXpLMemCLHNa6mKVKv-5ekHpyys -> com.huli.foxread.ui.activities.z:
-    com.huli.foxread.ui.activities.-$$Lambda$MainActivity$12$JXpLMemCLHNa6mKVKv-5ekHpyys INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$MainActivity$12$tNGZdL8ixXHRjI4GgmM6OdmRdBw -> com.huli.foxread.ui.activities.a0:
-    com.huli.foxread.ui.activities.MainActivity$12 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MainActivity$3$6zsIXJaBlpRjfRDGMGGNgzQ1FyA -> com.huli.foxread.ui.activities.b0:
-    com.huli.foxread.ui.activities.MainActivity$3 f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$MainActivity$4$noTq8yvVBbN2DN37TPWxEcEIzkQ -> com.huli.foxread.ui.activities.z:
+    com.huli.foxread.ui.activities.MainActivity$4 f$0 -> a
     com.kongzue.dialog.v3.FullScreenDialog f$1 -> b
-com.huli.foxread.ui.activities.-$$Lambda$MainActivity$3$UiwhtD9UrD3NP2sk0JxQCr21k8I -> com.huli.foxread.ui.activities.c0:
-    com.huli.foxread.ui.activities.MainActivity$3 f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$MainActivity$4$qUr5Iukboe6TjH9nKMygiJfCFl4 -> com.huli.foxread.ui.activities.a0:
+    com.huli.foxread.ui.activities.MainActivity$4 f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$MainActivity$4$xnXolrXxmb65bAvaZhmIY2ag3pY -> com.huli.foxread.ui.activities.b0:
+    com.huli.foxread.ui.activities.MainActivity$4 f$0 -> a
     com.kongzue.dialog.v3.FullScreenDialog f$1 -> b
-com.huli.foxread.ui.activities.-$$Lambda$MainActivity$3$rXPt0mf-y15CPKPVKa4xyob4Zsw -> com.huli.foxread.ui.activities.d0:
-    com.huli.foxread.ui.activities.MainActivity$3 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MainActivity$B1LXCchUhS8_AR0NVj-tfEnauNI -> com.huli.foxread.ui.activities.e0:
+com.huli.foxread.ui.activities.-$$Lambda$MainActivity$B1LXCchUhS8_AR0NVj-tfEnauNI -> com.huli.foxread.ui.activities.c0:
     com.huli.foxread.ui.activities.MainActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyGoldCoinActivity$k_4nIlX_ksD_w8zYeJBaNp0r7O0 -> com.huli.foxread.ui.activities.f0:
+com.huli.foxread.ui.activities.-$$Lambda$MyGoldCoinActivity$6tfvs-XvvfkbNVOA5b7367dGahg -> com.huli.foxread.ui.activities.d0:
     com.huli.foxread.ui.activities.MyGoldCoinActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyGoldCoinActivity$rSllxzAIFEmTP9DSI3qeVp7JkaQ -> com.huli.foxread.ui.activities.g0:
+com.huli.foxread.ui.activities.-$$Lambda$MyGoldCoinActivity$7U3_cyMHh5d38v8TqNsSyLpXj8g -> com.huli.foxread.ui.activities.e0:
     com.huli.foxread.ui.activities.MyGoldCoinActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyInviteFriendsActivity$CZVcUycISUtrq-vyhwatPvCMMag -> com.huli.foxread.ui.activities.h0:
+com.huli.foxread.ui.activities.-$$Lambda$MyInviteFriendsActivity$0Kl4espSxrk0ZcqCRUJxJ0iQbKA -> com.huli.foxread.ui.activities.f0:
     com.huli.foxread.ui.activities.MyInviteFriendsActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyInviteFriendsActivity$JjWgF_uRzafsLNt-zzuo6ldDsVY -> com.huli.foxread.ui.activities.i0:
+com.huli.foxread.ui.activities.-$$Lambda$MyInviteFriendsActivity$AuIhG1-BialjwKxA3-jFFZXULIU -> com.huli.foxread.ui.activities.g0:
     com.huli.foxread.ui.activities.MyInviteFriendsActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$AJbvXD_JjVYI6IDr-6h9De7O25E -> com.huli.foxread.ui.activities.j0:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity$7 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$qrGYOJ-wbEdV8tazM2CmcSRlcvg -> com.huli.foxread.ui.activities.k0:
-    com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$qrGYOJ-wbEdV8tazM2CmcSRlcvg INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$D2cIJ87uQMn035RyTACVfx9PlBs -> com.huli.foxread.ui.activities.l0:
-    com.huli.foxread.ui.widget.CheckBoxSample f$0 -> a
-    com.huli.foxread.ui.widget.CheckBoxSample f$1 -> b
-com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$Rhu1L_WdsCF1Hsa-PgYlt4WeITc -> com.huli.foxread.ui.activities.m0:
+com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$6lu-3l6EVZtSguxLUvaRNZIDG3Q -> com.huli.foxread.ui.activities.h0:
     com.huli.foxread.ui.activities.MyPrivilegeActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$beREEmy8xXEiYLknMhkewERmGcw -> com.huli.foxread.ui.activities.n0:
+com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$RU3_c1W6b5JceWh0RpOZHTInaPo -> com.huli.foxread.ui.activities.i0:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity$7 f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$v6LNB5pmpa7T1pCy1A6_Nk8FCas -> com.huli.foxread.ui.activities.j0:
+    com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$v6LNB5pmpa7T1pCy1A6_Nk8FCas INSTANCE -> a
+com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$v_Ul3Kln4dGu9YAoji0QiuRkLj4 -> com.huli.foxread.ui.activities.k0:
     com.huli.foxread.ui.widget.CheckBoxSample f$0 -> a
     com.huli.foxread.ui.widget.CheckBoxSample f$1 -> b
-com.huli.foxread.ui.activities.-$$Lambda$ReadingRecordActivity$U7f1nTLR8HgNQOOKRhdLS_zwjN8 -> com.huli.foxread.ui.activities.o0:
-    com.huli.foxread.ui.activities.-$$Lambda$ReadingRecordActivity$U7f1nTLR8HgNQOOKRhdLS_zwjN8 INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$SearchBookActivity$d8ifzFmKT3VilS4df3Ga5J8Fu_U -> com.huli.foxread.ui.activities.p0:
+com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$xl_mICOyHIj4-FPulr7YiE4OgEA -> com.huli.foxread.ui.activities.l0:
+    com.huli.foxread.ui.widget.CheckBoxSample f$0 -> a
+    com.huli.foxread.ui.widget.CheckBoxSample f$1 -> b
+com.huli.foxread.ui.activities.-$$Lambda$ReadingRecordActivity$fKCQ9KZ91DgR5Cx33moEjTDMytg -> com.huli.foxread.ui.activities.m0:
+    com.huli.foxread.ui.activities.-$$Lambda$ReadingRecordActivity$fKCQ9KZ91DgR5Cx33moEjTDMytg INSTANCE -> a
+com.huli.foxread.ui.activities.-$$Lambda$SearchBookActivity$78H-hWoXpTYpE0zjFD1Wa35qhIU -> com.huli.foxread.ui.activities.n0:
     com.huli.foxread.ui.activities.SearchBookActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$SearchResultActivity$4KBkEhmd31ITWTr4QJq5vZcVRtE -> com.huli.foxread.ui.activities.q0:
+com.huli.foxread.ui.activities.-$$Lambda$SearchResultActivity$Eq_gfHGBbYXUq5EJpIYfYmttalA -> com.huli.foxread.ui.activities.o0:
     com.huli.foxread.ui.activities.SearchResultActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$SettingActivity$WCAahGJREU3XlfcQb-5KdZ8i9I0 -> com.huli.foxread.ui.activities.r0:
+com.huli.foxread.ui.activities.-$$Lambda$SettingActivity$DnBhiIY5Ol0JO8c9JJJpmdsXrBU -> com.huli.foxread.ui.activities.p0:
     com.huli.foxread.ui.activities.SettingActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$SettingActivity$eIjrUUKFu7crhyH0z43QsjaojHc -> com.huli.foxread.ui.activities.s0:
-    com.huli.foxread.ui.activities.-$$Lambda$SettingActivity$eIjrUUKFu7crhyH0z43QsjaojHc INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$2$s-AzKA1SGW6BFaOrfP6kVJjQAEo -> com.huli.foxread.ui.activities.t0:
+com.huli.foxread.ui.activities.-$$Lambda$SettingActivity$tZ6V5cRNWkTIoO3lLAQ2R8d0bmE -> com.huli.foxread.ui.activities.q0:
+    com.huli.foxread.ui.activities.-$$Lambda$SettingActivity$tZ6V5cRNWkTIoO3lLAQ2R8d0bmE INSTANCE -> a
+com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$2$nfJdFo9WrO3_RQ7iwUKMfvHY_sY -> com.huli.foxread.ui.activities.r0:
     com.huli.foxread.ui.activities.SignInActivity$2 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$3$PQNgvHVMl3f-coVx5Z_QBooYN80 -> com.huli.foxread.ui.activities.u0:
+com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$3$Qc0YkC4ZjOINeyDgxVYiCgo-80U -> com.huli.foxread.ui.activities.s0:
+    com.kongzue.dialog.v3.CustomDialog f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$3$fIIVYp1Iqam3DBaWXKEIaSqIX3o -> com.huli.foxread.ui.activities.t0:
     int f$1 -> b
     com.huli.foxread.ui.activities.SignInActivity$3 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$3$Plvv9o5_EsNJDc3qXsKjUNeK3tg -> com.huli.foxread.ui.activities.v0:
+com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$3$tic3a7yVHQJEdxb1LaeW222Y1Do -> com.huli.foxread.ui.activities.u0:
     com.kongzue.dialog.v3.CustomDialog f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$SignInActivity$3$UY4Xh9QFcLp1wZ8X2czZ-YnOdAE -> com.huli.foxread.ui.activities.w0:
-    com.kongzue.dialog.v3.CustomDialog f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$5zSCDVIx4OjnGYYT8OqCMojiPns -> com.huli.foxread.ui.activities.x0:
+com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$XuAv_bC1vxSLJuj4zsD69gvZTf4 -> com.huli.foxread.ui.activities.v0:
     com.huli.foxread.ui.activities.TransparencyActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$KQAls4ggMOXwebd2syuNu2xXIlk -> com.huli.foxread.ui.activities.y0:
+com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$hc26CIZWSEuGl750LkDa74hDXDo -> com.huli.foxread.ui.activities.w0:
+    com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$hc26CIZWSEuGl750LkDa74hDXDo INSTANCE -> a
+com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$yNVYcWc7UpVsX6R00SxiMFDV-2c -> com.huli.foxread.ui.activities.x0:
     com.huli.foxread.ui.activities.TransparencyActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$_xR92AYZ-tAO5JguCKWdSbf0JqA -> com.huli.foxread.ui.activities.z0:
-    com.huli.foxread.ui.activities.-$$Lambda$TransparencyActivity$_xR92AYZ-tAO5JguCKWdSbf0JqA INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$8G9p00YUAxR-063FkRVC-VtuJAE -> com.huli.foxread.ui.activities.a1:
+com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$79-2Zjfbr7T2MnwKeEttKfRCV-c -> com.huli.foxread.ui.activities.y0:
     com.huli.foxread.ui.activities.UserBasicInfoActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$BE5HIzQy7HHWJVJ-L-lcjbFrzPM -> com.huli.foxread.ui.activities.b1:
+com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$9Hp_-ynIwOw07DURxlUarcK_TmU -> com.huli.foxread.ui.activities.z0:
     com.huli.foxread.ui.activities.UserBasicInfoActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$BVpLPIOrl7Q5BiiuHm18yYmxDSc -> com.huli.foxread.ui.activities.c1:
+com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$TA6h6zT6hlrenD-FyqakxzVF2zo -> com.huli.foxread.ui.activities.a1:
     com.huli.foxread.ui.activities.UserBasicInfoActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$KIE-ebMr4JZONU8-ymstoYqgMRY -> com.huli.foxread.ui.activities.d1:
+com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$Vt3x8P9SNWmYunhVyKZOFeejFNo -> com.huli.foxread.ui.activities.b1:
     com.huli.foxread.ui.activities.UserBasicInfoActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$SRb-XSoj_Hjj7_FMBheKB6QZ9gw -> com.huli.foxread.ui.activities.e1:
+com.huli.foxread.ui.activities.-$$Lambda$UserBasicInfoActivity$qTVCGp3JFV1czkTZN8fzfoPcc9Y -> com.huli.foxread.ui.activities.c1:
     com.huli.foxread.ui.activities.UserBasicInfoActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$WXBindingPhoneActivity$2$d0KeUh5Bkdnc0P_BZ-M-9c7P7Qo -> com.huli.foxread.ui.activities.f1:
+com.huli.foxread.ui.activities.-$$Lambda$WXBindingPhoneActivity$2$8uFInfM5yyQqSm6_OTikD0vXinM -> com.huli.foxread.ui.activities.d1:
     com.huli.foxread.ui.activities.WXBindingPhoneActivity$2 f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$WithdrawalActivity$2$VN1eTGT9Qr6cGPZhLY9r87XhrXw -> com.huli.foxread.ui.activities.g1:
-    com.huli.foxread.ui.activities.-$$Lambda$WithdrawalActivity$2$VN1eTGT9Qr6cGPZhLY9r87XhrXw INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRMBActivity$2$2kKUVxXGU6sVS-uLPJ_5LC1OVd8 -> com.huli.foxread.ui.activities.h1:
-    com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRMBActivity$2$2kKUVxXGU6sVS-uLPJ_5LC1OVd8 INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRecordActivity$_YQDNlqoOV_ZDAQ46jJrt7KYu2g -> com.huli.foxread.ui.activities.i1:
+com.huli.foxread.ui.activities.-$$Lambda$WithdrawalActivity$2$cD5FLHazl25rtt-A-Fm0IfWdlOc -> com.huli.foxread.ui.activities.e1:
+    com.huli.foxread.ui.activities.-$$Lambda$WithdrawalActivity$2$cD5FLHazl25rtt-A-Fm0IfWdlOc INSTANCE -> a
+com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRMBActivity$2$QYVbfNpiDTAxhxV-6YMqCp307m8 -> com.huli.foxread.ui.activities.f1:
+    com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRMBActivity$2$QYVbfNpiDTAxhxV-6YMqCp307m8 INSTANCE -> a
+com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRecordActivity$2bsKaxAmcWWtRQ8gVdFqpLeCXr0 -> com.huli.foxread.ui.activities.g1:
     com.huli.foxread.ui.activities.WithdrawalRecordActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRecordActivity$jgqz3M1njMNVl5lrWwHyukHmP5E -> com.huli.foxread.ui.activities.j1:
+com.huli.foxread.ui.activities.-$$Lambda$WithdrawalRecordActivity$TTnBiwVGSedasZD0I9_ipH2gnAY -> com.huli.foxread.ui.activities.h1:
     com.huli.foxread.ui.activities.WithdrawalRecordActivity f$0 -> a
 com.huli.foxread.ui.activities.ASecurityActivity -> com.huli.foxread.ui.activities.ASecurityActivity:
     1:1:void <init>():14:14 -> <init>
@@ -90429,171 +91022,184 @@ com.huli.foxread.ui.activities.LoginActivity$9 -> com.huli.foxread.ui.activities
 com.huli.foxread.ui.activities.MainActivity -> com.huli.foxread.ui.activities.MainActivity:
     boolean hasGetUserInfo -> n
     boolean flagPreGetSuccess -> o
+    com.huli.foxread.entity.UpdateInfo updateInfo -> s
     long mExitFirstTime -> f
     android.os.Handler mHandler -> r
     com.huli.foxread.ui.fragments.MainWelfareFragment welfareFragment -> l
     com.huli.foxread.ui.fragments.MainBookstoreFragment bookstoreFragment -> j
     boolean ignoreLoginDialog -> q
+    java.lang.String EXTERNAL_STORAGE -> v
     com.huli.foxread.ui.fragments.MainBookrackFragment bookrackFragment -> k
     com.huli.foxread.ui.fragments.MainMineFragment mineFragment -> m
     java.util.ArrayList mTabEntities -> h
     com.sh.sdk.shareinstall.listener.AppGetWakeUpListener wakeUpListener -> p
+    long INTERVAL -> t
     com.flyco.tablayout.CommonTabLayout mTabLayout -> g
-    long INTERVAL -> s
+    int RC_EXTERNAL_STORAGE_PERM -> u
     androidx.fragment.app.FragmentManager fragmentManager -> i
-    1:1:void <init>():73:73 -> <init>
-    2:2:void <init>():78:78 -> <init>
-    3:3:void <init>():86:86 -> <init>
-    4:4:void <init>():237:237 -> <init>
-    5:5:void <init>():420:420 -> <init>
-    1:1:java.lang.String access$000(com.huli.foxread.ui.activities.MainActivity):73:73 -> a
-    2:2:boolean access$102(com.huli.foxread.ui.activities.MainActivity,boolean):73:73 -> a
-    3:3:void access$400(com.huli.foxread.ui.activities.MainActivity,java.lang.String,java.lang.String,java.lang.String):73:73 -> a
-    4:4:void access$600(com.huli.foxread.ui.activities.MainActivity,java.lang.String):73:73 -> a
-    5:5:com.allenliu.versionchecklib.v2.builder.UIData access$700(com.huli.foxread.ui.activities.MainActivity,com.huli.foxread.entity.UpdateInfo):73:73 -> a
-    6:6:void lambda$doBusiness$28(java.lang.String):143:143 -> a
-    7:7:void lambda$doBusiness$28(java.lang.String):145:145 -> a
-    8:10:void lambda$doBusiness$28(java.lang.String):147:149 -> a
-    11:11:void lambda$doBusiness$28(java.lang.String):151:151 -> a
-    12:13:void hideFragments(androidx.fragment.app.FragmentTransaction):366:367 -> a
-    14:15:void hideFragments(androidx.fragment.app.FragmentTransaction):369:370 -> a
-    16:17:void hideFragments(androidx.fragment.app.FragmentTransaction):372:373 -> a
-    18:19:void hideFragments(androidx.fragment.app.FragmentTransaction):375:376 -> a
-    20:27:void getPhoneNum(java.lang.String,java.lang.String,java.lang.String):493:500 -> a
-    28:31:com.allenliu.versionchecklib.v2.builder.UIData crateUIData(com.huli.foxread.entity.UpdateInfo):654:657 -> a
-    1:1:boolean access$100(com.huli.foxread.ui.activities.MainActivity):73:73 -> b
-    2:2:void changeFragment(int):313:313 -> b
-    3:3:void changeFragment(int):316:316 -> b
-    4:7:void changeFragment(int):347:350 -> b
-    8:8:void changeFragment(int):352:352 -> b
-    9:12:void changeFragment(int):337:340 -> b
-    13:13:void changeFragment(int):342:342 -> b
-    14:16:void changeFragment(int):328:330 -> b
-    17:17:void changeFragment(int):332:332 -> b
-    18:20:void changeFragment(int):319:321 -> b
-    21:21:void changeFragment(int):323:323 -> b
-    22:22:void changeFragment(int):358:358 -> b
-    23:25:void reqInviteCodeSubmit(java.lang.String):571:573 -> b
-    1:1:java.lang.String access$200(com.huli.foxread.ui.activities.MainActivity):73:73 -> c
-    2:3:void setStatusBar():93:94 -> c
-    1:1:void access$300(com.huli.foxread.ui.activities.MainActivity):73:73 -> d
-    2:4:void checkNewVersion():606:608 -> d
-    5:9:void checkNewVersion():611:615 -> d
-    10:10:void checkNewVersion():644:644 -> d
-    1:3:void doBusiness(android.content.Context):133:135 -> doBusiness
-    4:6:void doBusiness(android.content.Context):139:141 -> doBusiness
-    7:7:void doBusiness(android.content.Context):156:156 -> doBusiness
-    1:1:java.lang.String access$500(com.huli.foxread.ui.activities.MainActivity):73:73 -> e
-    2:2:void oneClickLogin():452:452 -> e
-    1:1:void preAvoidPwd1ClickLogin():219:219 -> f
-    2:2:void preAvoidPwd1ClickLogin():222:222 -> f
-    1:3:void sendShowLoginDialogMsg():414:416 -> g
-    1:2:void getUserReadTime():590:591 -> getUserReadTime
-    1:1:void initParms(android.os.Bundle):100:100 -> initParms
-    1:8:void initView(android.view.View):116:123 -> initView
-    1:1:void onDestroy():274:274 -> onDestroy
-    2:2:void onDestroy():276:276 -> onDestroy
-    1:3:boolean onKeyDown(int,android.view.KeyEvent):399:401 -> onKeyDown
-    4:4:boolean onKeyDown(int,android.view.KeyEvent):403:403 -> onKeyDown
-    5:5:boolean onKeyDown(int,android.view.KeyEvent):407:407 -> onKeyDown
-    1:1:void onNewIntent(android.content.Intent):197:197 -> onNewIntent
-    2:2:void onNewIntent(android.content.Intent):200:200 -> onNewIntent
-    1:2:void onResume():257:258 -> onResume
-    3:3:void onResume():260:260 -> onResume
-    1:7:void onTabReselect(int):288:294 -> onTabReselect
-    8:11:void onTabReselect(int):296:299 -> onTabReselect
-    12:12:void onTabReselect(int):303:303 -> onTabReselect
-    1:1:void onTabSelect(int):281:281 -> onTabSelect
-    1:2:void reqMyCapitalDetail():523:524 -> reqMyCapitalDetail
-    1:2:void reqUserInfo():542:543 -> reqUserInfo
-    1:1:void setListener():128:128 -> setListener
-    1:2:void switch2Bookstore():384:385 -> switch2Bookstore
-    1:2:void switch2Welfare():392:393 -> switch2Welfare
-com.huli.foxread.ui.activities.MainActivity$1 -> com.huli.foxread.ui.activities.MainActivity$d:
-    com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):222:222 -> <init>
-    1:1:void onPreGetNumberError(java.lang.String):231:231 -> onPreGetNumberError
-    1:2:void onPreGetNumberSuccess(java.lang.String):225:226 -> onPreGetNumberSuccess
+    1:1:void <init>():83:83 -> <init>
+    2:2:void <init>():88:88 -> <init>
+    3:3:void <init>():96:96 -> <init>
+    4:4:void <init>():247:247 -> <init>
+    5:5:void <init>():430:430 -> <init>
+    1:1:java.lang.String access$000(com.huli.foxread.ui.activities.MainActivity):83:83 -> a
+    2:2:boolean access$202(com.huli.foxread.ui.activities.MainActivity,boolean):83:83 -> a
+    3:3:void access$500(com.huli.foxread.ui.activities.MainActivity,java.lang.String,java.lang.String,java.lang.String):83:83 -> a
+    4:4:void access$700(com.huli.foxread.ui.activities.MainActivity,java.lang.String):83:83 -> a
+    5:5:com.huli.foxread.entity.UpdateInfo access$802(com.huli.foxread.ui.activities.MainActivity,com.huli.foxread.entity.UpdateInfo):83:83 -> a
+    6:6:void lambda$doBusiness$28(java.lang.String):153:153 -> a
+    7:7:void lambda$doBusiness$28(java.lang.String):155:155 -> a
+    8:10:void lambda$doBusiness$28(java.lang.String):157:159 -> a
+    11:11:void lambda$doBusiness$28(java.lang.String):161:161 -> a
+    12:13:void hideFragments(androidx.fragment.app.FragmentTransaction):376:377 -> a
+    14:15:void hideFragments(androidx.fragment.app.FragmentTransaction):379:380 -> a
+    16:17:void hideFragments(androidx.fragment.app.FragmentTransaction):382:383 -> a
+    18:19:void hideFragments(androidx.fragment.app.FragmentTransaction):385:386 -> a
+    20:27:void getPhoneNum(java.lang.String,java.lang.String,java.lang.String):503:510 -> a
+    28:31:com.allenliu.versionchecklib.v2.builder.UIData crateUIData(com.huli.foxread.entity.UpdateInfo):852:855 -> a
+    1:1:java.lang.String access$100(com.huli.foxread.ui.activities.MainActivity):83:83 -> b
+    2:2:void changeFragment(int):323:323 -> b
+    3:3:void changeFragment(int):326:326 -> b
+    4:7:void changeFragment(int):357:360 -> b
+    8:8:void changeFragment(int):362:362 -> b
+    9:12:void changeFragment(int):347:350 -> b
+    13:13:void changeFragment(int):352:352 -> b
+    14:16:void changeFragment(int):338:340 -> b
+    17:17:void changeFragment(int):342:342 -> b
+    18:20:void changeFragment(int):329:331 -> b
+    21:21:void changeFragment(int):333:333 -> b
+    22:22:void changeFragment(int):368:368 -> b
+    23:25:void reqInviteCodeSubmit(java.lang.String):581:583 -> b
+    1:1:boolean access$200(com.huli.foxread.ui.activities.MainActivity):83:83 -> c
+    2:3:void setStatusBar():103:104 -> c
+    1:1:java.lang.String access$300(com.huli.foxread.ui.activities.MainActivity):83:83 -> d
+    2:5:void checkNewVersion222():618:621 -> d
+    1:3:void doBusiness(android.content.Context):143:145 -> doBusiness
+    4:6:void doBusiness(android.content.Context):149:151 -> doBusiness
+    7:7:void doBusiness(android.content.Context):166:166 -> doBusiness
+    8:9:void doBusiness(android.content.Context):169:170 -> doBusiness
+    10:10:void doBusiness(android.content.Context):202:202 -> doBusiness
+    1:2:void downloadApkTask():730:731 -> downloadApkTask
+    3:7:void downloadApkTask():741:745 -> downloadApkTask
+    8:8:void downloadApkTask():747:747 -> downloadApkTask
+    9:9:void downloadApkTask():750:750 -> downloadApkTask
+    10:10:void downloadApkTask():754:754 -> downloadApkTask
+    11:11:void downloadApkTask():753:753 -> downloadApkTask
+    1:1:void access$400(com.huli.foxread.ui.activities.MainActivity):83:83 -> e
+    2:2:boolean hasExternalStoragePermissions():725:725 -> e
+    1:1:java.lang.String access$600(com.huli.foxread.ui.activities.MainActivity):83:83 -> f
+    2:2:void oneClickLogin():462:462 -> f
+    1:1:void access$900(com.huli.foxread.ui.activities.MainActivity):83:83 -> g
+    2:2:void preAvoidPwd1ClickLogin():229:229 -> g
+    3:3:void preAvoidPwd1ClickLogin():232:232 -> g
+    1:2:void getUserReadTime():600:601 -> getUserReadTime
+    1:3:void sendShowLoginDialogMsg():424:426 -> h
+    1:1:void initParms(android.os.Bundle):110:110 -> initParms
+    1:8:void initView(android.view.View):126:133 -> initView
+    1:1:void onDestroy():284:284 -> onDestroy
+    2:2:void onDestroy():286:286 -> onDestroy
+    1:3:boolean onKeyDown(int,android.view.KeyEvent):409:411 -> onKeyDown
+    4:4:boolean onKeyDown(int,android.view.KeyEvent):413:413 -> onKeyDown
+    5:5:boolean onKeyDown(int,android.view.KeyEvent):417:417 -> onKeyDown
+    1:1:void onNewIntent(android.content.Intent):207:207 -> onNewIntent
+    2:2:void onNewIntent(android.content.Intent):210:210 -> onNewIntent
+    1:2:void onRequestPermissionsResult(int,java.lang.String[],int[]):772:773 -> onRequestPermissionsResult
+    1:2:void onResume():267:268 -> onResume
+    3:3:void onResume():270:270 -> onResume
+    1:7:void onTabReselect(int):298:304 -> onTabReselect
+    8:11:void onTabReselect(int):306:309 -> onTabReselect
+    12:12:void onTabReselect(int):313:313 -> onTabReselect
+    1:1:void onTabSelect(int):291:291 -> onTabSelect
+    1:2:void reqMyCapitalDetail():533:534 -> reqMyCapitalDetail
+    1:2:void reqUserInfo():552:553 -> reqUserInfo
+    1:1:void setListener():138:138 -> setListener
+    1:2:void switch2Bookstore():394:395 -> switch2Bookstore
+    1:2:void switch2Welfare():402:403 -> switch2Welfare
+com.huli.foxread.ui.activities.MainActivity$1 -> com.huli.foxread.ui.activities.MainActivity$e:
+    com.huli.foxread.ui.activities.MainActivity this$0 -> m
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):170:170 -> <init>
+    1:1:void dealWithCustomMessage(android.content.Context,com.umeng.message.entity.UMessage):173:173 -> dealWithCustomMessage
 com.huli.foxread.ui.activities.MainActivity$10 -> com.huli.foxread.ui.activities.MainActivity$a:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):573:573 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):576:576 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):578:580 -> onSuccess
-com.huli.foxread.ui.activities.MainActivity$10$1 -> com.huli.foxread.ui.activities.MainActivity$a$a:
-    com.huli.foxread.ui.activities.MainActivity$10 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$10):576:576 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):555:555 -> <init>
+    1:3:void onSuccess(com.lzy.okgo.model.Response):558:560 -> onSuccess
+    4:5:void onSuccess(com.lzy.okgo.model.Response):563:564 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):566:566 -> onSuccess
+    7:7:void onSuccess(com.lzy.okgo.model.Response):568:568 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$11 -> com.huli.foxread.ui.activities.MainActivity$b:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):591:591 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):594:594 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):597:598 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):583:583 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):586:586 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):588:590 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$11$1 -> com.huli.foxread.ui.activities.MainActivity$b$a:
     com.huli.foxread.ui.activities.MainActivity$11 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$11):595:595 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$11):586:586 -> <init>
 com.huli.foxread.ui.activities.MainActivity$12 -> com.huli.foxread.ui.activities.MainActivity$c:
-    com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):615:615 -> <init>
-    1:1:void lambda$onRequestVersionSuccess$33():628:628 -> a
-    1:1:void lambda$onRequestVersionSuccess$34():630:630 -> b
-    1:1:void lambda$onRequestVersionSuccess$32():626:626 -> c
-    1:1:com.allenliu.versionchecklib.v2.builder.UIData onRequestVersionSuccess(com.allenliu.versionchecklib.v2.builder.DownloadBuilder,java.lang.String):620:620 -> onRequestVersionSuccess
-    2:5:com.allenliu.versionchecklib.v2.builder.UIData onRequestVersionSuccess(com.allenliu.versionchecklib.v2.builder.DownloadBuilder,java.lang.String):623:626 -> onRequestVersionSuccess
-    6:7:com.allenliu.versionchecklib.v2.builder.UIData onRequestVersionSuccess(com.allenliu.versionchecklib.v2.builder.DownloadBuilder,java.lang.String):628:629 -> onRequestVersionSuccess
-    8:8:com.allenliu.versionchecklib.v2.builder.UIData onRequestVersionSuccess(com.allenliu.versionchecklib.v2.builder.DownloadBuilder,java.lang.String):634:634 -> onRequestVersionSuccess
+    com.huli.foxread.ui.activities.MainActivity this$0 -> f
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):601:601 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):604:604 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):607:608 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$12$1 -> com.huli.foxread.ui.activities.MainActivity$c$a:
     com.huli.foxread.ui.activities.MainActivity$12 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$12):621:621 -> <init>
-com.huli.foxread.ui.activities.MainActivity$2 -> com.huli.foxread.ui.activities.MainActivity$e:
-    com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):237:237 -> <init>
-    1:1:void onGetWakeUpFinish(java.lang.String):241:241 -> onGetWakeUpFinish
-    2:2:void onGetWakeUpFinish(java.lang.String):243:243 -> onGetWakeUpFinish
-    3:6:void onGetWakeUpFinish(java.lang.String):245:248 -> onGetWakeUpFinish
-    7:7:void onGetWakeUpFinish(java.lang.String):250:250 -> onGetWakeUpFinish
-com.huli.foxread.ui.activities.MainActivity$3 -> com.huli.foxread.ui.activities.MainActivity$f:
-    com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):420:420 -> <init>
-    1:3:void lambda$handleMessage$31(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):428:430 -> a
-    4:4:void lambda$handleMessage$31(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):434:434 -> a
-    1:2:void lambda$null$29(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):431:432 -> b
-    1:2:void lambda$null$30(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):435:436 -> c
-    1:1:boolean handleMessage(android.os.Message):423:423 -> handleMessage
-    2:4:boolean handleMessage(android.os.Message):425:427 -> handleMessage
-    5:7:boolean handleMessage(android.os.Message):439:441 -> handleMessage
-com.huli.foxread.ui.activities.MainActivity$4 -> com.huli.foxread.ui.activities.MainActivity$g:
-    com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):452:452 -> <init>
-    1:1:void onGetLoginTokenFaild(java.lang.String,java.lang.String,java.lang.String):474:474 -> onGetLoginTokenFaild
-    1:2:void onGetLoginTokenSuccess(java.lang.String,java.lang.String,java.lang.String):461:462 -> onGetLoginTokenSuccess
-    1:2:void onOtherWayLogin():479:480 -> onOtherWayLogin
-com.huli.foxread.ui.activities.MainActivity$5 -> com.huli.foxread.ui.activities.MainActivity$h:
-    com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):501:501 -> <init>
-com.huli.foxread.ui.activities.MainActivity$6 -> com.huli.foxread.ui.activities.MainActivity$i:
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$12):605:605 -> <init>
+com.huli.foxread.ui.activities.MainActivity$13 -> com.huli.foxread.ui.activities.MainActivity$d:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):502:502 -> <init>
-    1:3:void onSuccess(com.lzy.okgo.model.Response):505:507 -> onSuccess
-    4:4:void onSuccess(com.lzy.okgo.model.Response):509:509 -> onSuccess
-    5:5:void onSuccess(com.lzy.okgo.model.Response):511:511 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):513:513 -> onSuccess
-com.huli.foxread.ui.activities.MainActivity$7 -> com.huli.foxread.ui.activities.MainActivity$j:
-    com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):524:524 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):527:527 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):530:532 -> onSuccess
-com.huli.foxread.ui.activities.MainActivity$7$1 -> com.huli.foxread.ui.activities.MainActivity$j$a:
-    com.huli.foxread.ui.activities.MainActivity$7 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$7):528:528 -> <init>
-com.huli.foxread.ui.activities.MainActivity$8 -> com.huli.foxread.ui.activities.MainActivity$k:
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):621:621 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):624:624 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):626:627 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):715:715 -> onSuccess
+com.huli.foxread.ui.activities.MainActivity$13$1 -> com.huli.foxread.ui.activities.MainActivity$d$a:
+    com.huli.foxread.ui.activities.MainActivity$13 this$1 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$13):624:624 -> <init>
+com.huli.foxread.ui.activities.MainActivity$2 -> com.huli.foxread.ui.activities.MainActivity$f:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):544:544 -> <init>
-com.huli.foxread.ui.activities.MainActivity$9 -> com.huli.foxread.ui.activities.MainActivity$l:
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):232:232 -> <init>
+    1:1:void onPreGetNumberError(java.lang.String):241:241 -> onPreGetNumberError
+    1:2:void onPreGetNumberSuccess(java.lang.String):235:236 -> onPreGetNumberSuccess
+com.huli.foxread.ui.activities.MainActivity$3 -> com.huli.foxread.ui.activities.MainActivity$g:
+    com.huli.foxread.ui.activities.MainActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):247:247 -> <init>
+    1:1:void onGetWakeUpFinish(java.lang.String):251:251 -> onGetWakeUpFinish
+    2:2:void onGetWakeUpFinish(java.lang.String):253:253 -> onGetWakeUpFinish
+    3:6:void onGetWakeUpFinish(java.lang.String):255:258 -> onGetWakeUpFinish
+    7:7:void onGetWakeUpFinish(java.lang.String):260:260 -> onGetWakeUpFinish
+com.huli.foxread.ui.activities.MainActivity$4 -> com.huli.foxread.ui.activities.MainActivity$h:
+    com.huli.foxread.ui.activities.MainActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):430:430 -> <init>
+    1:3:void lambda$handleMessage$31(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):438:440 -> a
+    4:4:void lambda$handleMessage$31(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):444:444 -> a
+    1:2:void lambda$null$29(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):441:442 -> b
+    1:2:void lambda$null$30(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):445:446 -> c
+    1:1:boolean handleMessage(android.os.Message):433:433 -> handleMessage
+    2:4:boolean handleMessage(android.os.Message):435:437 -> handleMessage
+    5:7:boolean handleMessage(android.os.Message):449:451 -> handleMessage
+com.huli.foxread.ui.activities.MainActivity$5 -> com.huli.foxread.ui.activities.MainActivity$i:
+    com.huli.foxread.ui.activities.MainActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):462:462 -> <init>
+    1:1:void onGetLoginTokenFaild(java.lang.String,java.lang.String,java.lang.String):484:484 -> onGetLoginTokenFaild
+    1:2:void onGetLoginTokenSuccess(java.lang.String,java.lang.String,java.lang.String):471:472 -> onGetLoginTokenSuccess
+    1:2:void onOtherWayLogin():489:490 -> onOtherWayLogin
+com.huli.foxread.ui.activities.MainActivity$6 -> com.huli.foxread.ui.activities.MainActivity$j:
+    com.huli.foxread.ui.activities.MainActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):511:511 -> <init>
+com.huli.foxread.ui.activities.MainActivity$7 -> com.huli.foxread.ui.activities.MainActivity$k:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):545:545 -> <init>
-    1:3:void onSuccess(com.lzy.okgo.model.Response):548:550 -> onSuccess
-    4:5:void onSuccess(com.lzy.okgo.model.Response):553:554 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):556:556 -> onSuccess
-    7:7:void onSuccess(com.lzy.okgo.model.Response):558:558 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):512:512 -> <init>
+    1:3:void onSuccess(com.lzy.okgo.model.Response):515:517 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):519:519 -> onSuccess
+    5:5:void onSuccess(com.lzy.okgo.model.Response):521:521 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):523:523 -> onSuccess
+com.huli.foxread.ui.activities.MainActivity$8 -> com.huli.foxread.ui.activities.MainActivity$l:
+    com.huli.foxread.ui.activities.MainActivity this$0 -> f
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):534:534 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):537:537 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):540:542 -> onSuccess
+com.huli.foxread.ui.activities.MainActivity$8$1 -> com.huli.foxread.ui.activities.MainActivity$l$a:
+    com.huli.foxread.ui.activities.MainActivity$8 this$1 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$8):538:538 -> <init>
+com.huli.foxread.ui.activities.MainActivity$9 -> com.huli.foxread.ui.activities.MainActivity$m:
+    com.huli.foxread.ui.activities.MainActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):554:554 -> <init>
 com.huli.foxread.ui.activities.MsgNotifyActivity -> com.huli.foxread.ui.activities.MsgNotifyActivity:
     androidx.recyclerview.widget.RecyclerView recyclerView -> g
     android.widget.ImageView btnClose -> i
@@ -90651,14 +91257,14 @@ com.huli.foxread.ui.activities.MyGoldCoinActivity -> com.huli.foxread.ui.activit
     2:2:void <init>():50:50 -> <init>
     1:1:android.widget.TextView access$000(com.huli.foxread.ui.activities.MyGoldCoinActivity):37:37 -> a
     2:2:int access$402(com.huli.foxread.ui.activities.MyGoldCoinActivity,int):37:37 -> a
-    3:4:void lambda$setListener$38(com.scwang.smartrefresh.layout.api.RefreshLayout):104:105 -> a
-    5:5:void lambda$setListener$38(com.scwang.smartrefresh.layout.api.RefreshLayout):108:108 -> a
+    3:4:void lambda$setListener$35(com.scwang.smartrefresh.layout.api.RefreshLayout):104:105 -> a
+    5:5:void lambda$setListener$35(com.scwang.smartrefresh.layout.api.RefreshLayout):108:108 -> a
     6:8:void reqEarningsDetail(int,boolean):190:192 -> a
     1:1:android.widget.TextView access$100(com.huli.foxread.ui.activities.MyGoldCoinActivity):37:37 -> b
     1:1:android.widget.TextView access$200(com.huli.foxread.ui.activities.MyGoldCoinActivity):37:37 -> c
     2:3:void setStatusBar():54:55 -> c
     1:1:android.widget.TextView access$300(com.huli.foxread.ui.activities.MyGoldCoinActivity):37:37 -> d
-    2:2:void lambda$setListener$39():110:110 -> d
+    2:2:void lambda$setListener$36():110:110 -> d
     1:2:void doBusiness(android.content.Context):116:117 -> doBusiness
     3:5:void doBusiness(android.content.Context):122:124 -> doBusiness
     6:6:void doBusiness(android.content.Context):126:126 -> doBusiness
@@ -90711,12 +91317,12 @@ com.huli.foxread.ui.activities.MyInviteFriendsActivity -> com.huli.foxread.ui.ac
     2:2:void <init>():33:33 -> <init>
     1:1:int access$000(com.huli.foxread.ui.activities.MyInviteFriendsActivity):27:27 -> a
     2:2:int access$002(com.huli.foxread.ui.activities.MyInviteFriendsActivity,int):27:27 -> a
-    3:4:void lambda$setListener$40(com.scwang.smartrefresh.layout.api.RefreshLayout):65:66 -> a
-    5:5:void lambda$setListener$40(com.scwang.smartrefresh.layout.api.RefreshLayout):69:69 -> a
+    3:4:void lambda$setListener$37(com.scwang.smartrefresh.layout.api.RefreshLayout):65:66 -> a
+    5:5:void lambda$setListener$37(com.scwang.smartrefresh.layout.api.RefreshLayout):69:69 -> a
     6:8:void reqMyFriendsList(int,boolean):83:85 -> a
     1:1:com.huli.foxread.ui.adapters.InvitedFriendsAdapter access$100(com.huli.foxread.ui.activities.MyInviteFriendsActivity):27:27 -> b
     1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$200(com.huli.foxread.ui.activities.MyInviteFriendsActivity):27:27 -> c
-    1:1:void lambda$setListener$41():71:71 -> d
+    1:1:void lambda$setListener$38():71:71 -> d
     1:1:void doBusiness(android.content.Context):76:76 -> doBusiness
     1:2:void initView(android.view.View):52:53 -> initView
     3:7:void initView(android.view.View):55:59 -> initView
@@ -90765,15 +91371,15 @@ com.huli.foxread.ui.activities.MyPrivilegeActivity -> com.huli.foxread.ui.activi
     8:8:void displayVipUI(com.huli.foxread.entity.FUser):252:252 -> a
     9:11:void displayVipUI(com.huli.foxread.entity.FUser):254:256 -> a
     12:16:void displayVipUI(com.huli.foxread.entity.FUser):258:262 -> a
-    17:24:void lambda$new$44(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):268:275 -> a
-    25:25:void lambda$new$44(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):277:277 -> a
-    26:26:void lambda$new$44(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):281:281 -> a
-    27:28:void lambda$new$44(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):286:287 -> a
-    29:30:void lambda$null$42(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):278:279 -> a
+    17:24:void lambda$new$41(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):268:275 -> a
+    25:25:void lambda$new$41(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):277:277 -> a
+    26:26:void lambda$new$41(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):281:281 -> a
+    27:28:void lambda$new$41(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):286:287 -> a
+    29:30:void lambda$null$39(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):278:279 -> a
     31:33:void reqSubmitOrder(java.lang.String):330:332 -> a
     34:36:void reqChannelsAndPayment(java.lang.String,java.lang.String):400:402 -> a
     1:1:com.huli.foxread.ui.adapters.VipComboAdapter access$100(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> b
-    2:3:void lambda$null$43(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):282:283 -> b
+    2:3:void lambda$null$40(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):282:283 -> b
     4:4:void wechatPay(java.lang.String):439:439 -> b
     5:5:void wechatPay(java.lang.String):441:441 -> b
     6:14:void wechatPay(java.lang.String):445:453 -> b
@@ -90822,7 +91428,7 @@ com.huli.foxread.ui.activities.MyPrivilegeActivity$2 -> com.huli.foxread.ui.acti
     1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):192:192 -> <init>
     1:3:void onClick(android.view.View):196:198 -> onClick
     1:2:void updateDrawState(android.text.TextPaint):205:206 -> updateDrawState
-com.huli.foxread.ui.activities.MyPrivilegeActivity$3 -> com.huli.foxread.ui.activities.k1:
+com.huli.foxread.ui.activities.MyPrivilegeActivity$3 -> com.huli.foxread.ui.activities.i1:
     com.huli.foxread.ui.widget.CheckBoxSample val$cbAlipay -> f
     com.huli.foxread.entity.PaymentInfoEntity val$data -> d
     com.huli.foxread.ui.dialogs.base.BaseDialog val$dialog -> e
@@ -90857,8 +91463,8 @@ com.huli.foxread.ui.activities.MyPrivilegeActivity$6 -> com.huli.foxread.ui.acti
 com.huli.foxread.ui.activities.MyPrivilegeActivity$7 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$f:
     com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> f
     1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity,com.alibaba.fastjson.TypeReference):362:362 -> <init>
-    void lambda$onSuccess$45(com.kongzue.dialog.v3.MessageDialog,android.view.View) -> a
-    1:1:boolean lambda$onSuccess$46(com.kongzue.dialog.util.BaseDialog,android.view.View):386:386 -> a
+    void lambda$onSuccess$42(com.kongzue.dialog.v3.MessageDialog,android.view.View) -> a
+    1:1:boolean lambda$onSuccess$43(com.kongzue.dialog.util.BaseDialog,android.view.View):386:386 -> a
     1:3:void onSuccess(com.lzy.okgo.model.Response):365:367 -> onSuccess
     4:7:void onSuccess(com.lzy.okgo.model.Response):369:372 -> onSuccess
     8:8:void onSuccess(com.lzy.okgo.model.Response):371:371 -> onSuccess
@@ -90936,7 +91542,7 @@ com.huli.foxread.ui.activities.ReadingRecordActivity -> com.huli.foxread.ui.acti
     1:1:int access$000(com.huli.foxread.ui.activities.ReadingRecordActivity):42:42 -> a
     2:2:int access$002(com.huli.foxread.ui.activities.ReadingRecordActivity,int):42:42 -> a
     3:3:boolean access$802(com.huli.foxread.ui.activities.ReadingRecordActivity,boolean):42:42 -> a
-    4:4:boolean lambda$onClick$47(com.kongzue.dialog.util.BaseDialog,android.view.View):167:167 -> a
+    4:4:boolean lambda$onClick$44(com.kongzue.dialog.util.BaseDialog,android.view.View):167:167 -> a
     5:7:void reqDeleteBookRecord(java.lang.String):272:274 -> a
     1:1:void access$100(com.huli.foxread.ui.activities.ReadingRecordActivity,int):42:42 -> b
     2:2:com.huli.foxread.ui.adapters.ReadingRecordsAdapter access$200(com.huli.foxread.ui.activities.ReadingRecordActivity):42:42 -> b
@@ -91008,20 +91614,6 @@ com.huli.foxread.ui.activities.ReadingRecordActivity$5 -> com.huli.foxread.ui.ac
 com.huli.foxread.ui.activities.ReadingRecordActivity$5$1 -> com.huli.foxread.ui.activities.ReadingRecordActivity$e$a:
     com.huli.foxread.ui.activities.ReadingRecordActivity$5 this$1 -> a
     1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity$5):278:278 -> <init>
-com.huli.foxread.ui.activities.SMsgPmiBean -> com.huli.foxread.ui.activities.l1:
-    java.lang.String id -> a
-    java.lang.String content -> c
-    java.lang.String name -> b
-    java.lang.String http_image -> d
-    1:1:void <init>():3:3 -> <init>
-    1:1:java.lang.String getContent():26:26 -> getContent
-    1:1:java.lang.String getHttp_image():34:34 -> getHttp_image
-    1:1:java.lang.String getId():10:10 -> getId
-    1:1:java.lang.String getName():18:18 -> getName
-    1:1:void setContent(java.lang.String):30:30 -> setContent
-    1:1:void setHttp_image(java.lang.String):38:38 -> setHttp_image
-    1:1:void setId(java.lang.String):14:14 -> setId
-    1:1:void setName(java.lang.String):22:22 -> setName
 com.huli.foxread.ui.activities.SearchBookActivity -> com.huli.foxread.ui.activities.SearchBookActivity:
     android.widget.EditText etKeyword -> f
     int mType -> n
@@ -91040,7 +91632,7 @@ com.huli.foxread.ui.activities.SearchBookActivity -> com.huli.foxread.ui.activit
     2:2:void access$100(com.huli.foxread.ui.activities.SearchBookActivity,java.lang.String):48:48 -> a
     3:3:java.util.List access$402(com.huli.foxread.ui.activities.SearchBookActivity,java.util.List):48:48 -> a
     4:4:int access$502(com.huli.foxread.ui.activities.SearchBookActivity,int):48:48 -> a
-    5:5:boolean lambda$setListener$48(android.widget.TextView,int,android.view.KeyEvent):110:110 -> a
+    5:5:boolean lambda$setListener$45(android.widget.TextView,int,android.view.KeyEvent):110:110 -> a
     6:7:void addHistoryLabel(java.lang.String):228:229 -> a
     8:8:void addHistoryLabel(java.lang.String):233:233 -> a
     9:12:void addHistoryLabel(java.lang.String):235:238 -> a
@@ -91125,7 +91717,7 @@ com.huli.foxread.ui.activities.SearchResultActivity -> com.huli.foxread.ui.activ
     2:2:void <init>():51:51 -> <init>
     1:1:int access$000(com.huli.foxread.ui.activities.SearchResultActivity):41:41 -> a
     2:2:int access$002(com.huli.foxread.ui.activities.SearchResultActivity,int):41:41 -> a
-    3:3:boolean lambda$setListener$49(android.widget.TextView,int,android.view.KeyEvent):89:89 -> a
+    3:3:boolean lambda$setListener$46(android.widget.TextView,int,android.view.KeyEvent):89:89 -> a
     4:7:void reqCategoryDatas(java.lang.String,int,boolean):164:167 -> a
     1:1:com.huli.foxread.ui.adapters.SHotBooksAdapter access$100(com.huli.foxread.ui.activities.SearchResultActivity):41:41 -> b
     1:2:void doBusiness(android.content.Context):100:101 -> doBusiness
@@ -91168,8 +91760,8 @@ com.huli.foxread.ui.activities.SettingActivity -> com.huli.foxread.ui.activities
     android.widget.TextView btnAboutUs -> j
     android.widget.RelativeLayout btnUserBasicInfo -> k
     1:1:void <init>():35:35 -> <init>
-    1:3:boolean lambda$onClick$51(com.kongzue.dialog.util.BaseDialog,android.view.View):130:132 -> a
-    1:1:boolean lambda$onClick$50(com.kongzue.dialog.util.BaseDialog,android.view.View):123:123 -> b
+    1:3:boolean lambda$onClick$48(com.kongzue.dialog.util.BaseDialog,android.view.View):130:132 -> a
+    1:1:boolean lambda$onClick$47(com.kongzue.dialog.util.BaseDialog,android.view.View):123:123 -> b
     1:2:void logout():167:168 -> d
     1:1:void doBusiness(android.content.Context):90:90 -> doBusiness
     2:5:void doBusiness(android.content.Context):92:95 -> doBusiness
@@ -91260,7 +91852,7 @@ com.huli.foxread.ui.activities.SignInActivity$1$1 -> com.huli.foxread.ui.activit
 com.huli.foxread.ui.activities.SignInActivity$2 -> com.huli.foxread.ui.activities.SignInActivity$b:
     com.huli.foxread.ui.activities.SignInActivity this$0 -> f
     1:1:void <init>(com.huli.foxread.ui.activities.SignInActivity,androidx.appcompat.app.AppCompatActivity,boolean):215:215 -> <init>
-    1:1:void lambda$onSuccess$52():250:250 -> a
+    1:1:void lambda$onSuccess$49():250:250 -> a
     1:1:void onSuccess(com.lzy.okgo.model.Response):218:218 -> onSuccess
     2:7:void onSuccess(com.lzy.okgo.model.Response):221:226 -> onSuccess
     8:11:void onSuccess(com.lzy.okgo.model.Response):228:231 -> onSuccess
@@ -91276,9 +91868,9 @@ com.huli.foxread.ui.activities.SignInActivity$2$1 -> com.huli.foxread.ui.activit
 com.huli.foxread.ui.activities.SignInActivity$3 -> com.huli.foxread.ui.activities.SignInActivity$c:
     com.huli.foxread.ui.activities.SignInActivity this$0 -> f
     1:1:void <init>(com.huli.foxread.ui.activities.SignInActivity,androidx.appcompat.app.AppCompatActivity):261:261 -> <init>
-    1:4:void lambda$onSuccess$55(int,com.kongzue.dialog.v3.CustomDialog,android.view.View):275:278 -> a
-    5:5:void lambda$null$53(com.kongzue.dialog.v3.CustomDialog,android.view.View):277:277 -> a
-    1:1:void lambda$null$54(com.kongzue.dialog.v3.CustomDialog,android.view.View):278:278 -> b
+    1:4:void lambda$onSuccess$52(int,com.kongzue.dialog.v3.CustomDialog,android.view.View):275:278 -> a
+    5:5:void lambda$null$50(com.kongzue.dialog.v3.CustomDialog,android.view.View):277:277 -> a
+    1:1:void lambda$null$51(com.kongzue.dialog.v3.CustomDialog,android.view.View):278:278 -> b
     1:3:void onFinish():285:287 -> onFinish
     1:1:void onSuccess(com.lzy.okgo.model.Response):264:264 -> onSuccess
     2:4:void onSuccess(com.lzy.okgo.model.Response):267:269 -> onSuccess
@@ -91289,9 +91881,9 @@ com.huli.foxread.ui.activities.SignInActivity$3$1 -> com.huli.foxread.ui.activit
     1:1:void <init>(com.huli.foxread.ui.activities.SignInActivity$3):265:265 -> <init>
 com.huli.foxread.ui.activities.TransparencyActivity -> com.huli.foxread.ui.activities.TransparencyActivity:
     1:1:void <init>():17:17 -> <init>
-    1:2:boolean lambda$doBusiness$56(com.kongzue.dialog.util.BaseDialog,android.view.View):52:53 -> a
-    1:1:boolean lambda$doBusiness$57(com.kongzue.dialog.util.BaseDialog,android.view.View):57:57 -> b
-    boolean lambda$doBusiness$58() -> d
+    1:2:boolean lambda$doBusiness$53(com.kongzue.dialog.util.BaseDialog,android.view.View):52:53 -> a
+    1:1:boolean lambda$doBusiness$54(com.kongzue.dialog.util.BaseDialog,android.view.View):57:57 -> b
+    boolean lambda$doBusiness$55() -> d
     1:6:void doBusiness(android.content.Context):46:51 -> doBusiness
     7:7:void doBusiness(android.content.Context):56:56 -> doBusiness
     8:10:void doBusiness(android.content.Context):60:62 -> doBusiness
@@ -91310,18 +91902,18 @@ com.huli.foxread.ui.activities.UserBasicInfoActivity -> com.huli.foxread.ui.acti
     2:2:int access$102(com.huli.foxread.ui.activities.UserBasicInfoActivity,int):36:36 -> a
     3:9:void displayUserInfo(com.huli.foxread.entity.FUser):96:102 -> a
     10:10:void displayUserInfo(com.huli.foxread.entity.FUser):104:104 -> a
-    11:12:boolean lambda$onClick$60(com.kongzue.dialog.util.BaseDialog,android.view.View,java.lang.String):122:123 -> a
-    13:13:boolean lambda$onClick$60(com.kongzue.dialog.util.BaseDialog,android.view.View,java.lang.String):127:127 -> a
-    14:15:void lambda$onClick$62(com.kongzue.dialog.v3.MessageDialog,android.view.View):140:141 -> a
-    16:19:void lambda$null$61(android.widget.RadioGroup,int):142:145 -> a
-    20:20:void lambda$null$61(android.widget.RadioGroup,int):147:147 -> a
-    21:22:boolean lambda$onClick$63(com.kongzue.dialog.util.BaseDialog,android.view.View):152:153 -> a
-    23:23:boolean lambda$onClick$63(com.kongzue.dialog.util.BaseDialog,android.view.View):155:155 -> a
-    24:24:boolean lambda$onClick$63(com.kongzue.dialog.util.BaseDialog,android.view.View):160:160 -> a
+    11:12:boolean lambda$onClick$57(com.kongzue.dialog.util.BaseDialog,android.view.View,java.lang.String):122:123 -> a
+    13:13:boolean lambda$onClick$57(com.kongzue.dialog.util.BaseDialog,android.view.View,java.lang.String):127:127 -> a
+    14:15:void lambda$onClick$59(com.kongzue.dialog.v3.MessageDialog,android.view.View):140:141 -> a
+    16:19:void lambda$null$58(android.widget.RadioGroup,int):142:145 -> a
+    20:20:void lambda$null$58(android.widget.RadioGroup,int):147:147 -> a
+    21:22:boolean lambda$onClick$60(com.kongzue.dialog.util.BaseDialog,android.view.View):152:153 -> a
+    23:23:boolean lambda$onClick$60(com.kongzue.dialog.util.BaseDialog,android.view.View):155:155 -> a
+    24:24:boolean lambda$onClick$60(com.kongzue.dialog.util.BaseDialog,android.view.View):160:160 -> a
     25:27:void reqSetUserProfile(java.lang.String,java.lang.String):192:194 -> a
     1:1:int access$100(com.huli.foxread.ui.activities.UserBasicInfoActivity):36:36 -> b
     1:1:android.widget.TextView access$200(com.huli.foxread.ui.activities.UserBasicInfoActivity):36:36 -> c
-    2:4:boolean lambda$setListener$59(android.view.View):80:82 -> c
+    2:4:boolean lambda$setListener$56(android.view.View):80:82 -> c
     1:1:void doBusiness(android.content.Context):89:89 -> doBusiness
     2:3:void doBusiness(android.content.Context):91:92 -> doBusiness
     1:2:void initView(android.view.View):65:66 -> initView
@@ -91361,41 +91953,42 @@ com.huli.foxread.ui.activities.WXBindingPhoneActivity -> com.huli.foxread.ui.act
     android.widget.Button btnBinding -> g
     android.widget.EditText etAuthCode -> i
     android.widget.EditText etPhoneNum -> h
-    1:1:void <init>():27:27 -> <init>
-    1:1:com.huli.foxread.ui.widget.TimingButton access$000(com.huli.foxread.ui.activities.WXBindingPhoneActivity):27:27 -> a
-    2:5:void reqAuthCode(java.lang.String):111:114 -> a
-    6:9:void bindingPhone(java.lang.String,java.lang.String):141:144 -> a
-    1:2:void initView(android.view.View):51:52 -> initView
-    3:7:void initView(android.view.View):54:58 -> initView
-    1:1:void onBackPressed():167:167 -> onBackPressed
-    1:1:void onClick(android.view.View):75:75 -> onClick
-    2:4:void onClick(android.view.View):77:79 -> onClick
-    5:6:void onClick(android.view.View):82:83 -> onClick
-    7:10:void onClick(android.view.View):86:89 -> onClick
-    11:12:void onClick(android.view.View):92:93 -> onClick
-    13:13:void onClick(android.view.View):96:96 -> onClick
-    1:2:void setListener():63:64 -> setListener
+    1:1:void <init>():28:28 -> <init>
+    1:1:com.huli.foxread.ui.widget.TimingButton access$000(com.huli.foxread.ui.activities.WXBindingPhoneActivity):28:28 -> a
+    2:5:void reqAuthCode(java.lang.String):115:118 -> a
+    6:9:void bindingPhone(java.lang.String,java.lang.String):145:148 -> a
+    1:3:void doBusiness(android.content.Context):70:72 -> doBusiness
+    1:2:void initView(android.view.View):52:53 -> initView
+    3:7:void initView(android.view.View):55:59 -> initView
+    1:1:void onBackPressed():171:171 -> onBackPressed
+    1:1:void onClick(android.view.View):79:79 -> onClick
+    2:4:void onClick(android.view.View):81:83 -> onClick
+    5:6:void onClick(android.view.View):86:87 -> onClick
+    7:10:void onClick(android.view.View):90:93 -> onClick
+    11:12:void onClick(android.view.View):96:97 -> onClick
+    13:13:void onClick(android.view.View):100:100 -> onClick
+    1:2:void setListener():64:65 -> setListener
 com.huli.foxread.ui.activities.WXBindingPhoneActivity$1 -> com.huli.foxread.ui.activities.WXBindingPhoneActivity$a:
     com.huli.foxread.ui.activities.WXBindingPhoneActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity,androidx.appcompat.app.AppCompatActivity):114:114 -> <init>
-    1:2:void onError(com.lzy.okgo.model.Response):127:128 -> onError
-    1:1:void onSuccess(com.lzy.okgo.model.Response):117:117 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):119:120 -> onSuccess
-    4:4:void onSuccess(com.lzy.okgo.model.Response):122:122 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity,androidx.appcompat.app.AppCompatActivity):118:118 -> <init>
+    1:2:void onError(com.lzy.okgo.model.Response):131:132 -> onError
+    1:1:void onSuccess(com.lzy.okgo.model.Response):121:121 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):123:124 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):126:126 -> onSuccess
 com.huli.foxread.ui.activities.WXBindingPhoneActivity$1$1 -> com.huli.foxread.ui.activities.WXBindingPhoneActivity$a$a:
     com.huli.foxread.ui.activities.WXBindingPhoneActivity$1 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity$1):117:117 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity$1):121:121 -> <init>
 com.huli.foxread.ui.activities.WXBindingPhoneActivity$2 -> com.huli.foxread.ui.activities.WXBindingPhoneActivity$b:
     java.lang.String val$tel -> f
     com.huli.foxread.ui.activities.WXBindingPhoneActivity this$0 -> g
-    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity,androidx.appcompat.app.AppCompatActivity,java.lang.String):144:144 -> <init>
-    1:2:void lambda$onSuccess$69():153:154 -> a
-    1:1:void onSuccess(com.lzy.okgo.model.Response):147:147 -> onSuccess
-    2:5:void onSuccess(com.lzy.okgo.model.Response):149:152 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):157:157 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity,androidx.appcompat.app.AppCompatActivity,java.lang.String):148:148 -> <init>
+    1:2:void lambda$onSuccess$66():157:158 -> a
+    1:1:void onSuccess(com.lzy.okgo.model.Response):151:151 -> onSuccess
+    2:5:void onSuccess(com.lzy.okgo.model.Response):153:156 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):161:161 -> onSuccess
 com.huli.foxread.ui.activities.WXBindingPhoneActivity$2$1 -> com.huli.foxread.ui.activities.WXBindingPhoneActivity$b$a:
     com.huli.foxread.ui.activities.WXBindingPhoneActivity$2 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity$2):147:147 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.WXBindingPhoneActivity$2):151:151 -> <init>
 com.huli.foxread.ui.activities.WithdrawalActivity -> com.huli.foxread.ui.activities.WithdrawalActivity:
     int REQCODE_BIND_BANKCARD -> m
     android.widget.TextView tvExchangeYuan -> g
@@ -91438,7 +92031,7 @@ com.huli.foxread.ui.activities.WithdrawalActivity$1$1 -> com.huli.foxread.ui.act
 com.huli.foxread.ui.activities.WithdrawalActivity$2 -> com.huli.foxread.ui.activities.WithdrawalActivity$b:
     com.huli.foxread.ui.activities.WithdrawalActivity this$0 -> f
     1:1:void <init>(com.huli.foxread.ui.activities.WithdrawalActivity,androidx.appcompat.app.AppCompatActivity):180:180 -> <init>
-    void lambda$onSuccess$64(com.kongzue.dialog.v3.MessageDialog,android.view.View) -> a
+    void lambda$onSuccess$61(com.kongzue.dialog.v3.MessageDialog,android.view.View) -> a
     1:1:void onSuccess(com.lzy.okgo.model.Response):183:183 -> onSuccess
     2:4:void onSuccess(com.lzy.okgo.model.Response):186:188 -> onSuccess
     5:5:void onSuccess(com.lzy.okgo.model.Response):187:187 -> onSuccess
@@ -91506,7 +92099,7 @@ com.huli.foxread.ui.activities.WithdrawalRMBActivity$1$1 -> com.huli.foxread.ui.
 com.huli.foxread.ui.activities.WithdrawalRMBActivity$2 -> com.huli.foxread.ui.activities.WithdrawalRMBActivity$b:
     com.huli.foxread.ui.activities.WithdrawalRMBActivity this$0 -> f
     1:1:void <init>(com.huli.foxread.ui.activities.WithdrawalRMBActivity,androidx.appcompat.app.AppCompatActivity):184:184 -> <init>
-    void lambda$onSuccess$68(com.kongzue.dialog.v3.MessageDialog,android.view.View) -> a
+    void lambda$onSuccess$65(com.kongzue.dialog.v3.MessageDialog,android.view.View) -> a
     1:1:void onSuccess(com.lzy.okgo.model.Response):187:187 -> onSuccess
     2:5:void onSuccess(com.lzy.okgo.model.Response):190:193 -> onSuccess
     6:6:void onSuccess(com.lzy.okgo.model.Response):192:192 -> onSuccess
@@ -91533,12 +92126,12 @@ com.huli.foxread.ui.activities.WithdrawalRecordActivity -> com.huli.foxread.ui.a
     2:2:void <init>():37:37 -> <init>
     1:1:int access$000(com.huli.foxread.ui.activities.WithdrawalRecordActivity):31:31 -> a
     2:2:int access$002(com.huli.foxread.ui.activities.WithdrawalRecordActivity,int):31:31 -> a
-    3:4:void lambda$setListener$66(com.scwang.smartrefresh.layout.api.RefreshLayout):69:70 -> a
-    5:5:void lambda$setListener$66(com.scwang.smartrefresh.layout.api.RefreshLayout):73:73 -> a
+    3:4:void lambda$setListener$63(com.scwang.smartrefresh.layout.api.RefreshLayout):69:70 -> a
+    5:5:void lambda$setListener$63(com.scwang.smartrefresh.layout.api.RefreshLayout):73:73 -> a
     6:8:void reqGoldWithdrawal(int,boolean):92:94 -> a
     1:1:com.huli.foxread.ui.adapters.WithdrawalRecordAdapter access$100(com.huli.foxread.ui.activities.WithdrawalRecordActivity):31:31 -> b
     1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$200(com.huli.foxread.ui.activities.WithdrawalRecordActivity):31:31 -> c
-    1:1:void lambda$setListener$67():75:75 -> d
+    1:1:void lambda$setListener$64():75:75 -> d
     1:2:void doBusiness(android.content.Context):81:82 -> doBusiness
     3:3:void doBusiness(android.content.Context):85:85 -> doBusiness
     1:2:void initView(android.view.View):56:57 -> initView
@@ -91581,7 +92174,7 @@ com.huli.foxread.ui.adapters.-$$Lambda$SectionAvatarAdapter$qTK3YwvCm8s0pIBacg7b
     com.huli.foxread.entity.sections.AvatarSection f$3 -> d
     int f$1 -> b
     androidx.appcompat.widget.AppCompatCheckBox f$2 -> c
-com.huli.foxread.ui.adapters.-$$Lambda$WithdrawalGoldAdapter$n5U_Kq2XIGoEc_4omtqtssSP-uc -> com.huli.foxread.ui.adapters.b:
+com.huli.foxread.ui.adapters.-$$Lambda$WithdrawalGoldAdapter$tS5Si6mMQ8uuhZmrHqTuo0aepMI -> com.huli.foxread.ui.adapters.b:
     com.huli.foxread.entity.WithdrawalOptionEntity f$3 -> d
     int f$1 -> b
     com.huli.foxread.ui.adapters.WithdrawalGoldAdapter f$0 -> a
@@ -91838,9 +92431,9 @@ com.huli.foxread.ui.adapters.WithdrawalGoldAdapter -> com.huli.foxread.ui.adapte
     5:9:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.WithdrawalOptionEntity):31:35 -> a
     10:12:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.WithdrawalOptionEntity):37:39 -> a
     13:13:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.foxread.entity.WithdrawalOptionEntity):42:42 -> a
-    14:15:void lambda$convert$65(int,androidx.appcompat.widget.AppCompatCheckBox,com.huli.foxread.entity.WithdrawalOptionEntity,android.view.View):43:44 -> a
-    16:18:void lambda$convert$65(int,androidx.appcompat.widget.AppCompatCheckBox,com.huli.foxread.entity.WithdrawalOptionEntity,android.view.View):46:48 -> a
-    19:19:void lambda$convert$65(int,androidx.appcompat.widget.AppCompatCheckBox,com.huli.foxread.entity.WithdrawalOptionEntity,android.view.View):50:50 -> a
+    14:15:void lambda$convert$62(int,androidx.appcompat.widget.AppCompatCheckBox,com.huli.foxread.entity.WithdrawalOptionEntity,android.view.View):43:44 -> a
+    16:18:void lambda$convert$62(int,androidx.appcompat.widget.AppCompatCheckBox,com.huli.foxread.entity.WithdrawalOptionEntity,android.view.View):46:48 -> a
+    19:19:void lambda$convert$62(int,androidx.appcompat.widget.AppCompatCheckBox,com.huli.foxread.entity.WithdrawalOptionEntity,android.view.View):50:50 -> a
     1:1:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.Object):16:16 -> convert
     1:1:java.lang.String getSelectPlanId():57:57 -> getSelectPlanId
 com.huli.foxread.ui.adapters.WithdrawalMoneyAdapter -> com.huli.foxread.ui.adapters.WithdrawalMoneyAdapter:
@@ -92166,6 +92759,10 @@ com.huli.foxread.ui.dialogs.PaymentSelectDialog -> com.huli.foxread.ui.dialogs.P
     1:1:com.huli.foxread.ui.dialogs.PaymentSelectDialog setLayoutId(int):49:49 -> setLayoutId
     1:1:int setUpLayoutId():55:55 -> setUpLayoutId
 com.huli.foxread.ui.dialogs.PaymentSelectDialog$PConvertListener -> com.huli.foxread.ui.dialogs.PaymentSelectDialog$a:
+com.huli.foxread.ui.dialogs.VersionDialog -> com.huli.foxread.ui.dialogs.a:
+    int res -> a
+    1:1:void <init>(android.content.Context,int,int):10:10 -> <init>
+    2:4:void <init>(android.content.Context,int,int):12:14 -> <init>
 com.huli.foxread.ui.dialogs.base.BaseDialog -> com.huli.foxread.ui.dialogs.base.BaseDialog:
     int mHeight -> j
     int mWidth -> i
@@ -92220,42 +92817,42 @@ com.huli.foxread.ui.dialogs.base.ViewHolder -> com.huli.foxread.ui.dialogs.base.
     1:2:void setOnClickListener(int,android.view.View$OnClickListener):89:90 -> setOnClickListener
     1:2:void setText(int,java.lang.String):45:46 -> setText
     1:2:void setTextColor(int,int):56:57 -> setTextColor
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$1kaAhVdAhdXtFvnuirq2M9xKO9E -> com.huli.foxread.ui.fragments.a:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$1LHUnTrPQUouavIbOV-HnWQrilY -> com.huli.foxread.ui.fragments.a:
     com.huli.foxread.ui.fragments.BookStoreBoyFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$KLLcariF1uE4oBm9WxNvm4DbjAQ -> com.huli.foxread.ui.fragments.b:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$1Qv395uSFYQx8eGiOvp79EmBMNU -> com.huli.foxread.ui.fragments.b:
     com.huli.foxread.ui.fragments.BookStoreBoyFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$OofnLb0er3iYnntk9JmHp2dSHoI -> com.huli.foxread.ui.fragments.c:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$5lr6vgHI9fjdA-ZUz_uEsUE_fXg -> com.huli.foxread.ui.fragments.c:
     com.huli.foxread.ui.fragments.BookStoreBoyFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$Q-Cq81jRxwcppJPhBw9cBCYeDpk -> com.huli.foxread.ui.fragments.d:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$RJCUHXHfzMevvCVeBw3P9wS_8KU -> com.huli.foxread.ui.fragments.d:
     com.huli.foxread.ui.fragments.BookStoreBoyFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$UirCvVjZFqVZOD0qC--CX8q-ZKI -> com.huli.foxread.ui.fragments.e:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$wuU6aWAh1zzlb7oopp1kMtJSBPg -> com.huli.foxread.ui.fragments.e:
     com.huli.foxread.ui.fragments.BookStoreBoyFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$CTBzC5Jk-bwm4rTpcXOd9yNKFAk -> com.huli.foxread.ui.fragments.f:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$5F381EDYMGNkAB5PFywL5BjPbpg -> com.huli.foxread.ui.fragments.f:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$Fgn2QvwyveeHnzq07hSwPgUbcSo -> com.huli.foxread.ui.fragments.g:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$I5_3FOlVIdwkhMtPwqnZNZKmCkY -> com.huli.foxread.ui.fragments.g:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$GRGaEnsHXMMD3vGWKQ9dDx2szXM -> com.huli.foxread.ui.fragments.h:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$Ry272Zd0lNrxzHyTsIm0lZLuNHE -> com.huli.foxread.ui.fragments.h:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$HjKa6WqDJn2VOpPvIwIWrz12mtE -> com.huli.foxread.ui.fragments.i:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$X0uBx9u2LSAoJ0wNcqw1VCyRJqI -> com.huli.foxread.ui.fragments.i:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$RfEPh3AmMiDTTB4It5OhRlrv3No -> com.huli.foxread.ui.fragments.j:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$YNe82Y3PPDL2NFvZH2z4TYK1sC8 -> com.huli.foxread.ui.fragments.j:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$Ud929kBY3clc7nzTNu_47Gw3-3U -> com.huli.foxread.ui.fragments.k:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$YUjvyYo4CWbyZJK0Fa_7b8aPNIo -> com.huli.foxread.ui.fragments.k:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$ZJFsgA925Jwer33DFpM01jKKLUU -> com.huli.foxread.ui.fragments.l:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$ge2-iAzv5nvDLQ9gqr8TQjpJzIA -> com.huli.foxread.ui.fragments.l:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$MainBookrackFragment$CK2jLOIsqzyaFkZdaBkjjf0Palg -> com.huli.foxread.ui.fragments.m:
-    int f$1 -> b
-    com.huli.foxread.ui.fragments.MainBookrackFragment f$0 -> a
-    com.chad.library.adapter.base.BaseQuickAdapter f$2 -> c
-com.huli.foxread.ui.fragments.-$$Lambda$MainBookrackFragment$Iyb2zRG3-_nR6DOB_59zR5lgbc4 -> com.huli.foxread.ui.fragments.n:
+com.huli.foxread.ui.fragments.-$$Lambda$MainBookrackFragment$Sy5PzEomTkzt4oz_sbFdf2ZClVo -> com.huli.foxread.ui.fragments.m:
     com.huli.page.model.bean.BookShelfListBean f$1 -> b
     com.chad.library.adapter.base.BaseQuickAdapter f$3 -> d
     int f$2 -> c
     com.huli.foxread.ui.fragments.MainBookrackFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$MainWelfareFragment$YY2eYjynfswyTPYS1jJnPQ_rov0 -> com.huli.foxread.ui.fragments.o:
+com.huli.foxread.ui.fragments.-$$Lambda$MainBookrackFragment$oi2Jfkl5HdJlsnCcg5xpeI2wcSY -> com.huli.foxread.ui.fragments.n:
+    int f$1 -> b
+    com.huli.foxread.ui.fragments.MainBookrackFragment f$0 -> a
+    com.chad.library.adapter.base.BaseQuickAdapter f$2 -> c
+com.huli.foxread.ui.fragments.-$$Lambda$MainWelfareFragment$5RjHbg7pydd0buOQRRCvLyVQ7_Q -> com.huli.foxread.ui.fragments.o:
     com.huli.foxread.ui.fragments.MainWelfareFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$RankingSubFragment$m3KbDf4OZquEFoAWs39MvxmDaEI -> com.huli.foxread.ui.fragments.p:
+com.huli.foxread.ui.fragments.-$$Lambda$RankingSubFragment$y9691hv_0owf354JJAqQbWdr4V8 -> com.huli.foxread.ui.fragments.p:
     com.huli.foxread.ui.fragments.RankingSubFragment f$0 -> a
 com.huli.foxread.ui.fragments.-$$Lambda$Tnpb6a9z36AmNA3WJEmeeTVTg3M -> com.huli.foxread.ui.fragments.q:
     com.huli.foxread.ui.fragments.-$$Lambda$Tnpb6a9z36AmNA3WJEmeeTVTg3M INSTANCE -> a
@@ -92284,11 +92881,11 @@ com.huli.foxread.ui.fragments.BookStoreBoyFragment -> com.huli.foxread.ui.fragme
     2:2:int access$1002(com.huli.foxread.ui.fragments.BookStoreBoyFragment,int):64:64 -> a
     3:3:java.util.List access$402(com.huli.foxread.ui.fragments.BookStoreBoyFragment,java.util.List):64:64 -> a
     4:4:void access$600(com.huli.foxread.ui.fragments.BookStoreBoyFragment,com.huli.foxread.entity.HomePageBGEntity):64:64 -> a
-    5:5:void lambda$setListener$70(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):152:152 -> a
-    6:9:void lambda$setListener$70(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):155:158 -> a
-    10:10:void lambda$setListener$72(com.scwang.smartrefresh.layout.api.RefreshLayout):164:164 -> a
-    11:11:void lambda$setListener$72(com.scwang.smartrefresh.layout.api.RefreshLayout):166:166 -> a
-    12:12:void lambda$setListener$72(com.scwang.smartrefresh.layout.api.RefreshLayout):168:168 -> a
+    5:5:void lambda$setListener$67(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):152:152 -> a
+    6:9:void lambda$setListener$67(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):155:158 -> a
+    10:10:void lambda$setListener$69(com.scwang.smartrefresh.layout.api.RefreshLayout):164:164 -> a
+    11:11:void lambda$setListener$69(com.scwang.smartrefresh.layout.api.RefreshLayout):166:166 -> a
+    12:12:void lambda$setListener$69(com.scwang.smartrefresh.layout.api.RefreshLayout):168:168 -> a
     13:16:void initExclusiveView(android.view.LayoutInflater):369:372 -> a
     17:23:void initExclusiveView(android.view.LayoutInflater):374:380 -> a
     24:24:void initBannerView(android.view.View):405:405 -> a
@@ -92300,7 +92897,7 @@ com.huli.foxread.ui.fragments.BookStoreBoyFragment -> com.huli.foxread.ui.fragme
     31:31:void initBannerView(android.view.View):424:424 -> a
     32:35:void setExclusiveBookData(com.huli.foxread.entity.HomePageBGEntity):442:445 -> a
     36:36:void setExclusiveBookData(com.huli.foxread.entity.HomePageBGEntity):447:447 -> a
-    37:39:void lambda$setSpecialTopData$74(java.lang.String):490:492 -> a
+    37:39:void lambda$setSpecialTopData$71(java.lang.String):490:492 -> a
     40:42:void reqIndexDatas(boolean):506:508 -> a
     43:46:void reqGuessYouLikeDatas(int):550:553 -> a
     1:1:com.huli.foxread.ui.adapters.BooksGridAdapter access$100(com.huli.foxread.ui.fragments.BookStoreBoyFragment):64:64 -> b
@@ -92313,7 +92910,7 @@ com.huli.foxread.ui.fragments.BookStoreBoyFragment -> com.huli.foxread.ui.fragme
     20:21:void setPraiseNvData(com.huli.foxread.entity.HomePageBGEntity):468:469 -> b
     22:22:void setPraiseNvData(com.huli.foxread.entity.HomePageBGEntity):475:475 -> b
     23:23:void setPraiseNvData(com.huli.foxread.entity.HomePageBGEntity):477:477 -> b
-    24:27:void lambda$setPraiseNvData$73(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):470:473 -> b
+    24:27:void lambda$setPraiseNvData$70(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):470:473 -> b
     1:1:int access$1000(com.huli.foxread.ui.fragments.BookStoreBoyFragment):64:64 -> c
     2:2:void access$800(com.huli.foxread.ui.fragments.BookStoreBoyFragment,com.huli.foxread.entity.HomePageBGEntity):64:64 -> c
     3:6:void initTopView(android.view.LayoutInflater):395:398 -> c
@@ -92322,7 +92919,7 @@ com.huli.foxread.ui.fragments.BookStoreBoyFragment -> com.huli.foxread.ui.fragme
     14:14:void setSpecialTopData(com.huli.foxread.entity.HomePageBGEntity):497:497 -> c
     1:1:com.huli.foxread.ui.adapters.BooksHighScoreAdapter access$1100(com.huli.foxread.ui.fragments.BookStoreBoyFragment):64:64 -> d
     1:1:android.app.Activity access$200(com.huli.foxread.ui.fragments.BookStoreBoyFragment):64:64 -> e
-    2:2:void lambda$setListener$71():161:161 -> e
+    2:2:void lambda$setListener$68():161:161 -> e
     1:1:com.huli.foxread.ui.adapters.BooksMultiItemAdapter access$300(com.huli.foxread.ui.fragments.BookStoreBoyFragment):64:64 -> f
     2:4:void reqTopBannerData():591:593 -> f
     1:1:java.util.List access$400(com.huli.foxread.ui.fragments.BookStoreBoyFragment):64:64 -> g
@@ -92430,12 +93027,12 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     2:2:int access$1002(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,int):67:67 -> a
     3:3:java.util.List access$202(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,java.util.List):67:67 -> a
     4:4:void access$400(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):67:67 -> a
-    5:5:void lambda$setListener$77(com.scwang.smartrefresh.layout.api.RefreshLayout):152:152 -> a
-    6:6:void lambda$setListener$77(com.scwang.smartrefresh.layout.api.RefreshLayout):154:154 -> a
-    7:7:void lambda$setListener$77(com.scwang.smartrefresh.layout.api.RefreshLayout):157:157 -> a
+    5:5:void lambda$setListener$74(com.scwang.smartrefresh.layout.api.RefreshLayout):152:152 -> a
+    6:6:void lambda$setListener$74(com.scwang.smartrefresh.layout.api.RefreshLayout):154:154 -> a
+    7:7:void lambda$setListener$74(com.scwang.smartrefresh.layout.api.RefreshLayout):157:157 -> a
     8:13:void initExcellentWorksView(android.view.LayoutInflater):302:307 -> a
-    14:14:void lambda$initHotlistView$79(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):326:326 -> a
-    15:18:void lambda$initHotlistView$79(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):329:332 -> a
+    14:14:void lambda$initHotlistView$76(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):326:326 -> a
+    15:18:void lambda$initHotlistView$76(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):329:332 -> a
     19:19:void initBannerView(android.view.View):350:350 -> a
     20:20:void initBannerView(android.view.View):354:354 -> a
     21:21:void initBannerView(android.view.View):356:356 -> a
@@ -92451,14 +93048,14 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     61:62:void setForestallBookDatas(com.huli.foxread.entity.HomePageEntity):430:431 -> a
     63:63:void setForestallBookDatas(com.huli.foxread.entity.HomePageEntity):437:437 -> a
     64:64:void setForestallBookDatas(com.huli.foxread.entity.HomePageEntity):439:439 -> a
-    65:65:void lambda$setSpecialTopDatas$81(java.lang.String):465:465 -> a
-    66:68:void lambda$setSpecialTopDatas$81(java.lang.String):468:470 -> a
+    65:65:void lambda$setSpecialTopDatas$78(java.lang.String):465:465 -> a
+    66:68:void lambda$setSpecialTopDatas$78(java.lang.String):468:470 -> a
     69:74:void reqIndexDatas(boolean):517:522 -> a
     75:78:void reqHighMarksDatas(int):585:588 -> a
     1:1:com.huli.foxread.ui.adapters.ForestBookMultiItemAdapter access$100(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):67:67 -> b
     2:2:void access$500(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):67:67 -> b
-    3:3:void lambda$initTopSearchView$78(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):271:271 -> b
-    4:7:void lambda$initTopSearchView$78(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):274:277 -> b
+    3:3:void lambda$initTopSearchView$75(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):271:271 -> b
+    4:7:void lambda$initTopSearchView$75(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):274:277 -> b
     8:15:void initHotlistView(android.view.LayoutInflater):314:321 -> b
     16:18:void initHotlistView(android.view.LayoutInflater):323:325 -> b
     19:22:void initCenterBar(android.view.View):375:378 -> b
@@ -92468,13 +93065,13 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     1:1:int access$1000(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):67:67 -> c
     2:2:void access$600(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):67:67 -> c
     3:8:void initNewBooksLeadUpView(android.view.LayoutInflater):248:253 -> c
-    9:12:void lambda$setForestallBookDatas$80(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):432:435 -> c
+    9:12:void lambda$setForestallBookDatas$77(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):432:435 -> c
     13:16:void setHotSearchDatas(com.huli.foxread.entity.HomePageEntity):447:450 -> c
     17:17:void setHotSearchDatas(com.huli.foxread.entity.HomePageEntity):452:452 -> c
     1:1:com.huli.foxread.ui.adapters.BooksHighScoreAdapter access$1100(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):67:67 -> d
     2:2:void access$700(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):67:67 -> d
-    3:3:void lambda$setListener$75(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):140:140 -> d
-    4:7:void lambda$setListener$75(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):143:146 -> d
+    3:3:void lambda$setListener$72(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):140:140 -> d
+    4:7:void lambda$setListener$72(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):143:146 -> d
     8:10:void initSpecialTopicView(android.view.LayoutInflater):285:287 -> d
     11:13:void initSpecialTopicView(android.view.LayoutInflater):293:295 -> d
     14:17:void setHotTodayDatas(com.huli.foxread.entity.HomePageEntity):501:504 -> d
@@ -92483,7 +93080,7 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     2:2:void doBusiness(android.content.Context):165:165 -> doBusiness
     1:1:java.util.List access$200(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):67:67 -> e
     2:2:void access$800(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):67:67 -> e
-    3:3:void lambda$setListener$76():149:149 -> e
+    3:3:void lambda$setListener$73():149:149 -> e
     4:14:void initTopSearchView(android.view.LayoutInflater):260:270 -> e
     15:19:void setSpecialTopDatas(com.huli.foxread.entity.HomePageEntity):460:464 -> e
     20:21:void setSpecialTopDatas(com.huli.foxread.entity.HomePageEntity):472:473 -> e
@@ -92660,8 +93257,8 @@ com.huli.foxread.ui.fragments.MainBookrackFragment -> com.huli.foxread.ui.fragme
     2:2:void <init>():81:81 -> <init>
     1:1:void access$000(com.huli.foxread.ui.fragments.MainBookrackFragment):69:69 -> a
     2:2:java.lang.String access$402(com.huli.foxread.ui.fragments.MainBookrackFragment,java.lang.String):69:69 -> a
-    3:6:boolean lambda$onItemLongClick$36(com.huli.page.model.bean.BookShelfListBean,int,com.chad.library.adapter.base.BaseQuickAdapter,com.kongzue.dialog.util.BaseDialog,android.view.View):236:239 -> a
-    7:8:void lambda$null$35(int,com.chad.library.adapter.base.BaseQuickAdapter,com.huli.page.model.local.Void):241:242 -> a
+    3:6:boolean lambda$onItemLongClick$33(com.huli.page.model.bean.BookShelfListBean,int,com.chad.library.adapter.base.BaseQuickAdapter,com.kongzue.dialog.util.BaseDialog,android.view.View):236:239 -> a
+    7:8:void lambda$null$32(int,com.chad.library.adapter.base.BaseQuickAdapter,com.huli.page.model.local.Void):241:242 -> a
     9:10:void banAppBarScroll(boolean):257:258 -> a
     11:12:void banAppBarScroll(boolean):260:261 -> a
     13:13:void banAppBarScroll(boolean):263:263 -> a
@@ -92871,8 +93468,8 @@ com.huli.foxread.ui.fragments.MainWelfareFragment -> com.huli.foxread.ui.fragmen
     2:2:java.util.List access$002(com.huli.foxread.ui.fragments.MainWelfareFragment,java.util.List):62:62 -> a
     3:3:void access$1300(com.huli.foxread.ui.fragments.MainWelfareFragment,boolean):62:62 -> a
     4:4:android.text.SpannableStringBuilder access$600(android.content.Context,java.lang.String):62:62 -> a
-    5:12:void lambda$setListener$37(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):117:124 -> a
-    13:15:void lambda$setListener$37(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):128:130 -> a
+    5:12:void lambda$setListener$34(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):117:124 -> a
+    13:15:void lambda$setListener$34(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):128:130 -> a
     16:17:void displayIsLoginUI(boolean):180:181 -> a
     18:19:void displayIsLoginUI(boolean):183:184 -> a
     20:20:void initBannerView(android.view.View):253:253 -> a
@@ -93002,7 +93599,7 @@ com.huli.foxread.ui.fragments.RankingSubFragment -> com.huli.foxread.ui.fragment
     10:10:void doBusiness(android.content.Context):92:92 -> doBusiness
     11:11:void doBusiness(android.content.Context):108:108 -> doBusiness
     12:12:void doBusiness(android.content.Context):110:110 -> doBusiness
-    1:1:void lambda$setListener$83():80:80 -> e
+    1:1:void lambda$setListener$80():80:80 -> e
     1:2:void reqUpdateTime():130:131 -> f
     1:2:void initView(android.view.View):66:67 -> initView
     3:7:void initView(android.view.View):69:73 -> initView
@@ -93151,7 +93748,7 @@ com.huli.foxread.ui.imgshowpickerview.SizeUtils -> com.huli.foxread.ui.imgshowpi
     1:1:void <init>():6:6 -> <init>
     1:1:int dp2px(android.content.Context,float):22:22 -> dp2px
     1:1:com.huli.foxread.ui.imgshowpickerview.SizeUtils getSizeUtils():11:11 -> getSizeUtils
-com.huli.foxread.ui.pageradapter.-$$Lambda$SpecialTopicPagerAdapter$dIXDPUHnsiSHg4pGioQizErRaoM -> com.huli.foxread.ui.pageradapter.a:
+com.huli.foxread.ui.pageradapter.-$$Lambda$SpecialTopicPagerAdapter$lf1NrhX-Q8RKC-8xPpHFVCmW970 -> com.huli.foxread.ui.pageradapter.a:
     com.huli.foxread.entity.HpSpecialEntity f$1 -> b
     com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter f$0 -> a
 com.huli.foxread.ui.pageradapter.CPagerAdapter -> com.huli.foxread.ui.pageradapter.CPagerAdapter:
@@ -93172,7 +93769,7 @@ com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter -> com.huli.foxread.ui
     android.content.Context context -> c
     android.view.LayoutInflater layoutInflater -> b
     1:4:void <init>(android.content.Context,java.util.List):28:31 -> <init>
-    1:2:void lambda$instantiateItem$82(com.huli.foxread.entity.HpSpecialEntity,android.view.View):77:78 -> a
+    1:2:void lambda$instantiateItem$79(com.huli.foxread.entity.HpSpecialEntity,android.view.View):77:78 -> a
     1:2:void destroyItem(android.view.ViewGroup,int,java.lang.Object):54:55 -> destroyItem
     1:1:int getCount():36:36 -> getCount
     1:1:java.lang.Object instantiateItem(android.view.ViewGroup,int):60:60 -> instantiateItem
@@ -95228,13 +95825,13 @@ com.huli.page.model.dao.DownloadTaskBeanDao$Properties -> com.huli.page.model.da
     org.greenrobot.greendao.Property Size -> f
     1:6:void <clinit>():27:32 -> <clinit>
     1:1:void <init>():26:26 -> <init>
-com.huli.page.model.local.-$$Lambda$BookRepository$KPfNG6yk_4XMnzEqQh---6waUsk -> d.b.a.a.a.a:
+com.huli.page.model.local.-$$Lambda$BookRepository$0us9fl2o47negkfpJspAjld6E08 -> d.b.a.a.a.a:
     java.util.List f$1 -> b
     com.huli.page.model.local.BookRepository f$0 -> a
-com.huli.page.model.local.-$$Lambda$BookRepository$UQu9v1OLBHMZAbXwC__ROfLZkI0 -> d.b.a.a.a.b:
+com.huli.page.model.local.-$$Lambda$BookRepository$TNGRgJiqnzcsbBFLxCOYemenel0 -> d.b.a.a.a.b:
     com.huli.page.model.local.BookRepository f$0 -> a
     com.huli.page.model.bean.BookShelfListBean f$1 -> b
-com.huli.page.model.local.-$$Lambda$BookRepository$gmIuZLMY5Tt0CoVtG3HlwqE7fLM -> d.b.a.a.a.c:
+com.huli.page.model.local.-$$Lambda$BookRepository$qAmMAZJJLsnmT5v5Me_4_7GJwNI -> d.b.a.a.a.c:
     java.util.List f$1 -> b
     com.huli.page.model.local.BookRepository f$0 -> a
 com.huli.page.model.local.BookRepository -> d.b.a.a.a.d:
@@ -95244,14 +95841,14 @@ com.huli.page.model.local.BookRepository -> d.b.a.a.a.d:
     java.lang.String TAG -> c
     1:3:void <init>():37:39 -> <init>
     1:1:com.huli.page.model.dao.DaoSession access$000(com.huli.page.model.local.BookRepository):31:31 -> a
-    2:2:void lambda$saveBooksListWithAsync$84(com.huli.page.model.bean.BookShelfListBean):59:59 -> a
-    3:4:void lambda$saveBooksListWithAsync$84(com.huli.page.model.bean.BookShelfListBean):61:62 -> a
-    5:5:void lambda$saveBooksListWithAsync$84(com.huli.page.model.bean.BookShelfListBean):65:65 -> a
-    6:6:void lambda$saveBookChaptersToAsync$86(java.util.List):111:111 -> a
+    2:2:void lambda$saveBooksListWithAsync$81(com.huli.page.model.bean.BookShelfListBean):59:59 -> a
+    3:4:void lambda$saveBooksListWithAsync$81(com.huli.page.model.bean.BookShelfListBean):61:62 -> a
+    5:5:void lambda$saveBooksListWithAsync$81(com.huli.page.model.bean.BookShelfListBean):65:65 -> a
+    6:6:void lambda$saveBookChaptersToAsync$83(java.util.List):111:111 -> a
     1:1:com.huli.page.model.dao.BookShelfListBeanDao access$100(com.huli.page.model.local.BookRepository):31:31 -> b
-    2:3:void lambda$saveBooksListWithAsync$85(java.util.List):80:81 -> b
-    4:5:void lambda$saveBooksListWithAsync$85(java.util.List):83:84 -> b
-    6:6:void lambda$saveBooksListWithAsync$85(java.util.List):88:88 -> b
+    2:3:void lambda$saveBooksListWithAsync$82(java.util.List):80:81 -> b
+    4:5:void lambda$saveBooksListWithAsync$82(java.util.List):83:84 -> b
+    6:6:void lambda$saveBooksListWithAsync$82(java.util.List):88:88 -> b
     1:1:void deleteBook(java.lang.String):244:244 -> deleteBook
     1:5:void deleteBookChapter(java.lang.String):231:235 -> deleteBookChapter
     1:5:void deleteBookRecord(java.lang.String):248:252 -> deleteBookRecord
@@ -95545,22 +96142,22 @@ com.huli.page.presenter.ReadBookPresenter$5$1 -> d.b.a.b.a$e$a:
 com.huli.page.presenter.contract.ReadBookContract -> d.b.a.b.b.a:
 com.huli.page.presenter.contract.ReadBookContract$Presenter -> d.b.a.b.b.a$a:
 com.huli.page.presenter.contract.ReadBookContract$View -> d.b.a.b.b.a$b:
-com.huli.page.ui.activity.-$$Lambda$MoreSettingActivity$Bb-aciyMQ4Sg0fveetF5my6Sn88 -> com.huli.page.ui.activity.a:
+com.huli.page.ui.activity.-$$Lambda$MoreSettingActivity$1Cjj337t4NykLmah8WeN6H6VK1Y -> com.huli.page.ui.activity.a:
     com.huli.page.ui.activity.MoreSettingActivity f$0 -> a
-com.huli.page.ui.activity.-$$Lambda$MoreSettingActivity$E9kqDhC2-j0bIL3lORbuYah5iGg -> com.huli.page.ui.activity.b:
+com.huli.page.ui.activity.-$$Lambda$MoreSettingActivity$NLz9QlW1DRzJNS_hlX0hCWMaNfQ -> com.huli.page.ui.activity.b:
     com.huli.page.ui.activity.MoreSettingActivity f$0 -> a
-com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$2$QwvNhghE9hI6hZNqmje_YagDIVQ -> com.huli.page.ui.activity.c:
+com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$2$5npnghSvCGDOr9V5jnnI4nLZ8w4 -> com.huli.page.ui.activity.c:
     com.huli.page.ui.activity.ReadBookActivity$2 f$0 -> a
     int f$1 -> b
-com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$FHq_WaBtBWANjEmZYy1kkfAwFms -> com.huli.page.ui.activity.d:
+com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$XD8297FYofQWPMSf7xJQef2vkPo -> com.huli.page.ui.activity.d:
     com.huli.page.ui.activity.ReadBookActivity f$0 -> a
-com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$VBG8yIAaV1Ih1XdARgBb4sdc9PA -> com.huli.page.ui.activity.e:
+com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$hAKkowG7nIv23DnT0BFK1Lu_44s -> com.huli.page.ui.activity.e:
     com.huli.page.ui.activity.ReadBookActivity f$0 -> a
-com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$bhSctMv7A0bAO3J6uElFAmQFaE4 -> com.huli.page.ui.activity.f:
+com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$lTQitys4ACKofR_3OEZVSdr-Kvo -> com.huli.page.ui.activity.f:
     com.huli.page.ui.activity.ReadBookActivity f$0 -> a
-com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$q_sKoJxh_xWIsS33pk4M9QSZyrU -> com.huli.page.ui.activity.g:
+com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$wljHEgB2IibvncSONtcQhCesg-0 -> com.huli.page.ui.activity.g:
     com.huli.page.ui.activity.ReadBookActivity f$0 -> a
-com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$uAIBXHF01AgozkKhRjpp0fruITk -> com.huli.page.ui.activity.h:
+com.huli.page.ui.activity.-$$Lambda$ReadBookActivity$zGAqNsCSgSny-JP1rG3MljBbhb0 -> com.huli.page.ui.activity.h:
     com.huli.page.ui.activity.ReadBookActivity f$0 -> a
 com.huli.page.ui.activity.-$$Lambda$Tnpb6a9z36AmNA3WJEmeeTVTg3M -> com.huli.page.ui.activity.i:
     com.huli.page.ui.activity.-$$Lambda$Tnpb6a9z36AmNA3WJEmeeTVTg3M INSTANCE -> a
@@ -95575,12 +96172,12 @@ com.huli.page.ui.activity.MoreSettingActivity -> com.huli.page.ui.activity.MoreS
     2:2:int access$102(com.huli.page.ui.activity.MoreSettingActivity,int):23:23 -> a
     3:4:void initToolbar(androidx.appcompat.widget.Toolbar):48:49 -> a
     5:10:void initToolbar(androidx.appcompat.widget.Toolbar):51:56 -> a
-    11:12:void lambda$initView$87(android.view.View):96:97 -> a
-    13:13:void lambda$initView$87(android.view.View):99:99 -> a
-    14:15:void lambda$initView$87(android.view.View):101:102 -> a
-    1:2:void lambda$initView$88(android.view.View):108:109 -> b
-    3:3:void lambda$initView$88(android.view.View):111:111 -> b
-    4:5:void lambda$initView$88(android.view.View):113:114 -> b
+    11:12:void lambda$initView$84(android.view.View):96:97 -> a
+    13:13:void lambda$initView$84(android.view.View):99:99 -> a
+    14:15:void lambda$initView$84(android.view.View):101:102 -> a
+    1:2:void lambda$initView$85(android.view.View):108:109 -> b
+    3:3:void lambda$initView$85(android.view.View):111:111 -> b
+    4:5:void lambda$initView$85(android.view.View):113:114 -> b
     1:3:void initView():61:63 -> c
     4:7:void initView():65:68 -> c
     8:9:void initView():70:71 -> c
@@ -95655,24 +96252,24 @@ com.huli.page.ui.activity.ReadBookActivity -> com.huli.page.ui.activity.ReadBook
     1:1:com.huli.page.widget.read.ReadLoader access$000(com.huli.page.ui.activity.ReadBookActivity):78:78 -> a
     2:2:void access$100(com.huli.page.ui.activity.ReadBookActivity,int):78:78 -> a
     3:3:void access$600(com.huli.page.ui.activity.ReadBookActivity,boolean):78:78 -> a
-    4:4:void lambda$initView$90(android.content.DialogInterface):339:339 -> a
+    4:4:void lambda$initView$87(android.content.DialogInterface):339:339 -> a
     5:7:void initToolbar(androidx.appcompat.widget.Toolbar):348:350 -> a
     8:8:void initToolbar(androidx.appcompat.widget.Toolbar):353:353 -> a
-    9:9:void lambda$initToolbar$92(android.view.View):351:351 -> a
-    10:10:void lambda$loadCategory$93(java.util.List,java.lang.Throwable):364:364 -> a
-    11:11:void lambda$loadCategory$93(java.util.List,java.lang.Throwable):366:366 -> a
-    12:13:void lambda$loadCategory$93(java.util.List,java.lang.Throwable):368:369 -> a
+    9:9:void lambda$initToolbar$89(android.view.View):351:351 -> a
+    10:10:void lambda$loadCategory$90(java.util.List,java.lang.Throwable):364:364 -> a
+    11:11:void lambda$loadCategory$90(java.util.List,java.lang.Throwable):366:366 -> a
+    12:13:void lambda$loadCategory$90(java.util.List,java.lang.Throwable):368:369 -> a
     14:14:void toggleMenu(boolean):486:486 -> a
     15:15:void toggleMenu(boolean):488:488 -> a
     16:20:void toggleMenu(boolean):490:494 -> a
     21:21:void toggleMenu(boolean):497:497 -> a
     22:25:void toggleMenu(boolean):500:503 -> a
     26:26:void toggleMenu(boolean):505:505 -> a
-    27:27:boolean lambda$onBackPressed$94(com.kongzue.dialog.util.BaseDialog,android.view.View):700:700 -> a
-    28:31:boolean lambda$onBackPressed$94(com.kongzue.dialog.util.BaseDialog,android.view.View):702:705 -> a
+    27:27:boolean lambda$onBackPressed$91(com.kongzue.dialog.util.BaseDialog,android.view.View):700:700 -> a
+    28:31:boolean lambda$onBackPressed$91(com.kongzue.dialog.util.BaseDialog,android.view.View):702:705 -> a
     32:33:void doPolling(int):714:715 -> a
     1:1:android.net.Uri access$1000(com.huli.page.ui.activity.ReadBookActivity):78:78 -> b
-    2:2:void lambda$initView$91(android.content.DialogInterface):342:342 -> b
+    2:2:void lambda$initView$88(android.content.DialogInterface):342:342 -> b
     1:1:void access$1100(com.huli.page.ui.activity.ReadBookActivity):78:78 -> c
     2:7:void initView():185:190 -> c
     8:8:void initView():192:192 -> c
@@ -95779,7 +96376,7 @@ com.huli.page.ui.activity.ReadBookActivity$1 -> com.huli.page.ui.activity.ReadBo
 com.huli.page.ui.activity.ReadBookActivity$2 -> com.huli.page.ui.activity.ReadBookActivity$b:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
     1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):233:233 -> <init>
-    1:1:void lambda$onPageChange$89(int):275:275 -> a
+    1:1:void lambda$onPageChange$86(int):275:275 -> a
     1:2:void onCategoryFinish(java.util.List):253:254 -> onCategoryFinish
     3:4:void onCategoryFinish(java.util.List):256:257 -> onCategoryFinish
     1:2:void onChapterChange(int):236:237 -> onChapterChange
@@ -95827,13 +96424,13 @@ com.huli.page.ui.activity.ReadBookActivity$8 -> com.huli.page.ui.activity.ReadBo
     1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):690:690 -> <init>
     1:2:boolean onClick(com.kongzue.dialog.util.BaseDialog,android.view.View):693:694 -> onClick
 com.huli.page.ui.activity.ReadBookActivity_ViewBinding -> com.huli.page.ui.activity.ReadBookActivity_ViewBinding:
-    android.view.View view7f09022f -> h
+    android.view.View view7f090235 -> h
     com.huli.page.ui.activity.ReadBookActivity target -> b
-    android.view.View view7f09022c -> c
-    android.view.View view7f09022b -> e
-    android.view.View view7f09022e -> d
-    android.view.View view7f090229 -> g
-    android.view.View view7f09022a -> f
+    android.view.View view7f090232 -> c
+    android.view.View view7f090231 -> e
+    android.view.View view7f090234 -> d
+    android.view.View view7f09022f -> g
+    android.view.View view7f090230 -> f
     1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):39:39 -> <init>
     2:2:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.view.View):44:44 -> <init>
     3:3:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.view.View):46:46 -> <init>
@@ -95880,10 +96477,10 @@ com.huli.page.ui.activity.ReadBookActivity_ViewBinding$6 -> com.huli.page.ui.act
     com.huli.page.ui.activity.ReadBookActivity_ViewBinding this$0 -> b
     1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity_ViewBinding,com.huli.page.ui.activity.ReadBookActivity):102:102 -> <init>
     1:1:void doClick(android.view.View):105:105 -> doClick
-com.huli.page.ui.adapter.-$$Lambda$BaseListAdapter$0XzAlcT09d4FeF6JA5WpUFuxWlc -> com.huli.page.ui.adapter.a:
+com.huli.page.ui.adapter.-$$Lambda$BaseListAdapter$504K1gPlEMwKTdDMvv9r4pr1wWo -> com.huli.page.ui.adapter.a:
     com.huli.page.ui.adapter.BaseListAdapter f$0 -> a
     int f$1 -> b
-com.huli.page.ui.adapter.-$$Lambda$BaseListAdapter$IkgWfhIZod20iowO4T5cuTHl5OQ -> com.huli.page.ui.adapter.b:
+com.huli.page.ui.adapter.-$$Lambda$BaseListAdapter$VR8bBzYgI585mEs81bERLEFoTis -> com.huli.page.ui.adapter.b:
     com.huli.page.ui.adapter.IViewHolder f$2 -> c
     com.huli.page.ui.adapter.BaseListAdapter f$0 -> a
     int f$1 -> b
@@ -95896,10 +96493,10 @@ com.huli.page.ui.adapter.BaseListAdapter -> com.huli.page.ui.adapter.BaseListAda
     2:2:void <init>():18:18 -> <init>
     com.huli.page.ui.adapter.IViewHolder createViewHolder(int) -> a
     void onItemClick(android.view.View,int) -> a
-    1:2:void lambda$onBindViewHolder$109(int,com.huli.page.ui.adapter.IViewHolder,android.view.View):47:48 -> a
-    3:4:void lambda$onBindViewHolder$109(int,com.huli.page.ui.adapter.IViewHolder,android.view.View):51:52 -> a
-    5:6:boolean lambda$onBindViewHolder$110(int,android.view.View):58:59 -> a
-    7:7:boolean lambda$onBindViewHolder$110(int,android.view.View):62:62 -> a
+    1:2:void lambda$onBindViewHolder$106(int,com.huli.page.ui.adapter.IViewHolder,android.view.View):47:48 -> a
+    3:4:void lambda$onBindViewHolder$106(int,com.huli.page.ui.adapter.IViewHolder,android.view.View):51:52 -> a
+    5:6:boolean lambda$onBindViewHolder$107(int,android.view.View):58:59 -> a
+    7:7:boolean lambda$onBindViewHolder$107(int,android.view.View):62:62 -> a
     1:2:void addItem(java.lang.Object):90:91 -> addItem
     3:4:void addItem(int,java.lang.Object):95:96 -> addItem
     1:1:void addItems(java.util.List):100:100 -> addItems
@@ -96098,31 +96695,31 @@ com.huli.page.ui.base.BaseViewActivity_ViewBinding -> com.huli.page.ui.base.Base
     4:4:void unbind():40:40 -> unbind
 com.huli.page.ui.dialog.-$$Lambda$BrightnessDialog$2-dBwW9DRTVvY5GRLv4saahUipI -> com.huli.page.ui.dialog.a:
     com.huli.page.ui.dialog.BrightnessDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$BrightnessDialog$MO9DEaEW150bzmnDS6ILu-aVEEg -> com.huli.page.ui.dialog.b:
+com.huli.page.ui.dialog.-$$Lambda$BrightnessDialog$7K-TJvMmXSzFYI9RGAEQV6dYoWI -> com.huli.page.ui.dialog.b:
     com.huli.page.ui.dialog.BrightnessDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$BrightnessDialog$bX9aMFLGZPnSYf9iwAaXMXjpNoo -> com.huli.page.ui.dialog.c:
+com.huli.page.ui.dialog.-$$Lambda$BrightnessDialog$K6i86QyVeeSdEka9RFvIMjP_d6g -> com.huli.page.ui.dialog.c:
     com.huli.page.ui.dialog.BrightnessDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$BrightnessDialog$sn_pg3AIwuzFC6GgDBzmJl2Rof8 -> com.huli.page.ui.dialog.d:
+com.huli.page.ui.dialog.-$$Lambda$BrightnessDialog$QPiwYRa8qKTiplA4-mnJKTXcJzc -> com.huli.page.ui.dialog.d:
     com.huli.page.ui.dialog.BrightnessDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$46EVGYLzrRoksoriG-Cib-iCZUY -> com.huli.page.ui.dialog.e:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$3I57-x81wS2wCKVMUhvWXTsNbMw -> com.huli.page.ui.dialog.e:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$4l_e-9afSwFZG_K3aepkPUSU_Mc -> com.huli.page.ui.dialog.f:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$46EVGYLzrRoksoriG-Cib-iCZUY -> com.huli.page.ui.dialog.f:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
 com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$6W0nTz4lGlJUy_PyxqRg9J3Be-w -> com.huli.page.ui.dialog.g:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$LNtuaDp4VWCILsk0wS-BuPvnnfk -> com.huli.page.ui.dialog.h:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$S7NHWAHp3zSbb8HjzvJnMKc42BM -> com.huli.page.ui.dialog.h:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
 com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$W7yTkHSFgXXYsuPAD6dUXB6oBog -> com.huli.page.ui.dialog.i:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$dr9RShdaATRMZbchj60WvYZ4qjw -> com.huli.page.ui.dialog.j:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$YHW8GA-znvj4QTRX1LCxYtc1Kg0 -> com.huli.page.ui.dialog.j:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$dvvpwdHbW42nWGQ7P_MaPtzRiFg -> com.huli.page.ui.dialog.k:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$ZvmgBRO7Okvxj0hZQWl6vmKrs1c -> com.huli.page.ui.dialog.k:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$eMmUFDCYQmcJTU6REM-qYqnGE2k -> com.huli.page.ui.dialog.l:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$kNohKjFDkV32HHCtWLnIu4J_LXA -> com.huli.page.ui.dialog.l:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$kThbJVIVTjYWGnSdz_sxXwh2enM -> com.huli.page.ui.dialog.m:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$s0QvsvXd3toIaPfRLYUvDh5fJ18 -> com.huli.page.ui.dialog.m:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
-com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$nE1vk0dt4lLEzmRVPgf_PveStQM -> com.huli.page.ui.dialog.n:
+com.huli.page.ui.dialog.-$$Lambda$ReadSettingDialog$ykoYeNuLwgv0_nS1jj2-UPGMDrY -> com.huli.page.ui.dialog.n:
     com.huli.page.ui.dialog.ReadSettingDialog f$0 -> a
 com.huli.page.ui.dialog.BrightnessDialog -> com.huli.page.ui.dialog.BrightnessDialog:
     com.huli.page.model.local.ReadSettingManager mSettingManager -> a
@@ -96137,22 +96734,22 @@ com.huli.page.ui.dialog.BrightnessDialog -> com.huli.page.ui.dialog.BrightnessDi
     4:4:void initClick():112:112 -> a
     5:5:void initClick():138:138 -> a
     6:6:void initClick():151:151 -> a
-    7:8:void lambda$initClick$105(android.view.View):87:88 -> a
-    9:10:void lambda$initClick$105(android.view.View):90:91 -> a
-    11:12:void lambda$initClick$105(android.view.View):93:94 -> a
-    13:13:void lambda$initClick$107(android.widget.CompoundButton,boolean):142:142 -> a
-    14:14:void lambda$initClick$107(android.widget.CompoundButton,boolean):145:145 -> a
-    15:15:void lambda$initClick$107(android.widget.CompoundButton,boolean):147:147 -> a
+    7:8:void lambda$initClick$102(android.view.View):87:88 -> a
+    9:10:void lambda$initClick$102(android.view.View):90:91 -> a
+    11:12:void lambda$initClick$102(android.view.View):93:94 -> a
+    13:13:void lambda$initClick$104(android.widget.CompoundButton,boolean):142:142 -> a
+    14:14:void lambda$initClick$104(android.widget.CompoundButton,boolean):145:145 -> a
+    15:15:void lambda$initClick$104(android.widget.CompoundButton,boolean):147:147 -> a
     1:3:void initData():72:74 -> b
-    4:5:void lambda$initClick$106(android.view.View):99:100 -> b
-    6:10:void lambda$initClick$106(android.view.View):102:106 -> b
-    11:11:void lambda$initClick$106(android.view.View):108:108 -> b
+    4:5:void lambda$initClick$103(android.view.View):99:100 -> b
+    6:10:void lambda$initClick$103(android.view.View):102:106 -> b
+    11:11:void lambda$initClick$103(android.view.View):108:108 -> b
     1:3:void initWidget():78:80 -> c
-    4:5:void lambda$initClick$108(android.view.View):153:154 -> c
-    6:6:void lambda$initClick$108(android.view.View):156:156 -> c
-    7:7:void lambda$initClick$108(android.view.View):158:158 -> c
-    8:8:void lambda$initClick$108(android.view.View):160:160 -> c
-    9:10:void lambda$initClick$108(android.view.View):162:163 -> c
+    4:5:void lambda$initClick$105(android.view.View):153:154 -> c
+    6:6:void lambda$initClick$105(android.view.View):156:156 -> c
+    7:7:void lambda$initClick$105(android.view.View):158:158 -> c
+    8:8:void lambda$initClick$105(android.view.View):160:160 -> c
+    9:10:void lambda$initClick$105(android.view.View):162:163 -> c
     1:6:void setUpWindow():63:68 -> d
     1:7:void onCreate(android.os.Bundle):52:58 -> onCreate
 com.huli.page.ui.dialog.BrightnessDialog$1 -> com.huli.page.ui.dialog.BrightnessDialog$a:
@@ -96199,49 +96796,49 @@ com.huli.page.ui.dialog.ReadSettingDialog -> com.huli.page.ui.dialog.ReadSetting
     11:11:void initClick():331:331 -> a
     12:12:void initClick():359:359 -> a
     13:13:void initClick():366:366 -> a
-    14:16:void lambda$initClick$100(android.widget.CompoundButton,boolean):301:303 -> a
-    17:17:void lambda$initClick$101(android.widget.RadioGroup,int):323:323 -> a
-    18:18:void lambda$initClick$101(android.widget.RadioGroup,int):314:314 -> a
-    19:19:void lambda$initClick$101(android.widget.RadioGroup,int):317:317 -> a
-    20:20:void lambda$initClick$101(android.widget.RadioGroup,int):320:320 -> a
-    21:21:void lambda$initClick$101(android.widget.RadioGroup,int):326:326 -> a
-    22:22:void lambda$initClick$103(android.view.View,int):361:361 -> a
-    23:24:void lambda$initClick$104(android.view.View):368:369 -> a
-    25:25:void lambda$initClick$104(android.view.View):371:371 -> a
+    14:14:void lambda$initClick$94(android.widget.CompoundButton,boolean):265:265 -> a
+    15:15:void lambda$initClick$94(android.widget.CompoundButton,boolean):268:268 -> a
+    16:16:void lambda$initClick$94(android.widget.CompoundButton,boolean):270:270 -> a
+    17:17:void lambda$initClick$98(android.widget.RadioGroup,int):323:323 -> a
+    18:18:void lambda$initClick$98(android.widget.RadioGroup,int):314:314 -> a
+    19:19:void lambda$initClick$98(android.widget.RadioGroup,int):317:317 -> a
+    20:20:void lambda$initClick$98(android.widget.RadioGroup,int):320:320 -> a
+    21:21:void lambda$initClick$98(android.widget.RadioGroup,int):326:326 -> a
+    22:22:void lambda$initClick$100(android.view.View,int):361:361 -> a
+    23:24:void lambda$initClick$101(android.view.View):368:369 -> a
+    25:25:void lambda$initClick$101(android.view.View):371:371 -> a
     1:1:void initData():132:132 -> b
     2:8:void initData():134:140 -> b
-    9:10:void lambda$initClick$95(android.view.View):214:215 -> b
-    11:11:void lambda$initClick$95(android.view.View):217:217 -> b
-    12:13:void lambda$initClick$95(android.view.View):219:220 -> b
-    14:14:void lambda$initClick$97(android.widget.CompoundButton,boolean):265:265 -> b
-    15:15:void lambda$initClick$97(android.widget.CompoundButton,boolean):268:268 -> b
-    16:16:void lambda$initClick$97(android.widget.CompoundButton,boolean):270:270 -> b
-    17:17:void lambda$initClick$102(android.widget.RadioGroup,int):351:351 -> b
-    18:18:void lambda$initClick$102(android.widget.RadioGroup,int):342:342 -> b
-    19:19:void lambda$initClick$102(android.widget.RadioGroup,int):336:336 -> b
-    20:20:void lambda$initClick$102(android.widget.RadioGroup,int):345:345 -> b
-    21:21:void lambda$initClick$102(android.widget.RadioGroup,int):348:348 -> b
-    22:22:void lambda$initClick$102(android.widget.RadioGroup,int):339:339 -> b
-    23:23:void lambda$initClick$102(android.widget.RadioGroup,int):354:354 -> b
+    9:10:void lambda$initClick$92(android.view.View):214:215 -> b
+    11:11:void lambda$initClick$92(android.view.View):217:217 -> b
+    12:13:void lambda$initClick$92(android.view.View):219:220 -> b
+    14:16:void lambda$initClick$97(android.widget.CompoundButton,boolean):301:303 -> b
+    17:17:void lambda$initClick$99(android.widget.RadioGroup,int):351:351 -> b
+    18:18:void lambda$initClick$99(android.widget.RadioGroup,int):342:342 -> b
+    19:19:void lambda$initClick$99(android.widget.RadioGroup,int):336:336 -> b
+    20:20:void lambda$initClick$99(android.widget.RadioGroup,int):345:345 -> b
+    21:21:void lambda$initClick$99(android.widget.RadioGroup,int):348:348 -> b
+    22:22:void lambda$initClick$99(android.widget.RadioGroup,int):339:339 -> b
+    23:23:void lambda$initClick$99(android.widget.RadioGroup,int):354:354 -> b
     1:1:void initPageMode():173:173 -> c
     2:2:void initPageMode():187:187 -> c
     3:3:void initPageMode():184:184 -> c
     4:4:void initPageMode():181:181 -> c
     5:5:void initPageMode():178:178 -> c
     6:6:void initPageMode():175:175 -> c
-    7:8:void lambda$initClick$96(android.view.View):225:226 -> c
-    9:12:void lambda$initClick$96(android.view.View):228:231 -> c
-    13:13:void lambda$initClick$96(android.view.View):233:233 -> c
+    7:8:void lambda$initClick$93(android.view.View):225:226 -> c
+    9:12:void lambda$initClick$93(android.view.View):228:231 -> c
+    13:13:void lambda$initClick$93(android.view.View):233:233 -> c
     1:1:void initSpecingMode():193:193 -> d
     2:2:void initSpecingMode():201:201 -> d
     3:3:void initSpecingMode():198:198 -> d
     4:4:void initSpecingMode():195:195 -> d
-    5:6:void lambda$initClick$98(android.view.View):277:278 -> d
-    7:7:void lambda$initClick$98(android.view.View):280:280 -> d
-    8:9:void lambda$initClick$98(android.view.View):282:283 -> d
+    5:6:void lambda$initClick$95(android.view.View):277:278 -> d
+    7:7:void lambda$initClick$95(android.view.View):280:280 -> d
+    8:9:void lambda$initClick$95(android.view.View):282:283 -> d
     1:7:void initWidget():144:150 -> e
-    8:9:void lambda$initClick$99(android.view.View):289:290 -> e
-    10:12:void lambda$initClick$99(android.view.View):292:294 -> e
+    8:9:void lambda$initClick$96(android.view.View):289:290 -> e
+    10:12:void lambda$initClick$96(android.view.View):292:294 -> e
     1:6:void setUpAdapter():155:160 -> f
     7:11:void setUpAdapter():162:166 -> f
     12:12:void setUpAdapter():168:168 -> f
@@ -96269,13 +96866,13 @@ com.huli.page.ui.dialog.ReadSettingDialog_ViewBinding -> com.huli.page.ui.dialog
     2:2:void unbind():59:59 -> unbind
     3:22:void unbind():61:80 -> unbind
     23:23:void unbind():58:58 -> unbind
-com.huli.page.utils.-$$Lambda$FileUtils$y3iSe_ZAgZKF5aGHZYgsshZgFIk -> com.huli.page.utils.a:
+com.huli.page.utils.-$$Lambda$FileUtils$OhL6vLvGKYbnBL6fNAGebcHaOmE -> com.huli.page.utils.a:
     java.util.List f$0 -> a
-com.huli.page.utils.-$$Lambda$RxBus$8JDVN6JfvPprZoWiYGILX3ucpbk -> com.huli.page.utils.b:
+com.huli.page.utils.-$$Lambda$RxBus$ArTZOIRpuHuFuIc9zo0XoMkN-88 -> com.huli.page.utils.b:
     java.lang.Class f$1 -> b
     int f$0 -> a
-com.huli.page.utils.-$$Lambda$RxBus$UFDfbWuZ7gocu4_a092DFf_vFtQ -> com.huli.page.utils.c:
-    com.huli.page.utils.-$$Lambda$RxBus$UFDfbWuZ7gocu4_a092DFf_vFtQ INSTANCE -> a
+com.huli.page.utils.-$$Lambda$RxBus$pF5DMeVHAT0nMAGUzW3v3w61vkk -> com.huli.page.utils.c:
+    com.huli.page.utils.-$$Lambda$RxBus$pF5DMeVHAT0nMAGUzW3v3w61vkk INSTANCE -> a
 com.huli.page.utils.BrightnessUtils -> com.huli.page.utils.d:
     java.lang.String TAG -> a
     1:1:void <init>():12:12 -> <init>
@@ -96421,8 +97018,8 @@ com.huli.page.utils.FileUtils -> com.huli.page.utils.i:
     java.lang.String SUFFIX_TXT -> b
     java.lang.String SUFFIX_PDF -> d
     1:1:void <init>():19:19 -> <init>
-    1:1:boolean lambda$getTxtFiles$111(java.util.List,java.io.File):195:195 -> a
-    2:3:boolean lambda$getTxtFiles$111(java.util.List,java.io.File):199:200 -> a
+    1:1:boolean lambda$getTxtFiles$108(java.util.List,java.io.File):195:195 -> a
+    2:3:boolean lambda$getTxtFiles$108(java.util.List,java.io.File):199:200 -> a
     1:2:void deleteFile(java.lang.String):166:167 -> deleteFile
     3:7:void deleteFile(java.lang.String):169:173 -> deleteFile
     8:9:void deleteFile(java.lang.String):177:178 -> deleteFile
@@ -96506,8 +97103,8 @@ com.huli.page.utils.RxBus -> com.huli.page.utils.n:
     com.huli.page.utils.RxBus sInstance -> b
     1:1:void <init>():9:9 -> <init>
     2:2:void <init>():11:11 -> <init>
-    1:1:boolean lambda$toObservable$112(int,java.lang.Class,com.huli.page.utils.RxBus$Message):63:63 -> a
-    2:2:java.lang.Object lambda$toObservable$113(com.huli.page.utils.RxBus$Message):64:64 -> a
+    1:1:boolean lambda$toObservable$109(int,java.lang.Class,com.huli.page.utils.RxBus$Message):63:63 -> a
+    2:2:java.lang.Object lambda$toObservable$110(com.huli.page.utils.RxBus$Message):64:64 -> a
     1:4:com.huli.page.utils.RxBus getInstance():14:17 -> getInstance
     5:5:com.huli.page.utils.RxBus getInstance():19:19 -> getInstance
     6:6:com.huli.page.utils.RxBus getInstance():21:21 -> getInstance

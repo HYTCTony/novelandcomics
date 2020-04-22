@@ -69,7 +69,6 @@ public class BookRankingActivity extends BaseActivity {
             @Override
             public void singleClick(View v) {
                 Intent intent = new Intent(BookRankingActivity.this, SearchBookActivity.class);
-                intent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
                 startActivity(intent);
             }
         });

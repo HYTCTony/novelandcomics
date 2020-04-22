@@ -1,7 +1,5 @@
 package com.huli.foxread.entity;
 
-import com.huli.foxread.ui.activities.SMsgPmiBean;
-
 public class SMsgBean {
     private String id;
     private String message_id;

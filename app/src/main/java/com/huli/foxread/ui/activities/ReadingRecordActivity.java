@@ -3,6 +3,7 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -246,6 +247,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      * @param novelId 小说ID
      */
     private void reqAddBookrack(String novelId) {
+        Log.e("sssssssssssssssss", "ssssssss===" + novelId);
         OkGo.<String>post(Consts.BOOKRACK_ADD_API)
                 .params(Consts.NOVEL_ID, novelId)
                 .execute(new LtbCallback(this) {

@@ -9,16 +9,15 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.allenliu.versionchecklib.core.http.HttpParams;
-import com.allenliu.versionchecklib.v2.AllenVersionChecker;
-import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
-import com.allenliu.versionchecklib.v2.builder.UIData;
-import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
+import com.azhon.appupdate.config.UpdateConfiguration;
+import com.azhon.appupdate.dialog.NumberProgressBar;
+import com.azhon.appupdate.listener.OnDownloadListener;
+import com.azhon.appupdate.manager.DownloadManager;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -38,12 +37,15 @@ import com.huli.foxread.entity.UpdateInfo;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.ui.dialogs.CommonDialog;
+import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
+import com.huli.foxread.utils.PackageUtils;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
@@ -57,14 +59,17 @@ import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
 import com.sh.sdk.shareinstall.listener.AppGetWakeUpListener;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.entity.UMessage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -156,8 +161,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         preAvoidPwd1ClickLogin();
 
         /*友盟推送消息*/
-       /* PushAgent pushAgent = PushAgent.getInstance(this);
-        pushAgent.setMessageHandler(new UmengMessageHandler(){
+        PushAgent pushAgent = PushAgent.getInstance(this);
+        pushAgent.setMessageHandler(new UmengMessageHandler() {
             @Override
             public void dealWithCustomMessage(Context context, UMessage uMessage) {
                 Log.e(TAG, "CustomMessage===" + uMessage.custom);
@@ -166,7 +171,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             }
         });
 
-        InAppMessageManager.getInstance(this).showCardMessage(this, "MainActivity", new IUmengInAppMsgCloseCallback() {
+       /* InAppMessageManager.getInstance(this).showCardMessage(this, "MainActivity", new IUmengInAppMsgCloseCallback() {
             @Override
             public void onClose() {
 
@@ -189,7 +194,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 //          }
 //       });
 
-//        checkNewVersion();
+        checkNewVersion();
     }
 
     @Override
@@ -440,6 +445,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                             .setCancelButton(R.string.txt_cancel)
                             .setTitle(R.string.txt_one_click_login).show();
                 }
+            } else if (msg.what == 998) {
+
             }
             return false;
         }
@@ -602,60 +609,144 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     }
 
 
+    /**
+     * 检测更新
+     */
     private void checkNewVersion() {
-        HttpParams httpParams = new HttpParams();
-        httpParams.put(Consts.FACILITY, Consts.DEVICE_ANDROID);
-        httpParams.put(Consts.VERSION_CODE, 2);
-//        httpParams.put(Consts.VERSION_CODE, PackageUtils.getVersionCode(this));
-        AllenVersionChecker
-                .getInstance()
-                .requestVersion()
-                .setRequestUrl(Consts.VERSION_CHECK_API)
-                .setRequestParams(httpParams)
-                .request(new RequestVersionListener() {
-                    @Nullable
+        OkGo.<String>post(Consts.VERSION_CHECK_API)
+                .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
+                .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
+                .execute(new LtbCallback(MainActivity.this, false) {
                     @Override
-                    public UIData onRequestVersionSuccess(DownloadBuilder downloadBuilder, String result) {
-//                        Log.e("ssssssssssssss", "result===" + result);
-                        LzyResponse<UpdateInfo> entity = JSONObject.parseObject(result,
-                                new TypeReference<LzyResponse<UpdateInfo>>() {
-                                });
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<UpdateInfo> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<UpdateInfo>>() {
+                        });
                         if (entity.error_code == 0) {
                             UpdateInfo updateInfo = entity.getData();
-                            if (updateInfo.getEnforce() == 1) {
-                                downloadBuilder.setForceUpdateListener(() -> FrApp.getInstance().exitApp());
-                            }
-                            downloadBuilder.setOnCancelListener(() -> Toast.makeText(MainActivity.this, "cancel", Toast.LENGTH_SHORT).show());
-                            downloadBuilder.setReadyDownloadCommitClickListener(() -> {
-                                Toast.makeText(MainActivity.this, "commit click", Toast.LENGTH_SHORT).show();
+                            boolean isForce = updateInfo.getEnforce() == 1;
+                            CommonDialog.newInstance()
+                                    .setLayoutId(R.layout.layout_custom_dialog_version_check)
+                                    .setConvertListener((holder, dialog) -> {
+                                        ImageView btnClose = holder.getView(R.id.iv_asBtn_close_update);
+                                        btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
+                                        NumberProgressBar progressBar = holder.getView(R.id.numberProgressBar_download_apk);
+                                        progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
+                                        holder.setText(R.id.tv_new_version_name, "v_" + updateInfo.getVersionName());
+                                        holder.setText(R.id.tv_update_info_content, updateInfo.getContent());
 
-                            });
-
-                            return crateUIData(updateInfo);
+                                        btnClose.setOnClickListener(v -> dialog.dismiss());
+                                        holder.setOnClickListener(R.id.versionchecklib_version_dialog_commit, v -> {
+                                            downloadApkTask(updateInfo, progressBar, dialog);
+                                            if (!isForce) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                    })
+                                    .setDimAmout(0.5f)
+                                    .setOutCancel(!isForce)
+                                    .setBackCancel(!isForce)
+                                    .setMargin(32)
+                                    .setShowBottom(false)
+                                    .setAnimStyle(R.style.BaseDialog)
+                                    .show(getSupportFragmentManager());
                         }
-                        return null;
                     }
-
-                    @Override
-                    public void onRequestVersionFailure(String message) {
-
-                    }
-                })
-                .executeMission(this);
+                });
     }
 
     /**
-     * @return
-     * @important 使用请求版本功能，可以在这里设置downloadUrl
-     * 这里可以构造UI需要显示的数据
-     * UIData 内部是一个Bundle
+     * 下载APK
+     *
+     * @param updateInfo  更新信息
+     * @param progressBar 进度条
+     * @param dialog      更新提示框
      */
-    private UIData crateUIData(UpdateInfo info) {
-        UIData uiData = UIData.create();
-        uiData.setTitle("版本更新");
-        uiData.setDownloadUrl(info.getDownloadurl());
-        uiData.setContent(info.getUpgradetext());
-        return uiData;
+    private void downloadApkTask(UpdateInfo updateInfo, NumberProgressBar progressBar, BaseDialog dialog) {
+        if (updateInfo != null) {
+            DownloadManager manager = DownloadManager.getInstance(MainActivity.this);
+            if (updateInfo.getEnforce() == 1) {
+                UpdateConfiguration configuration = new UpdateConfiguration()
+                        .setForcedUpgrade(true)
+                        .setShowBgdToast(false)
+                        //设置下载过程的监听
+                        .setOnDownloadListener(new OnDownloadListener() {
+                            @Override
+                            public void start() {
+//                                Log.e("sssssssssss", "start");
+                            }
+
+                            @Override
+                            public void downloading(int max, int progress) {
+                                int curr = (int) (progress / (double) max * 100.0);
+                                progressBar.setProgress(curr);
+                            }
+
+                            @Override
+                            public void done(File apk) {
+                                dialog.dismiss();
+                                FrApp.getInstance().exitApp();
+                            }
+
+                            @Override
+                            public void cancel() {
+
+                            }
+
+                            @Override
+                            public void error(Exception e) {
+
+                            }
+                        });
+                manager.setConfiguration(configuration);
+            }
+            manager.setApkName("FoxRead.apk")
+                    .setApkUrl(updateInfo.getDownloadurl())
+                    .setSmallIcon(R.mipmap.app_huli_logo_round_small)
+                    .download();
+        }
     }
 
+
+    /*private static final int RC_EXTERNAL_STORAGE_PERM = 0x147;
+    private static final String EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+    private boolean hasExternalStoragePermissions() {
+        return EasyPermissions.hasPermissions(this, EXTERNAL_STORAGE);
+    }
+
+    @AfterPermissionGranted(RC_EXTERNAL_STORAGE_PERM)
+    private void downloadApkTask() {
+        if (hasExternalStoragePermissions()) {
+            if (updateInfo != null) {
+                DownloadManager manager = DownloadManager.getInstance(MainActivity.this);
+                manager.setApkName("FoxRead.apk")
+                        .setApkUrl(updateInfo.getDownloadurl())
+                        .setSmallIcon(R.mipmap.app_huli_logo_round_small)
+                        .download();
+                Log.e("sssssssssss", "start====" + manager.getDownloadPath());
+            }
+        } else {
+            EasyPermissions.requestPermissions(this,
+                    getString(R.string.rationale_write_external_storage_4_update_apk),
+                    RC_EXTERNAL_STORAGE_PERM,
+                    EXTERNAL_STORAGE);
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+//        Log.e(TAG, "onPermissionsGranted");
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+//        Log.e(TAG, "onPermissionsDenied");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }*/
 }

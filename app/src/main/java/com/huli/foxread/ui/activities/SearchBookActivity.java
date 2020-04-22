@@ -17,13 +17,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.entity.HotKeywordBean;
+import com.huli.foxread.entity.RankBookEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.eventbus.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
@@ -41,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,14 +62,11 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
 
     private List<HotKeywordBean> hotKwList = new ArrayList<>();
 
-    private int mType = 0;
     private int curPage = 0;        //当前页码
 
     @Override
     public void initParms(Bundle parms) {
-        if (parms != null) {
-            mType = parms.getInt(Consts.TYPE, 0);
-        }
+
     }
 
     @Override
@@ -114,34 +115,23 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         });
 
         btnClearHistory.setOnClickListener(this);
-        sLabelHistory.setOnLabelClickListener(new OnLabelClickListener() {
-            @Override
-            public void onClick(int index, View v, String s) {
-                if (!sLabelHistory.isDeleteButton()) {
-                    // 搜索
-                    go2Search(s);
-                }
+        sLabelHistory.setOnLabelClickListener((index, v, s) -> {
+            if (!sLabelHistory.isDeleteButton()) {
+                // 搜索
+                go2Search(s);
             }
         });
-        sLabelHot.setOnLabelClickListener(new OnLabelClickListener() {
-            @Override
-            public void onClick(int index, View v, String s) {
-                if (!sLabelHot.isDeleteButton()) {
-                    addHistoryLabel(s);
+        sLabelHot.setOnLabelClickListener((index, v, s) -> {
+            if (!sLabelHot.isDeleteButton()) {
+                addHistoryLabel(s);
 
-                    // 搜索
-                    go2Search(s);
-                }
+                // 搜索
+                go2Search(s);
             }
         });
 
         mAdapter.setOnItemClickListener(this);
-       /* mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                reqGetHotNovel(0);
-            }
-        });*/
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqGetHotNovel(curPage));
     }
 
     @Override
@@ -155,7 +145,8 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         }
 
         reqHotSearchData();
-//        reqGetHotNovel(0);
+
+        reqGetHotNovel(0);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -170,7 +161,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         if (onMoreClick()) {
             return;
         }
-        BookEntity2 entity = mAdapter.getData().get(position);
+        RankBookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
         startActivity(intent);
@@ -298,12 +289,53 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                 });
     }
 
+
+    /**
+     * 热门书籍
+     */
+    private void reqGetHotNovel(int prePage) {
+        OkGo.<String>get(Consts.POPULAR_RANKING_API)
+                .params(Consts.TYPE, UserInfoCache.getGender(this))
+                .params(Consts.CATEGORY, Consts.RANK_TYPE_HOT_BOT)
+                .params(Consts.PAGE, prePage + 1)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<PagingWarpper<List<RankBookEntity>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<RankBookEntity>>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            PagingWarpper<List<RankBookEntity>> datas = entity.getData();
+                            curPage = datas.getCurrent_page();
+                            List<RankBookEntity> bookList = datas.getData();
+                            if (curPage == 1) {
+                                mAdapter.setNewData(bookList);
+                            } else {
+                                mAdapter.addData(bookList);
+                            }
+                            if (datas.getLast_page() <= curPage) {
+                                //没有下一页
+                                mAdapter.getLoadMoreModule().loadMoreEnd();
+                            } else {
+                                mAdapter.getLoadMoreModule().loadMoreComplete();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    }
+                });
+    }
+
     /**
      * 热门书籍
      *
      * @param prePage 上一页页码
      */
-    private void reqGetHotNovel(int prePage) {
+    /*private void reqGetHotNovel(int prePage) {
         OkGo.<String>post(Consts.NOVEL_HOT_API)
                 .params(Consts.TYPE, mType)
                 .params(Consts.PAGE, prePage + 1)
@@ -336,6 +368,6 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                         mAdapter.getLoadMoreModule().loadMoreFail();
                     }
                 });
-    }
+    }*/
 
 }

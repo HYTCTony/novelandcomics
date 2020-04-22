@@ -7,11 +7,11 @@ package com.huli.foxread.entity;
 public class UpdateInfo {
     private int enforce;            //1强制更新， 2不强制
     private int version;            //当前版本号
-    private int newversion;         //最新版本号
+    private String versionName;     //最新版本名
     private String downloadurl;     //下载地址
-    private String packagesize;     //apk大小“50M”
-    private String upgradetext;     //更新提示
-    private String versionname;     //最新版本名
+    private float packagesize;      //apk大小“50M”
+    private String content;         //更新提示
+    private long releaseTime;       //发布时间
 
     public int getEnforce() {
         return enforce;
@@ -29,14 +29,6 @@ public class UpdateInfo {
         this.version = version;
     }
 
-    public int getNewversion() {
-        return newversion;
-    }
-
-    public void setNewversion(int newversion) {
-        this.newversion = newversion;
-    }
-
     public String getDownloadurl() {
         return downloadurl;
     }
@@ -45,27 +37,35 @@ public class UpdateInfo {
         this.downloadurl = downloadurl;
     }
 
-    public String getPackagesize() {
+    public float getPackagesize() {
         return packagesize;
     }
 
-    public void setPackagesize(String packagesize) {
+    public void setPackagesize(float packagesize) {
         this.packagesize = packagesize;
     }
 
-    public String getUpgradetext() {
-        return upgradetext;
+    public String getContent() {
+        return content;
     }
 
-    public void setUpgradetext(String upgradetext) {
-        this.upgradetext = upgradetext;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getVersionname() {
-        return versionname;
+    public String getVersionName() {
+        return versionName;
     }
 
-    public void setVersionname(String versionname) {
-        this.versionname = versionname;
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
+    }
+
+    public long getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(long releaseTime) {
+        this.releaseTime = releaseTime;
     }
 }
