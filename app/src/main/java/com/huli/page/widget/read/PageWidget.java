@@ -73,6 +73,7 @@ public class PageWidget extends View {
 
     public PageWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
     }
 
     @Override

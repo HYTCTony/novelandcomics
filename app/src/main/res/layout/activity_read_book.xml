@@ -35,7 +35,7 @@
             android:text="1/1"
             android:textColor="@color/txt_gray_b2"
             android:visibility="gone"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/read_abl_top_menu"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:background="#101B27"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -70,7 +70,7 @@
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <!--页面进度栏-->
             <LinearLayout

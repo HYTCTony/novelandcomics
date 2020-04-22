@@ -200,6 +200,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         }
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         List<BookShelfListBean> datas = mAdapter.getData();
@@ -209,7 +210,23 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
                 return;
             }
-            ReadBookActivity.start(mActivity, bean, true, -1);
+            if (bean.getIs_copyright() == 1) {
+                ReadBookActivity.start(mActivity, bean, true, -1);
+            } else {
+                MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "这本书版权过期，是否删除这本书？", "确定")
+                        .setOnOkButtonClickListener((baseDialog, v) -> {
+                            reqDelBooks(bean.getId());
+                            BookRepository.getInstance().deleteCollBookInRx(bean)
+                                    .compose(RxUtils::toSimpleSingle)
+                                    .subscribe(
+                                            (Void) -> {
+                                                data.remove(position);
+                                                adapter.notifyDataSetChanged();
+                                            }
+                                    );
+                            return false;
+                        });
+            }
         } else {
             ((MainActivity) mActivity).switch2Bookstore();
         }

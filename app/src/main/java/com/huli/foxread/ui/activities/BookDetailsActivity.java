@@ -245,7 +245,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                     TipDialog.show(BookDetailsActivity.this, "获取章节失败！", TipDialog.TYPE.ERROR);
                     return;
                 }
-                openBook(chapter);
+                openBook(-1);
                 break;
             default:
                 break;
