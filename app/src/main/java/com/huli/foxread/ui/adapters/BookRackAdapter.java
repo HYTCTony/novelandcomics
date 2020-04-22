@@ -1,5 +1,7 @@
 package com.huli.foxread.ui.adapters;
 
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -48,6 +50,16 @@ public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVie
                         .fitCenter()
                         .into(iv);
             } else {
+                if (item.getIs_copyright() == 1) {
+                    iv.setColorFilter(null);
+                } else {
+                    ColorMatrix matrix = new ColorMatrix();
+                    matrix.setSaturation(0);
+                    ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                    iv.setColorFilter(filter);
+                    helper.setText(R.id.tv_book_state, "已下架");
+                }
+
                 //书的图片
                 GlideApp.with(getContext())
                         .load(item.getHttp_novel_image())

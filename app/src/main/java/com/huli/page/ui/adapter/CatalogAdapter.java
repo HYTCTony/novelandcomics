@@ -25,7 +25,7 @@ public class CatalogAdapter extends BaseQuickAdapter<TxtChapter, BaseViewHolder>
         PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
         boolean isNightMode = ReadSettingManager.getInstance().isNightMode();
         TextView tv = helper.getView(R.id.category_tv_chapter);
-        if (item.getLink() == null) {
+        if (item.getLink() != null) {
             helper.setText(R.id.category_tv_type, "已下载");
         } else {
             if (item.getBookId() != null && FileUtils.isChapterCached(item.getBookId(), item.getTitle())) {
