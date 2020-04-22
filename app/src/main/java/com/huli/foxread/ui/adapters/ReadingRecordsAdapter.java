@@ -73,7 +73,7 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         StringBuilder mBuilder = new StringBuilder();
         for (int i = 0; i < datas.size(); i++) {
             ReadRecordEntity entity = datas.get(i);
-            if (i< selectLists.size() && selectLists.get(i)) {
+            if (selectLists.get(i)) {
                 String novelId = entity.getProfileNovel().getId();
                 if (!TextUtils.isEmpty(novelId)) {
                     mBuilder.append(novelId);
@@ -87,6 +87,7 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
     }
 
     public int funCheck(int position) {
+        Log.e("Ssssssssssss", "sssss====" + selectLists.get(position));
         selectLists.put(position, !selectLists.get(position));
         notifyItemChanged(position);
         return getSelectedCount();

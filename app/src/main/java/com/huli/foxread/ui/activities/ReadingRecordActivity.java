@@ -54,7 +54,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
 
     private boolean isManagerMode = false;
 
-    private int curPage = 1;
+    private int curPage = 0;
 
     @Override
     public void initParms(Bundle parms) {
@@ -105,22 +105,21 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 //可以上拉加载
-                curPage = 1;
-                reqReadingRecord(curPage);
+                reqReadingRecord(0);
                 mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             }
         });
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                reqReadingRecord(curPage + 1);
+                reqReadingRecord(curPage);
             }
         });
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        reqReadingRecord(curPage);
+        reqReadingRecord(0);
     }
 
     @Override
@@ -204,7 +203,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      */
     private void reqReadingRecord(int reqPage) {
         OkGo.<String>get(Consts.RECORD_READ_API)
-                .params(Consts.PAGE, reqPage)
+                .params(Consts.PAGE, reqPage + 1)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -247,7 +246,6 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      * @param novelId 小说ID
      */
     private void reqAddBookrack(String novelId) {
-        Log.e("sssssssssssssssss", "ssssssss===" + novelId);
         OkGo.<String>post(Consts.BOOKRACK_ADD_API)
                 .params(Consts.NOVEL_ID, novelId)
                 .execute(new LtbCallback(this) {
@@ -258,6 +256,12 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 });
                         if (entity.error_code == 0) {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
+                            btnDone.setVisibility(View.GONE);
+                            btnSelectAll.setVisibility(View.GONE);
+                            layoutBottomBar.setVisibility(View.GONE);
+                            btnManagerRecords.setVisibility(View.VISIBLE);
+                            isManagerMode = false;
+                            mAdapter.setManagerMode(isManagerMode);
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
@@ -280,8 +284,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                            curPage = 1;
-                            reqReadingRecord(curPage);
+                            reqReadingRecord(0);
                             btnDone.setVisibility(View.GONE);
                             btnSelectAll.setVisibility(View.GONE);
                             layoutBottomBar.setVisibility(View.GONE);

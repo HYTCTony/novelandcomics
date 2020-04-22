@@ -231,7 +231,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
      * 图片分享调起分享面板
      */
     private void doShareImage() {
-        if(bmpShare==null){
+        if (bmpShare == null) {
             return;
         }
         UMImage umImage = new UMImage(this, bmpShare);
@@ -245,7 +245,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
      * 调起分享面板
      */
     private void doShare() {
-        UMWeb umWeb = new UMWeb(Consts.DOWNLOAD_URL + inviteCode, "这个是title", "这个是content", null);
+        UMWeb umWeb = new UMWeb(Consts.DOWNLOAD_URL + inviteCode, getString(R.string.txt_share_title), getString(R.string.txt_share_content), null);
         new ShareAction(this).withMedia(umWeb)
                 .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
                 .setCallback(umShareListener)
@@ -256,7 +256,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
      * 指定平台分享
      */
     private void doShare(SHARE_MEDIA platform) {
-        UMWeb umWeb = new UMWeb(Consts.DOWNLOAD_URL + inviteCode, "这个是title", "这个是content", null);
+        UMWeb umWeb = new UMWeb(Consts.DOWNLOAD_URL + inviteCode, getString(R.string.txt_share_title), getString(R.string.txt_share_content), null);
         new ShareAction(this)
                 .setPlatform(platform)//传入平台
                 .withMedia(umWeb)
@@ -311,7 +311,6 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
-
 
 
     /*获取读写内存权限*/

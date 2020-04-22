@@ -3,6 +3,9 @@
 
     <string name="txt_huli_culture_literature">狐狸文化传媒</string>
 
+    <string name="txt_share_title">海量小说，永久免费，阅读就用“一起看书”免费小说</string>
+    <string name="txt_share_content">新用户下载登录领红包，阅读得金币，红包金币可提现，邀请你也来！</string>
+
     <string name="rule_id_card_Num">0123456789Xx</string>
     <string name="loading">加载中&#8230;</string>
     <string name="txt_network_maybe_exceptions">服务器连接可能存在异常&#8230;</string>
