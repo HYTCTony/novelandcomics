@@ -174,7 +174,7 @@ public interface Func {
      * page---精选推荐列表页码(Y/N)
      * page_size---精选推荐列表,一页数据量(Y/N)
      */
-    String INDEX_PAGE = "/index/index";
+    String INDEX_PAGE = "/index/otherIndex";
 
     /**
      * 用途：轮播图
@@ -217,6 +217,13 @@ public interface Func {
      * 用途：排行榜更新时间(GET)
      */
     String POPULAR_TIME = "/popular/time";
+
+    /**
+     * 用途：全部分类(GET)
+     * 头：token(Y)
+     * 参数：
+     */
+    String NOVEL_CATEGORY_ALL = "/category/classify";
 
     /**
      * 用途：顶级分类(GET)

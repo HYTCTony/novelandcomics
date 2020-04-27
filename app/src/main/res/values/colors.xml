@@ -3,7 +3,7 @@
     <!--<color name="colorPrimary">#008577</color>-->
     <color name="colorPrimary">#FDF9DD</color>
     <!--<color name="colorPrimaryDark">#00574B</color>-->
-    <color name="colorPrimaryDark">#FDD34D</color>
+    <color name="colorPrimaryDark">#FFEE81</color>
     <!--<color name="colorAccent">#D81B60</color>-->
     <color name="colorAccent">#FD842A</color>
 
@@ -16,6 +16,7 @@
     <color name="col_red">#FD4141</color>
     <color name="col_red_fc4545">#FC4545</color>
     <color name="col_red_ff8477">#FF8477</color>
+    <color name="col_red_ff6d6d">#FC6D6D</color>
     <color name="col_red_fa345b">#FA345B</color>
     <color name="col_orange_ea6b3c">#EA6B3C</color>
     <color name="col_yellow_f4ea2a">#f4ea2a</color>
@@ -35,10 +36,13 @@
     <color name="txt_af80_white">#80FFFFFF</color>
     <color name="txt_red">#FC6D6D</color>
     <color name="txt_black_191919">#191919</color>
+    <color name="txt_black_272f3a">#272F3A</color>
     <color name="txt_orange_ff6600">#ff6600</color>
     <color name="txt_black">#333333</color>
     <color name="txt_gray">#666666</color>
     <color name="txt_gray_999">#999999</color>
+    <color name="txt_gray_8f9dac">#8f9dac</color>
+    <color name="txt_col_365565">#365565</color>
     <color name="txt_gray_b2">#b2b2b2</color>
     <color name="txt_white">#ffffff</color>
     <color name="txt_dark_gold">#daaa47</color>

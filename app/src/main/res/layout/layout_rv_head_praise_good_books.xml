@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/dp_4"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/dp_8"
     android:layout_height="wrap_content"
     android:background="@color/white">
 
@@ -12,23 +13,33 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingStart="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_16"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_title_bar_praise_good"
+        <ImageView
+            android:id="@+id/iv_title_bar_praise_good"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:drawableStart="@drawable/shape_title_color_lump"
-            android:drawablePadding="@dimen/dp_6"
-            android:text="@string/txt_praise_good_books"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
+            android:src="@drawable/ic_txt_praise_good"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:drawableStart="@drawable/ic_star_brown_12dp"
+            android:drawablePadding="@dimen/dp_2"
+            android:gravity="center_vertical"
+            android:text="@string/txt_high_score"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textColor="@color/txt_dark_gold"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_bar_praise_good"
+            app:layout_constraintTop_toTopOf="@+id/iv_title_bar_praise_good" />
 
         <TextView
             android:id="@+id/tv_asBtn_praise_good_refresh"
@@ -37,12 +48,13 @@
             android:drawableEnd="@drawable/ic_refresh_gray_small"
             android:drawablePadding="@dimen/dp_4"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:text="@string/txt_get_changed"
             android:textColor="@color/txt_gray_999"
             android:textSize="@dimen/sp_12"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_title_bar_praise_good"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_bar_praise_good"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_title_bar_praise_good" />
+            app:layout_constraintTop_toTopOf="@+id/iv_title_bar_praise_good" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

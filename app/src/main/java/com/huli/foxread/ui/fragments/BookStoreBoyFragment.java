@@ -3,10 +3,9 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -87,9 +86,10 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
 
     private int curPage = 0;
 
-    public static BookStoreBoyFragment newInstance(int type) {
+    public static BookStoreBoyFragment newInstance(int type, int index) {
         Bundle bundle = new Bundle();
         bundle.putInt(Consts.TYPE, type);
+        bundle.putInt("index", index);
         BookStoreBoyFragment mFragment = new BookStoreBoyFragment();
         mFragment.setArguments(bundle);
         return mFragment;
@@ -108,7 +108,11 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void initView(View view) {
-        mType = getArguments().getInt(Consts.TYPE);
+        Bundle bundle = getArguments();
+        mType = bundle.getInt(Consts.TYPE);
+        int index = bundle.getInt("index");
+        // 这个设置tag要与FragmentPagerAdapter中的获取方法getItemPosition方法要对应上
+        view.setTag(index);
 
         mRefreshLayout = $(view, R.id.smartRefreshLayout_book_store);
 
@@ -124,24 +128,17 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
 
         initExclusiveView(inflater);
 
-        headViewPraiseNv = inflater.inflate(R.layout.layout_rv_head_praise_good_books, recyclerView, false);
-        mAdapter.addHeaderView(headViewPraiseNv);
-        $(headViewPraiseNv, R.id.tv_asBtn_praise_good_refresh).setOnClickListener(this);
-        $(headViewPraiseNv, R.id.tv_asBtn_praise_good_refresh).setVisibility(View.GONE);
-        rvPraiseNv = $(headViewPraiseNv, R.id.recyclerView_praise_good_books);
-        rvPraiseNv.setLayoutManager(new GridLayoutManager(mActivity, 4));
+        initPraiseView(inflater);
 
         initSpecialTopicView(inflater);
 
         //男生|女生都喜欢（高分精选）
         headViewHighScore = inflater.inflate(R.layout.layout_rv_head_normal_title, recyclerView, false);
-        TextView tvTitle = $(headViewHighScore, R.id.tv_title_normal);
+        ImageView ivTitle = $(headViewHighScore, R.id.iv_title_high_score);
         if (mType == Consts.TYPE_BOY) {
-            tvTitle.setText(R.string.txt_all_boys_love);
+            ivTitle.setImageResource(R.drawable.ic_txt_boy_like_it);
         } else if (mType == Consts.TYPE_GIRL) {
-            tvTitle.setText(R.string.txt_all_girls_love);
-        } else {
-            tvTitle.setText(R.string.txt_high_score_well_chosen);
+            ivTitle.setImageResource(R.drawable.ic_txt_girl_like_it);
         }
         mAdapter.addHeaderView(headViewHighScore);
     }
@@ -174,7 +171,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
 
     }
 
-    private boolean isInitData;
+    private boolean isInitData;     //官方懒加载方法
 
     @Override
     public void onResume() {
@@ -184,19 +181,8 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
             reqIndexDatas(true);
 
             reqGuessYouLikeDatas(0);
-            Log.e("ssssssssssssss", "sssssssssssssss353132132199999999");
         }
     }
-
-    //    @Override
-//    protected void onFragmentFirstVisible() {
-//        super.onFragmentFirstVisible();
-//        reqIndexDatas(true);
-//
-//        reqGuessYouLikeDatas(0);
-//
-//        Log.e("ssssssssssssss", "sssssssssssssss3531321321");
-//    }
 
     //如果你需要考虑更好的体验，可以这么操作
     @Override
@@ -227,24 +213,27 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
+        if(onMoreClick()){
+            return;
+        }
         switch (view.getId()) {
-            case R.id.tv_asBtn_classify:
+            case R.id.cv_asBtn_classify:
                 startActivity(new Intent(mActivity, ClassifyActivity.class));
                 break;
 
-            case R.id.tv_asBtn_ranking:
+            case R.id.cv_asBtn_ranking:
                 Intent rankIntent = new Intent(mActivity, BookRankingActivity.class);
                 rankIntent.putExtra(Consts.TYPE, mType);
                 startActivity(rankIntent);
                 break;
 
-            case R.id.tv_asBtn_new_book:
+            case R.id.cv_asBtn_new_book:
                 Intent intent = new Intent(mActivity, NewBooksActivity.class);
                 intent.putExtra(Consts.TYPE, mType);
                 startActivity(intent);
                 break;
 
-            case R.id.tv_asBtn_book_finished:
+            case R.id.cv_asBtn_book_finished:
                 Intent ebIntent = new Intent(mActivity, EndBooksActivity.class);
                 ebIntent.putExtra(Consts.TYPE, mType);
                 startActivity(ebIntent);
@@ -360,6 +349,16 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
         }
     }*/
 
+    private void initPraiseView(LayoutInflater inflater) {
+        headViewPraiseNv = inflater.inflate(R.layout.layout_rv_head_praise_good_books, recyclerView, false);
+        mAdapter.addHeaderView(headViewPraiseNv);
+        $(headViewPraiseNv, R.id.tv_asBtn_praise_good_refresh).setOnClickListener(this);
+        $(headViewPraiseNv, R.id.tv_asBtn_praise_good_refresh).setVisibility(View.GONE);
+        rvPraiseNv = $(headViewPraiseNv, R.id.recyclerView_praise_good_books);
+        rvPraiseNv.setLayoutManager(new GridLayoutManager(mActivity, 4));
+    }
+
+
     /**
      * 全网独家，重磅推荐
      *
@@ -402,7 +401,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
      * 轮播广告
      */
     private void initBannerView(View rootView) {
-        mBanner = $(rootView, R.id.banner_choiceness);
+        mBanner = $(rootView, R.id.banner_boy_girl_top);
         //设置banner样式
 //        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
         //设置图片加载器
@@ -428,10 +427,10 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
      * 中间导航栏
      */
     private void initCenterBar(View rootView) {
-        $(rootView, R.id.tv_asBtn_classify).setOnClickListener(this);
-        $(rootView, R.id.tv_asBtn_ranking).setOnClickListener(this);
-        $(rootView, R.id.tv_asBtn_new_book).setOnClickListener(this);
-        $(rootView, R.id.tv_asBtn_book_finished).setOnClickListener(this);
+        $(rootView, R.id.cv_asBtn_classify).setOnClickListener(this);
+        $(rootView, R.id.cv_asBtn_ranking).setOnClickListener(this);
+        $(rootView, R.id.cv_asBtn_new_book).setOnClickListener(this);
+        $(rootView, R.id.cv_asBtn_book_finished).setOnClickListener(this);
     }
 
 

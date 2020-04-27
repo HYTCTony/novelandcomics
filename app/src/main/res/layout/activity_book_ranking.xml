@@ -24,10 +24,12 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar_normal"
         tools:ignore="ContentDescription" />
 
-    <com.flyco.tablayout.SlidingTabLayout
+    <com.flyco.tablayout.SlidingScaleTabLayout
         android:id="@+id/slidingTabLayout_ranking_boy_girl"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_42"
+        android:layout_marginStart="@dimen/dp_64"
+        android:layout_marginEnd="@dimen/dp_64"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="@+id/toolbar_normal"
@@ -37,12 +39,14 @@
         app:tl_indicator_corner_radius="@dimen/dp_1_5"
         app:tl_indicator_height="@dimen/dp_3"
         app:tl_indicator_width="@dimen/dp_16"
+        app:tl_openTextDmg="true"
         app:tl_tab_padding="@dimen/dp_8"
         app:tl_tab_space_equal="true"
         app:tl_textBold="SELECT"
         app:tl_textSelectColor="@color/txt_black_191919"
-        app:tl_textUnselectColor="@color/txt_gray"
-        app:tl_textsize="@dimen/sp_18" />
+        app:tl_textSelectSize="@dimen/sp_20"
+        app:tl_textUnSelectColor="@color/txt_gray"
+        app:tl_textUnSelectSize="@dimen/sp_16" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager_ranking"

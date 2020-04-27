@@ -1,45 +1,60 @@
 package com.huli.foxread.ui.adapters;
 
-import android.widget.ImageView;
+import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
-import com.huli.foxread.entity.EndNewBookEntity;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.sections.NEbookSection;
+import com.huli.foxread.utils.FigureProcessor;
+import com.huli.foxread.utils.GlideUtil;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 
-public class SectionNeBookAdapter extends BaseSectionQuickAdapter<NEbookSection<EndNewBookEntity>, BaseViewHolder> {
+public class SectionNeBookAdapter extends BaseSectionQuickAdapter<NEbookSection<BookEntity>, BaseViewHolder> {
 
     public SectionNeBookAdapter() {
         super(R.layout.recy_section_head_view_newbook);
-        setNormalLayout(R.layout.recy_section_grid_item_book_img_name);
+        setNormalLayout(R.layout.recy_list_item_book_normal);
         addChildClickViewIds(R.id.tv_asBtn_get_more);
     }
 
     @Override
-    protected void convertHeader(@NonNull BaseViewHolder holder, NEbookSection<EndNewBookEntity> item) {
+    protected void convertHeader(@NonNull BaseViewHolder holder, NEbookSection<BookEntity> item) {
         holder.setText(R.id.tv_section_group_title, item.getName());
         holder.setGone(R.id.tv_asBtn_get_more, !item.isMore());
+        if (holder.getLayoutPosition() == 0) {
+            holder.setGone(R.id.view_group_title_separator, true);
+        } else {
+            holder.setVisible(R.id.view_group_title_separator, true);
+        }
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, NEbookSection<EndNewBookEntity> item) {
-        helper.setText(R.id.tv_book_name, item.getObject().getName());
-        float score = item.getObject().getScore();
-        if (score > 0) {
-            helper.setText(R.id.tv_book_score, score + getContext().getString(R.string.unit_score));
-            helper.setVisible(R.id.tv_book_score, true);
+    protected void convert(@NonNull BaseViewHolder helper, NEbookSection<BookEntity> item) {
+        BookEntity book = item.getObject();
+        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), book.getHttp_image(), 0);
+        helper.setText(R.id.tv_book_title, book.getName());
+        helper.setText(R.id.tv_book_score, book.getScore() + getContext().getString(R.string.unit_score));
+        helper.setText(R.id.tv_book_description, book.getIntroduce());
+        helper.setText(R.id.tv_book_author_pen_name_and_book_kind, book.getAuthor());
+        helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), book.getWord()));
+
+        List<String> tags = book.getTag();
+        if (tags != null && tags.size() > 0) {
+            String str = tags.get(0);
+            if (!TextUtils.isEmpty(str)) {
+                helper.setVisible(R.id.tv_book_tag, true);
+                helper.setText(R.id.tv_book_tag, str);
+            } else {
+                helper.setGone(R.id.tv_book_tag, true);
+            }
         } else {
-            helper.setGone(R.id.tv_book_score, true);
+            helper.setGone(R.id.tv_book_tag, true);
         }
-        GlideApp.with(getContext())
-                .load(item.getObject().getHttp_image())
-                .placeholder(R.mipmap.img_holder_rect)
-                .error(R.mipmap.img_holder_rect)
-                .into((ImageView) helper.getView(R.id.iv_book_cover));
     }
 
 }

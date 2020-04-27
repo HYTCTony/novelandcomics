@@ -1,1 +1,1 @@
-include ':app', ':stepview'
+include ':app', ':stepview', ':flycoTabLayout_lib'

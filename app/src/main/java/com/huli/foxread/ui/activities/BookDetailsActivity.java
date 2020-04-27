@@ -29,7 +29,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookEntity2;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
@@ -178,7 +178,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         mAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                BookEntity2 entity = mAdapter.getData().get(position);
+                BookEntity entity = mAdapter.getData().get(position);
                 Intent intent = new Intent(BookDetailsActivity.this, BookDetailsActivity.class);
                 intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
                 startActivity(intent);
@@ -375,11 +375,11 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 .execute(new LtbCallback(this, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<List<BookEntity2>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<BookEntity2>>>() {
+                        LzyResponse<List<BookEntity>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BookEntity>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            List<BookEntity2> booksList = entity.getData();
+                            List<BookEntity> booksList = entity.getData();
                             if (booksList != null && booksList.size() > 0) {
                                 mAdapter.setNewData(booksList);
                             }

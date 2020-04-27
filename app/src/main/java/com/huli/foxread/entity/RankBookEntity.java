@@ -12,7 +12,7 @@ public class RankBookEntity {
     private int type;
     private int status;
     private String novel_name;
-    private String novel_author;
+    private String author;
     private String http_image;
     private String introduce;
 
@@ -80,12 +80,12 @@ public class RankBookEntity {
         this.novel_name = novel_name;
     }
 
-    public String getNovel_author() {
-        return novel_author;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setNovel_author(String novel_author) {
-        this.novel_author = novel_author;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getHttp_image() {

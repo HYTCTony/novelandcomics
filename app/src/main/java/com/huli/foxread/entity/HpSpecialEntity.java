@@ -2,6 +2,9 @@ package com.huli.foxread.entity;
 
 import java.io.Serializable;
 
+/**
+ * 专题
+ */
 public class HpSpecialEntity implements Serializable {
     private String id;
     private int module;

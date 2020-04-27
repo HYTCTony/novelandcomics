@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_editor_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_title_editor_recommend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_16"
+            android:src="@mipmap/icon_txt_editor_recommend"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/iv_editor_recommend_book_left"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginStart="@dimen/dp_16"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_editor_recommend_book_center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_editor_recommend_book_center"
+            app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_center"
+            tools:ignore="ContentDescription"
+            tools:src="@mipmap/img_holder_rect" />
+
+        <com.flyco.labelview.LabelView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_left"
+            app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_left"
+            app:lv_text="推荐"
+            app:lv_text_size="8sp" />
+
+        <ImageView
+            android:id="@+id/iv_editor_recommend_book_center"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_0"
+            android:layout_margin="@dimen/dp_16"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="100:132"
+            app:layout_constraintLeft_toRightOf="@+id/iv_editor_recommend_book_left"
+            app:layout_constraintRight_toLeftOf="@+id/iv_editor_recommend_book_right"
+            app:layout_constraintTop_toBottomOf="@+id/iv_title_editor_recommend"
+            tools:ignore="ContentDescription"
+            tools:src="@mipmap/img_holder_rect" />
+
+        <com.flyco.labelview.LabelView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_center"
+            app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_center"
+            app:lv_text="推荐"
+            app:lv_text_size="8sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_editor_recommend_book_right"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_editor_recommend_book_left"
+            app:layout_constraintLeft_toRightOf="@+id/iv_editor_recommend_book_center"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_left"
+            tools:ignore="ContentDescription"
+            tools:src="@mipmap/img_holder_rect" />
+
+        <com.flyco.labelview.LabelView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_right"
+            app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_right"
+            app:lv_text="推荐"
+            app:lv_text_size="8sp" />
+
+
+        <TextView
+            android:id="@+id/tv_editor_recommend_book_name_left"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lines="2"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_4"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_left"
+            app:layout_constraintRight_toRightOf="@+id/iv_editor_recommend_book_left"
+            app:layout_constraintTop_toBottomOf="@+id/iv_editor_recommend_book_left"
+            tools:text="左边的书" />
+
+        <TextView
+            android:id="@+id/tv_editor_recommend_book_name_center"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lines="2"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_4"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_center"
+            app:layout_constraintRight_toRightOf="@+id/iv_editor_recommend_book_center"
+            app:layout_constraintTop_toBottomOf="@+id/iv_editor_recommend_book_center"
+            tools:text="中间的书" />
+
+        <TextView
+            android:id="@+id/tv_editor_recommend_book_name_right"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lines="2"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_4"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_right"
+            app:layout_constraintRight_toRightOf="@+id/iv_editor_recommend_book_right"
+            app:layout_constraintTop_toBottomOf="@+id/iv_editor_recommend_book_right"
+            tools:text="右边的书" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:background="@mipmap/icon_bottom_arc_trajectory"
+        app:layout_constraintDimensionRatio="360:32"
+        app:layout_constraintTop_toBottomOf="@+id/ctl_editor_recommend" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

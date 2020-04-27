@@ -1,31 +1,32 @@
 package com.huli.foxread.ui.fragments;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.flyco.tablayout.SlidingTabLayout;
-import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.flyco.tablayout.SlidingScaleTabLayout;
 import com.huli.foxread.R;
-import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.SearchBookActivity;
 import com.huli.foxread.ui.base.BaseFragment;
-import com.huli.foxread.ui.pageradapter.CPagerAdapter;
+import com.huli.foxread.ui.pageradapter.BsPagerAdapter;
 import com.huli.foxread.utils.StatusBarUtils;
 
-import java.util.ArrayList;
-
-import androidx.fragment.app.Fragment;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.vectordrawable.graphics.drawable.ArgbEvaluator;
 import androidx.viewpager.widget.ViewPager;
 
-public class MainBookstoreFragment extends BaseFragment implements OnTabSelectListener {
+public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
-    public SlidingTabLayout slidingTabLayout;
+    public SlidingScaleTabLayout slidingTabLayout;
     private ViewPager viewPager;
-    private ArrayList<Fragment> fragments = new ArrayList<>();
 
+    private ConstraintLayout ctlTabLayout;
     private ImageView btnSearch;
 
     @Override
@@ -41,6 +42,8 @@ public class MainBookstoreFragment extends BaseFragment implements OnTabSelectLi
 
     @Override
     public void initView(View view) {
+        ctlTabLayout = $(view, R.id.ctl_tabLayout);
+        ctlTabLayout.setBackgroundResource(R.color.colorPrimaryDark);
         slidingTabLayout = $(view, R.id.slidingTabLayout_book_store);
         viewPager = $(view, R.id.viewPager_book_store);
         btnSearch = $(view, R.id.iv_asBtn_search_bs);
@@ -48,8 +51,6 @@ public class MainBookstoreFragment extends BaseFragment implements OnTabSelectLi
 
     @Override
     public void setListener() {
-        slidingTabLayout.setOnTabSelectListener(this);
-
         btnSearch.setOnClickListener(new OnClickEvent() {
             @Override
             public void singleClick(View v) {
@@ -57,16 +58,14 @@ public class MainBookstoreFragment extends BaseFragment implements OnTabSelectLi
                 startActivity(intent);
             }
         });
+        viewPager.addOnPageChangeListener(this);
     }
 
     @Override
     public void doBusiness(Context mContext) {
         String[] tabTitles = getResources().getStringArray(R.array.tab_book_store);
-        fragments.add(new BookStoreSelectionFragment());
-        fragments.add(BookStoreBoyFragment.newInstance(Consts.TYPE_BOY));
-        fragments.add(BookStoreBoyFragment.newInstance(Consts.TYPE_GIRL));
-        viewPager.setOffscreenPageLimit(fragments.size());
-        viewPager.setAdapter(new CPagerAdapter(getChildFragmentManager(), fragments, tabTitles));
+        viewPager.setOffscreenPageLimit(tabTitles.length);
+        viewPager.setAdapter(new BsPagerAdapter(getChildFragmentManager(), tabTitles));
         slidingTabLayout.setViewPager(viewPager);
     }
 
@@ -80,12 +79,67 @@ public class MainBookstoreFragment extends BaseFragment implements OnTabSelectLi
 
 
     @Override
-    public void onTabSelect(int position) {
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
     }
 
     @Override
-    public void onTabReselect(int position) {
+    public void onPageSelected(int position) {
+        if (!childForbid && isBleach && position == 0) {
+            ctlTabRestore();
+        } else {
+            if (!isBleach) {
+                ctlTabBleach();
+            }
+        }
+    }
 
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private boolean childForbid;       //禁止恢复颜色
+    public boolean isBleach;           //（现在）是白色
+
+    public void childCtrlTabRestore(){
+        ctlTabRestore();
+        childForbid = false;
+    }
+    public void childCtrlTabBleach(){
+        ctlTabBleach();
+        childForbid = true;
+    }
+
+    /**
+     * 颜色复原
+     */
+    private void ctlTabRestore() {
+        changeColorAmin(ctlTabLayout, Color.WHITE, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
+        isBleach = false;
+    }
+
+    /**
+     * 变白
+     */
+    private void ctlTabBleach() {
+        changeColorAmin(ctlTabLayout, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark), Color.WHITE);
+        isBleach = true;
+    }
+
+
+    /**
+     * @param view
+     * @param colStar
+     * @param colEnd
+     */
+    private void changeColorAmin(View view, int colStar, int colEnd) {
+        ValueAnimator colorAnim = ObjectAnimator.ofInt(view, "backgroundColor", colStar, colEnd);
+        colorAnim.setDuration(350);
+        colorAnim.setEvaluator(new ArgbEvaluator());
+//        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+//        colorAnim.setRepeatMode(ValueAnimator.REVERSE);
+        colorAnim.start();
     }
 }

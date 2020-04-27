@@ -5,22 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <!--<ImageView
-        android:id="@+id/iv_bg_version_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        android:background="@drawable/ic_version_dialog_bg"
-        app:layout_constraintDimensionRatio="74:85"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />-->
-
     <View
         android:id="@+id/view_dark_blue_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/dp_20"
         android:background="@drawable/shape_round_darkblue_bg"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_rocket"
+        app:layout_constraintBottom_toBottomOf="@+id/ctl_cloud_title"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -51,90 +42,92 @@
         app:layout_constraintTop_toTopOf="@+id/view_dark_blue_bg"
         tools:ignore="ContentDescription" />
 
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_cloud_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/ic_version_dialog_content_bg_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="148:120"
-        app:layout_constraintTop_toTopOf="@+id/view_dark_blue_bg" />
+        android:layout_marginTop="@dimen/dp_80"
+        android:background="@drawable/ic_version_dialog_bg_cloud"
+        app:layout_constraintDimensionRatio="148:64"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_8"
+            android:src="@drawable/ic_version_dialog_magnifying_glass"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title_version_dialog"
+            app:layout_constraintRight_toLeftOf="@+id/tv_title_version_dialog"
+            app:layout_constraintTop_toTopOf="@+id/tv_title_version_dialog"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_title_version_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:text="@string/txt_find_a_new_version"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_new_version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_8"
+            android:textColor="@color/txt_dark_gold"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title_version_dialog"
+            app:layout_constraintLeft_toRightOf="@+id/tv_title_version_dialog"
+            app:layout_constraintTop_toTopOf="@+id/tv_title_version_dialog"
+            tools:text="2.0.3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_8"
-        android:src="@drawable/ic_version_dialog_magnifying_glass"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_title_version_dialog"
-        app:layout_constraintRight_toLeftOf="@+id/tv_title_version_dialog"
-        app:layout_constraintTop_toTopOf="@+id/tv_title_version_dialog"
-        tools:ignore="ContentDescription" />
-
-    <TextView
-        android:id="@+id/tv_title_version_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_find_a_new_version"
-        android:textColor="@color/txt_black_191919"
-        android:textSize="@dimen/sp_14"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_rocket" />
-
-    <TextView
-        android:id="@+id/tv_new_version_name"
-        app:layout_constraintTop_toTopOf="@+id/tv_title_version_dialog"
-        app:layout_constraintLeft_toRightOf="@+id/tv_title_version_dialog"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_title_version_dialog"
-        android:layout_width="wrap_content"
-        tools:text="2.0.3"
-        android:layout_marginStart="@dimen/dp_8"
-        android:textColor="@color/txt_dark_gold"
-        android:textSize="@dimen/sp_10"
-        android:layout_height="wrap_content"/>
-
-    <ScrollView
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_0"
-        android:layout_marginTop="@dimen/dp_6"
-        android:layout_marginBottom="@dimen/dp_8"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@+id/numberProgressBar_download_apk"
-        app:layout_constraintLeft_toLeftOf="@+id/versionchecklib_version_dialog_commit"
-        app:layout_constraintRight_toRightOf="@+id/versionchecklib_version_dialog_commit"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title_version_dialog">
+        android:background="@drawable/shape_bottom_round_white_bg"
+        app:layout_constraintTop_toBottomOf="@+id/ctl_cloud_title">
 
         <TextView
             android:id="@+id/tv_update_info_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:textColor="@color/txt_brownness"
-            android:textSize="@dimen/sp_12"
+            android:textSize="@dimen/sp_14"
+            android:paddingBottom="@dimen/dp_16"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/numberProgressBar_download_apk"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="更新信息" />
-    </ScrollView>
 
-    <com.azhon.appupdate.dialog.NumberProgressBar
-        android:id="@+id/numberProgressBar_download_apk"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_48"
-        android:layout_marginEnd="@dimen/dp_48"
-        android:layout_marginBottom="@dimen/dp_12"
-        app:layout_constraintBottom_toTopOf="@+id/versionchecklib_version_dialog_commit" />
+        <com.azhon.appupdate.dialog.NumberProgressBar
+            android:id="@+id/numberProgressBar_download_apk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_48"
+            android:layout_marginEnd="@dimen/dp_48"
+            android:layout_marginBottom="@dimen/dp_12"
+            app:layout_constraintBottom_toTopOf="@+id/versionchecklib_version_dialog_commit"
+            app:layout_constraintTop_toBottomOf="@+id/tv_update_info_content" />
 
-    <Button
-        android:id="@+id/versionchecklib_version_dialog_commit"
-        style="@style/Btn_Normal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginStart="@dimen/dp_36"
-        android:layout_marginEnd="@dimen/dp_36"
-        android:layout_marginBottom="@dimen/dp_16"
-        android:background="@drawable/ripple_semicircle_btn_gradual_bg_red"
-        android:text="@string/txt_update_now"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <Button
+            android:id="@+id/versionchecklib_version_dialog_commit"
+            style="@style/Btn_Normal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginStart="@dimen/dp_36"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginEnd="@dimen/dp_36"
+            android:layout_marginBottom="@dimen/dp_16"
+            android:background="@drawable/ripple_semicircle_btn_gradual_bg_red"
+            android:text="@string/txt_update_now"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

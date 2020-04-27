@@ -25,7 +25,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookEntity2;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
@@ -379,11 +379,11 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<BookEntity2> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<BookEntity2>>() {
+                        LzyResponse<BookEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<BookEntity>>() {
                                 });
                         if (entity.error_code == 0) {
-                            BookEntity2 data = entity.getData();
+                            BookEntity data = entity.getData();
                             specialBookId = data.getId();
                             Glide.with(mActivity)
                                     .load(data.getHttp_image())

@@ -20,7 +20,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookEntity2;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.CategoryEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.BooksListAdapter;
@@ -158,7 +158,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
         });
 
         stackLabel_2.setOnLabelClickListener((index, v, s) -> {
-                Log.e(TAG, "2***选中===" + s + "----" + index);
+            Log.e(TAG, "2***选中===" + s + "----" + index);
             paramIsEnd = index;
             paramCurPage = 0;
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
@@ -193,10 +193,10 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void doBusiness(Context mContext) {
-        List<BookEntity2> list = new ArrayList<>();
-        BookEntity2 data;
+        List<BookEntity> list = new ArrayList<>();
+        BookEntity data;
         for (int i = 0; i < 10; i++) {
-            data = new BookEntity2();
+            data = new BookEntity();
             data.setId("" + i);
             list.add(data);
         }
@@ -233,7 +233,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        BookEntity2 entity = mAdapter.getData().get(position);
+        BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
         startActivity(intent);
@@ -256,21 +256,21 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
                 .execute(new LtbCallback(this, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookEntity2>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity2>>>>() {
+                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
                                 });
                         if (entity.error_code == 0) {
-                            PagingWarpper<List<BookEntity2>> data = entity.getData();
+                            PagingWarpper<List<BookEntity>> data = entity.getData();
                             paramCurPage = data.getCurrent_page();
                             int lastPage = data.getLast_page();
-                            List<BookEntity2> bookList = data.getData();
+                            List<BookEntity> bookList = data.getData();
                             if (paramCurPage == 1) {
                                 int size = bookList.size();
                                 if (size >= 3) {
                                     mAdapter.setHeaderView(headViewTop3, 1);
-                                    BookEntity2 book1 = bookList.get(0);
-                                    BookEntity2 book2 = bookList.get(1);
-                                    BookEntity2 book3 = bookList.get(2);
+                                    BookEntity book1 = bookList.get(0);
+                                    BookEntity book2 = bookList.get(1);
+                                    BookEntity book3 = bookList.get(2);
                                     ivCoverFirst.setTag(book1.getId());
                                     ivCoverSecond.setTag(book2.getId());
                                     ivCoverThird.setTag(book3.getId());

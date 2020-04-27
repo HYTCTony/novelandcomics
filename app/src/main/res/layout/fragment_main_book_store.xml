@@ -3,44 +3,54 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-    <com.flyco.tablayout.SlidingTabLayout
-        android:id="@+id/slidingTabLayout_book_store"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_48"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/iv_asBtn_search_bs"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tl_indicator_color="@color/col_red"
-        app:tl_indicator_corner_radius="@dimen/dp_1_5"
-        app:tl_indicator_height="@dimen/dp_3"
-        app:tl_tab_width="@dimen/dp_56"
-        app:tl_indicator_width="@dimen/dp_16"
-        app:tl_tab_space_equal="false"
-        app:tl_textBold="SELECT"
-        app:tl_textSelectColor="@color/txt_black_191919"
-        app:tl_textUnselectColor="@color/txt_gray"
-        app:tl_textsize="@dimen/sp_18" />
-
-    <ImageView
-        android:id="@+id/iv_asBtn_search_bs"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_tabLayout"
+        android:layout_width="match_parent"
+        android:paddingBottom="@dimen/dp_4"
+        android:background="@color/colorPrimaryDark"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_8"
-        android:src="@drawable/ic_search_black_24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/slidingTabLayout_book_store"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/slidingTabLayout_book_store"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.flyco.tablayout.SlidingScaleTabLayout
+            android:id="@+id/slidingTabLayout_book_store"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_48"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/iv_asBtn_search_bs"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tl_indicator_color="@color/col_red"
+            app:tl_indicator_corner_radius="@dimen/dp_1_5"
+            app:tl_indicator_height="@dimen/dp_3"
+            app:tl_indicator_width="@dimen/dp_16"
+            app:tl_openTextDmg="true"
+            app:tl_tab_space_equal="false"
+            app:tl_tab_width="@dimen/dp_64"
+            app:tl_textBold="SELECT"
+            app:tl_textSelectColor="@color/txt_black_191919"
+            app:tl_textSelectSize="@dimen/sp_22"
+            app:tl_textUnSelectColor="@color/txt_gray"
+            app:tl_textUnSelectSize="@dimen/sp_16" />
+
+        <ImageView
+            android:id="@+id/iv_asBtn_search_bs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_search_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/slidingTabLayout_book_store"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/slidingTabLayout_book_store"
+            tools:ignore="ContentDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager_book_store"
+        app:layout_constraintTop_toBottomOf="@+id/ctl_tabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slidingTabLayout_book_store" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

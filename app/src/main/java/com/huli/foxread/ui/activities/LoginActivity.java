@@ -158,9 +158,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                ds.setColor(ds.linkColor);
                 ds.setColor(ContextCompat.getColor(LoginActivity.this, R.color.txt_red));
                 /** the underline**/
-                ds.setUnderlineText(true);
+                ds.setUnderlineText(false);
             }
-        }, 11, 15, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }, 11, 17, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
@@ -177,9 +177,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 //                ds.setColor(ds.linkColor);
                 ds.setColor(ContextCompat.getColor(LoginActivity.this, R.color.txt_red));
                 /** the underline**/
-                ds.setUnderlineText(true);
+                ds.setUnderlineText(false);
             }
-        }, 16, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }, 18, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         tvAgreement.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
         tvAgreement.setHighlightColor(ContextCompat.getColor(LoginActivity.this, R.color.transparent));
         tvAgreement.setText(spannableString);

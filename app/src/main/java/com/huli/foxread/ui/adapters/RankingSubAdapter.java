@@ -27,7 +27,8 @@ public class RankingSubAdapter extends BaseQuickAdapter<RankBookEntity, BaseView
     protected void convert(@NonNull BaseViewHolder holder, RankBookEntity item) {
         GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
         holder.setText(R.id.tv_book_name, item.getNovel_name());
-        holder.setText(R.id.tv_book_type, item.getNovel_author());
+        holder.setText(R.id.tv_book_type, item.getAuthor());
+        holder.setText(R.id.tv_book_introduction, item.getIntroduce());
 
         holder.setText(R.id.tv_book_heat, FigureProcessor.formatNum(getContext(), item.getHeat()));
         switch (typeRank) {

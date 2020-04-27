@@ -3080,7 +3080,7 @@ com.kongzue.stacklabelview.StackLabel
     private void log(java.lang.Object)
 kotlin.coroutines.ContinuationInterceptor$DefaultImpls
 kotlin.jvm.Transient
-com.huli.foxread.entity.sections.NbSection
+com.huli.foxread.entity.sections.CommonSection
 com.huli.page.model.dao.DaoMaster
     public static final int SCHEMA_VERSION
 kotlin.reflect.KType$DefaultImpls

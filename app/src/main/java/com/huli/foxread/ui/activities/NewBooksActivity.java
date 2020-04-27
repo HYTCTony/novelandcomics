@@ -15,7 +15,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.EndNewBookEntity;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.EndNewBookGroupEntity;
 import com.huli.foxread.entity.sections.NEbookSection;
 import com.huli.foxread.listeners.OnClickEvent;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NewBooksActivity extends BaseActivity implements OnItemClickListener {
@@ -61,7 +61,7 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
 
         btnSearch = $(R.id.iv_asBtn_search);
         recyclerView = $(R.id.recyclerView_new_book);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SectionNeBookAdapter();
         recyclerView.setAdapter(mAdapter);
         mAdapter.setEmptyView(R.layout.layout_empty);
@@ -105,8 +105,8 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
         if (onMoreClick()) {
             return;
         }
-        NEbookSection<EndNewBookEntity> nEbookSection = mAdapter.getData().get(position);
-        EndNewBookEntity book = nEbookSection.getObject();
+        NEbookSection<BookEntity> nEbookSection = mAdapter.getData().get(position);
+        BookEntity book = nEbookSection.getObject();
         if (book != null) {
             Intent intent = new Intent(this, BookDetailsActivity.class);
             intent.putExtra(Common.KEY_BOOK_ID, book.getId());
@@ -131,11 +131,11 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
                         if (entity.error_code == 0) {
                             List<EndNewBookGroupEntity> data = entity.getData();
 
-                            List<NEbookSection<EndNewBookEntity>> list = new ArrayList<>();
+                            List<NEbookSection<BookEntity>> list = new ArrayList<>();
 
                             for (int i = 0; i < data.size(); i++) {
                                 EndNewBookGroupEntity ebgEntity = data.get(i);
-                                List<EndNewBookEntity> novels = ebgEntity.getNovelColumnAccess();
+                                List<BookEntity> novels = ebgEntity.getNovelColumnAccess();
                                 list.add(new NEbookSection<>(true, false, ebgEntity.getId(), ebgEntity.getName(), null));
                                 for (int j = 0; j < novels.size(); j++) {
                                     list.add(new NEbookSection<>(false, false, ebgEntity.getId(), ebgEntity.getName(), novels.get(j)));

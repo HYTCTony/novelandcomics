@@ -58,7 +58,7 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
     public String getSelectedIds() {
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < getData().size(); i++) {
-            if (i< selectLists.size() && selectLists.get(i)) {
+            if (selectLists.get(i)) {
                 buffer.append(getData().get(i).getId());
                 buffer.append(",");
             }
@@ -87,7 +87,6 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
     }
 
     public int funCheck(int position) {
-        Log.e("Ssssssssssss", "sssss====" + selectLists.get(position));
         selectLists.put(position, !selectLists.get(position));
         notifyItemChanged(position);
         return getSelectedCount();

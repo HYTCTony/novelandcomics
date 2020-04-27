@@ -2,8 +2,11 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -14,46 +17,37 @@ import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.engines.GlideImageLoader;
-import com.huli.foxread.entity.BannerADEntity;
+import com.huli.foxread.entity.EditorRecoEntity;
 import com.huli.foxread.entity.ForestallNewEntity;
-import com.huli.foxread.entity.GemGroupEntity;
+import com.huli.foxread.entity.GemEntity;
 import com.huli.foxread.entity.HighScoresEntity;
 import com.huli.foxread.entity.HomePageEntity;
 import com.huli.foxread.entity.HotSearchEntity;
-import com.huli.foxread.entity.RankBookEntity;
 import com.huli.foxread.entity.HpSpecialEntity;
+import com.huli.foxread.entity.RankBookEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.multi.ForestallNewMultiEntity;
-import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
-import com.huli.foxread.ui.activities.BookRankingActivity;
-import com.huli.foxread.ui.activities.ClassifyActivity;
-import com.huli.foxread.ui.activities.EndBooksActivity;
-import com.huli.foxread.ui.activities.NewBooksActivity;
 import com.huli.foxread.ui.adapters.AttTopSearchAdapter;
 import com.huli.foxread.ui.adapters.BooksHighScoreAdapter;
 import com.huli.foxread.ui.adapters.ForestBookMultiItemAdapter;
 import com.huli.foxread.ui.adapters.HotTodayAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
-import com.huli.foxread.ui.pageradapter.MultiplePagerAdapter;
+import com.huli.foxread.ui.pageradapter.MultiplePagerAdapter2;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
-import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
-import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -64,16 +58,15 @@ import androidx.viewpager.widget.ViewPager;
 /**
  * 书城---精选
  */
-public class BookStoreSelectionFragment extends BaseFragment implements View.OnClickListener, OnBannerListener {
+public class BookStoreSelectionFragment extends BaseFragment implements View.OnClickListener {
 
     private SmartRefreshLayout mRefreshLayout;
     public RecyclerView recyclerView;
     private BooksHighScoreAdapter mAdapter;
 
-    private Banner mBanner;
-    private List<BannerADEntity> bannerDatas;
-
     private View headViewTop;
+    private ImageView ivRecoBookLeft, ivRecoBookCenter, ivRecoBookRight;
+    private TextView tvRecoBookNameLeft, tvRecoBookNameCenter, tvRecoBookNameRight;
 
     private View headViewHot;
     private RecyclerView rvHot;
@@ -96,6 +89,19 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
 
     private int curPage = 0;
 
+    //改变tabLayout背景色的临界高度
+    private int criticalHeight = 0;
+    //竖直方向一共滚动的距离
+    private int totalScrollY = 0;
+
+    public static BookStoreSelectionFragment newInstance(int index) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", index);
+        BookStoreSelectionFragment mFragment = new BookStoreSelectionFragment();
+        mFragment.setArguments(bundle);
+        return mFragment;
+    }
+
     @Override
     public int bindLayout() {
         return R.layout.fragment_bookstore_general_refresh_recy;
@@ -108,6 +114,10 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
 
     @Override
     public void initView(View view) {
+        int index = getArguments().getInt("index");
+        // 这个设置tag要与FragmentPagerAdapter中的获取方法getItemPosition方法要对应上
+        view.setTag(index);
+
         mRefreshLayout = $(view, R.id.smartRefreshLayout_book_store);
 
         recyclerView = $(view, R.id.recyclerView_book_store);
@@ -118,6 +128,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         mAdapter.setHeaderWithEmptyEnable(true);
 
         LayoutInflater inflater = LayoutInflater.from(mActivity);
+
         initTopView(inflater);
 
         initHotlistView(inflater);
@@ -156,6 +167,29 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
             //可以上拉加载
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                totalScrollY += dy;
+                Fragment parentFragment = getParentFragment();
+                if (parentFragment instanceof MainBookstoreFragment) {
+                    MainBookstoreFragment mainBookstoreFragment = (MainBookstoreFragment) parentFragment;
+                    if (totalScrollY >= criticalHeight && !mainBookstoreFragment.isBleach) {
+                        mainBookstoreFragment.childCtrlTabBleach();
+                    } else if (totalScrollY < criticalHeight && mainBookstoreFragment.isBleach) {
+                        mainBookstoreFragment.childCtrlTabRestore();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -165,58 +199,16 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         reqHighMarksDatas(0);
     }
 
-    //如果你需要考虑更好的体验，可以这么操作
-    @Override
-    public void onStart() {
-        super.onStart();
-        //开始轮播
-        if (mBanner != null) {
-            mBanner.start();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        //结束轮播
-        if (mBanner != null) {
-            mBanner.stopAutoPlay();
-        }
-    }
-
-
-    @Override
-    public void OnBannerClick(int position) {
-        if (bannerDatas != null && bannerDatas.size() > position) {
-            BannerADEntity entity = bannerDatas.get(position);
-            ClickJumpUtil.handleJump(mActivity, entity.getLink(), entity.getJump());
-        }
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_asBtn_classify:
-                startActivity(new Intent(mActivity, ClassifyActivity.class));
-                break;
-
-            case R.id.tv_asBtn_ranking:
-                Intent rankIntent = new Intent(mActivity, BookRankingActivity.class);
-                rankIntent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
-                startActivity(rankIntent);
-                break;
-
-            case R.id.tv_asBtn_new_book:
-                Intent intent = new Intent(mActivity, NewBooksActivity.class);
-                intent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
+            case R.id.iv_editor_recommend_book_left:
+            case R.id.iv_editor_recommend_book_center:
+            case R.id.iv_editor_recommend_book_right:
+                String novelId = (String) v.getTag();
+                Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, novelId);
                 startActivity(intent);
-                break;
-
-            case R.id.tv_asBtn_book_finished:
-                Intent ebIntent = new Intent(mActivity, EndBooksActivity.class);
-                ebIntent.putExtra(Consts.TYPE, Consts.TYPE_SELECTION);
-                startActivity(ebIntent);
                 break;
 
             case R.id.tv_asBtn_full_list:       //今日大热榜 -> 完整榜单
@@ -225,6 +217,10 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
 
             case R.id.tv_asBtn_excellent_work_more:       //分类佳作 -> 更多
                 Tos.showShort(mActivity, "分类佳作 -> 更多");
+                break;
+
+            case R.id.tv_asBtn_special_topic_more:       //专题 -> 更多
+                Tos.showShort(mActivity, "专题 -> 更多");
                 break;
 
             case R.id.tv_asBtn_get_a_new_batch_top_search:       //实时热搜 -> 换一批
@@ -284,12 +280,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
     private void initSpecialTopicView(LayoutInflater inflater) {
         headViewSpecial = inflater.inflate(R.layout.layout_rv_head_sb_special_topic, recyclerView, false);
         mAdapter.addHeaderView(headViewSpecial);
-        $(headViewSpecial, R.id.tv_asBtn_special_topic_more).setOnClickListener(new OnClickEvent() {
-            @Override
-            public void singleClick(View v) {
-                Tos.showShort(mActivity, "点个锤子，这个模块没了！");
-            }
-        });
+        $(headViewSpecial, R.id.tv_asBtn_special_topic_more).setOnClickListener(this);
         $(headViewSpecial, R.id.tv_asBtn_special_topic_more).setVisibility(View.GONE);
         vpSpt = $(headViewSpecial, R.id.viewPager_special_topic);
         vpSpt.setPageMargin(DensityUtils.dp2px(mActivity, 16));
@@ -318,7 +309,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         rvHot = $(headViewHot, R.id.recyclerView_hotlist);
         rvHot.setNestedScrollingEnabled(false);
         rvHot.setLayoutManager(new GridLayoutManager(mActivity, 2));
-        rvHot.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(mActivity, 16), false));
+        rvHot.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(mActivity, 16), true));
 
         hotTodayAdapter = new HotTodayAdapter();
         rvHot.setAdapter(hotTodayAdapter);
@@ -337,47 +328,27 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      * 顶部headerView
      */
     private void initTopView(LayoutInflater inflater) {
-        headViewTop = inflater.inflate(R.layout.layout_rv_head_sb_top, recyclerView, false);
+        headViewTop = inflater.inflate(R.layout.layout_rv_head_editors_recommend, recyclerView, false);
         mAdapter.addHeaderView(headViewTop);
-        initBannerView(headViewTop);
-        initCenterBar(headViewTop);
+        ivRecoBookLeft = headViewTop.findViewById(R.id.iv_editor_recommend_book_left);
+        ivRecoBookCenter = headViewTop.findViewById(R.id.iv_editor_recommend_book_center);
+        ivRecoBookRight = headViewTop.findViewById(R.id.iv_editor_recommend_book_right);
+        tvRecoBookNameLeft = headViewTop.findViewById(R.id.tv_editor_recommend_book_name_left);
+        tvRecoBookNameCenter = headViewTop.findViewById(R.id.tv_editor_recommend_book_name_center);
+        tvRecoBookNameRight = headViewTop.findViewById(R.id.tv_editor_recommend_book_name_right);
+
+        ivRecoBookLeft.setOnClickListener(this);
+        ivRecoBookCenter.setOnClickListener(this);
+        ivRecoBookRight.setOnClickListener(this);
+
+        int width = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        int height = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        headViewTop.measure(width, height);
+        criticalHeight = headViewTop.getMeasuredHeight();
+        headViewTop.post(() -> criticalHeight = headViewTop.getHeight());
     }
-
-    /**
-     * 轮播广告
-     */
-    private void initBannerView(View rootView) {
-        mBanner = $(rootView, R.id.banner_choiceness);
-        //设置banner样式
-//        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE);
-        //设置图片加载器
-        mBanner.setImageLoader(new GlideImageLoader());
-        //设置banner动画效果
-        mBanner.setBannerAnimation(Transformer.Default);
-        //设置自动轮播，默认为true
-        mBanner.isAutoPlay(true);
-        //设置轮播时间
-        mBanner.setDelayTime(4200);
-        //设置指示器位置（当banner模式中有指示器时）
-        mBanner.setIndicatorGravity(BannerConfig.CENTER);
-        mBanner.setOnBannerListener(this);
-
-        //设置图片集合(可先不设置,最后update)
-//        mBanner.setImages(bannerDatas);
-        //banner设置方法全部调用完毕时最后调用
-        mBanner.start();
-    }
-
-    /**
-     * 中间导航栏
-     */
-    private void initCenterBar(View rootView) {
-        $(rootView, R.id.tv_asBtn_classify).setOnClickListener(this);
-        $(rootView, R.id.tv_asBtn_ranking).setOnClickListener(this);
-        $(rootView, R.id.tv_asBtn_new_book).setOnClickListener(this);
-        $(rootView, R.id.tv_asBtn_book_finished).setOnClickListener(this);
-    }
-
 
     /**
      * 抢先新书数据
@@ -480,14 +451,19 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      * 分类佳作数据
      */
     private void setGemDatas(HomePageEntity hpDatas) {
-        List<GemGroupEntity> classifyNvList = hpDatas.getPoems();
+        List<GemEntity> classifyNvList = hpDatas.getPoems();
         if (classifyNvList != null && classifyNvList.size() > 0) {
-            List<Fragment> exwFragments = new ArrayList<>();
-            for (int i = 0; i < classifyNvList.size(); i++) {
-                exwFragments.add(ExWorksShowFargment.newInstance(classifyNvList.get(i)));
-            }
-            vpExWorks.setOffscreenPageLimit(exwFragments.size());
-            vpExWorks.setAdapter(new MultiplePagerAdapter(getChildFragmentManager(), exwFragments));
+            vpExWorks.setOffscreenPageLimit(classifyNvList.size());
+            MultiplePagerAdapter2 exPagerAdapter2 = new MultiplePagerAdapter2(getContext(), classifyNvList);
+            vpExWorks.setAdapter(exPagerAdapter2);
+            exPagerAdapter2.setmOnPagerItemClickListener(bookID -> {
+                if (onMoreClick()) {
+                    return;
+                }
+                Intent intent = new Intent(mActivity, BookDetailsActivity.class);
+                intent.putExtra(Common.KEY_BOOK_ID, bookID);
+                startActivity(intent);
+            });
             headViewExcellentWorks.setVisibility(View.VISIBLE);
         } else {
             headViewExcellentWorks.setVisibility(View.GONE);
@@ -507,6 +483,26 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         }
     }
 
+    private void setTopDatas(HomePageEntity hpDatas) {
+        List<EditorRecoEntity> recoThree = hpDatas.getTop();
+        if (recoThree != null && recoThree.size() >= 3) {
+            EditorRecoEntity bookLeft = recoThree.get(0);
+            EditorRecoEntity bookCenter = recoThree.get(1);
+            EditorRecoEntity bookRight = recoThree.get(2);
+            GlideUtil.loadRoundRect(mActivity, ivRecoBookLeft, bookLeft.getHttpImage(), 0);
+            GlideUtil.loadRoundRect(mActivity, ivRecoBookCenter, bookCenter.getHttpImage(), 0);
+            GlideUtil.loadRoundRect(mActivity, ivRecoBookRight, bookRight.getHttpImage(), 0);
+            ivRecoBookLeft.setTag(bookLeft.getNovelId());
+            ivRecoBookCenter.setTag(bookCenter.getNovelId());
+            ivRecoBookRight.setTag(bookRight.getNovelId());
+            tvRecoBookNameLeft.setText(bookLeft.getNovelName());
+            tvRecoBookNameCenter.setText(bookCenter.getNovelName());
+            tvRecoBookNameRight.setText(bookRight.getNovelName());
+            headViewTop.setVisibility(View.VISIBLE);
+        } else {
+            headViewTop.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 各个模块数据（除了底部高分精选）
@@ -531,11 +527,8 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                                 return;
                             }
 
-                            //轮播图
-                            bannerDatas = hpDatas.getBanner();
-                            if (bannerDatas != null) {
-                                mBanner.update(bannerDatas);
-                            }
+                            //编辑力推
+                            setTopDatas(hpDatas);
 
                             //今日大热榜
                             setHotTodayDatas(hpDatas);
@@ -613,28 +606,6 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                     public void onError(Response<String> response) {
                         super.onError(response);
                         mAdapter.getLoadMoreModule().loadMoreFail();
-                    }
-                });
-    }
-
-    /**
-     * banner
-     */
-    private void reqTopBannerData() {
-        OkGo.<String>post(Consts.BANNER_READ_API)
-                .params(Consts.POSITION, Consts.TYPE_SELECTION)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<BannerADEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<BannerADEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            bannerDatas = entity.getData();
-                            if (bannerDatas != null) {
-                                mBanner.update(bannerDatas);
-                            }
-                        }
                     }
                 });
     }

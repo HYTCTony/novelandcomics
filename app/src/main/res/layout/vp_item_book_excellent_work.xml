@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_4"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_12"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/dp_4"
+        app:cardElevation="@dimen/dp_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_12">
+
+            <ImageView
+                android:id="@+id/iv_book_cover"
+                android:layout_width="@dimen/dp_70"
+                android:layout_height="@dimen/dp_0"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="7:9"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription"
+                tools:src="@mipmap/img_holder_rect" />
+
+            <TextView
+                android:id="@+id/iv_book_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_12"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+                app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+                tools:text="撩心游戏" />
+
+            <TextView
+                android:id="@+id/iv_book_introduction"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_12"
+                android:ellipsize="end"
+                android:lines="2"
+                android:textColor="@color/txt_gray_8f9dac"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+                app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+                tools:text="岳母鄙视，妻子瞧不起，亲人嘲讽所有人都觉得，自己能骑在废物赘婿发现..." />
+
+            <TextView
+                android:id="@+id/tv_book_generic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@drawable/shape_border_dark_gold"
+                android:textColor="@color/txt_dark_gold"
+                android:textSize="@dimen/sp_10"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+                app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+                tools:text="现代言情" />
+
+            <TextView
+                android:id="@+id/tv_book_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/txt_red"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_book_name"
+                tools:text="9.3分" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

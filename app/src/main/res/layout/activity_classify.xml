@@ -26,9 +26,10 @@
 
     <com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout
         android:id="@+id/verticaltablayout_classify"
-        android:layout_width="@dimen/dp_84"
+        android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/px_1"
+        android:background="@color/white"
         app:indicator_color="@color/col_red"
         app:indicator_corners="@dimen/dp_1"
         app:indicator_gravity="left"
@@ -40,17 +41,28 @@
         app:tab_height="@dimen/dp_50"
         app:tab_mode="scrollable" />
 
-    <com.huli.foxread.ui.widget.NoScrollViewPager
-        android:id="@+id/noScrollViewPager_content_classify"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_content_classify"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
         android:layout_marginTop="@dimen/px_1"
-        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/verticaltablayout_classify"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"
         app:layout_constraintVertical_weight="1" />
+
+    <!--<com.huli.foxread.ui.widget.NoScrollViewPager
+        android:id="@+id/noScrollViewPager_content_classify"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginTop="@dimen/px_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/verticaltablayout_classify"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintVertical_weight="1" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

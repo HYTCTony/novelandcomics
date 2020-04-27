@@ -8,6 +8,7 @@ public class HighScoresEntity {
     private String novel_id;
     private float score;
     private int weigh;
+    private int is_end;
     private String novel_name;
     private String author;
     private int word;
@@ -45,6 +46,14 @@ public class HighScoresEntity {
 
     public void setWeigh(int weigh) {
         this.weigh = weigh;
+    }
+
+    public int getIs_end() {
+        return is_end;
+    }
+
+    public void setIs_end(int is_end) {
+        this.is_end = is_end;
     }
 
     public String getNovel_name() {

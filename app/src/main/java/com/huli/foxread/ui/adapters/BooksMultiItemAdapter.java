@@ -3,9 +3,7 @@ package com.huli.foxread.ui.adapters;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
-import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.entity.multi.BookMultiEntity;
-import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
 
 import java.util.List;
@@ -35,9 +33,6 @@ public class BooksMultiItemAdapter extends BaseMultiItemQuickAdapter<BookMultiEn
                 helper.setText(R.id.tv_book_title, novel.getNovel_name());
                 helper.setText(R.id.tv_book_score, novel.getScore() + getContext().getString(R.string.unit_score));
                 helper.setText(R.id.tv_book_description, novel.getIntroduce());
-                helper.setText(R.id.tv_book_author_pen_name, novel.getAuthor());
-                helper.setText(R.id.tv_book_tag, novel.getIs_end() == 1 ? R.string.txt_end : R.string.txt_serialize);
-                helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), novel.getWord()));
                 break;
             case BookMultiEntity.DETAILED:
                 GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), novel.getHttp_image(), 0);

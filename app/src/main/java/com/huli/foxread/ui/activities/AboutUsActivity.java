@@ -73,7 +73,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void initView(View view) {
         Toolbar toolbar = $(R.id.toolbar_normal);
-        initToolBar(toolbar, R.string.txt_about_huli);
+        initToolBar(toolbar, R.string.txt_about_us);
 
         tvCurVer = $(R.id.tv_cur_app_version);
         btnViewDetail = $(R.id.tv_asBtn_view_detail);
@@ -108,7 +108,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 /**Remove the underline**/
                 ds.setUnderlineText(false);
             }
-        }, 4, 10, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }, 8, 14, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {

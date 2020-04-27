@@ -9,8 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/px_1"
-        android:background="@color/white"
-        android:paddingStart="@dimen/dp_8"
-        android:paddingEnd="@dimen/dp_8" />
+        android:background="@color/white" />
 
 </LinearLayout>

@@ -1,7 +1,5 @@
 package com.huli.foxread.ui.adapters;
 
-import android.widget.TextView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
@@ -13,7 +11,6 @@ import com.huli.foxread.utils.GlideUtil;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 /**
  * 今日大热榜
@@ -33,16 +30,12 @@ public class HotTodayAdapter extends BaseQuickAdapter<RankBookEntity, BaseViewHo
         GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image(), DensityUtils.dp2px(getContext(), 2));
         helper.setText(R.id.tv_book_title, item.getNovel_name());
         helper.setText(R.id.tv_book_heat_rate, FigureProcessor.formatHeat(getContext(), item.getHeat()));
-        TextView tvRank = helper.getView(R.id.tv_ranking_hot);
         String rankStr = String.valueOf(helper.getLayoutPosition() + 1);
-        tvRank.setText(rankStr);
+        helper.setText(R.id.tv_flag_rank, rankStr);
         if (helper.getLayoutPosition() < 3) {
-            tvRank.setTextColor(ContextCompat.getColor(getContext(), R.color.txt_orange_ff6600));
-            helper.setText(R.id.tv_top3_flag, rankStr);
-            helper.setVisible(R.id.tv_top3_flag, true);
+            helper.setBackgroundResource(R.id.tv_flag_rank, R.mipmap.icon_rank_top3_txtbg);
         } else {
-            tvRank.setTextColor(ContextCompat.getColor(getContext(), R.color.txt_black));
-            helper.setGone(R.id.tv_top3_flag, true);
+            helper.setBackgroundResource(R.id.tv_flag_rank, R.mipmap.icon_rank_normal_txtbg);
         }
     }
 }

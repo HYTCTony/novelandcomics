@@ -34,6 +34,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * 金币余额
+ */
 public class MyGoldCoinActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView tvGoldBalance, tvExchangeYuan;

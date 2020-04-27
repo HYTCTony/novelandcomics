@@ -73,8 +73,8 @@
     <string name="txt_plz_input_phone_number">请输入手机号</string>
     <string name="txt_plz_input_new_phone_number">请输入新的手机号</string>
     <string name="txt_plz_input_verification_code">请输入验证码</string>
-    <string name="txt_agree_login_agreement">登录代表您同意狐狸小说用户协议和隐私策略</string>
-    <string name="txt_foxread_user_and_privacy_policy">狐狸小说《用户协议》和《用户隐私》</string>
+    <string name="txt_agree_login_agreement">登录代表您同意一起看书《用户协议》和《隐私策略》</string>
+    <string name="txt_foxread_user_and_privacy_policy">一起看书免费小说《用户协议》和《用户隐私》</string>
 
     <string name="txt_plz_input_invitation_code">请输入邀请码</string>
     <string name="txt_confirm_2_submit">确定提交</string>
@@ -108,6 +108,11 @@
 
     <string name="txt_category_dt_sub_title">%1$s类全网%2$s前三名</string>
 
+    <string name="txt_tips_classify">精准找书导航页</string>
+    <string name="txt_tips_rank_list">每天更新</string>
+    <string name="txt_tips_newbook">好书抢先看</string>
+    <string name="txt_tips_endbook">一次看到爽</string>
+
     <string name="txt_all_classify">全部分类</string>
     <string name="txt_classify">分类</string>
     <string name="txt_ranking">排行</string>
@@ -123,10 +128,18 @@
     <string name="txt_get_changed">换一换</string>
     <string name="txt_actual_time_top_search">实时热搜</string>
     <string name="txt_good_book_on_all_over_the_web">全网都在搜的好书</string>
+    <string name="txt_the_most_understand_you_recommended_daily">最懂你的每日推荐</string>
+    <string name="txt_exclusive">独家</string>
+    <string name="txt_quality">品质</string>
+    <string name="txt_fiery">火热</string>
+    <string name="txt_classics">经典</string>
+    <string name="txt_positive_energy">正能量</string>
+    <string name="txt_high_score">高分</string>
     <string name="txt_search_count_x">实搜%1$s次</string>
     <string name="txt_new_books_lead_up">新书抢先</string>
     <string name="txt_high_score_well_chosen">高分精选</string>
     <string name="txt_title_exclusive_recommend">全网独家，重磅推荐</string>
+    <string name="txt_carefully_selected_4_you">为您精心挑选</string>
     <string name="txt_all_boys_love">男生都喜欢</string>
     <string name="txt_all_girls_love">女生都喜欢</string>
     <string name="txt_praise_good_books">好评佳作</string>
@@ -167,12 +180,12 @@
 
     <string name="txt_invite_book_friend_get_reward">邀请书友得奖励</string>
 
-    <string name="welcome_2_fox_fiction">欢迎来到狐狸小说</string>
+    <string name="welcome_2_fox_fiction">欢迎来到一起看书免费小说</string>
     <string name="txt_login_or_reg">登录/注册</string>
     <string name="txt_my_gold_coin">我的金币</string>
     <string name="txt_today_gold_coin">今日金币</string>
     <string name="txt_today_reading">今日阅读(min)</string>
-    <string name="txt_fox_vip_member">狐狸VIP会员</string>
+    <string name="txt_fox_vip_member">VIP会员</string>
     <string name="txt_you_have_become_a_vip">您已成为尊贵VIP</string>
     <string name="txt_fox_vip_effect">去除广告，优质阅读</string>
     <string name="txt_activate_immediately">立即开通</string>
@@ -239,7 +252,7 @@
     <string name="txt_withdrawal_record">提现记录</string>
     <string name="txt_withdrawal_quick_arrival">到账速度快</string>
 
-    <string name="txt_fox_vip">狐狸VIP</string>
+    <string name="txt_fox_vip">一起看书VIP</string>
     <string name="txt_vip_advantage">VIP尊享4大特权，免广告看书爽翻天</string>
     <string name="txt_tips_vip_state">您已开通尊贵VIP，请尽情畅读吧</string>
     <string name="txt_vip_enjoyment">VIP尊享</string>
@@ -288,7 +301,6 @@
     <string name="txt_push_notification">推送通知</string>
     <string name="txt_have_been_opened">已开启</string>
     <string name="txt_not_open">未开启</string>
-    <string name="txt_empty"></string>
     <string name="txt_clear_cache">清理缓存</string>
     <string name="txt_about_us">关于我们</string>
     <string name="txt_switch_account">切换账号</string>
@@ -301,7 +313,7 @@
     <string name="txt_cellphone">手机</string>
     <string name="txt_wechat">微信</string>
     <string name="hint_content_clear_cache">清理的缓存包括未在书架的书籍缓存，以及广告的图片、视频缓存、是否清理？</string>
-    <string name="hint_content_push_message">关闭通知，请前往手机系统设置-【通知中心】-【狐狸免费小说】</string>
+    <string name="hint_content_push_message">关闭通知，请前往手机系统设置-【通知中心】-【一起看书免费小说】</string>
     <string name="hint_content_no_book_message">这本书正在上传，未能获取到书籍内容，请稍后再来。</string>
     <string name="hint_content_exceed_limit_message">一次加入书架不能超过15本书！</string>
     <string name="txt_change_avatar">更换头像</string>
@@ -313,7 +325,6 @@
     <string name="txt_title_bind_wechat">微信绑定</string>
     <string name="txt_plz_input_verify_code_form_phone_x">请输入手机[%1$s]的验证码</string>
 
-    <string name="txt_about_huli">关于狐狸</string>
     <string name="txt_view_detail">查看详情</string>
     <string name="txt_update_version">更新版本</string>
     <string name="txt_cur_app_version_l">当前版本V</string>
@@ -368,6 +379,7 @@
 
     <string name="txt_find_a_new_version">发现新版本</string>
     <string name="txt_update_now">立即更新</string>
+
 
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>
     <string name="rationale_write_external_storage_4_update_apk">我们需要获取读写手机内存权限，以下载更新APK。</string>

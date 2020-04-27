@@ -6,26 +6,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.SlidingScaleTabLayout;
 import com.huli.foxread.R;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.ui.fragments.EndBooksFragment;
-import com.huli.foxread.ui.pageradapter.CPagerAdapter;
-
-import java.util.ArrayList;
+import com.huli.foxread.ui.pageradapter.EbPagerAdapter;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+/**
+ * 完结
+ */
 public class EndBooksActivity extends BaseActivity {
 
     private ImageView btnSearch;
-    private SlidingTabLayout tabLayout;
+    private SlidingScaleTabLayout tabLayout;
     private ViewPager viewPager;
-    private ArrayList<Fragment> fragments = new ArrayList<>();
 
     private int mType;
 
@@ -53,17 +51,8 @@ public class EndBooksActivity extends BaseActivity {
         tabLayout = $(R.id.slidingTabLayout_end_books);
         viewPager = $(R.id.recyclerView_end_book);
         String[] tabTitles = getResources().getStringArray(R.array.tab_end_book);
-        for (int i = 0; i < tabTitles.length; i++) {
-            int type = Consts.TYPE_BOY;
-            if (i == 0) {
-                type = Consts.TYPE_BOY;
-            } else if (i == 1) {
-                type = Consts.TYPE_GIRL;
-            }
-            fragments.add(EndBooksFragment.newInstance(type));
-        }
-        viewPager.setOffscreenPageLimit(fragments.size());
-        viewPager.setAdapter(new CPagerAdapter(getSupportFragmentManager(), fragments, tabTitles));
+        viewPager.setOffscreenPageLimit(tabTitles.length);
+        viewPager.setAdapter(new EbPagerAdapter(getSupportFragmentManager(), tabTitles));
         tabLayout.setViewPager(viewPager);
     }
 

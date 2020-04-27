@@ -4,7 +4,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
-import com.huli.foxread.entity.BookEntity2;
 import com.huli.foxread.entity.RankBookEntity;
 import com.huli.foxread.utils.GlideUtil;
 

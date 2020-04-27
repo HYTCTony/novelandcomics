@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/dp_4"
+    android:layout_marginTop="@dimen/dp_8"
     android:background="@color/white"
     android:clipChildren="false"
+    android:paddingTop="@dimen/dp_16"
     android:paddingBottom="@dimen/dp_16">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,49 +15,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <ImageView
+            android:id="@+id/iv_title_excellent_work"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:drawableStart="@drawable/shape_title_color_lump"
-            android:drawablePadding="@dimen/dp_6"
-            android:text="@string/txt_classify_excellent_works"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
+            android:layout_marginStart="@dimen/dp_16"
+            android:src="@drawable/ic_txt_good_classification"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_subhead_excellent_work"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:text="@string/txt_carefully_selected_4_you"
+            android:textColor="@color/txt_gray_999"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_excellent_work"
+            app:layout_constraintLeft_toRightOf="@+id/iv_title_excellent_work"
+            app:layout_constraintTop_toTopOf="@+id/iv_title_excellent_work" />
 
         <TextView
             android:id="@+id/tv_asBtn_excellent_work_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_16"
             android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
             android:drawablePadding="@dimen/dp_4"
             android:gravity="center_vertical"
-            android:paddingTop="@dimen/dp_8"
-            android:paddingBottom="@dimen/dp_8"
             android:text="@string/txt_more_classify"
             android:textColor="@color/txt_gray_999"
             android:textSize="@dimen/sp_12"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <com.huli.foxread.ui.widget.WrapViewPager
         android:id="@+id/viewPager_excellent_works"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_175"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginEnd="@dimen/dp_16"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_16"
         android:clipChildren="false"
         app:layout_constraintTop_toBottomOf="@+id/ctl_title_bar_cew" />
 

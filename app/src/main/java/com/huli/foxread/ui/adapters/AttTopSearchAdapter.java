@@ -4,7 +4,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.HotSearchEntity;
-import com.huli.foxread.entity.SearchEntity;
 import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/dp_4"
     android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,22 +13,56 @@
         android:background="@color/white"
         android:paddingStart="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_8"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_title_exclusive_recommend"
+        <ImageView
+            android:id="@+id/iv_title_exclusive_recommend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
-            android:drawableStart="@drawable/shape_title_color_lump"
-            android:drawablePadding="@dimen/dp_6"
-            android:text="@string/txt_title_exclusive_recommend"
-            android:textColor="@color/txt_black"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
+            android:src="@drawable/ic_txt_exclusive_heavy_recommended"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_the_most_understand_you_recommended_daily"
+            android:textColor="@color/txt_gray_8f9dac"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_title_exclusive_recommend"
+            app:layout_constraintTop_toBottomOf="@+id/iv_title_exclusive_recommend" />
+
+        <TextView
+            android:id="@+id/tv_title_tag1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:drawableStart="@drawable/ic_star_brown_12dp"
+            android:drawablePadding="@dimen/dp_2"
+            android:gravity="center_vertical"
+            android:text="@string/txt_quality"
+            android:textColor="@color/txt_dark_gold"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title_tag2"
+            app:layout_constraintRight_toLeftOf="@+id/tv_title_tag2"
+            app:layout_constraintTop_toTopOf="@+id/tv_title_tag2" />
+
+        <TextView
+            android:id="@+id/tv_title_tag2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_star_brown_12dp"
+            android:drawablePadding="@dimen/dp_2"
+            android:gravity="center_vertical"
+            android:text="@string/txt_exclusive"
+            android:textColor="@color/txt_dark_gold"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_exclusive_recommend"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_title_exclusive_recommend" />
 
         <TextView
             android:id="@+id/tv_asBtn_exclusive_recommend_refresh"
@@ -40,9 +74,10 @@
             android:text="@string/txt_get_changed"
             android:textColor="@color/txt_gray_999"
             android:textSize="@dimen/sp_12"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_title_exclusive_recommend"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_exclusive_recommend"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tv_title_exclusive_recommend" />
+            app:layout_constraintTop_toTopOf="@+id/iv_title_exclusive_recommend" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,5 +13,7 @@
 /captures
 .externalNativeBuild
 /doc
+/market
+/proguard
 
 *.apk

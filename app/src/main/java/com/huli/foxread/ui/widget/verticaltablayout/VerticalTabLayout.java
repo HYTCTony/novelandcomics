@@ -367,10 +367,6 @@ public class VerticalTabLayout extends ScrollView {
                 addTab(new QTabView(mContext).setIcon(adapter.getIcon(i))
                         .setTitle(adapter.getTitle(i))
                         .setBackground(adapter.getBackground(i)));
-                //TODO 背景色
-               /* if(){
-
-                }*/
             }
         }
     }

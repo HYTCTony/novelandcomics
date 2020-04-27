@@ -27,9 +27,10 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
 
     private int mType;
 
-    public static RankingBoyGirlFragment newInstance(int type) {
+    public static RankingBoyGirlFragment newInstance(int type, int index) {
         Bundle bundle = new Bundle();
         bundle.putInt(Consts.RANK_FORM_BG, type);
+        bundle.putInt("index", index);
         RankingBoyGirlFragment frag = new RankingBoyGirlFragment();
         frag.setArguments(bundle);
         return frag;
@@ -47,6 +48,11 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
 
     @Override
     public void initView(View view) {
+        Bundle bundle = getArguments();
+        int index = bundle.getInt("index");
+        // 这个设置tag要与FragmentPagerAdapter中的获取方法getItemPosition方法要对应上
+        view.setTag(index);
+
         tabLayout = $(view, R.id.verticaltablayout_ranking_type);
         viewPager = $(view, R.id.viewPager_ranking_type);
     }
@@ -103,12 +109,12 @@ public class RankingBoyGirlFragment extends LazyLoadFragment {
 
         @Override
         public TabView.TabTitle getTitle(int position) {
-            return new ITabView.TabTitle.Builder().setTextColor(textSelectCol, textUnSelectCol).setContent(titles[position]).build();
+            return new ITabView.TabTitle.Builder().setTextSize(16).setTextColor(textSelectCol, textUnSelectCol).setContent(titles[position]).build();
         }
 
         @Override
         public int getBackground(int position) {
-            return 0;
+            return R.drawable.selector_vtab_bg_on_white;
         }
 
         @Nullable

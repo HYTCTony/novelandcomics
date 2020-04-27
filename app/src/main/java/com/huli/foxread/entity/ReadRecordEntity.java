@@ -12,7 +12,7 @@ public class ReadRecordEntity {
     private String chapter_name;
     private long createtime;
     private boolean isSelected;
-    private BookEntity2 profileNovel;
+    private BookEntity profileNovel;
 
     public int getId() {
         return id;
@@ -78,11 +78,11 @@ public class ReadRecordEntity {
         isSelected = selected;
     }
 
-    public BookEntity2 getProfileNovel() {
+    public BookEntity getProfileNovel() {
         return profileNovel;
     }
 
-    public void setProfileNovel(BookEntity2 profileNovel) {
+    public void setProfileNovel(BookEntity profileNovel) {
         this.profileNovel = profileNovel;
     }
 }

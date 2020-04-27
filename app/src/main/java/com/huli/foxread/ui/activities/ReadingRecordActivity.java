@@ -3,7 +3,6 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -105,21 +104,21 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 //可以上拉加载
-                reqReadingRecord(0);
+                reqReadingRecord(0, false);
                 mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             }
         });
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                reqReadingRecord(curPage);
+                reqReadingRecord(curPage, false);
             }
         });
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        reqReadingRecord(0);
+        reqReadingRecord(0, true);
     }
 
     @Override
@@ -201,10 +200,10 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      *
      * @param reqPage
      */
-    private void reqReadingRecord(int reqPage) {
+    private void reqReadingRecord(int reqPage, boolean showDialog) {
         OkGo.<String>get(Consts.RECORD_READ_API)
                 .params(Consts.PAGE, reqPage + 1)
-                .execute(new LtbCallback(this) {
+                .execute(new LtbCallback(this, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
                         LzyResponse<PagingWarpper<List<ReadRecordEntity>>> entity = JSONObject.parseObject(response.body(),
@@ -284,7 +283,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                            reqReadingRecord(0);
+                            reqReadingRecord(0, true);
                             btnDone.setVisibility(View.GONE);
                             btnSelectAll.setVisibility(View.GONE);
                             layoutBottomBar.setVisibility(View.GONE);

@@ -6,27 +6,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.SlidingScaleTabLayout;
 import com.huli.foxread.R;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.ui.fragments.RankingBoyGirlFragment;
-import com.huli.foxread.ui.pageradapter.CPagerAdapter;
-
-import java.util.ArrayList;
+import com.huli.foxread.ui.pageradapter.RankPagerAdapter;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 public class BookRankingActivity extends BaseActivity {
 
     private ImageView btnSearch;
-    private SlidingTabLayout tabLayout;
+    private SlidingScaleTabLayout tabLayout;
     private ViewPager viewPager;
-    private ArrayList<Fragment> fragments = new ArrayList<>();
 
     private int mType;      //性别
 
@@ -54,11 +48,8 @@ public class BookRankingActivity extends BaseActivity {
         tabLayout = $(R.id.slidingTabLayout_ranking_boy_girl);
         viewPager = $(R.id.viewPager_ranking);
         String[] tabTitles = getResources().getStringArray(R.array.tab_ranking);
-        for (int i = 0; i < tabTitles.length; i++) {
-            fragments.add(RankingBoyGirlFragment.newInstance(i + 1));
-        }
-        viewPager.setOffscreenPageLimit(fragments.size());
-        viewPager.setAdapter(new CPagerAdapter(getSupportFragmentManager(), fragments, tabTitles));
+        viewPager.setOffscreenPageLimit(tabTitles.length);
+        viewPager.setAdapter(new RankPagerAdapter(getSupportFragmentManager(), tabTitles));
         tabLayout.setViewPager(viewPager);
 
     }

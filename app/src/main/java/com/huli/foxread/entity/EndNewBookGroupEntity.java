@@ -8,7 +8,7 @@ import java.util.List;
 public class EndNewBookGroupEntity {
     private String id;
     private String name;
-    private List<EndNewBookEntity> novelColumnAccess;
+    private List<BookEntity> novelColumnAccess;
 
     public String getId() {
         return id;
@@ -26,11 +26,11 @@ public class EndNewBookGroupEntity {
         this.name = name;
     }
 
-    public List<EndNewBookEntity> getNovelColumnAccess() {
+    public List<BookEntity> getNovelColumnAccess() {
         return novelColumnAccess;
     }
 
-    public void setNovelColumnAccess(List<EndNewBookEntity> novelColumnAccess) {
+    public void setNovelColumnAccess(List<BookEntity> novelColumnAccess) {
         this.novelColumnAccess = novelColumnAccess;
     }
 }

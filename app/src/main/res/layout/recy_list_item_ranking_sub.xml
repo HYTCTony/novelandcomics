@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_12">
 
     <ImageView
         android:id="@+id/iv_book_cover"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_64"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_8"
+        android:layout_width="@dimen/dp_61"
+        android:layout_height="@dimen/dp_81"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -24,31 +22,42 @@
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_8"
-        android:textColor="@color/txt_black"
         android:layout_marginEnd="@dimen/dp_48"
-        android:textSize="@dimen/sp_16"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/tv_book_type"
+        android:textColor="@color/txt_black_191919"
+        android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
         tools:text="末世四万年" />
+
+    <TextView
+        android:id="@+id/tv_book_introduction"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="2"
+        android:textColor="@color/txt_gray_8f9dac"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toTopOf="@+id/tv_book_type"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_book_name"
+        tools:text="岳母鄙视，妻子瞧不起，亲人嘲讽所有人都觉得，自己能骑在废物..." />
 
     <TextView
         android:id="@+id/tv_book_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/txt_gray"
-        android:textSize="@dimen/sp_12"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_book_name"
         tools:text="穿越时空" />
 
     <ImageView
         android:id="@+id/iv_top_three_icon"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
-        android:layout_marginEnd="@dimen/dp_16"
         app:layout_constraintBottom_toBottomOf="@+id/tv_book_name"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_book_name"
@@ -85,7 +94,6 @@
         android:id="@+id/tv_book_heat_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp_16"
         android:text="@string/txt_heat"
         android:textColor="@color/txt_gray"
         android:textSize="@dimen/sp_12"

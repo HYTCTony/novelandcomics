@@ -198,15 +198,6 @@ public class QTabView extends TabView {
         refreshDrawableState();
         mTitle.setTextColor(checked ? mTabTitle.getColorSelected() : mTabTitle.getColorNormal());
         initIconView();
-
-        //2020.2.22 --- Bill
-        if (selectBgColor != 0 && unSelectBgColor != 0) {
-            if (mChecked) {
-                setBackgroundResource(selectBgColor);
-            } else {
-                setBackgroundResource(unSelectBgColor);
-            }
-        }
     }
 
     @Override
@@ -219,14 +210,4 @@ public class QTabView extends TabView {
         setChecked(!mChecked);
     }
 
-
-    //2020.2.22 --- Bill
-    private int selectBgColor;
-    private int unSelectBgColor;
-
-    public QTabView setCurBgColor(@ColorRes int selectBgColor, @ColorRes int unSelectBgColor) {
-        this.selectBgColor = selectBgColor;
-        this.unSelectBgColor = unSelectBgColor;
-        return this;
-    }
 }

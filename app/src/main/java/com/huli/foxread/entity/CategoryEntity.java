@@ -1,6 +1,7 @@
 package com.huli.foxread.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 分类（子分类也适用）
@@ -9,10 +10,9 @@ public class CategoryEntity implements Serializable {
     private int id;
     private String name;
     private int pid;
-    private String status;
     private int novel_sum;
     private String http_image;
-    private int grade;
+    private List<CategoryEntity> list;
 
     public int getId() {
         return id;
@@ -38,14 +38,6 @@ public class CategoryEntity implements Serializable {
         this.pid = pid;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public int getNovel_sum() {
         return novel_sum;
     }
@@ -62,11 +54,11 @@ public class CategoryEntity implements Serializable {
         this.http_image = http_image;
     }
 
-    public int getGrade() {
-        return grade;
+    public List<CategoryEntity> getList() {
+        return list;
     }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
+    public void setList(List<CategoryEntity> list) {
+        this.list = list;
     }
 }

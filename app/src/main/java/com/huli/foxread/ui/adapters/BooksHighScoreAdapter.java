@@ -24,15 +24,14 @@ public class BooksHighScoreAdapter extends BaseQuickAdapter<HighScoresEntity, Ba
         helper.setText(R.id.tv_book_title, data.getNovel_name());
         helper.setText(R.id.tv_book_score, data.getScore() + getContext().getString(R.string.unit_score));
         helper.setText(R.id.tv_book_description, data.getIntroduce());
-        helper.setText(R.id.tv_book_author_pen_name, data.getAuthor());
-        helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), data.getWord()));
 
-        String tagStr = data.getTag();
-        if (!TextUtils.isEmpty(tagStr)) {
-            helper.setVisible(R.id.tv_book_tag, true);
-            helper.setText(R.id.tv_book_tag, tagStr);
-        } else {
-            helper.setGone(R.id.tv_book_tag, true);
+        String tag1 = data.getTag();        //作者名字后面的标签
+        if (TextUtils.isEmpty(tag1)) {
+            helper.setText(R.id.tv_book_author_pen_name_and_book_kind, data.getAuthor());
+        }else {
+            helper.setText(R.id.tv_book_author_pen_name_and_book_kind, data.getAuthor() + "·" + tag1);
         }
+        helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), data.getWord()));
+        helper.setText(R.id.tv_book_tag, data.getIs_end() == 1 ? R.string.txt_end : R.string.txt_serialize);
     }
 }

@@ -4,19 +4,19 @@ import java.io.Serializable;
 import java.util.List;
 
 public class HomePageEntity implements Serializable {
-    private List<BannerADEntity> banner;                    //轮播广告
+    private List<EditorRecoEntity> top;                     //编辑力推
     private List<RankBookEntity> today;                     //今日大热榜
-    private List<GemGroupEntity> poems;                     //分类佳作
+    private List<GemEntity> poems;                        //分类佳作
     private List<HotSearchEntity> hot;                      //实时热搜
     private List<HpSpecialEntity> special;                  //专题
     private List<ForestallNewEntity> prior;                 //新书抢先
 
-    public List<BannerADEntity> getBanner() {
-        return banner;
+    public List<EditorRecoEntity> getTop() {
+        return top;
     }
 
-    public void setBanner(List<BannerADEntity> banner) {
-        this.banner = banner;
+    public void setTop(List<EditorRecoEntity> top) {
+        this.top = top;
     }
 
     public List<RankBookEntity> getToday() {
@@ -27,11 +27,11 @@ public class HomePageEntity implements Serializable {
         this.today = today;
     }
 
-    public List<GemGroupEntity> getPoems() {
+    public List<GemEntity> getPoems() {
         return poems;
     }
 
-    public void setPoems(List<GemGroupEntity> poems) {
+    public void setPoems(List<GemEntity> poems) {
         this.poems = poems;
     }
 

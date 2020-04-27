@@ -1,5 +1,8 @@
 package com.huli.foxread.entity;
 
+/**
+ * 搜索热门关键词
+ */
 public class HotKeywordBean {
     private String id;
     private String keyword;
