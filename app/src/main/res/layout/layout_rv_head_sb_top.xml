@@ -16,7 +16,7 @@
         app:indicator_drawable_unselected="@color/col_gray_e5e5e5"
         app:indicator_height="@dimen/dp_2"
         app:indicator_width="@dimen/dp_8"
-        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintDimensionRatio="360:126"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView

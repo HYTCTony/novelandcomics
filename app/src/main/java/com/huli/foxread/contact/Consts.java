@@ -20,6 +20,8 @@ public interface Consts {
     String INVITE_FRIENDS_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=5";
     /*签到说明*/
     String SIGN_IN_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=6";
+    /*福利规则*/
+    String WELFARE_RULE_URL = BASE_URL + "/api/clause/detail?id=7";
 
     String USE_UNIQUE_ID_LOGIN_OR_REG_API = NOT_CPL_URL + Func.USER_VISITOR_LOGIN;
     String USE_PHONE_ONEKEY_LOGIN = NOT_CPL_URL + Func.USER_ONEKEY_LOGIN;

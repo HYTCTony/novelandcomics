@@ -291,7 +291,6 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
      */
     private void reqGetHotNovel(int prePage) {
         OkGo.<String>get(Consts.POPULAR_RANKING_API)
-                .params(Consts.TYPE, UserInfoCache.getGender(this))
                 .params(Consts.CATEGORY, Consts.RANK_TYPE_HOT_BOT)
                 .params(Consts.PAGE, prePage + 1)
                 .execute(new LtbCallback(this, false) {

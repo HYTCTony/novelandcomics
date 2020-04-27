@@ -42,7 +42,7 @@ public class GlideImageLoaderWf extends ImageLoader {
 
         //使用fresco，需要创建它提供的ImageView，当然你也可以用自己自定义的具有图片加载功能的ImageView
         ImageView imageView = new ImageView(context);
-        imageView.setPadding(paddingPx, 0, paddingPx, 0);
+        imageView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
         return imageView;
     }
 }

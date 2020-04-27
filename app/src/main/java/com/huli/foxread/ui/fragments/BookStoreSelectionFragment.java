@@ -498,6 +498,10 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
             tvRecoBookNameLeft.setText(bookLeft.getNovelName());
             tvRecoBookNameCenter.setText(bookCenter.getNovelName());
             tvRecoBookNameRight.setText(bookRight.getNovelName());
+            headViewTop.findViewById(R.id.labelView_left_book).setVisibility(View.VISIBLE);
+            headViewTop.findViewById(R.id.labelView_center_book).setVisibility(View.VISIBLE);
+            headViewTop.findViewById(R.id.labelView_right_book).setVisibility(View.VISIBLE);
+
             headViewTop.setVisibility(View.VISIBLE);
         } else {
             headViewTop.setVisibility(View.GONE);

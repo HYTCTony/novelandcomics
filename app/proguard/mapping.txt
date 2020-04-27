@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 23
-# pg_map_id: 488e775
+# pg_map_id: af1c7ba
 android.support.v4.app.INotificationSideChannel$Stub -> android.support.v4.app.INotificationSideChannel$Stub:
     1:2:void <init>():20:21 -> <init>
     1:3:android.support.v4.app.INotificationSideChannel asInterface(android.os.IBinder):32:34 -> asInterface
@@ -86641,158 +86641,158 @@ com.huli.foxread.R$drawable -> com.huli.foxread.R$drawable:
 com.huli.foxread.R$id -> com.huli.foxread.R$id:
     1:1:void <init>():8847:8847 -> <init>
 com.huli.foxread.R$integer -> com.huli.foxread.R$integer:
-    1:1:void <init>():9943:9943 -> <init>
+    1:1:void <init>():9947:9947 -> <init>
 com.huli.foxread.R$interpolator -> com.huli.foxread.R$interpolator:
-    1:1:void <init>():9966:9966 -> <init>
+    1:1:void <init>():9970:9970 -> <init>
 com.huli.foxread.R$layout -> com.huli.foxread.R$layout:
-    1:1:void <init>():9979:9979 -> <init>
+    1:1:void <init>():9983:9983 -> <init>
 com.huli.foxread.R$menu -> com.huli.foxread.R$menu:
-    1:1:void <init>():10262:10262 -> <init>
-com.huli.foxread.R$mipmap -> com.huli.foxread.R$mipmap:
     1:1:void <init>():10267:10267 -> <init>
+com.huli.foxread.R$mipmap -> com.huli.foxread.R$mipmap:
+    1:1:void <init>():10272:10272 -> <init>
 com.huli.foxread.R$plurals -> com.huli.foxread.R$plurals:
-    1:1:void <init>():10323:10323 -> <init>
+    1:1:void <init>():10328:10328 -> <init>
 com.huli.foxread.R$raw -> com.huli.foxread.R$raw:
-    1:1:void <init>():10326:10326 -> <init>
+    1:1:void <init>():10331:10331 -> <init>
 com.huli.foxread.R$string -> com.huli.foxread.R$string:
-    1:1:void <init>():10330:10330 -> <init>
+    1:1:void <init>():10335:10335 -> <init>
 com.huli.foxread.R$style -> com.huli.foxread.R$style:
-    1:1:void <init>():10873:10873 -> <init>
+    1:1:void <init>():10879:10879 -> <init>
 com.huli.foxread.R$styleable -> com.huli.foxread.R$styleable:
-    1:1:void <clinit>():11664:11664 -> <clinit>
-    2:2:void <clinit>():12059:12059 -> <clinit>
-    3:3:void <clinit>():12102:12102 -> <clinit>
-    4:4:void <clinit>():12118:12118 -> <clinit>
-    5:5:void <clinit>():12141:12141 -> <clinit>
-    6:6:void <clinit>():12234:12234 -> <clinit>
-    7:7:void <clinit>():12284:12284 -> <clinit>
-    8:8:void <clinit>():12404:12404 -> <clinit>
-    9:9:void <clinit>():12479:12479 -> <clinit>
-    10:10:void <clinit>():12523:12523 -> <clinit>
-    11:11:void <clinit>():12597:12597 -> <clinit>
-    12:12:void <clinit>():12709:12709 -> <clinit>
-    13:13:void <clinit>():12765:12765 -> <clinit>
-    14:14:void <clinit>():12819:12819 -> <clinit>
-    15:15:void <clinit>():12898:12898 -> <clinit>
-    16:16:void <clinit>():12980:12980 -> <clinit>
-    17:17:void <clinit>():13137:13137 -> <clinit>
-    18:18:void <clinit>():13671:13671 -> <clinit>
-    19:19:void <clinit>():15269:15269 -> <clinit>
-    20:20:void <clinit>():15347:15347 -> <clinit>
-    21:21:void <clinit>():15429:15429 -> <clinit>
-    22:22:void <clinit>():15640:15640 -> <clinit>
-    23:23:void <clinit>():15700:15700 -> <clinit>
-    24:24:void <clinit>():15844:15844 -> <clinit>
-    25:25:void <clinit>():16027:16027 -> <clinit>
-    26:26:void <clinit>():16189:16189 -> <clinit>
-    27:27:void <clinit>():16237:16237 -> <clinit>
-    28:28:void <clinit>():16419:16419 -> <clinit>
-    29:29:void <clinit>():16546:16546 -> <clinit>
-    30:30:void <clinit>():17061:17061 -> <clinit>
-    31:31:void <clinit>():17147:17147 -> <clinit>
-    32:32:void <clinit>():17190:17190 -> <clinit>
-    33:33:void <clinit>():17334:17334 -> <clinit>
-    34:34:void <clinit>():17629:17629 -> <clinit>
-    35:35:void <clinit>():17897:17897 -> <clinit>
-    36:36:void <clinit>():18200:18200 -> <clinit>
-    37:37:void <clinit>():18434:18434 -> <clinit>
-    38:38:void <clinit>():18479:18479 -> <clinit>
-    39:39:void <clinit>():18584:18584 -> <clinit>
-    40:40:void <clinit>():19022:19022 -> <clinit>
-    41:41:void <clinit>():19210:19210 -> <clinit>
-    42:42:void <clinit>():20112:20112 -> <clinit>
-    43:43:void <clinit>():20313:20313 -> <clinit>
-    44:44:void <clinit>():21472:21472 -> <clinit>
-    45:45:void <clinit>():21525:21525 -> <clinit>
-    46:46:void <clinit>():21676:21676 -> <clinit>
-    47:47:void <clinit>():21730:21730 -> <clinit>
-    48:48:void <clinit>():21848:21848 -> <clinit>
-    49:49:void <clinit>():21920:21920 -> <clinit>
-    50:50:void <clinit>():22088:22088 -> <clinit>
-    51:51:void <clinit>():22166:22166 -> <clinit>
-    52:52:void <clinit>():22230:22230 -> <clinit>
-    53:53:void <clinit>():22454:22454 -> <clinit>
-    54:54:void <clinit>():22480:22480 -> <clinit>
-    55:55:void <clinit>():22530:22530 -> <clinit>
-    56:56:void <clinit>():22639:22639 -> <clinit>
-    57:57:void <clinit>():22773:22773 -> <clinit>
-    58:58:void <clinit>():22841:22841 -> <clinit>
-    59:59:void <clinit>():22903:22903 -> <clinit>
-    60:60:void <clinit>():23092:23092 -> <clinit>
-    61:61:void <clinit>():23260:23260 -> <clinit>
-    62:62:void <clinit>():23306:23306 -> <clinit>
-    63:63:void <clinit>():23414:23414 -> <clinit>
-    64:64:void <clinit>():23550:23550 -> <clinit>
-    65:65:void <clinit>():23597:23597 -> <clinit>
-    66:66:void <clinit>():23747:23747 -> <clinit>
-    67:67:void <clinit>():23847:23847 -> <clinit>
-    68:68:void <clinit>():23909:23909 -> <clinit>
-    69:69:void <clinit>():24077:24077 -> <clinit>
-    70:70:void <clinit>():24254:24254 -> <clinit>
-    71:71:void <clinit>():24328:24328 -> <clinit>
-    72:72:void <clinit>():24441:24441 -> <clinit>
-    73:73:void <clinit>():24745:24745 -> <clinit>
-    74:74:void <clinit>():24797:24797 -> <clinit>
-    75:75:void <clinit>():24936:24936 -> <clinit>
-    76:76:void <clinit>():25108:25108 -> <clinit>
-    77:77:void <clinit>():25239:25239 -> <clinit>
-    78:78:void <clinit>():25282:25282 -> <clinit>
-    79:79:void <clinit>():25352:25352 -> <clinit>
-    80:80:void <clinit>():25392:25392 -> <clinit>
-    81:81:void <clinit>():25564:25564 -> <clinit>
-    82:82:void <clinit>():25604:25604 -> <clinit>
-    83:83:void <clinit>():25648:25648 -> <clinit>
-    84:84:void <clinit>():25710:25710 -> <clinit>
-    85:85:void <clinit>():25847:25847 -> <clinit>
-    86:86:void <clinit>():26170:26170 -> <clinit>
-    87:87:void <clinit>():26297:26297 -> <clinit>
-    88:88:void <clinit>():26345:26345 -> <clinit>
-    89:89:void <clinit>():26468:26468 -> <clinit>
-    90:90:void <clinit>():26749:26749 -> <clinit>
-    91:91:void <clinit>():26811:26811 -> <clinit>
-    92:92:void <clinit>():26851:26851 -> <clinit>
-    93:93:void <clinit>():26902:26902 -> <clinit>
-    94:94:void <clinit>():26934:26934 -> <clinit>
-    95:95:void <clinit>():27010:27010 -> <clinit>
-    96:96:void <clinit>():27072:27072 -> <clinit>
-    97:97:void <clinit>():27230:27230 -> <clinit>
-    98:98:void <clinit>():27259:27259 -> <clinit>
-    99:99:void <clinit>():27318:27318 -> <clinit>
-    100:100:void <clinit>():27642:27642 -> <clinit>
-    101:101:void <clinit>():27958:27958 -> <clinit>
-    102:102:void <clinit>():28054:28054 -> <clinit>
-    103:103:void <clinit>():28298:28298 -> <clinit>
-    104:104:void <clinit>():28766:28766 -> <clinit>
-    105:105:void <clinit>():29240:29240 -> <clinit>
-    106:106:void <clinit>():29651:29651 -> <clinit>
-    107:107:void <clinit>():29698:29698 -> <clinit>
-    108:108:void <clinit>():29746:29746 -> <clinit>
-    109:109:void <clinit>():29843:29843 -> <clinit>
-    110:110:void <clinit>():29964:29964 -> <clinit>
-    111:111:void <clinit>():30185:30185 -> <clinit>
-    112:112:void <clinit>():30258:30258 -> <clinit>
-    113:113:void <clinit>():30290:30290 -> <clinit>
-    114:114:void <clinit>():30376:30376 -> <clinit>
-    115:115:void <clinit>():30572:30572 -> <clinit>
-    116:116:void <clinit>():30600:30600 -> <clinit>
-    117:117:void <clinit>():30696:30696 -> <clinit>
-    118:118:void <clinit>():31052:31052 -> <clinit>
-    119:119:void <clinit>():31153:31153 -> <clinit>
-    120:120:void <clinit>():31208:31208 -> <clinit>
-    121:121:void <clinit>():31519:31519 -> <clinit>
-    122:122:void <clinit>():32168:32168 -> <clinit>
-    123:123:void <clinit>():32218:32218 -> <clinit>
-    124:124:void <clinit>():32318:32318 -> <clinit>
-    125:125:void <clinit>():32734:32734 -> <clinit>
-    126:126:void <clinit>():32817:32817 -> <clinit>
-    127:127:void <clinit>():32938:32938 -> <clinit>
-    128:128:void <clinit>():33025:33025 -> <clinit>
-    129:129:void <clinit>():33086:33086 -> <clinit>
-    130:130:void <clinit>():33121:33121 -> <clinit>
-    131:131:void <clinit>():33177:33177 -> <clinit>
-    1:1:void <init>():11596:11596 -> <init>
+    1:1:void <clinit>():11670:11670 -> <clinit>
+    2:2:void <clinit>():12065:12065 -> <clinit>
+    3:3:void <clinit>():12108:12108 -> <clinit>
+    4:4:void <clinit>():12124:12124 -> <clinit>
+    5:5:void <clinit>():12147:12147 -> <clinit>
+    6:6:void <clinit>():12240:12240 -> <clinit>
+    7:7:void <clinit>():12290:12290 -> <clinit>
+    8:8:void <clinit>():12410:12410 -> <clinit>
+    9:9:void <clinit>():12485:12485 -> <clinit>
+    10:10:void <clinit>():12529:12529 -> <clinit>
+    11:11:void <clinit>():12603:12603 -> <clinit>
+    12:12:void <clinit>():12715:12715 -> <clinit>
+    13:13:void <clinit>():12771:12771 -> <clinit>
+    14:14:void <clinit>():12825:12825 -> <clinit>
+    15:15:void <clinit>():12904:12904 -> <clinit>
+    16:16:void <clinit>():12986:12986 -> <clinit>
+    17:17:void <clinit>():13143:13143 -> <clinit>
+    18:18:void <clinit>():13677:13677 -> <clinit>
+    19:19:void <clinit>():15275:15275 -> <clinit>
+    20:20:void <clinit>():15353:15353 -> <clinit>
+    21:21:void <clinit>():15435:15435 -> <clinit>
+    22:22:void <clinit>():15646:15646 -> <clinit>
+    23:23:void <clinit>():15706:15706 -> <clinit>
+    24:24:void <clinit>():15850:15850 -> <clinit>
+    25:25:void <clinit>():16033:16033 -> <clinit>
+    26:26:void <clinit>():16195:16195 -> <clinit>
+    27:27:void <clinit>():16243:16243 -> <clinit>
+    28:28:void <clinit>():16425:16425 -> <clinit>
+    29:29:void <clinit>():16552:16552 -> <clinit>
+    30:30:void <clinit>():17067:17067 -> <clinit>
+    31:31:void <clinit>():17153:17153 -> <clinit>
+    32:32:void <clinit>():17196:17196 -> <clinit>
+    33:33:void <clinit>():17340:17340 -> <clinit>
+    34:34:void <clinit>():17635:17635 -> <clinit>
+    35:35:void <clinit>():17903:17903 -> <clinit>
+    36:36:void <clinit>():18206:18206 -> <clinit>
+    37:37:void <clinit>():18440:18440 -> <clinit>
+    38:38:void <clinit>():18485:18485 -> <clinit>
+    39:39:void <clinit>():18590:18590 -> <clinit>
+    40:40:void <clinit>():19028:19028 -> <clinit>
+    41:41:void <clinit>():19216:19216 -> <clinit>
+    42:42:void <clinit>():20118:20118 -> <clinit>
+    43:43:void <clinit>():20319:20319 -> <clinit>
+    44:44:void <clinit>():21478:21478 -> <clinit>
+    45:45:void <clinit>():21531:21531 -> <clinit>
+    46:46:void <clinit>():21682:21682 -> <clinit>
+    47:47:void <clinit>():21736:21736 -> <clinit>
+    48:48:void <clinit>():21854:21854 -> <clinit>
+    49:49:void <clinit>():21926:21926 -> <clinit>
+    50:50:void <clinit>():22094:22094 -> <clinit>
+    51:51:void <clinit>():22172:22172 -> <clinit>
+    52:52:void <clinit>():22236:22236 -> <clinit>
+    53:53:void <clinit>():22460:22460 -> <clinit>
+    54:54:void <clinit>():22486:22486 -> <clinit>
+    55:55:void <clinit>():22536:22536 -> <clinit>
+    56:56:void <clinit>():22645:22645 -> <clinit>
+    57:57:void <clinit>():22779:22779 -> <clinit>
+    58:58:void <clinit>():22847:22847 -> <clinit>
+    59:59:void <clinit>():22909:22909 -> <clinit>
+    60:60:void <clinit>():23098:23098 -> <clinit>
+    61:61:void <clinit>():23266:23266 -> <clinit>
+    62:62:void <clinit>():23312:23312 -> <clinit>
+    63:63:void <clinit>():23420:23420 -> <clinit>
+    64:64:void <clinit>():23556:23556 -> <clinit>
+    65:65:void <clinit>():23603:23603 -> <clinit>
+    66:66:void <clinit>():23753:23753 -> <clinit>
+    67:67:void <clinit>():23853:23853 -> <clinit>
+    68:68:void <clinit>():23915:23915 -> <clinit>
+    69:69:void <clinit>():24083:24083 -> <clinit>
+    70:70:void <clinit>():24260:24260 -> <clinit>
+    71:71:void <clinit>():24334:24334 -> <clinit>
+    72:72:void <clinit>():24447:24447 -> <clinit>
+    73:73:void <clinit>():24751:24751 -> <clinit>
+    74:74:void <clinit>():24803:24803 -> <clinit>
+    75:75:void <clinit>():24942:24942 -> <clinit>
+    76:76:void <clinit>():25114:25114 -> <clinit>
+    77:77:void <clinit>():25245:25245 -> <clinit>
+    78:78:void <clinit>():25288:25288 -> <clinit>
+    79:79:void <clinit>():25358:25358 -> <clinit>
+    80:80:void <clinit>():25398:25398 -> <clinit>
+    81:81:void <clinit>():25570:25570 -> <clinit>
+    82:82:void <clinit>():25610:25610 -> <clinit>
+    83:83:void <clinit>():25654:25654 -> <clinit>
+    84:84:void <clinit>():25716:25716 -> <clinit>
+    85:85:void <clinit>():25853:25853 -> <clinit>
+    86:86:void <clinit>():26176:26176 -> <clinit>
+    87:87:void <clinit>():26303:26303 -> <clinit>
+    88:88:void <clinit>():26351:26351 -> <clinit>
+    89:89:void <clinit>():26474:26474 -> <clinit>
+    90:90:void <clinit>():26755:26755 -> <clinit>
+    91:91:void <clinit>():26817:26817 -> <clinit>
+    92:92:void <clinit>():26857:26857 -> <clinit>
+    93:93:void <clinit>():26908:26908 -> <clinit>
+    94:94:void <clinit>():26940:26940 -> <clinit>
+    95:95:void <clinit>():27016:27016 -> <clinit>
+    96:96:void <clinit>():27078:27078 -> <clinit>
+    97:97:void <clinit>():27236:27236 -> <clinit>
+    98:98:void <clinit>():27265:27265 -> <clinit>
+    99:99:void <clinit>():27324:27324 -> <clinit>
+    100:100:void <clinit>():27648:27648 -> <clinit>
+    101:101:void <clinit>():27964:27964 -> <clinit>
+    102:102:void <clinit>():28060:28060 -> <clinit>
+    103:103:void <clinit>():28304:28304 -> <clinit>
+    104:104:void <clinit>():28772:28772 -> <clinit>
+    105:105:void <clinit>():29246:29246 -> <clinit>
+    106:106:void <clinit>():29657:29657 -> <clinit>
+    107:107:void <clinit>():29704:29704 -> <clinit>
+    108:108:void <clinit>():29752:29752 -> <clinit>
+    109:109:void <clinit>():29849:29849 -> <clinit>
+    110:110:void <clinit>():29970:29970 -> <clinit>
+    111:111:void <clinit>():30191:30191 -> <clinit>
+    112:112:void <clinit>():30264:30264 -> <clinit>
+    113:113:void <clinit>():30296:30296 -> <clinit>
+    114:114:void <clinit>():30382:30382 -> <clinit>
+    115:115:void <clinit>():30578:30578 -> <clinit>
+    116:116:void <clinit>():30606:30606 -> <clinit>
+    117:117:void <clinit>():30702:30702 -> <clinit>
+    118:118:void <clinit>():31058:31058 -> <clinit>
+    119:119:void <clinit>():31159:31159 -> <clinit>
+    120:120:void <clinit>():31214:31214 -> <clinit>
+    121:121:void <clinit>():31525:31525 -> <clinit>
+    122:122:void <clinit>():32174:32174 -> <clinit>
+    123:123:void <clinit>():32224:32224 -> <clinit>
+    124:124:void <clinit>():32324:32324 -> <clinit>
+    125:125:void <clinit>():32740:32740 -> <clinit>
+    126:126:void <clinit>():32823:32823 -> <clinit>
+    127:127:void <clinit>():32944:32944 -> <clinit>
+    128:128:void <clinit>():33031:33031 -> <clinit>
+    129:129:void <clinit>():33092:33092 -> <clinit>
+    130:130:void <clinit>():33127:33127 -> <clinit>
+    131:131:void <clinit>():33183:33183 -> <clinit>
+    1:1:void <init>():11602:11602 -> <init>
 com.huli.foxread.R$xml -> com.huli.foxread.R$xml:
-    1:1:void <init>():33227:33227 -> <init>
+    1:1:void <init>():33233:33233 -> <init>
 com.huli.foxread.cache.ACache -> com.huli.foxread.g.a:
     com.huli.foxread.cache.ACache$ACacheManager mCacheManager -> a
     int MAX_COUNT -> f
@@ -87182,155 +87182,156 @@ com.huli.foxread.contact.Common -> com.huli.foxread.i.a:
     java.lang.String INVITE_CODE -> E
     java.lang.String KEY_CAT_PID -> d
 com.huli.foxread.contact.Consts -> com.huli.foxread.i.b:
-    java.lang.String SMS_UNTYING -> I0
-    java.lang.String OPENID -> j1
-    java.lang.String POPULAR_RANKING_API -> I
+    java.lang.String SMS_LOGIN -> I0
+    java.lang.String UNIONID -> j1
+    java.lang.String PREFER_READ_API -> I
     java.lang.String SIGN_IN_EXPLAIN_URL -> j
-    java.lang.String VERSION_CHECK_API -> E0
-    java.lang.String GENDER -> f1
-    java.lang.String ORDER_RECHARGE_API -> A0
-    int TYPE_BOY -> L0
-    java.lang.String MOBILE -> b1
-    java.lang.String HOT_KEYWORD_API -> Q
-    java.lang.String USER_LOGOUT_API -> r
-    int RANK_TYPE_END -> P0
-    java.lang.String CAT_IS_END -> z1
-    int TYPE_ENDBOOK -> T0
-    java.lang.String OPINION_CATEGORY_API -> Y
-    java.lang.String GOLD_EARNINGS_LIST_API -> v0
-    java.lang.String ADS_TAIL_API -> z
-    java.lang.String WITHDRAWAL_FARE_API -> r0
-    java.lang.String SUB_MISSION_ID -> R1
+    java.lang.String PAY_ALIPAY_API -> E0
+    java.lang.String USERNAME -> f1
+    java.lang.String INVITATION_INDEX_API -> A0
+    int TYPE_SELECTION -> L0
+    java.lang.String UNIQUE_ID -> b1
+    java.lang.String NOVEL_HOT_API -> Q
+    java.lang.String USER_WX_LOGIN_API -> r
+    int RANK_TYPE_HOT -> P0
+    java.lang.String CAT_WORD_NUM -> z1
+    int TYPE_NEWBOOK -> T0
+    java.lang.String USER_READ_TIME_API -> Y
+    java.lang.String WITHDRAWAL_RECORD_API -> v0
+    java.lang.String MSG_LIST_API -> z
+    java.lang.String WITHDRAWAL_MENU_API -> r0
+    java.lang.String MISSION_ID -> R1
     java.lang.String DOWNLOAD_URL -> a
-    java.lang.String WELFARE_USERLIST_API -> n0
-    java.lang.String BANK_ACCOUNT -> N1
-    java.lang.String RECORD_DELETE_API -> j0
-    java.lang.String WITHDRAWAL_PLAN_ID -> J1
+    java.lang.String WELFARE_COMPLETE_API -> n0
+    java.lang.String BANK_ADDRESS -> N1
+    java.lang.String RECORD_READ_API -> j0
+    java.lang.String CONTENT -> J1
     java.lang.String INVITE_FRIENDS_EXPLAIN_URL -> i
-    java.lang.String PREFER_READ_API -> H
-    java.lang.String NOVEL_NOVELCHAPTERLIST_API -> f0
-    java.lang.String POSITION -> F1
-    java.lang.String BOOKRACK_ADD_BATCH_API -> b0
-    java.lang.String FILTRATE_KEYWORD -> B1
-    java.lang.String USER_WX_LOGIN_API -> q
-    java.lang.String NOVEL_HOT_API -> P
-    java.lang.String FILLIN_INVITE_CODE_API -> y0
-    java.lang.String VER -> Z0
-    java.lang.String MSG_LIST_API -> y
-    java.lang.String USER_READ_TIME_API -> X
-    java.lang.String CAT_ID -> w1
-    java.lang.String CHAPTER_ID -> s1
-    java.lang.String TYPE_RANK -> o1
-    java.lang.String SMS_LOGIN -> H0
-    java.lang.String UNIONID -> i1
-    java.lang.String NOVEL_CATEGORY_ALL_API -> K
-    java.lang.String PAY_ALIPAY_API -> D0
-    java.lang.String USERNAME -> e1
-    java.lang.String USE_PHONE_ONEKEY_LOGIN -> l
-    int TYPE_SELECTION -> K0
-    java.lang.String UNIQUE_ID -> a1
-    java.lang.String NOVEL_COLUMN_BOY_API -> S
-    int RANK_TYPE_HOT -> O0
-    java.lang.String BINDING_WECHAT_API -> t
-    int TYPE_NEWBOOK -> S0
-    java.lang.String WITHDRAWAL_RECORD_API -> u0
-    java.lang.String WITHDRAWAL_MENU_API -> q0
-    java.lang.String MISSION_ID -> Q1
+    java.lang.String NOVEL_POPULAR_API -> H
+    java.lang.String SPECIAL_BOOK_API -> f0
+    java.lang.String WELFARE_READ_ID -> F1
+    java.lang.String BOOKRACK_ADD_API -> b0
+    java.lang.String CAT_STATUS -> B1
+    java.lang.String USER_MOBILE_LOGIN_API -> q
+    java.lang.String SEARCH_NOVEL_API -> P
+    java.lang.String WELFARE_INVITE_API -> y0
+    java.lang.String TOKEN -> Z0
+    java.lang.String SET_USER_PROFILE_API -> y
+    java.lang.String NOVEL_NOMINATE_API -> X
+    java.lang.String CAT_PID -> w1
+    java.lang.String BOOK_ID -> s1
+    java.lang.String RANK_FORM_BG -> o1
+    java.lang.String SMS_REGISTER -> H0
+    java.lang.String CODE -> i1
+    java.lang.String POPULAR_TIME_API -> K
+    java.lang.String PAY_WECHAT_API -> D0
+    java.lang.String EVENT -> e1
+    java.lang.String USE_UNIQUE_ID_LOGIN_OR_REG_API -> l
+    java.lang.String VER -> a1
+    java.lang.String NOVEL_COLUMN_SELECTED_API -> S
+    int TYPE_WELFARE -> O0
+    java.lang.String SMS_SEND_API -> t
+    int RANK_TYPE_HOT_BOT -> S0
+    int DEVICE_IOS -> W0
+    java.lang.String WITHDRAWAL_MONEY_API -> u0
+    java.lang.String WELFARE_COMPLETESINGIN_API -> q0
+    java.lang.String VIP_COMBO_ID -> Q1
     java.lang.String NOT_CPL_URL -> c
-    java.lang.String ADS_PLAQUE_API -> B
-    java.lang.String WELFARE_COMPLETE_API -> m0
-    java.lang.String BANK_ADDRESS -> M1
-    java.lang.String RECORD_READ_API -> i0
-    java.lang.String CONTENT -> I1
-    java.lang.String USE_UNIQUE_ID_LOGIN_OR_REG_API -> k
-    java.lang.String POPULAR_TIME_API -> J
-    java.lang.String SPECIAL_BOOK_API -> e0
-    java.lang.String WELFARE_READ_ID -> E1
-    java.lang.String BOOKRACK_ADD_API -> a0
-    java.lang.String CAT_STATUS -> A1
-    java.lang.String SMS_SEND_API -> s
-    java.lang.String NOVEL_COLUMN_SELECTED_API -> R
-    java.lang.String INVITATION_INDEX_API -> z0
-    java.lang.String TOKEN -> Y0
-    java.lang.String OPINION_CREATE_API -> Z
-    java.lang.String CAT_PID -> v1
-    java.lang.String BOOK_ID -> r1
-    java.lang.String ADS_BANNER_API -> A
+    java.lang.String ADS_BANNER_API -> B
+    java.lang.String WELFARE_LIST_API -> m0
+    java.lang.String BANK_NAME -> M1
+    java.lang.String RECORD_CREATE_API -> i0
+    java.lang.String OPINION_CATEGORY_ID -> I1
+    java.lang.String WELFARE_RULE_URL -> k
+    java.lang.String POPULAR_RANKING_API -> J
+    java.lang.String BOOKRACK_GETLIST_API -> e0
+    java.lang.String PAGE_SIZE -> E1
+    java.lang.String OPINION_CREATE_API -> a0
+    java.lang.String CAT_IS_END -> A1
+    java.lang.String USER_LOGOUT_API -> s
+    java.lang.String HOT_KEYWORD_API -> R
+    java.lang.String FILLIN_INVITE_CODE_API -> z0
+    java.lang.String VERSION_CODE -> Y0
+    java.lang.String OPINION_CATEGORY_API -> Z
+    java.lang.String CHAPTER -> v1
+    java.lang.String NOVEL_IDS -> r1
+    java.lang.String ADS_TAIL_API -> A
     java.lang.String BASE_URL -> b
-    java.lang.String RANK_FORM_BG -> n1
+    java.lang.String TYPE -> n1
     java.lang.String PRIVACY_POLICY_URL -> f
-    java.lang.String SMS_REGISTER -> G0
-    java.lang.String CODE -> h1
-    java.lang.String NOVEL_CATEGORY_SUB_API -> M
-    java.lang.String PAY_WECHAT_API -> C0
-    java.lang.String EVENT -> d1
-    java.lang.String USERS_INFO_API -> n
-    java.lang.String NOVEL_DETAILS_API -> U
-    int TYPE_WELFARE -> N0
-    java.lang.String CHANGE_BIND_MOBILE_API -> v
-    java.lang.String WELFARE_INVITE_API -> x0
-    int RANK_TYPE_HOT_BOT -> R0
-    java.lang.String WITHDRAWAL_MONEY_API -> t0
-    int DEVICE_IOS -> V0
-    java.lang.String WELFARE_COMPLETESINGIN_API -> p0
-    java.lang.String VIP_COMBO_ID -> P1
+    java.lang.String VERSION_DETAIL_API -> G0
+    java.lang.String AVATAR -> h1
+    java.lang.String NOVEL_CATEGORY_API -> M
+    java.lang.String ORDER_CREATE_API -> C0
+    java.lang.String CAPTCHA -> d1
+    java.lang.String USER_SET_GENDER_API -> n
+    java.lang.String NOVEL_COLUMN_GIRL_API -> U
+    int TYPE_GIRL -> N0
+    java.lang.String BINDING_PHONE_API -> v
+    java.lang.String BANK_CREATE_API -> x0
+    int RANK_TYPE_DARK_HORSE -> R0
+    java.lang.String WITHDRAWAL_SCORE_API -> t0
+    int DEVICE_ANDROID -> V0
+    java.lang.String ORDER_ID -> T1
+    java.lang.String WELFARE_SIGNIN_API -> p0
+    java.lang.String CARDHOLDER_NAME -> P1
     java.lang.String USER_AGREEMENT_URL -> e
-    java.lang.String WELFARE_LIST_API -> l0
-    java.lang.String AVATAR_LIST_API -> D
-    java.lang.String BANK_NAME -> L1
-    java.lang.String RECORD_CREATE_API -> h0
-    java.lang.String OPINION_CATEGORY_ID -> H1
-    java.lang.String USER_SET_GENDER_API -> m
-    java.lang.String BOOKRACK_GETLIST_API -> d0
-    java.lang.String NOVEL_CATEGORY_API -> L
-    java.lang.String PAGE_SIZE -> D1
-    java.lang.String BINDING_PHONE_API -> u
-    java.lang.String NOVEL_COLUMN_GIRL_API -> T
-    java.lang.String VERSION_CODE -> X0
-    java.lang.String CHAPTER -> u1
-    java.lang.String NOVEL_IDS -> q1
-    java.lang.String ADS_INFO_API -> C
-    java.lang.String TYPE -> m1
+    java.lang.String READ_NOVEL_RECORD_API -> l0
+    java.lang.String ADS_INFO_API -> D
+    java.lang.String ID_CARD_NUMBER -> L1
+    java.lang.String RECORD_DURATION_API -> h0
+    java.lang.String PHONE -> H1
+    java.lang.String USE_PHONE_ONEKEY_LOGIN -> m
+    java.lang.String BOOKRACK_DEL_API -> d0
+    java.lang.String NOVEL_CATEGORY_ALL_API -> L
+    java.lang.String PAGE -> D1
+    java.lang.String BINDING_WECHAT_API -> u
+    java.lang.String NOVEL_COLUMN_BOY_API -> T
+    java.lang.String FACILITY -> X0
+    java.lang.String CHAPTER_NAME -> u1
+    java.lang.String NOVEL_ID -> q1
+    java.lang.String ADS_PLAQUE_API -> C
+    java.lang.String CATEGORY -> m1
     java.lang.String FEEDBACK_URL -> d
-    java.lang.String NOVEL_POPULAR_API -> G
-    java.lang.String SMS_BIND -> J0
-    java.lang.String MOBILE_CAPTCHA -> k1
+    java.lang.String BANNER_READ_API -> G
+    java.lang.String SMS_UNTYING -> J0
+    java.lang.String OPENID -> k1
     java.lang.String MEMBERSHIP_AGREEMENT_URL -> h
-    java.lang.String VERSION_DETAIL_API -> F0
-    java.lang.String AVATAR -> g1
-    java.lang.String SEARCH_NOVEL_API -> O
-    java.lang.String ORDER_CREATE_API -> B0
-    java.lang.String CAPTCHA -> c1
-    java.lang.String USER_MOBILE_LOGIN_API -> p
-    java.lang.String CAT_WORD_NUM -> y1
-    int TYPE_GIRL -> M0
-    java.lang.String NOVEL_NOMINATE_API -> W
-    int RANK_TYPE_DARK_HORSE -> Q0
-    java.lang.String SET_USER_PROFILE_API -> x
-    java.lang.String BANK_CREATE_API -> w0
-    int DEVICE_ANDROID -> U0
-    java.lang.String WITHDRAWAL_SCORE_API -> s0
-    java.lang.String ORDER_ID -> S1
-    java.lang.String WELFARE_SIGNIN_API -> o0
-    java.lang.String CARDHOLDER_NAME -> O1
-    java.lang.String READ_NOVEL_RECORD_API -> k0
+    java.lang.String VERSION_CHECK_API -> F0
+    java.lang.String GENDER -> g1
+    java.lang.String NOVEL_CHOICE_API -> O
+    java.lang.String ORDER_RECHARGE_API -> B0
+    java.lang.String MOBILE -> c1
+    java.lang.String USER_CAPITAL_API -> p
+    java.lang.String CAT_IS_PARENT -> y1
+    int TYPE_BOY -> M0
+    java.lang.String NOVEL_CONTENT_API -> W
+    int RANK_TYPE_END -> Q0
+    java.lang.String UNBIND_MOBILE_API -> x
+    java.lang.String GOLD_EARNINGS_LIST_API -> w0
+    int TYPE_ENDBOOK -> U0
+    java.lang.String WITHDRAWAL_FARE_API -> s0
+    java.lang.String SUB_MISSION_ID -> S1
+    java.lang.String WELFARE_USERLIST_API -> o0
+    java.lang.String BANK_ACCOUNT -> O1
+    java.lang.String RECORD_DELETE_API -> k0
     java.lang.String PRIVILEGE_EXPLAIN_URL -> g
-    java.lang.String ID_CARD_NUMBER -> K1
-    java.lang.String BANNER_READ_API -> F
-    java.lang.String RECORD_DURATION_API -> g0
-    java.lang.String PHONE -> G1
-    java.lang.String BOOKRACK_DEL_API -> c0
-    java.lang.String USER_CAPITAL_API -> o
-    java.lang.String PAGE -> C1
-    java.lang.String NOVEL_CHOICE_API -> N
-    java.lang.String UNBIND_MOBILE_API -> w
-    java.lang.String NOVEL_CONTENT_API -> V
-    java.lang.String FACILITY -> W0
-    java.lang.String CAT_IS_PARENT -> x1
-    java.lang.String CHAPTER_NAME -> t1
-    java.lang.String NOVEL_ID -> p1
-    java.lang.String INDEX_PAGE_API -> E
-    java.lang.String CATEGORY -> l1
+    java.lang.String WITHDRAWAL_PLAN_ID -> K1
+    java.lang.String INDEX_PAGE_API -> F
+    java.lang.String NOVEL_NOVELCHAPTERLIST_API -> g0
+    java.lang.String POSITION -> G1
+    java.lang.String BOOKRACK_ADD_BATCH_API -> c0
+    java.lang.String USERS_INFO_API -> o
+    java.lang.String FILTRATE_KEYWORD -> C1
+    java.lang.String NOVEL_CATEGORY_SUB_API -> N
+    java.lang.String CHANGE_BIND_MOBILE_API -> w
+    java.lang.String NOVEL_DETAILS_API -> V
+    java.lang.String CAT_ID -> x1
+    java.lang.String CHAPTER_ID -> t1
+    java.lang.String TYPE_RANK -> p1
+    java.lang.String AVATAR_LIST_API -> E
+    java.lang.String SMS_BIND -> K0
+    java.lang.String MOBILE_CAPTCHA -> l1
 com.huli.foxread.contact.Func -> com.huli.foxread.i.c:
     java.lang.String USER_MOBILE_LOGIN -> f
     java.lang.String NOVEL_COLUMN_SELECTED -> I
@@ -91009,7 +91010,7 @@ com.huli.foxread.ui.activities.SearchBookActivity -> com.huli.foxread.ui.activit
     4:4:void lambda$setListener$55(int,android.view.View,java.lang.String):125:125 -> b
     5:7:void go2Search(java.lang.String):204:206 -> b
     8:10:java.util.List getHistorySearchSp(android.content.Context,java.lang.String):244:246 -> b
-    11:15:void reqGetHotNovel(int):293:297 -> b
+    11:14:void reqGetHotNovel(int):293:296 -> b
     1:1:int access$200(com.huli.foxread.ui.activities.SearchBookActivity):48:48 -> c
     1:1:com.huli.foxread.ui.adapters.SHotBooksAdapter access$300(com.huli.foxread.ui.activities.SearchBookActivity):48:48 -> d
     2:2:void lambda$setListener$56():130:130 -> d
@@ -91052,17 +91053,17 @@ com.huli.foxread.ui.activities.SearchBookActivity$1$1 -> com.huli.foxread.ui.act
     1:1:void <init>(com.huli.foxread.ui.activities.SearchBookActivity$1):274:274 -> <init>
 com.huli.foxread.ui.activities.SearchBookActivity$2 -> com.huli.foxread.ui.activities.SearchBookActivity$b:
     com.huli.foxread.ui.activities.SearchBookActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.SearchBookActivity,androidx.appcompat.app.AppCompatActivity,boolean):297:297 -> <init>
-    1:2:void onError(com.lzy.okgo.model.Response):323:324 -> onError
-    1:1:void onSuccess(com.lzy.okgo.model.Response):300:300 -> onSuccess
-    2:7:void onSuccess(com.lzy.okgo.model.Response):303:308 -> onSuccess
-    8:8:void onSuccess(com.lzy.okgo.model.Response):310:310 -> onSuccess
-    9:9:void onSuccess(com.lzy.okgo.model.Response):312:312 -> onSuccess
-    10:10:void onSuccess(com.lzy.okgo.model.Response):314:314 -> onSuccess
-    11:11:void onSuccess(com.lzy.okgo.model.Response):316:316 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.SearchBookActivity,androidx.appcompat.app.AppCompatActivity,boolean):296:296 -> <init>
+    1:2:void onError(com.lzy.okgo.model.Response):322:323 -> onError
+    1:1:void onSuccess(com.lzy.okgo.model.Response):299:299 -> onSuccess
+    2:7:void onSuccess(com.lzy.okgo.model.Response):302:307 -> onSuccess
+    8:8:void onSuccess(com.lzy.okgo.model.Response):309:309 -> onSuccess
+    9:9:void onSuccess(com.lzy.okgo.model.Response):311:311 -> onSuccess
+    10:10:void onSuccess(com.lzy.okgo.model.Response):313:313 -> onSuccess
+    11:11:void onSuccess(com.lzy.okgo.model.Response):315:315 -> onSuccess
 com.huli.foxread.ui.activities.SearchBookActivity$2$1 -> com.huli.foxread.ui.activities.SearchBookActivity$b$a:
     com.huli.foxread.ui.activities.SearchBookActivity$2 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.SearchBookActivity$2):301:301 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.SearchBookActivity$2):300:300 -> <init>
 com.huli.foxread.ui.activities.SearchResultActivity -> com.huli.foxread.ui.activities.SearchResultActivity:
     android.widget.EditText etKeyword -> f
     com.huli.foxread.ui.adapters.SearchResultBooksAdapter mAdapter -> i
@@ -92436,8 +92437,8 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     55:55:void setForestallBookDatas(com.huli.foxread.entity.HomePageEntity):410:410 -> a
     56:56:void lambda$setGemDatas$91(java.lang.String):460:460 -> a
     57:59:void lambda$setGemDatas$91(java.lang.String):463:465 -> a
-    60:65:void reqIndexDatas(boolean):513:518 -> a
-    66:69:void reqHighMarksDatas(int):578:581 -> a
+    60:65:void reqIndexDatas(boolean):517:522 -> a
+    66:69:void reqHighMarksDatas(int):582:585 -> a
     1:1:int access$100(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):61:61 -> b
     2:2:int access$1002(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,int):61:61 -> b
     3:3:void access$400(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):61:61 -> b
@@ -92480,8 +92481,9 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     15:15:void initTopView(android.view.LayoutInflater):344:344 -> f
     16:16:void initTopView(android.view.LayoutInflater):346:346 -> f
     17:19:void initTopView(android.view.LayoutInflater):348:350 -> f
-    20:34:void setTopDatas(com.huli.foxread.entity.HomePageEntity):487:501 -> f
-    35:35:void setTopDatas(com.huli.foxread.entity.HomePageEntity):503:503 -> f
+    20:36:void setTopDatas(com.huli.foxread.entity.HomePageEntity):487:503 -> f
+    37:37:void setTopDatas(com.huli.foxread.entity.HomePageEntity):505:505 -> f
+    38:38:void setTopDatas(com.huli.foxread.entity.HomePageEntity):507:507 -> f
     1:1:void initView(android.view.View):117:117 -> initView
     2:2:void initView(android.view.View):119:119 -> initView
     3:3:void initView(android.view.View):121:121 -> initView
@@ -92517,34 +92519,34 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment$2 -> com.huli.foxread.u
     1:1:int getSpanSize(androidx.recyclerview.widget.GridLayoutManager,int,int):398:398 -> getSpanSize
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$3 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$c:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):519:519 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):523:523 -> <init>
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$4 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$d:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment this$0 -> g
     boolean val$isInit -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference,boolean):520:520 -> <init>
-    1:3:void onCacheSuccess(com.lzy.okgo.model.Response):552:554 -> onCacheSuccess
-    1:1:void onError(com.lzy.okgo.model.Response):560:560 -> onError
-    1:2:void onFinish():565:566 -> onFinish
-    1:3:void onSuccess(com.lzy.okgo.model.Response):523:525 -> onSuccess
-    4:4:void onSuccess(com.lzy.okgo.model.Response):531:531 -> onSuccess
-    5:5:void onSuccess(com.lzy.okgo.model.Response):534:534 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):537:537 -> onSuccess
-    7:7:void onSuccess(com.lzy.okgo.model.Response):540:540 -> onSuccess
-    8:8:void onSuccess(com.lzy.okgo.model.Response):543:543 -> onSuccess
-    9:9:void onSuccess(com.lzy.okgo.model.Response):546:546 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference,boolean):524:524 -> <init>
+    1:3:void onCacheSuccess(com.lzy.okgo.model.Response):556:558 -> onCacheSuccess
+    1:1:void onError(com.lzy.okgo.model.Response):564:564 -> onError
+    1:2:void onFinish():569:570 -> onFinish
+    1:3:void onSuccess(com.lzy.okgo.model.Response):527:529 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):535:535 -> onSuccess
+    5:5:void onSuccess(com.lzy.okgo.model.Response):538:538 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):541:541 -> onSuccess
+    7:7:void onSuccess(com.lzy.okgo.model.Response):544:544 -> onSuccess
+    8:8:void onSuccess(com.lzy.okgo.model.Response):547:547 -> onSuccess
+    9:9:void onSuccess(com.lzy.okgo.model.Response):550:550 -> onSuccess
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$5 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$e:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean):581:581 -> <init>
-    1:2:void onError(com.lzy.okgo.model.Response):607:608 -> onError
-    1:1:void onSuccess(com.lzy.okgo.model.Response):584:584 -> onSuccess
-    2:7:void onSuccess(com.lzy.okgo.model.Response):587:592 -> onSuccess
-    8:8:void onSuccess(com.lzy.okgo.model.Response):594:594 -> onSuccess
-    9:9:void onSuccess(com.lzy.okgo.model.Response):596:596 -> onSuccess
-    10:10:void onSuccess(com.lzy.okgo.model.Response):598:598 -> onSuccess
-    11:11:void onSuccess(com.lzy.okgo.model.Response):600:600 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean):585:585 -> <init>
+    1:2:void onError(com.lzy.okgo.model.Response):611:612 -> onError
+    1:1:void onSuccess(com.lzy.okgo.model.Response):588:588 -> onSuccess
+    2:7:void onSuccess(com.lzy.okgo.model.Response):591:596 -> onSuccess
+    8:8:void onSuccess(com.lzy.okgo.model.Response):598:598 -> onSuccess
+    9:9:void onSuccess(com.lzy.okgo.model.Response):600:600 -> onSuccess
+    10:10:void onSuccess(com.lzy.okgo.model.Response):602:602 -> onSuccess
+    11:11:void onSuccess(com.lzy.okgo.model.Response):604:604 -> onSuccess
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$5$1 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$e$a:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment$5 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment$5):585:585 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment$5):589:589 -> <init>
 com.huli.foxread.ui.fragments.EndBooksFragment -> com.huli.foxread.ui.fragments.EndBooksFragment:
     com.huli.foxread.ui.adapters.SectionNeBookAdapter mAdapter -> f
     androidx.recyclerview.widget.RecyclerView recyclerView -> e
@@ -92796,106 +92798,123 @@ com.huli.foxread.ui.fragments.MainWelfareFragment -> com.huli.foxread.ui.fragmen
     android.widget.TextView tvSignInCount -> o
     com.youth.banner.Banner mBanner -> l
     android.widget.TextView tvGoldCoinCount -> n
-    androidx.recyclerview.widget.RecyclerView recyclerView -> i
-    android.view.View headViewTop -> k
     com.huli.foxread.ui.adapters.WelfareMissionAdapter mAdapter -> j
     android.widget.TextView btnSignInNow -> p
-    android.widget.TextView btnClick2Login -> f
+    android.view.View footerRule -> q
     android.widget.LinearLayout btnGoldCoinUsable -> g
+    com.scwang.smartrefresh.layout.SmartRefreshLayout mRefreshLayout -> e
+    androidx.recyclerview.widget.RecyclerView recyclerView -> i
+    android.view.View headViewTop -> k
+    android.widget.TextView btnClick2Login -> f
     android.widget.TextView tvGoldCoin -> h
     java.util.List bannerDatas -> m
-    com.scwang.smartrefresh.layout.SmartRefreshLayout mRefreshLayout -> e
-    1:1:void <init>():62:62 -> <init>
-    1:3:void OnBannerClick(int):220:222 -> OnBannerClick
-    1:1:java.util.List access$000(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> a
-    2:2:java.util.List access$002(com.huli.foxread.ui.fragments.MainWelfareFragment,java.util.List):62:62 -> a
-    3:3:void access$1300(com.huli.foxread.ui.fragments.MainWelfareFragment,boolean):62:62 -> a
-    4:4:android.text.SpannableStringBuilder access$600(android.content.Context,java.lang.String):62:62 -> a
-    5:12:void lambda$setListener$42(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):117:124 -> a
-    13:15:void lambda$setListener$42(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):128:130 -> a
-    16:17:void displayIsLoginUI(boolean):180:181 -> a
-    18:19:void displayIsLoginUI(boolean):183:184 -> a
-    20:20:void initBannerView(android.view.View):253:253 -> a
-    21:21:void initBannerView(android.view.View):257:257 -> a
-    22:22:void initBannerView(android.view.View):259:259 -> a
-    23:23:void initBannerView(android.view.View):261:261 -> a
-    24:24:void initBannerView(android.view.View):263:263 -> a
-    25:26:void initBannerView(android.view.View):265:266 -> a
-    27:27:void initBannerView(android.view.View):272:272 -> a
-    28:30:void reqMissionComplete(java.lang.String):342:344 -> a
-    1:1:com.youth.banner.Banner access$100(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> b
-    2:4:void reqGetWerfareTasks(boolean):280:282 -> b
-    5:7:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):366:368 -> b
-    8:8:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):370:370 -> b
-    1:1:android.app.Activity access$1000(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> c
-    1:1:com.huli.foxread.ui.adapters.WelfareMissionAdapter access$1100(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> d
-    1:1:void doBusiness(android.content.Context):138:138 -> doBusiness
-    2:3:void doBusiness(android.content.Context):140:141 -> doBusiness
-    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$1200(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> e
-    2:3:void initTopLayout():246:247 -> e
-    4:4:void initTopLayout():249:249 -> e
-    1:1:android.app.Activity access$1400(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> f
-    1:1:android.app.Activity access$1500(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> g
-    1:1:android.app.Activity access$1600(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> h
-    1:1:android.widget.TextView access$200(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> i
-    1:5:void initView(android.view.View):92:96 -> initView
-    6:8:void initView(android.view.View):98:100 -> initView
-    9:13:void initView(android.view.View):102:106 -> initView
-    1:1:android.app.Activity access$300(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> j
-    1:1:android.app.Activity access$400(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> k
-    1:1:android.app.Activity access$500(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> l
-    1:1:android.widget.TextView access$700(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> m
-    1:1:android.app.Activity access$800(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> n
-    1:1:android.widget.TextView access$900(com.huli.foxread.ui.fragments.MainWelfareFragment):62:62 -> o
-    1:1:void onCapitalRefreshEvent(com.huli.foxread.entity.CapitalEntity):160:160 -> onCapitalRefreshEvent
-    1:1:void onClick(android.view.View):199:199 -> onClick
-    2:2:void onClick(android.view.View):202:202 -> onClick
-    3:3:void onClick(android.view.View):210:210 -> onClick
-    4:4:void onClick(android.view.View):207:207 -> onClick
-    5:5:void onClick(android.view.View):204:204 -> onClick
-    1:2:void onDestroy():146:147 -> onDestroy
-    3:3:void onDestroy():149:149 -> onDestroy
-    1:1:void onHiddenChanged(boolean):172:172 -> onHiddenChanged
-    2:2:void onHiddenChanged(boolean):174:174 -> onHiddenChanged
-    1:1:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):191:191 -> onRefresh
-    2:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):193:194 -> onRefresh
-    1:2:void onResume():166:167 -> onResume
-    1:1:void onStart():229:229 -> onStart
-    2:3:void onStart():231:232 -> onStart
-    1:1:void onStop():238:238 -> onStop
-    2:3:void onStop():240:241 -> onStop
-    1:2:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):154:155 -> onUserInfoChangeEvent
-    1:4:void setListener():111:114 -> setListener
-    5:5:void setListener():116:116 -> setListener
-    1:2:void setStatusBar(android.view.View):85:86 -> setStatusBar
+    1:1:void <init>():71:71 -> <init>
+    1:3:void OnBannerClick(int):233:235 -> OnBannerClick
+    1:1:android.app.Activity access$000(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> a
+    2:2:void access$1600(com.huli.foxread.ui.fragments.MainWelfareFragment,boolean):71:71 -> a
+    3:3:java.util.List access$202(com.huli.foxread.ui.fragments.MainWelfareFragment,java.util.List):71:71 -> a
+    4:4:android.text.SpannableStringBuilder access$800(android.content.Context,java.lang.String):71:71 -> a
+    5:12:void lambda$setListener$42(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):130:137 -> a
+    13:15:void lambda$setListener$42(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):141:143 -> a
+    16:17:void displayIsLoginUI(boolean):193:194 -> a
+    18:19:void displayIsLoginUI(boolean):196:197 -> a
+    20:20:void initBannerView(android.view.View):296:296 -> a
+    21:21:void initBannerView(android.view.View):300:300 -> a
+    22:22:void initBannerView(android.view.View):302:302 -> a
+    23:23:void initBannerView(android.view.View):304:304 -> a
+    24:24:void initBannerView(android.view.View):306:306 -> a
+    25:26:void initBannerView(android.view.View):308:309 -> a
+    27:27:void initBannerView(android.view.View):315:315 -> a
+    28:30:void reqMissionComplete(java.lang.String):387:389 -> a
+    1:1:android.app.Activity access$100(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> b
+    2:4:void reqGetWerfareTasks(boolean):323:325 -> b
+    5:7:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):411:413 -> b
+    8:8:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):415:415 -> b
+    1:1:android.app.Activity access$1000(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> c
+    1:1:android.widget.TextView access$1100(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> d
+    1:1:void doBusiness(android.content.Context):151:151 -> doBusiness
+    2:3:void doBusiness(android.content.Context):153:154 -> doBusiness
+    1:1:android.app.Activity access$1200(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> e
+    2:6:void initFooterView():259:263 -> e
+    7:7:void initFooterView():278:278 -> e
+    8:8:void initFooterView():263:263 -> e
+    9:12:void initFooterView():279:282 -> e
+    13:13:void initFooterView():284:284 -> e
+    1:1:com.huli.foxread.ui.adapters.WelfareMissionAdapter access$1300(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> f
+    2:3:void initTopLayout():289:290 -> f
+    4:4:void initTopLayout():292:292 -> f
+    1:1:android.view.View access$1400(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> g
+    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$1500(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> h
+    1:1:android.app.Activity access$1700(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> i
+    1:5:void initView(android.view.View):103:107 -> initView
+    6:8:void initView(android.view.View):109:111 -> initView
+    9:13:void initView(android.view.View):113:117 -> initView
+    14:14:void initView(android.view.View):119:119 -> initView
+    1:1:android.app.Activity access$1800(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> j
+    1:1:android.app.Activity access$1900(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> k
+    1:1:java.util.List access$200(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> l
+    1:1:com.youth.banner.Banner access$300(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> m
+    1:1:android.widget.TextView access$400(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> n
+    1:1:android.app.Activity access$500(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> o
+    1:1:void onCapitalRefreshEvent(com.huli.foxread.entity.CapitalEntity):173:173 -> onCapitalRefreshEvent
+    1:1:void onClick(android.view.View):212:212 -> onClick
+    2:2:void onClick(android.view.View):215:215 -> onClick
+    3:3:void onClick(android.view.View):223:223 -> onClick
+    4:4:void onClick(android.view.View):220:220 -> onClick
+    5:5:void onClick(android.view.View):217:217 -> onClick
+    1:2:void onDestroy():159:160 -> onDestroy
+    3:3:void onDestroy():162:162 -> onDestroy
+    1:1:void onHiddenChanged(boolean):185:185 -> onHiddenChanged
+    2:2:void onHiddenChanged(boolean):187:187 -> onHiddenChanged
+    1:1:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):204:204 -> onRefresh
+    2:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):206:207 -> onRefresh
+    1:2:void onResume():179:180 -> onResume
+    1:1:void onStart():242:242 -> onStart
+    2:3:void onStart():244:245 -> onStart
+    1:1:void onStop():251:251 -> onStop
+    2:3:void onStop():253:254 -> onStop
+    1:2:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):167:168 -> onUserInfoChangeEvent
+    1:1:android.app.Activity access$600(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> p
+    1:1:android.app.Activity access$700(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> q
+    1:1:android.widget.TextView access$900(com.huli.foxread.ui.fragments.MainWelfareFragment):71:71 -> r
+    1:4:void setListener():124:127 -> setListener
+    5:5:void setListener():129:129 -> setListener
+    1:2:void setStatusBar(android.view.View):96:97 -> setStatusBar
 com.huli.foxread.ui.fragments.MainWelfareFragment$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment$a:
-    com.huli.foxread.ui.fragments.MainWelfareFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment,androidx.appcompat.app.AppCompatActivity,boolean):282:282 -> <init>
-    1:2:void onFinish():331:332 -> onFinish
-    1:1:void onSuccess(com.lzy.okgo.model.Response):285:285 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):288:289 -> onSuccess
-    4:6:void onSuccess(com.lzy.okgo.model.Response):292:294 -> onSuccess
-    7:9:void onSuccess(com.lzy.okgo.model.Response):298:300 -> onSuccess
-    10:11:void onSuccess(com.lzy.okgo.model.Response):302:303 -> onSuccess
-    12:13:void onSuccess(com.lzy.okgo.model.Response):305:306 -> onSuccess
-    14:15:void onSuccess(com.lzy.okgo.model.Response):308:309 -> onSuccess
-    16:20:void onSuccess(com.lzy.okgo.model.Response):312:316 -> onSuccess
-    21:23:void onSuccess(com.lzy.okgo.model.Response):318:320 -> onSuccess
-    24:25:void onSuccess(com.lzy.okgo.model.Response):324:325 -> onSuccess
-com.huli.foxread.ui.fragments.MainWelfareFragment$1$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment$a$a:
-    com.huli.foxread.ui.fragments.MainWelfareFragment$1 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment$1):286:286 -> <init>
+    com.huli.foxread.ui.fragments.MainWelfareFragment this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment):263:263 -> <init>
+    1:3:void onClick(android.view.View):266:268 -> onClick
+    1:1:void updateDrawState(android.text.TextPaint):274:274 -> updateDrawState
+    2:2:void updateDrawState(android.text.TextPaint):276:276 -> updateDrawState
 com.huli.foxread.ui.fragments.MainWelfareFragment$2 -> com.huli.foxread.ui.fragments.MainWelfareFragment$b:
     com.huli.foxread.ui.fragments.MainWelfareFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment,androidx.appcompat.app.AppCompatActivity):344:344 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):347:347 -> onSuccess
-    2:2:void onSuccess(com.lzy.okgo.model.Response):350:350 -> onSuccess
-    3:3:void onSuccess(com.lzy.okgo.model.Response):352:352 -> onSuccess
-    4:5:void onSuccess(com.lzy.okgo.model.Response):354:355 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):357:357 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment,androidx.appcompat.app.AppCompatActivity,boolean):325:325 -> <init>
+    1:2:void onFinish():376:377 -> onFinish
+    1:1:void onSuccess(com.lzy.okgo.model.Response):328:328 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):331:332 -> onSuccess
+    4:6:void onSuccess(com.lzy.okgo.model.Response):335:337 -> onSuccess
+    7:9:void onSuccess(com.lzy.okgo.model.Response):341:343 -> onSuccess
+    10:11:void onSuccess(com.lzy.okgo.model.Response):345:346 -> onSuccess
+    12:13:void onSuccess(com.lzy.okgo.model.Response):348:349 -> onSuccess
+    14:15:void onSuccess(com.lzy.okgo.model.Response):351:352 -> onSuccess
+    16:20:void onSuccess(com.lzy.okgo.model.Response):355:359 -> onSuccess
+    21:23:void onSuccess(com.lzy.okgo.model.Response):361:363 -> onSuccess
+    24:25:void onSuccess(com.lzy.okgo.model.Response):367:368 -> onSuccess
+    26:26:void onSuccess(com.lzy.okgo.model.Response):370:370 -> onSuccess
 com.huli.foxread.ui.fragments.MainWelfareFragment$2$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment$b$a:
     com.huli.foxread.ui.fragments.MainWelfareFragment$2 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment$2):348:348 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment$2):329:329 -> <init>
+com.huli.foxread.ui.fragments.MainWelfareFragment$3 -> com.huli.foxread.ui.fragments.MainWelfareFragment$c:
+    com.huli.foxread.ui.fragments.MainWelfareFragment this$0 -> f
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment,androidx.appcompat.app.AppCompatActivity):389:389 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):392:392 -> onSuccess
+    2:2:void onSuccess(com.lzy.okgo.model.Response):395:395 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):397:397 -> onSuccess
+    4:5:void onSuccess(com.lzy.okgo.model.Response):399:400 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):402:402 -> onSuccess
+com.huli.foxread.ui.fragments.MainWelfareFragment$3$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment$c$a:
+    com.huli.foxread.ui.fragments.MainWelfareFragment$3 this$1 -> a
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment$3):393:393 -> <init>
 com.huli.foxread.ui.fragments.RankingBoyGirlFragment -> com.huli.foxread.ui.fragments.RankingBoyGirlFragment:
     int mType -> l
     com.huli.foxread.ui.widget.NoScrollViewPager viewPager -> k
@@ -95821,13 +95840,13 @@ com.huli.page.ui.activity.ReadBookActivity$8 -> com.huli.page.ui.activity.ReadBo
     1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):690:690 -> <init>
     1:2:boolean onClick(com.kongzue.dialog.util.BaseDialog,android.view.View):693:694 -> onClick
 com.huli.page.ui.activity.ReadBookActivity_ViewBinding -> com.huli.page.ui.activity.ReadBookActivity_ViewBinding:
-    android.view.View view7f090255 -> h
+    android.view.View view7f090258 -> h
     com.huli.page.ui.activity.ReadBookActivity target -> b
-    android.view.View view7f090252 -> c
-    android.view.View view7f090251 -> e
-    android.view.View view7f090254 -> d
-    android.view.View view7f09024f -> g
-    android.view.View view7f090250 -> f
+    android.view.View view7f090255 -> c
+    android.view.View view7f090254 -> e
+    android.view.View view7f090257 -> d
+    android.view.View view7f090252 -> g
+    android.view.View view7f090253 -> f
     1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):39:39 -> <init>
     2:2:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.view.View):44:44 -> <init>
     3:3:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.view.View):46:46 -> <init>

@@ -38,8 +38,10 @@
             tools:src="@mipmap/img_holder_rect" />
 
         <com.flyco.labelview.LabelView
+            android:id="@+id/labelView_left_book"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_left"
             app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_left"
             app:lv_text="推荐"
@@ -59,8 +61,10 @@
             tools:src="@mipmap/img_holder_rect" />
 
         <com.flyco.labelview.LabelView
+            android:id="@+id/labelView_center_book"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_center"
             app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_center"
             app:lv_text="推荐"
@@ -81,8 +85,10 @@
             tools:src="@mipmap/img_holder_rect" />
 
         <com.flyco.labelview.LabelView
+            android:id="@+id/labelView_right_book"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_right"
             app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_right"
             app:lv_text="推荐"

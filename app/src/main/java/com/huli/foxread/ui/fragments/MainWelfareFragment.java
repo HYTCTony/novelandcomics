@@ -2,9 +2,17 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,6 +35,7 @@ import com.huli.foxread.entity.MissionGroupEntity;
 import com.huli.foxread.entity.SignInMissionEntity;
 import com.huli.foxread.entity.WelfarePageEntity;
 import com.huli.foxread.entity.sections.MissionSection;
+import com.huli.foxread.ui.activities.CommonWebActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
@@ -75,6 +84,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     private TextView tvGoldCoinCount, tvSignInCount;
     private TextView btnSignInNow;
 
+    private View footerRule;
+
     @Override
     public int bindLayout() {
         return R.layout.fragment_main_welfare;
@@ -104,6 +115,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         mAdapter = new WelfareMissionAdapter();
         recyclerView.setAdapter(mAdapter);
         initTopLayout();
+
+        initFooterView();
     }
 
     @Override
@@ -242,6 +255,36 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         }
     }
 
+    private void initFooterView() {
+        footerRule = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_footer_welfare_rule, recyclerView, false);
+        mAdapter.addFooterView(footerRule);
+        SpannableString spannableString = new SpannableString(getString(R.string.txt_tips_refer_2_rule));
+        spannableString.setSpan(new StyleSpan(Typeface.BOLD), spannableString.length() - 4, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                Intent intent = new Intent(mActivity, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.WELFARE_RULE_URL);
+                startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                /**set textColor**/
+                ds.setColor(ContextCompat.getColor(mActivity, R.color.txt_black_191919));
+                /**Remove the underline**/
+                ds.setUnderlineText(true);
+            }
+        }, spannableString.length() - 4, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        TextView txRule = footerRule.findViewById(R.id.tv_welfare_rule);
+        txRule.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
+        txRule.setHighlightColor(ContextCompat.getColor(mActivity, R.color.transparent));
+        txRule.setText(spannableString);
+
+        footerRule.setVisibility(View.GONE);
+    }
+
+
     private void initTopLayout() {
         headViewTop = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_welfare_top, recyclerView, false);
         mAdapter.addHeaderView(headViewTop);
@@ -323,6 +366,8 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                             }
                             mAdapter.setVipMode(UserInfoCache.getIsVip(mActivity));
                             mAdapter.setNewData(list);
+
+                            footerRule.setVisibility(View.VISIBLE);
                         }
                     }
 

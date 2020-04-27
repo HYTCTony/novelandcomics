@@ -380,6 +380,8 @@
     <string name="txt_find_a_new_version">发现新版本</string>
     <string name="txt_update_now">立即更新</string>
 
+    <string name="txt_tips_refer_2_rule">如有疑问请参考活动规则</string>
+
 
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>
     <string name="rationale_write_external_storage_4_update_apk">我们需要获取读写手机内存权限，以下载更新APK。</string>
