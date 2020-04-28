@@ -1,7 +1,6 @@
 package com.huli.foxread.ui.adapters;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 

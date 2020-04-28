@@ -45,7 +45,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import okhttp3.OkHttpClient;
-
+/*切换分支*/
 public class FrApp extends Application implements ActivityState {
 
     public static final String WECHAT_APP_ID = "wx53ed3b26af319dd0";
