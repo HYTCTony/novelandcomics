@@ -91,6 +91,8 @@ public class FrApp extends Application implements ActivityState {
         //放在其他库初始化前
 //        SpiderMan.init(this);
 
+        //测试切换分支
+
         initOkgo();  //okgo
 
         registerActivityLifecycleCallbacks(mActivityManager);
