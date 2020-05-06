@@ -383,6 +383,17 @@
     <string name="txt_tips_refer_2_rule">如有疑问请参考活动规则</string>
 
 
+    <string name="txt_user_agreement_and_privacy_policy_prompt">用户协议与隐私政策提示</string>
+    <string name="txt_agreement_policy_entrance">您可以阅读完整的《一起看书用户使用协议》和《一起看书隐私政策》来了解详细信息。</string>
+    <string name="txt_agreement_and_policy_abstract">感谢您信任并使用“一起看书”。
+        \n\u3000\u3000请您务必审慎阅读、充分理解“用户协议”和“隐私政策”各项条款，包括但不限于：为使用广西狐狸文化传媒有限公司提供的一起看书服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在“设置”中查看、变更、删除个人信息并管理您的授权。
+        \n\u3000\u3000如您同意，请点击“同意并继续”开始接受我们的服务。</string>
+    <string name="txt_service_unavailable">您需要同意用户协议与隐私政策后才能使用“一起看书”。\n如您不同意，很遗憾我们无法为你提供服务。</string>
+    <string name="txt_disagree">不同意</string>
+    <string name="txt_disagree_and_exit">不同意并退出</string>
+    <string name="txt_agree_and_continue">同意并继续</string>
+
+
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>
     <string name="rationale_write_external_storage_4_update_apk">我们需要获取读写手机内存权限，以下载更新APK。</string>
     <string name="rationale_phone_state">我们需要获取读取手机状态权限，以完整使用相关功能。</string>

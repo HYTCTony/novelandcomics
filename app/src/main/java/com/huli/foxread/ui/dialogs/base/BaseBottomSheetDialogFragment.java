@@ -1,4 +1,4 @@
-package com.huli.foxread.ui.base;
+package com.huli.foxread.ui.dialogs.base;
 
 import android.app.Dialog;
 import android.graphics.Color;
@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.huli.foxread.R;
+import com.huli.foxread.utils.DensityUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,26 +52,26 @@ public abstract class BaseBottomSheetDialogFragment extends DialogFragment {
 
             CoordinatorLayout.LayoutParams layoutParams =
                     (CoordinatorLayout.LayoutParams) bottomSheet.getLayoutParams();
-            layoutParams.height = getExpandedHeight() - 72;
+            layoutParams.height = getExpandedHeight() - DensityUtils.dp2px(getContext(), 24);
 //            layoutParams.width = getResources().getDisplayMetrics().widthPixels - 24;
             layoutParams.width = getResources().getDisplayMetrics().widthPixels;
             bottomSheet.setLayoutParams(layoutParams);
             behavior = BottomSheetBehavior.from(bottomSheet);
             behavior.setPeekHeight(getPeekHeight());
             // 初始为展开状态
-            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
 
-            behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            behavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
-                public void onStateChanged(@NonNull View view, int i) {
-                    OnStateChange(view, i);
-                    if(i==BottomSheetBehavior.STATE_HIDDEN){
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    OnStateChange(bottomSheet, newState);
+                    if(newState==BottomSheetBehavior.STATE_HIDDEN){
                         dismiss();
                     }
                 }
 
                 @Override
-                public void onSlide(@NonNull View view, float v) {
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
 
                 }
             });
@@ -95,8 +96,8 @@ public abstract class BaseBottomSheetDialogFragment extends DialogFragment {
      */
     protected int getExpandedHeight() {
         int peekHeight = getResources().getDisplayMetrics().heightPixels;
-//        return peekHeight;
-        return peekHeight - peekHeight / 2;
+        return peekHeight;
+//        return peekHeight - peekHeight / 2;
     }
 
     protected abstract void OnStateChange(View view, int i);

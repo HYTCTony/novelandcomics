@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_8">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_round_whitebg"
+        android:padding="@dimen/dp_16">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:text="@string/txt_user_agreement_and_privacy_policy_prompt"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold"
+            android:typeface="serif"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctl_content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title">
+
+            <ScrollView
+                android:id="@+id/scrollView_agreement_and_policy_abstract"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_0"
+                android:fadeScrollbars="true"
+                android:scrollbarStyle="outsideOverlay"
+                app:layout_constraintDimensionRatio="1:0.68"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.4"
+                    android:text="@string/txt_agreement_and_policy_abstract"
+                    android:textColor="@color/txt_black_272f3a"
+                    android:textSize="@dimen/sp_14" />
+
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/tv_service_unavailable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingMultiplier="1.4"
+                android:text="@string/txt_service_unavailable"
+                android:textColor="@color/txt_black_272f3a"
+                android:textSize="@dimen/sp_14"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_agreement_and_policy_entrance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:lineSpacingMultiplier="1.5"
+            android:textColor="@color/txt_gray"
+            android:textSize="@dimen/sp_13"
+            app:layout_constraintTop_toBottomOf="@+id/ctl_content_layout"
+            tools:text="@string/txt_agreement_policy_entrance" />
+
+
+        <TextView
+            android:id="@+id/tv_disAgree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/sp_15"
+            android:text="@string/txt_disagree"
+            android:textColor="@color/txt_col_365565"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_agreement_and_policy_entrance" />
+
+        <TextView
+            android:id="@+id/tv_disAgree_and_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/txt_disagree_and_exit"
+            android:textColor="@color/txt_col_365565"
+            android:textSize="@dimen/sp_15"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_disAgree" />
+
+
+        <Button
+            android:id="@+id/btn_agree_and_continue"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@drawable/ripple_normal_btn_bg_pink"
+            android:text="@string/txt_agree_and_continue"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_disAgree_and_exit" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

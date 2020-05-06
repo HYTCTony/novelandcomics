@@ -360,7 +360,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             default:
                 break;
         }
-        transaction.commit();   //记得提交事务
+//        transaction.commit();   //java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState问题解决
+        transaction.commitAllowingStateLoss();   //记得提交事务
     }
 
 
