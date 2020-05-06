@@ -3,6 +3,11 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -15,6 +20,7 @@ import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
@@ -28,9 +34,11 @@ import com.lzy.okgo.model.Response;
 
 import org.greenrobot.eventbus.EventBus;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
     public static final int REQCODE_USER_ATTR = 0x9999;
@@ -42,6 +50,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     private SwitchCompat switchNightMode;
     private Button btnLogout;
+
+    private TextView tvPolicy;
 
     @Override
     public void initParms(Bundle parms) {
@@ -72,6 +82,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         btnUserBasicInfo = $(R.id.rtl_asBtn_user_basic_info);
         btnAccountSecurity = $(R.id.tv_asBtn_account_security);
         btnLogout = $(R.id.btn_logout_account);
+
+        tvPolicy = $(R.id.tv_fox_policy);
     }
 
     @Override
@@ -109,6 +121,42 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         tvCacheSize.setText(cache);
         switchNightMode.setChecked(true);
+
+
+        SpannableString spannableString = new SpannableString(getString(R.string.txt_foxread_user_and_privacy_policy));
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+//                Tos.showShort(AboutUsActivity.this, "用户协议");
+                Intent intent = new Intent(SettingActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.USER_AGREEMENT_URL);
+                startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                ds.setColor(ContextCompat.getColor(SettingActivity.this, R.color.txt_red));
+                ds.setUnderlineText(false);
+            }
+        }, 8, 14, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+//                Tos.showShort(AboutUsActivity.this, "用户隐私");
+                Intent intent = new Intent(SettingActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.PRIVACY_POLICY_URL);
+                startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                ds.setColor(ContextCompat.getColor(SettingActivity.this, R.color.txt_red));
+                ds.setUnderlineText(false);
+            }
+        }, spannableString.length() - 6, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvPolicy.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
+        tvPolicy.setHighlightColor(ContextCompat.getColor(this, R.color.transparent));
+        tvPolicy.setText(spannableString);
     }
 
     @Override

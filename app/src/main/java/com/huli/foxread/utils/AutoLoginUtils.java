@@ -3,6 +3,7 @@ package com.huli.foxread.utils;
 import android.content.Context;
 
 import com.huli.foxread.R;
+import com.huli.foxread.contact.Consts;
 import com.sh.sdk.shareinstall.autologin.bean.CmccAuthThemeConfigModel;
 import com.sh.sdk.shareinstall.autologin.bean.UnicomAuthThemeConfigModel;
 
@@ -79,8 +80,8 @@ public class AutoLoginUtils {
         model.setClauseColor(0xff666666, 0xff0085d0); // 设置隐私条款名称基础文字颜色和协议文字颜色
 //        model.setCbCheckPname("umcsdk_check_image"); // 设置选择框选中时的图片名字,不要加上.png、.jpg等后缀，注意目录为drawable
 //        model.setCbUnCheckPname("umcsdk_uncheck_image"); // 设置选择框未选中时的图片名字,不要加上.png、.jpg等后缀，注意目录为drawable
-        model.setClauseOneParams("服务条款", "http://www.baidu.com"); // 设置用户自定义协议1名称和跳转url
-        model.setClauseTwoParams("隐私协议", "http://www.baidu.com"); // 设置用户自定义协议2名称和跳转url
+        model.setClauseOneParams("服务条款", Consts.USER_AGREEMENT_URL); // 设置用户自定义协议1名称和跳转url
+        model.setClauseTwoParams("隐私协议", Consts.PRIVACY_POLICY_URL); // 设置用户自定义协议2名称和跳转url
         return model;
     }
 
@@ -147,8 +148,8 @@ public class AutoLoginUtils {
         // 参数分别对应整个隐私条款的文本、文字大小、协议的基础文字颜色、联通和自己应用协议的文字颜色
         model.setPrivacyTextView("登录即同意《中国联通认证服务条款》和《服务条款》和《隐私协议》并授权xx应用获取本机号码", 12, 0xff666666, 0xff0085d0);
         model.setBasePrivacy(5, 17); // 中国联通协议文字的开始和结束位置
-        model.setCustomPrivacy(18, 23, "http://www.baidu.com"); // 用户自己协议1文字的开始和结束位置、点击后跳转链接
-        model.setCustomPrivacyTwo(25, 30, "http://www.baidu.com"); // 用户自己协议2文字的开始和结束位置、点击后跳转链接
+        model.setCustomPrivacy(18, 23, Consts.USER_AGREEMENT_URL); // 用户自己协议1文字的开始和结束位置、点击后跳转链接
+        model.setCustomPrivacyTwo(25, 30, Consts.PRIVACY_POLICY_URL); // 用户自己协议2文字的开始和结束位置、点击后跳转链接
         model.setPrivacyState(true); // 设置隐私条款复选框是否默认选中
         model.setPrivacyOffsetY_B(20); // 设置隐私条款相对于底部y偏移
         // 设置选择框的样式，参数为对应drawable文件夹下的某个资源xml
@@ -157,14 +158,14 @@ public class AutoLoginUtils {
         //联通协议确认弹窗配置
         model.setDialogPrivacyTextView("登录即同意《中国联通认证服务条款》和《服务条款》和《隐私协议》", 12, 0xff666666, 0xff0085d0);
         model.setDialogBasePrivacy(5, 17); // 中国联通协议文字的开始和结束位置
-        model.setDialogCustomPrivacy(18, 23, "http://www.baidu.com"); // 用户自己协议1文字的开始和结束位置、点击后跳转链接
-        model.setDialogCustomPrivacyTwo(25, 30, "http://www.baidu.com"); // 用户自己协议2文字的开始和结束位置、点击后跳转链接
+        model.setDialogCustomPrivacy(18, 23, Consts.USER_AGREEMENT_URL); // 用户自己协议1文字的开始和结束位置、点击后跳转链接
+        model.setDialogCustomPrivacyTwo(25, 30, Consts.PRIVACY_POLICY_URL); // 用户自己协议2文字的开始和结束位置、点击后跳转链接
 
         return model;
     }
 
 
-     /**
+    /**
      * 设置电信授权页UI
      * 配置说明：
      * 1.所有配置项中，若不配置某项，则无需调用对应项的set方法，即可选择性设置某项；
@@ -201,7 +202,7 @@ public class AutoLoginUtils {
                 //设置底部隐私协议的复选框，包括复选框图标资源ID、默认状态（0:默认勾选，-1：默认不勾选 ）；参数说明(int viewId , int resId,  int privacyCheckBoxState)
                 .setPrivacyCheckBox(R.id.ct_auth_privacy_checkbox, R.drawable.ct_account_auth_privacy_checkbox, AuthViewConfig.STATE_DEFAULT_CHECKED)
 //                //设置底部隐私协议的文本内容，包括文本、字体颜色、大小 (int viewId , String text , int textColor , int textSize)
-//                .setPrivacyTextView(R.id.ct_auth_privacy_text_dynamic, "登录即同意《天翼账号服务与隐私协议》与《自定义协议》并授权[应用名]获取本机号码" , 0xFF000000 , 12)
+                .setPrivacyTextView(R.id.ct_auth_privacy_text_dynamic, "登录即同意《天翼账号服务与隐私协议》并授权[一起看书]获取本机号码" , 0xFF000000 , 12)
 //                //设置底部《天翼账号服务与隐私协议》 ，包括它的开始位置、结束位置、字体颜色；参数说明(int startPos, int endPos, int textColor)
 //                .setCtAccountPrivacyProtocolLink(5, 18, 0xFF0090FF)
 //                //设置底部《自定义协议》 ，包括它的开始位置、结束位置、字体颜色，协议地址、协议标题；参数说明(int startPos, int endPos, int textColor , String protocolUrl , String protocolTitle)

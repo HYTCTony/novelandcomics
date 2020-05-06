@@ -88,6 +88,8 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.addItemDecoration(new SimpleDividerDecoration(this, R.dimen.dp_1, R.dimen.dp_16, R.color.col_gray_e5e5e5));
         mAdapter = new ReadingRecordsAdapter(isManagerMode);
+        mAdapter.setAnimationEnable(true);
+        mAdapter.setAnimationFirstOnly(false);
         recyclerView.setAdapter(mAdapter);
     }
 

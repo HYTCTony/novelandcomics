@@ -76,6 +76,8 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
         recyclerView = $(R.id.recyclerView_search_hot_books);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SearchResultBooksAdapter();
+        mAdapter.setAnimationEnable(true);
+        mAdapter.setAnimationFirstOnly(false);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setEmptyView(R.layout.layout_empty);
     }

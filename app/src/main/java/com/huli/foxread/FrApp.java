@@ -3,6 +3,8 @@ package com.huli.foxread;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.huli.foxread.callbacks.ActivityState;
@@ -10,6 +12,7 @@ import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.utils.AutoLoginUtils;
+import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
@@ -176,11 +179,26 @@ public class FrApp extends Application implements ActivityState {
         DialogSettings.theme = DialogSettings.THEME.LIGHT;
     }
 
+
+    /**
+     * 统计---获取渠道名
+     */
+    private String getChannel() {
+        try {
+            PackageManager pm = getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL");
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return "";
+    }
     /**
      * 友盟
      */
     private void initUMeng() {
-        UMConfigure.init(this, "5e7dce16570df35f91000159", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
+//        UMConfigure.init(this, "5e7dce16570df35f91000159", "ceshi", UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
+       // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
+        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
         //友盟---推送
         PushAgent pushAgent = PushAgent.getInstance(this);
         pushAgent.register(new IUmengRegisterCallback() {
@@ -199,7 +217,7 @@ public class FrApp extends Application implements ActivityState {
         MiPushRegistar.register(getApplicationContext(), "2882303761518355168", "5471835523168");
 
         //debug模式
-        InAppMessageManager.getInstance(getApplicationContext()).setInAppMsgDebugMode(true);
+//        InAppMessageManager.getInstance(getApplicationContext()).setInAppMsgDebugMode(true);
 
         // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
@@ -218,12 +236,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);
+        builder.addInterceptor(loggingInterceptor);*/
 
         OkGo.getInstance()
                 .init(this)

@@ -1,194 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_f2"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:background="@color/color_f2">
 
-    <include layout="@layout/layout_toolbar" />
-
-    <RelativeLayout
-        android:id="@+id/rtl_asBtn_user_basic_info"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="@dimen/dp_8"
-        android:background="@drawable/ripple_normal_btn_bg_white">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_16"
-            android:text="@string/txt_basic_info"
-            android:textColor="@color/txt_black_191919"
-            android:textSize="@dimen/sp_16" />
-
-        <TextView
-            android:id="@+id/tv_user_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
-            android:drawablePadding="@dimen/dp_8"
-            android:gravity="center_vertical"
-            android:hint="@string/txt_default"
-            android:textColor="@color/txt_gray"
-            android:textSize="@dimen/sp_12"
-            tools:ignore="RelativeOverlap"
-            tools:text="拉不出屎一声吼" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_asBtn_account_security"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="@dimen/px_1"
-        android:background="@drawable/ripple_normal_btn_bg_white"
-        android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
-        android:text="@string/txt_account_security"
-        android:textColor="@color/txt_black_191919"
-        android:textSize="@dimen/sp_16" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="@dimen/dp_8"
-        android:background="@drawable/ripple_normal_btn_bg_white"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_16"
-            android:text="@string/txt_night_mode"
-            android:textColor="@color/txt_black_191919"
-            android:textSize="@dimen/sp_16"
-            tools:ignore="RelativeOverlap" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchCompat_night_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:theme="@style/MySwitchTheme" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_asBtn_reader_settings"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="@dimen/dp_8"
-        android:background="@drawable/ripple_normal_btn_bg_white"
-        android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
-        android:text="@string/txt_reader_settings"
-        android:textColor="@color/txt_black_191919"
-        android:textSize="@dimen/sp_16" />
-
-    <RelativeLayout
-        android:id="@+id/rtl_asBtn_push_notification"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="@dimen/px_1"
-        android:background="@drawable/ripple_normal_btn_bg_white">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_16"
-            android:text="@string/txt_push_notification"
-            android:textColor="@color/txt_black_191919"
-            android:textSize="@dimen/sp_16"
-            tools:ignore="RelativeOverlap" />
-
-        <TextView
-            android:id="@+id/tv_push_notification_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
-            android:drawablePadding="@dimen/dp_8"
-            android:gravity="center_vertical"
-            android:text="@string/txt_have_been_opened"
-            android:textColor="@color/txt_gray_999"
-            android:textSize="@dimen/sp_12"
-            tools:ignore="RelativeOverlap" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rtl_asBtn_clear_cache"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="@dimen/dp_8"
-        android:background="@drawable/ripple_normal_btn_bg_white">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dp_16"
-            android:text="@string/txt_clear_cache"
-            android:textColor="@color/txt_black_191919"
-            android:textSize="@dimen/sp_16" />
-
-        <TextView
-            android:id="@+id/tv_cache_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
-            android:drawablePadding="@dimen/dp_8"
-            android:gravity="center_vertical"
-            android:hint="@string/txt_default"
-            android:textColor="@color/txt_gray_999"
-            android:textSize="@dimen/sp_12"
-            tools:ignore="RelativeOverlap"
-            tools:text="256.66M" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_asBtn_about_us"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="@dimen/px_1"
-        android:background="@drawable/ripple_normal_btn_bg_white"
-        android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
-        android:gravity="center_vertical"
-        android:paddingStart="@dimen/dp_16"
-        android:paddingEnd="@dimen/dp_16"
-        android:text="@string/txt_about_us"
-        android:textColor="@color/txt_black_191919"
-        android:textSize="@dimen/sp_16" />
-
-    <Button
-        android:id="@+id/btn_logout_account"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/dp_32"
-        android:background="@drawable/ripple_round_btn_gradual_bg_red"
-        android:text="@string/txt_logout_account"
-        android:textColor="@color/txt_white"
-        android:textSize="@dimen/sp_14" />
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
-</LinearLayout>
+
+        <include layout="@layout/layout_toolbar" />
+
+        <RelativeLayout
+            android:id="@+id/rtl_asBtn_user_basic_info"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/ripple_normal_btn_bg_white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_16"
+                android:text="@string/txt_basic_info"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:hint="@string/txt_default"
+                android:textColor="@color/txt_gray"
+                android:textSize="@dimen/sp_12"
+                tools:ignore="RelativeOverlap"
+                tools:text="拉不出屎一声吼" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_asBtn_account_security"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/px_1"
+            android:background="@drawable/ripple_normal_btn_bg_white"
+            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:text="@string/txt_account_security"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_16" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/ripple_normal_btn_bg_white"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_16"
+                android:text="@string/txt_night_mode"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_16"
+                tools:ignore="RelativeOverlap" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchCompat_night_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:theme="@style/MySwitchTheme" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_asBtn_reader_settings"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/ripple_normal_btn_bg_white"
+            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:text="@string/txt_reader_settings"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_16" />
+
+        <RelativeLayout
+            android:id="@+id/rtl_asBtn_push_notification"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/px_1"
+            android:background="@drawable/ripple_normal_btn_bg_white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_16"
+                android:text="@string/txt_push_notification"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_16"
+                tools:ignore="RelativeOverlap" />
+
+            <TextView
+                android:id="@+id/tv_push_notification_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:text="@string/txt_have_been_opened"
+                android:textColor="@color/txt_gray_999"
+                android:textSize="@dimen/sp_12"
+                tools:ignore="RelativeOverlap" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rtl_asBtn_clear_cache"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="@drawable/ripple_normal_btn_bg_white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_16"
+                android:text="@string/txt_clear_cache"
+                android:textColor="@color/txt_black_191919"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_cache_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+                android:drawablePadding="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:hint="@string/txt_default"
+                android:textColor="@color/txt_gray_999"
+                android:textSize="@dimen/sp_12"
+                tools:ignore="RelativeOverlap"
+                tools:text="256.66M" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_asBtn_about_us"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/px_1"
+            android:background="@drawable/ripple_normal_btn_bg_white"
+            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_16"
+            android:paddingEnd="@dimen/dp_16"
+            android:text="@string/txt_about_us"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_16" />
+
+        <Button
+            android:id="@+id/btn_logout_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_32"
+            android:background="@drawable/ripple_round_btn_gradual_bg_red"
+            android:text="@string/txt_logout_account"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_fox_policy"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="@dimen/dp_28"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/sp_14"
+        tools:text="@string/txt_foxread_user_and_privacy_policy"
+        android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
