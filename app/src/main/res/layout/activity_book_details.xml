@@ -6,17 +6,26 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/toolbar_normal"
-        layout="@layout/layout_toolbar_n" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_book_detail"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/col_black_333"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:titleTextColor="@color/txt_white"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+        app:popupTheme="@style/OverflowMenuStyle" />
 
     <ScrollView
+        android:id="@+id/scv_book_detail"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/ctl_bottom_bar_dt"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_book_detail">
 
         <LinearLayout
             android:layout_width="match_parent"

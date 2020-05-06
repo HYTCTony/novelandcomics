@@ -86,6 +86,8 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
         recyclerView = $(R.id.recyclerView_search_hot_books);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new SHotBooksAdapter();
+        mAdapter.setAnimationEnable(true);
+        mAdapter.setAnimationFirstOnly(false);
         recyclerView.setAdapter(mAdapter);
 
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_rc_head_search_hot_book_top, recyclerView, false);

@@ -9,16 +9,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.huli.foxread.FrApp;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
@@ -37,8 +44,10 @@ import com.huli.foxread.notchtools.core.NotchProperty;
 import com.huli.foxread.notchtools.core.OnNotchCallBack;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
+import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
+import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -50,13 +59,14 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class FrLaunchActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
     /*广告时间*/
-    private int count = 3;
+    private int count = 5;
 
     private ConstraintLayout layoutAdvertising;
     private Button btnSkip;
@@ -112,8 +122,13 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
     @Override
     public void doBusiness(Context mContext) {
+        boolean isFirstRun = (boolean) SPFUtils.get(this, "isFirstRun", true);
+        if (isFirstRun) {
+            showAgreementDialog();
+            return;
+        }
         //启动页延长显示时间   800毫秒 防止一闪而过
-        mHandler.sendEmptyMessageDelayed(9, 800);
+        mHandler.sendEmptyMessageDelayed(9, 600);
     }
 
     /**
@@ -353,6 +368,79 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         } catch (Exception e) {
             return false;
         }
+    }
+
+
+    /**
+     * 展示用户协议、隐私政策提示框
+     */
+    private void showAgreementDialog() {
+        //对于未实例化的布局：
+        CustomDialog.build(FrLaunchActivity.this, R.layout.layout_dialog_user_agreement_and_privacy_policy, (dialog, view) -> {
+            TextView btnDisAgree = view.findViewById(R.id.tv_disAgree);
+            TextView btnDisAgreeAndExit = view.findViewById(R.id.tv_disAgree_and_exit);
+            Button btnAgree = view.findViewById(R.id.btn_agree_and_continue);
+            btnDisAgree.setOnClickListener(new OnClickEvent() {
+                @Override
+                public void singleClick(View v) {
+                    view.findViewById(R.id.scrollView_agreement_and_policy_abstract).setVisibility(View.GONE);
+                    view.findViewById(R.id.tv_service_unavailable).setVisibility(View.VISIBLE);
+                    v.setVisibility(View.GONE);
+                    btnDisAgreeAndExit.setVisibility(View.VISIBLE);
+                }
+            });
+            btnDisAgreeAndExit.setOnClickListener(new OnClickEvent() {
+                @Override
+                public void singleClick(View v) {
+                    dialog.doDismiss();
+                    FrApp.getInstance().exitApp();
+                }
+            });
+            btnAgree.setOnClickListener(new OnClickEvent() {
+                @Override
+                public void singleClick(View v) {
+                    SPFUtils.put(FrLaunchActivity.this, "isFirstRun", false);
+                    dialog.doDismiss();
+                    mHandler.sendEmptyMessage(9);
+                }
+            });
+
+            TextView tvPolicyEntrance = view.findViewById(R.id.tv_agreement_and_policy_entrance);
+            SpannableString spannableString = new SpannableString(getString(R.string.txt_agreement_policy_entrance));
+            spannableString.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View view) {
+                    //用户协议
+                    Uri uri = Uri.parse(Consts.USER_AGREEMENT_URL);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void updateDrawState(@NonNull TextPaint ds) {
+                    ds.setColor(ContextCompat.getColor(FrLaunchActivity.this, R.color.col_blue_0a8ecc));
+                    ds.setUnderlineText(false);
+                }
+            }, 8, 20, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(@NonNull View view) {
+                    //隐私政策
+                    Uri uri = Uri.parse(Consts.PRIVACY_POLICY_URL);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void updateDrawState(@NonNull TextPaint ds) {
+                    ds.setColor(ContextCompat.getColor(FrLaunchActivity.this, R.color.col_blue_0a8ecc));
+                    ds.setUnderlineText(false);
+                }
+            }, 21, 31, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            tvPolicyEntrance.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
+            tvPolicyEntrance.setHighlightColor(ContextCompat.getColor(FrLaunchActivity.this, R.color.transparent));
+            tvPolicyEntrance.setText(spannableString);
+        }).setCancelable(false).show();
     }
 
 

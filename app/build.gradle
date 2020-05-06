@@ -13,8 +13,8 @@ android {
         multiDexEnabled true
 
         // 添加一个默认渠道号
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Umeng"]
-//        flavorDimensions "versionCode"
+//        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Umeng"]
+        flavorDimensions "versionCode"
 
         ndk {
             abiFilters "armeabi-v7a"
@@ -91,12 +91,53 @@ android {
     }
 
     //渠道Flavors，配置不同风格的app,友盟渠道统计时用到
-    flavorDimensions "default"//这个名字貌似随便取，也可以有多个，总之一定要有..
+    /*flavorDimensions "default"//这个名字貌似随便取，也可以有多个，总之一定要有..
     productFlavors {
         market {
             dimension "default"
         }
+    }*/
+
+    //多渠道打包支持
+    productFlavors {
+        Invite{}//自己的邀请链接下载
+        Alpha {
+//            applicationId "info.xinfu.o2o"//设置包名
+//            versionCode 2
+//            versionName "3.1"//设置版本号
+        }//自己打包测试使用
+        Tencent {}//投放应用宝市场
+        Baidu {
+//            versionCode 1
+//            versionName "3.0"
+        }//投放百度市场
+        PP {}//投放PP助手市场
+        Qihoo {}//投放360助手市场
+        Vivo {}//投放vivo市场
+        Oppo {}//投放oppo市场
+        Xiaomi {}//投放小米市场
+        Meizu {}//投放魅族市场
+        Coolpad {}//投放酷派市场
+        Lenovo {}//投放联想市场
+        Huawei {}//投放华为应用市场
+        Lenovo {}//投放联想市场
+        Samsung {}//投放三星市场
+        Letv {}//投放乐视市场
+        Smartisan {}//投放锤子市场
+        Gionee {}//投放金立市场
+        Alibaba {}//投放UC市场
+        Sogou {}//投放搜狗市场
+        Yingyonghui {}//投放应用汇市场
+        MM {}//投放移动mm市场
+        Download {}//投放下载站市场
+        HiMarket {}//投放安卓市场
+        Hisense {}//投放海信市场
     }
+    //manifestPlaceholders 使用相关的值替换了UMENG_CHANNEL_VALUE
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
 }
 
 greendao {
@@ -172,12 +213,9 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     //下划线
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-    //弹窗
-    implementation 'com.lxj:xpopup:1.6.9'
     //动画
     implementation 'com.airbnb.android:lottie:3.0.1'
     //bug监控
-    //api 'com.tencent.bugly:crashreport:3.0.0'
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation "com.simple:spiderman:1.1.4"

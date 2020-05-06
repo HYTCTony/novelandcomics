@@ -16,13 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -33,7 +32,7 @@ import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
-import com.huli.foxread.ui.widget.ChapterPopup;
+import com.huli.foxread.ui.dialogs.ChaptersDialogFragment;
 import com.huli.foxread.ui.widget.ExpandableTextView;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.FigureProcessor;
@@ -45,7 +44,6 @@ import com.huli.page.ui.activity.ReadBookActivity;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
-import com.lxj.xpopup.XPopup;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -68,6 +66,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private static final int REQUEST_READ = 1;
 
+    private Toolbar mToolbar;
+
+    private ScrollView scvBookDetail;
     private ImageView ivBookCover;
     private TextView tvHotFlag, tvBookName, tvBookAuthor, tvBookTips;
     private TextView tvBookScore, tvBookReader;
@@ -123,9 +124,13 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void initView(View view) {
-        Toolbar toolbar = $(R.id.toolbar_normal);
-        initToolBar(toolbar, "");
+        mToolbar = $(R.id.toolbar_book_detail);
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
+        scvBookDetail = $(R.id.scv_book_detail);
         ivBookCover = $(R.id.iv_book_cover_dt);
         tvHotFlag = $(R.id.tv_hot_recommend_flag);
         tvBookName = $(R.id.tv_book_name_dt);
@@ -175,13 +180,20 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         btnAddBookcase.setOnClickListener(this);
         btnBeginReading.setOnClickListener(this);
 
-        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                BookEntity entity = mAdapter.getData().get(position);
-                Intent intent = new Intent(BookDetailsActivity.this, BookDetailsActivity.class);
-                intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
-                startActivity(intent);
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
+            BookEntity entity = mAdapter.getData().get(position);
+            Intent intent = new Intent(BookDetailsActivity.this, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
+            startActivity(intent);
+        });
+
+        scvBookDetail.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > DensityUtils.dp2px(BookDetailsActivity.this, 36)) {
+                if (data != null) {
+                    mToolbar.setTitle(data.getNovel_name());
+                }
+            } else {
+                mToolbar.setTitle("");
             }
         });
     }
@@ -213,22 +225,17 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.rtl_asBtn_book_catalogue_dt:
-                ChapterPopup popup = new ChapterPopup(BookDetailsActivity.this, chapters);
-                new XPopup.Builder(BookDetailsActivity.this)
-                        .moveUpToKeyboard(false) //如果不加这个，评论弹窗会移动到软键盘上面
-                        .asCustom(popup)
-                        .show();
-                popup.setListener(new ChapterPopup.onClickListener() {
-                    @Override
-                    public void onButtonClick(int num) {
-                        chapter = num;
-                        if (chapter >= 0) {
-                            openBook(chapter);
-                        } else {
-                            Toast.makeText(BookDetailsActivity.this, "获取章节失败！", Toast.LENGTH_SHORT).show();
-                        }
+                ChaptersDialogFragment dialogFragment = ChaptersDialogFragment.newInstance(chapters);
+                dialogFragment.show(getSupportFragmentManager(), "chapters");
+                dialogFragment.setListener(num -> {
+                    chapter = num;
+                    if (chapter >= 0) {
+                        openBook(chapter);
+                    } else {
+                        Toast.makeText(BookDetailsActivity.this, "获取章节失败！", Toast.LENGTH_SHORT).show();
                     }
                 });
+
                 break;
             case R.id.tv_asBtn_related_recommendation_refresh:
                 reqRelatedRecoBooks(nId);

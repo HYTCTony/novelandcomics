@@ -123,6 +123,8 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         recyclerView = $(view, R.id.recyclerView_book_store);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new BooksHighScoreAdapter();
+        mAdapter.setAnimationEnable(true);
+        mAdapter.setAnimationFirstOnly(false);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setEmptyView(R.layout.layout_empty);
         mAdapter.setHeaderWithEmptyEnable(true);

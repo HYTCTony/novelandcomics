@@ -66,6 +66,8 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
         recyclerView = $(view, R.id.recyclerView_end_book);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new SectionNeBookAdapter();
+        mAdapter.setAnimationEnable(true);
+        mAdapter.setAnimationFirstOnly(false);
         recyclerView.setAdapter(mAdapter);
         mAdapter.setEmptyView(R.layout.layout_empty);
     }
