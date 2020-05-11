@@ -187,27 +187,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         String phoneNum = userInfo.getMobile();
         tvTel.setText(phoneNum.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
 
-        String str = getString(R.string.txt_agree_service_agreement);
-        SpannableString spab = new SpannableString(str);
-        spab.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View view) {
-//                Tos.showShort(MyPrivilegeActivity.this, "服务协议");
-                Intent intent = new Intent(MyPrivilegeActivity.this, CommonWebActivity.class);
-                intent.putExtra(Common.KEY_URL, Consts.MEMBERSHIP_AGREEMENT_URL);
-                startActivity(intent);
-            }
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-                /**set textColor**/
-//                ds.setColor(ds.linkColor);
-                ds.setColor(ContextCompat.getColor(MyPrivilegeActivity.this, R.color.txt_dark_gold));
-                ds.setUnderlineText(true);
-            }
-        }, str.length() - 6, str.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        tvServiceAgreement.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
-        tvServiceAgreement.setText(spab);
+        initWarmPrompt();
 
         displayVipUI(userInfo);
 
@@ -302,6 +282,69 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
         });
     };
+
+
+    /**
+     * 温馨提示
+     */
+    private void initWarmPrompt() {
+        String str = getString(R.string.txt_member_prompt_2);
+        SpannableString spab = new SpannableString(str);
+        spab.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+//                Tos.showShort(MyPrivilegeActivity.this, "用户条款");
+                Intent intent = new Intent(MyPrivilegeActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.USER_AGREEMENT_URL);
+                startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                /**set textColor**/
+//                ds.setColor(ds.linkColor);
+                ds.setColor(ContextCompat.getColor(MyPrivilegeActivity.this, R.color.txt_dark_gold));
+                ds.setUnderlineText(false);
+            }
+        }, 17, 23, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spab.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+//                Tos.showShort(MyPrivilegeActivity.this, "隐私条款");
+                Intent intent = new Intent(MyPrivilegeActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.PRIVACY_POLICY_URL);
+                startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                /**set textColor**/
+//                ds.setColor(ds.linkColor);
+                ds.setColor(ContextCompat.getColor(MyPrivilegeActivity.this, R.color.txt_dark_gold));
+                ds.setUnderlineText(false);
+            }
+        }, 24, 30, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        spab.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+//                Tos.showShort(MyPrivilegeActivity.this, "会员服务协议");
+                Intent intent = new Intent(MyPrivilegeActivity.this, CommonWebActivity.class);
+                intent.putExtra(Common.KEY_URL, Consts.MEMBERSHIP_AGREEMENT_URL);
+                startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                /**set textColor**/
+//                ds.setColor(ds.linkColor);
+                ds.setColor(ContextCompat.getColor(MyPrivilegeActivity.this, R.color.txt_dark_gold));
+                ds.setUnderlineText(false);
+            }
+        }, 31, str.length() - 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tvServiceAgreement.setMovementMethod(LinkMovementMethod.getInstance());//不设置 没有点击事件
+        tvServiceAgreement.setHighlightColor(ContextCompat.getColor(this, R.color.transparent));
+        tvServiceAgreement.setText(spab);
+    }
 
 
     /**

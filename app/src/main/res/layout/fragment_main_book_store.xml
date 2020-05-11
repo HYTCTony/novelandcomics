@@ -9,7 +9,6 @@
         android:id="@+id/ctl_tabLayout"
         android:layout_width="match_parent"
         android:paddingBottom="@dimen/dp_4"
-        android:background="@color/colorPrimaryDark"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
 

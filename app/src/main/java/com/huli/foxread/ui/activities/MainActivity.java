@@ -43,6 +43,7 @@ import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
+import com.huli.foxread.ui.fragments.MainClassifyFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.utils.PackageUtils;
@@ -85,6 +86,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     private MainBookstoreFragment bookstoreFragment;
     private MainBookrackFragment bookrackFragment;
+    private MainClassifyFragment classifyFragment;
     private MainWelfareFragment welfareFragment;
     private MainMineFragment mineFragment;
 
@@ -122,8 +124,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         String[] bottomBarTitles = getResources().getStringArray(R.array.bottom_bar_main);
         mTabEntities.add(new TabEntity(bottomBarTitles[0], R.drawable.tab_bookstore_selected, R.drawable.tab_bookstore_unselected));
         mTabEntities.add(new TabEntity(bottomBarTitles[1], R.drawable.tab_bookrack_selected, R.drawable.tab_bookrack_unselected));
-        mTabEntities.add(new TabEntity(bottomBarTitles[2], R.drawable.tab_welfare_selected, R.drawable.tab_welfare_unselected));
-        mTabEntities.add(new TabEntity(bottomBarTitles[3], R.drawable.tab_mine_selected, R.drawable.tab_mine_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[2], R.drawable.tab_bookrack_selected, R.drawable.tab_bookrack_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[3], R.drawable.tab_welfare_selected, R.drawable.tab_welfare_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[4], R.drawable.tab_mine_selected, R.drawable.tab_mine_unselected));
         mTabLayout.setTabData(mTabEntities);
         fragmentManager = getSupportFragmentManager();
     }
@@ -337,8 +340,16 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     transaction.show(bookrackFragment);
                 }
                 break;
-
             case 2:
+                if (classifyFragment == null) {
+                    classifyFragment = new MainClassifyFragment();
+                    transaction.add(R.id.fl_frag_content_main, classifyFragment);
+                } else {
+                    transaction.show(classifyFragment);
+                }
+                break;
+
+            case 3:
                 if (welfareFragment == null) {
                     welfareFragment = new MainWelfareFragment();
                     transaction.add(R.id.fl_frag_content_main, welfareFragment);
@@ -347,8 +358,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     transaction.show(welfareFragment);
                 }
                 break;
-
-            case 3:
+            case 4:
                 if (mineFragment == null) {
                     mineFragment = new MainMineFragment();
                     transaction.add(R.id.fl_frag_content_main, mineFragment);
@@ -375,6 +385,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         if (bookrackFragment != null) {
             transaction.hide(bookrackFragment);
         }
+        if (classifyFragment != null) {
+            transaction.hide(classifyFragment);
+        }
         if (welfareFragment != null) {
             transaction.hide(welfareFragment);
         }
@@ -395,8 +408,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 跳到福利
      */
     public void switch2Welfare() {
-        mTabLayout.setCurrentTab(2);
-        changeFragment(2);
+        mTabLayout.setCurrentTab(3);
+        changeFragment(3);
     }
 
     @Override

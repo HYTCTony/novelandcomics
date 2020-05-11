@@ -100,7 +100,7 @@ android {
 
     //多渠道打包支持
     productFlavors {
-        Invite{}//自己的邀请链接下载
+        Invite {}//自己的邀请链接下载
         Alpha {
 //            applicationId "info.xinfu.o2o"//设置包名
 //            versionCode 2
@@ -254,4 +254,5 @@ dependencies {
 //    implementation(name: 'CTAccountSdk_HY_v3.7.2_all', ext: 'aar')
 //    implementation(name: 'ShareInstall_v1.2.6', ext: 'aar')
 //    implementation(name: 'ShareInstallAutoLogin_v1.2.6', ext: 'aar')
+//    implementation(name: 'open_ad_sdk', ext: 'aar')
 }

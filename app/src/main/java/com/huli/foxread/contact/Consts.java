@@ -4,6 +4,7 @@ public interface Consts {
     String DOWNLOAD_URL = "https://download.hulimedia.com/?my_invite_code=";
 
     String BASE_URL = "http://api.hulimedia.com";
+//    String BASE_URL = "http://devnovel-v11.hongyutiancheng.com.cn";
     String NOT_CPL_URL = BASE_URL + "/api/v1";
 
     /*帮助反馈*/

@@ -3,6 +3,7 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -184,10 +185,10 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 Fragment parentFragment = getParentFragment();
                 if (parentFragment instanceof MainBookstoreFragment) {
                     MainBookstoreFragment mainBookstoreFragment = (MainBookstoreFragment) parentFragment;
-                    if (totalScrollY >= criticalHeight && !mainBookstoreFragment.isBleach) {
-                        mainBookstoreFragment.childCtrlTabBleach();
-                    } else if (totalScrollY < criticalHeight && mainBookstoreFragment.isBleach) {
-                        mainBookstoreFragment.childCtrlTabRestore();
+                    if (totalScrollY >= criticalHeight && !mainBookstoreFragment.isWhite) {
+                        mainBookstoreFragment.childCtrlTab2White();
+                    } else if (totalScrollY < criticalHeight && totalScrollY!=0 && mainBookstoreFragment.isWhite) {
+                        mainBookstoreFragment.childCtrlTab2Yellow();
                     }
                 }
             }

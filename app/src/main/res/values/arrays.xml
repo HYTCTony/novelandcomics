@@ -4,6 +4,7 @@
     <string-array name="bottom_bar_main">
         <item>书城</item>
         <item>书架</item>
+        <item>分类</item>
         <item>福利</item>
         <item>我</item>
     </string-array>
