@@ -6,9 +6,9 @@
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/dp_16"
     android:background="@color/white"
-    android:paddingTop="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_8"
     android:paddingEnd="@dimen/dp_16"
-    android:paddingBottom="@dimen/dp_12">
+    android:paddingBottom="@dimen/dp_8">
 
     <ImageView
         android:id="@+id/iv_book_add"
@@ -30,7 +30,7 @@
         android:ellipsize="end"
         app:layout_constraintBottom_toBottomOf="@+id/iv_book_add"
         android:gravity="center"
-        android:text="添加你喜欢的数据"
+        android:text="添加你喜欢的书籍"
         android:textColor="@color/txt_gray_8f9dac"
         android:textSize="@dimen/sp_14"
         app:layout_constraintLeft_toRightOf="@+id/iv_book_add"

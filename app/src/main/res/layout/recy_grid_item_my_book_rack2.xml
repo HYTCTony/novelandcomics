@@ -6,9 +6,9 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:paddingStart="@dimen/dp_16"
-    android:paddingTop="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_8"
     android:paddingEnd="@dimen/dp_16"
-    android:paddingBottom="@dimen/dp_12">
+    android:paddingBottom="@dimen/dp_8">
 
     <ImageView
         android:id="@+id/iv_book_cover"

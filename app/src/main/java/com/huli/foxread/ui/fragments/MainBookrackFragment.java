@@ -40,8 +40,6 @@ import com.huli.foxread.ui.activities.SearchBookActivity;
 import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.adapters.BookRackAdapter2;
 import com.huli.foxread.ui.base.BaseFragment;
-import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
-import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.UIUtils;
@@ -70,7 +68,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -253,8 +250,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                     .compose(RxUtils::toSimpleSingle)
                                     .subscribe(
                                             (Void) -> {
-                                                this.data.remove(position);
-                                                adapter.notifyDataSetChanged();
+//                                                this.data.remove(position);
+//                                                adapter.notifyDataSetChanged();
+                                                adapter.remove(position);
                                             }
                                     );
                             return false;
@@ -307,7 +305,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 //            recyclerView.setNestedScrollingEnabled(true);
 //        }
 //        fff = !fff;
-        if (position != data.size() - 1) {
+        /*if (position != data.size() - 1) {
             BookShelfListBean bean = (BookShelfListBean) adapter.getItem(position);
             MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "是否删除这本书？", "确定", "取消")
                     .setOnOkButtonClickListener((baseDialog, v) -> {
@@ -318,6 +316,26 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                         (Void) -> {
                                             data.remove(position);
                                             adapter.notifyDataSetChanged();
+                                        }
+                                );
+                        return false;
+                    });
+        }*/
+
+        List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
+        BookShelfOrADsMultEntity multEntity = datas.get(position);
+        if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
+            BookShelfListBean bean = multEntity.getBook();
+            MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "是否删除这本书？", "确定", "取消")
+                    .setOnOkButtonClickListener((baseDialog, v) -> {
+                        reqDelBooks(bean.getId());
+                        BookRepository.getInstance().deleteCollBookInRx(bean)
+                                .compose(RxUtils::toSimpleSingle)
+                                .subscribe(
+                                        (Void) -> {
+//                                            data.remove(position);
+//                                            adapter.notifyDataSetChanged();
+                                            adapter.remove(position);
                                         }
                                 );
                         return false;
