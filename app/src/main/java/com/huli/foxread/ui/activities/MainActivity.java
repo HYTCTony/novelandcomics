@@ -41,7 +41,7 @@ import com.huli.foxread.ui.dialogs.CommonDialog;
 import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
-import com.huli.foxread.ui.fragments.MainBookrackFragment;
+import com.huli.foxread.ui.fragments.MainBookrackFragment2;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainClassifyFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private FragmentManager fragmentManager;
 
     private MainBookstoreFragment bookstoreFragment;
-    private MainBookrackFragment bookrackFragment;
+    private MainBookrackFragment2 bookrackFragment;
     private MainClassifyFragment classifyFragment;
     private MainWelfareFragment welfareFragment;
     private MainMineFragment mineFragment;
@@ -329,7 +329,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
             case 1:
                 if (bookrackFragment == null) {
-                    bookrackFragment = new MainBookrackFragment();
+                    bookrackFragment = new MainBookrackFragment2();
                     transaction.add(R.id.fl_frag_content_main, bookrackFragment);
                 } else {
                     transaction.show(bookrackFragment);

@@ -3,6 +3,7 @@ package com.huli.foxread.interceptors;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -96,6 +97,9 @@ public class TokenInterceptor implements Interceptor {
                 String result = buffer.clone().readString(charset);
 
                 JSONObject jsonObject = JSONObject.parseObject(result);
+                if(jsonObject==null){
+                    return response;
+                }
                 int errorCode = jsonObject.getIntValue("error_code");
                 // error_code 状态码10001  ---Token失效    10010 被顶号
                 if (errorCode == 10001 || errorCode == 10010) {
