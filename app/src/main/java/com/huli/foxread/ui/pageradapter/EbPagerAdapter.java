@@ -3,7 +3,6 @@ package com.huli.foxread.ui.pageradapter;
 import android.view.View;
 
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.EndBooksFragment;
 
 import androidx.annotation.NonNull;

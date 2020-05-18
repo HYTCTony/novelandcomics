@@ -108,4 +108,9 @@
     </declare-styleable>
     <!--任务 进度条-->
 
+
+    <declare-styleable name="WrapContentTextView">
+        <attr name="isWrapContent" format="boolean" />
+    </declare-styleable>
+
 </resources>

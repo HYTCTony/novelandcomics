@@ -43,6 +43,7 @@ import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
+import com.huli.foxread.ui.fragments.MainClassifyFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment;
 import com.huli.foxread.utils.PackageUtils;
@@ -85,6 +86,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     private MainBookstoreFragment bookstoreFragment;
     private MainBookrackFragment bookrackFragment;
+    private MainClassifyFragment classifyFragment;
     private MainWelfareFragment welfareFragment;
     private MainMineFragment mineFragment;
 
@@ -122,8 +124,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         String[] bottomBarTitles = getResources().getStringArray(R.array.bottom_bar_main);
         mTabEntities.add(new TabEntity(bottomBarTitles[0], R.drawable.tab_bookstore_selected, R.drawable.tab_bookstore_unselected));
         mTabEntities.add(new TabEntity(bottomBarTitles[1], R.drawable.tab_bookrack_selected, R.drawable.tab_bookrack_unselected));
-        mTabEntities.add(new TabEntity(bottomBarTitles[2], R.drawable.tab_welfare_selected, R.drawable.tab_welfare_unselected));
-        mTabEntities.add(new TabEntity(bottomBarTitles[3], R.drawable.tab_mine_selected, R.drawable.tab_mine_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[2], R.mipmap.tab_classify_selected, R.mipmap.tab_classify_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[3], R.drawable.tab_welfare_selected, R.drawable.tab_welfare_unselected));
+        mTabEntities.add(new TabEntity(bottomBarTitles[4], R.drawable.tab_mine_selected, R.drawable.tab_mine_unselected));
         mTabLayout.setTabData(mTabEntities);
         fragmentManager = getSupportFragmentManager();
     }
@@ -291,17 +294,12 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         if (position == 0) {
             try {
                 MainBookstoreFragment bookStoreFrag = (MainBookstoreFragment) getSupportFragmentManager().getFragments().get(position);
-                int currentTab = bookStoreFrag.slidingTabLayout.getCurrentTab();
-                Fragment fragment = bookStoreFrag.getChildFragmentManager().getFragments().get(currentTab);
-                if (fragment instanceof BookStoreSelectionFragment) {
-                    BookStoreSelectionFragment selectionBookFrag = (BookStoreSelectionFragment) fragment;
-                    if (selectionBookFrag.recyclerView.canScrollVertically(-1)) {           //判断RecyclerView是否在顶部
-                        selectionBookFrag.recyclerView.smoothScrollToPosition(0);
-                    }
-                } else if (fragment instanceof BookStoreBoyFragment) {
-                    BookStoreBoyFragment bsbFrag = (BookStoreBoyFragment) fragment;
-                    if (bsbFrag.recyclerView.canScrollVertically(-1)) {                     //判断RecyclerView是否在顶部
-                        bsbFrag.recyclerView.smoothScrollToPosition(0);
+                Fragment fragment = bookStoreFrag.getCurrentFragment();
+                if (fragment != null) {
+                    if (fragment instanceof BookStoreSelectionFragment) {
+                        ((BookStoreSelectionFragment) fragment).back2Top();
+                    } else if (fragment instanceof BookStoreBoyFragment) {
+                        ((BookStoreBoyFragment) fragment).back2Top();
                     }
                 }
             } catch (Exception e) {
@@ -337,8 +335,16 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     transaction.show(bookrackFragment);
                 }
                 break;
-
             case 2:
+                if (classifyFragment == null) {
+                    classifyFragment = new MainClassifyFragment();
+                    transaction.add(R.id.fl_frag_content_main, classifyFragment);
+                } else {
+                    transaction.show(classifyFragment);
+                }
+                break;
+
+            case 3:
                 if (welfareFragment == null) {
                     welfareFragment = new MainWelfareFragment();
                     transaction.add(R.id.fl_frag_content_main, welfareFragment);
@@ -347,8 +353,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     transaction.show(welfareFragment);
                 }
                 break;
-
-            case 3:
+            case 4:
                 if (mineFragment == null) {
                     mineFragment = new MainMineFragment();
                     transaction.add(R.id.fl_frag_content_main, mineFragment);
@@ -375,6 +380,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         if (bookrackFragment != null) {
             transaction.hide(bookrackFragment);
         }
+        if (classifyFragment != null) {
+            transaction.hide(classifyFragment);
+        }
         if (welfareFragment != null) {
             transaction.hide(welfareFragment);
         }
@@ -395,8 +403,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 跳到福利
      */
     public void switch2Welfare() {
-        mTabLayout.setCurrentTab(2);
-        changeFragment(2);
+        mTabLayout.setCurrentTab(3);
+        changeFragment(3);
     }
 
     @Override
@@ -430,6 +438,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 /* 一键登陆弹窗 */
                 if (UserInfoCache.getIsTourist(MainActivity.this) && flagPreGetSuccess) {
                     FullScreenDialog.build(MainActivity.this)
+                            .setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.col_blue_d8e9f9))
                             .setCustomView(R.layout.dialog_full_screen_one_click_login, (dialog, rootView) -> {
                                 Button btnGo2Login = rootView.findViewById(R.id.btn_one_click_go2_login);
                                 TextView btnOtherWays = rootView.findViewById(R.id.tv_asBtn_other_ways_2_login);

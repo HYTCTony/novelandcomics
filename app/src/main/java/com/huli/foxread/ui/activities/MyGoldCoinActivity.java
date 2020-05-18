@@ -203,7 +203,7 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
                             curPage = datas.getCurrent_page();
                             List<GoldExpenditureBean> bookList = datas.getData();
                             if (curPage == 1) {
-                                mAdapter.setNewData(bookList);
+                                mAdapter.setNewInstance(bookList);
                             } else {
                                 mAdapter.addData(bookList);
                             }

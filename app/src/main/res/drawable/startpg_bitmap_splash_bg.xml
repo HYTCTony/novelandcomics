@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/white" />
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/splash_startpage_center"
-            android:tileMode="disabled" />
-    </item>
+    <item android:drawable="@color/col_fcfcfc" />
 
-    <item android:top="@dimen/dp_80">
+    <item android:top="@dimen/dp_36">
         <bitmap
             android:gravity="center_horizontal|top"
             android:scaleType="centerCrop"
-            android:src="@mipmap/splash_startpage_slogan"
+            android:src="@mipmap/splash_startpage_top"
             android:tileMode="disabled" />
     </item>
 
-    <item>
+    <item android:bottom="@dimen/dp_64">
         <bitmap
             android:gravity="center_horizontal|bottom"
-            android:src="@mipmap/splash_startpage_bottom_wave"
+            android:src="@mipmap/splash_startpage_main"
             android:tileMode="disabled" />
     </item>
 
-    <item android:bottom="@dimen/dp_42">
+    <item android:bottom="@dimen/dp_20">
         <bitmap
             android:gravity="center_horizontal|bottom"
             android:scaleType="centerCrop"

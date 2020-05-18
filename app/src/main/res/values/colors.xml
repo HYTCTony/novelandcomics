@@ -11,6 +11,8 @@
 
     <color name="transparent">#00000000</color>
 
+    <color name="col_fcfcfc">#FCFCFC</color>
+
     <color name="col_theme_blue">#39E8D2</color>
     <color name="col_black">#000000</color>
     <color name="col_red">#FD4141</color>
@@ -22,6 +24,7 @@
     <color name="col_yellow_f4ea2a">#f4ea2a</color>
     <color name="col_yellow_ffcc02">#FFCC02</color>
     <color name="off_gray">#F4F3F3</color>
+    <color name="col_blue_d8e9f9">#D8E9F9</color>
     <color name="col_blue">#25C3F5</color>
     <color name="col_blue_0a8ecc">#0A8ECC</color>
     <color name="col_gray_e5e5e5">#E5E5E5</color>

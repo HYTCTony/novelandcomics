@@ -491,3 +491,10 @@ public static final int *;
     <init>(java.lang.Throwable);
 }
 ################APP升级##############################
+
+
+#########################穿山甲###########################
+-keep class com.bytedance.sdk.openadsdk.** { *; }
+-keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
+-keep class com.pgl.sys.ces.* {*;}
+#########################穿山甲###########################

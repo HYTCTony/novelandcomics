@@ -177,7 +177,7 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
                             curPage = datas.getCurrent_page();
                             List<BookEntity> bookList = datas.getData();
                             if (curPage == 1) {
-                                mAdapter.setNewData(bookList);
+                                mAdapter.setNewInstance(bookList);
                             } else {
                                 mAdapter.addData(bookList);
                             }

@@ -146,8 +146,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         tvNewestSectionName = $(R.id.tv_book_newest_section_name);
         tvTotalSection = $(R.id.tv_book_total_section);
 
-        initSpecialTopicView();
-
         btnRelatedRecoRefresh = $(R.id.tv_asBtn_related_recommendation_refresh);
         RecyclerView recyclerView = $(R.id.recyclerView_related_recommendation);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4) {
@@ -266,18 +264,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 .putExtra(ReadBookActivity.EXTRA_COLL_BOOK, data), REQUEST_READ);
     }
 
-    private void initSpecialTopicView() {
-        ViewPager vpSpt = $(R.id.viewPager_special_topic);
-
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            list.add(i);
-        }
-        vpSpt.setOffscreenPageLimit(list.size());
-//        vpSpt.setAdapter(new SpecialTopicPagerAdapter(this, list));
-        vpSpt.setPageMargin(DensityUtils.dp2px(this, 16));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_book_detail, menu);
@@ -388,7 +374,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                         if (entity.error_code == 0) {
                             List<BookEntity> booksList = entity.getData();
                             if (booksList != null && booksList.size() > 0) {
-                                mAdapter.setNewData(booksList);
+                                mAdapter.setNewInstance(booksList);
                             }
                         }
                     }

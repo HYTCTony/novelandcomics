@@ -244,7 +244,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
-                android:layout_marginBottom="@dimen/dp_36"
+                android:paddingBottom="@dimen/dp_16"
                 android:background="@color/white"
                 android:orientation="vertical">
 
@@ -268,18 +268,60 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never"
                     android:scrollbars="none" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_32"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_16"
+                    android:text="@string/txt_warm_prompt"
+                    android:textColor="@color/txt_black_191919"
+                    android:textSize="@dimen/sp_14"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@string/txt_member_prompt_1"
+                    android:textColor="@color/txt_gray"
+                    android:textSize="@dimen/sp_12" />
 
                 <TextView
                     android:id="@+id/tv_agree_service_agreement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_6"
                     android:layout_marginEnd="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_16"
+                    android:lineSpacingMultiplier="1.2"
                     android:textColor="@color/txt_gray"
                     android:textSize="@dimen/sp_12"
-                    tools:text="@string/txt_agree_service_agreement" />
+                    tools:text="@string/txt_member_prompt_2" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_16"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:layout_marginEnd="@dimen/dp_16"
+                    android:layout_marginBottom="@dimen/dp_16"
+                    android:lineSpacingMultiplier="1.2"
+                    android:text="@string/txt_member_prompt_3"
+                    android:textColor="@color/txt_gray"
+                    android:textSize="@dimen/sp_12" />
             </LinearLayout>
 
         </LinearLayout>

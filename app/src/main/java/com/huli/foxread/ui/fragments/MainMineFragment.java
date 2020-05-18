@@ -314,7 +314,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                                 });
                         if (entity.error_code == 0) {
                             List<MineWelfareZoneEntity> datas = entity.getData();
-                            wzAdapter.setNewData(datas);
+                            wzAdapter.setNewInstance(datas);
                         }
                     }
                 });

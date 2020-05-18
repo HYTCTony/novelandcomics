@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingTop="@dimen/dp_8"
+    android:paddingBottom="@dimen/dp_8">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/iv_title_mplz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            tools:text="TITLE"
+            android:textColor="@color/txt_black_272f3a"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold"
+            android:typeface="serif"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_sub_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textColor="@color/txt_gray_8f9dac"
+            android:textSize="@dimen/sp_12"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_title_mplz"
+            app:layout_constraintTop_toBottomOf="@+id/iv_title_mplz"
+            tools:text="副标题" />
+
+        <TextView
+            android:id="@+id/tv_asBtn_more_mplz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
+            android:drawablePadding="@dimen/dp_4"
+            android:gravity="center_vertical"
+            android:text="@string/txt_more"
+            android:textColor="@color/txt_gray_999"
+            android:textSize="@dimen/sp_12"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_mplz"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_title_mplz" />
+
+        <TextView
+            android:id="@+id/tv_star_tag_mplz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:drawableStart="@drawable/ic_star_brown_12dp"
+            android:drawablePadding="@dimen/dp_2"
+            android:gravity="center_vertical"
+            android:textColor="@color/txt_dark_gold"
+            android:textSize="@dimen/sp_12"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_mplz"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_title_mplz"
+            tools:text="@string/txt_high_score" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <include
+        android:id="@+id/layout_first_item_mplz"
+        layout="@layout/recy_multi_item_book_firstitem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_8"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView_book_grid_mplz"
+        app:layout_constraintTop_toBottomOf="@+id/ctl_title_bar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_book_grid_mplz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_first_item_mplz" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

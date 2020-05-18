@@ -202,7 +202,7 @@ public class AutoLoginUtils {
                 //设置底部隐私协议的复选框，包括复选框图标资源ID、默认状态（0:默认勾选，-1：默认不勾选 ）；参数说明(int viewId , int resId,  int privacyCheckBoxState)
                 .setPrivacyCheckBox(R.id.ct_auth_privacy_checkbox, R.drawable.ct_account_auth_privacy_checkbox, AuthViewConfig.STATE_DEFAULT_CHECKED)
 //                //设置底部隐私协议的文本内容，包括文本、字体颜色、大小 (int viewId , String text , int textColor , int textSize)
-                .setPrivacyTextView(R.id.ct_auth_privacy_text_dynamic, "登录即同意《天翼账号服务与隐私协议》并授权[一起看书]获取本机号码" , 0xFF000000 , 12)
+//                .setPrivacyTextView(R.id.ct_auth_privacy_text_dynamic, "登录即同意《天翼账号服务与隐私协议》并授权[一起看书]获取本机号码" , 0xFF000000 , 12)
 //                //设置底部《天翼账号服务与隐私协议》 ，包括它的开始位置、结束位置、字体颜色；参数说明(int startPos, int endPos, int textColor)
 //                .setCtAccountPrivacyProtocolLink(5, 18, 0xFF0090FF)
 //                //设置底部《自定义协议》 ，包括它的开始位置、结束位置、字体颜色，协议地址、协议标题；参数说明(int startPos, int endPos, int textColor , String protocolUrl , String protocolTitle)
@@ -242,12 +242,12 @@ public class AutoLoginUtils {
         // 2、$CAT 为自定义协议标题占位符，SDK程序会替换为自定义标题字段的值；
         // 3、[应用名] ：修改为您应用的名称
         /** 设置底部隐私TextView的属性*/
-        config.privacyText = "登录即同意$OAT与$CAT并授权[应用名]获取本机号码"; //登录界面底部隐私协议文本，其中$OAT占位符默认替换为《天翼账号服务与隐私协议》
+        config.privacyText = "登录即同意$OAT与$CAT并授权[一起看书]获取本机号码"; //登录界面底部隐私协议文本，其中$OAT占位符默认替换为《天翼账号服务与隐私协议》
         config.privacyTextColor = 0xFF000000;   //隐私协议文本的字体颜色
         config.privacyTextSize = 12; //隐私协议文本的字体大小
         config.operatorAgreementTitleColor = 0xFF0090FF; //运营商协议标题的字体颜色
-        config.customAgreementTitle = "《自定义协议》";  //自定义协议标题
-        config.customAgreementLink = "https://www.baidu.com";  //自定义协议wap页面地址
+        config.customAgreementTitle = "《一起看书用户协议》";  //自定义协议标题
+        config.customAgreementLink = Consts.USER_AGREEMENT_URL;  //自定义协议wap页面地址
         config.customAgreementTitleColor = 0xFF0090FF;  //自定义协议标题的字体颜色
         /** 设置对话框隐私TextView的属性*/
         config.dialogPrivacyText = "登录即同意$OAT与$CAT"; //对话框的隐私协议文本

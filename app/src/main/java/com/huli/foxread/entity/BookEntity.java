@@ -9,6 +9,8 @@ import java.util.List;
 public class BookEntity implements Serializable {
     private String id;                  //ID
     private String name;                //书名
+    private int heat;                   //热度
+    private int reading_size;           //现在 在读人数
     private int read_sum;               //阅读次数
     private int is_end;                 //0未完结，1已完结
     private int is_copyright;           //0无版权，1有版权
@@ -20,7 +22,9 @@ public class BookEntity implements Serializable {
     private List<String> tag;           //标签
     private int word;                   //字数
     private float score;                //评分
-
+    private String classify_name;       //归属分类
+    private int number;                 //搜索次数
+    private int greet;                  //人气
 
     public String getId() {
         return id;
@@ -36,6 +40,22 @@ public class BookEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getHeat() {
+        return heat;
+    }
+
+    public void setHeat(int heat) {
+        this.heat = heat;
+    }
+
+    public int getReading_size() {
+        return reading_size;
+    }
+
+    public void setReading_size(int reading_size) {
+        this.reading_size = reading_size;
     }
 
     public int getRead_sum() {
@@ -124,5 +144,29 @@ public class BookEntity implements Serializable {
 
     public void setScore(float score) {
         this.score = score;
+    }
+
+    public String getClassify_name() {
+        return classify_name;
+    }
+
+    public void setClassify_name(String classify_name) {
+        this.classify_name = classify_name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getGreet() {
+        return greet;
+    }
+
+    public void setGreet(int greet) {
+        this.greet = greet;
     }
 }

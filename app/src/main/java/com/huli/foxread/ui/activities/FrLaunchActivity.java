@@ -15,24 +15,28 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.transition.Transition;
+import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
+import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.huli.foxread.FrApp;
-import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AdEntity;
@@ -46,18 +50,18 @@ import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.Tos;
+import com.huli.foxread.utils.UIUtils;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 
 import java.net.URL;
 import java.util.List;
 
+import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -72,6 +76,19 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     private Button btnSkip;
     private AdEntity adEntity;
     private ImageView ivAdPic;
+
+
+    private TTAdNative mTTAdNative;
+    private FrameLayout mSplashContainer;
+    //是否强制跳转到主页面
+    private boolean mForceGoMain;
+    /*（是不是）去查阅条款跳转*/
+    private boolean isGo2ViewTerms;
+
+    //开屏广告加载超时时间,建议大于3000,这里为了冷启动第一次加载到广告并且展示,示例设置了3000ms
+    private static final int AD_TIME_OUT = 8000;
+    private String mCodeId = "887319954";
+    private boolean mIsExpress = false; //是否请求模板广告
 
     @Override
     protected void setStatusBar() {
@@ -107,6 +124,8 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         layoutAdvertising = $(R.id.ctl_advertising);
         btnSkip = $(R.id.btn_skip_ad);
         ivAdPic = $(R.id.iv_advertising_picture);
+
+        mSplashContainer = findViewById(R.id.splash_container);
     }
 
     @Override
@@ -122,14 +141,189 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
     @Override
     public void doBusiness(Context mContext) {
+        //step2:创建TTAdNative对象
+        mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
+        getExtraInfo();
+        //在合适的时机申请权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题
+        //在开屏时候申请不太合适，因为该页面倒计时结束或者请求超时会跳转，在该页面申请权限，体验不好
+        // TTAdManagerHolder.getInstance(this).requestPermissionIfNecessary(this);
+
         boolean isFirstRun = (boolean) SPFUtils.get(this, "isFirstRun", true);
         if (isFirstRun) {
             showAgreementDialog();
             return;
         }
-        //启动页延长显示时间   800毫秒 防止一闪而过
-        mHandler.sendEmptyMessageDelayed(9, 600);
+        //启动页延长显示时间   500毫秒 防止一闪而过
+        mHandler.sendEmptyMessageDelayed(9, 500);
     }
+
+
+    @Override
+    protected void onResume() {
+        //判断是否该跳转到主页面
+        if (mForceGoMain && !isGo2ViewTerms) {
+            goMain();
+
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mForceGoMain = true;
+    }
+
+    private void getExtraInfo() {
+        Intent intent = getIntent();
+        if (intent == null) {
+            return;
+        }
+        String codeId = intent.getStringExtra("splash_rit");
+        if (!TextUtils.isEmpty(codeId)) {
+            mCodeId = codeId;
+        }
+        mIsExpress = intent.getBooleanExtra("is_express", false);
+    }
+
+
+    /**
+     * 加载开屏广告
+     */
+    private void loadSplashAd() {
+        //step3:创建开屏广告请求参数AdSlot,具体参数含义参考文档
+        AdSlot adSlot = null;
+        if (mIsExpress) {
+            //个性化模板广告需要传入期望广告view的宽、高，单位dp，请传入实际需要的大小，
+            //比如：广告下方拼接logo、适配刘海屏等，需要考虑实际广告大小
+            float expressViewWidth = UIUtils.getScreenWidthDp(this);
+            float expressViewHeight = UIUtils.getHeight(this);
+            adSlot = new AdSlot.Builder()
+                    .setCodeId(mCodeId)
+                    .setSupportDeepLink(true)
+                    .setImageAcceptedSize(1080, 1920)
+                    //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
+                    .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight)
+                    .build();
+        } else {
+            adSlot = new AdSlot.Builder()
+                    .setCodeId(mCodeId)
+                    .setSupportDeepLink(true)
+                    .setImageAcceptedSize(1080, 1920)
+                    .build();
+        }
+        //step4:请求广告，调用开屏广告异步请求接口，对请求回调的广告作渲染处理
+        mTTAdNative.loadSplashAd(adSlot, new TTAdNative.SplashAdListener() {
+            @Override
+            @MainThread
+            public void onError(int code, String message) {
+//                Log.e(TAG, "onError===" + String.valueOf(message));
+//                showToast(message);
+                goMain();
+            }
+
+            @Override
+            @MainThread
+            public void onTimeout() {
+//                showToast("开屏广告加载超时");
+                goMain();
+            }
+
+            @Override
+            @MainThread
+            public void onSplashAdLoad(TTSplashAd ad) {
+//                Log.d(TAG, "开屏广告请求成功");
+                if (ad == null) {
+                    return;
+                }
+                //获取SplashView
+//                mSplashContainer.setVisibility(View.VISIBLE);
+                View view = ad.getSplashView();
+                if (view != null && mSplashContainer != null && !FrLaunchActivity.this.isFinishing()) {
+                    mSplashContainer.removeAllViews();
+                    //把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕高
+                    mSplashContainer.addView(view);
+                    //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
+                    //ad.setNotAllowSdkCountdown();
+                } else {
+                    goMain();
+                }
+
+                //设置SplashView的交互监听器
+                ad.setSplashInteractionListener(new TTSplashAd.AdInteractionListener() {
+                    @Override
+                    public void onAdClicked(View view, int type) {
+//                        Log.d(TAG, "onAdClicked");
+//                        showToast("开屏广告点击");
+                    }
+
+                    @Override
+                    public void onAdShow(View view, int type) {
+//                        Log.d(TAG, "onAdShow");
+//                        showToast("开屏广告展示");
+                    }
+
+                    @Override
+                    public void onAdSkip() {
+//                        Log.d(TAG, "onAdSkip");
+//                        showToast("开屏广告跳过");
+                        goMain();
+
+                    }
+
+                    @Override
+                    public void onAdTimeOver() {
+//                        Log.d(TAG, "onAdTimeOver");
+//                        showToast("开屏广告倒计时结束");
+                        goMain();
+                    }
+                });
+                if (ad.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+                    ad.setDownloadListener(new TTAppDownloadListener() {
+                        boolean hasShow = false;
+
+                        @Override
+                        public void onIdle() {
+                        }
+
+                        @Override
+                        public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+                            if (!hasShow) {
+//                                showToast("下载中...");
+                                hasShow = true;
+                            }
+                        }
+
+                        @Override
+                        public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+//                            showToast("下载暂停...");
+
+                        }
+
+                        @Override
+                        public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+//                            showToast("下载失败...");
+
+                        }
+
+                        @Override
+                        public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+//                            showToast("下载完成...");
+
+                        }
+
+                        @Override
+                        public void onInstalled(String fileName, String appName) {
+//                            showToast("安装完成...");
+
+                        }
+                    });
+                }
+            }
+        }, AD_TIME_OUT);
+
+    }
+
 
     /**
      * 启动
@@ -198,6 +392,8 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
             Intent intent = new Intent(FrLaunchActivity.this, MainActivity.class);
             intent.putExtra(Common.EXTRA_HAS_GET_USERINFO, true);
             startActivity(intent);
+
+//            mSplashContainer.removeAllViews();
             finish();
         } else {
             Tos.showShort(this, R.string.txt_no_network_try_again_later);
@@ -275,7 +471,10 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
      * 获取广告
      */
     private void reqAdsFromNet() {
-        OkGo.<LzyResponse<AdEntity>>get(Consts.ADS_TAIL_API)
+        //加载开屏广告
+        loadSplashAd();
+
+        /*OkGo.<LzyResponse<AdEntity>>get(Consts.ADS_TAIL_API)
                 .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .execute(new LtbJsonCallback<LzyResponse<AdEntity>>(this, false,
                         new TypeReference<LzyResponse<AdEntity>>() {
@@ -322,7 +521,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                         super.onCacheSuccess(response);
                         onSuccess(response);
                     }
-                });
+                });*/
 
     }
 
@@ -411,9 +610,12 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                 @Override
                 public void onClick(@NonNull View view) {
                     //用户协议
-                    Uri uri = Uri.parse(Consts.USER_AGREEMENT_URL);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    Uri uri = Uri.parse(Consts.USER_AGREEMENT_URL);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(FrLaunchActivity.this, CommonWebActivity.class);
+                    intent.putExtra(Common.KEY_URL, Consts.USER_AGREEMENT_URL);
                     startActivity(intent);
+                    isGo2ViewTerms = true;
                 }
 
                 @Override
@@ -426,9 +628,12 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                 @Override
                 public void onClick(@NonNull View view) {
                     //隐私政策
-                    Uri uri = Uri.parse(Consts.PRIVACY_POLICY_URL);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    Uri uri = Uri.parse(Consts.PRIVACY_POLICY_URL);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(FrLaunchActivity.this, CommonWebActivity.class);
+                    intent.putExtra(Common.KEY_URL, Consts.PRIVACY_POLICY_URL);
                     startActivity(intent);
+                    isGo2ViewTerms = true;
                 }
 
                 @Override
@@ -473,6 +678,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         Log.e(TAG, "dsdsds");
             startInit();
         }*/
+//        startInit();
     }
 
     @Override

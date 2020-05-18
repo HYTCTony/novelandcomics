@@ -32,7 +32,8 @@
         app:layout_constraintLeft_toRightOf="@+id/iv_top3_bookCover_second"
         app:layout_constraintRight_toLeftOf="@+id/iv_top3_bookCover_third"
         app:layout_constraintTop_toBottomOf="@+id/tv_classify_top3_title"
-        tools:src="@mipmap/img_holder_rect" />
+        tools:src="@mipmap/img_holder_rect"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/iv_top3_bookCover_second"
@@ -45,7 +46,8 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_first"
-        tools:src="@mipmap/img_holder_rect" />
+        tools:src="@mipmap/img_holder_rect"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/iv_top3_bookCover_third"
@@ -58,7 +60,8 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_first"
-        tools:src="@mipmap/img_holder_rect" />
+        tools:src="@mipmap/img_holder_rect"
+        tools:ignore="ContentDescription" />
 
 
     <ImageView
@@ -66,21 +69,24 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_ranking_first_place"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_first"
-        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_first" />
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_first"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_ranking_second_place"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_second"
-        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_second" />
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_second"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_ranking_third_place"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_third"
-        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_third" />
+        app:layout_constraintTop_toTopOf="@+id/iv_top3_bookCover_third"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tv_top3_bookName_first"

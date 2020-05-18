@@ -4,7 +4,6 @@ public interface Consts {
     String DOWNLOAD_URL = "https://download.hulimedia.com/?my_invite_code=";
 
 //    String BASE_URL = "http://api.hulimedia.com";
-//    http://devnovel.hongyutiancheng.com.cn/api/v2/
     String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
     String NOT_CPL_URL = BASE_URL + "/api/v2";
 
@@ -58,6 +57,7 @@ public interface Consts {
     String NOVEL_CATEGORY_ALL_API = NOT_CPL_URL + Func.NOVEL_CATEGORY_ALL;
     String NOVEL_CATEGORY_API = NOT_CPL_URL + Func.NOVEL_CATEGORY;
     String NOVEL_CATEGORY_SUB_API = NOT_CPL_URL + Func.NOVEL_CATEGORY_SUB;
+    String NOVEL_CHOICE_SUPERIOR_API = NOT_CPL_URL + Func.NOVEL_CHOICE_SUPERIOR;
     String NOVEL_CHOICE_API = NOT_CPL_URL + Func.NOVEL_CHOICE;
     String SEARCH_NOVEL_API = NOT_CPL_URL + Func.SEARCH_NOVEL;
     String NOVEL_HOT_API = NOT_CPL_URL + Func.NOVEL_HOT;
@@ -208,6 +208,7 @@ public interface Consts {
     String CAT_WORD_NUM = "word_calssify";
     String CAT_IS_END = "is_end";
     String CAT_STATUS = "status";
+    String CAT_SECOND_CLASSIFY_ID = "second_classify_id";
 
     String FILTRATE_KEYWORD = "keyword";
 

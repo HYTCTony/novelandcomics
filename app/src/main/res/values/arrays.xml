@@ -4,6 +4,7 @@
     <string-array name="bottom_bar_main">
         <item>书城</item>
         <item>书架</item>
+        <item>分类</item>
         <item>福利</item>
         <item>我</item>
     </string-array>
@@ -14,10 +15,9 @@
         <item>女生</item>
     </string-array>
 
-    <string-array name="tab_v_classify">
+    <string-array name="tab_classify">
         <item>男生</item>
         <item>女生</item>
-        <item>图书</item>
     </string-array>
 
     <string-array name="tab_ranking">

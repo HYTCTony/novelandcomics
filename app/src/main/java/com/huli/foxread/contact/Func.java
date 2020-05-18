@@ -174,7 +174,7 @@ public interface Func {
      * page---精选推荐列表页码(Y/N)
      * page_size---精选推荐列表,一页数据量(Y/N)
      */
-    String INDEX_PAGE = "/index/otherIndex";
+    String INDEX_PAGE = "/index/index";
 
     /**
      * 用途：轮播图
@@ -239,6 +239,18 @@ public interface Func {
      * id --- 大分类ID
      */
     String NOVEL_CATEGORY_SUB = "/category/sub";
+
+    /**
+     * 用途：Main页面  小说按条件刷选(POST)
+     * 头：token(Y)
+     * 参数：
+     * second_classify_id ---  分类id  1男生全部   2女生全部
+     * word_calssify --- 字数分类:1=30万字以下,2=30-50万字,3=50-100万字,4=100万字以上
+     * is_end --- 是否完结:1=已完结,0=未完结
+     * page --- 页码,默认1
+     * page_size --- 每页数据量，默认15
+     */
+    String NOVEL_CHOICE_SUPERIOR = "/novel/ChoiceSuperior";
 
     /**
      * 用途：小说按条件刷选(POST)

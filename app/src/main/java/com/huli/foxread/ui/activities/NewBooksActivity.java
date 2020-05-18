@@ -141,7 +141,7 @@ public class NewBooksActivity extends BaseActivity implements OnItemClickListene
                                     list.add(new NEbookSection<>(false, false, ebgEntity.getId(), ebgEntity.getName(), novels.get(j)));
                                 }
                             }
-                            mAdapter.setNewData(list);
+                            mAdapter.setNewInstance(list);
                         }
                     }
                 });

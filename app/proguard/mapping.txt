@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 23
-# pg_map_id: ec607f4
+# pg_map_id: e54079a
 android.support.v4.app.INotificationSideChannel$Stub -> android.support.v4.app.INotificationSideChannel$Stub:
     1:2:void <init>():20:21 -> <init>
     1:3:android.support.v4.app.INotificationSideChannel asInterface(android.os.IBinder):32:34 -> asInterface
@@ -86236,10 +86236,7 @@ com.huli.foxread.FrApp -> com.huli.foxread.FrApp:
     1:2:void initKzDialog():172:173 -> c
     3:6:void initKzDialog():176:179 -> c
     1:3:void initOkgo():235:237 -> d
-    4:4:void initOkgo():239:239 -> d
-    5:5:void initOkgo():241:241 -> d
-    6:7:void initOkgo():243:244 -> d
-    8:10:void initOkgo():246:248 -> d
+    4:6:void initOkgo():246:248 -> d
     1:1:void initUMeng():201:201 -> e
     2:3:void initUMeng():203:204 -> e
     4:4:void initUMeng():217:217 -> e
@@ -86657,142 +86654,142 @@ com.huli.foxread.R$raw -> com.huli.foxread.R$raw:
 com.huli.foxread.R$string -> com.huli.foxread.R$string:
     1:1:void <init>():11123:11123 -> <init>
 com.huli.foxread.R$style -> com.huli.foxread.R$style:
-    1:1:void <init>():11674:11674 -> <init>
+    1:1:void <init>():11683:11683 -> <init>
 com.huli.foxread.R$styleable -> com.huli.foxread.R$styleable:
-    1:1:void <clinit>():12468:12468 -> <clinit>
-    2:2:void <clinit>():12900:12900 -> <clinit>
-    3:3:void <clinit>():12943:12943 -> <clinit>
-    4:4:void <clinit>():12959:12959 -> <clinit>
-    5:5:void <clinit>():12982:12982 -> <clinit>
-    6:6:void <clinit>():13081:13081 -> <clinit>
-    7:7:void <clinit>():13137:13137 -> <clinit>
-    8:8:void <clinit>():13257:13257 -> <clinit>
-    9:9:void <clinit>():13348:13348 -> <clinit>
-    10:10:void <clinit>():13395:13395 -> <clinit>
-    11:11:void <clinit>():13475:13475 -> <clinit>
-    12:12:void <clinit>():13605:13605 -> <clinit>
-    13:13:void <clinit>():13669:13669 -> <clinit>
-    14:14:void <clinit>():13736:13736 -> <clinit>
-    15:15:void <clinit>():13824:13824 -> <clinit>
-    16:16:void <clinit>():13914:13914 -> <clinit>
-    17:17:void <clinit>():14075:14075 -> <clinit>
-    18:18:void <clinit>():14660:14660 -> <clinit>
-    19:19:void <clinit>():16408:16408 -> <clinit>
-    20:20:void <clinit>():16486:16486 -> <clinit>
-    21:21:void <clinit>():16568:16568 -> <clinit>
-    22:22:void <clinit>():16779:16779 -> <clinit>
-    23:23:void <clinit>():16839:16839 -> <clinit>
-    24:24:void <clinit>():16992:16992 -> <clinit>
-    25:25:void <clinit>():17203:17203 -> <clinit>
-    26:26:void <clinit>():17387:17387 -> <clinit>
-    27:27:void <clinit>():17437:17437 -> <clinit>
-    28:28:void <clinit>():17632:17632 -> <clinit>
-    29:29:void <clinit>():17759:17759 -> <clinit>
-    30:30:void <clinit>():18317:18317 -> <clinit>
-    31:31:void <clinit>():18413:18413 -> <clinit>
-    32:32:void <clinit>():18457:18457 -> <clinit>
-    33:33:void <clinit>():18601:18601 -> <clinit>
-    34:34:void <clinit>():18896:18896 -> <clinit>
-    35:35:void <clinit>():19164:19164 -> <clinit>
-    36:36:void <clinit>():19473:19473 -> <clinit>
-    37:37:void <clinit>():19736:19736 -> <clinit>
-    38:38:void <clinit>():19784:19784 -> <clinit>
-    39:39:void <clinit>():19891:19891 -> <clinit>
-    40:40:void <clinit>():20339:20339 -> <clinit>
-    41:41:void <clinit>():20535:20535 -> <clinit>
-    42:42:void <clinit>():21437:21437 -> <clinit>
-    43:43:void <clinit>():21638:21638 -> <clinit>
-    44:44:void <clinit>():22798:22798 -> <clinit>
-    45:45:void <clinit>():22860:22860 -> <clinit>
-    46:46:void <clinit>():23028:23028 -> <clinit>
-    47:47:void <clinit>():23082:23082 -> <clinit>
-    48:48:void <clinit>():23208:23208 -> <clinit>
-    49:49:void <clinit>():23280:23280 -> <clinit>
-    50:50:void <clinit>():23448:23448 -> <clinit>
-    51:51:void <clinit>():23531:23531 -> <clinit>
-    52:52:void <clinit>():23597:23597 -> <clinit>
-    53:53:void <clinit>():23844:23844 -> <clinit>
-    54:54:void <clinit>():23871:23871 -> <clinit>
-    55:55:void <clinit>():23923:23923 -> <clinit>
-    56:56:void <clinit>():24059:24059 -> <clinit>
-    57:57:void <clinit>():24210:24210 -> <clinit>
-    58:58:void <clinit>():24278:24278 -> <clinit>
-    59:59:void <clinit>():24340:24340 -> <clinit>
-    60:60:void <clinit>():24529:24529 -> <clinit>
-    61:61:void <clinit>():24713:24713 -> <clinit>
-    62:62:void <clinit>():24762:24762 -> <clinit>
-    63:63:void <clinit>():24877:24877 -> <clinit>
-    64:64:void <clinit>():25013:25013 -> <clinit>
-    65:65:void <clinit>():25061:25061 -> <clinit>
-    66:66:void <clinit>():25231:25231 -> <clinit>
-    67:67:void <clinit>():25331:25331 -> <clinit>
-    68:68:void <clinit>():25395:25395 -> <clinit>
-    69:69:void <clinit>():25574:25574 -> <clinit>
-    70:70:void <clinit>():25752:25752 -> <clinit>
-    71:71:void <clinit>():25826:25826 -> <clinit>
-    72:72:void <clinit>():25939:25939 -> <clinit>
-    73:73:void <clinit>():26276:26276 -> <clinit>
-    74:74:void <clinit>():26332:26332 -> <clinit>
-    75:75:void <clinit>():26471:26471 -> <clinit>
-    76:76:void <clinit>():26643:26643 -> <clinit>
-    77:77:void <clinit>():26788:26788 -> <clinit>
-    78:78:void <clinit>():26836:26836 -> <clinit>
-    79:79:void <clinit>():26906:26906 -> <clinit>
-    80:80:void <clinit>():26950:26950 -> <clinit>
-    81:81:void <clinit>():27122:27122 -> <clinit>
-    82:82:void <clinit>():27164:27164 -> <clinit>
-    83:83:void <clinit>():27212:27212 -> <clinit>
-    84:84:void <clinit>():27276:27276 -> <clinit>
-    85:85:void <clinit>():27423:27423 -> <clinit>
-    86:86:void <clinit>():27800:27800 -> <clinit>
-    87:87:void <clinit>():27936:27936 -> <clinit>
-    88:88:void <clinit>():27984:27984 -> <clinit>
-    89:89:void <clinit>():28113:28113 -> <clinit>
-    90:90:void <clinit>():28420:28420 -> <clinit>
-    91:91:void <clinit>():28482:28482 -> <clinit>
-    92:92:void <clinit>():28522:28522 -> <clinit>
-    93:93:void <clinit>():28574:28574 -> <clinit>
-    94:94:void <clinit>():28607:28607 -> <clinit>
-    95:95:void <clinit>():28683:28683 -> <clinit>
-    96:96:void <clinit>():28747:28747 -> <clinit>
-    97:97:void <clinit>():28914:28914 -> <clinit>
-    98:98:void <clinit>():28943:28943 -> <clinit>
-    99:99:void <clinit>():29004:29004 -> <clinit>
-    100:100:void <clinit>():29346:29346 -> <clinit>
-    101:101:void <clinit>():29666:29666 -> <clinit>
-    102:102:void <clinit>():29762:29762 -> <clinit>
-    103:103:void <clinit>():30016:30016 -> <clinit>
-    104:104:void <clinit>():30490:30490 -> <clinit>
-    105:105:void <clinit>():30969:30969 -> <clinit>
-    106:106:void <clinit>():31380:31380 -> <clinit>
-    107:107:void <clinit>():31427:31427 -> <clinit>
-    108:108:void <clinit>():31478:31478 -> <clinit>
-    109:109:void <clinit>():31581:31581 -> <clinit>
-    110:110:void <clinit>():31707:31707 -> <clinit>
-    111:111:void <clinit>():31928:31928 -> <clinit>
-    112:112:void <clinit>():32017:32017 -> <clinit>
-    113:113:void <clinit>():32051:32051 -> <clinit>
-    114:114:void <clinit>():32137:32137 -> <clinit>
-    115:115:void <clinit>():32357:32357 -> <clinit>
-    116:116:void <clinit>():32389:32389 -> <clinit>
-    117:117:void <clinit>():32494:32494 -> <clinit>
-    118:118:void <clinit>():32886:32886 -> <clinit>
-    119:119:void <clinit>():32987:32987 -> <clinit>
-    120:120:void <clinit>():33043:33043 -> <clinit>
-    121:121:void <clinit>():33365:33365 -> <clinit>
-    122:122:void <clinit>():34099:34099 -> <clinit>
-    123:123:void <clinit>():34159:34159 -> <clinit>
-    124:124:void <clinit>():34270:34270 -> <clinit>
-    125:125:void <clinit>():34730:34730 -> <clinit>
-    126:126:void <clinit>():34813:34813 -> <clinit>
-    127:127:void <clinit>():34934:34934 -> <clinit>
-    128:128:void <clinit>():35033:35033 -> <clinit>
-    129:129:void <clinit>():35101:35101 -> <clinit>
-    130:130:void <clinit>():35136:35136 -> <clinit>
-    131:131:void <clinit>():35196:35196 -> <clinit>
-    1:1:void <init>():12396:12396 -> <init>
+    1:1:void <clinit>():12477:12477 -> <clinit>
+    2:2:void <clinit>():12909:12909 -> <clinit>
+    3:3:void <clinit>():12952:12952 -> <clinit>
+    4:4:void <clinit>():12968:12968 -> <clinit>
+    5:5:void <clinit>():12991:12991 -> <clinit>
+    6:6:void <clinit>():13090:13090 -> <clinit>
+    7:7:void <clinit>():13146:13146 -> <clinit>
+    8:8:void <clinit>():13266:13266 -> <clinit>
+    9:9:void <clinit>():13357:13357 -> <clinit>
+    10:10:void <clinit>():13404:13404 -> <clinit>
+    11:11:void <clinit>():13484:13484 -> <clinit>
+    12:12:void <clinit>():13614:13614 -> <clinit>
+    13:13:void <clinit>():13678:13678 -> <clinit>
+    14:14:void <clinit>():13745:13745 -> <clinit>
+    15:15:void <clinit>():13833:13833 -> <clinit>
+    16:16:void <clinit>():13923:13923 -> <clinit>
+    17:17:void <clinit>():14084:14084 -> <clinit>
+    18:18:void <clinit>():14669:14669 -> <clinit>
+    19:19:void <clinit>():16417:16417 -> <clinit>
+    20:20:void <clinit>():16495:16495 -> <clinit>
+    21:21:void <clinit>():16577:16577 -> <clinit>
+    22:22:void <clinit>():16788:16788 -> <clinit>
+    23:23:void <clinit>():16848:16848 -> <clinit>
+    24:24:void <clinit>():17001:17001 -> <clinit>
+    25:25:void <clinit>():17212:17212 -> <clinit>
+    26:26:void <clinit>():17396:17396 -> <clinit>
+    27:27:void <clinit>():17446:17446 -> <clinit>
+    28:28:void <clinit>():17641:17641 -> <clinit>
+    29:29:void <clinit>():17768:17768 -> <clinit>
+    30:30:void <clinit>():18326:18326 -> <clinit>
+    31:31:void <clinit>():18422:18422 -> <clinit>
+    32:32:void <clinit>():18466:18466 -> <clinit>
+    33:33:void <clinit>():18610:18610 -> <clinit>
+    34:34:void <clinit>():18905:18905 -> <clinit>
+    35:35:void <clinit>():19173:19173 -> <clinit>
+    36:36:void <clinit>():19482:19482 -> <clinit>
+    37:37:void <clinit>():19745:19745 -> <clinit>
+    38:38:void <clinit>():19793:19793 -> <clinit>
+    39:39:void <clinit>():19900:19900 -> <clinit>
+    40:40:void <clinit>():20348:20348 -> <clinit>
+    41:41:void <clinit>():20544:20544 -> <clinit>
+    42:42:void <clinit>():21446:21446 -> <clinit>
+    43:43:void <clinit>():21647:21647 -> <clinit>
+    44:44:void <clinit>():22807:22807 -> <clinit>
+    45:45:void <clinit>():22869:22869 -> <clinit>
+    46:46:void <clinit>():23037:23037 -> <clinit>
+    47:47:void <clinit>():23091:23091 -> <clinit>
+    48:48:void <clinit>():23217:23217 -> <clinit>
+    49:49:void <clinit>():23289:23289 -> <clinit>
+    50:50:void <clinit>():23457:23457 -> <clinit>
+    51:51:void <clinit>():23540:23540 -> <clinit>
+    52:52:void <clinit>():23606:23606 -> <clinit>
+    53:53:void <clinit>():23853:23853 -> <clinit>
+    54:54:void <clinit>():23880:23880 -> <clinit>
+    55:55:void <clinit>():23932:23932 -> <clinit>
+    56:56:void <clinit>():24068:24068 -> <clinit>
+    57:57:void <clinit>():24219:24219 -> <clinit>
+    58:58:void <clinit>():24287:24287 -> <clinit>
+    59:59:void <clinit>():24349:24349 -> <clinit>
+    60:60:void <clinit>():24538:24538 -> <clinit>
+    61:61:void <clinit>():24722:24722 -> <clinit>
+    62:62:void <clinit>():24771:24771 -> <clinit>
+    63:63:void <clinit>():24886:24886 -> <clinit>
+    64:64:void <clinit>():25022:25022 -> <clinit>
+    65:65:void <clinit>():25070:25070 -> <clinit>
+    66:66:void <clinit>():25240:25240 -> <clinit>
+    67:67:void <clinit>():25340:25340 -> <clinit>
+    68:68:void <clinit>():25404:25404 -> <clinit>
+    69:69:void <clinit>():25583:25583 -> <clinit>
+    70:70:void <clinit>():25761:25761 -> <clinit>
+    71:71:void <clinit>():25835:25835 -> <clinit>
+    72:72:void <clinit>():25948:25948 -> <clinit>
+    73:73:void <clinit>():26285:26285 -> <clinit>
+    74:74:void <clinit>():26341:26341 -> <clinit>
+    75:75:void <clinit>():26480:26480 -> <clinit>
+    76:76:void <clinit>():26652:26652 -> <clinit>
+    77:77:void <clinit>():26797:26797 -> <clinit>
+    78:78:void <clinit>():26845:26845 -> <clinit>
+    79:79:void <clinit>():26915:26915 -> <clinit>
+    80:80:void <clinit>():26959:26959 -> <clinit>
+    81:81:void <clinit>():27131:27131 -> <clinit>
+    82:82:void <clinit>():27173:27173 -> <clinit>
+    83:83:void <clinit>():27221:27221 -> <clinit>
+    84:84:void <clinit>():27285:27285 -> <clinit>
+    85:85:void <clinit>():27432:27432 -> <clinit>
+    86:86:void <clinit>():27809:27809 -> <clinit>
+    87:87:void <clinit>():27945:27945 -> <clinit>
+    88:88:void <clinit>():27993:27993 -> <clinit>
+    89:89:void <clinit>():28122:28122 -> <clinit>
+    90:90:void <clinit>():28429:28429 -> <clinit>
+    91:91:void <clinit>():28491:28491 -> <clinit>
+    92:92:void <clinit>():28531:28531 -> <clinit>
+    93:93:void <clinit>():28583:28583 -> <clinit>
+    94:94:void <clinit>():28616:28616 -> <clinit>
+    95:95:void <clinit>():28692:28692 -> <clinit>
+    96:96:void <clinit>():28756:28756 -> <clinit>
+    97:97:void <clinit>():28923:28923 -> <clinit>
+    98:98:void <clinit>():28952:28952 -> <clinit>
+    99:99:void <clinit>():29013:29013 -> <clinit>
+    100:100:void <clinit>():29355:29355 -> <clinit>
+    101:101:void <clinit>():29675:29675 -> <clinit>
+    102:102:void <clinit>():29771:29771 -> <clinit>
+    103:103:void <clinit>():30025:30025 -> <clinit>
+    104:104:void <clinit>():30499:30499 -> <clinit>
+    105:105:void <clinit>():30978:30978 -> <clinit>
+    106:106:void <clinit>():31389:31389 -> <clinit>
+    107:107:void <clinit>():31436:31436 -> <clinit>
+    108:108:void <clinit>():31487:31487 -> <clinit>
+    109:109:void <clinit>():31590:31590 -> <clinit>
+    110:110:void <clinit>():31716:31716 -> <clinit>
+    111:111:void <clinit>():31937:31937 -> <clinit>
+    112:112:void <clinit>():32026:32026 -> <clinit>
+    113:113:void <clinit>():32060:32060 -> <clinit>
+    114:114:void <clinit>():32146:32146 -> <clinit>
+    115:115:void <clinit>():32366:32366 -> <clinit>
+    116:116:void <clinit>():32398:32398 -> <clinit>
+    117:117:void <clinit>():32503:32503 -> <clinit>
+    118:118:void <clinit>():32895:32895 -> <clinit>
+    119:119:void <clinit>():32996:32996 -> <clinit>
+    120:120:void <clinit>():33052:33052 -> <clinit>
+    121:121:void <clinit>():33374:33374 -> <clinit>
+    122:122:void <clinit>():34108:34108 -> <clinit>
+    123:123:void <clinit>():34168:34168 -> <clinit>
+    124:124:void <clinit>():34279:34279 -> <clinit>
+    125:125:void <clinit>():34739:34739 -> <clinit>
+    126:126:void <clinit>():34822:34822 -> <clinit>
+    127:127:void <clinit>():34943:34943 -> <clinit>
+    128:128:void <clinit>():35042:35042 -> <clinit>
+    129:129:void <clinit>():35110:35110 -> <clinit>
+    130:130:void <clinit>():35145:35145 -> <clinit>
+    131:131:void <clinit>():35205:35205 -> <clinit>
+    1:1:void <init>():12405:12405 -> <init>
 com.huli.foxread.R$xml -> com.huli.foxread.R$xml:
-    1:1:void <init>():35246:35246 -> <init>
+    1:1:void <init>():35255:35255 -> <init>
 com.huli.foxread.cache.ACache -> com.huli.foxread.g.a:
     com.huli.foxread.cache.ACache$ACacheManager mCacheManager -> a
     int MAX_COUNT -> f
@@ -89129,10 +89126,10 @@ com.huli.foxread.ui.activities.-$$Lambda$MyInviteFriendsActivity$46nFt4GpC7EHoG-
     com.huli.foxread.ui.activities.MyInviteFriendsActivity f$0 -> a
 com.huli.foxread.ui.activities.-$$Lambda$MyInviteFriendsActivity$eKWTS-7AEeKqXh9TxW5Phkz9NUc -> com.huli.foxread.ui.activities.r0:
     com.huli.foxread.ui.activities.MyInviteFriendsActivity f$0 -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$8vugvAcDd00VS8qhFKMKM6x6YH4 -> com.huli.foxread.ui.activities.s0:
-    com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$8vugvAcDd00VS8qhFKMKM6x6YH4 INSTANCE -> a
-com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$7$9EDI8R69JQWYA6JIOBJ4NQAtvyA -> com.huli.foxread.ui.activities.t0:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity$7 f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$9$dTXtp4CC_fIa9SHq6MOD267zvb8 -> com.huli.foxread.ui.activities.s0:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity$9 f$0 -> a
+com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$9$jgF1DCnRR9yrpRwNOAF0BFTTFUk -> com.huli.foxread.ui.activities.t0:
+    com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$9$jgF1DCnRR9yrpRwNOAF0BFTTFUk INSTANCE -> a
 com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$UtMjOedZ71CVy8J6hDIcD1TQ9A0 -> com.huli.foxread.ui.activities.u0:
     com.huli.foxread.ui.activities.MyPrivilegeActivity f$0 -> a
 com.huli.foxread.ui.activities.-$$Lambda$MyPrivilegeActivity$ZmFfuMCOb6E8QNfwLNLo2l2zFwE -> com.huli.foxread.ui.activities.v0:
@@ -90446,7 +90443,7 @@ com.huli.foxread.ui.activities.MainActivity -> com.huli.foxread.ui.activities.Ma
     2:2:void <init>():83:83 -> <init>
     3:3:void <init>():91:91 -> <init>
     4:4:void <init>():242:242 -> <init>
-    5:5:void <init>():425:425 -> <init>
+    5:5:void <init>():426:426 -> <init>
     1:1:java.lang.String access$000(com.huli.foxread.ui.activities.MainActivity):78:78 -> a
     2:2:boolean access$202(com.huli.foxread.ui.activities.MainActivity,boolean):78:78 -> a
     3:3:void access$500(com.huli.foxread.ui.activities.MainActivity,java.lang.String,java.lang.String,java.lang.String):78:78 -> a
@@ -90456,15 +90453,15 @@ com.huli.foxread.ui.activities.MainActivity -> com.huli.foxread.ui.activities.Ma
     7:7:void lambda$doBusiness$36(java.lang.String):150:150 -> a
     8:10:void lambda$doBusiness$36(java.lang.String):152:154 -> a
     11:11:void lambda$doBusiness$36(java.lang.String):156:156 -> a
-    12:13:void hideFragments(androidx.fragment.app.FragmentTransaction):371:372 -> a
-    14:15:void hideFragments(androidx.fragment.app.FragmentTransaction):374:375 -> a
-    16:17:void hideFragments(androidx.fragment.app.FragmentTransaction):377:378 -> a
-    18:19:void hideFragments(androidx.fragment.app.FragmentTransaction):380:381 -> a
-    20:27:void getPhoneNum(java.lang.String,java.lang.String,java.lang.String):500:507 -> a
-    28:32:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):666:670 -> a
-    33:33:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):672:672 -> a
-    34:34:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):700:700 -> a
-    35:38:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):702:705 -> a
+    12:13:void hideFragments(androidx.fragment.app.FragmentTransaction):372:373 -> a
+    14:15:void hideFragments(androidx.fragment.app.FragmentTransaction):375:376 -> a
+    16:17:void hideFragments(androidx.fragment.app.FragmentTransaction):378:379 -> a
+    18:19:void hideFragments(androidx.fragment.app.FragmentTransaction):381:382 -> a
+    20:27:void getPhoneNum(java.lang.String,java.lang.String,java.lang.String):501:508 -> a
+    28:32:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):667:671 -> a
+    33:33:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):673:673 -> a
+    34:34:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):701:701 -> a
+    35:38:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):703:706 -> a
     1:1:java.lang.String access$100(com.huli.foxread.ui.activities.MainActivity):78:78 -> b
     2:2:void changeFragment(int):318:318 -> b
     3:3:void changeFragment(int):321:321 -> b
@@ -90476,31 +90473,31 @@ com.huli.foxread.ui.activities.MainActivity -> com.huli.foxread.ui.activities.Ma
     17:17:void changeFragment(int):337:337 -> b
     18:20:void changeFragment(int):324:326 -> b
     21:21:void changeFragment(int):328:328 -> b
-    22:22:void changeFragment(int):363:363 -> b
-    23:25:void reqInviteCodeSubmit(java.lang.String):578:580 -> b
+    22:22:void changeFragment(int):364:364 -> b
+    23:25:void reqInviteCodeSubmit(java.lang.String):579:581 -> b
     1:1:boolean access$200(com.huli.foxread.ui.activities.MainActivity):78:78 -> c
     2:3:void setStatusBar():98:99 -> c
     1:1:java.lang.String access$300(com.huli.foxread.ui.activities.MainActivity):78:78 -> d
-    2:5:void checkNewVersion():616:619 -> d
+    2:5:void checkNewVersion():617:620 -> d
     1:3:void doBusiness(android.content.Context):138:140 -> doBusiness
     4:6:void doBusiness(android.content.Context):144:146 -> doBusiness
     7:7:void doBusiness(android.content.Context):161:161 -> doBusiness
     8:9:void doBusiness(android.content.Context):164:165 -> doBusiness
     10:10:void doBusiness(android.content.Context):197:197 -> doBusiness
     1:1:void access$400(com.huli.foxread.ui.activities.MainActivity):78:78 -> e
-    2:2:void oneClickLogin():459:459 -> e
+    2:2:void oneClickLogin():460:460 -> e
     1:1:java.lang.String access$600(com.huli.foxread.ui.activities.MainActivity):78:78 -> f
     2:2:void preAvoidPwd1ClickLogin():224:224 -> f
     3:3:void preAvoidPwd1ClickLogin():227:227 -> f
-    1:3:void sendShowLoginDialogMsg():419:421 -> g
-    1:2:void getUserReadTime():597:598 -> getUserReadTime
+    1:3:void sendShowLoginDialogMsg():420:422 -> g
+    1:2:void getUserReadTime():598:599 -> getUserReadTime
     1:1:void initParms(android.os.Bundle):105:105 -> initParms
     1:8:void initView(android.view.View):121:128 -> initView
     1:1:void onDestroy():279:279 -> onDestroy
     2:2:void onDestroy():281:281 -> onDestroy
-    1:3:boolean onKeyDown(int,android.view.KeyEvent):404:406 -> onKeyDown
-    4:4:boolean onKeyDown(int,android.view.KeyEvent):408:408 -> onKeyDown
-    5:5:boolean onKeyDown(int,android.view.KeyEvent):412:412 -> onKeyDown
+    1:3:boolean onKeyDown(int,android.view.KeyEvent):405:407 -> onKeyDown
+    4:4:boolean onKeyDown(int,android.view.KeyEvent):409:409 -> onKeyDown
+    5:5:boolean onKeyDown(int,android.view.KeyEvent):413:413 -> onKeyDown
     1:1:void onNewIntent(android.content.Intent):202:202 -> onNewIntent
     2:2:void onNewIntent(android.content.Intent):205:205 -> onNewIntent
     1:2:void onResume():262:263 -> onResume
@@ -90509,59 +90506,59 @@ com.huli.foxread.ui.activities.MainActivity -> com.huli.foxread.ui.activities.Ma
     8:11:void onTabReselect(int):301:304 -> onTabReselect
     12:12:void onTabReselect(int):308:308 -> onTabReselect
     1:1:void onTabSelect(int):286:286 -> onTabSelect
-    1:2:void reqMyCapitalDetail():530:531 -> reqMyCapitalDetail
-    1:2:void reqUserInfo():549:550 -> reqUserInfo
+    1:2:void reqMyCapitalDetail():531:532 -> reqMyCapitalDetail
+    1:2:void reqUserInfo():550:551 -> reqUserInfo
     1:1:void setListener():133:133 -> setListener
-    1:2:void switch2Bookstore():389:390 -> switch2Bookstore
-    1:2:void switch2Welfare():397:398 -> switch2Welfare
+    1:2:void switch2Bookstore():390:391 -> switch2Bookstore
+    1:2:void switch2Welfare():398:399 -> switch2Welfare
 com.huli.foxread.ui.activities.MainActivity$1 -> com.huli.foxread.ui.activities.MainActivity$f:
     com.huli.foxread.ui.activities.MainActivity this$0 -> m
     1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):165:165 -> <init>
     1:1:void dealWithCustomMessage(android.content.Context,com.umeng.message.entity.UMessage):168:168 -> dealWithCustomMessage
 com.huli.foxread.ui.activities.MainActivity$10 -> com.huli.foxread.ui.activities.MainActivity$a:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):552:552 -> <init>
-    1:3:void onSuccess(com.lzy.okgo.model.Response):555:557 -> onSuccess
-    4:5:void onSuccess(com.lzy.okgo.model.Response):560:561 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):563:563 -> onSuccess
-    7:7:void onSuccess(com.lzy.okgo.model.Response):565:565 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):553:553 -> <init>
+    1:3:void onSuccess(com.lzy.okgo.model.Response):556:558 -> onSuccess
+    4:5:void onSuccess(com.lzy.okgo.model.Response):561:562 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):564:564 -> onSuccess
+    7:7:void onSuccess(com.lzy.okgo.model.Response):566:566 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$11 -> com.huli.foxread.ui.activities.MainActivity$b:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):580:580 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):583:583 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):585:587 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):581:581 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):584:584 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):586:588 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$11$1 -> com.huli.foxread.ui.activities.MainActivity$b$a:
     com.huli.foxread.ui.activities.MainActivity$11 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$11):583:583 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$11):584:584 -> <init>
 com.huli.foxread.ui.activities.MainActivity$12 -> com.huli.foxread.ui.activities.MainActivity$c:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):598:598 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):601:601 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):604:605 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):599:599 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):602:602 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):605:606 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$12$1 -> com.huli.foxread.ui.activities.MainActivity$c$a:
     com.huli.foxread.ui.activities.MainActivity$12 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$12):602:602 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$12):603:603 -> <init>
 com.huli.foxread.ui.activities.MainActivity$13 -> com.huli.foxread.ui.activities.MainActivity$d:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):619:619 -> <init>
-    1:6:void lambda$onSuccess$42(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):630:635 -> a
-    7:8:void lambda$onSuccess$42(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):637:638 -> a
-    9:9:void lambda$null$40(com.huli.foxread.ui.dialogs.base.BaseDialog,android.view.View):637:637 -> a
-    10:10:void lambda$null$41(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):639:639 -> a
-    11:11:void lambda$null$41(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):641:641 -> a
-    1:1:void onSuccess(com.lzy.okgo.model.Response):622:622 -> onSuccess
-    2:7:void onSuccess(com.lzy.okgo.model.Response):624:629 -> onSuccess
-    8:14:void onSuccess(com.lzy.okgo.model.Response):645:651 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):620:620 -> <init>
+    1:6:void lambda$onSuccess$42(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):631:636 -> a
+    7:8:void lambda$onSuccess$42(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):638:639 -> a
+    9:9:void lambda$null$40(com.huli.foxread.ui.dialogs.base.BaseDialog,android.view.View):638:638 -> a
+    10:10:void lambda$null$41(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):640:640 -> a
+    11:11:void lambda$null$41(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):642:642 -> a
+    1:1:void onSuccess(com.lzy.okgo.model.Response):623:623 -> onSuccess
+    2:7:void onSuccess(com.lzy.okgo.model.Response):625:630 -> onSuccess
+    8:14:void onSuccess(com.lzy.okgo.model.Response):646:652 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$13$1 -> com.huli.foxread.ui.activities.MainActivity$d$a:
     com.huli.foxread.ui.activities.MainActivity$13 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$13):622:622 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$13):623:623 -> <init>
 com.huli.foxread.ui.activities.MainActivity$14 -> com.huli.foxread.ui.activities.MainActivity$e:
     com.azhon.appupdate.dialog.NumberProgressBar val$progressBar -> a
     com.huli.foxread.ui.dialogs.base.BaseDialog val$dialog -> b
     com.huli.foxread.ui.activities.MainActivity this$0 -> c
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):672:672 -> <init>
-    1:2:void done(java.io.File):686:687 -> done
-    1:1:void downloading(int,int):681:681 -> downloading
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):673:673 -> <init>
+    1:2:void done(java.io.File):687:688 -> done
+    1:1:void downloading(int,int):682:682 -> downloading
 com.huli.foxread.ui.activities.MainActivity$2 -> com.huli.foxread.ui.activities.MainActivity$g:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
     1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):227:227 -> <init>
@@ -90576,41 +90573,41 @@ com.huli.foxread.ui.activities.MainActivity$3 -> com.huli.foxread.ui.activities.
     7:7:void onGetWakeUpFinish(java.lang.String):255:255 -> onGetWakeUpFinish
 com.huli.foxread.ui.activities.MainActivity$4 -> com.huli.foxread.ui.activities.MainActivity$i:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):425:425 -> <init>
-    1:3:void lambda$handleMessage$39(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):433:435 -> a
-    4:4:void lambda$handleMessage$39(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):439:439 -> a
-    1:2:void lambda$null$37(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):436:437 -> b
-    1:2:void lambda$null$38(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):440:441 -> c
-    1:1:boolean handleMessage(android.os.Message):428:428 -> handleMessage
-    2:4:boolean handleMessage(android.os.Message):430:432 -> handleMessage
-    5:7:boolean handleMessage(android.os.Message):444:446 -> handleMessage
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):426:426 -> <init>
+    1:3:void lambda$handleMessage$39(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):434:436 -> a
+    4:4:void lambda$handleMessage$39(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):440:440 -> a
+    1:2:void lambda$null$37(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):437:438 -> b
+    1:2:void lambda$null$38(com.kongzue.dialog.v3.FullScreenDialog,android.view.View):441:442 -> c
+    1:1:boolean handleMessage(android.os.Message):429:429 -> handleMessage
+    2:4:boolean handleMessage(android.os.Message):431:433 -> handleMessage
+    5:7:boolean handleMessage(android.os.Message):445:447 -> handleMessage
 com.huli.foxread.ui.activities.MainActivity$5 -> com.huli.foxread.ui.activities.MainActivity$j:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):459:459 -> <init>
-    1:1:void onGetLoginTokenFaild(java.lang.String,java.lang.String,java.lang.String):481:481 -> onGetLoginTokenFaild
-    1:2:void onGetLoginTokenSuccess(java.lang.String,java.lang.String,java.lang.String):468:469 -> onGetLoginTokenSuccess
-    1:2:void onOtherWayLogin():486:487 -> onOtherWayLogin
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):460:460 -> <init>
+    1:1:void onGetLoginTokenFaild(java.lang.String,java.lang.String,java.lang.String):482:482 -> onGetLoginTokenFaild
+    1:2:void onGetLoginTokenSuccess(java.lang.String,java.lang.String,java.lang.String):469:470 -> onGetLoginTokenSuccess
+    1:2:void onOtherWayLogin():487:488 -> onOtherWayLogin
 com.huli.foxread.ui.activities.MainActivity$6 -> com.huli.foxread.ui.activities.MainActivity$k:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):508:508 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):509:509 -> <init>
 com.huli.foxread.ui.activities.MainActivity$7 -> com.huli.foxread.ui.activities.MainActivity$l:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):509:509 -> <init>
-    1:3:void onSuccess(com.lzy.okgo.model.Response):512:514 -> onSuccess
-    4:4:void onSuccess(com.lzy.okgo.model.Response):516:516 -> onSuccess
-    5:5:void onSuccess(com.lzy.okgo.model.Response):518:518 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):520:520 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):510:510 -> <init>
+    1:3:void onSuccess(com.lzy.okgo.model.Response):513:515 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):517:517 -> onSuccess
+    5:5:void onSuccess(com.lzy.okgo.model.Response):519:519 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):521:521 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$8 -> com.huli.foxread.ui.activities.MainActivity$m:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):531:531 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):534:534 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):537:539 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):532:532 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):535:535 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):538:540 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$8$1 -> com.huli.foxread.ui.activities.MainActivity$m$a:
     com.huli.foxread.ui.activities.MainActivity$8 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$8):535:535 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$8):536:536 -> <init>
 com.huli.foxread.ui.activities.MainActivity$9 -> com.huli.foxread.ui.activities.MainActivity$n:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):551:551 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):552:552 -> <init>
 com.huli.foxread.ui.activities.MsgNotifyActivity -> com.huli.foxread.ui.activities.MsgNotifyActivity:
     androidx.recyclerview.widget.RecyclerView recyclerView -> g
     android.widget.ImageView btnClose -> i
@@ -90773,42 +90770,45 @@ com.huli.foxread.ui.activities.MyPrivilegeActivity -> com.huli.foxread.ui.activi
     android.widget.TextView tvNickname -> l
     1:1:void <init>():76:76 -> <init>
     2:2:void <init>():95:95 -> <init>
-    3:3:void <init>():267:267 -> <init>
+    3:3:void <init>():247:247 -> <init>
     1:1:void access$000(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> a
     2:2:void access$1000(com.huli.foxread.ui.activities.MyPrivilegeActivity,java.lang.String,java.lang.String):76:76 -> a
     3:3:void access$900(com.huli.foxread.ui.activities.MyPrivilegeActivity,java.lang.String):76:76 -> a
-    4:4:void displayVipUI(com.huli.foxread.entity.FUser):249:249 -> a
-    5:7:void displayVipUI(com.huli.foxread.entity.FUser):251:253 -> a
-    8:8:void displayVipUI(com.huli.foxread.entity.FUser):252:252 -> a
-    9:11:void displayVipUI(com.huli.foxread.entity.FUser):254:256 -> a
-    12:16:void displayVipUI(com.huli.foxread.entity.FUser):258:262 -> a
-    17:24:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):268:275 -> a
-    25:25:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):277:277 -> a
-    26:26:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):281:281 -> a
-    27:28:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):286:287 -> a
-    29:30:void lambda$null$52(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):278:279 -> a
-    31:33:void reqSubmitOrder(java.lang.String):330:332 -> a
-    34:36:void reqChannelsAndPayment(java.lang.String,java.lang.String):400:402 -> a
+    4:4:void displayVipUI(com.huli.foxread.entity.FUser):229:229 -> a
+    5:7:void displayVipUI(com.huli.foxread.entity.FUser):231:233 -> a
+    8:8:void displayVipUI(com.huli.foxread.entity.FUser):232:232 -> a
+    9:11:void displayVipUI(com.huli.foxread.entity.FUser):234:236 -> a
+    12:16:void displayVipUI(com.huli.foxread.entity.FUser):238:242 -> a
+    17:24:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):248:255 -> a
+    25:25:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):257:257 -> a
+    26:26:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):261:261 -> a
+    27:28:void lambda$new$54(com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog):266:267 -> a
+    29:30:void lambda$null$52(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):258:259 -> a
+    31:33:void reqSubmitOrder(java.lang.String):372:374 -> a
+    34:36:void reqChannelsAndPayment(java.lang.String,java.lang.String):442:444 -> a
     1:1:com.huli.foxread.ui.adapters.VipComboAdapter access$100(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> b
-    2:3:void lambda$null$53(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):282:283 -> b
-    4:4:void wechatPay(java.lang.String):439:439 -> b
-    5:5:void wechatPay(java.lang.String):441:441 -> b
-    6:14:void wechatPay(java.lang.String):445:453 -> b
-    15:15:void wechatPay(java.lang.String):455:455 -> b
+    2:3:void lambda$null$53(com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.ui.widget.CheckBoxSample,android.view.View):262:263 -> b
+    4:4:void wechatPay(java.lang.String):481:481 -> b
+    5:5:void wechatPay(java.lang.String):483:483 -> b
+    6:14:void wechatPay(java.lang.String):487:495 -> b
+    15:15:void wechatPay(java.lang.String):497:497 -> b
     1:1:com.huli.foxread.ui.dialogs.PaymentSelectDialog$PConvertListener access$200(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> c
     1:1:android.widget.TextView access$300(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> d
-    2:3:void reqRechargeCombo():311:312 -> d
+    2:4:void initWarmPrompt():291:293 -> d
+    5:5:void initWarmPrompt():310:310 -> d
+    6:6:void initWarmPrompt():327:327 -> d
+    7:7:void initWarmPrompt():343:343 -> d
+    8:8:void initWarmPrompt():327:327 -> d
+    9:11:void initWarmPrompt():344:346 -> d
     1:2:void doBusiness(android.content.Context):177:178 -> doBusiness
     3:3:void doBusiness(android.content.Context):182:182 -> doBusiness
     4:8:void doBusiness(android.content.Context):184:188 -> doBusiness
-    9:11:void doBusiness(android.content.Context):190:192 -> doBusiness
-    12:12:void doBusiness(android.content.Context):208:208 -> doBusiness
-    13:13:void doBusiness(android.content.Context):192:192 -> doBusiness
-    14:15:void doBusiness(android.content.Context):209:210 -> doBusiness
-    16:16:void doBusiness(android.content.Context):212:212 -> doBusiness
-    17:17:void doBusiness(android.content.Context):214:214 -> doBusiness
-    18:18:void doBusiness(android.content.Context):216:216 -> doBusiness
+    9:9:void doBusiness(android.content.Context):190:190 -> doBusiness
+    10:10:void doBusiness(android.content.Context):192:192 -> doBusiness
+    11:11:void doBusiness(android.content.Context):194:194 -> doBusiness
+    12:12:void doBusiness(android.content.Context):196:196 -> doBusiness
     1:1:android.widget.TextView access$400(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> e
+    2:3:void reqRechargeCombo():353:354 -> e
     1:1:android.widget.TextView access$500(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> f
     1:1:android.widget.TextView access$600(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> g
     1:1:android.widget.ImageView access$700(com.huli.foxread.ui.activities.MyPrivilegeActivity):76:76 -> h
@@ -90818,14 +90818,14 @@ com.huli.foxread.ui.activities.MyPrivilegeActivity -> com.huli.foxread.ui.activi
     8:11:void initView(android.view.View):151:154 -> initView
     12:18:void initView(android.view.View):156:162 -> initView
     19:20:void initView(android.view.View):164:165 -> initView
-    1:1:void onClick(android.view.View):223:223 -> onClick
-    2:4:void onClick(android.view.View):225:227 -> onClick
-    5:6:void onClick(android.view.View):231:232 -> onClick
-    1:2:void onVipComboSelect(java.lang.String,double):244:245 -> onVipComboSelect
-    1:2:void onWXPaySuccessEvent(com.huli.foxread.entity.eventbus.WXPaySuccessEvent):460:461 -> onWXPaySuccessEvent
-    1:2:void reqUserInfo():359:360 -> reqUserInfo
+    1:1:void onClick(android.view.View):203:203 -> onClick
+    2:4:void onClick(android.view.View):205:207 -> onClick
+    5:6:void onClick(android.view.View):211:212 -> onClick
+    1:2:void onVipComboSelect(java.lang.String,double):224:225 -> onVipComboSelect
+    1:2:void onWXPaySuccessEvent(com.huli.foxread.entity.eventbus.WXPaySuccessEvent):502:503 -> onWXPaySuccessEvent
+    1:2:void reqUserInfo():401:402 -> reqUserInfo
     1:2:void setListener():170:171 -> setListener
-com.huli.foxread.ui.activities.MyPrivilegeActivity$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$a:
+com.huli.foxread.ui.activities.MyPrivilegeActivity$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$b:
     com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> a
     1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):96:96 -> <init>
     1:1:void handleMessage(android.os.Message):99:99 -> handleMessage
@@ -90834,71 +90834,81 @@ com.huli.foxread.ui.activities.MyPrivilegeActivity$1 -> com.huli.foxread.ui.acti
     5:5:void handleMessage(android.os.Message):109:109 -> handleMessage
     6:6:void handleMessage(android.os.Message):114:114 -> handleMessage
     7:7:void handleMessage(android.os.Message):117:117 -> handleMessage
-com.huli.foxread.ui.activities.MyPrivilegeActivity$2 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$b:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):192:192 -> <init>
-    1:3:void onClick(android.view.View):196:198 -> onClick
-    1:2:void updateDrawState(android.text.TextPaint):205:206 -> updateDrawState
-com.huli.foxread.ui.activities.MyPrivilegeActivity$3 -> com.huli.foxread.ui.activities.b2:
+com.huli.foxread.ui.activities.MyPrivilegeActivity$10 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$a:
+    java.lang.String val$payChannelsUrl -> f
+    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> g
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity,java.lang.String):444:444 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):447:447 -> onSuccess
+    2:5:void onSuccess(com.lzy.okgo.model.Response):450:453 -> onSuccess
+    6:10:void onSuccess(com.lzy.okgo.model.Response):464:468 -> onSuccess
+    11:11:void onSuccess(com.lzy.okgo.model.Response):471:471 -> onSuccess
+com.huli.foxread.ui.activities.MyPrivilegeActivity$10$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$a$a:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity$10 this$1 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$10):448:448 -> <init>
+com.huli.foxread.ui.activities.MyPrivilegeActivity$10$2 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$a$b:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity$10 this$1 -> b
+    java.lang.String val$orderInfo -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$10,java.lang.String):453:453 -> <init>
+    1:6:void run():456:461 -> run
+com.huli.foxread.ui.activities.MyPrivilegeActivity$2 -> com.huli.foxread.ui.activities.b2:
     com.huli.foxread.ui.widget.CheckBoxSample val$cbAlipay -> f
     com.huli.foxread.entity.PaymentInfoEntity val$data -> d
     com.huli.foxread.ui.dialogs.base.BaseDialog val$dialog -> e
     com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> g
     com.huli.foxread.ui.widget.CheckBoxSample val$cbWechat -> c
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog,com.huli.foxread.ui.widget.CheckBoxSample):287:287 -> <init>
-    1:1:void singleClick(android.view.View):290:290 -> singleClick
-    2:4:void singleClick(android.view.View):292:294 -> singleClick
-    5:6:void singleClick(android.view.View):296:297 -> singleClick
-    7:7:void singleClick(android.view.View):299:299 -> singleClick
-com.huli.foxread.ui.activities.MyPrivilegeActivity$4 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$c:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity):312:312 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):315:315 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):318:320 -> onSuccess
-com.huli.foxread.ui.activities.MyPrivilegeActivity$4$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$c$a:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity$4 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$4):316:316 -> <init>
-com.huli.foxread.ui.activities.MyPrivilegeActivity$5 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$d:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity):332:332 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):335:335 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):338:339 -> onSuccess
-    4:10:void onSuccess(com.lzy.okgo.model.Response):341:347 -> onSuccess
-    11:11:void onSuccess(com.lzy.okgo.model.Response):349:349 -> onSuccess
-com.huli.foxread.ui.activities.MyPrivilegeActivity$5$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$d$a:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity$5 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$5):336:336 -> <init>
-com.huli.foxread.ui.activities.MyPrivilegeActivity$6 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$e:
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,com.huli.foxread.ui.widget.CheckBoxSample,com.huli.foxread.entity.PaymentInfoEntity,com.huli.foxread.ui.dialogs.base.BaseDialog,com.huli.foxread.ui.widget.CheckBoxSample):267:267 -> <init>
+    1:1:void singleClick(android.view.View):270:270 -> singleClick
+    2:4:void singleClick(android.view.View):272:274 -> singleClick
+    5:6:void singleClick(android.view.View):276:277 -> singleClick
+    7:7:void singleClick(android.view.View):279:279 -> singleClick
+com.huli.foxread.ui.activities.MyPrivilegeActivity$3 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$c:
     com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):361:361 -> <init>
-com.huli.foxread.ui.activities.MyPrivilegeActivity$7 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$f:
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):293:293 -> <init>
+    1:3:void onClick(android.view.View):297:299 -> onClick
+    1:2:void updateDrawState(android.text.TextPaint):306:307 -> updateDrawState
+com.huli.foxread.ui.activities.MyPrivilegeActivity$4 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$d:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):310:310 -> <init>
+    1:3:void onClick(android.view.View):314:316 -> onClick
+    1:2:void updateDrawState(android.text.TextPaint):323:324 -> updateDrawState
+com.huli.foxread.ui.activities.MyPrivilegeActivity$5 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$e:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):327:327 -> <init>
+    1:3:void onClick(android.view.View):331:333 -> onClick
+    1:2:void updateDrawState(android.text.TextPaint):340:341 -> updateDrawState
+com.huli.foxread.ui.activities.MyPrivilegeActivity$6 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$f:
     com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity,com.alibaba.fastjson.TypeReference):362:362 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity):354:354 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):357:357 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):360:362 -> onSuccess
+com.huli.foxread.ui.activities.MyPrivilegeActivity$6$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$f$a:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity$6 this$1 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$6):358:358 -> <init>
+com.huli.foxread.ui.activities.MyPrivilegeActivity$7 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$g:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> f
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity):374:374 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):377:377 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):380:381 -> onSuccess
+    4:10:void onSuccess(com.lzy.okgo.model.Response):383:389 -> onSuccess
+    11:11:void onSuccess(com.lzy.okgo.model.Response):391:391 -> onSuccess
+com.huli.foxread.ui.activities.MyPrivilegeActivity$7$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$g$a:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity$7 this$1 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$7):378:378 -> <init>
+com.huli.foxread.ui.activities.MyPrivilegeActivity$8 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$h:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity):403:403 -> <init>
+com.huli.foxread.ui.activities.MyPrivilegeActivity$9 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$i:
+    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> f
+    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity,com.alibaba.fastjson.TypeReference):404:404 -> <init>
     void lambda$onSuccess$55(com.kongzue.dialog.v3.MessageDialog,android.view.View) -> a
-    1:1:boolean lambda$onSuccess$56(com.kongzue.dialog.util.BaseDialog,android.view.View):386:386 -> a
-    1:3:void onSuccess(com.lzy.okgo.model.Response):365:367 -> onSuccess
-    4:7:void onSuccess(com.lzy.okgo.model.Response):369:372 -> onSuccess
-    8:8:void onSuccess(com.lzy.okgo.model.Response):371:371 -> onSuccess
-    9:11:void onSuccess(com.lzy.okgo.model.Response):373:375 -> onSuccess
-    12:12:void onSuccess(com.lzy.okgo.model.Response):377:377 -> onSuccess
-    13:19:void onSuccess(com.lzy.okgo.model.Response):379:385 -> onSuccess
-    20:20:void onSuccess(com.lzy.okgo.model.Response):388:388 -> onSuccess
-com.huli.foxread.ui.activities.MyPrivilegeActivity$8 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$g:
-    java.lang.String val$payChannelsUrl -> f
-    com.huli.foxread.ui.activities.MyPrivilegeActivity this$0 -> g
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity,androidx.appcompat.app.AppCompatActivity,java.lang.String):402:402 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):405:405 -> onSuccess
-    2:5:void onSuccess(com.lzy.okgo.model.Response):408:411 -> onSuccess
-    6:10:void onSuccess(com.lzy.okgo.model.Response):422:426 -> onSuccess
-    11:11:void onSuccess(com.lzy.okgo.model.Response):429:429 -> onSuccess
-com.huli.foxread.ui.activities.MyPrivilegeActivity$8$1 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$g$a:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity$8 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$8):406:406 -> <init>
-com.huli.foxread.ui.activities.MyPrivilegeActivity$8$2 -> com.huli.foxread.ui.activities.MyPrivilegeActivity$g$b:
-    com.huli.foxread.ui.activities.MyPrivilegeActivity$8 this$1 -> b
-    java.lang.String val$orderInfo -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MyPrivilegeActivity$8,java.lang.String):411:411 -> <init>
-    1:6:void run():414:419 -> run
+    1:1:boolean lambda$onSuccess$56(com.kongzue.dialog.util.BaseDialog,android.view.View):428:428 -> a
+    1:3:void onSuccess(com.lzy.okgo.model.Response):407:409 -> onSuccess
+    4:7:void onSuccess(com.lzy.okgo.model.Response):411:414 -> onSuccess
+    8:8:void onSuccess(com.lzy.okgo.model.Response):413:413 -> onSuccess
+    9:11:void onSuccess(com.lzy.okgo.model.Response):415:417 -> onSuccess
+    12:12:void onSuccess(com.lzy.okgo.model.Response):419:419 -> onSuccess
+    13:19:void onSuccess(com.lzy.okgo.model.Response):421:427 -> onSuccess
+    20:20:void onSuccess(com.lzy.okgo.model.Response):430:430 -> onSuccess
 com.huli.foxread.ui.activities.NewBooksActivity -> com.huli.foxread.ui.activities.NewBooksActivity:
     androidx.recyclerview.widget.RecyclerView recyclerView -> g
     android.widget.ImageView btnSearch -> f

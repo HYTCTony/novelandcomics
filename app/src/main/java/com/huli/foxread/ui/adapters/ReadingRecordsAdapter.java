@@ -37,10 +37,9 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         selectLists.clear();
     }
 
-
     @Override
-    public void setNewData(List<ReadRecordEntity> data) {
-        super.setNewData(data);
+    public void setNewInstance(List<ReadRecordEntity> list) {
+        super.setNewInstance(list);
         selectLists = new SparseBooleanArray();
     }
 

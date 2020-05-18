@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:elevation="@dimen/dp_0">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_4"
+            android:paddingBottom="@dimen/dp_4"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <com.kongzue.stacklabelview.StackLabel
+                android:id="@+id/stackLabelView_filter_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:deleteButton="false"
+                app:itemMargin="@dimen/dp_6"
+                app:labelBackground="@color/transparent"
+                app:labels="标签1,标签2,标签3,标签4,标签5,标签6,标签7,标签8,标签9"
+                app:layout_constraintTop_toTopOf="parent"
+                app:maxLines="3"
+                app:maxSelectNum="1"
+                app:minSelectNum="1"
+                app:paddingHorizontal="@dimen/dp_10"
+                app:paddingVertical="@dimen/dp_0"
+                app:selectBackground="@drawable/shape_round_bg_stack_label_feeeee"
+                app:selectMode="true"
+                app:selectTextColor="#F84444"
+                app:textColor="@color/txt_gray_8f9dac"
+                app:textSize="@dimen/sp_13" />
+
+            <com.kongzue.stacklabelview.StackLabel
+                android:id="@+id/stackLabelView_filter_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_4"
+                app:deleteButton="false"
+                app:itemMargin="@dimen/dp_6"
+                app:labelBackground="@color/transparent"
+                app:labels="标签1,标签2,标签3"
+                app:layout_constraintTop_toBottomOf="@+id/stackLabelView_filter_1"
+                app:maxLines="3"
+                app:maxSelectNum="1"
+                app:minSelectNum="1"
+                app:paddingHorizontal="@dimen/dp_10"
+                app:paddingVertical="@dimen/dp_0"
+                app:selectBackground="@drawable/shape_round_bg_stack_label_feeeee"
+                app:selectMode="true"
+                app:selectTextColor="#F84444"
+                app:textColor="@color/txt_gray_8f9dac"
+                app:textSize="@dimen/sp_13" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingBottom="@dimen/dp_6"
+            android:background="#FCF9FE">
+
+            <com.kongzue.stacklabelview.StackLabel
+                android:id="@+id/stackLabelView_filter_3"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                app:deleteButton="false"
+                app:itemMargin="@dimen/dp_6"
+                app:labelBackground="@color/transparent"
+                app:labels="标签1,标签2,标签3"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_rank_condition"
+                app:layout_constraintTop_toTopOf="parent"
+                app:maxLines="3"
+                app:maxSelectNum="1"
+                app:minSelectNum="1"
+                app:paddingHorizontal="@dimen/dp_10"
+                app:paddingVertical="@dimen/dp_0"
+                app:selectBackground="@drawable/shape_round_bg_stack_label_e5eef8"
+                app:selectMode="true"
+                app:selectTextColor="@color/txt_black_191919"
+                app:textColor="@color/txt_gray_8f9dac"
+                app:textSize="@dimen/sp_13" />
+
+            <TextView
+                android:id="@+id/tv_rank_condition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:text="*按人气日榜排序"
+                android:textColor="@color/txt_gray_8f9dac"
+                android:textSize="@dimen/sp_10"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout_classify_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:srlEnableLoadMore="false">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_classify_in_vp"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

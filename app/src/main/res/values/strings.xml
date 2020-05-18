@@ -23,6 +23,8 @@
     <string name="txt_go2_binding">去绑定</string>
     <string name="txt_withhold">暂不</string>
 
+    <string name="txt_anonymity">佚名</string>
+
     <string name="txt_develop_more_filters">展开更多筛选</string>
     <string name="tips_copy_success">复制成功，快去分享吧！</string>
 
@@ -115,7 +117,7 @@
 
     <string name="txt_all_classify">全部分类</string>
     <string name="txt_classify">分类</string>
-    <string name="txt_ranking">排行</string>
+    <string name="txt_ranking_list">排行榜</string>
     <string name="txt_new_book">新书</string>
     <string name="txt_end">完结</string>
     <string name="txt_serialize">连载</string>
@@ -208,6 +210,8 @@
     <string name="txt_total_books_x">共%1$d部</string>
     <string name="txt_heat">热度</string>
     <string name="txt_heat_wan">万热度</string>
+    <string name="txt_greet">人气</string>
+    <string name="txt_greet_wan">万人气</string>
 
     <string name="txt_history_search">历史搜索</string>
     <string name="txt_clear">清除</string>
@@ -222,6 +226,9 @@
     <string name="txt_catalogue">目录</string>
     <string name="txt_add_a_bookcase">加入书架</string>
     <string name="txt_begin_reading">免费阅读全本</string>
+    <string name="txt_hotspot_book_review">热门书评</string>
+    <string name="txt_write_review">写书评</string>
+    <string name="txt_more_review_x">查看更多书评（%1$d）</string>
     <string name="txt_related_recommendation">相关推荐</string>
     <string name="tips_copyright_colon">版权说明：</string>
 
@@ -258,7 +265,16 @@
     <string name="txt_vip_enjoyment">VIP尊享</string>
     <string name="txt_check_privilege_description">查看特权说明</string>
     <string name="txt_select_packages">选择套餐</string>
-    <string name="txt_agree_service_agreement">开通会员表示您同意 会员服务协议</string>
+    <string name="txt_member_prompt_1">1.若开通特权后10分钟内标识仍然没有点亮，请退出账号后重新登录进行尝试，或联系客服QQ：2108223645。</string>
+    <string name="txt_member_prompt_2">2.开通特权则默认您已同意一起看书《用户条款》、《隐私条款》及《会员服务协议》。</string>
+    <string name="txt_member_prompt_2_a_part">2.开通特权则默认您已同意一起看书</string>
+    <string name="txt_user_terms">《用户条款》</string>
+    <string name="txt_cn_colon">、</string>
+    <string name="txt_privacy_policy">《隐私条款》</string>
+    <string name="txt_cn_and">及</string>
+    <string name="txt_membership_service_agreement">《会员服务协议》</string>
+    <string name="txt_cn_full_stop">。</string>
+    <string name="txt_member_prompt_3">3.特权时长，1个月=30天如有其他疑问，请前往帮助与反馈。</string>
     <string name="txt_open_push_notifications">开启推送通知</string>
     <string name="txt_receive_msg_in_time">及时接收优惠、福利消息</string>
     <string name="txt_immediately_open">立即开启</string>
@@ -396,7 +412,7 @@
 
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>
     <string name="rationale_write_external_storage_4_update_apk">我们需要获取读写手机内存权限，以下载更新APK。</string>
-    <string name="rationale_phone_state">我们需要获取读取手机状态权限，以完整使用相关功能。</string>
+    <string name="rationale_phone_state">我们需要获取[读取手机状态权限]，以完整使用相关功能。</string>
     <string name="txt_no_relevant_permission">没有相关权限</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

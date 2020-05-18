@@ -10,6 +10,9 @@ import com.huli.foxread.entity.BookEntity;
 
 import androidx.annotation.NonNull;
 
+/**
+ * 封面  书名
+ */
 public class BookCoverNameAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolder> {
 
     public BookCoverNameAdapter() {
