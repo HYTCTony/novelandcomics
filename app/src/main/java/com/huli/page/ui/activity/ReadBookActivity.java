@@ -189,7 +189,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                         quota--;
                         second++;
                     }
-                    Log.d(TAG, second + "s");
                     break;
                 case WHAT_CATEGORY:
                     rv.smoothScrollToPosition(mPageLoader.getChapterPos());
