@@ -19,6 +19,7 @@ import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -42,6 +43,7 @@ import com.umeng.socialize.PlatformConfig;
 import org.android.agoo.xiaomi.MiPushRegistar;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
