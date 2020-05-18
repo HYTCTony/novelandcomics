@@ -12,7 +12,6 @@ import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.utils.AutoLoginUtils;
-import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
@@ -36,7 +35,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
-import com.umeng.message.inapp.InAppMessageManager;
 import com.umeng.socialize.PlatformConfig;
 
 import org.android.agoo.xiaomi.MiPushRegistar;
@@ -179,7 +177,6 @@ public class FrApp extends Application implements ActivityState {
         DialogSettings.theme = DialogSettings.THEME.LIGHT;
     }
 
-
     /**
      * 统计---获取渠道名
      */
@@ -236,12 +233,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);*/
+        builder.addInterceptor(loggingInterceptor);
 
         OkGo.getInstance()
                 .init(this)

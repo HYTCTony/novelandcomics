@@ -19,7 +19,6 @@ import com.huli.page.widget.animation.SimulationPageAnim;
 import com.huli.page.widget.animation.SlidePageAnim;
 import com.huli.page.widget.page.PageMode;
 
-
 public class PageWidget extends View {
 
     private final static String TAG = "PageWidget";
@@ -73,7 +72,6 @@ public class PageWidget extends View {
 
     public PageWidget(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
     }
 
     @Override

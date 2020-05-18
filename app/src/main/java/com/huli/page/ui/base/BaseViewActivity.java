@@ -56,7 +56,6 @@ public abstract class BaseViewActivity extends AppCompatActivity {
         PushAgent.getInstance(this).onAppStart();
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

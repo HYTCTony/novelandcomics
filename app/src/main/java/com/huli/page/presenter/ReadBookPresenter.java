@@ -107,10 +107,14 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     }
 
     @Override
-    public void recordDuration(AppCompatActivity context, int type) {
+    public void recordDuration(AppCompatActivity context, int type, long duration, String id, String check, int num) {
         checkViewAttached();
         OkGo.<String>get(Consts.RECORD_DURATION_API)
                 .params(Consts.TYPE, type)
+                .params("duration", duration)
+                .params("id", id)
+                .params("check", check)
+                .params("sum", num)
                 .execute(new LtbCallback(context, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -119,7 +123,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                     new TypeReference<LzyResponse<List<String>>>() {
                                     });
                             if (entity.error_code == 0) {
-                                Log.d(TAG, "记录时间");
+
                             }
                         }
                     }
@@ -142,7 +146,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                     new TypeReference<LzyResponse<List<String>>>() {
                                     });
                             if (entity.error_code == 0) {
-                                Log.d(TAG, "提交阅读");
+
                             }
                         }
                     }

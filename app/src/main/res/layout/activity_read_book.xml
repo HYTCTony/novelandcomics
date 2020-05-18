@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/theme_leather_bg">
 
         <!--阅读页面-->
         <com.huli.page.widget.read.PageWidget
@@ -180,6 +181,7 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@drawable/theme_leather_bg"
         android:orientation="vertical">
 
         <TextView

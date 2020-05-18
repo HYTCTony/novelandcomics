@@ -86,8 +86,8 @@
     <color name="hl_read_font_8">#091507</color>
 
 
-    <color name="hl_read_bg_night">#030B14</color>
-    <color name="hl_read_font_night">#8F9DAC</color>
+    <color name="hl_read_bg_night">#161616</color>
+    <color name="hl_read_font_night">#656565</color>
 
     <!--button-->
     <color name="hl_widget_button_normal">@color/white</color>

@@ -28,7 +28,7 @@ public interface ReadBookContract {
 
         void loadChapter(AppCompatActivity context, String bookId, List<TxtChapter> bookChapterList);
 
-        void recordDuration(AppCompatActivity context, int type);
+        void recordDuration(AppCompatActivity context, int type, long duration, String id, String check, int num);
 
         void recordRead(AppCompatActivity context, String bookId, String chapterId, String chapterName, int chapter);
     }
