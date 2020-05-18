@@ -12,12 +12,12 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
@@ -43,6 +43,7 @@ import com.huli.page.ui.dialog.BrightnessDialog;
 import com.huli.page.ui.dialog.ReadSettingDialog;
 import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.Constant;
+import com.huli.page.utils.MD5Utils;
 import com.huli.page.utils.RxUtils;
 import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.StringUtils;
@@ -59,6 +60,8 @@ import com.lzy.okgo.OkGo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -130,8 +133,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     List<BookChapter> bookChapters = new ArrayList<>();
     private CatalogAdapter catalogAdapter;
     BookShelfListBean data;
-    /**********************控制屏幕常亮**************/
-    private PowerManager.WakeLock mWakeLock;
     /*******************数据传递以及状态设置*************************/
     public static final String EXTRA_COLL_BOOK = "extra_coll_book";
     public static final String EXTRA_IS_COLLECTED = "extra_is_collected";
@@ -142,10 +143,40 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private boolean isRegistered = false;
     private int chapter = -1; // 如果是-1，则使用本地阅读记录
     private String mBookId;
+    private static final int TIMER = 0;
     private static final int WHAT_CATEGORY = 1;
     private static final int WHAT_CHAPTER = 2;
     private static final int MSG_POLLING = 3;
-    private static final int POLLING_INTERVAL = 5 * 60 * 1000;
+    private static final int POLLING_INTERVAL = 2 * 60 * 1000;
+
+    private String id;
+    private String title;
+    private int num;
+    private int quota = 15;
+    private long second = 0;
+    private Timer timer;
+    private TimerTask timerTask;
+
+    private void startMethod() {
+        //防止多次点击开启计时器
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (timerTask != null) {
+            timerTask = null;
+        }
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Message msg = new Message();
+                msg.what = 0;
+                mHandler.sendMessage(msg);
+            }
+        };
+        timer = new Timer();
+        timer.schedule(timerTask, 0, 1000);
+    }
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -153,6 +184,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
+                case TIMER:
+                    if (quota > 0) {
+                        quota--;
+                        second++;
+                    }
+                    break;
                 case WHAT_CATEGORY:
                     rv.smoothScrollToPosition(mPageLoader.getChapterPos());
                     break;
@@ -160,7 +197,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mPageLoader.openChapter();
                     break;
                 case MSG_POLLING:
-                    doPolling(READ_TYPE_CONTINUE);
+//                    doPolling(READ_TYPE_CONTINUE);
                     break;
             }
         }
@@ -178,7 +215,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         return R.layout.activity_read_book;
     }
 
-    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void initView() {
         /*初始化数据*/
@@ -222,9 +258,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } else {
             BrightnessUtils.setBrightness(mContext, ReadSettingManager.getInstance().getBrightness());
         }
-        //初始化屏幕常亮类
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "keep bright");
         //获取目录
         loadCategory();
         if (chapter != -1) {
@@ -238,6 +271,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 }
                 mChapters.get(pos).setSelect(true);
                 catalogAdapter.notifyDataSetChanged();
+                id = mChapters.get(pos).getId();
+                title = mChapters.get(pos).getTitle();
             }
 
             @Override
@@ -254,6 +289,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     chapter.setTitle(StringUtils.convertCC(chapter.getTitle(), mPvPage.getContext()));
                 }
                 mChapters = chapters;
+                if (mChapters.size() > 0) {
+                    id = mChapters.get(0).getId();
+                    title = mChapters.get(0).getTitle();
+                    if (timer == null)
+                        doPolling(READ_TYPE_START);
+                }
                 catalogAdapter.setNewData(mChapters);
             }
 
@@ -274,6 +315,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 mProgress.post(
                         () -> mProgress.setProgress(pos)
                 );
+                quota = 15;
+                num++;
             }
         });
         mProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -385,6 +428,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Override
     public void showCategory(List<BookChapter> bookChapters) {
+
         this.bookChapters = bookChapters;
         mPageLoader.getCollBook().setBookChapters(bookChapters);
         mPageLoader.refreshChapterList();
@@ -535,10 +579,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mBottomInAnim = AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_in);
         mBottomOutAnim = AnimationUtils.loadAnimation(mContext, R.anim.slide_bottom_out);
         /*设置弹窗动画执行速度*/
-        mTopInAnim.setDuration(200);
-        mBottomInAnim.setDuration(200);
-        mTopOutAnim.setDuration(150);
-        mBottomOutAnim.setDuration(150);
+        mTopInAnim.setDuration(250);
+        mBottomInAnim.setDuration(250);
+        mTopOutAnim.setDuration(200);
+        mBottomOutAnim.setDuration(200);
     }
 
     private void toggleNightMode() {
@@ -575,14 +619,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onResume() {
         super.onResume();
-        mWakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
-        doPolling(READ_TYPE_START);
+        mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (!TextUtils.isEmpty(id) && timer == null)
+            doPolling(READ_TYPE_START);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mWakeLock.release();
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (isCollected) {
             mPageLoader.saveRecord();
         }
@@ -711,8 +756,21 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private void doPolling(int type) {
-        presenter.recordDuration(ReadBookActivity.this, type);
-        mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
+        String check = MD5Utils.strToMd5By32(id + title);
+        Log.d(TAG, "num==" + num);
+        Log.d(TAG, "check==" + id + title);
+        if (type == READ_TYPE_START)
+            //开始计时
+            startMethod();
+        else {
+            if (timer != null) {
+                timerTask.cancel();
+                timer = null;
+                timerTask = null;
+            }
+        }
+        presenter.recordDuration(ReadBookActivity.this, type, second, id, check, num);
+//        mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
     }
 
     // 退出

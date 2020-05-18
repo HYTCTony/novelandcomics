@@ -544,7 +544,7 @@ public abstract class ReadLoader {
     /**
      * 获取书籍信息
      *
-     * @return
+     * @returnh
      */
     public BookShelfListBean getCollBook() {
         return mCollBook;
@@ -1341,11 +1341,9 @@ public abstract class ReadLoader {
 
                     //测量一行占用的字节数
                     if (showTitle) {
-                        wordCount = mTitlePaint.breakText(paragraph,
-                                true, mVisibleWidth, null);
+                        wordCount = mTitlePaint.breakText(paragraph, true, mVisibleWidth, null);
                     } else {
-                        wordCount = mTextPaint.breakText(paragraph,
-                                true, mVisibleWidth, null);
+                        wordCount = mTextPaint.breakText(paragraph, true, mVisibleWidth, null);
                     }
 
                     subStr = paragraph.substring(0, wordCount);

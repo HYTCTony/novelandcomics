@@ -19,6 +19,7 @@ import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -42,12 +43,13 @@ import com.umeng.socialize.PlatformConfig;
 import org.android.agoo.xiaomi.MiPushRegistar;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import okhttp3.OkHttpClient;
-
+/*切换分支*/
 public class FrApp extends Application implements ActivityState {
 
     public static final String WECHAT_APP_ID = "wx53ed3b26af319dd0";
@@ -185,7 +187,6 @@ public class FrApp extends Application implements ActivityState {
         DialogSettings.theme = DialogSettings.THEME.LIGHT;
     }
 
-
     /**
      * 统计---获取渠道名
      */
@@ -243,12 +244,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);*/
+        builder.addInterceptor(loggingInterceptor);
 
         OkGo.getInstance()
                 .init(this)
