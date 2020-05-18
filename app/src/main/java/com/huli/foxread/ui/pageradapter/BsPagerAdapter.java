@@ -1,6 +1,7 @@
 package com.huli.foxread.ui.pageradapter;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
@@ -61,5 +62,18 @@ public class BsPagerAdapter extends FragmentPagerAdapter {
             return (int) ((View) object).getTag();
         }
         return PagerAdapter.POSITION_UNCHANGED;
+    }
+
+
+    private Fragment mCurrentFragment;
+    //用于区分具体属于哪个fragment
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        mCurrentFragment = (Fragment) object;
+        super.setPrimaryItem(container, position, object);
+    }
+
+    public Fragment getCurrentFragment() {
+        return mCurrentFragment;
     }
 }

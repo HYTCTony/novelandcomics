@@ -39,4 +39,12 @@ public class FigureProcessor {
         }
         return heat + context.getResources().getString(R.string.txt_heat);
     }
+
+    public static String formatGreet(Context context, int greet) {
+        if (greet >= 10000) {
+            DecimalFormat df = new DecimalFormat("#####" + context.getResources().getString(R.string.txt_greet_wan));
+            return df.format((float) greet / 10000);
+        }
+        return greet + context.getResources().getString(R.string.txt_greet);
+    }
 }

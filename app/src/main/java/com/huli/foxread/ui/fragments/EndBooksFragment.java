@@ -3,6 +3,7 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
@@ -132,7 +133,7 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
                                     list.add(new NEbookSection<>(false, false, ebgEntity.getId(), ebgEntity.getName(), novels.get(j)));
                                 }
                             }
-                            mAdapter.setNewData(list);
+                            mAdapter.setNewInstance(list);
                         }
                     }
                 });

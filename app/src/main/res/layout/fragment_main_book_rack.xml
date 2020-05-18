@@ -147,7 +147,7 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar_book_rack"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="@dimen/dp_42"
                     android:background="@color/transparent"
                     android:theme="@style/ToolBarTheme"
                     app:layout_collapseMode="pin"

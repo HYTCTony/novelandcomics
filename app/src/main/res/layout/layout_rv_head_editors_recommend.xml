@@ -10,7 +10,7 @@
         android:id="@+id/ctl_editor_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
+        android:background="@drawable/bg_top_editor_reco"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -37,15 +37,14 @@
             tools:ignore="ContentDescription"
             tools:src="@mipmap/img_holder_rect" />
 
-        <com.flyco.labelview.LabelView
-            android:id="@+id/labelView_left_book"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:visibility="gone"
+        <ImageView
+            android:id="@+id/iv_corner_mark_left_book"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
+            android:src="@mipmap/icon_corner_mark_recommend"
             app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_left"
             app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_left"
-            app:lv_text="推荐"
-            app:lv_text_size="8sp" />
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/iv_editor_recommend_book_center"
@@ -60,15 +59,14 @@
             tools:ignore="ContentDescription"
             tools:src="@mipmap/img_holder_rect" />
 
-        <com.flyco.labelview.LabelView
-            android:id="@+id/labelView_center_book"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:visibility="gone"
+        <ImageView
+            android:id="@+id/iv_corner_mark_center_book"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
+            android:src="@mipmap/icon_corner_mark_recommend"
             app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_center"
             app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_center"
-            app:lv_text="推荐"
-            app:lv_text_size="8sp" />
+            tools:ignore="ContentDescription" />
 
 
         <ImageView
@@ -84,15 +82,14 @@
             tools:ignore="ContentDescription"
             tools:src="@mipmap/img_holder_rect" />
 
-        <com.flyco.labelview.LabelView
-            android:id="@+id/labelView_right_book"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:visibility="gone"
+        <ImageView
+            android:id="@+id/iv_corner_mark_right_book"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
+            android:src="@mipmap/icon_corner_mark_recommend"
             app:layout_constraintLeft_toLeftOf="@+id/iv_editor_recommend_book_right"
             app:layout_constraintTop_toTopOf="@+id/iv_editor_recommend_book_right"
-            app:lv_text="推荐"
-            app:lv_text_size="8sp" />
+            tools:ignore="ContentDescription" />
 
 
         <TextView

@@ -76,7 +76,7 @@
         tools:text="不吃西红铈·玄幻" />
 
     <TextView
-        android:id="@+id/tv_book_tag"
+        android:id="@+id/tv_book_be_over"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_round_graybg_f8f8f8"
@@ -84,7 +84,7 @@
         android:textSize="@dimen/sp_12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="热血" />
+        tools:text="完结" />
 
     <TextView
         android:id="@+id/tv_book_word_count"
@@ -95,7 +95,7 @@
         android:textColor="@color/txt_gray_999"
         android:textSize="@dimen/sp_12"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/tv_book_tag"
+        app:layout_constraintRight_toLeftOf="@+id/tv_book_be_over"
         tools:text="128.6万" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -18,18 +17,30 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.pageradapter.BsPagerAdapter;
 import com.huli.foxread.utils.StatusBarUtils;
 
+import java.lang.reflect.Field;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.vectordrawable.graphics.drawable.ArgbEvaluator;
 import androidx.viewpager.widget.ViewPager;
 
 public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
-    public SlidingScaleTabLayout slidingTabLayout;
+    private SlidingScaleTabLayout slidingTabLayout;
     private ViewPager viewPager;
+    private BsPagerAdapter mAdapter;
 
     private ConstraintLayout ctlTabLayout;
     private ImageView btnSearch;
+
+    /**
+     * 获取当前显示的Fragment
+     * @return
+     */
+    public Fragment getCurrentFragment(){
+       return mAdapter.getCurrentFragment();
+    }
 
 
     /*控制ctlTabLayout变色*/
@@ -56,10 +67,11 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
         btnSearch = $(view, R.id.iv_asBtn_search_bs);
 
 
-
         String[] tabTitles = getResources().getStringArray(R.array.tab_book_store);
         viewPager.setOffscreenPageLimit(tabTitles.length);
-        viewPager.setAdapter(new BsPagerAdapter(getChildFragmentManager(), tabTitles));
+        mAdapter = new BsPagerAdapter(getChildFragmentManager(), tabTitles);
+        viewPager.setAdapter(mAdapter);
+//        setDefaultItem(1);
         slidingTabLayout.setViewPager(viewPager);
 
         int gender = UserInfoCache.getGender(mActivity);
@@ -104,6 +116,28 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
     }
 
 
+    /**
+     * 利用反射，设置默认选中item
+     *
+     * @param position
+     */
+    private void setDefaultItem(int position) {
+        //我这里mViewpager是viewpager子类的实例。如果你是viewpager的实例，也可以这么干。
+        try {
+            Class c = Class.forName("android.support.v4.view.ViewPager");
+            Field field = c.getDeclaredField("mCurItem");
+            field.setAccessible(true);
+            field.setInt(viewPager, position);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mAdapter.notifyDataSetChanged();
+
+        viewPager.setCurrentItem(position);
+    }
+
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -141,7 +175,6 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
      * 颜色变黄
      */
     private void ctlTab2Yellow() {
-        Log.e("ssssss", "WHITE999999");
         changeColorAmin(ctlTabLayout, Color.WHITE, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
         isWhite = false;
     }

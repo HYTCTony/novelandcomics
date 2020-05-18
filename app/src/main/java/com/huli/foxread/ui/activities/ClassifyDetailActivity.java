@@ -158,7 +158,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
         });
 
         stackLabel_2.setOnLabelClickListener((index, v, s) -> {
-            Log.e(TAG, "2***选中===" + s + "----" + index);
+//            Log.e(TAG, "2***选中===" + s + "----" + index);
             paramIsEnd = index;
             paramCurPage = 0;
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
@@ -280,10 +280,10 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
                                     tvBookNameFirst.setText(book1.getName());
                                     tvBookNameSecond.setText(book2.getName());
                                     tvBookNameThird.setText(book3.getName());
-                                    mAdapter.setNewData(bookList.subList(3, size));
+                                    mAdapter.setNewInstance(bookList.subList(3, size));
                                 } else {
                                     mAdapter.removeHeaderView(headViewTop3);
-                                    mAdapter.setNewData(bookList);
+                                    mAdapter.setNewInstance(bookList);
                                 }
                             } else {
                                 mAdapter.addData(bookList);

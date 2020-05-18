@@ -47,13 +47,13 @@ public class SectionNeBookAdapter extends BaseSectionQuickAdapter<NEbookSection<
         if (tags != null && tags.size() > 0) {
             String str = tags.get(0);
             if (!TextUtils.isEmpty(str)) {
-                helper.setVisible(R.id.tv_book_tag, true);
-                helper.setText(R.id.tv_book_tag, str);
+                helper.setVisible(R.id.tv_book_be_over, true);
+                helper.setText(R.id.tv_book_be_over, str);
             } else {
-                helper.setGone(R.id.tv_book_tag, true);
+                helper.setGone(R.id.tv_book_be_over, true);
             }
         } else {
-            helper.setGone(R.id.tv_book_tag, true);
+            helper.setGone(R.id.tv_book_be_over, true);
         }
     }
 

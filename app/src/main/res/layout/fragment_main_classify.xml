@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.flyco.tablayout.SlidingScaleTabLayout
+        android:id="@+id/slidingTabLayout_book_classify"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_42"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tl_indicator_color="@color/col_red"
+        app:tl_indicator_corner_radius="@dimen/dp_1_5"
+        app:tl_indicator_height="@dimen/dp_3"
+        app:tl_indicator_width="@dimen/dp_18"
+        app:tl_openTextDmg="true"
+        app:tl_tab_space_equal="true"
+        app:tl_tab_width="@dimen/dp_64"
+        app:tl_textBold="SELECT"
+        app:tl_textSelectColor="@color/txt_black_191919"
+        app:tl_textSelectSize="@dimen/sp_22"
+        app:tl_textUnSelectColor="@color/txt_gray"
+        app:tl_textUnSelectSize="@dimen/sp_16" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager_classify_boy_girl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:background="@color/color_f2"
+        android:overScrollMode="never"
+        android:paddingTop="@dimen/px_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/slidingTabLayout_book_classify" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

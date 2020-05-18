@@ -18,7 +18,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription"
-        tools:src="@mipmap/ic_launcher" />
+        tools:src="@mipmap/banner_place_holder" />
 
     <TextView
         android:id="@+id/tv_st_title"

@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:layout_marginTop="@dimen/dp_2"
         android:textColor="@color/txt_gray"
         android:textSize="@dimen/sp_9"
         app:layout_constraintBottom_toBottomOf="parent"

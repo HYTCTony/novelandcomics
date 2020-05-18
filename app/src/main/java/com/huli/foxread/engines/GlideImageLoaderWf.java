@@ -29,7 +29,7 @@ public class GlideImageLoaderWf extends ImageLoader {
             GlideApp.with(context)
                     .load(adEntity.getImageText())
                     .apply(RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(DensityUtils.dp2px(context, 8))))
-                    .placeholder(R.mipmap.banner_place_holder)
+//                    .placeholder(R.mipmap.banner_place_holder)
                     .error(R.mipmap.banner_place_holder)
                     .into(imageView);
         }

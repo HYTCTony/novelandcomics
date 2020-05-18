@@ -247,7 +247,7 @@ public class ClassifyActivity extends BaseActivity implements OnItemClickListene
                                     list.add(new CommonSection<>(false, "", cate.get(j)));
                                 }
                             }
-                            mAdapter.setNewData(list);
+                            mAdapter.setNewInstance(list);
                         }
                     }
 

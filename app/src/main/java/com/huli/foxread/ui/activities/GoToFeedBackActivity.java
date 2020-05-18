@@ -116,13 +116,13 @@ public class GoToFeedBackActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
-        reqFeedBackCategory();
+      /*  reqFeedBackCategory();
 
         int num = 3;
         SpannableString spannableString = new SpannableString(String.format(getString(R.string.txt_at_most_sheet_x), num));
         spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.txt_red)),
                 4, 4 + String.valueOf(num).length(), SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);
-        tvPhotosMaxNum.setText(spannableString);
+        tvPhotosMaxNum.setText(spannableString);*/
 
     }
 

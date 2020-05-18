@@ -125,7 +125,7 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
                                     list.add(new AvatarSection<>(false, "", avatars.get(j)));
                                 }
                             }
-                            mAdapter.setNewData(list);
+                            mAdapter.setNewInstance(list);
                         }
                     }
                 });

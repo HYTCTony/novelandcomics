@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -81,6 +82,8 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     private FrameLayout mSplashContainer;
     //是否强制跳转到主页面
     private boolean mForceGoMain;
+    /*（是不是）去查阅条款跳转*/
+    private boolean isGo2ViewTerms;
 
     //开屏广告加载超时时间,建议大于3000,这里为了冷启动第一次加载到广告并且展示,示例设置了3000ms
     private static final int AD_TIME_OUT = 8000;
@@ -150,15 +153,15 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
             showAgreementDialog();
             return;
         }
-        //启动页延长显示时间   800毫秒 防止一闪而过
-        mHandler.sendEmptyMessageDelayed(9, 600);
+        //启动页延长显示时间   500毫秒 防止一闪而过
+        mHandler.sendEmptyMessageDelayed(9, 500);
     }
 
 
     @Override
     protected void onResume() {
         //判断是否该跳转到主页面
-        if (mForceGoMain) {
+        if (mForceGoMain && !isGo2ViewTerms) {
             goMain();
 
         }
@@ -607,9 +610,12 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                 @Override
                 public void onClick(@NonNull View view) {
                     //用户协议
-                    Uri uri = Uri.parse(Consts.USER_AGREEMENT_URL);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    Uri uri = Uri.parse(Consts.USER_AGREEMENT_URL);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(FrLaunchActivity.this, CommonWebActivity.class);
+                    intent.putExtra(Common.KEY_URL, Consts.USER_AGREEMENT_URL);
                     startActivity(intent);
+                    isGo2ViewTerms = true;
                 }
 
                 @Override
@@ -622,9 +628,12 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                 @Override
                 public void onClick(@NonNull View view) {
                     //隐私政策
-                    Uri uri = Uri.parse(Consts.PRIVACY_POLICY_URL);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    Uri uri = Uri.parse(Consts.PRIVACY_POLICY_URL);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(FrLaunchActivity.this, CommonWebActivity.class);
+                    intent.putExtra(Common.KEY_URL, Consts.PRIVACY_POLICY_URL);
                     startActivity(intent);
+                    isGo2ViewTerms = true;
                 }
 
                 @Override
@@ -641,8 +650,8 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
 
     private static final int RC_PHONE_STATE_PERM = 124;
-    //    private static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
-    private static final String[] READ_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private static final String READ_PHONE_STATE = Manifest.permission.READ_PHONE_STATE;
+//    private static final String[] READ_PHONE_STATE = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private boolean hasPhoneStatePermissions() {
         return EasyPermissions.hasPermissions(this, READ_PHONE_STATE);
@@ -669,7 +678,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         Log.e(TAG, "dsdsds");
             startInit();
         }*/
-        startInit();
+//        startInit();
     }
 
     @Override

@@ -164,7 +164,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                                 });
                         if (entity.error_code == 0) {
                             List<WithdrawalOptionEntity> datas = entity.getData();
-                            mAdapter.setNewData(datas);
+                            mAdapter.setNewInstance(datas);
                         }
                     }
                 });

@@ -18,21 +18,25 @@ public class BooksListAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolde
         super(R.layout.recy_list_item_book_normal);
     }
 
+    public BooksListAdapter(List<BookEntity> datas) {
+        super(R.layout.recy_list_item_book_normal, datas);
+    }
+
     @Override
     protected void convert(@NonNull BaseViewHolder helper, BookEntity item) {
         GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
         helper.setText(R.id.tv_book_title, item.getName());
         helper.setText(R.id.tv_book_score, item.getScore() + getContext().getString(R.string.unit_score));
         helper.setText(R.id.tv_book_description, item.getIntroduce());
-        helper.setText(R.id.tv_book_author_pen_name_and_book_kind, item.getAuthor());
         helper.setText(R.id.tv_book_word_count, FigureProcessor.formatWordNum(getContext(), item.getWord()));
+        helper.setText(R.id.tv_book_be_over, item.getIs_end() == 1 ? R.string.txt_end : R.string.txt_serialize);
 
-        List<String> tags = item.getTag();
+        helper.setText(R.id.tv_book_author_pen_name_and_book_kind, item.getAuthor());
+        /*List<String> tags = item.getTag();
         if (tags != null && tags.size() > 0) {
-            helper.setVisible(R.id.tv_book_tag, true);
-            helper.setText(R.id.tv_book_tag, tags.get(0));
+            helper.setText(R.id.tv_book_author_pen_name_and_book_kind, item.getAuthor() + "·" + tags.get(0));
         } else {
-            helper.setGone(R.id.tv_book_tag, true);
-        }
+                    helper.setText(R.id.tv_book_author_pen_name_and_book_kind, item.getAuthor());
+        }*/
     }
 }

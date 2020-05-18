@@ -7,11 +7,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.chad.library.adapter.base.module.LoadMoreModuleConfig;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
+import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.util.BaseDialog;
@@ -105,6 +107,9 @@ public class FrApp extends Application implements ActivityState {
         initBugly();
 
         initUMeng();     //友盟
+
+        // BaseRecyclerViewAdapterHelper 配置全局自定义的 LoadMoreView
+        LoadMoreModuleConfig.setDefLoadMoreView(new MyLoadMoreView());
 
         if (isMainProcess()) {
 //            OpenInstall.init(this);
@@ -241,12 +246,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);*/
+        builder.addInterceptor(loggingInterceptor);
 
         OkGo.getInstance()
                 .init(this)

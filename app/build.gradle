@@ -90,14 +90,6 @@ android {
         }
     }
 
-    //渠道Flavors，配置不同风格的app,友盟渠道统计时用到
-    /*flavorDimensions "default"//这个名字貌似随便取，也可以有多个，总之一定要有..
-    productFlavors {
-        market {
-            dimension "default"
-        }
-    }*/
-
     //多渠道打包支持
     productFlavors {
         Invite {}//自己的邀请链接下载
@@ -180,7 +172,7 @@ dependencies {
 
     implementation 'com.kongzue.stacklabel:stacklabelview:1.1.9'
     implementation 'com.kongzue.dialog_v3x:dialog:3.1.8'
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.0-beta11'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2'
 //    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
@@ -220,12 +212,10 @@ dependencies {
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
     implementation "com.simple:spiderman:1.1.4"
 
-    //三角标签
-    implementation 'com.flyco.labelview:FlycoLabelView_Lib:1.0.2@aar'
-
     //App升级
     implementation 'com.azhon:appupdateX:2.9.0'
 
+    implementation 'com.github.lzyzsd:jsbridge:1.0.4'
 
     //********************友盟************************
     implementation 'com.umeng.umsdk:common:2.0.0'
