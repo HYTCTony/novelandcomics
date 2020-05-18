@@ -15,12 +15,10 @@ import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
-import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -39,13 +37,11 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
-import com.umeng.message.inapp.InAppMessageManager;
 import com.umeng.socialize.PlatformConfig;
 
 import org.android.agoo.xiaomi.MiPushRegistar;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -202,12 +198,13 @@ public class FrApp extends Application implements ActivityState {
         }
         return "";
     }
+
     /**
      * 友盟
      */
     private void initUMeng() {
 //        UMConfigure.init(this, "5e7dce16570df35f91000159", "ceshi", UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
-       // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
+        // 注意：如果您已经在AndroidManifest.xml中配置过appkey和channel值，可以调用此版本初始化函数。
         UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "f8601f634c3ec7668da5a856bbd9a9fe");
         //友盟---推送
         PushAgent pushAgent = PushAgent.getInstance(this);
@@ -246,12 +243,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);
+        builder.addInterceptor(loggingInterceptor);*/
 
         OkGo.getInstance()
                 .init(this)
