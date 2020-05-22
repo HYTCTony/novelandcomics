@@ -9,6 +9,7 @@ public interface Common {
     String SWITCH2_BOOKSTORE = "switch_main_bookstore";         //跳到书城
     String SWITCH2_WELFARE = "switch_main_welfare";             //切换到福利
     String SIGNIN_NEWBIE = "sign_in_newbie";                    //切换到福利
+    String WATCH_VIDEO = "watch_video";                         //看视频
     /***福利任务切换MainActivity判断***/
 
 

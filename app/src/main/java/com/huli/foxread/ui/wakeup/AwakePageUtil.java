@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 
 /**
- * 项目名称：BatteryRent
  * 创建人：Bill
- * 创建时间：2019/5/16  16:50
  * 唤醒页面的工具
  */
 public class AwakePageUtil {

@@ -3,8 +3,10 @@ package com.huli.foxread.contact;
 public interface Consts {
     String DOWNLOAD_URL = "https://download.hulimedia.com/?my_invite_code=";
 
-//    String BASE_URL = "http://api.hulimedia.com";
-    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
+    String BASE_URL = "http://api.hulimedia.com";
+//    String BASE_URL = " http://devnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://testnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
     String NOT_CPL_URL = BASE_URL + "/api/v2";
 
     /*帮助反馈*/
@@ -170,6 +172,7 @@ public interface Consts {
     //*************************Param key******************************
 
     String FACILITY = "facility";
+    String APK_CHANNEL = "apk_channel";
     String VERSION_CODE = "versionCode";
 
     String TOKEN = "token";
@@ -208,7 +211,9 @@ public interface Consts {
     String CAT_WORD_NUM = "word_calssify";
     String CAT_IS_END = "is_end";
     String CAT_STATUS = "status";
+
     String CAT_SECOND_CLASSIFY_ID = "second_classify_id";
+    String CAT_BOY_GIRL = "type";
 
     String FILTRATE_KEYWORD = "keyword";
 

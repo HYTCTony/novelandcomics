@@ -143,17 +143,23 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
             return;
         }
-
         inviteCode = UserInfoCache.getDistribution(mContext);
         cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
+        regHandler();
+
 
         String mToken = TokenCache.getToken(this);
-        String url = "http://devnovel.hongyutiancheng.com.cn/api/share?token=" + mToken;
+        String url = Consts.BASE_URL + "/api/share?token=" + mToken;
         mWebview.loadUrl(url);
 //        mWebview.loadUrl("file:///android_asset/demo.html");
 
+    }
 
+    /**
+     * js call java
+     */
+    private void regHandler() {
         mWebview.registerHandler("doShareByBoard", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
@@ -192,7 +198,6 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
                 function.onCallBack("submitFromWeb exe, response data from Java");
             }
         });
-
     }
 
     @Override

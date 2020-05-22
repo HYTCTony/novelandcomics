@@ -12,7 +12,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,10 +20,17 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.bytedance.sdk.openadsdk.AdSlot;
+import com.bytedance.sdk.openadsdk.TTAdConstant;
+import com.bytedance.sdk.openadsdk.TTAdManager;
+import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
+import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoaderWf;
@@ -42,9 +49,13 @@ import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.adapters.WelfareMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
+import com.huli.foxread.ui.dialogs.LoadingDialog;
+import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
+import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -85,6 +96,13 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
     private TextView btnSignInNow;
 
     private View footerRule;
+
+
+    private TTAdNative mTTAdNative;
+    private TTRewardVideoAd mttRewardVideoAd;
+    private String mHorizontalCodeId = "945166035";
+    private String mVerticalCodeId = "945166035";
+    private boolean mIsExpress = false; //是否请求模板广告
 
     @Override
     public int bindLayout() {
@@ -137,6 +155,9 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                             LoginActivity.start(mActivity);
                             return;
                         }
+                    } else if (mlink.equals(Common.WATCH_VIDEO)) {
+                        loadAd(mVerticalCodeId, TTAdConstant.VERTICAL);
+                        return;
                     }
                     ClickJumpUtil.handleJump(mActivity, mlink, missionEntity.getJump());
                 } else if (missionEntity.getStatus() == 1) {
@@ -146,12 +167,183 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         });
     }
 
+
+
     @Override
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
 
         boolean isTourist = UserInfoCache.getIsTourist(mActivity);
         displayIsLoginUI(isTourist);
+
+
+        //step1:初始化sdk
+        TTAdManager ttAdManager = TTAdManagerHolder.get();
+        //step2:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+//        TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
+        //step3:创建TTAdNative对象,用于调用广告请求接口
+        mTTAdNative = ttAdManager.createAdNative(mActivity.getApplicationContext());
+
+    }
+
+    private boolean mHasShowDownloadActive = false;
+
+    private void loadAd(final String codeId, int orientation) {
+        WaitDialog.show((AppCompatActivity) mActivity, R.string.loading).setCancelable(true);
+
+        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
+        AdSlot adSlot;
+        if (mIsExpress) {
+            //个性化模板广告需要传入期望广告view的宽、高，单位dp，
+            adSlot = new AdSlot.Builder()
+                    .setCodeId(codeId)
+                    .setSupportDeepLink(true)
+                    .setRewardName("金币") //奖励的名称
+                    .setRewardAmount(3)  //奖励的数量
+                    //模板广告需要设置期望个性化模板广告的大小,单位dp,激励视频场景，只要设置的值大于0即可
+                    .setExpressViewAcceptedSize(500, 500)
+                    .setUserID(UserInfoCache.getUserId(mActivity))//用户id,必传参数
+                    .setMediaExtra("media_extra") //附加参数，可选
+                    .setOrientation(orientation) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
+                    .build();
+        } else {
+            //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
+            adSlot = new AdSlot.Builder()
+                    .setCodeId(codeId)
+                    .setSupportDeepLink(true)
+                    .setRewardName("金币") //奖励的名称
+                    .setRewardAmount(3)  //奖励的数量
+                    .setUserID(UserInfoCache.getUserId(mActivity))//用户id,必传参数
+                    .setMediaExtra("media_extra") //附加参数，可选
+                    .setOrientation(orientation) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
+                    .build();
+        }
+        //step5:请求广告
+        mTTAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
+            @Override
+            public void onError(int code, String message) {
+                Log.e(TAG, "onError: " + code + ", " + String.valueOf(message));
+                WaitDialog.dismiss();
+            }
+
+            //视频广告加载后，视频资源缓存到本地的回调，在此回调后，播放本地视频，流畅不阻塞。
+            @Override
+            public void onRewardVideoCached() {
+                Log.e(TAG, "onRewardVideoCached");
+                WaitDialog.dismiss();
+
+                if (mttRewardVideoAd != null) {
+                    //step6:在获取到广告后展示,强烈建议在onRewardVideoCached回调后，展示广告，提升播放体验
+                    //该方法直接展示广告
+//                    mttRewardVideoAd.showRewardVideoAd(RewardVideoActivity.this);
+
+                    //展示广告，并传入广告展示的场景
+                    mttRewardVideoAd.showRewardVideoAd(mActivity, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "scenes_test");
+                    mttRewardVideoAd = null;
+                } else {
+//                    TToast.show(RewardVideoActivity.this, "请先加载广告");
+                }
+            }
+
+            //视频广告的素材加载完毕，比如视频url等，在此回调后，可以播放在线视频，网络不好可能出现加载缓冲，影响体验。
+            @Override
+            public void onRewardVideoAdLoad(TTRewardVideoAd ad) {
+                mttRewardVideoAd = ad;
+                mttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
+
+                    @Override
+                    public void onAdShow() {
+                        Log.e(TAG, "onAdShow");
+                    }
+
+                    @Override
+                    public void onAdVideoBarClick() {
+                        Log.e(TAG, "onAdVideoBarClick");
+                    }
+
+                    @Override
+                    public void onAdClose() {
+                        Log.e(TAG, "onAdClose");
+                    }
+
+                    //视频播放完成回调
+                    @Override
+                    public void onVideoComplete() {
+                        Log.e(TAG, "onVideoComplete");
+                    }
+
+                    @Override
+                    public void onVideoError() {
+                        Log.e(TAG, "onVideoError");
+                    }
+
+                    //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
+                    @Override
+                    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
+                        Log.e(TAG, "onRewardVerify");
+                    }
+
+                    @Override
+                    public void onSkippedVideo() {
+                        Log.e(TAG, "onSkippedVideo");
+                    }
+                });
+                mttRewardVideoAd.setDownloadListener(new TTAppDownloadListener() {
+                    @Override
+                    public void onIdle() {
+                        mHasShowDownloadActive = false;
+                    }
+
+                    @Override
+                    public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+                        Log.d("DML", "onDownloadActive==totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
+
+                        if (!mHasShowDownloadActive) {
+                            mHasShowDownloadActive = true;
+//                            TToast.show(RewardVideoActivity.this, "下载中，点击下载区域暂停", Toast.LENGTH_LONG);
+                        }
+                    }
+
+                    @Override
+                    public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+                        Log.d("DML", "onDownloadPaused===totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
+//                        TToast.show(RewardVideoActivity.this, "下载暂停，点击下载区域继续", Toast.LENGTH_LONG);
+                    }
+
+                    @Override
+                    public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+                        Log.d("DML", "onDownloadFailed==totalBytes=" + totalBytes + ",currBytes=" + currBytes + ",fileName=" + fileName + ",appName=" + appName);
+//                        TToast.show(RewardVideoActivity.this, "下载失败，点击下载区域重新下载", Toast.LENGTH_LONG);
+                    }
+
+                    @Override
+                    public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+                        Log.d("DML", "onDownloadFinished==totalBytes=" + totalBytes + ",fileName=" + fileName + ",appName=" + appName);
+//                        TToast.show(RewardVideoActivity.this, "下载完成，点击下载区域重新下载", Toast.LENGTH_LONG);
+                    }
+
+                    @Override
+                    public void onInstalled(String fileName, String appName) {
+                        Log.d("DML", "onInstalled==" + ",fileName=" + fileName + ",appName=" + appName);
+//                        TToast.show(RewardVideoActivity.this, "安装完成，点击下载区域打开", Toast.LENGTH_LONG);
+                    }
+                });
+            }
+        });
+    }
+
+
+    private String getAdType(int type) {
+        switch (type) {
+            case TTAdConstant.AD_TYPE_COMMON_VIDEO:
+                return "普通激励视频，type=" + type;
+            case TTAdConstant.AD_TYPE_PLAYABLE_VIDEO:
+                return "Playable激励视频，type=" + type;
+            case TTAdConstant.AD_TYPE_PLAYABLE:
+                return "纯Playable，type=" + type;
+        }
+
+        return "未知类型+type=" + type;
     }
 
     @Override
@@ -303,7 +495,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
         //设置自动轮播，默认为true
         mBanner.isAutoPlay(true);
         //设置轮播时间
-        mBanner.setDelayTime(4200);
+        mBanner.setDelayTime(6000);
         //设置指示器位置（当banner模式中有指示器时）
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.setOnBannerListener(this);

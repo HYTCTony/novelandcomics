@@ -2,9 +2,13 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
@@ -33,6 +37,7 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -103,7 +108,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void setListener() {
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            reqIndexDatas();
+            reqIndexDatas(isInitData);
         });
     }
 
@@ -118,9 +123,9 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         if (isInitData) {
+            reqIndexDatas(isInitData);
+//            mRefreshLayout.autoRefresh();
             isInitData = false;
-
-            mRefreshLayout.autoRefresh();
         }
     }
 
@@ -231,10 +236,10 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     /**
      * 各个模块数据
      */
-    private void reqIndexDatas() {
+    private void reqIndexDatas(boolean isInitData) {
         OkGo.<LzyResponse<HomePageBGEntity2>>post(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, mType)
-                .execute(new LtbJsonCallback<LzyResponse<HomePageBGEntity2>>((AppCompatActivity) mActivity, false,
+                .execute(new LtbJsonCallback<LzyResponse<HomePageBGEntity2>>((AppCompatActivity) mActivity, isInitData,
                         new TypeReference<LzyResponse<HomePageBGEntity2>>() {
                         }) {
                     @Override
@@ -250,7 +255,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
                                 mAdapter.setEmptyView(R.layout.layout_empty);
                                 mAdapter.addHeaderView(headViewTop);
                             } else {
-                                mAdapter.setNewData(moduleList);
+                                mAdapter.setNewInstance(moduleList);
                             }
                             //轮播图
                             bannerDatas = hpDatas.getBanner();

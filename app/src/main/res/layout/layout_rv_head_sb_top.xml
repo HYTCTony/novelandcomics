@@ -30,16 +30,16 @@
         app:layout_constraintRight_toLeftOf="@+id/ctl_asBtn_ranking"
         app:layout_constraintTop_toBottomOf="@+id/banner_boy_girl_top">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_classify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
+            android:includeFontPadding="false"
             android:text="@string/txt_classify"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_22"
-            android:textStyle="bold"
-            android:typeface="serif"
+            app:fontFamily="@font/source_hanserif_cn_bold_mini"
             app:layout_constraintBottom_toTopOf="@+id/tv_classify_hint"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,16 +71,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ctl_asBtn_classify">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_rank_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
+            android:includeFontPadding="false"
             android:text="@string/txt_ranking_list"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_22"
-            android:textStyle="bold"
-            android:typeface="serif"
+            app:fontFamily="@font/source_hanserif_cn_bold_mini"
             app:layout_constraintBottom_toTopOf="@+id/tv_rank_list_hint"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -112,16 +112,16 @@
         app:layout_constraintRight_toLeftOf="@+id/ctl_asBtn_new_book"
         app:layout_constraintTop_toBottomOf="@+id/ctl_asBtn_classify">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_end_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
+            android:includeFontPadding="false"
             android:text="@string/txt_end"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_22"
-            android:textStyle="bold"
-            android:typeface="serif"
+            app:fontFamily="@font/source_hanserif_cn_bold_mini"
             app:layout_constraintBottom_toTopOf="@+id/tv_end_book_hint"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -158,11 +158,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
+            android:fontFamily="@font/source_hanserif_cn_bold_mini"
+            android:includeFontPadding="false"
             android:text="@string/txt_new_book"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_22"
-            android:textStyle="bold"
-            android:typeface="serif"
             app:layout_constraintBottom_toTopOf="@+id/tv_new_book_hint"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

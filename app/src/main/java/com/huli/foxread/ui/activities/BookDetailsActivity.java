@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +24,12 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.huli.foxread.FrApp;
+import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -50,13 +57,14 @@ import com.lzy.okgo.model.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+import java.util.UUID;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 public class BookDetailsActivity extends BaseActivity implements View.OnClickListener {
@@ -295,6 +303,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                         if (entity.error_code == 0) {
                             data = entity.getData();
                             GlideUtil.loadRoundRect(BookDetailsActivity.this, ivBookCover, data.getHttp_image());
+
                             tvHotFlag.setVisibility(data.getIs_hot() == 1 ? View.VISIBLE : View.GONE);
                             tvBookName.setText(data.getNovel_name());
                             tvBookAuthor.setText(data.getAuthor());
@@ -483,4 +492,5 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         }
         super.onBackPressed();
     }
+
 }

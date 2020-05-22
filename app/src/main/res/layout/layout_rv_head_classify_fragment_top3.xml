@@ -132,7 +132,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_third" />
 
     <FrameLayout
-        android:id="@+id/fl_content_hits_left"
+        android:id="@+id/fl_content_hits_center"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
@@ -146,7 +146,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_top3_bookName_first">
 
         <TextView
-            android:id="@+id/tv_hits_left"
+            android:id="@+id/tv_hits_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -159,7 +159,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/fl_content_hits_center"
+        android:id="@+id/fl_content_hits_left"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
@@ -173,7 +173,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_top3_bookName_second">
 
         <TextView
-            android:id="@+id/tv_hits_center"
+            android:id="@+id/tv_hits_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

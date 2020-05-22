@@ -5,12 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
@@ -22,6 +20,7 @@ import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter2;
 import com.huli.foxread.ui.widget.WrapViewPager;
 import com.huli.foxread.utils.DensityUtils;
+import com.huli.foxread.utils.GlideUtil;
 
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class HpBoyGirlAdapter extends BaseMultiItemQuickAdapter<HpBGModuleEntity
     public HpBoyGirlAdapter(List<HpBGModuleEntity> data) {
         super(data);
         // 绑定 layout 对应的 type
-        addItemType(HpBGModuleEntity.TYPE_HOT_BILLBOARD, R.layout.recy_group_item_type_hot_billboard);                      //大热榜（一行两个）布局
+        addItemType(HpBGModuleEntity.TYPE_HOT_BILLBOARD, R.layout.recy_group_item_type_hot_billboard);                      //（一行两个）布局
         addItemType(HpBGModuleEntity.TYPE_SPECIAL, R.layout.recy_group_item_type_special);                                  //专题布局
         addItemType(HpBGModuleEntity.TYPE_FIRST_MONOPOLIZE, R.layout.recy_group_item_type_first_monopolize);                //首本书独占一行---四网格
 
@@ -127,7 +126,36 @@ public class HpBoyGirlAdapter extends BaseMultiItemQuickAdapter<HpBGModuleEntity
                 }
                 break;
             case HpBGModuleEntity.TYPE_FIRST_MONOPOLIZE:
+                initTitleViewNor(holder, item);
+
+                List<BookEntity> novelList = item.getNovel();
+                if (novelList.size() > 1) {
+                    BookEntity book = novelList.get(0);
+                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), book.getHttp_image(), 0);
+                    holder.setText(R.id.tv_book_title, book.getName());
+                    holder.setText(R.id.tv_book_score, book.getScore() + getContext().getString(R.string.unit_score));
+                    holder.setText(R.id.tv_book_description, book.getIntroduce());
+                    holder.getView(R.id.layout_first_item_mplz).setOnClickListener(v -> {
+                        Intent intent = new Intent(getContext(), BookDetailsActivity.class);
+                        intent.putExtra(Common.KEY_BOOK_ID, book.getId());
+                        getContext().startActivity(intent);
+                    });
+
+                    RecyclerView rvMplz = holder.getView(R.id.recyclerView_book_grid_mplz);
+                    rvMplz.setLayoutManager(new GridLayoutManager(getContext(), 4));
+                    if (rvMplz.getAdapter() == null) {
+                        rvMplz.addItemDecoration(new GridSpacingItemDecoration(4, DensityUtils.dp2px(getContext(), 16), false));
+                        BookCoverNameAuthorAdapter innerAdapter = new BookCoverNameAuthorAdapter(novelList.subList(1, novelList.size()));
+                        innerAdapter.setAnimationEnable(true);
+                        rvMplz.setAdapter(innerAdapter);
+                        innerAdapter.setOnItemClickListener(itemClickListener);
+                    } else {
+                        BookCoverNameAuthorAdapter innerAdapter = (BookCoverNameAuthorAdapter) rvMplz.getAdapter();
+                        innerAdapter.setNewInstance(novelList.subList(1, novelList.size()));
+                    }
+                }
                 break;
+
             case HpBGModuleEntity.TYPE_HOT_SEARCH:
                 initTitleViewNor(holder, item);
 

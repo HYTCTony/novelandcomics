@@ -2,6 +2,8 @@ package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -197,7 +199,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 //          }
 //       });
 
-//        checkNewVersion();
+        checkNewVersion();
     }
 
     @Override
@@ -620,11 +622,26 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
 
     /**
+     * 统计---获取渠道名
+     */
+    private String getChannel() {
+        try {
+            PackageManager pm = getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL");
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return "";
+    }
+
+    /**
      * 检测更新
      */
     private void checkNewVersion() {
+        String channelName = getChannel();
         OkGo.<String>post(Consts.VERSION_CHECK_API)
                 .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
+                .params(Consts.APK_CHANNEL, channelName)
                 .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
                 .execute(new LtbCallback(MainActivity.this, false) {
                     @Override
@@ -715,48 +732,4 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     .download();
         }
     }
-
-
-    /*private static final int RC_EXTERNAL_STORAGE_PERM = 0x147;
-    private static final String EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
-    private boolean hasExternalStoragePermissions() {
-        return EasyPermissions.hasPermissions(this, EXTERNAL_STORAGE);
-    }
-
-    @AfterPermissionGranted(RC_EXTERNAL_STORAGE_PERM)
-    private void downloadApkTask() {
-        if (hasExternalStoragePermissions()) {
-            if (updateInfo != null) {
-                DownloadManager manager = DownloadManager.getInstance(MainActivity.this);
-                manager.setApkName("FoxRead.apk")
-                        .setApkUrl(updateInfo.getDownloadurl())
-                        .setSmallIcon(R.mipmap.app_huli_logo_round_small)
-                        .download();
-                Log.e("sssssssssss", "start====" + manager.getDownloadPath());
-            }
-        } else {
-            EasyPermissions.requestPermissions(this,
-                    getString(R.string.rationale_write_external_storage_4_update_apk),
-                    RC_EXTERNAL_STORAGE_PERM,
-                    EXTERNAL_STORAGE);
-        }
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-//        Log.e(TAG, "onPermissionsGranted");
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-//        Log.e(TAG, "onPermissionsDenied");
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-    }*/
 }

@@ -16,18 +16,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/iv_title_mplz"
+            android:id="@+id/iv_title_book_hp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_8"
-            tools:text="TITLE"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_20"
-            android:textStyle="bold"
-            android:typeface="serif"
+            android:fontFamily="@font/source_hanserif_cn_bold_mini"
+            android:includeFontPadding="false"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="TITLE" />
 
         <TextView
             android:id="@+id/tv_sub_title"
@@ -38,12 +38,12 @@
             android:textSize="@dimen/sp_12"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/iv_title_mplz"
-            app:layout_constraintTop_toBottomOf="@+id/iv_title_mplz"
+            app:layout_constraintLeft_toLeftOf="@+id/iv_title_book_hp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_title_book_hp"
             tools:text="副标题" />
 
         <TextView
-            android:id="@+id/tv_asBtn_more_mplz"
+            android:id="@+id/tv_asBtn_more_book_hp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_16"
@@ -54,25 +54,36 @@
             android:textColor="@color/txt_gray_999"
             android:textSize="@dimen/sp_12"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_title_mplz"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_book_hp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_title_mplz" />
+            app:layout_constraintTop_toTopOf="@+id/iv_title_book_hp" />
 
-        <TextView
-            android:id="@+id/tv_star_tag_mplz"
+        <LinearLayout
+            android:id="@+id/ll_star_tag_content_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dp_16"
-            android:drawableStart="@drawable/ic_star_brown_12dp"
-            android:drawablePadding="@dimen/dp_2"
-            android:gravity="center_vertical"
-            android:textColor="@color/txt_dark_gold"
-            android:textSize="@dimen/sp_12"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_title_mplz"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_title_book_hp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iv_title_mplz"
-            tools:text="@string/txt_high_score" />
+            app:layout_constraintTop_toTopOf="@+id/iv_title_book_hp"
+            tools:ignore="UselessLeaf" />
+
+        <!-- <TextView
+             android:id="@+id/tv_star_tag"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginEnd="@dimen/dp_16"
+             android:drawableStart="@drawable/ic_star_brown_12dp"
+             android:drawablePadding="@dimen/dp_2"
+             android:gravity="center_vertical"
+             android:textColor="@color/txt_dark_gold"
+             android:textSize="@dimen/sp_12"
+             android:visibility="gone"
+             app:layout_constraintBottom_toBottomOf="@+id/iv_title_book_hp"
+             app:layout_constraintRight_toRightOf="parent"
+             app:layout_constraintTop_toTopOf="@+id/iv_title_book_hp"
+             tools:text="@string/txt_high_score" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

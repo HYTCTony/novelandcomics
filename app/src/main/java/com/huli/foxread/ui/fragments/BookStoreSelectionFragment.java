@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,11 +26,9 @@ import com.huli.foxread.entity.RvTitleEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.multi.HpBGModuleEntity;
 import com.huli.foxread.entity.sections.HpSection;
-import com.huli.foxread.listeners.AppBarStateChangeListener;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.adapters.BsSelectionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
-import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.GlideUtil;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
@@ -129,20 +128,18 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
 
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
-            @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if (state == AppBarStateChangeListener.State.EXPANDED) {
+    }
 
-                } else if (state == AppBarStateChangeListener.State.COLLAPSED) {
-                    if (parentFragment != null && !parentFragment.isWhite) {
-                        parentFragment.childCtrlTab2White();
-                    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if (parentFragment != null) {
+                if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                    parentFragment.childCtrlTab2White();
                 } else {
-                    if (parentFragment != null && parentFragment.isWhite) {
-                        parentFragment.childCtrlTab2Yellow();
-                    }
-
+                    parentFragment.childCtrlTab2Yellow();
                 }
             }
         });
@@ -276,6 +273,8 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
             switch (layoutType) {
                 case HpBGModuleEntity.TYPE_HOT_BILLBOARD:
                     for (int k = 0; k < novels.size(); k++) {
+                        BookEntity book = novels.get(k);
+                        book.setRank(k + 1);
                         datas.add(new HpSection(false, HpSection.SE_TYPE_HOT_BILLBOARD, novels.get(k)));
                     }
                     break;

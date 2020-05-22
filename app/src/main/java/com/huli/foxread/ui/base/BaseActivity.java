@@ -19,6 +19,7 @@ import com.huli.foxread.receivers.NetworkConnectChangedReceiver;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
+import com.lzy.okgo.OkGo;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
@@ -99,6 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
+        OkGo.getInstance().cancelAll();
         super.onDestroy();
     }
 

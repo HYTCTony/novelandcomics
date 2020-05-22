@@ -86,7 +86,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     private boolean isGo2ViewTerms;
 
     //开屏广告加载超时时间,建议大于3000,这里为了冷启动第一次加载到广告并且展示,示例设置了3000ms
-    private static final int AD_TIME_OUT = 8000;
+    private static final int AD_TIME_OUT = 5000;
     private String mCodeId = "887319954";
     private boolean mIsExpress = false; //是否请求模板广告
 

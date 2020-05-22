@@ -6,6 +6,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.utils.FigureProcessor;
+import com.huli.foxread.utils.GlideUtil;
 
 import androidx.annotation.NonNull;
 
@@ -18,6 +19,8 @@ public class ClassifyBookListAdapter extends BaseQuickAdapter<BookEntity, BaseVi
     @Override
     protected void convert(@NonNull BaseViewHolder holder, BookEntity item) {
         int position = holder.getLayoutPosition();
+
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
         holder.setText(R.id.tv_book_title, item.getName());
         holder.setText(R.id.tv_book_description, item.getIntroduce());
         holder.setText(R.id.tv_book_author_pen_name_and_book_kind, item.getAuthor());

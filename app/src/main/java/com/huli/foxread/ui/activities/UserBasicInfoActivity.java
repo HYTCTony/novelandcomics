@@ -135,7 +135,7 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
                         .setOkButton(R.string.txt_confirm)
                         .setCancelButton(R.string.txt_cancel)
                         .setBackgroundResId(R.drawable.shape_round_whitebg)
-                        .setCustomView(R.layout.layout_custom_gender_select2, (dialog, v) -> {
+                        .setCustomView(R.layout.layout_custom_gender_select, (dialog, v) -> {
                             //绑定布局事件，可使用v.findViewById(...)来获取子组件
                             RadioGroup rg = v.findViewById(R.id.radioGroup_gender);
                             rg.setOnCheckedChangeListener((radioGroup, i) -> {

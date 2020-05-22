@@ -89,7 +89,7 @@ public class GoToFeedBackActivity extends BaseActivity {
         tvPhotosMaxNum = $(R.id.tv_photos_max_num);
         btncCommit = $(R.id.btn_commit);
 
-        initImgPickerView();
+//        initImgPickerView();
     }
 
     @Override
@@ -116,9 +116,9 @@ public class GoToFeedBackActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context mContext) {
-      /*  reqFeedBackCategory();
+        reqFeedBackCategory();
 
-        int num = 3;
+       /* int num = 3;
         SpannableString spannableString = new SpannableString(String.format(getString(R.string.txt_at_most_sheet_x), num));
         spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, R.color.txt_red)),
                 4, 4 + String.valueOf(num).length(), SpannableString.SPAN_INCLUSIVE_EXCLUSIVE);

@@ -177,13 +177,13 @@ public class MainBookrackFragment2 extends BaseFragment implements OnItemLongCli
 
 
         //step1:初始化sdk
-        TTAdManager ttAdManager = TTAdManagerHolder.get();
-        //step2:创建TTAdNative对象,用于调用广告请求接口
-        mTTAdNative = ttAdManager.createAdNative(mActivity);
-        //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
-        TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
+//        TTAdManager ttAdManager = TTAdManagerHolder.get();
+//        //step2:创建TTAdNative对象,用于调用广告请求接口
+//        mTTAdNative = ttAdManager.createAdNative(mActivity);
+//        //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
+//        TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
 
-        reqGetBooks();
+//        reqGetBooks();
     }
 
     @Override
@@ -235,10 +235,10 @@ public class MainBookrackFragment2 extends BaseFragment implements OnItemLongCli
                 ReadBookActivity.start(mActivity, bean, true, -1);
             } else {
                 MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "这本书版权过期，是否删除这本书？", "确定")
-                        .setOnOkButtonClickListener((baseDialog, v) -> {
-                            reqDelBooks(bean.getId());
-                            BookRepository.getInstance().deleteCollBookInRx(bean)
-                                    .compose(RxUtils::toSimpleSingle)
+                                    .setOnOkButtonClickListener((baseDialog, v) -> {
+                                        reqDelBooks(bean.getId());
+                                        BookRepository.getInstance().deleteCollBookInRx(bean)
+                                                .compose(RxUtils::toSimpleSingle)
                                     .subscribe(
                                             (Void) -> {
                                                 adapter.remove(position);
