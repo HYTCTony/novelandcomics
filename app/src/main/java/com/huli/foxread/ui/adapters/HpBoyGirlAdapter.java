@@ -48,6 +48,18 @@ public class HpBoyGirlAdapter extends BaseMultiItemQuickAdapter<HpBGModuleEntity
         addItemType(HpBGModuleEntity.TYPE_HOT_SEARCH, R.layout.recy_group_item_type_rc_view);                               //实时热搜类型的
     }
 
+    public HpBoyGirlAdapter() {
+        // 绑定 layout 对应的 type
+        addItemType(HpBGModuleEntity.TYPE_HOT_BILLBOARD, R.layout.recy_group_item_type_hot_billboard);                      //（一行两个）布局
+        addItemType(HpBGModuleEntity.TYPE_SPECIAL, R.layout.recy_group_item_type_special);                                  //专题布局
+        addItemType(HpBGModuleEntity.TYPE_FIRST_MONOPOLIZE, R.layout.recy_group_item_type_first_monopolize);                //首本书独占一行---四网格
+
+        addItemType(HpBGModuleEntity.TYPE_CATE_EXC_WORKS, R.layout.recy_group_item_type_rc_view);                           //分类佳作布局
+        addItemType(HpBGModuleEntity.TYPE_GRID_4, R.layout.recy_group_item_type_rc_view);                                   //好评佳作
+        addItemType(HpBGModuleEntity.TYPE_LIST, R.layout.recy_group_item_type_list);                                        //列表
+        addItemType(HpBGModuleEntity.TYPE_HOT_SEARCH, R.layout.recy_group_item_type_rc_view);                               //实时热搜类型的
+    }
+
     @Override
     protected void convert(@NonNull BaseViewHolder holder, HpBGModuleEntity item) {
         switch (item.getItemType()) {

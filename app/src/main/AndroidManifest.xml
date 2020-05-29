@@ -140,10 +140,10 @@
             android:name=".ui.activities.InviteFriendsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
-           <!-- <intent-filter>
-                <action android:name="com.huli.invite_friends.ACTION_START" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>-->
+            <!-- <intent-filter>
+                 <action android:name="com.huli.invite_friends.ACTION_START" />
+                 <category android:name="android.intent.category.DEFAULT" />
+             </intent-filter>-->
         </activity>
 
         <activity
@@ -292,6 +292,11 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.activities.AdvFreeSuccessActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.huli.page.ui.activity.ReadBookActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
@@ -299,14 +304,18 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="com.huli.page.ui.activity.ReadBookActivity2"
+            android:name="com.huli.page.ui.activity.MoreSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeRead"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="com.huli.page.ui.activity.MoreSettingActivity"
+            android:name=".ui.activities.AllBookReviewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activities.WriteBookReviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

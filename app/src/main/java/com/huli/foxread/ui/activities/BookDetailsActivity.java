@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -12,31 +11,29 @@ import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.huli.foxread.FrApp;
-import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.entity.BookReview;
+import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.listeners.OnRecyCbCheckListener;
 import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
+import com.huli.foxread.ui.adapters.BookReviewAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.dialogs.ChaptersDialogFragment;
@@ -54,20 +51,22 @@ import com.kongzue.stacklabelview.StackLabel;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-import java.util.UUID;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class BookDetailsActivity extends BaseActivity implements View.OnClickListener {
+public class BookDetailsActivity extends BaseActivity implements View.OnClickListener, OnRecyCbCheckListener {
 
     private static final String EXTRA_BOOK_ID = "extra_book_id";
     public static final String RESULT_IS_COLLECTED = "result_is_collected";
@@ -76,7 +75,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
     private Toolbar mToolbar;
 
-    private ScrollView scvBookDetail;
+    private NestedScrollView scvBookDetail;
     private ImageView ivBookCover;
     private TextView tvHotFlag, tvBookName, tvBookAuthor, tvBookTips;
     private TextView tvBookScore, tvBookReader;
@@ -94,7 +93,12 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     private TextView btnAddBookcase;
     private Button btnBeginReading;
 
-    BookShelfListBean data;
+    private RecyclerView rcReview;
+    private BookReviewAdapter reviewAdapter;
+    private TextView btnReview, btnMoreReview;
+
+
+    BookShelfListBean bookBean;
     List<BookChapter> chapters = new ArrayList<>();
     private String nId;
 
@@ -176,6 +180,16 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
         btnAddBookcase = $(R.id.btn_add_a_bookcase_dt);
         btnBeginReading = $(R.id.btn_begin_reading_dt);
+
+        btnMoreReview = $(R.id.tv_asBtn_check_more_review);
+        btnMoreReview.setVisibility(View.GONE);
+        btnReview = $(R.id.tv_asBtn_review);
+        rcReview = $(R.id.recyclerView_review);
+        rcReview.setLayoutManager(new LinearLayoutManager(this));
+        reviewAdapter = new BookReviewAdapter();
+        reviewAdapter.setAnimationEnable(false);
+        rcReview.setAdapter(reviewAdapter);
+        reviewAdapter.setEmptyView(R.layout.layout_empty_no_comments);
     }
 
     @Override
@@ -193,15 +207,26 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
             startActivity(intent);
         });
 
-        scvBookDetail.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+        scvBookDetail.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY > DensityUtils.dp2px(BookDetailsActivity.this, 36)) {
-                if (data != null) {
-                    mToolbar.setTitle(data.getNovel_name());
+                if (bookBean != null) {
+                    mToolbar.setTitle(bookBean.getNovel_name());
                 }
             } else {
                 mToolbar.setTitle("");
             }
+
         });
+
+
+        reviewAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+            BookReview bookReview = reviewAdapter.getData().get(position);
+            Toast.makeText(this, "更多===" + bookReview.getId(), Toast.LENGTH_SHORT).show();
+        });
+        reviewAdapter.setmRecyCbCheckListener(this);
+        btnMoreReview.setOnClickListener(this);
+        btnReview.setOnClickListener(this);
+
     }
 
     @Override
@@ -260,6 +285,16 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
                 openBook(-1);
                 break;
+            case R.id.tv_asBtn_check_more_review:           //更多评论
+                if (bookBean != null) {
+                    AllBookReviewActivity.start4Result(this, AllBookReviewActivity.REQCODE_CHECK_ALL_REVIEW, bookBean);
+                }
+                break;
+            case R.id.tv_asBtn_review:                      //写评论
+                if (bookBean != null) {
+                    WriteBookReviewActivity.start4Result(this, WriteBookReviewActivity.REQCODE_WRITE_REVIEW, bookBean.getNovel_id());
+                }
+                break;
             default:
                 break;
         }
@@ -269,12 +304,26 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         startActivityForResult(new Intent(this, ReadBookActivity.class)
                 .putExtra(ReadBookActivity.EXTRA_IS_COLLECTED, isCollected)
                 .putExtra(ReadBookActivity.EXTRA_PAGE_POS, chapter)
-                .putExtra(ReadBookActivity.EXTRA_COLL_BOOK, data), REQUEST_READ);
+                .putExtra(ReadBookActivity.EXTRA_COLL_BOOK, bookBean), REQUEST_READ);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.menu_book_detail, menu);
+//        return super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_book_detail, menu);
+        //反射 解决ICON不显示
+        if (menu != null) {
+            if (menu.getClass() == MenuBuilder.class) {
+                try {
+                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                    m.setAccessible(true);
+                    m.invoke(menu, true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -285,6 +334,27 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    /*点赞*/
+    @Override
+    public void onCbCheckChanged(CompoundButton view, boolean b, int pos) {
+        if (onMoreClick()) {
+            return;
+        }
+        BookReview bookReview = reviewAdapter.getData().get(pos);
+       /* if (b) {
+            reviewAdapter.getData().get(pos).setPrefer(bookReview.getPrefer() + 1);
+            reviewAdapter.getData().get(pos).setCondition(1);
+        }else {
+            reviewAdapter.getData().get(pos).setPrefer(bookReview.getPrefer() - 1);
+            reviewAdapter.getData().get(pos).setCondition(0);
+        }
+        reviewAdapter.notifyItemChanged(pos);
+        reviewAdapter.notifyItemChanged(pos, BookReviewAdapter.PAYLOAD_CHECKBOX);*/
+        giveALikeOrCancel(bookReview.getId(), bookReview.getNovel_id(), b);
+    }
+
 
     /**
      * 小说详情
@@ -301,30 +371,30 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                 new TypeReference<LzyResponse<BookShelfListBean>>() {
                                 });
                         if (entity.error_code == 0) {
-                            data = entity.getData();
-                            GlideUtil.loadRoundRect(BookDetailsActivity.this, ivBookCover, data.getHttp_image());
+                            bookBean = entity.getData();
+                            GlideUtil.loadRoundRect(BookDetailsActivity.this, ivBookCover, bookBean.getHttp_image());
 
-                            tvHotFlag.setVisibility(data.getIs_hot() == 1 ? View.VISIBLE : View.GONE);
-                            tvBookName.setText(data.getNovel_name());
-                            tvBookAuthor.setText(data.getAuthor());
-                            String bookTagStr = data.getClassify_name()
-                                    + " · " + ((data.getIs_end() == 1) ? "完结" : "连载")
-                                    + " · " + FigureProcessor.formatWordNum(BookDetailsActivity.this, data.getWord());
+                            tvHotFlag.setVisibility(bookBean.getIs_hot() == 1 ? View.VISIBLE : View.GONE);
+                            tvBookName.setText(bookBean.getNovel_name());
+                            tvBookAuthor.setText(bookBean.getAuthor());
+                            String bookTagStr = bookBean.getClassify_name()
+                                    + " · " + ((bookBean.getIs_end() == 1) ? getString(R.string.txt_end) : getString(R.string.txt_serialize))
+                                    + " · " + FigureProcessor.formatWordNum(BookDetailsActivity.this, bookBean.getWord());
                             tvBookTips.setText(bookTagStr);
-                            tvBookReader.setText(FigureProcessor.formatNum(BookDetailsActivity.this, data.getReading_size()));
-                            float score = data.getScore();
+                            tvBookReader.setText(FigureProcessor.formatNum(BookDetailsActivity.this, bookBean.getReading_size()));
+                            float score = bookBean.getScore();
                             tvBookScore.setText(String.valueOf(score));
                             ratingBarScore.setRating(score / 2);
-                            expTextView.setText(data.getIntroduce());
+                            expTextView.setText(bookBean.getIntroduce());
 
-                            List<String> tags = data.getTag();
+                            List<String> tags = bookBean.getTag();
 //                            labelBookTags.setLabels(new String[]{"热血", "玄幻", "口碑佳作", "轻松爽文", "美女", "种马"});
                             if (tags != null && tags.size() > 0) {
                                 labelBookTags.setLabels(tags);
                             }
 
                             //  版权说明
-                            String copyRightStr = data.getCopyright_name();
+                            String copyRightStr = bookBean.getCopyright_name();
                             SpannableString spannableString = new SpannableString(getString(R.string.tips_copyright_colon) + copyRightStr);
                             ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(BookDetailsActivity.this, R.color.col_red));
                             StyleSpan styleSpan_B = new StyleSpan(Typeface.BOLD);
@@ -334,7 +404,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             spannableString.setSpan(aSize, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
                             tvCopyright.setText(spannableString);
 
-                            if (data.getIs_exist_bookshelf() == 1) {
+                            if (bookBean.getIs_exist_bookshelf() == 1) {
                                 isCollected = true;
                                 btnAddBookcase.setText("已加入书架");
                                 btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
@@ -346,6 +416,9 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
                             //请求相关推荐
                             reqRelatedRecoBooks(nId);
+
+                            //获取评论列表
+                            reqReviewList(nId);
                         } else {
                             TipDialog.show(BookDetailsActivity.this, R.string.txt_books_do_not_exist, TipDialog.TYPE.ERROR)
                                     .setOnDismissListener(() -> finish());
@@ -386,6 +459,61 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                 mAdapter.setNewInstance(booksList);
                             }
                         }
+                    }
+                });
+    }
+
+    /**
+     * 评论列表
+     *
+     * @param novelId 小说ID
+     */
+    private void reqReviewList(String novelId) {
+        OkGo.<String>get(Consts.APPRAISE_LIST_API)
+                .params(Consts.NOVEL_ID, novelId)
+                .params(Consts.PAGE, 1)
+                .params(Consts.PAGE_SIZE, 3)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<PagingWarpper<List<BookReview>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookReview>>>>() {
+                                });
+                        if (entity.error_code == 0) {
+                            PagingWarpper<List<BookReview>> datas = entity.getData();
+                            int totalNum = datas.getTotal();
+                            List<BookReview> reviews = datas.getData();
+                            reviewAdapter.setNewInstance(reviews);
+                            if (totalNum >= 3) {
+                                btnMoreReview.setText(String.format(getString(R.string.txt_more_review_x), totalNum));
+                                btnMoreReview.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 点赞或取消点赞
+     *
+     * @param reviewId  评论ID
+     * @param novelId   小说ID
+     * @param isChecked
+     */
+    private void giveALikeOrCancel(String reviewId, String novelId, boolean isChecked) {
+        OkGo.<String>get(Consts.APPRAISE_LIKE_API)
+                .params(Consts.REVIEW_ID, reviewId)
+                .params(Consts.BOOK_ID, novelId)
+                .params(Consts.PREFER, isChecked ? 1 : 2)
+                .execute(new LtbCallback(this, false) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                       /* LzyResponse<PagingWarpper<List<BookReview>>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<PagingWarpper<List<BookReview>>>>() {
+                                });
+                        if (entity.error_code == 0) {
+
+                        }*/
                     }
                 });
     }
@@ -459,15 +587,28 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //如果进入阅读页面收藏了，页面结束的时候，就需要返回改变收藏按钮
-        if (requestCode == REQUEST_READ) {
-            if (data == null) {
-                return;
-            }
-            isCollected = data.getBooleanExtra(RESULT_IS_COLLECTED, false);
-            if (isCollected) {
-                btnAddBookcase.setText("已加入书架");
-                btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
-            }
+        switch (requestCode) {
+            case REQUEST_READ:
+                if (data == null) {
+                    return;
+                }
+                isCollected = data.getBooleanExtra(RESULT_IS_COLLECTED, false);
+                if (isCollected) {
+                    btnAddBookcase.setText("已加入书架");
+                    btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
+                }
+
+                break;
+
+            case WriteBookReviewActivity.REQCODE_WRITE_REVIEW:
+            case AllBookReviewActivity.REQCODE_CHECK_ALL_REVIEW:
+                if (bookBean == null) {
+                    return;
+                }
+                if (resultCode == RESULT_OK) {
+                    reqReviewList(bookBean.getNovel_id());
+                }
+                break;
         }
     }
 

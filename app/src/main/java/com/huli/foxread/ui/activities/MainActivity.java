@@ -43,11 +43,11 @@ import com.huli.foxread.ui.dialogs.CommonDialog;
 import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
-import com.huli.foxread.ui.fragments.MainBookrackFragment2;
+import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainClassifyFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
-import com.huli.foxread.ui.fragments.MainWelfareFragment;
+import com.huli.foxread.ui.fragments.MainWelfareFragment2;
 import com.huli.foxread.utils.PackageUtils;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
@@ -87,9 +87,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private FragmentManager fragmentManager;
 
     private MainBookstoreFragment bookstoreFragment;
-    private MainBookrackFragment2 bookrackFragment;
+    private MainBookrackFragment bookrackFragment;
     private MainClassifyFragment classifyFragment;
-    private MainWelfareFragment welfareFragment;
+    private MainWelfareFragment2 welfareFragment;
     private MainMineFragment mineFragment;
 
     private boolean hasGetUserInfo = false;
@@ -331,7 +331,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
             case 1:
                 if (bookrackFragment == null) {
-                    bookrackFragment = new MainBookrackFragment2();
+                    bookrackFragment = new MainBookrackFragment();
                     transaction.add(R.id.fl_frag_content_main, bookrackFragment);
                 } else {
                     transaction.show(bookrackFragment);
@@ -348,7 +348,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
             case 3:
                 if (welfareFragment == null) {
-                    welfareFragment = new MainWelfareFragment();
+                    welfareFragment = new MainWelfareFragment2();
                     transaction.add(R.id.fl_frag_content_main, welfareFragment);
                     sendShowLoginDialogMsg();
                 } else {

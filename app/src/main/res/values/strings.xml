@@ -121,6 +121,7 @@
     <string name="txt_new_book">新书</string>
     <string name="txt_end">完结</string>
     <string name="txt_serialize">连载</string>
+    <string name="txt_unshelve">已下架</string>
     <string name="txt_hotlist_today">今日大热榜</string>
     <string name="txt_the_full_list">完整榜单</string>
     <string name="txt_classify_excellent_works">分类佳作</string>
@@ -167,6 +168,7 @@
     <string name="txt_go2_reading">去阅读</string>
     <string name="txt_go2_watch">去观看</string>
     <string name="txt_can_receive">可领取</string>
+    <string name="txt_complete">完成</string>
     <string name="txt_completed">已完成</string>
     <string name="txt_newbie_mission">新手任务</string>
     <string name="txt_reading_now">立即阅读</string>
@@ -227,8 +229,10 @@
     <string name="txt_add_a_bookcase">加入书架</string>
     <string name="txt_begin_reading">免费阅读全本</string>
     <string name="txt_hotspot_book_review">热门书评</string>
+    <string name="txt_recommended_classic">经典推荐</string>
     <string name="txt_write_review">写书评</string>
     <string name="txt_more_review_x">查看更多书评（%1$d）</string>
+    <string name="txt_essence_comments">精华评论</string>
     <string name="txt_related_recommendation">相关推荐</string>
     <string name="tips_copyright_colon">版权说明：</string>
 
@@ -304,6 +308,7 @@
 
     <string name="txt_people_already_receive">人已领</string>
 
+    <string name="txt_add_book_what_you_like">添加你喜欢的书籍</string>
     <string name="txt_reading_records">阅读记录</string>
     <string name="txt_del_books_x">删除记录（%1$d）</string>
     <string name="txt_add_to_bookcase_x">加入书架（%1$d）</string>
@@ -398,6 +403,15 @@
 
     <string name="txt_tips_refer_2_rule">如有疑问请参考活动规则</string>
 
+    <string name="txt_book_friend_xid">书友_%1$s</string>
+    <string name="txt_x_people_give_a_mark">%1$d人评分</string>
+    <string name="txt_no_comments">暂无评论</string>
+    <string name="txt_issued">发表</string>
+    <string name="txt_tell_us_what_you_think">快来说说你的想法吧</string>
+    <string name="txt_plz_input_you_comment">请填写你的评论</string>
+    <string name="txt_plz_select_grade">请给本书的打个分~</string>
+    <string name="txt_make_comments">发表评论</string>
+
 
     <string name="txt_user_agreement_and_privacy_policy_prompt">用户协议与隐私政策提示</string>
     <string name="txt_agreement_policy_entrance">您可以阅读完整的《一起看书用户使用协议》和《一起看书隐私政策》来了解详细信息。</string>
@@ -408,6 +422,11 @@
     <string name="txt_disagree">不同意</string>
     <string name="txt_disagree_and_exit">不同意并退出</string>
     <string name="txt_agree_and_continue">同意并继续</string>
+
+    <string name="txt_enjoy_immediately_ad_free_reading">立享无广告阅读</string>
+    <string name="txt_adblock_plus_success">成功去除广告！</string>
+    <string name="txt_adblock_plus_tips_x">现在起%1$d分钟内，您可享受阅读器内免广告阅读。</string>
+    <string name="txt_residue_degree_today_x">今日还有%1$d次机会</string>
 
 
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>

@@ -154,7 +154,8 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
             return;
         }
         //启动页延长显示时间   500毫秒 防止一闪而过
-        mHandler.sendEmptyMessageDelayed(9, 500);
+//        mHandler.sendEmptyMessageDelayed(9, 500);
+        statrInitTask();
     }
 
 

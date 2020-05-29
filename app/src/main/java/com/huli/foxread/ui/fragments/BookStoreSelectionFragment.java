@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,13 +14,12 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.EditorRecoEntity;
-import com.huli.foxread.entity.HomePageEntity2;
+import com.huli.foxread.entity.HomePageEntity;
 import com.huli.foxread.entity.RvTitleEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.multi.HpBGModuleEntity;
@@ -31,7 +29,6 @@ import com.huli.foxread.ui.adapters.BsSelectionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.GlideUtil;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -87,6 +84,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         view.setTag(index);
 
         mAppBarLayout = $(view, R.id.appBarLayout);
+        mAppBarLayout.setVisibility(View.GONE);
         initTopView(view);
         mRefreshLayout = $(view, R.id.smartRefreshLayout_book_store);
 
@@ -95,8 +93,8 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         mAdapter = new BsSelectionAdapter();
         mAdapter.setAnimationEnable(true);
         recyclerView.setAdapter(mAdapter);
-        mAdapter.setEmptyView(R.layout.layout_empty);
-        mAdapter.setHeaderWithEmptyEnable(true);
+//        mAdapter.setEmptyView(R.layout.layout_empty);
+//        mAdapter.setHeaderWithEmptyEnable(true);
         mAdapter.setGridSpanSizeLookup((gridLayoutManager, viewType, position) -> mAdapter.getData().get(position).getSpanSize());
 
         parentFragment = (MainBookstoreFragment) getParentFragment();
@@ -130,9 +128,28 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
 
     }
 
+    public void back2Top() {
+        if (recyclerView.canScrollVertically(-1)) {           //判断RecyclerView是否在顶部
+            recyclerView.smoothScrollToPosition(0);
+            mAppBarLayout.setExpanded(true, true);
+        }
+    }
+
+    @Override
+    public void doBusiness(Context mContext) {
+    }
+
+    private boolean isInit = true;
+
     @Override
     public void onResume() {
         super.onResume();
+
+        if (isInit) {
+            mRefreshLayout.autoRefresh();
+//            reqIndexDatas(true);
+            isInit = false;
+        }
 
         mAppBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if (parentFragment != null) {
@@ -143,18 +160,6 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 }
             }
         });
-    }
-
-    public void back2Top() {
-        if (recyclerView.canScrollVertically(-1)) {           //判断RecyclerView是否在顶部
-            recyclerView.smoothScrollToPosition(0);
-            mAppBarLayout.setExpanded(true, true);
-        }
-    }
-
-    @Override
-    public void doBusiness(Context mContext) {
-        reqIndexDatas(true);
     }
 
     @Override
@@ -262,7 +267,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      *
      * @param hpDatas
      */
-    private void constructDatas4Rv(HomePageEntity2 hpDatas) {
+    private void constructDatas4Rv(HomePageEntity hpDatas) {
         List<HpBGModuleEntity> modules = hpDatas.getModule();
         List<HpSection> datas = new ArrayList<>();
         for (int i = 0; i < modules.size(); i++) {
@@ -322,44 +327,26 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
     /**
      * 各个模块数据（除了底部高分精选）
      *
-     * @param isInit 进入页面初次加载
+     * @param showDialog 进入页面初次加载
      */
-    private void reqIndexDatas(boolean isInit) {
-        OkGo.<LzyResponse<HomePageEntity2>>post(Consts.INDEX_PAGE_API)
+    private void reqIndexDatas(boolean showDialog) {
+        OkGo.<String>post(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
-                .cacheKey(Consts.INDEX_PAGE_API + Consts.TYPE_SELECTION)
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-                .cacheTime(24 * 60 * 60 * 1000)
-                .execute(new LtbJsonCallback<LzyResponse<HomePageEntity2>>((AppCompatActivity) mActivity, false,
-                        new TypeReference<LzyResponse<HomePageEntity2>>() {
-                        }) {
+                .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
                     @Override
-                    public void onSuccess(Response<LzyResponse<HomePageEntity2>> response) {
-                        LzyResponse<HomePageEntity2> entity = response.body();
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<HomePageEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<HomePageEntity>>() {
+                                });
                         if (entity.error_code == 0) {
-                            HomePageEntity2 hpDatas = entity.getData();
+                            HomePageEntity hpDatas = entity.getData();
                             if (hpDatas == null) {
                                 return;
                             }
+                            mAppBarLayout.setVisibility(View.VISIBLE);
                             setTopDatas(hpDatas.getTop());
                             constructDatas4Rv(hpDatas);
-
-
-                            reqHighMarksDatas(0);
                         }
-                    }
-
-                    @Override
-                    public void onCacheSuccess(Response<LzyResponse<HomePageEntity2>> response) {
-                        super.onCacheSuccess(response);
-                        if (isInit) {
-                            onSuccess(response);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<LzyResponse<HomePageEntity2>> response) {
-                        super.onError(response);
                     }
 
                     @Override

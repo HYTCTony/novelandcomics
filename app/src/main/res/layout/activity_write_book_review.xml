@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+
+    <include layout="@layout/layout_toolbar" />
+
+    <TextView
+        android:id="@+id/tv_asBtn_txt_issued_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="@dimen/dp_8"
+        android:text="@string/txt_issued"
+        android:textColor="@color/txt_col_365565"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal" />
+
+
+    <me.zhanghai.android.materialratingbar.MaterialRatingBar
+        android:id="@+id/materialRatingBar_grade"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:isIndicator="false"
+        android:numStars="5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"
+        app:mrb_fillBackgroundStars="true"
+        app:mrb_progressTint="@color/col_yellow_ffdf58"
+        tools:rating="2.5" />
+
+    <View
+        android:id="@+id/view_separate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_16"
+        android:background="@color/color_f2"
+        app:layout_constraintTop_toBottomOf="@+id/materialRatingBar_grade" />
+
+    <TextView
+        android:id="@+id/tv_word_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginEnd="@dimen/dp_16"
+        tools:text="0/200"
+        android:textColor="@color/txt_red"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_separate" />
+
+    <EditText
+        android:id="@+id/ed_comment_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:background="@color/white"
+        android:padding="@dimen/dp_4"
+        android:textSize="@dimen/sp_14"
+        android:hint="@string/txt_tell_us_what_you_think"
+        android:textColor="@color/txt_black_191919"
+        android:gravity="top"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_word_count" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

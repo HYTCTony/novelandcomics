@@ -471,7 +471,6 @@ public class MainBookrackFragment2 extends BaseFragment implements OnItemLongCli
                         data.add(new BookShelfListBean());
                         mAdapter.notifyDataSetChanged();
 
-                        mAdapter.notifyDataSetChanged();
 
                     }
 

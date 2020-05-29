@@ -2,22 +2,19 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.TextPaint;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
+import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoader;
 import com.huli.foxread.entity.BannerADEntity;
-import com.huli.foxread.entity.HomePageBGEntity2;
+import com.huli.foxread.entity.HomePageBGEntity;
 import com.huli.foxread.entity.multi.HpBGModuleEntity;
 import com.huli.foxread.ui.activities.BookRankingActivity;
 import com.huli.foxread.ui.activities.ClassifyActivity;
@@ -37,7 +34,6 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -101,14 +97,19 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
         mScrollView = $(view, R.id.scrollView_boy_girl);
         recyclerView = $(view, R.id.recyclerView_book_store);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mAdapter = new HpBoyGirlAdapter();
+        recyclerView.setAdapter(mAdapter);
+//        mAdapter.setEmptyView(R.layout.layout_empty);
+        initTopView(view);
+//        mAdapter.addHeaderView(headViewTop);
+        headViewTop.setVisibility(View.GONE);
 
-        initTopView();
     }
 
     @Override
     public void setListener() {
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            reqIndexDatas(isInitData);
+            reqIndexDatas(false);
         });
     }
 
@@ -123,8 +124,8 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         if (isInitData) {
-            reqIndexDatas(isInitData);
-//            mRefreshLayout.autoRefresh();
+            mRefreshLayout.autoRefresh();
+//            reqIndexDatas(true);
             isInitData = false;
         }
     }
@@ -191,10 +192,11 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     /**
      * 顶部headerView
      */
-    private void initTopView() {
-        headViewTop = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_sb_top, recyclerView, false);
-        initBannerView(headViewTop);
-        initCenterBar(headViewTop);
+    private void initTopView(View view) {
+//        headViewTop = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_sb_top, recyclerView, false);
+        headViewTop = $(view, R.id.ctl_head_contentView);
+        initBannerView(view);
+        initCenterBar(view);
     }
 
     /**
@@ -236,33 +238,28 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     /**
      * 各个模块数据
      */
-    private void reqIndexDatas(boolean isInitData) {
-        OkGo.<LzyResponse<HomePageBGEntity2>>post(Consts.INDEX_PAGE_API)
+    private void reqIndexDatas(boolean showDialog) {
+        OkGo.<String>post(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, mType)
-                .execute(new LtbJsonCallback<LzyResponse<HomePageBGEntity2>>((AppCompatActivity) mActivity, isInitData,
-                        new TypeReference<LzyResponse<HomePageBGEntity2>>() {
-                        }) {
+                .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
                     @Override
-                    public void onSuccess(Response<LzyResponse<HomePageBGEntity2>> response) {
-                        LzyResponse<HomePageBGEntity2> entity = response.body();
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<HomePageBGEntity> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<HomePageBGEntity>>() {
+                                });
                         if (entity.error_code == 0) {
-                            HomePageBGEntity2 hpDatas = entity.getData();
+                            HomePageBGEntity hpDatas = entity.getData();
 
                             List<HpBGModuleEntity> moduleList = hpDatas.getModule();
-                            if (mAdapter == null) {
-                                mAdapter = new HpBoyGirlAdapter(moduleList);
-                                recyclerView.setAdapter(mAdapter);
-                                mAdapter.setEmptyView(R.layout.layout_empty);
-                                mAdapter.addHeaderView(headViewTop);
-                            } else {
-                                mAdapter.setNewInstance(moduleList);
-                            }
+
+                            mAdapter.setNewInstance(moduleList);
                             //轮播图
                             bannerDatas = hpDatas.getBanner();
                             if (bannerDatas != null) {
                                 mBanner.update(bannerDatas);
                             }
 
+                            headViewTop.setVisibility(View.VISIBLE);
                             viewFooter.setVisibility(View.VISIBLE);
                         }
                     }

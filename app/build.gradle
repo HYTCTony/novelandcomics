@@ -184,6 +184,8 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
 
+//    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+
     implementation 'pub.devrel:easypermissions:2.0.1'
 
     //轮播图
@@ -210,7 +212,6 @@ dependencies {
     //bug监控
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
-    implementation "com.simple:spiderman:1.1.4"
 
     //App升级
     implementation 'com.azhon:appupdateX:2.9.0'

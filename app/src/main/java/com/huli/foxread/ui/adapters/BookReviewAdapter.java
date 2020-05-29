@@ -1,0 +1,108 @@
+package com.huli.foxread.ui.adapters;
+
+import android.view.ViewTreeObserver;
+import android.widget.TextView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.module.LoadMoreModule;
+import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.huli.foxread.R;
+import com.huli.foxread.entity.BookReview;
+import com.huli.foxread.listeners.OnRecyCbCheckListener;
+import com.huli.foxread.utils.DateTimeUtil;
+import com.huli.foxread.utils.GlideUtil;
+
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatCheckBox;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+
+/**
+ * 评论列表
+ */
+public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHolder> implements LoadMoreModule {
+
+    public static final int PAYLOAD_CHECKBOX = 1;
+
+    private OnRecyCbCheckListener mRecyCbCheckListener;
+
+    public void setmRecyCbCheckListener(OnRecyCbCheckListener mRecyCbCheckListener) {
+        this.mRecyCbCheckListener = mRecyCbCheckListener;
+        addChildClickViewIds(R.id.tv_review_content_more);
+    }
+
+    public BookReviewAdapter(List<BookReview> data) {
+        super(R.layout.recy_list_item_book_review, data);
+        addChildClickViewIds(R.id.tv_review_content_more);
+    }
+
+    public BookReviewAdapter() {
+        super(R.layout.recy_list_item_book_review);
+    }
+
+    @Override
+    protected void convert(@NonNull BaseViewHolder holder, BookReview bookReview) {
+        GlideUtil.loadCircle(getContext(), holder.getView(R.id.iv_reviewer_headImg), bookReview.getHttp_avatar());
+        holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUser_id()));
+        TextView tvContent = holder.getView(R.id.tv_review_content);
+        holder.setText(R.id.tv_review_time, DateTimeUtil.formatDateTime(bookReview.getCreatetime() * 1000, DateTimeUtil.DF_YYYY_MM_DD));
+
+        MaterialRatingBar ratingBar = holder.getView(R.id.ratingBar_score_by_reviewer);
+        ratingBar.setRating(bookReview.getScore() / 2);
+
+        AppCompatCheckBox cbLike = holder.getView(R.id.cb_review_like_and_number);
+        cbLike.setChecked(bookReview.getCondition() == 1);
+        cbLike.setText(String.valueOf(bookReview.getPrefer()));
+        if (mRecyCbCheckListener != null) {
+            cbLike.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (buttonView.isPressed()) {
+                    int position = holder.getLayoutPosition();
+                    mRecyCbCheckListener.onCbCheckChanged(buttonView, isChecked, position);
+                    if (isChecked) {
+                        getData().get(position).setPrefer(bookReview.getPrefer() + 1);
+                        getData().get(position).setCondition(1);
+                    } else {
+                        getData().get(position).setPrefer(bookReview.getPrefer() - 1);
+                        getData().get(position).setCondition(0);
+                    }
+                    notifyItemChanged(position, BookReviewAdapter.PAYLOAD_CHECKBOX);
+                }
+            });
+        }
+
+        tvContent.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                int lines = tvContent.getLineCount();
+                if (lines >= 5) {
+                    if (tvContent.getEllipsize() != null) {
+                        holder.setVisible(R.id.tv_review_content_more, true);
+                    } else {
+                        holder.setGone(R.id.tv_review_content_more, true);
+                    }
+                } else {
+                    holder.setGone(R.id.tv_review_content_more, true);
+                }
+                //这个回调会调用多次，获取完行数记得注销监听
+                tvContent.getViewTreeObserver().removeOnPreDrawListener(this);
+                return false;
+            }
+        });
+        tvContent.setText(bookReview.getContent());
+    }
+
+    @Override
+    protected void convert(@NonNull BaseViewHolder holder, BookReview item, @NonNull List<?> payloads) {
+        super.convert(holder, item, payloads);
+        for (Object obj : payloads) {
+            if (obj instanceof Integer) {
+                int payload = (int) obj;
+                //局部更新点赞数
+                if (payload == PAYLOAD_CHECKBOX) {
+                    holder.setText(R.id.cb_review_like_and_number, String.valueOf(item.getPrefer()));
+                }
+            }
+        }
+    }
+}

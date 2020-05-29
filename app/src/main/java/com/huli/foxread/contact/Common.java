@@ -11,6 +11,8 @@ public interface Common {
     String SIGNIN_NEWBIE = "sign_in_newbie";                    //切换到福利
     String WATCH_VIDEO = "watch_video";                         //看视频
     /***福利任务切换MainActivity判断***/
+    String VIDEO_BONUSES = "video_bonuses";                      //看视频得金币
+    String VIDEO_ADVERT = "video_advert";                        //看视频免广告
 
 
     String KEY_CAT_PID = "cat_p_id";
@@ -20,6 +22,7 @@ public interface Common {
     String KEY_CAT_TITLE = "cat_detail_title";
 
     String KEY_BOOK_ID = "novel_id";
+    String KEY_BOOK_DTO = "book_dto";
 
     String KEY_KEYWORD = "keyword";
 

@@ -260,7 +260,7 @@ public class FrApp extends Application implements ActivityState {
         /**
          * 设置升级检查周期为60s(默认检查周期为0s)，60s内SDK不重复向后台请求策略);
          */
-        Beta.upgradeCheckPeriod = 60 * 1000L;
+        Beta.upgradeCheckPeriod = 600 * 1000L;
         /**
          * 只允许在MainActivity上显示更新弹窗，其他activity上不显示弹窗;
          * 不设置会默认所有activity都可以显示弹窗;
