@@ -65,8 +65,9 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     private TextView tvHitsCenter, tvHitsLeft, tvHitsRight;
 
 
-    /*分类id  （全部的时候 1男  2女）*/
-    private int paramSubCatID = 1;
+    private int mType = 1;
+    /*分类id */
+    private int paramSubCatID = 0;
 
     private int paramWordsNum = 0;
     private int paramIsEnd = 0;
@@ -102,7 +103,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
         // 这个设置tag要与FragmentPagerAdapter中的获取方法getItemPosition方法要对应上
         view.setTag(index);
 
-        paramSubCatID = index + 1;
+        mType = index + 1;
 
         stackLabel1 = $(view, R.id.stackLabelView_filter_1);
         stackLabel2 = $(view, R.id.stackLabelView_filter_2);
@@ -126,6 +127,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
         mAdapter = new ClassifyBookListAdapter();
         recyclerView.setAdapter(mAdapter);
         mAdapter.setEmptyView(R.layout.layout_empty);
+        mAdapter.setHeaderWithEmptyEnable(true);
 
         headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_classify_fragment_top3, recyclerView, false);
         mAdapter.setHeaderView(headView);
@@ -155,14 +157,14 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                 if (datas != null && datas.size() >= index) {
                     paramSubCatID = datas.get(index - 1).getId();
                 } else {
-                    paramSubCatID = index + 1;
+                    paramSubCatID = 0;
                 }
             } else {
-                paramSubCatID = index + 1;
+                paramSubCatID = 0;
             }
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             paramCurPage = 0;
-            reqCategoryDatas(false);
+            reqCategoryDatas(true);
         });
 
         stackLabel2.setOnLabelClickListener((index, v, s) -> {
@@ -170,14 +172,14 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
             paramWordsNum = index;
             paramCurPage = 0;
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-            reqCategoryDatas(false);
+            reqCategoryDatas(true);
         });
         stackLabel3.setOnLabelClickListener((index, v, s) -> {
 //                Log.e(TAG, "3***选中===" + s + "----" + index);
             paramIsEnd = index;
             paramCurPage = 0;
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-            reqCategoryDatas(false);
+            reqCategoryDatas(true);
         });
 
         mRefreshLayout.setOnRefreshListener(this);
@@ -198,7 +200,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
         super.onResume();
         if (isInit) {
             isInit = false;
-            reqCategoryDatas(false);
+            reqCategoryDatas(true);
             //TODO初始化数据
         }
     }
@@ -250,6 +252,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
      */
     private void reqCategoryDatas(boolean showDialog) {
         OkGo.<String>post(Consts.NOVEL_CHOICE_SUPERIOR_API)
+                .params(Consts.CAT_BOY_GIRL, mType)
                 .params(Consts.CAT_SECOND_CLASSIFY_ID, paramSubCatID)
                 .params(Consts.CAT_IS_END, paramIsEnd)
                 .params(Consts.CAT_WORD_NUM, paramWordsNum)
@@ -323,7 +326,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                                         showBookTop1(bookList);
                                         showBookTop2(bookList);
                                     } else {
-                                        headView.setVisibility(View.INVISIBLE);
+                                        headView.setVisibility(View.GONE);
                                     }
                                 }
                             } else {

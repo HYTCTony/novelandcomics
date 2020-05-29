@@ -23,8 +23,7 @@ import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
-import com.huli.foxread.ui.activities.InvitationCodeActivity;
-import com.huli.foxread.ui.activities.InviteFriendsActivity;
+import com.huli.foxread.ui.activities.InviteFriendsActivity2;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
@@ -40,7 +39,6 @@ import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.Tos;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
@@ -268,7 +266,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
                 break;
             case R.id.rtl_asBtn_invite_friends:
-                startActivity(new Intent(mActivity, InviteFriendsActivity.class));
+                startActivity(new Intent(mActivity, InviteFriendsActivity2.class));
                 break;
             case R.id.rtl_asBtn_cash_withdrawal:
                 startActivity(new Intent(mActivity, WithdrawalActivity.class));

@@ -3,7 +3,6 @@ package com.huli.foxread.ui.adapters;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,7 +28,6 @@ public class BookRackAdapter2 extends BaseMultiItemQuickAdapter<BookShelfOrADsMu
 
     @Override
     protected void convert(BaseViewHolder helper, BookShelfOrADsMultEntity item) {
-        int position = helper.getLayoutPosition();
         switch (helper.getItemViewType()) {
             case BookShelfOrADsMultEntity.ITEM_ADD_BOOK:
 
@@ -49,7 +47,10 @@ public class BookRackAdapter2 extends BaseMultiItemQuickAdapter<BookShelfOrADsMu
             case BookShelfOrADsMultEntity.DETAILED:
                 BookShelfListBean bookShelf = item.getBook();
                 helper.setText(R.id.tv_book_name, bookShelf.getNovel_name());
-                helper.setText(R.id.tv_book_state, bookShelf.getIs_end() == 1 ? "完结" : "连载");
+                boolean isEnd = bookShelf.getIs_end() == 1;
+                helper.setText(R.id.tv_book_state, isEnd ? R.string.txt_end : R.string.txt_serialize);
+                helper.setTextColorRes(R.id.tv_book_state, isEnd ? R.color.txt_dark_gold : R.color.txt_red);
+                helper.setBackgroundResource(R.id.tv_book_state, isEnd ? R.drawable.shape_border_round2dp_dark_gold : R.drawable.shape_border_round2dp_red);
                 if (TextUtils.isEmpty(bookShelf.getLastChapter())) {
                     helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread_null)));
                 } else {
@@ -70,7 +71,9 @@ public class BookRackAdapter2 extends BaseMultiItemQuickAdapter<BookShelfOrADsMu
                         matrix.setSaturation(0);
                         ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
                         iv.setColorFilter(filter);
-                        helper.setText(R.id.tv_book_state, "已下架");
+                        helper.setText(R.id.tv_book_state, R.string.txt_unshelve);
+                        helper.setTextColorRes(R.id.tv_book_state, R.color.txt_white);
+                        helper.setBackgroundResource(R.id.tv_book_state, R.color.txt_gray_999);
                     }
 
                     //书的图片

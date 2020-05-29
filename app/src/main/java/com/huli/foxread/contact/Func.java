@@ -456,6 +456,13 @@ public interface Func {
     String WELFARE_COMPLETE = "/welfare/complete";
 
     /**
+     * 用途：完成免广告任务---领取奖励(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_COMPLETE_ADVERT = "/welfare/completeAdvert";
+
+    /**
      * 用途：个人中心福利模块(GET)
      * 头：token---token(Y)
      * 参数：
@@ -636,5 +643,33 @@ public interface Func {
      */
     String VERSION_DETAIL = "/version/detail";
 
+    /**
+     * 用途：写书评
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 小说ID
+     * content --- 评语
+     * score --- 评分
+     */
+    String APPRAISE_CREATE = "/appraise/create";
 
+    /**
+     * 用途：书评列表
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 小说ID
+     * page
+     * page_size
+     */
+    String APPRAISE_LIST = "/appraise/list";
+
+    /**
+     * 用途：点赞
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 评论ID
+     * novel_id --- 小说ID
+     * prefer --- 1点赞  2取消点赞
+     */
+    String APPRAISE_LIKE = "/appraise/like";
 }

@@ -22,7 +22,6 @@ import com.huli.foxread.entity.ReadRecordEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ui.adapters.ReadingRecordsAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.ui.decoration.SimpleDividerDecoration;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
@@ -86,7 +85,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
         layout = $(R.id.smart);
         recyclerView = $(R.id.recyclerView_reading_records);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new SimpleDividerDecoration(this, R.dimen.dp_1, R.dimen.dp_16, R.color.col_gray_e5e5e5));
+//        recyclerView.addItemDecoration(new SimpleDividerDecoration(this, R.dimen.dp_1, R.dimen.dp_16, R.color.col_gray_e5e5e5));
         mAdapter = new ReadingRecordsAdapter(isManagerMode);
         mAdapter.setAnimationEnable(true);
         mAdapter.setAnimationFirstOnly(false);
@@ -127,12 +126,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_asBtn_done:
-                btnDone.setVisibility(View.GONE);
-                btnSelectAll.setVisibility(View.GONE);
-                layoutBottomBar.setVisibility(View.GONE);
-                btnManagerRecords.setVisibility(View.VISIBLE);
-                isManagerMode = false;
-                mAdapter.setManagerMode(isManagerMode);
+                change2NormalMode();
                 break;
             case R.id.tv_asBtn_select_all_record:
                 int count = mAdapter.funCheckAll();
@@ -140,14 +134,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                 btnAddBookcase.setText(String.format(getString(R.string.txt_add_to_bookcase_x), count));
                 break;
             case R.id.tv_asBtn_manager_records:
-                btnDone.setVisibility(View.VISIBLE);
-                btnSelectAll.setVisibility(View.VISIBLE);
-                layoutBottomBar.setVisibility(View.VISIBLE);
-                btnManagerRecords.setVisibility(View.GONE);
-                btnDelBooks.setText(String.format(getString(R.string.txt_del_books_x), 0));
-                btnAddBookcase.setText(String.format(getString(R.string.txt_add_to_bookcase_x), 0));
-                isManagerMode = true;
-                mAdapter.setManagerMode(isManagerMode);
+                change2ManagerMode();
                 break;
             case R.id.tv_asBtn_del_books:
                 if (mAdapter.getSelectedCount() <= 0) {
@@ -175,6 +162,35 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
             default:
                 break;
         }
+    }
+
+    /**
+     * 设置为管理模式
+     */
+    private void change2ManagerMode() {
+        btnDone.setVisibility(View.VISIBLE);
+        btnSelectAll.setVisibility(View.VISIBLE);
+        layoutBottomBar.setVisibility(View.VISIBLE);
+        btnManagerRecords.setVisibility(View.GONE);
+        btnDelBooks.setText(String.format(getString(R.string.txt_del_books_x), 0));
+        btnAddBookcase.setText(String.format(getString(R.string.txt_add_to_bookcase_x), 0));
+        isManagerMode = true;
+        mAdapter.setManagerMode(isManagerMode);
+
+        layout.setEnableRefresh(false);
+    }
+
+    /**
+     * 设置为正常列表模式
+     */
+    private void change2NormalMode() {
+        btnDone.setVisibility(View.GONE);
+        btnSelectAll.setVisibility(View.GONE);
+        layoutBottomBar.setVisibility(View.GONE);
+        btnManagerRecords.setVisibility(View.VISIBLE);
+        isManagerMode = false;
+        mAdapter.setManagerMode(isManagerMode);
+        layout.setEnableRefresh(true);
     }
 
     @Override
@@ -257,12 +273,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 });
                         if (entity.error_code == 0) {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
-                            btnDone.setVisibility(View.GONE);
-                            btnSelectAll.setVisibility(View.GONE);
-                            layoutBottomBar.setVisibility(View.GONE);
-                            btnManagerRecords.setVisibility(View.VISIBLE);
-                            isManagerMode = false;
-                            mAdapter.setManagerMode(isManagerMode);
+                            change2NormalMode();
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
@@ -286,12 +297,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 });
                         if (entity.error_code == 0) {
                             reqReadingRecord(0, true);
-                            btnDone.setVisibility(View.GONE);
-                            btnSelectAll.setVisibility(View.GONE);
-                            layoutBottomBar.setVisibility(View.GONE);
-                            btnManagerRecords.setVisibility(View.VISIBLE);
-                            isManagerMode = false;
-                            mAdapter.setManagerMode(isManagerMode);
+                            change2NormalMode();
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);

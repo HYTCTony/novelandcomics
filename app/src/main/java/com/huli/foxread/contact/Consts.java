@@ -3,6 +3,10 @@ package com.huli.foxread.contact;
 public interface Consts {
     String DOWNLOAD_URL = "https://download.hulimedia.com/?my_invite_code=";
 
+    //    String BASE_URL = "http://api.hulimedia.com";
+//    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
+        String BASE_URL = "http://testnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
 //    String BASE_URL = "http://api.hulimedia.com";
 //    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
     String BASE_URL = "http://testnovel.hongyutiancheng.com.cn";
@@ -98,6 +102,7 @@ public interface Consts {
 
     String WELFARE_LIST_API = NOT_CPL_URL + Func.WELFARE_LIST;
     String WELFARE_COMPLETE_API = NOT_CPL_URL + Func.WELFARE_COMPLETE;
+    String WELFARE_COMPLETE_ADVERT_API = NOT_CPL_URL + Func.WELFARE_COMPLETE_ADVERT;
     String WELFARE_USERLIST_API = NOT_CPL_URL + Func.WELFARE_USERLIST;
     String WELFARE_SIGNIN_API = NOT_CPL_URL + Func.WELFARE_SIGNIN_INFO;
     String WELFARE_COMPLETESINGIN_API = NOT_CPL_URL + Func.WELFARE_COMPLETESINGIN;
@@ -116,7 +121,6 @@ public interface Consts {
     /*我的金币相关*/
     //绑银行卡
     String BANK_CREATE_API = NOT_CPL_URL + Func.BANK_CREATE;
-
 
 
     //邀请好友页面信息
@@ -138,6 +142,11 @@ public interface Consts {
     String VERSION_CHECK_API = NOT_CPL_URL + Func.VERSION_CHECK;
     /*APP版本详情*/
     String VERSION_DETAIL_API = NOT_CPL_URL + Func.VERSION_DETAIL;
+
+    /*书评*/
+    String APPRAISE_CREATE_API = NOT_CPL_URL + Func.APPRAISE_CREATE;
+    String APPRAISE_LIST_API = NOT_CPL_URL + Func.APPRAISE_LIST;
+    String APPRAISE_LIKE_API = NOT_CPL_URL + Func.APPRAISE_LIKE;
 
 
     /***event***/
@@ -209,7 +218,9 @@ public interface Consts {
     String CAT_WORD_NUM = "word_calssify";
     String CAT_IS_END = "is_end";
     String CAT_STATUS = "status";
+
     String CAT_SECOND_CLASSIFY_ID = "second_classify_id";
+    String CAT_BOY_GIRL = "type";
 
     String FILTRATE_KEYWORD = "keyword";
 
@@ -240,5 +251,9 @@ public interface Consts {
     String SUB_MISSION_ID = "lower_id";
 
     String ORDER_ID = "order_id";
+
+    String REVIEW_ID = "id";
+    String PREFER = "prefer";
+    String SCORE = "score";
 
 }

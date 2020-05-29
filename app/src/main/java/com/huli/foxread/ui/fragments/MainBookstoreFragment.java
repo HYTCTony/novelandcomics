@@ -36,10 +36,11 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
 
     /**
      * 获取当前显示的Fragment
+     *
      * @return
      */
-    public Fragment getCurrentFragment(){
-       return mAdapter.getCurrentFragment();
+    public Fragment getCurrentFragment() {
+        return mAdapter.getCurrentFragment();
     }
 
 
@@ -71,7 +72,6 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
         viewPager.setOffscreenPageLimit(tabTitles.length);
         mAdapter = new BsPagerAdapter(getChildFragmentManager(), tabTitles);
         viewPager.setAdapter(mAdapter);
-//        setDefaultItem(1);
         slidingTabLayout.setViewPager(viewPager);
 
         int gender = UserInfoCache.getGender(mActivity);
@@ -115,29 +115,6 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
         }
     }
 
-
-    /**
-     * 利用反射，设置默认选中item
-     *
-     * @param position
-     */
-    private void setDefaultItem(int position) {
-        //我这里mViewpager是viewpager子类的实例。如果你是viewpager的实例，也可以这么干。
-        try {
-            Class c = Class.forName("android.support.v4.view.ViewPager");
-            Field field = c.getDeclaredField("mCurItem");
-            field.setAccessible(true);
-            field.setInt(viewPager, position);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        mAdapter.notifyDataSetChanged();
-
-        viewPager.setCurrentItem(position);
-    }
-
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -145,12 +122,12 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
 
     @Override
     public void onPageSelected(int position) {
-        if (!childForbid && isWhite && position == 0) {
-            ctlTab2Yellow();
-        } else {
-            if (!isWhite) {
-                ctlTab2White();
+        if (position == 0) {
+            if (!childForbid) {
+                ctlTab2Yellow();
             }
+        } else {
+            ctlTab2White();
         }
     }
 
@@ -175,16 +152,20 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
      * 颜色变黄
      */
     private void ctlTab2Yellow() {
-        changeColorAmin(ctlTabLayout, Color.WHITE, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
-        isWhite = false;
+        if (isWhite) {
+            changeColorAmin(ctlTabLayout, Color.WHITE, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
+            isWhite = false;
+        }
     }
 
     /**
      * 变白
      */
     private void ctlTab2White() {
-        changeColorAmin(ctlTabLayout, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark), Color.WHITE);
-        isWhite = true;
+        if (!isWhite) {
+            changeColorAmin(ctlTabLayout, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark), Color.WHITE);
+            isWhite = true;
+        }
     }
 
 

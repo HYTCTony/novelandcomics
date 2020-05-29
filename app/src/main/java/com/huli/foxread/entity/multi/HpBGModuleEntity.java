@@ -6,7 +6,7 @@ import com.huli.foxread.entity.BookEntity;
 import java.util.List;
 
 public class HpBGModuleEntity implements MultiItemEntity {
-    public static final int TYPE_HOT_BILLBOARD = 1;             //大热榜（一行两个）布局
+    public static final int TYPE_HOT_BILLBOARD = 1;             //（一行两个）布局
     public static final int TYPE_CATE_EXC_WORKS = 2;            //分类佳作布局
     public static final int TYPE_SPECIAL = 3;                   //专题布局
     public static final int TYPE_GRID_4 = 4;                    //四网格

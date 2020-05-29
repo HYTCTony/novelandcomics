@@ -7,7 +7,7 @@ public class MissionEntity {
     private String id;
     private String welfare_id;
     private String progress;
-    private int status;
+    private int status;                 //0：去完成  1：可领取奖励  2：已完成  3：CD
     private int reward;
     private String type_name;
     private int vip_reward;
@@ -17,6 +17,7 @@ public class MissionEntity {
     private String link;
     private int need_login;
     private int jump;
+    private String type;
     private int sign_successions;       //（新人特有）领取签到奖励次数（-1不显示UI）
 
     public String getId() {
@@ -121,6 +122,14 @@ public class MissionEntity {
 
     public void setJump(int jump) {
         this.jump = jump;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getSign_successions() {

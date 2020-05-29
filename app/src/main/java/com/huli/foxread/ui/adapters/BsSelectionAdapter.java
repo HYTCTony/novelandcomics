@@ -56,7 +56,12 @@ public class BsSelectionAdapter extends BaseSectionQuickAdapter<HpSection, BaseV
         if (object instanceof RvTitleEntity) {
             RvTitleEntity entity = (RvTitleEntity) object;
             holder.setText(R.id.iv_title_book_hp, entity.getTitle());
-            holder.setText(R.id.tv_sub_title, entity.getSubTitle());
+            if (TextUtils.isEmpty(entity.getSubTitle())) {
+                holder.setGone(R.id.tv_sub_title, true);
+            } else {
+                holder.setText(R.id.tv_sub_title, entity.getSubTitle());
+                holder.setVisible(R.id.tv_sub_title, true);
+            }
             LinearLayout linearLayout = holder.getView(R.id.ll_star_tag_content_view);
             linearLayout.removeAllViews();
             String labelStr = entity.getLabel();
@@ -91,9 +96,8 @@ public class BsSelectionAdapter extends BaseSectionQuickAdapter<HpSection, BaseV
                     GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image(), DensityUtils.dp2px(getContext(), 2));
                     holder.setText(R.id.tv_book_title, novel.getName());
                     holder.setText(R.id.tv_book_heat_rate, FigureProcessor.formatHeat(getContext(), novel.getHeat()));
-                    String rankStr = String.valueOf(holder.getLayoutPosition() + 1);
-                    holder.setText(R.id.tv_flag_rank, rankStr);
-                    if (holder.getLayoutPosition() < 3) {
+                    holder.setText(R.id.tv_flag_rank, String.valueOf(novel.getRank()));
+                    if (novel.getRank() <= 3) {
                         holder.setBackgroundResource(R.id.tv_flag_rank, R.mipmap.icon_rank_top3_txtbg);
                     } else {
                         holder.setBackgroundResource(R.id.tv_flag_rank, R.mipmap.icon_rank_normal_txtbg);

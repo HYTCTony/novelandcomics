@@ -9,37 +9,37 @@
     <View
         android:id="@+id/view_group_title_separator"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="@dimen/dp_8"
         android:background="@color/col_f8f8f8"
-        android:layout_height="@dimen/dp_8"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_section_group_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/view_group_title_separator"
+        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:fontFamily="@font/source_hanserif_cn_bold_mini"
+        android:includeFontPadding="false"
         android:textColor="@color/txt_black_272f3a"
         android:textSize="@dimen/sp_20"
-        android:textStyle="bold"
-        android:layout_marginBottom="@dimen/dp_8"
-        app:layout_goneMarginTop="@dimen/dp_8"
-        android:layout_marginStart="@dimen/dp_16"
-        android:typeface="serif"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_group_title_separator"
+        app:layout_goneMarginTop="@dimen/dp_8"
         tools:text="高清" />
 
     <TextView
         android:id="@+id/tv_asBtn_get_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
         android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
         android:text="@string/txt_more"
         android:textColor="@color/txt_gray"
-        android:visibility="gone"
-        android:layout_marginEnd="@dimen/dp_16"
         android:textSize="@dimen/sp_12"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/tv_section_group_title"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_section_group_title" />

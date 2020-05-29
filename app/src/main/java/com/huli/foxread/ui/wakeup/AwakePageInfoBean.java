@@ -3,9 +3,7 @@ package com.huli.foxread.ui.wakeup;
 import java.io.Serializable;
 
 /**
- * 项目名称：BatteryRent
  * 创建人：Bill
- * 创建时间：2019/5/16  16:48
  * 唤醒页面，所需内容封装bean
  */
 public class AwakePageInfoBean implements Serializable {

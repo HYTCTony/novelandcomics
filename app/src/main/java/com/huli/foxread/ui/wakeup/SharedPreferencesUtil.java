@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * 项目名称：BatteryRent
  * 创建人：Bill
- * 创建时间：2019/5/16  16:49
  */
 public class SharedPreferencesUtil {
     private SharedPreferences sp;

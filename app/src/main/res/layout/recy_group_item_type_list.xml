@@ -23,8 +23,8 @@
             android:layout_marginTop="@dimen/dp_8"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_20"
-            android:typeface="serif"
-            android:textStyle="bold"
+            android:fontFamily="@font/source_hanserif_cn_bold_mini"
+            android:includeFontPadding="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="TITLE" />

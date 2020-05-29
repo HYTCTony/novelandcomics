@@ -25,6 +25,7 @@ public class BookEntity implements Serializable {
     private String classify_name;       //归属分类
     private int number;                 //搜索次数
     private int greet;                  //人气
+    private int rank;                   //排名
 
     public String getId() {
         return id;
@@ -168,5 +169,13 @@ public class BookEntity implements Serializable {
 
     public void setGreet(int greet) {
         this.greet = greet;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

@@ -18,7 +18,7 @@
         app:popupTheme="@style/OverflowMenuStyle"
         app:titleTextColor="@color/txt_white" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scv_book_detail"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
@@ -293,7 +293,6 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/dp_4"
                 android:background="@color/white">
 
@@ -334,19 +333,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     android:scrollbars="none"
                     app:layout_constraintTop_toBottomOf="@+id/tv_title_hotspot_book_review" />
 
                 <TextView
                     android:id="@+id/tv_asBtn_check_more_review"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/dp_16"
+                    android:layout_margin="@dimen/dp_16"
                     android:textColor="@color/txt_red"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/recyclerView_review"
                     tools:text="@string/txt_more_review_x" />
 
@@ -367,7 +368,7 @@
                     android:background="@color/white"
                     android:drawableStart="@drawable/shape_title_color_lump"
                     android:drawablePadding="@dimen/dp_6"
-                    android:text="经典推荐"
+                    android:text="@string/txt_recommended_classic"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16"
                     android:textStyle="bold"
@@ -396,6 +397,7 @@
                 android:id="@+id/recyclerView_related_recommendation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:background="@color/white"
                 android:overScrollMode="never"
                 android:scrollbars="none" />
@@ -410,7 +412,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctl_bottom_bar_dt"

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lzy.okgo.OkGo;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -90,5 +92,11 @@ public abstract class BaseFragment extends Fragment {
         }
         lastClickTime = System.currentTimeMillis();
         return flag;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        OkGo.getInstance().cancelAll();
     }
 }
