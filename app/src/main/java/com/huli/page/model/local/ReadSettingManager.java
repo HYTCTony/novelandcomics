@@ -96,7 +96,7 @@ public class ReadSettingManager {
     }
 
     public int getTextSize() {
-        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(20));
+        return sharedPreUtils.getInt(SHARED_READ_TEXT_SIZE, ScreenUtils.spToPx(18));
     }
 
     public void setPageMode(PageMode mode) {

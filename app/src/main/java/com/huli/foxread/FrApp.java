@@ -20,6 +20,7 @@ import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
+import com.qq.e.comm.managers.GDTADManager;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -139,6 +140,8 @@ public class FrApp extends Application implements ActivityState {
         //穿山甲SDK初始化
         //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
         TTAdManagerHolder.init(this);
+        //腾讯广告初始化
+        GDTADManager.getInstance().initWith(this, "207010113294");
     }
 
 

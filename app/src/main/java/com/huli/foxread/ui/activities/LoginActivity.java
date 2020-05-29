@@ -129,13 +129,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             public void onPreGetNumberSuccess(String secureMobile) {
                 // 取号成功，请引导用户进行一键登录，优化用户体验
                 btnOneClickLogin.setVisibility(View.VISIBLE);
-//                Log.e(TAG, "预取号成功：" + secureMobile);
+                Log.e(TAG, "预取号成功：" + secureMobile);
             }
 
             @Override
             public void onPreGetNumberError(final String msg) {
                 // 取号失败，请隐藏一键登陆按钮，优化用户体验
-//                Log.e(TAG, "预取号失败：" + msg);
+                Log.e(TAG, "预取号失败：" + msg);
             }
         });
 

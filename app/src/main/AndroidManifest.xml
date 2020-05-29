@@ -140,10 +140,10 @@
             android:name=".ui.activities.InviteFriendsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
-           <!-- <intent-filter>
-                <action android:name="com.huli.invite_friends.ACTION_START" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>-->
+            <!-- <intent-filter>
+                 <action android:name="com.huli.invite_friends.ACTION_START" />
+                 <category android:name="android.intent.category.DEFAULT" />
+             </intent-filter>-->
         </activity>
 
         <activity
@@ -294,13 +294,7 @@
         <activity
             android:name="com.huli.page.ui.activity.ReadBookActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/ThemeRead"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name="com.huli.page.ui.activity.ReadBookActivity2"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeRead"
             android:windowSoftInputMode="stateHidden" />
@@ -361,6 +355,38 @@
             android:name="com.bytedance.sdk.openadsdk.multipro.TTMultiProvider"
             android:authorities="${applicationId}.TTMultiProvider"
             android:exported="false" />
+
+        <!--腾讯广告-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/gdt_file_path" />
+        </provider>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <!-- 声明SDK所需要的组件 -->
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" />
+        <!-- 请开发者注意字母的大小写，ADActivity，而不是AdActivity -->
+        <activity
+            android:name="com.qq.e.ads.ADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name="com.qq.e.ads.PortraitADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.qq.e.ads.LandscapeADActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:screenOrientation="landscape" />
 
 
         <!--友盟-->

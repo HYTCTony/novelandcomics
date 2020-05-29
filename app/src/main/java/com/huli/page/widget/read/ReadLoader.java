@@ -2,13 +2,16 @@ package com.huli.page.widget.read;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
+import android.util.Log;
 
+import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.local.BookRepository;
@@ -26,6 +29,7 @@ import com.huli.page.widget.page.TxtSpecing;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,23 +52,24 @@ public abstract class ReadLoader {
     public static final int STATUS_PARSE_ERROR = 6;     // 本地文件解析错误(暂未被使用)
     public static final int STATUS_CATEGORY_EMPTY = 7;  // 获取到的目录为空
     // 默认的显示参数配置
-    private static final int DEFAULT_MARGIN_HEIGHT = 32;
+    private static final int DEFAULT_MARGIN_HEIGHT = 28;
     private static final int DEFAULT_MARGIN_WIDTH = 20;
     private static final int DEFAULT_TIP_SIZE = 12;
     private static final int EXTRA_TITLE_SIZE = 4;
+    private static final int AD_FOR_PAGE_NUM = 6;
 
     // 当前章节列表
     protected List<TxtChapter> mChapterList;
     // 书本对象
     protected BookShelfListBean mCollBook;
     // 监听器
-    protected ReadLoader.OnPageChangeListener mPageChangeListener;
+    protected OnPageChangeListener mPageChangeListener;
     //上下文
     private Context mContext;
     // 页面显示类
-    private PageWidget mPageView;
+    private PageView mPageView;
     // 当前显示的页
-    private TxtPage mCurPage;
+    public TxtPage mCurPage;
     // 上一章的页面列表缓存
     private List<TxtPage> mPrePageList;
     // 当前章节的页面列表
@@ -94,8 +99,6 @@ public abstract class ReadLoader {
     /*****************params**************************/
     // 当前的状态
     protected int mStatus = STATUS_LOADING;
-    //是否加载广告
-    protected boolean isAds = false;
     // 判断章节列表是否加载完成
     protected boolean isChapterListPrepare;
 
@@ -138,15 +141,14 @@ public abstract class ReadLoader {
     //当前页面的背景
     private int mBgColor;
 
+    boolean isGoNextPage = false;
     // 当前章
     protected int mCurChapterPos = 0;
     //上一章的记录
     private int mLastChapterPos = 0;
-    //广告页码
-    private int adsPos = 0;
 
     /*****************************init params*******************************/
-    public ReadLoader(PageWidget pageView, BookShelfListBean collBook) {
+    public ReadLoader(PageView pageView, BookShelfListBean collBook) {
         mPageView = pageView;
         mContext = pageView.getContext();
         mCollBook = collBook;
@@ -177,11 +179,11 @@ public abstract class ReadLoader {
         mTextSize = mSettingManager.getTextSize();
         mTitleSize = mTextSize + ScreenUtils.spToPx(EXTRA_TITLE_SIZE);
         // 行间距
-        mTextInterval = mTxtSpecing.getSpecingSize() / 3 * 2;
-        mTitleInterval = mTxtSpecing.getSpecingSize() / 3 * 2;
-        // 段落间距(大小为字体的高度)
-        mTextPara = mTxtSpecing.getSpecingSize();
-        mTitlePara = mTxtSpecing.getSpecingSize();
+        mTextInterval = mTxtSpecing.getTextInterval();
+        mTitleInterval = mTxtSpecing.getTextInterval();
+        // 段落间距
+        mTextPara = mTxtSpecing.getTextPara();
+        mTitlePara = mTxtSpecing.getTextPara();
     }
 
     /**
@@ -209,11 +211,11 @@ public abstract class ReadLoader {
     private void setUpSpecingParams(TxtSpecing txtSpecing) {
         this.mTxtSpecing = txtSpecing;
         // 段落间距
-        mTextPara = txtSpecing.getSpecingSize();
-        mTitlePara = txtSpecing.getSpecingSize();
-        // 行间距（大小为段落间距的2/3）
-        mTextInterval = txtSpecing.getSpecingSize() / 3 * 2;
-        mTitleInterval = txtSpecing.getSpecingSize() / 3 * 2;
+        mTextPara = txtSpecing.getTextPara();
+        mTitlePara = txtSpecing.getTextPara();
+        // 行间距
+        mTextInterval = txtSpecing.getTextInterval();
+        mTitleInterval = txtSpecing.getTextInterval();
         // 存储间距大小
         mSettingManager.setTxtSpecing(txtSpecing);
     }
@@ -307,6 +309,7 @@ public abstract class ReadLoader {
      * @param pos:从 0 开始。
      */
     public void skipToChapter(int pos) {
+        index = 1;
         // 设置参数
         mCurChapterPos = pos;
 
@@ -466,10 +469,9 @@ public abstract class ReadLoader {
             mPageStyle = pageStyle;
             mSettingManager.setPageStyle(pageStyle);
         }
-
-        if (isNightMode && pageStyle != PageStyle.NIGHT) {
-            return;
-        }
+        //        if (isNightMode && pageStyle != PageStyle.NIGHT) {
+        //            return;
+        //        }
 
         // 设置当前颜色样式
         mTextColor = ContextCompat.getColor(mContext, pageStyle.getFontColor());
@@ -482,6 +484,9 @@ public abstract class ReadLoader {
         mBgPaint.setColor(mBgColor);
 
         mPageView.drawCurPage(false);
+        if (mPageChangeListener != null) {
+            mPageChangeListener.onStyleChange(pageStyle, isNightMode);
+        }
     }
 
     /**
@@ -720,15 +725,15 @@ public abstract class ReadLoader {
     private List<TxtPage> loadPageList(int chapterPos) throws Exception {
         // 获取章节
         TxtChapter chapter = mChapterList.get(chapterPos);
+        chapter.isFirst = chapterPos == 0;
         // 判断章节是否存在
         if (!hasChapterData(chapter)) {
             return null;
         }
         // 获取章节的文本流
         BufferedReader reader = getChapterReader(chapter);
-        List<TxtPage> chapters = loadPages(chapter, reader);
 
-        return chapters;
+        return loadPages(chapter, reader);
     }
 
     /*******************************abstract method***************************************/
@@ -756,12 +761,6 @@ public abstract class ReadLoader {
     /***********************************default method***********************************************/
 
     void drawPage(Bitmap bitmap, boolean isUpdate) {
-        if (adsPos == 6) {
-            adsPos = 0;
-            isAds = false;
-        } else {
-            isAds = false;
-        }
         drawBackground(mPageView.getBgBitmap(), isUpdate);
         if (!isUpdate) {
             drawContent(bitmap);
@@ -772,41 +771,61 @@ public abstract class ReadLoader {
 
     private void drawBackground(Bitmap bitmap, boolean isUpdate) {
         Canvas canvas = new Canvas(bitmap);
+        if (mCurPage == null) {
+            return;
+        }
         int tipMarginHeight = ScreenUtils.dpToPx(3);
+
         if (!isUpdate) {
             /****绘制背景****/
             canvas.drawColor(mBgColor);
-
+            if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
+                Bitmap kraftPaper = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.theme_leather_bg);
+                RectF rectF = new RectF(0, 0, mDisplayWidth, mDisplayHeight);
+                canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
+            }
             if (!mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
                 //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
                 float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top;
-//                Logger.e("tipTop" + tipTop);
+                //                Logger.e("tipTop" + tipTop);
                 //根据状态不一样，数据不一样
                 if (mStatus != STATUS_FINISH) {
                     if (isChapterListPrepare) {
-                        canvas.drawText(mChapterList.get(mCurChapterPos > mChapterList.size() - 1 ? mChapterList.size() - 1 : mCurChapterPos).getTitle(),
-                                mMarginWidth, tipTop, mTipPaint);
+                        canvas.drawText(mChapterList.get(mCurChapterPos).getTitle(), mMarginWidth, tipTop, mTipPaint);
                     }
                 } else {
-                    if (!isAds)
-                        canvas.drawText(mCurPage.title, mMarginWidth, tipTop, mTipPaint);
+                    canvas.drawText(mCurPage.title, mMarginWidth, tipTop, mTipPaint);
                 }
-
+                if (index == AD_FOR_PAGE_NUM)
+                    return;
                 /******绘制页码********/
                 // 底部的字显示的位置Y
                 float y = mDisplayHeight - mTipPaint.getFontMetrics().bottom - tipMarginHeight;
                 // 只有finish的时候采用页码
                 if (mStatus == STATUS_FINISH) {
-                    String percent = (mCurPage.position + 1) + "/" + mCurPageList.size();
-                    if (!isAds)
-                        canvas.drawText(percent, mMarginWidth, y, mTipPaint);
+                    NumberFormat numberFormat = NumberFormat.getInstance();
+                    // 设置精版确到小数点后权2位
+                    numberFormat.setMaximumFractionDigits(2);
+                    float num1 = (float) (mCurChapterPos * mCurPageList.size() + mCurPage.position);
+                    float num2 = (float) (mChapterList.size() * mCurPageList.size());
+                    String percent = numberFormat.format(num1 / num2 * 100);
+                    canvas.drawText(percent + "%", mMarginWidth, y, mTipPaint);
                 }
             }
         } else {
+            if (index == AD_FOR_PAGE_NUM)
+                return;
             //擦除区域
-            mBgPaint.setColor(mBgColor);
-            canvas.drawRect(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight, mBgPaint);
+            if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
+                Bitmap kraftPaper = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.theme_leather_bg);
+                Rect rect = new Rect(kraftPaper.getWidth() / 2, kraftPaper.getHeight() - tipMarginHeight, kraftPaper.getWidth(), kraftPaper.getHeight());
+                RectF rectF = new RectF(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight);
+                canvas.drawBitmap(kraftPaper, rect, rectF, mTipPaint);
+            } else {
+                mBgPaint.setColor(mBgColor);
+                canvas.drawRect(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight, mBgPaint);
+            }
         }
 
         /******绘制电池********/
@@ -857,6 +876,8 @@ public abstract class ReadLoader {
         canvas.drawText(time, x, y, mTipPaint);
     }
 
+    private int index = 1;
+
     private void drawContent(Bitmap bitmap) {
         Canvas canvas = new Canvas(bitmap);
 
@@ -865,67 +886,7 @@ public abstract class ReadLoader {
         }
         /******绘制内容****/
 
-        if (mStatus == STATUS_FINISH) {
-            if (isAds) {
-                String ads = "看小视频免20分钟广告";
-                //将提示语句放到正中间
-                Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-                float textHeight = fontMetrics.top - fontMetrics.bottom;
-                float textWidth = mTextPaint.measureText(ads);
-                float pivotX = (mDisplayWidth - textWidth) / 2;
-                float pivotY = (mDisplayHeight - textHeight) / 2;
-                canvas.drawText(ads, pivotX, pivotY, mTextPaint);
-            } else {
-                float top;
-
-                if (mPageMode == PageMode.SCROLL) {
-                    top = -mTextPaint.getFontMetrics().top;
-                } else {
-                    top = mMarginHeight - mTextPaint.getFontMetrics().top;
-                }
-                //设置总距离
-                int interval = mTextInterval + (int) mTextPaint.getTextSize();
-                int para = mTextPara + (int) mTextPaint.getTextSize();
-                int titleInterval = mTitleInterval + (int) mTitlePaint.getTextSize();
-                int titlePara = mTitlePara + (int) mTextPaint.getTextSize();
-                String str = null;
-
-                //对标题进行绘制
-                for (int i = 0; i < mCurPage.titleLines; ++i) {
-                    str = mCurPage.lines.get(i);
-
-                    //设置顶部间距
-                    if (i == 0) {
-                        top += mTitlePara;
-                    }
-
-                    //计算文字显示的起始点
-                    int start = (int) (mDisplayWidth - mTitlePaint.measureText(str)) / 2;
-                    //进行绘制
-                    canvas.drawText(str, start, top, mTitlePaint);
-
-                    //设置尾部间距
-                    if (i == mCurPage.titleLines - 1) {
-                        top += titlePara;
-                    } else {
-                        //行间距
-                        top += titleInterval;
-                    }
-                }
-
-                //对内容进行绘制
-                for (int i = mCurPage.titleLines; i < mCurPage.lines.size(); ++i) {
-                    str = mCurPage.lines.get(i);
-
-                    canvas.drawText(str, mMarginWidth, top, mTextPaint);
-                    if (str.endsWith("\n")) {
-                        top += para;
-                    } else {
-                        top += interval;
-                    }
-                }
-            }
-        } else {
+        if (mStatus != STATUS_FINISH) {
             //绘制字体
             String tip = "";
             switch (mStatus) {
@@ -956,6 +917,80 @@ public abstract class ReadLoader {
             float pivotX = (mDisplayWidth - textWidth) / 2;
             float pivotY = (mDisplayHeight - textHeight) / 2;
             canvas.drawText(tip, pivotX, pivotY, mTextPaint);
+        } else {
+            float top;
+
+            if (mPageMode == PageMode.SCROLL) {
+                top = -mTextPaint.getFontMetrics().top;
+            } else {
+                top = mMarginHeight - mTextPaint.getFontMetrics().top;
+            }
+            Log.d("ReadLoader", "index == " + index);
+            if (index == AD_FOR_PAGE_NUM) {
+                if (!mPageView.drawAdPage(bitmap)) {
+                    mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
+                    drawContent(bitmap);
+                }
+                return;
+            }
+            if (mCurPage != null && mCurPage.isCustomView) {
+                switch (mCurPage.pageType) {
+                    case TxtPage.VALUE_STRING_AD_TYPE:
+//                        if (!mPageView.drawAdPage(bitmap)) {
+//                            mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
+//                            drawContent(bitmap);
+//                        }
+                        Log.d("ReadLoader", "pageType == VALUE_STRING_AD_TYPE");
+                        break;
+                    case TxtPage.VALUE_STRING_COVER_TYPE:
+                        mPageView.drawCoverPage(bitmap);
+                        break;
+                }
+                return;
+            }
+            mPageView.cleanAdView();
+
+            //设置总距离
+            int interval = mTextInterval + (int) mTextPaint.getTextSize();
+            int para = mTextPara + (int) mTextPaint.getTextSize();
+            int titleInterval = mTitleInterval + (int) mTitlePaint.getTextSize();
+            int titlePara = mTitlePara + (int) mTextPaint.getTextSize();
+            String str = null;
+
+            //对标题进行绘制
+            for (int i = 0; i < mCurPage.titleLines; ++i) {
+                str = mCurPage.lines.get(i);
+
+                //设置顶部间距
+                if (i == 0) {
+                    top += mTitlePara;
+                }
+
+                //计算文字显示的起始点
+                int start = (int) (mDisplayWidth - mTitlePaint.measureText(str)) / 2;
+                //进行绘制
+                canvas.drawText(str, start, top, mTitlePaint);
+
+                //设置尾部间距
+                if (i == mCurPage.titleLines - 1) {
+                    top += titlePara;
+                } else {
+                    //行间距
+                    top += titleInterval;
+                }
+            }
+
+            //对内容进行绘制
+            for (int i = mCurPage.titleLines; i < mCurPage.lines.size(); ++i) {
+                str = mCurPage.lines.get(i);
+
+                canvas.drawText(str, mMarginWidth, top, mTextPaint);
+                if (str.endsWith("\n")) {
+                    top += para;
+                } else {
+                    top += interval;
+                }
+            }
         }
     }
 
@@ -1001,15 +1036,18 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
-
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在上一页
             TxtPage prevPage = getPrevPage();
             if (prevPage != null) {
+                index--;
+                if (index < 5) {
+                    index = 1;
+                }
                 mCancelPage = mCurPage;
                 mCurPage = prevPage;
                 mPageView.drawNextPage();
-                adsPos = 0;
+                isGoNextPage = false;
                 return true;
             }
         }
@@ -1024,8 +1062,12 @@ public abstract class ReadLoader {
         } else {
             mCurPage = new TxtPage();
         }
+        isGoNextPage = false;
+        index--;
+        if (index < 5) {
+            index = 1;
+        }
         mPageView.drawNextPage();
-        adsPos = 0;
         return true;
     }
 
@@ -1072,17 +1114,18 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
-
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在下一页
             TxtPage nextPage = getNextPage();
             if (nextPage != null) {
-                adsPos++;
-                if (!isAds) {
-                    mCancelPage = mCurPage;
-                    mCurPage = nextPage;
+                index++;
+                if (index > 7) {
+                    index = 2;
                 }
+                mCancelPage = mCurPage;
+                mCurPage = nextPage;
                 mPageView.drawNextPage();
+                isGoNextPage = true;
                 return true;
             }
         }
@@ -1092,15 +1135,17 @@ public abstract class ReadLoader {
         }
 
         mCancelPage = mCurPage;
-        adsPos++;
         // 解析下一章数据
         if (parseNextChapter()) {
-            if (!isAds) {
-                mCurPage = mCurPageList.get(0);
-            }
+            mCurPage = mCurPageList.get(0);
         } else {
             mCurPage = new TxtPage();
         }
+        index++;
+        if (index > 7) {
+            index = 2;
+        }
+        isGoNextPage = true;
         mPageView.drawNextPage();
         return true;
     }
@@ -1223,6 +1268,12 @@ public abstract class ReadLoader {
 
     // 取消翻页
     void pageCancel() {
+        if (isGoNextPage) {
+            index--;
+            if (index < 1) {
+                index = 1;
+            }
+        }
         if (mCurPage.position == 0 && mCurChapterPos > mLastChapterPos) { // 加载到下一章取消了
             if (mPrePageList != null) {
                 cancelNextChapter();
@@ -1294,6 +1345,15 @@ public abstract class ReadLoader {
     private List<TxtPage> loadPages(TxtChapter chapter, BufferedReader br) {
         //生成的页面
         List<TxtPage> pages = new ArrayList<>();
+        if (chapter.isFirst) {
+            //添加封皮
+            TxtPage txtPage = new TxtPage();
+            txtPage.isCustomView = true;
+            txtPage.title = chapter.getTitle();
+            txtPage.titleLines = 1;
+            txtPage.pageType = TxtPage.VALUE_STRING_COVER_TYPE;
+            pages.add(txtPage);
+        }
         //使用流的方式加载
         List<String> lines = new ArrayList<>();
         int rHeight = mVisibleHeight;
@@ -1331,11 +1391,13 @@ public abstract class ReadLoader {
                         page.lines = new ArrayList<>(lines);
                         page.titleLines = titleLinesCount;
                         pages.add(page);
+
+                        //尝试加入广告page
+                        addAdPage(pages, chapter.getTitle(), titleLinesCount);
                         // 重置Lines
                         lines.clear();
                         rHeight = mVisibleHeight;
                         titleLinesCount = 0;
-
                         continue;
                     }
 
@@ -1351,7 +1413,7 @@ public abstract class ReadLoader {
                         //将一行字节，存储到lines中
                         lines.add(subStr);
 
-                        //设置段落间距
+                        //设置行间距
                         if (showTitle) {
                             titleLinesCount += 1;
                             rHeight -= mTitleInterval;
@@ -1382,6 +1444,8 @@ public abstract class ReadLoader {
                 page.lines = new ArrayList<>(lines);
                 page.titleLines = titleLinesCount;
                 pages.add(page);
+                //尝试加入广告page
+                addAdPage(pages, chapter.getTitle(), titleLinesCount);
                 //重置Lines
                 lines.clear();
             }
@@ -1391,6 +1455,18 @@ public abstract class ReadLoader {
             IOUtils.close(br);
         }
         return pages;
+    }
+
+    private void addAdPage(List<TxtPage> pages, String title, int titleLinesCount) {
+        if (pages.size() < 0) {
+            TxtPage adPage = new TxtPage();
+            adPage.isCustomView = true;
+            adPage.position = pages.size();
+            adPage.title = title;
+            //adPage.lines = new ArrayList<>(lines);
+            adPage.titleLines = titleLinesCount;
+            pages.add(adPage);
+        }
     }
 
     /**
@@ -1410,7 +1486,12 @@ public abstract class ReadLoader {
      * @return:获取上一个页面
      */
     private TxtPage getPrevPage() {
-        int pos = mCurPage.position - 1;
+        int pos;
+        if (index == 6)
+            pos = mCurPage.position;
+        else {
+            pos = mCurPage.position - 1;
+        }
         if (pos < 0) {
             return null;
         }
@@ -1424,7 +1505,12 @@ public abstract class ReadLoader {
      * @return:获取下一的页面
      */
     private TxtPage getNextPage() {
-        int pos = mCurPage.position + 1;
+        int pos;
+        if (index == 6)
+            pos = mCurPage.position;
+        else {
+            pos = mCurPage.position + 1;
+        }
         if (pos >= mCurPageList.size()) {
             return null;
         }
@@ -1453,11 +1539,9 @@ public abstract class ReadLoader {
      * @return
      */
     private boolean canTurnPage() {
-
         if (!isChapterListPrepare) {
             return false;
         }
-
         if (mStatus == STATUS_PARSE_ERROR
                 || mStatus == STATUS_PARING) {
             return false;
@@ -1504,5 +1588,13 @@ public abstract class ReadLoader {
          * @param pos:当前的页面的序号
          */
         void onPageChange(int pos);
+
+        /**
+         * 作用：当页面风格发生改变时候回调
+         *
+         * @param pageStyle:当前的页面的风格
+         * @param isNightMode:是否是夜间模式
+         */
+        void onStyleChange(PageStyle pageStyle, boolean isNightMode);
     }
 }

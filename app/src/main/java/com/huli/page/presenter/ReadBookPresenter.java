@@ -109,7 +109,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     @Override
     public void recordDuration(AppCompatActivity context, int type, long duration, String id, String check, int num) {
         checkViewAttached();
-        OkGo.<String>get(Consts.RECORD_DURATION_API)
+        OkGo.<String>post(Consts.RECORD_DURATION_API)
                 .params(Consts.TYPE, type)
                 .params("duration", duration)
                 .params("id", id)

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="#101B27"
+    android:background="@color/hl_read_bg_dialog"
     android:clickable="true"
     android:orientation="vertical">
 
@@ -92,7 +92,7 @@
             android:layout_height="@dimen/dp_32"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="50"
+            android:text="60"
             android:textColor="@color/txt_gray_b2"
             android:textSize="16sp" />
 
@@ -264,7 +264,7 @@
             android:text="滑动"
             android:textColor="@color/txt_gray_b2"
             android:textSize="14dp"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <RadioButton
             android:id="@+id/read_setting_rb_scroll"
