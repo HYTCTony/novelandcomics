@@ -6,16 +6,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.GlideApp;
@@ -48,7 +50,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
-public class AllBookReviewActivity extends BaseActivity implements View.OnClickListener, OnRecyCbCheckListener, OnLoadMoreListener {
+public class AllBookReviewActivity extends BaseActivity implements View.OnClickListener, OnRecyCbCheckListener, OnLoadMoreListener, OnItemClickListener {
     public static final int REQCODE_CHECK_ALL_REVIEW = 0x1911;
 
     private AppBarLayout mAppBarLayout;
@@ -124,7 +126,6 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
         mAdapter.setAnimationEnable(true);
         mAdapter.setAnimationFirstOnly(true);
         recyclerView.setAdapter(mAdapter);
-//        mAdapter.setEmptyView(R.layout.layout_empty_no_comments);
     }
 
     @Override
@@ -144,6 +145,8 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
                 }
             }
         });
+
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -184,6 +187,13 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
                 WriteBookReviewActivity.start4Result(this, WriteBookReviewActivity.REQCODE_WRITE_REVIEW, bookBean.getNovel_id());
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+        BookReview bookReview = mAdapter.getData().get(position);
+//        ReviewDetailActivity.start(this, bookReview);
+        ReviewDetailActivity.start(this, bookReview, bookBean.getNovel_name(), bookBean.getHttp_image(), bookBean.getScore());
     }
 
     @Override
@@ -237,14 +247,13 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
 
                             if (curPage == 1) {
                                 mAdapter.setNewInstance(reviews);
-//                                recyclerView.scrollToPosition(0);
                             } else {
                                 mAdapter.addData(reviews);
                             }
                             if (datas.getLast_page() <= curPage) {
                                 //没有下一页
                                 mAdapter.getLoadMoreModule().loadMoreEnd();
-                                recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
+//                                recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                             } else {
                                 mAdapter.getLoadMoreModule().loadMoreComplete();
                             }
@@ -279,7 +288,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                              setResult(RESULT_OK);
+                            setResult(RESULT_OK);
                         }
                     }
                 });

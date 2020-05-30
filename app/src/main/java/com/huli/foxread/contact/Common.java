@@ -24,6 +24,11 @@ public interface Common {
     String KEY_BOOK_ID = "novel_id";
     String KEY_BOOK_DTO = "book_dto";
 
+    String KEY_BOOK_NAME = "book_name";
+    String KEY_BOOK_IMG = "book_img";
+    String KEY_BOOK_SCORE = "book_score";
+    String KEY_BOOK_REVIEW_DTO = "book_review_dto";
+
     String KEY_KEYWORD = "keyword";
 
     String KEY_URL = "key_url";

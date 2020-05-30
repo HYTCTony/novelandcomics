@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -486,10 +487,10 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                             }
                             datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
                             rackAdapter.setNewInstance(datas);
-
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
+                        Log.e("sssssss", "开始请求广告");
                         loadListAd(1, false);
                     }
                 });

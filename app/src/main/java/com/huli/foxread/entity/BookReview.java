@@ -1,6 +1,8 @@
 package com.huli.foxread.entity;
 
-public class BookReview {
+import java.io.Serializable;
+
+public class BookReview implements Serializable {
     private String id;              //评价id
     private String novel_id;        //小说id
     private String user_id;         //用户id

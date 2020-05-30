@@ -57,7 +57,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         setStatusBar();
 
         Bundle bundle = getIntent().getExtras();
-        initParms(bundle);
+        if (bundle != null) {
+            initParms(bundle);
+        }
 
         View mView = bindView();
         if (null == mView) {

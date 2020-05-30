@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingEnd="@dimen/dp_16">
+
+    <ImageView
+        android:id="@+id/iv_replier_headImg"
+        android:layout_width="@dimen/dp_36"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginTop="@dimen/dp_16"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/holder_headimg" />
+
+    <TextView
+        android:id="@+id/iv_replier_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:textColor="@color/txt_col_365565"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toRightOf="@+id/iv_replier_headImg"
+        app:layout_constraintTop_toTopOf="@+id/iv_replier_headImg"
+        tools:text="书友_12344556" />
+
+    <TextView
+        android:id="@+id/tv_reply_content"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:ellipsize="end"
+        android:maxLines="5"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_replier_id"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_replier_id"
+        tools:text="好看，作者挺有文采的，看了根本停不下来" />
+
+    <TextView
+        android:id="@+id/tv_reply_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:textColor="@color/txt_gray_999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_replier_id"
+        app:layout_constraintTop_toBottomOf="@+id/tv_reply_content"
+        tools:text="2020-05-10" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/cb_reply_like_and_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/selector_cb_review_like"
+        android:padding="@dimen/dp_4"
+        android:text="@string/txt_zero"
+        android:textColor="@drawable/selector_textcolor_review_like"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_reply_time"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_reply_time" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,14 +20,14 @@
             android:id="@+id/appBarLayout_all_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_f2"
-            app:elevation="@dimen/dp_0">
+            app:elevation="@dimen/dp_2"
+            android:background="@color/color_f2">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentScrim="#365565"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
                 app:titleEnabled="false">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -182,7 +182,7 @@
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/dp_16"
                 android:paddingEnd="@dimen/dp_16"
-                android:text="@string/txt_essence_comments"
+                android:text="@string/txt_all_comments"
                 android:textColor="@color/txt_black_272f3a"
                 android:textSize="@dimen/sp_16" />
 

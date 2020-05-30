@@ -113,4 +113,12 @@
         <attr name="isWrapContent" format="boolean" />
     </declare-styleable>
 
+
+    <!--  高斯模糊 覆盖层 -->
+    <declare-styleable name="PxBlurringView">
+        <attr name="blurRadius" format="integer"/>
+        <attr name="downsampleFactor" format="integer"/>
+        <attr name="overlayColor" format="color"/>
+    </declare-styleable>
+
 </resources>

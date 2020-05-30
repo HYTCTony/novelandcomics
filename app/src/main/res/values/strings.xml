@@ -232,7 +232,7 @@
     <string name="txt_recommended_classic">经典推荐</string>
     <string name="txt_write_review">写书评</string>
     <string name="txt_more_review_x">查看更多书评（%1$d）</string>
-    <string name="txt_essence_comments">精华评论</string>
+    <string name="txt_all_comments">全部评论</string>
     <string name="txt_related_recommendation">相关推荐</string>
     <string name="tips_copyright_colon">版权说明：</string>
 
@@ -406,11 +406,14 @@
     <string name="txt_book_friend_xid">书友_%1$s</string>
     <string name="txt_x_people_give_a_mark">%1$d人评分</string>
     <string name="txt_no_comments">暂无评论</string>
+    <string name="txt_no_reply">暂无回复</string>
     <string name="txt_issued">发表</string>
     <string name="txt_tell_us_what_you_think">快来说说你的想法吧</string>
     <string name="txt_plz_input_you_comment">请填写你的评论</string>
     <string name="txt_plz_select_grade">请给本书的打个分~</string>
     <string name="txt_make_comments">发表评论</string>
+    <string name="txt_review_detail">书评详情</string>
+    <string name="txt_all_reply_x">全部回复（%1$d）</string>
 
 
     <string name="txt_user_agreement_and_privacy_policy_prompt">用户协议与隐私政策提示</string>

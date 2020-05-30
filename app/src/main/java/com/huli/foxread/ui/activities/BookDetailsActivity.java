@@ -218,10 +218,10 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
         });
 
-
-        reviewAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+        //评论
+        reviewAdapter.setOnItemClickListener((adapter, view, position) -> {
             BookReview bookReview = reviewAdapter.getData().get(position);
-            Toast.makeText(this, "更多===" + bookReview.getId(), Toast.LENGTH_SHORT).show();
+            ReviewDetailActivity.start(this, bookReview, bookBean.getNovel_name(), bookBean.getHttp_image(), bookBean.getScore());
         });
         reviewAdapter.setmRecyCbCheckListener(this);
         btnMoreReview.setOnClickListener(this);
@@ -343,15 +343,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         BookReview bookReview = reviewAdapter.getData().get(pos);
-       /* if (b) {
-            reviewAdapter.getData().get(pos).setPrefer(bookReview.getPrefer() + 1);
-            reviewAdapter.getData().get(pos).setCondition(1);
-        }else {
-            reviewAdapter.getData().get(pos).setPrefer(bookReview.getPrefer() - 1);
-            reviewAdapter.getData().get(pos).setCondition(0);
-        }
-        reviewAdapter.notifyItemChanged(pos);
-        reviewAdapter.notifyItemChanged(pos, BookReviewAdapter.PAYLOAD_CHECKBOX);*/
         giveALikeOrCancel(bookReview.getId(), bookReview.getNovel_id(), b);
     }
 
