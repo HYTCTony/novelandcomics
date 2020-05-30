@@ -37,12 +37,15 @@ import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.notchtools.NotchTools;
+import com.huli.foxread.ui.activities.AdvFreeSuccessActivity;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
@@ -60,7 +63,6 @@ import com.huli.page.ui.dialog.ReadSettingDialog;
 import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.Constant;
 import com.huli.page.utils.MD5Utils;
-import com.huli.page.utils.RxUtils;
 import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.SpanUtils;
 import com.huli.page.utils.StringUtils;
@@ -72,6 +74,7 @@ import com.huli.page.widget.read.ReadLoader;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
+import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
 
 import java.util.ArrayList;
@@ -88,8 +91,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -164,13 +165,38 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int WHAT_CHAPTER = 2;
     private static final int MSG_POLLING = 3;
     private static final int MSG_BOTTOM_AD = 4;
+    private static final int MSG_IS_ABC = 5;
     private static final int POLLING_REQUE_BOTTOM_AD = 2 * 60 * 1000;
-    private static final int READ_ONE_PAGE_interval = 15;
+    private static final int POLLING_SET_IS_ABC = 60 * 1000;
+    private static final int READ_ONE_PAGE_INTERVAL = 15;
+
+    private View mAdView;
+    private TTAdNative mTTAdNative;
+    private TTRewardVideoAd mttRewardVideoAd;
+    private TTNativeExpressAd mTTAdPage;
+    private TTNativeExpressAd mTTAdBottom;
+    private long startTime = 0;
+    private boolean mHasShowDownloadActive = false;
+    @BindView(R.id.banner_container)
+    FrameLayout mBannerContainer;
+    @BindView(R.id.iv_bg_bottom_view)
+    ImageView ivBackgroud;
+    @BindView(R.id.btn_bottom_ad)
+    TextView btnBottomAd;
+    @BindView(R.id.rl)
+    RelativeLayout rl;
+    RelativeLayout mExpressContainer;
+    TextView btnNextPage;
+    TextView tvAdView;
+    /*观看视频验证*/
+    private boolean mRewardVerify;
+    private boolean isABC = false;
+    private boolean isFirstRequest = true;
 
     private String id;
     private String title;
-    private int num;
-    private int quota = READ_ONE_PAGE_interval;
+    private int sum;
+    private int quota = READ_ONE_PAGE_INTERVAL;
     private long second = 0;
     private Timer timer;
     private TimerTask timerTask;
@@ -219,6 +245,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     break;
                 case MSG_BOTTOM_AD:
                     requestAdBottom();
+                    break;
+                case MSG_IS_ABC:
+                    isABC = testingIsABC();
                     break;
             }
         }
@@ -336,12 +365,17 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onPageCountChange(int count) {
+
             }
 
             @Override
             public void onPageChange(int pos) {
-                quota = READ_ONE_PAGE_interval;
-                num++;
+                if (isFirstRequest && sum != 0) {
+                    requestAdBottom();
+                    isFirstRequest = false;
+                }
+                quota = READ_ONE_PAGE_INTERVAL;
+                sum++;
             }
 
             @Override
@@ -421,9 +455,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
         //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
         TTAdManagerHolder.get().requestPermissionIfNecessary(this);
-        //加载广告
-        requestAdPage();
-        requestAdBottom();
+        //封面
         View coverPageView = LayoutInflater.from(this).inflate(R.layout.layout_cover_view, null, false);
         ImageView ivBookCover = coverPageView.findViewById(R.id.iv_book_cover);
         TextView tvBookName = coverPageView.findViewById(R.id.tv_book_name);
@@ -435,12 +467,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         SpannableStringBuilder builderCopyrightDescription = new SpanUtils(mContext).appendLine("本书已授权一起看书进行电子制作发行").append
                 ("本故事纯属虚构·版权所有·侵权必究").create();
         tvCopyrightDescription.setText(builderCopyrightDescription);
+        //广告
         mAdView = LayoutInflater.from(this).inflate(R.layout.layout_ad_view, null, false);
         mExpressContainer = mAdView.findViewById(R.id.express_container);
-        TextView tvAdView = mAdView.findViewById(R.id.btn_watch_video);
-        SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告").setUnderline().create();
+        tvAdView = mAdView.findViewById(R.id.btn_watch_video);
+        SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
         tvAdView.setText(builderVideoMessage);
         btnNextPage = mAdView.findViewById(R.id.btn_next_page);
+        btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
+                R.color.txt_gray_b2));
         btnNextPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -450,7 +485,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         tvAdView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("开始播放视频");
+                loadVideoAd();
             }
         });
         mPvPage.setReaderAdListener(new PageView.ReaderAdListener() {
@@ -471,20 +506,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         });
     }
 
-    private View mAdView;
-    private TTAdNative mTTAdNative;
-    private TTNativeExpressAd mTTAdPage;
-    private TTNativeExpressAd mTTAdBottom;
-    private long startTime = 0;
-    private boolean mHasShowDownloadActive = false;
-    @BindView(R.id.banner_container)
-    FrameLayout mBannerContainer;
-    @BindView(R.id.rl)
-    RelativeLayout rl;
-    RelativeLayout mExpressContainer;
-    TextView btnNextPage;
-
     private void requestAdPage() {
+        if (isABC) {
+            return;
+        }
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlotPage = new AdSlot.Builder()
                 .setCodeId("945191706") //广告位id  945191678*视频   945191706*图片
@@ -513,6 +538,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private void requestAdBottom() {
+        if (isABC) {
+            return;
+        }
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlotBottom = new AdSlot.Builder()
                 .setCodeId("945191946") //广告位id
@@ -539,6 +567,101 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
         });
         mHandler.sendEmptyMessageDelayed(MSG_BOTTOM_AD, POLLING_REQUE_BOTTOM_AD);
+    }
+
+    private void loadVideoAd() {
+        if (isABC) {
+            return;
+        }
+        WaitDialog.show(ReadBookActivity.this, R.string.loading).setCancelable(true);
+
+        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
+        //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
+        AdSlot adSlot = new AdSlot.Builder()
+                .setCodeId("945192284")
+                .setSupportDeepLink(true)
+//                    .setRewardName("金币") //奖励的名称
+//                    .setRewardAmount(3)  //奖励的数量
+                .setUserID(TokenCache.getToken(mContext))//用户id,必传参数
+                .setMediaExtra("media_extra") //附加参数，可选
+                .setOrientation(TTAdConstant.VERTICAL) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
+                .build();
+        //step5:请求广告
+        mTTAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
+            @Override
+            public void onError(int code, String message) {
+//                Log.e(TAG, "onError: " + code + ", " + String.valueOf(message));
+                WaitDialog.dismiss();
+            }
+
+            //视频广告加载后，视频资源缓存到本地的回调，在此回调后，播放本地视频，流畅不阻塞。
+            @Override
+            public void onRewardVideoCached() {
+//                Log.e(TAG, "onRewardVideoCached");
+                WaitDialog.dismiss();
+
+                if (mttRewardVideoAd != null) {
+                    //step6:在获取到广告后展示,强烈建议在onRewardVideoCached回调后，展示广告，提升播放体验
+                    //该方法直接展示广告
+//                    mttRewardVideoAd.showRewardVideoAd(RewardVideoActivity.this);
+
+                    //展示广告，并传入广告展示的场景
+                    mttRewardVideoAd.showRewardVideoAd(mContext, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "foxread_test");
+                    mttRewardVideoAd = null;
+                } else {
+//                    TToast.show(RewardVideoActivity.this, "请先加载广告");
+                }
+            }
+
+            //视频广告的素材加载完毕，比如视频url等，在此回调后，可以播放在线视频，网络不好可能出现加载缓冲，影响体验。
+            @Override
+            public void onRewardVideoAdLoad(TTRewardVideoAd ad) {
+                mttRewardVideoAd = ad;
+
+                mttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
+                    @Override
+                    public void onAdShow() {
+                    }
+
+                    @Override
+                    public void onAdVideoBarClick() {
+                    }
+
+                    @Override
+                    public void onAdClose() {
+                        if (mRewardVerify) {
+                            AdvFreeSuccessActivity.start(mContext);
+                            mRewardVerify = false;
+                            isABC = true;
+                            mHandler.sendEmptyMessageDelayed(MSG_IS_ABC, POLLING_SET_IS_ABC);
+                        }
+                    }
+
+                    //视频播放完成回调
+                    @Override
+                    public void onVideoComplete() {
+//                        Log.e(TAG, "onVideoComplete");
+                    }
+
+                    @Override
+                    public void onVideoError() {
+//                        Log.e(TAG, "onVideoError");
+                    }
+
+                    //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
+                    @Override
+                    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
+                        mRewardVerify = rewardVerify;
+                        Log.e(TAG, "onRewardVerify===" + rewardVerify + "---" + rewardAmount + "---" + rewardName);
+                    }
+
+                    @Override
+                    public void onSkippedVideo() {
+//                        Log.e(TAG, "onSkippedVideo");
+                    }
+                });
+            }
+        });
     }
 
     private void bindAdListener1(TTNativeExpressAd ad) {
@@ -573,7 +696,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
         });
         //dislike设置
-        bindDislike(ad, false);
+//        bindDislike(ad, false);
         if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             return;
         }
@@ -623,12 +746,16 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             @Override
             public void onAdShow(View view, int type) {
 //                Log.e("ExpressView", "广告展示");
+                btnBottomAd.setVisibility(VISIBLE);
+                ivBackgroud.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onRenderFail(View view, String msg, int code) {
 //                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
 //                Log.e("ExpressView", msg + " code:" + code);
+                btnBottomAd.setVisibility(View.INVISIBLE);
+                ivBackgroud.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -636,12 +763,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 //                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
                 //返回view的宽高 单位 dp
 //                Log.e("ExpressView", "渲染成功");
+                ivBackgroud.setVisibility(View.INVISIBLE);
                 mBannerContainer.removeAllViews();
                 mBannerContainer.addView(view);
             }
         });
         //dislike设置
-        bindDislike(ad, false);
+//        bindDislike(ad, false);
         if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             return;
         }
@@ -702,7 +830,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     //屏蔽广告
 //                    Log.e("ExpressView", "点击 " + filterWord.getName());
                     //用户选择不喜欢原因后，移除广告展示
-                    mExpressContainer.removeAllViews();
+//                    mExpressContainer.removeAllViews();
                 }
             });
             ad.setDislikeDialog(dislikeDialog);
@@ -714,7 +842,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             public void onSelected(int position, String value) {
 //                Log.e("ExpressView", "点击 " + value);
                 //用户选择不喜欢原因后，移除广告展示
-                mExpressContainer.removeAllViews();
+//                mExpressContainer.removeAllViews();
             }
 
             @Override
@@ -735,28 +863,28 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private void loadCategory() {
-        // 如果是已经收藏的，那么就从数据库中获取目录
-        if (isCollected) {
-            Disposable disposable = BookRepository.getInstance()
-                    .getBookChaptersFormRx(mBookId)
-                    .compose(RxUtils::toSimpleSingle)
-                    .subscribe((bookChapterBeen, throwable) -> {
-                                // 设置 CollBook
-                                mPageLoader.getCollBook().setBookChapters(bookChapterBeen);
-                                // 刷新章节列表
-                                mPageLoader.refreshChapterList();
-                                // 如果是网络小说并被标记更新的，则从网络下载目录
-                                if (data.getIsUpdate() && !data.getIsLocal()) {
-                                    presenter.loadCategory(ReadBookActivity.this, mBookId);
-                                }
-                            }
-                    );
-            CompositeDisposable mDisposable = new CompositeDisposable();
-            mDisposable.add(disposable);
-        } else {
-            // 从网络中获取目录
-            presenter.loadCategory(ReadBookActivity.this, mBookId);
-        }
+//        // 如果是已经收藏的，那么就从数据库中获取目录
+//        if (isCollected) {
+//            Disposable disposable = BookRepository.getInstance()
+//                    .getBookChaptersFormRx(mBookId)
+//                    .compose(RxUtils::toSimpleSingle)
+//                    .subscribe((bookChapterBeen, throwable) -> {
+//                                // 设置 CollBook
+//                                mPageLoader.getCollBook().setBookChapters(bookChapterBeen);
+//                                // 刷新章节列表
+//                                mPageLoader.refreshChapterList();
+//                                // 如果是网络小说并被标记更新的，则从网络下载目录
+//                                if (data.getIsUpdate() && !data.getIsLocal()) {
+//                                    presenter.loadCategory(ReadBookActivity.this, mBookId);
+//                                }
+//                            }
+//                    );
+//            CompositeDisposable mDisposable = new CompositeDisposable();
+//            mDisposable.add(disposable);
+//        } else {
+//            // 从网络中获取目录
+//        }
+        presenter.loadCategory(ReadBookActivity.this, mBookId);
     }
 
     @Override
@@ -858,6 +986,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 } else {
                     isNightMode = true;
                 }
+                btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
+                        R.color.txt_gray_b2));
                 mPageLoader.setNightMode(isNightMode);
                 toggleNightMode();
                 break;
@@ -969,6 +1099,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onResume() {
         super.onResume();
+        isABC = testingIsABC();
+        if (isABC) {
+            rl.setVisibility(GONE);
+            mPageLoader.setABC(isABC);
+        }
+        //加载广告
+        requestAdPage();
         mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (!TextUtils.isEmpty(id) && timer == null)
             doPolling(READ_TYPE_START);
@@ -1010,6 +1147,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mHandler.removeMessages(MSG_POLLING);
         mHandler.removeMessages(WHAT_CATEGORY);
         mHandler.removeMessages(WHAT_CHAPTER);
+        mHandler.removeMessages(MSG_IS_ABC);
 
         mPageLoader.closeBook();
         mPageLoader = null;
@@ -1123,8 +1261,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 timerTask = null;
             }
         }
-        presenter.recordDuration(ReadBookActivity.this, type, second, id, check, num);
+        presenter.recordDuration(ReadBookActivity.this, type, second, id, check, sum);
 //        mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
+    }
+
+    private boolean testingIsABC() {
+        long now = System.currentTimeMillis();
+        long advertTime = ReadSettingManager.getInstance().getAdvertTime() * 1000;
+        Log.d(TAG, "now==" + now + "    advertTime==" + advertTime);
+        return advertTime > now;
     }
 
     // 退出

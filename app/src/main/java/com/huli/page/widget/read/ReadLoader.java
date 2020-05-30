@@ -146,6 +146,10 @@ public abstract class ReadLoader {
     protected int mCurChapterPos = 0;
     //上一章的记录
     private int mLastChapterPos = 0;
+    //记录翻页情况
+    private int index = 1;
+    //是否ABC
+    private boolean isABC = false;
 
     /*****************************init params*******************************/
     public ReadLoader(PageView pageView, BookShelfListBean collBook) {
@@ -183,7 +187,7 @@ public abstract class ReadLoader {
         mTitleInterval = mTxtSpecing.getTextInterval();
         // 段落间距
         mTextPara = mTxtSpecing.getTextPara();
-        mTitlePara = mTxtSpecing.getTextPara();
+        mTitlePara = mTxtSpecing.getTextPara() / 2;
     }
 
     /**
@@ -212,7 +216,7 @@ public abstract class ReadLoader {
         this.mTxtSpecing = txtSpecing;
         // 段落间距
         mTextPara = txtSpecing.getTextPara();
-        mTitlePara = txtSpecing.getTextPara();
+        mTitlePara = txtSpecing.getTextPara() / 2;
         // 行间距
         mTextInterval = txtSpecing.getTextInterval();
         mTitleInterval = txtSpecing.getTextInterval();
@@ -263,6 +267,15 @@ public abstract class ReadLoader {
     }
 
     /****************************** public method***************************/
+    /**
+     * 设置是否ABC
+     *
+     * @return
+     */
+    public void setABC(boolean isABC) {
+        this.isABC = isABC;
+    }
+
     /**
      * 跳转到上一章
      *
@@ -775,6 +788,7 @@ public abstract class ReadLoader {
             return;
         }
         int tipMarginHeight = ScreenUtils.dpToPx(3);
+        int titleMarginHeight = ScreenUtils.dpToPx(24);
 
         if (!isUpdate) {
             /****绘制背景****/
@@ -784,21 +798,28 @@ public abstract class ReadLoader {
                 RectF rectF = new RectF(0, 0, mDisplayWidth, mDisplayHeight);
                 canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
             }
+            if (index == AD_FOR_PAGE_NUM && !isABC)
+                return;
             if (!mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
                 //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
-                float tipTop = tipMarginHeight - mTipPaint.getFontMetrics().top;
+                float tipTop = titleMarginHeight - mTipPaint.getFontMetrics().top;
                 //                Logger.e("tipTop" + tipTop);
                 //根据状态不一样，数据不一样
-                if (mStatus != STATUS_FINISH) {
-                    if (isChapterListPrepare) {
-                        canvas.drawText(mChapterList.get(mCurChapterPos).getTitle(), mMarginWidth, tipTop, mTipPaint);
+                if (!mCurPage.isCustomView) {
+                    if (mStatus != STATUS_FINISH) {
+                        if (isChapterListPrepare) {
+                            canvas.drawText(mCollBook.getNovel_name(), mMarginWidth, tipTop, mTipPaint);
+                        }
+                    } else {
+                        if (mCurPage.titleLines > 0) {
+                            canvas.drawText(mCollBook.getNovel_name(), mMarginWidth, tipTop, mTipPaint);
+                        } else {
+                            canvas.drawText(mCurPage.title, mMarginWidth, tipTop, mTipPaint);
+                        }
                     }
-                } else {
-                    canvas.drawText(mCurPage.title, mMarginWidth, tipTop, mTipPaint);
                 }
-                if (index == AD_FOR_PAGE_NUM)
-                    return;
+
                 /******绘制页码********/
                 // 底部的字显示的位置Y
                 float y = mDisplayHeight - mTipPaint.getFontMetrics().bottom - tipMarginHeight;
@@ -814,8 +835,6 @@ public abstract class ReadLoader {
                 }
             }
         } else {
-            if (index == AD_FOR_PAGE_NUM)
-                return;
             //擦除区域
             if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
                 Bitmap kraftPaper = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.theme_leather_bg);
@@ -827,7 +846,8 @@ public abstract class ReadLoader {
                 canvas.drawRect(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight, mBgPaint);
             }
         }
-
+        if (index == AD_FOR_PAGE_NUM && !isABC)
+            return;
         /******绘制电池********/
 
         int visibleRight = mDisplayWidth - mMarginWidth;
@@ -876,8 +896,6 @@ public abstract class ReadLoader {
         canvas.drawText(time, x, y, mTipPaint);
     }
 
-    private int index = 1;
-
     private void drawContent(Bitmap bitmap) {
         Canvas canvas = new Canvas(bitmap);
 
@@ -919,14 +937,14 @@ public abstract class ReadLoader {
             canvas.drawText(tip, pivotX, pivotY, mTextPaint);
         } else {
             float top;
-
+            int titleMarginHeight = ScreenUtils.dpToPx(24);
             if (mPageMode == PageMode.SCROLL) {
                 top = -mTextPaint.getFontMetrics().top;
             } else {
-                top = mMarginHeight - mTextPaint.getFontMetrics().top;
+                top = mMarginHeight - mTextPaint.getFontMetrics().top + titleMarginHeight;
             }
             Log.d("ReadLoader", "index == " + index);
-            if (index == AD_FOR_PAGE_NUM) {
+            if (index == AD_FOR_PAGE_NUM && !isABC) {
                 if (!mPageView.drawAdPage(bitmap)) {
                     mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
                     drawContent(bitmap);
@@ -998,10 +1016,11 @@ public abstract class ReadLoader {
         // 获取PageView的宽高
         mDisplayWidth = w;
         mDisplayHeight = h;
-
+        //高度偏移量
+        int titleMarginHeight = ScreenUtils.dpToPx(24);
         // 获取内容显示位置的大小
         mVisibleWidth = mDisplayWidth - mMarginWidth * 2;
-        mVisibleHeight = mDisplayHeight - mMarginHeight * 2;
+        mVisibleHeight = mDisplayHeight - mMarginHeight * 2 - titleMarginHeight;
 
         // 重置 PageMode
         mPageView.setPageMode(mPageMode);
@@ -1487,7 +1506,7 @@ public abstract class ReadLoader {
      */
     private TxtPage getPrevPage() {
         int pos;
-        if (index == 6)
+        if (index == AD_FOR_PAGE_NUM && !isABC)
             pos = mCurPage.position;
         else {
             pos = mCurPage.position - 1;
@@ -1506,7 +1525,7 @@ public abstract class ReadLoader {
      */
     private TxtPage getNextPage() {
         int pos;
-        if (index == 6)
+        if (index == AD_FOR_PAGE_NUM && !isABC)
             pos = mCurPage.position;
         else {
             pos = mCurPage.position + 1;

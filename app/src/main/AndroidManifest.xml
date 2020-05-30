@@ -304,6 +304,12 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
+            android:name="com.huli.page.ui.activity.MoreSettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
             android:name=".ui.activities.AllBookReviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />

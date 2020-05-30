@@ -29,6 +29,7 @@ public class ReadSettingManager {
     public static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
     public static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
     public static final String SHARED_READ_CONVERT_TYPE = "shared_read_convert_type";
+    public static final String SHARED_READ_ADVERT_TIME = "shared_read_advert_time";
 
     private static volatile ReadSettingManager sInstance;
 
@@ -105,6 +106,9 @@ public class ReadSettingManager {
 
     public PageMode getPageMode() {
         int mode = sharedPreUtils.getInt(SHARED_READ_PAGE_MODE, PageMode.SLIDE.ordinal());
+        if (PageMode.values()[mode] == PageMode.SCROLL) {
+            return PageMode.NONE;
+        }
         return PageMode.values()[mode];
     }
 
@@ -138,5 +142,13 @@ public class ReadSettingManager {
 
     public int getConvertType() {
         return sharedPreUtils.getInt(SHARED_READ_CONVERT_TYPE, 0);
+    }
+
+    public void setAdvertTime(long advert_time) {
+        sharedPreUtils.putLong(SHARED_READ_ADVERT_TIME, advert_time);
+    }
+
+    public long getAdvertTime() {
+        return sharedPreUtils.getLong(SHARED_READ_ADVERT_TIME, 0);
     }
 }

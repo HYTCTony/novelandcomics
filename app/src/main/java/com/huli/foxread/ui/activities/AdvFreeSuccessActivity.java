@@ -19,6 +19,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FreeAdvRespone;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.page.model.local.ReadSettingManager;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -99,6 +100,7 @@ public class AdvFreeSuccessActivity extends BaseActivity {
                             tvRewardTips.setText(String.format(getString(R.string.txt_adblock_plus_tips_x), data.getSpace()));
                             String residueDegreeStr = String.format(getString(R.string.txt_residue_degree_today_x), data.getSite());
                             tvResidueDegree.setText(setNumColor(AdvFreeSuccessActivity.this, residueDegreeStr));
+                            ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
 
                             tvAdvFreeSuccess.setVisibility(View.VISIBLE);
                             tvRewardTips.setVisibility(View.VISIBLE);
