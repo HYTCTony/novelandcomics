@@ -20,7 +20,7 @@ public class NetReadLoader extends ReadLoader {
 
     private static final String TAG = "NetReadLoader";
 
-    public NetReadLoader(PageWidget pageView, BookShelfListBean collBook) {
+    public NetReadLoader(PageView pageView, BookShelfListBean collBook) {
         super(pageView, collBook);
     }
 

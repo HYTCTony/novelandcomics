@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<!--    <com.huli.page.widget.view.view_page.ReadPageLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#795548" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#388E3C" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff5566" />
+
+        &lt;!&ndash;        <com.huli.page.widget.read.PageWidget&ndash;&gt;
+        &lt;!&ndash;            android:id="@+id/read_pv_page"&ndash;&gt;
+        &lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;
+        &lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;
+        &lt;!&ndash;            android:clickable="true"&ndash;&gt;
+        &lt;!&ndash;            android:focusable="true" />&ndash;&gt;
+
+
+    </com.huli.page.widget.view.view_page.ReadPageLayout>-->
+
+    <com.huli.page.widget.view.view_page2.ScanView
+        android:id="@+id/scanview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+</LinearLayout>

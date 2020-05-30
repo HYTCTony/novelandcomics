@@ -1,7 +1,5 @@
 package com.huli.page.presenter;
 
-import android.util.Log;
-
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -50,7 +48,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                 .params(Consts.NOVEL_ID, bookId)
                 .cacheTime(8 * 60 * 60 * 1000)
                 .cacheKey(Consts.NOVEL_NOVELCHAPTERLIST_API + bookId)
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .execute(new LtbCallback(context, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -98,7 +96,6 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                     if (bookChapters.get(0).getTitle().equals(bookChapter.getTitle())) {
                                         view.errorChapter();
                                     }
-                                    Log.e(TAG, entity.msg);
                                 }
                             }
                         }
@@ -109,7 +106,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     @Override
     public void recordDuration(AppCompatActivity context, int type, long duration, String id, String check, int num) {
         checkViewAttached();
-        OkGo.<String>get(Consts.RECORD_DURATION_API)
+        OkGo.<String>post(Consts.RECORD_DURATION_API)
                 .params(Consts.TYPE, type)
                 .params("duration", duration)
                 .params("id", id)

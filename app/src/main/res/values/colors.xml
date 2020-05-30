@@ -93,6 +93,8 @@
     <color name="hl_read_bg_night">#161616</color>
     <color name="hl_read_font_night">#656565</color>
 
+    <color name="hl_read_bg_dialog">#1C1C1C</color>
+
     <!--button-->
     <color name="hl_widget_button_normal">@color/white</color>
     <color name="hl_widget_button_selected">#E3E3E3</color>

@@ -3,10 +3,9 @@ package com.huli.foxread.contact;
 public interface Consts {
     String DOWNLOAD_URL = "https://download.hulimedia.com/?my_invite_code=";
 
-    //    String BASE_URL = "http://api.hulimedia.com";
-//    String BASE_URL = "http://devnovel.hongyutiancheng.com.cn";
         String BASE_URL = "http://testnovel.hongyutiancheng.com.cn";
 //    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
+//    String BASE_URL = "http://api.hulimedia.com";
     String NOT_CPL_URL = BASE_URL + "/api/v2";
 
     /*帮助反馈*/

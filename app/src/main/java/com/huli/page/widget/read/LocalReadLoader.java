@@ -66,7 +66,7 @@ public class LocalReadLoader extends ReadLoader {
 
     private Disposable mChapterDisp = null;
 
-    public LocalReadLoader(PageWidget pageView, BookShelfListBean collBook) {
+    public LocalReadLoader(PageView pageView, BookShelfListBean collBook) {
         super(pageView, collBook);
         mStatus = STATUS_PARING;
     }

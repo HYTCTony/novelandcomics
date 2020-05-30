@@ -277,8 +277,10 @@ public class ReadSettingDialog extends Dialog {
                     if (mCbFontDefault.isChecked()) {
                         mCbFontDefault.setChecked(false);
                     }
-                    int fontSize = Integer.valueOf(mTvFont.getText().toString()) - 1;
-                    if (fontSize < 0) return;
+                    int fontSize = Integer.valueOf(mTvFont.getText().toString()) - 2;
+                    if (fontSize < 24) {
+                        fontSize = 24;
+                    }
                     mTvFont.setText(fontSize + "");
                     mReadLoader.setTextSize(fontSize);
                 }
@@ -289,7 +291,10 @@ public class ReadSettingDialog extends Dialog {
                     if (mCbFontDefault.isChecked()) {
                         mCbFontDefault.setChecked(false);
                     }
-                    int fontSize = Integer.valueOf(mTvFont.getText().toString()) + 1;
+                    int fontSize = Integer.valueOf(mTvFont.getText().toString()) + 2;
+                    if (fontSize > 120) {
+                        fontSize = 120;
+                    }
                     mTvFont.setText(fontSize + "");
                     mReadLoader.setTextSize(fontSize);
                 }
@@ -359,6 +364,7 @@ public class ReadSettingDialog extends Dialog {
         mPageStyleAdapter.setOnItemClickListener(
                 (view, pos) -> {
                     mReadLoader.setPageStyle(PageStyle.values()[pos]);
+                    mReadLoader.setNightMode(false);
                 }
         );
 

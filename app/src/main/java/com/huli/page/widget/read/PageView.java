@@ -5,11 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.widget.FrameLayout;
 
 import com.huli.page.model.bean.BookShelfListBean;
+import com.huli.page.utils.UtilsView;
 import com.huli.page.widget.animation.CoverPageAnim;
 import com.huli.page.widget.animation.HorizonPageAnim;
 import com.huli.page.widget.animation.NonePageAnim;
@@ -18,17 +21,17 @@ import com.huli.page.widget.animation.ScrollPageAnim;
 import com.huli.page.widget.animation.SimulationPageAnim;
 import com.huli.page.widget.animation.SlidePageAnim;
 import com.huli.page.widget.page.PageMode;
+import com.huli.page.widget.page.TxtPage;
 
-@Deprecated
-public class PageWidget extends View {
+public class PageView extends FrameLayout {
 
-    private final static String TAG = "PageWidget";
+    private final static String TAG = "PageView";
 
     private int mViewWidth = 0; // 当前View的宽
     private int mViewHeight = 0; // 当前View的高
 
-    private int mStartX = 0;//触摸坐标X
-    private int mStartY = 0;//触摸坐标Y
+    private int mStartX = 0;
+    private int mStartY = 0;
     private boolean isMove = false;
     // 初始化参数
     private int mBgColor = 0xFFCEC29C;
@@ -39,40 +42,45 @@ public class PageWidget extends View {
     private RectF mCenterRect = null;
     private boolean isPrepare;
     // 动画类
-    private PageAnimation mPageAnim;
+    public PageAnimation mPageAnim;
+    private View mAdView, mCoverPageView;
     // 动画监听类
     private PageAnimation.OnPageChangeListener mPageAnimListener = new PageAnimation.OnPageChangeListener() {
         @Override
         public boolean hasPrev() {
-            return PageWidget.this.hasPrevPage();
+            //左侧点击上一页
+            return PageView.this.hasPrevPage();
         }
 
         @Override
         public boolean hasNext() {
-            return PageWidget.this.hasNextPage();
+            return PageView.this.hasNextPage();
         }
 
         @Override
         public void pageCancel() {
-            PageWidget.this.pageCancel();
+            PageView.this.pageCancel();
         }
     };
 
     //点击监听
-    private PageWidget.TouchListener mTouchListener;
+    private TouchListener mTouchListener;
     //内容加载器
     private ReadLoader mPageLoader;
 
-    public PageWidget(Context context) {
+    public PageView(Context context) {
         this(context, null);
     }
 
-    public PageWidget(Context context, AttributeSet attrs) {
+    public PageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PageWidget(Context context, AttributeSet attrs, int defStyleAttr) {
+    public PageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setWillNotDraw(false);
+        //千万不要关闭硬件加速，否则页面渲染会很卡
+        setLayerType(LAYER_TYPE_HARDWARE, null);
     }
 
     @Override
@@ -86,10 +94,11 @@ public class PageWidget extends View {
         if (mPageLoader != null) {
             mPageLoader.prepareDisplay(w, h);
         }
+        postInvalidate();
     }
 
     //设置翻页的模式
-    public void setPageMode(PageMode pageMode) {
+    void setPageMode(PageMode pageMode) {
         mPageMode = pageMode;
         //视图未初始化的时候，禁止调用
         if (mViewWidth == 0 || mViewHeight == 0) return;
@@ -108,10 +117,32 @@ public class PageWidget extends View {
                 mPageAnim = new NonePageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);
                 break;
             case SCROLL:
-                mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0, mPageLoader.getMarginHeight(), this, mPageAnimListener);
+                mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0,
+                        mPageLoader.getMarginHeight(), this, mPageAnimListener);
                 break;
             default:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);
+        }
+        if (mPageAnim instanceof HorizonPageAnim) {
+            ((HorizonPageAnim) mPageAnim).setScrollAnimListener(new HorizonPageAnim.ScrollAnimListener() {
+                @Override
+                public void onScrollAnimEnd() {
+//                    if (mPageLoader == null || mPageLoader.mCurPage == null) {
+//                        return;
+//                    }
+//                    addAdLayout();
+                }
+
+                @Override
+                public void onCancelAnimEnd() {
+//                    addAdLayout();
+                }
+
+                @Override
+                public void onAnimAbort() {
+                    drawCurPage(false);
+                }
+            });
         }
     }
 
@@ -148,6 +179,7 @@ public class PageWidget extends View {
         if (mTouchListener == null) return;
         //是否正在执行动画
         abortAnimation();
+
         if (direction == PageAnimation.Direction.NEXT) {
             int x = mViewWidth;
             int y = mViewHeight;
@@ -186,18 +218,43 @@ public class PageWidget extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         //绘制背景
         canvas.drawColor(mBgColor);
-
         //绘制动画
         mPageAnim.draw(canvas);
+    }
+
+    public Bitmap mBitmap;
+    private boolean shouldDraw = true;
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        try {
+            if (mBitmap != null) {
+                canvas = new Canvas(mBitmap);
+//                canvas.drawColor(Color.YELLOW,PorterDuff.Mode.CLEAR);
+            }
+            if (mPageLoader == null || mPageLoader.mCurPage == null) {
+                return;
+            }
+            if (mPageLoader.mCurPage.pageType.equals(TxtPage.VALUE_STRING_COVER_TYPE)) {
+                //这里用一个标记位解决透明图片的问题
+                if (shouldDraw) {
+                    super.dispatchDraw(canvas);
+                    shouldDraw = false;
+                }
+            } else {
+                super.dispatchDraw(canvas);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
-
         if (!canTouch && event.getAction() != MotionEvent.ACTION_DOWN) return true;
 
         int x = (int) event.getX();
@@ -207,6 +264,7 @@ public class PageWidget extends View {
                 mStartX = x;
                 mStartY = y;
                 isMove = false;
+
                 canTouch = mTouchListener.onTouch();
                 mPageAnim.onTouchEvent(event);
                 break;
@@ -216,7 +274,6 @@ public class PageWidget extends View {
                 if (!isMove) {
                     isMove = Math.abs(mStartX - event.getX()) > slop || Math.abs(mStartY - event.getY()) > slop;
                 }
-
                 // 如果滑动了，则进行翻页。
                 if (isMove) {
                     mPageAnim.onTouchEvent(event);
@@ -224,9 +281,13 @@ public class PageWidget extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if (!isMove) {
+                    if (mPageLoader == null || mPageLoader.mCurPage == null) {
+                        return true;
+                    }
+
                     //设置中间区域范围
                     if (mCenterRect == null) {
-                        mCenterRect = new RectF(mViewWidth / 5, mViewHeight / 3, mViewWidth * 4 / 5, mViewHeight * 2 / 3);
+                        mCenterRect = new RectF(mViewWidth / 4, mViewHeight / 4, mViewWidth * 3 / 4, mViewHeight * 3 / 4);
                     }
 
                     //是否点击了中间
@@ -250,6 +311,7 @@ public class PageWidget extends View {
      */
     private boolean hasPrevPage() {
         mTouchListener.prePage();
+        shouldDraw = true;
         return mPageLoader.prev();
     }
 
@@ -260,12 +322,38 @@ public class PageWidget extends View {
      */
     private boolean hasNextPage() {
         mTouchListener.nextPage();
+        shouldDraw = true;
         return mPageLoader.next();
     }
 
     private void pageCancel() {
         mTouchListener.cancel();
         mPageLoader.pageCancel();
+
+        //翻页取消的时候，如果当前页是广告页，那么就重新添加
+        if (mPageLoader.mCurPage != null && mPageLoader.mCurPage.isCustomView) {
+            addAdLayout();
+        } else {
+            //否则清除
+            cleanAdView();
+        }
+    }
+
+    private void addAdLayout() {
+        if (mPageLoader == null || mPageLoader.mCurPage == null) {
+            return;
+        }
+        if (mAdView != null) {
+            UtilsView.removeParent(mAdView);
+            addView(mAdView);
+        }
+    }
+
+    /**
+     * 清除添加的所有view
+     */
+    public void cleanAdView() {
+        removeAllViews();
     }
 
     @Override
@@ -291,7 +379,7 @@ public class PageWidget extends View {
         return isPrepare;
     }
 
-    public void setTouchListener(PageWidget.TouchListener mTouchListener) {
+    public void setTouchListener(TouchListener mTouchListener) {
         this.mTouchListener = mTouchListener;
     }
 
@@ -302,6 +390,61 @@ public class PageWidget extends View {
             ((HorizonPageAnim) mPageAnim).changePage();
         }
         mPageLoader.drawPage(getNextBitmap(), false);
+    }
+
+    public boolean drawCoverPage(Bitmap bitmap) {
+        if (!isPrepare) return false;
+
+        if (mReaderAdListener == null) {
+            return false;
+        }
+        mBitmap = bitmap;
+        if (mPageLoader.mCurPage.hasDrawAd && mCoverPageView != null) {
+            UtilsView.removeParent(mCoverPageView);
+            addView(mCoverPageView);
+            return true;
+        } else {
+            mCoverPageView = mReaderAdListener.getCoverPageView();
+        }
+
+        if (mCoverPageView == null) {
+            return false;
+        }
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.CENTER;
+        mCoverPageView.setLayoutParams(params);
+        if (mCoverPageView != null) {
+            UtilsView.removeParent(mCoverPageView);
+            addView(mCoverPageView);
+        }
+        mPageLoader.mCurPage.hasDrawAd = true;
+        return true;
+    }
+
+    public boolean drawAdPage(Bitmap bitmap) {
+        if (!isPrepare) return false;
+
+        if (mReaderAdListener == null) {
+            return false;
+        }
+        mBitmap = bitmap;
+        if (mAdView != null) {
+            addAdLayout();
+            return true;
+        } else {
+            mAdView = mReaderAdListener.getAdView();
+            mReaderAdListener.onRequestAd();
+        }
+
+        if (mAdView == null) {
+            return false;
+        }
+//        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+//        params.gravity = Gravity.CENTER;
+//        mAdView.setLayoutParams(params);
+        addAdLayout();
+        mPageLoader.mCurPage.hasDrawAd = true;
+        return true;
     }
 
     /**
@@ -317,18 +460,22 @@ public class PageWidget extends View {
                 ((ScrollPageAnim) mPageAnim).resetBitmap();
             }
         }
-
         mPageLoader.drawPage(getNextBitmap(), isUpdate);
     }
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mPageAnim.abortAnim();
-        mPageAnim.clear();
+        try {
+            mPageAnim.abortAnim();
+            mPageAnim.clear();
 
-        mPageLoader = null;
-        mPageAnim = null;
+            mPageLoader = null;
+            mPageAnim = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -343,11 +490,11 @@ public class PageWidget extends View {
             return mPageLoader;
         }
         // 根据书籍类型，获取具体的加载器
-//        if (collBook.getIsLocal()) {
-//            mPageLoader = new LocalReadLoader(this, collBook);
-//        } else {
-//            mPageLoader = new NetReadLoader(this, collBook);
-//        }
+        if (collBook.getIsLocal()) {
+            mPageLoader = new LocalReadLoader(this, collBook);
+        } else {
+            mPageLoader = new NetReadLoader(this, collBook);
+        }
         // 判断是否 PageView 已经初始化完成
         if (mViewWidth != 0 || mViewHeight != 0) {
             // 初始化 PageLoader 的屏幕大小
@@ -367,5 +514,19 @@ public class PageWidget extends View {
         void nextPage();
 
         void cancel();
+    }
+
+    public void setReaderAdListener(ReaderAdListener readerAdListener) {
+        mReaderAdListener = readerAdListener;
+    }
+
+    ReaderAdListener mReaderAdListener;
+
+    public interface ReaderAdListener {
+        View getAdView();
+
+        void onRequestAd();
+
+        View getCoverPageView();
     }
 }

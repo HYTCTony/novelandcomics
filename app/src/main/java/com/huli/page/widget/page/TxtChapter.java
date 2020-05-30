@@ -14,6 +14,8 @@ public class TxtChapter {
     public String title;
     //是否选中
     public boolean isSelect;
+    //是否第一章
+    public boolean isFirst;
 
     //章节内容在文章中的起始位置(本地)
     public long start;
