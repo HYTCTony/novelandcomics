@@ -39,7 +39,6 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
         public final static Property End = new Property(9, long.class, "end", false, "END");
     }
 
-    private Query<BookChapter> bookShelfListBean_BookChapterListQuery;
     private Query<BookChapter> downloadTaskBean_BookChapterListQuery;
 
     public BookChapterDao(DaoConfig config) {
@@ -221,20 +220,6 @@ public class BookChapterDao extends AbstractDao<BookChapter, String> {
         return true;
     }
     
-    /** Internal query to resolve the "bookChapterList" to-many relationship of BookShelfListBean. */
-    public List<BookChapter> _queryBookShelfListBean_BookChapterList(String bookId) {
-        synchronized (this) {
-            if (bookShelfListBean_BookChapterListQuery == null) {
-                QueryBuilder<BookChapter> queryBuilder = queryBuilder();
-                queryBuilder.where(Properties.BookId.eq(null));
-                bookShelfListBean_BookChapterListQuery = queryBuilder.build();
-            }
-        }
-        Query<BookChapter> query = bookShelfListBean_BookChapterListQuery.forCurrentThread();
-        query.setParameter(0, bookId);
-        return query.list();
-    }
-
     /** Internal query to resolve the "bookChapterList" to-many relationship of DownloadTaskBean. */
     public List<BookChapter> _queryDownloadTaskBean_BookChapterList(String taskName) {
         synchronized (this) {

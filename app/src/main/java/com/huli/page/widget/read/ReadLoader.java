@@ -9,7 +9,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextPaint;
-import android.util.Log;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -789,7 +788,6 @@ public abstract class ReadLoader {
         }
         int tipMarginHeight = ScreenUtils.dpToPx(3);
         int titleMarginHeight = ScreenUtils.dpToPx(24);
-
         if (!isUpdate) {
             /****绘制背景****/
             canvas.drawColor(mBgColor);
@@ -800,11 +798,12 @@ public abstract class ReadLoader {
             }
             if (index == AD_FOR_PAGE_NUM && !isABC)
                 return;
+            if (mCurPage != null && mCurPage.isCustomView)
+                return;
             if (!mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
                 //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
                 float tipTop = titleMarginHeight - mTipPaint.getFontMetrics().top;
-                //                Logger.e("tipTop" + tipTop);
                 //根据状态不一样，数据不一样
                 if (!mCurPage.isCustomView) {
                     if (mStatus != STATUS_FINISH) {
@@ -828,8 +827,9 @@ public abstract class ReadLoader {
                     NumberFormat numberFormat = NumberFormat.getInstance();
                     // 设置精版确到小数点后权2位
                     numberFormat.setMaximumFractionDigits(2);
-                    float num1 = (float) (mCurChapterPos * mCurPageList.size() + mCurPage.position);
-                    float num2 = (float) (mChapterList.size() * mCurPageList.size());
+                    int mCurPagePos = mCurPage.position;
+                    float num1 = (float) (mCurChapterPos * (mCurPageList.size() - 1) + mCurPagePos);
+                    float num2 = (float) (mChapterList.size() * (mCurPageList.size() - 1));
                     String percent = numberFormat.format(num1 / num2 * 100);
                     canvas.drawText(percent + "%", mMarginWidth, y, mTipPaint);
                 }
@@ -847,6 +847,8 @@ public abstract class ReadLoader {
             }
         }
         if (index == AD_FOR_PAGE_NUM && !isABC)
+            return;
+        if (mCurPage != null && mCurPage.isCustomView)
             return;
         /******绘制电池********/
 
@@ -901,6 +903,11 @@ public abstract class ReadLoader {
 
         if (mPageMode == PageMode.SCROLL) {
             canvas.drawColor(mBgColor);
+            if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
+                Bitmap kraftPaper = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.theme_leather_bg);
+                RectF rectF = new RectF(0, 0, mDisplayWidth, mDisplayHeight);
+                canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
+            }
         }
         /******绘制内容****/
 
@@ -943,28 +950,19 @@ public abstract class ReadLoader {
             } else {
                 top = mMarginHeight - mTextPaint.getFontMetrics().top + titleMarginHeight;
             }
-            Log.d("ReadLoader", "index == " + index);
-            if (index == AD_FOR_PAGE_NUM && !isABC) {
-                if (!mPageView.drawAdPage(bitmap)) {
-                    mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
-                    drawContent(bitmap);
-                }
-                return;
-            }
             if (mCurPage != null && mCurPage.isCustomView) {
-                switch (mCurPage.pageType) {
-                    case TxtPage.VALUE_STRING_AD_TYPE:
-//                        if (!mPageView.drawAdPage(bitmap)) {
-//                            mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
-//                            drawContent(bitmap);
-//                        }
-                        Log.d("ReadLoader", "pageType == VALUE_STRING_AD_TYPE");
-                        break;
-                    case TxtPage.VALUE_STRING_COVER_TYPE:
-                        mPageView.drawCoverPage(bitmap);
-                        break;
+                if (TxtPage.VALUE_STRING_COVER_TYPE.equals(mCurPage.pageType)) {
+                    mPageView.drawCoverPage(bitmap);
                 }
                 return;
+            } else {
+                if (index == AD_FOR_PAGE_NUM && !isABC) {
+                    if (!mPageView.drawAdPage(bitmap)) {
+                        mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
+                        drawContent(bitmap);
+                    }
+                    return;
+                }
             }
             mPageView.cleanAdView();
 

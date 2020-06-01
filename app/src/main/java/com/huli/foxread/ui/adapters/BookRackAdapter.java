@@ -62,7 +62,7 @@ public class BookRackAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVie
 
                 //书的图片
                 GlideApp.with(getContext())
-                        .load(item.getHttp_novel_image())
+                        .load(item.getHttp_image())
                         .placeholder(R.mipmap.img_holder_rect)
                         .error(R.mipmap.img_holder_rect)
                         .fitCenter()

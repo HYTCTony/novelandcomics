@@ -78,7 +78,7 @@ public class BookRackAdapter2 extends BaseMultiItemQuickAdapter<BookShelfOrADsMu
 
                     //书的图片
                     GlideApp.with(getContext())
-                            .load(bookShelf.getHttp_novel_image())
+                            .load(bookShelf.getHttp_image())
                             .placeholder(R.mipmap.img_holder_rect)
                             .error(R.mipmap.img_holder_rect)
                             .fitCenter()

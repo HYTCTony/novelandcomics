@@ -2,13 +2,8 @@ package com.huli.page.model.bean;
 
 
 import com.huli.foxread.FrApp;
-import com.huli.page.model.dao.BookChapterDao;
-import com.huli.page.model.dao.BookShelfListBeanDao;
-import com.huli.page.model.dao.DaoSession;
 import com.huli.page.utils.StringUtils;
 
-import org.greenrobot.greendao.DaoException;
-import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.ToMany;
@@ -17,7 +12,6 @@ import org.greenrobot.greendao.annotation.Transient;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity
 public class BookShelfListBean implements Serializable {
     private static final long serialVersionUID = 56423411313L;
 
@@ -50,7 +44,7 @@ public class BookShelfListBean implements Serializable {
     private int is_copyright;               //2无版权，1有版权
     private int reading_size;              //在读人数
     private String introduce;               //简介
-    private String http_image;
+    private String http_image;             //封面图
     private int chapter_sum;
     private int is_exist_bookshelf;      //是否加入书架 2：否  1：是
     /******************************************************************/
@@ -67,23 +61,18 @@ public class BookShelfListBean implements Serializable {
     @ToMany(referencedJoinProperty = "bookId")
     private List<BookChapter> bookChapterList;
 
-    /** Used to resolve relations */
-    @Generated(hash = 2040040024)
-    private transient DaoSession daoSession;
-
-    /** Used for active entity operations. */
-    @Generated(hash = 314701721)
-    private transient BookShelfListBeanDao myDao;
+    public BookShelfListBean() {
+    }
 
     @Generated(hash = 1725956324)
     public BookShelfListBean(String id, String novel_id, String user_id, String novel_name,
-            String novel_image, String http_novel_image, String author, float score,
-            String file, int read_sum, int is_end, int type, int classify_id,
-            String classify_name, int greet, int word, int is_new, int is_hot,
-            int is_copyright, int reading_size, String introduce, String http_image,
-            int chapter_sum, int is_exist_bookshelf, long createtime, long updatetime,
-            long deletetime, String lastRead, String chapter_name, boolean isUpdate,
-            boolean isLocal) {
+                             String novel_image, String http_novel_image, String author, float score,
+                             String file, int read_sum, int is_end, int type, int classify_id,
+                             String classify_name, int greet, int word, int is_new, int is_hot,
+                             int is_copyright, int reading_size, String introduce, String http_image,
+                             int chapter_sum, int is_exist_bookshelf, long createtime, long updatetime,
+                             long deletetime, String lastRead, String chapter_name, boolean isUpdate,
+                             boolean isLocal) {
         this.id = id;
         this.novel_id = novel_id;
         this.user_id = user_id;
@@ -117,12 +106,6 @@ public class BookShelfListBean implements Serializable {
         this.isLocal = isLocal;
     }
 
-
-    @Generated(hash = 394971066)
-    public BookShelfListBean() {
-    }
-
-
     public void setBookChapters(List<BookChapter> beans) {
         bookChapterList = beans;
         for (BookChapter bean : bookChapterList) {
@@ -131,11 +114,7 @@ public class BookShelfListBean implements Serializable {
     }
 
     public List<BookChapter> getBookChapters() {
-        if (daoSession == null) {
-            return bookChapterList;
-        } else {
-            return getBookChapterList();
-        }
+        return bookChapterList;
     }
 
     public String getId() {
@@ -408,78 +387,6 @@ public class BookShelfListBean implements Serializable {
 
     public void setChapter_name(String chapter_name) {
         this.chapter_name = chapter_name;
-    }
-
-    /**
-     * To-many relationship, resolved on first access (and after reset).
-     * Changes to to-many relations are not persisted, make changes to the target entity.
-     */
-    @Generated(hash = 1897639194)
-    public List<BookChapter> getBookChapterList() {
-        if (bookChapterList == null) {
-            final DaoSession daoSession = this.daoSession;
-            if (daoSession == null) {
-                throw new DaoException("Entity is detached from DAO context");
-            }
-            BookChapterDao targetDao = daoSession.getBookChapterDao();
-            List<BookChapter> bookChapterListNew = targetDao
-                    ._queryBookShelfListBean_BookChapterList(id);
-            synchronized (this) {
-                if (bookChapterList == null) {
-                    bookChapterList = bookChapterListNew;
-                }
-            }
-        }
-        return bookChapterList;
-    }
-
-    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
-    @Generated(hash = 1077762221)
-    public synchronized void resetBookChapterList() {
-        bookChapterList = null;
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 128553479)
-    public void delete() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.delete(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 1942392019)
-    public void refresh() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.refresh(this);
-    }
-
-    /**
-     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
-     * Entity must attached to an entity context.
-     */
-    @Generated(hash = 713229351)
-    public void update() {
-        if (myDao == null) {
-            throw new DaoException("Entity is detached from DAO context");
-        }
-        myDao.update(this);
-    }
-
-    /** called by internal mechanisms, do not call yourself. */
-    @Generated(hash = 1425417835)
-    public void __setDaoSession(DaoSession daoSession) {
-        this.daoSession = daoSession;
-        myDao = daoSession != null ? daoSession.getBookShelfListBeanDao() : null;
     }
 
 }
