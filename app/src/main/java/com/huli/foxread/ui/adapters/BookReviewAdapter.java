@@ -7,8 +7,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.entity.BookReview;
 import com.huli.foxread.listeners.OnRecyCbCheckListener;
+import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
 
@@ -55,6 +57,11 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
         if (mRecyCbCheckListener != null) {
             cbLike.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (buttonView.isPressed()) {
+                    if(UserInfoCache.getIsTourist(getContext())){
+                        LoginActivity.start(getContext());
+                        cbLike.setChecked(!isChecked);
+                        return;
+                    }
                     int position = holder.getLayoutPosition();
                     mRecyCbCheckListener.onCbCheckChanged(buttonView, isChecked, position);
                     if (isChecked) {

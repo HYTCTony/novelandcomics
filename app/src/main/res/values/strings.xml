@@ -431,6 +431,11 @@
     <string name="txt_adblock_plus_tips_x">现在起%1$d分钟内，您可享受阅读器内免广告阅读。</string>
     <string name="txt_residue_degree_today_x">今日还有%1$d次机会</string>
 
+    <string name="txt_acquisition_chapters_failed">获取章节失败！</string>
+    <string name="txt_has_been_added_2_the_shelf">已经加入书架！</string>
+    <string name="txt_in_kookshelf">已加入书架</string>
+    <string name="txt_add_2_kookshelf">加入书架</string>
+
 
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>
     <string name="rationale_write_external_storage_4_update_apk">我们需要获取读写手机内存权限，以下载更新APK。</string>

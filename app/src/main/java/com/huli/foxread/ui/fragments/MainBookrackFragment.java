@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -174,7 +173,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserInfoChangeEvent(FUser event) {
         if (event.isIs_tourist()) {
             mToolbar.setTitle(R.string.txt_say_hi);
@@ -336,7 +335,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 .setCodeId("945165433")
                 .setSupportDeepLink(true)
 //                .setImageAcceptedSize(280,360 )//这个参数设置即可，不影响个性化模板广告的size
-                .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight) //期望模板广告view的size,单位dp
+                .setExpressViewAcceptedSize(expressViewWidth, expressViewWidth / 4) //期望模板广告view的size,单位dp
                 .setAdCount(count) //请求广告数量为1到3条
                 .build();
         //step5:请求广告，调用feed广告异步请求接口，加载到广告后，拿到广告素材自定义渲染
@@ -490,7 +489,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
-                        Log.e("sssssss", "开始请求广告");
                         loadListAd(1, false);
                     }
                 });

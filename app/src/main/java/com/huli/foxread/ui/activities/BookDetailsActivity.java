@@ -252,7 +252,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 if (chapter >= 0) {
                     openBook(chapter);
                 } else {
-                    Toast.makeText(this, "获取章节失败！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.txt_acquisition_chapters_failed, Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.rtl_asBtn_book_catalogue_dt:
@@ -263,7 +263,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                     if (chapter >= 0) {
                         openBook(chapter);
                     } else {
-                        Toast.makeText(BookDetailsActivity.this, "获取章节失败！", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BookDetailsActivity.this, R.string.txt_acquisition_chapters_failed, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -273,14 +273,14 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_add_a_bookcase_dt:
                 if (isCollected) {
-                    TipDialog.show(BookDetailsActivity.this, "已经加入书架！", TipDialog.TYPE.ERROR);
+                    TipDialog.show(BookDetailsActivity.this, R.string.txt_has_been_added_2_the_shelf, TipDialog.TYPE.ERROR);
                     return;
                 }
                 reqAddBookrack(nId);
                 break;
             case R.id.btn_begin_reading_dt:
                 if (chapters.isEmpty()) {
-                    TipDialog.show(BookDetailsActivity.this, "获取章节失败！", TipDialog.TYPE.ERROR);
+                    TipDialog.show(BookDetailsActivity.this, R.string.txt_acquisition_chapters_failed, TipDialog.TYPE.ERROR);
                     return;
                 }
                 openBook(-1);
@@ -397,11 +397,11 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
                             if (bookBean.getIs_exist_bookshelf() == 1) {
                                 isCollected = true;
-                                btnAddBookcase.setText("已加入书架");
+                                btnAddBookcase.setText(R.string.txt_in_kookshelf);
                                 btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
                             } else {
                                 isCollected = false;
-                                btnAddBookcase.setText("加入书架");
+                                btnAddBookcase.setText(R.string.txt_add_2_kookshelf);
                                 btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_black_191919));
                             }
 
@@ -526,7 +526,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                         if (entity.error_code == 0) {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
                             isCollected = true;
-                            btnAddBookcase.setText("已加入书架");
+                            btnAddBookcase.setText(R.string.txt_in_kookshelf);
                             btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
                         } else {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
@@ -585,7 +585,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 }
                 isCollected = data.getBooleanExtra(RESULT_IS_COLLECTED, false);
                 if (isCollected) {
-                    btnAddBookcase.setText("已加入书架");
+                    btnAddBookcase.setText(R.string.txt_in_kookshelf);
                     btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
                 }
 

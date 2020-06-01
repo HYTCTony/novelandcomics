@@ -34,6 +34,7 @@ import com.huli.foxread.ui.adapters.BookReviewAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.FastBlur;
 import com.huli.foxread.utils.GlideUtil;
+import com.huli.foxread.utils.NavigationBarUtil;
 import com.huli.foxread.utils.RomUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.BookShelfListBean;
@@ -116,7 +117,8 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
 
         mAppBarLayout = $(R.id.appBarLayout_all_review);
         collapsingToolbar = findViewById(R.id.collapsing_toolbar);
-        if (RomUtils.isFlymeV4OrAbove()) {    //不稳妥的T.T 解决魅族recyclerView在CollapsingToolbarLayout的SCROLL_FLAG_EXIT_UNTIL_COLLAPSED（FLAG）初始化不显示UI的BUG
+
+        if (!NavigationBarUtil.isNavigationBarShow(this)) {    //不稳妥的T.T 解决有无虚拟导航栏导致recyclerView在CollapsingToolbarLayout的FLAG不显示UI的BUG
             AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) collapsingToolbar.getLayoutParams();
             params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED); // list other flags here by |
             collapsingToolbar.setLayoutParams(params);
