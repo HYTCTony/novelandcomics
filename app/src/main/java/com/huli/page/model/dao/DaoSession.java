@@ -10,13 +10,11 @@ import org.greenrobot.greendao.internal.DaoConfig;
 
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookRecordBean;
-import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.bean.ChapterBean;
 import com.huli.page.model.bean.DownloadTaskBean;
 
 import com.huli.page.model.dao.BookChapterDao;
 import com.huli.page.model.dao.BookRecordBeanDao;
-import com.huli.page.model.dao.BookShelfListBeanDao;
 import com.huli.page.model.dao.ChapterBeanDao;
 import com.huli.page.model.dao.DownloadTaskBeanDao;
 
@@ -31,13 +29,11 @@ public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig bookChapterDaoConfig;
     private final DaoConfig bookRecordBeanDaoConfig;
-    private final DaoConfig bookShelfListBeanDaoConfig;
     private final DaoConfig chapterBeanDaoConfig;
     private final DaoConfig downloadTaskBeanDaoConfig;
 
     private final BookChapterDao bookChapterDao;
     private final BookRecordBeanDao bookRecordBeanDao;
-    private final BookShelfListBeanDao bookShelfListBeanDao;
     private final ChapterBeanDao chapterBeanDao;
     private final DownloadTaskBeanDao downloadTaskBeanDao;
 
@@ -51,9 +47,6 @@ public class DaoSession extends AbstractDaoSession {
         bookRecordBeanDaoConfig = daoConfigMap.get(BookRecordBeanDao.class).clone();
         bookRecordBeanDaoConfig.initIdentityScope(type);
 
-        bookShelfListBeanDaoConfig = daoConfigMap.get(BookShelfListBeanDao.class).clone();
-        bookShelfListBeanDaoConfig.initIdentityScope(type);
-
         chapterBeanDaoConfig = daoConfigMap.get(ChapterBeanDao.class).clone();
         chapterBeanDaoConfig.initIdentityScope(type);
 
@@ -62,13 +55,11 @@ public class DaoSession extends AbstractDaoSession {
 
         bookChapterDao = new BookChapterDao(bookChapterDaoConfig, this);
         bookRecordBeanDao = new BookRecordBeanDao(bookRecordBeanDaoConfig, this);
-        bookShelfListBeanDao = new BookShelfListBeanDao(bookShelfListBeanDaoConfig, this);
         chapterBeanDao = new ChapterBeanDao(chapterBeanDaoConfig, this);
         downloadTaskBeanDao = new DownloadTaskBeanDao(downloadTaskBeanDaoConfig, this);
 
         registerDao(BookChapter.class, bookChapterDao);
         registerDao(BookRecordBean.class, bookRecordBeanDao);
-        registerDao(BookShelfListBean.class, bookShelfListBeanDao);
         registerDao(ChapterBean.class, chapterBeanDao);
         registerDao(DownloadTaskBean.class, downloadTaskBeanDao);
     }
@@ -76,7 +67,6 @@ public class DaoSession extends AbstractDaoSession {
     public void clear() {
         bookChapterDaoConfig.clearIdentityScope();
         bookRecordBeanDaoConfig.clearIdentityScope();
-        bookShelfListBeanDaoConfig.clearIdentityScope();
         chapterBeanDaoConfig.clearIdentityScope();
         downloadTaskBeanDaoConfig.clearIdentityScope();
     }
@@ -87,10 +77,6 @@ public class DaoSession extends AbstractDaoSession {
 
     public BookRecordBeanDao getBookRecordBeanDao() {
         return bookRecordBeanDao;
-    }
-
-    public BookShelfListBeanDao getBookShelfListBeanDao() {
-        return bookShelfListBeanDao;
     }
 
     public ChapterBeanDao getChapterBeanDao() {

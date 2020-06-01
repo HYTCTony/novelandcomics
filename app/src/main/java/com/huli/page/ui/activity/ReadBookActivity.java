@@ -43,6 +43,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.notchtools.NotchTools;
 import com.huli.foxread.ui.activities.AdvFreeSuccessActivity;
@@ -188,6 +189,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     RelativeLayout mExpressContainer;
     TextView btnNextPage;
     TextView tvAdView;
+    TextView tvBookName;
+    TextView tvAuthorName;
+    TextView tvCopyrightDescription;
     /*观看视频验证*/
     private boolean mRewardVerify;
     private boolean isABC = false;
@@ -370,7 +374,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onPageChange(int pos) {
-                if (isFirstRequest && sum != 0) {
+                if (isFirstRequest && sum > 0) {
                     requestAdBottom();
                     isFirstRequest = false;
                 }
@@ -381,6 +385,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             @Override
             public void onStyleChange(PageStyle pageStyle, boolean isNightMode) {
                 rl.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : pageStyle.getBgColor());
+                tvBookName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) :
+                        ContextCompat.getColor(mContext, pageStyle.getFontColor()));
+                tvAuthorName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) :
+                        ContextCompat.getColor(mContext, pageStyle.getFontColor()));
+                tvCopyrightDescription.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) :
+                        ContextCompat.getColor(mContext, pageStyle.getFontColor()));
             }
         });
         mProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -458,21 +468,28 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //封面
         View coverPageView = LayoutInflater.from(this).inflate(R.layout.layout_cover_view, null, false);
         ImageView ivBookCover = coverPageView.findViewById(R.id.iv_book_cover);
-        TextView tvBookName = coverPageView.findViewById(R.id.tv_book_name);
-        TextView tvAuthorName = coverPageView.findViewById(R.id.tv_author_name);
-        TextView tvCopyrightDescription = coverPageView.findViewById(R.id.tv_copyright_description);
-        GlideUtil.loadRoundRect(mContext, ivBookCover, data.getHttp_novel_image());
+        tvBookName = coverPageView.findViewById(R.id.tv_book_name);
+        tvAuthorName = coverPageView.findViewById(R.id.tv_author_name);
+        tvCopyrightDescription = coverPageView.findViewById(R.id.tv_copyright_description);
+        GlideUtil.loadRoundRect(mContext, ivBookCover, data.getHttp_image());
         tvBookName.setText(data.getNovel_name());
         tvAuthorName.setText("作者：" + data.getAuthor());
         SpannableStringBuilder builderCopyrightDescription = new SpanUtils(mContext).appendLine("本书已授权一起看书进行电子制作发行").append
                 ("本故事纯属虚构·版权所有·侵权必究").create();
         tvCopyrightDescription.setText(builderCopyrightDescription);
+        tvBookName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) : ContextCompat.getColor(mContext,
+                R.color.hl_read_font_1));
+        tvAuthorName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) : ContextCompat.getColor(mContext,
+                R.color.hl_read_font_1));
+        tvCopyrightDescription.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) : ContextCompat.getColor(mContext,
+                R.color.hl_read_font_1));
         //广告
         mAdView = LayoutInflater.from(this).inflate(R.layout.layout_ad_view, null, false);
         mExpressContainer = mAdView.findViewById(R.id.express_container);
         tvAdView = mAdView.findViewById(R.id.btn_watch_video);
         SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
         tvAdView.setText(builderVideoMessage);
+        tvAdView.setVisibility(UserInfoCache.getIsTourist(mContext) ? GONE : VISIBLE);
         btnNextPage = mAdView.findViewById(R.id.btn_next_page);
         btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
                 R.color.txt_gray_b2));
@@ -696,7 +713,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
         });
         //dislike设置
-//        bindDislike(ad, false);
+        bindDislike(ad, false);
         if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             return;
         }
@@ -769,7 +786,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
         });
         //dislike设置
-//        bindDislike(ad, false);
+        bindDislike(ad, false);
         if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
             return;
         }

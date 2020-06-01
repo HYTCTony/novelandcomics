@@ -7,7 +7,6 @@ import com.huli.page.model.bean.BookRecordBean;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.dao.BookChapterDao;
 import com.huli.page.model.dao.BookRecordBeanDao;
-import com.huli.page.model.dao.BookShelfListBeanDao;
 import com.huli.page.model.dao.DaoSession;
 import com.huli.page.model.dao.DownloadTaskBeanDao;
 import com.huli.page.utils.Constant;
@@ -32,11 +31,11 @@ public class BookRepository {
     private static final String TAG = "CollBookManager";
     private static volatile BookRepository sInstance;
     private DaoSession mSession;
-    private BookShelfListBeanDao mBookShlefDao;
+//    private BookShelfListBeanDao mBookShlefDao;
 
     private BookRepository() {
         mSession = DaoDbHelper.getInstance().getSession();
-        mBookShlefDao = mSession.getBookShelfListBeanDao();
+//        mBookShlefDao = mSession.getBookShelfListBeanDao();
     }
 
     public static BookRepository getInstance() {
@@ -62,7 +61,7 @@ public class BookRepository {
                                         .insertOrReplaceInTx(bean.getBookChapters());
                             }
                             //存储CollBook (确保先后顺序，否则出错)
-                            mBookShlefDao.insertOrReplace(bean);
+//                            mBookShlefDao.insertOrReplace(bean);
                         }
                 );
     }
@@ -85,17 +84,17 @@ public class BookRepository {
                                 }
                             }
                             //存储CollBook (确保先后顺序，否则出错)
-                            mBookShlefDao.insertOrReplaceInTx(beans);
+//                            mBookShlefDao.insertOrReplaceInTx(beans);
                         }
                 );
     }
 
     public void saveBook(BookShelfListBean bean) {
-        mBookShlefDao.insertOrReplace(bean);
+//        mBookShlefDao.insertOrReplace(bean);
     }
 
     public void saveBooks(List<BookShelfListBean> beans) {
-        mBookShlefDao.insertOrReplaceInTx(beans);
+//        mBookShlefDao.insertOrReplaceInTx(beans);
     }
 
     /**
@@ -141,19 +140,19 @@ public class BookRepository {
     }
 
     /*****************************get************************************************/
-    public BookShelfListBean getBookShelf(String bookId) {
-        BookShelfListBean bean = mBookShlefDao.queryBuilder()
-                .where(BookShelfListBeanDao.Properties.Novel_id.eq(bookId))
-                .unique();
-        return bean;
-    }
+//    public BookShelfListBean getBookShelf(String bookId) {
+//        BookShelfListBean bean = mBookShlefDao.queryBuilder()
+//                .where(BookShelfListBeanDao.Properties.Novel_id.eq(bookId))
+//                .unique();
+//        return bean;
+//    }
 
-    public List<BookShelfListBean> getBookShelfList() {
-        return mBookShlefDao
-                .queryBuilder()
-                .orderDesc(BookShelfListBeanDao.Properties.LastRead)
-                .list();
-    }
+//    public List<BookShelfListBean> getBookShelfList() {
+//        return mBookShlefDao
+//                .queryBuilder()
+//                .orderDesc(BookShelfListBeanDao.Properties.LastRead)
+//                .list();
+//    }
 
     //获取书籍列表
     public Single<List<BookChapter>> getBookChaptersFormRx(String bookId) {
@@ -220,7 +219,7 @@ public class BookRepository {
                 //删除目录
                 deleteBookChapter(bean.getNovel_id());
                 //删除CollBook
-                mBookShlefDao.delete(bean);
+//                mBookShlefDao.delete(bean);
                 e.onSuccess(new Void());
             }
         });
@@ -235,9 +234,9 @@ public class BookRepository {
                 .executeDeleteWithoutDetachingEntities();
     }
 
-    public void deleteCollBook(BookShelfListBean collBook) {
-        mBookShlefDao.delete(collBook);
-    }
+//    public void deleteCollBook(BookShelfListBean collBook) {
+//        mBookShlefDao.delete(collBook);
+//    }
 
     //删除书籍
     public void deleteBook(String bookId) {

@@ -241,7 +241,7 @@ public class PageView extends FrameLayout {
                 //这里用一个标记位解决透明图片的问题
                 if (shouldDraw) {
                     super.dispatchDraw(canvas);
-                    shouldDraw = false;
+//                    shouldDraw = false;
                 }
             } else {
                 super.dispatchDraw(canvas);
@@ -392,23 +392,23 @@ public class PageView extends FrameLayout {
         mPageLoader.drawPage(getNextBitmap(), false);
     }
 
-    public boolean drawCoverPage(Bitmap bitmap) {
-        if (!isPrepare) return false;
+    public void drawCoverPage(Bitmap bitmap) {
+        if (!isPrepare) return;
 
         if (mReaderAdListener == null) {
-            return false;
+            return;
         }
         mBitmap = bitmap;
-        if (mPageLoader.mCurPage.hasDrawAd && mCoverPageView != null) {
+        if (mCoverPageView != null) {
             UtilsView.removeParent(mCoverPageView);
             addView(mCoverPageView);
-            return true;
+            return;
         } else {
             mCoverPageView = mReaderAdListener.getCoverPageView();
         }
 
         if (mCoverPageView == null) {
-            return false;
+            return;
         }
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.CENTER;
@@ -418,7 +418,7 @@ public class PageView extends FrameLayout {
             addView(mCoverPageView);
         }
         mPageLoader.mCurPage.hasDrawAd = true;
-        return true;
+        return;
     }
 
     public boolean drawAdPage(Bitmap bitmap) {
