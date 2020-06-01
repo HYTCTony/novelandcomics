@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -20,6 +19,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -34,6 +34,7 @@ import com.huli.foxread.ui.adapters.BookReviewAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.FastBlur;
 import com.huli.foxread.utils.GlideUtil;
+import com.huli.foxread.utils.RomUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.kongzue.dialog.v3.TipDialog;
@@ -54,12 +55,14 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
     public static final int REQCODE_CHECK_ALL_REVIEW = 0x1911;
 
     private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout collapsingToolbar;
     private Toolbar toolbar;
     private ImageView ivBgTop;
     private ImageView ivBookCover;
     private TextView tvBookName;
     private MaterialRatingBar ratingBarBook;
     private TextView tvReviewNum, tvBookScore;
+    private View ctlBtnWriteReview;
 
     private RecyclerView recyclerView;
     private BookReviewAdapter mAdapter;
@@ -82,8 +85,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void setStatusBar() {
-        StatusBarUtils.offsetView(this, $(R.id.toolbar_all_book_review));
-        StatusBarUtils.setTransparent(this);
+        StatusBarUtils.setTransparentForImageView(this, $(R.id.toolbar_all_book_review));
     }
 
     @Override
@@ -113,12 +115,19 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         mAppBarLayout = $(R.id.appBarLayout_all_review);
+        collapsingToolbar = findViewById(R.id.collapsing_toolbar);
+        if (RomUtils.isFlymeV4OrAbove()) {    //不稳妥的T.T 解决魅族recyclerView在CollapsingToolbarLayout的SCROLL_FLAG_EXIT_UNTIL_COLLAPSED（FLAG）初始化不显示UI的BUG
+            AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) collapsingToolbar.getLayoutParams();
+            params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED); // list other flags here by |
+            collapsingToolbar.setLayoutParams(params);
+        }
         ivBgTop = $(R.id.iv_review_top_bg);
         ivBookCover = $(R.id.iv_book_cover);
         tvBookName = $(R.id.tv_book_name);
         ratingBarBook = $(R.id.materialRatingBar_book_score_all_review);
         tvReviewNum = $(R.id.tv_review_people_num);
         tvBookScore = $(R.id.tv_book_score);
+        ctlBtnWriteReview = $(R.id.ctl_bottom_bar_write_review);
 
         recyclerView = $(R.id.recyclerView_review_all);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,7 +139,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void setListener() {
-        $(R.id.ctl_bottom_bar_write_review).setOnClickListener(this);
+        ctlBtnWriteReview.setOnClickListener(this);
         mAdapter.setmRecyCbCheckListener(this);
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(this);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -162,7 +171,6 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
                 .into(new CustomTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-//                        ivBookCover.setImageBitmap(resource);
                         Bitmap fastBlur = FastBlur.fastBlur(resource, 18);
                         ivBgTop.setImageBitmap(fastBlur);
                     }
@@ -182,6 +190,9 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        if (onMoreClick()) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.ctl_bottom_bar_write_review:
                 WriteBookReviewActivity.start4Result(this, WriteBookReviewActivity.REQCODE_WRITE_REVIEW, bookBean.getNovel_id());
@@ -216,7 +227,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == WriteBookReviewActivity.REQCODE_WRITE_REVIEW) {
-                reqReviewList(bookBean.getNovel_id(), 0, true);
+                reqReviewList(bookBean.getNovel_id(), 0, false);
                 setResult(RESULT_OK);
             }
         }

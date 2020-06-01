@@ -39,7 +39,7 @@ public class RomUtils {
 
     //Flyme V4的displayId格式为 [Flyme OS 4.x.x.xA]
     //Flyme V5的displayId格式为 [Flyme 5.x.x.x beta]
-    private static boolean isFlymeV4OrAbove() {
+    public static boolean isFlymeV4OrAbove() {
         String displayId = Build.DISPLAY;
         if (!TextUtils.isEmpty(displayId) && displayId.contains("Flyme")) {
             String[] displayIdArray = displayId.split(" ");
