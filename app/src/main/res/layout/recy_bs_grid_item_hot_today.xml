@@ -51,7 +51,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:textColor="@color/col_red_ff6d6d"
+        android:textColor="@color/txt_red"
         android:textSize="@dimen/sp_12"
         app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_title"

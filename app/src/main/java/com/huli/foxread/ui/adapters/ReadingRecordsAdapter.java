@@ -109,8 +109,7 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         holder.setText(R.id.tv_book_name, item.getProfileNovel() == null ? "书，走丢了" : item.getProfileNovel().getName());
         holder.setText(R.id.tv_read_book_section, item.getChapter_name());
         holder.setText(R.id.tv_last_reading_time, "阅读时间：" + TimeUtils.formatFriendly(item.getCreatetime()));
-        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getProfileNovel() == null ? "" :
-                item.getProfileNovel().getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getProfileNovel() == null ? "" : item.getProfileNovel().getHttp_image());
 
         AppCompatCheckBox checkBox = holder.getView(R.id.checkBoxSample_check_book);
         if (isManagerMode) {

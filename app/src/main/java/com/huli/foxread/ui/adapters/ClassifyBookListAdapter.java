@@ -20,7 +20,7 @@ public class ClassifyBookListAdapter extends BaseQuickAdapter<BookEntity, BaseVi
     protected void convert(@NonNull BaseViewHolder holder, BookEntity item) {
         int position = holder.getLayoutPosition();
 
-        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image());
         holder.setText(R.id.tv_book_title, item.getName());
         holder.setText(R.id.tv_book_description, item.getIntroduce());
         holder.setText(R.id.tv_book_author_pen_name_and_book_kind, item.getAuthor());

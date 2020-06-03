@@ -14,6 +14,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 
+/**
+ * 完结/新书（分组的）
+ */
 public class SectionNeBookAdapter extends BaseSectionQuickAdapter<NEbookSection<BookEntity>, BaseViewHolder> {
 
     public SectionNeBookAdapter() {
@@ -36,7 +39,7 @@ public class SectionNeBookAdapter extends BaseSectionQuickAdapter<NEbookSection<
     @Override
     protected void convert(@NonNull BaseViewHolder helper, NEbookSection<BookEntity> item) {
         BookEntity book = item.getObject();
-        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), book.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), book.getHttp_image());
         helper.setText(R.id.tv_book_title, book.getName());
         helper.setText(R.id.tv_book_score, book.getScore() + getContext().getString(R.string.unit_score));
         helper.setText(R.id.tv_book_description, book.getIntroduce());

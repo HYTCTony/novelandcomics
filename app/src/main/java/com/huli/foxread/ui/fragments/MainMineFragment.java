@@ -2,11 +2,13 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -22,6 +24,7 @@ import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
+import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InviteFriendsActivity2;
 import com.huli.foxread.ui.activities.LoginActivity;
@@ -96,6 +99,16 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvMyGoldCoin = $(view, R.id.tv_my_gold_coin_mine);
         tvTodayGoldCoin = $(view, R.id.tv_today_gold_coin_mine);
         tvTodayReadingTime = $(view, R.id.tv_today_reading_time_mine);
+
+        TextView tvVoiceBook = $(view,R.id.tv_vip_privilege_VoiceBook);
+        tvVoiceBook.getPaint().setAntiAlias(true); // 抗锯齿
+        tvVoiceBook.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置中划线并加清晰
+        tvVoiceBook.setOnClickListener(new OnClickEvent() {
+            @Override
+            public void singleClick(View v) {
+                Toast.makeText(mActivity, "此功能正在完善中，敬请期待！", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btnLogin = $(view, R.id.btn_login_mine);
         tvHuliVip = $(view, R.id.tv_huli_vip_member);

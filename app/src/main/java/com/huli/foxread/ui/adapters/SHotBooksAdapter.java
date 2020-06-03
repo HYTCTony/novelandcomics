@@ -17,7 +17,7 @@ public class SHotBooksAdapter extends BaseQuickAdapter<RankBookEntity, BaseViewH
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, RankBookEntity item) {
-        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image());
         holder.setText(R.id.tv_book_name, item.getNovel_name());
         holder.setText(R.id.tv_book_introduction, item.getIntroduce());
     }

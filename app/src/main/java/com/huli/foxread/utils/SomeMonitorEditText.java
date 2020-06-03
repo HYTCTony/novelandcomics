@@ -56,7 +56,7 @@ public class SomeMonitorEditText implements TextWatcher {
                 button.setEnabled(false);
                 return;//这句代码值两千万
             } else {
-				button.setBackgroundResource(R.drawable.ripple_round_btn_gradual_bg_red);
+				button.setBackgroundResource(R.drawable.ripple_normal_btn_bg_red);
                 button.setTextColor(Color.parseColor("#ffffff"));
                 button.setEnabled(true);
             }

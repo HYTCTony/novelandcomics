@@ -10,9 +10,9 @@
         android:layout_width="@dimen/dp_72"
         android:layout_height="match_parent"
         app:indicator_color="@color/col_red"
-        app:indicator_corners="@dimen/dp_1"
+        app:indicator_corners="@dimen/dp_0"
         app:indicator_gravity="left"
-        app:indicator_width="4dp"
+        app:indicator_width="@dimen/dp_4"
         app:layout_constraintLeft_toLeftOf="parent"
         app:tab_height="@dimen/dp_50"
         app:tab_mode="scrollable" />

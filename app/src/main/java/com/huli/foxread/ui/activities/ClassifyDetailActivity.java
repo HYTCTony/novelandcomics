@@ -274,9 +274,9 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
                                     ivCoverFirst.setTag(book1.getId());
                                     ivCoverSecond.setTag(book2.getId());
                                     ivCoverThird.setTag(book3.getId());
-                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverFirst, book1.getHttp_image(), 0);
-                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverSecond, book2.getHttp_image(), 0);
-                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverThird, book3.getHttp_image(), 0);
+                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverFirst, book1.getHttp_image());
+                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverSecond, book2.getHttp_image());
+                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverThird, book3.getHttp_image());
                                     tvBookNameFirst.setText(book1.getName());
                                     tvBookNameSecond.setText(book2.getName());
                                     tvBookNameThird.setText(book3.getName());

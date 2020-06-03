@@ -18,11 +18,14 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FreeAdvRespone;
+import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.page.model.local.ReadSettingManager;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -106,6 +109,9 @@ public class AdvFreeSuccessActivity extends BaseActivity {
                             tvRewardTips.setVisibility(View.VISIBLE);
                             tvResidueDegree.setVisibility(View.VISIBLE);
                             btnComplete.setVisibility(View.VISIBLE);
+
+                            /*通知刷新福利列表*/
+                            EventBus.getDefault().post(new WelfareChangeEvent(true));
                         } else {
                             TipDialog.show(AdvFreeSuccessActivity.this, entity.msg, TipDialog.TYPE.ERROR).setOnDismissListener(() -> finish());
                         }

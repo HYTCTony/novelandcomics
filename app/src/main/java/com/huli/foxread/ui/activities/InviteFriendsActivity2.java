@@ -15,7 +15,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -383,7 +382,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
      * 生成二维码
      */
     private Bitmap createQrCode(String inviteUrl) {
-        Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.app_huli_logo_round_small);
+        Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.app_huli_logo_small);
         Bitmap logoBorder = getRoundedCornerBorderBitmap(this, resource);
         return EncodingHandler.createQRImage(inviteUrl, logoBorder, 512);
     }

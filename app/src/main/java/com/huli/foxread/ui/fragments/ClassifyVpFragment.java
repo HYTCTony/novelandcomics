@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,6 +61,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     private View headView;
     private ImageView ivFirstSign, ivSecondSign, ivThirdSign;
     private ImageView ivTop3Center, ivTop3Left, ivTop3Right;
+    private FrameLayout flTop1, flTop2, flTop3;
     private TextView tvTop3BookNameCenter, tvTop3BookNameLeft, tvTop3BookNameRight;
     private View flContentCenter, flContentLeft, flContentRight;
     private TextView tvHitsCenter, tvHitsLeft, tvHitsRight;
@@ -131,12 +133,15 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
 
         headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_classify_fragment_top3, recyclerView, false);
         mAdapter.setHeaderView(headView);
-        ivFirstSign = $(headView, R.id.iv_top3_first_sign);
-        ivSecondSign = $(headView, R.id.iv_top3_second_sign);
-        ivThirdSign = $(headView, R.id.iv_top3_third_sign);
+        ivFirstSign = $(headView, R.id.iv_top3_gold_crown_sign);
+        ivSecondSign = $(headView, R.id.iv_top3_silver_crown_sign);
+        ivThirdSign = $(headView, R.id.iv_top3_copper_crown_sign);
         ivTop3Center = $(headView, R.id.iv_top3_bookCover_first);
         ivTop3Left = $(headView, R.id.iv_top3_bookCover_second);
         ivTop3Right = $(headView, R.id.iv_top3_bookCover_third);
+        flTop1 = $(headView, R.id.fl_top3_first_sign);
+        flTop2 = $(headView, R.id.fl_top3_second_sign);
+        flTop3 = $(headView, R.id.fl_top3_third_sign);
         tvTop3BookNameCenter = $(headView, R.id.tv_top3_bookName_first);
         tvTop3BookNameLeft = $(headView, R.id.tv_top3_bookName_second);
         tvTop3BookNameRight = $(headView, R.id.tv_top3_bookName_third);
@@ -280,6 +285,9 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                                     ivTop3Center.setVisibility(View.VISIBLE);
                                     ivTop3Left.setVisibility(View.VISIBLE);
                                     ivTop3Right.setVisibility(View.VISIBLE);
+                                    flTop1.setVisibility(View.VISIBLE);
+                                    flTop2.setVisibility(View.VISIBLE);
+                                    flTop3.setVisibility(View.VISIBLE);
                                     tvTop3BookNameCenter.setVisibility(View.VISIBLE);
                                     tvTop3BookNameLeft.setVisibility(View.VISIBLE);
                                     tvTop3BookNameRight.setVisibility(View.VISIBLE);
@@ -300,6 +308,9 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                                         ivTop3Center.setVisibility(View.VISIBLE);
                                         ivTop3Left.setVisibility(View.INVISIBLE);
                                         ivTop3Right.setVisibility(View.INVISIBLE);
+                                        flTop1.setVisibility(View.VISIBLE);
+                                        flTop2.setVisibility(View.INVISIBLE);
+                                        flTop3.setVisibility(View.INVISIBLE);
                                         tvTop3BookNameCenter.setVisibility(View.VISIBLE);
                                         tvTop3BookNameLeft.setVisibility(View.INVISIBLE);
                                         tvTop3BookNameRight.setVisibility(View.INVISIBLE);
@@ -316,6 +327,9 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                                         ivTop3Center.setVisibility(View.VISIBLE);
                                         ivTop3Left.setVisibility(View.VISIBLE);
                                         ivTop3Right.setVisibility(View.INVISIBLE);
+                                        flTop1.setVisibility(View.VISIBLE);
+                                        flTop2.setVisibility(View.VISIBLE);
+                                        flTop3.setVisibility(View.INVISIBLE);
                                         tvTop3BookNameCenter.setVisibility(View.VISIBLE);
                                         tvTop3BookNameLeft.setVisibility(View.VISIBLE);
                                         tvTop3BookNameRight.setVisibility(View.INVISIBLE);
@@ -359,7 +373,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     private void showBookTop1(List<BookEntity> bookList) {
         BookEntity book = bookList.get(0);
         ivTop3Center.setTag(book.getId());
-        GlideUtil.loadRoundRect(mActivity, ivTop3Center, book.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(mActivity, ivTop3Center, book.getHttp_image());
         tvTop3BookNameCenter.setText(book.getName());
         tvHitsCenter.setText(FigureProcessor.formatGreet(mActivity, book.getGreet()));
     }
@@ -367,7 +381,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     private void showBookTop2(List<BookEntity> bookList) {
         BookEntity book = bookList.get(1);
         ivTop3Left.setTag(book.getId());
-        GlideUtil.loadRoundRect(mActivity, ivTop3Left, book.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(mActivity, ivTop3Left, book.getHttp_image());
         tvTop3BookNameLeft.setText(book.getName());
         tvHitsLeft.setText(FigureProcessor.formatGreet(mActivity, book.getGreet()));
     }
@@ -375,7 +389,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     private void showBookTop3(List<BookEntity> bookList) {
         BookEntity book = bookList.get(2);
         ivTop3Right.setTag(book.getId());
-        GlideUtil.loadRoundRect(mActivity, ivTop3Right, book.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(mActivity, ivTop3Right, book.getHttp_image());
         tvTop3BookNameRight.setText(book.getName());
         tvHitsRight.setText(FigureProcessor.formatGreet(mActivity, book.getGreet()));
     }

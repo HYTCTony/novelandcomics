@@ -33,13 +33,9 @@ import com.huli.foxread.ui.dialogs.CommonDialog;
 import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.PackageUtils;
-import com.huli.page.utils.FileUtils;
-import com.huli.page.utils.TimeUtils;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
-import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.beta.UpgradeInfo;
 
 import java.io.File;
 
@@ -295,7 +291,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
             }
             manager.setApkName("FoxRead.apk")
                     .setApkUrl(updateInfo.getDownloadurl())
-                    .setSmallIcon(R.mipmap.app_huli_logo_round_small)
+                    .setSmallIcon(R.mipmap.app_huli_logo_small)
                     .download();
         }
     }

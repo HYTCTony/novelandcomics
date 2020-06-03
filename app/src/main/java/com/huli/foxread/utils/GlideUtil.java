@@ -69,7 +69,7 @@ public class GlideUtil {
      */
 
     public static void loadRoundRect(Context context, ImageView view, String url) {
-        loadRoundRect(context, view, url, DensityUtils.dp2px(context, 4));
+        loadRoundRect(context, view, url, DensityUtils.dp2px(context, 3));
     }
 
 
@@ -114,7 +114,7 @@ public class GlideUtil {
      */
 
     public static void loadRoundRect(Context context, ImageView view, int resId) {
-        loadRoundRect(context, view, resId, DensityUtils.dp2px(context, 4));
+        loadRoundRect(context, view, resId, DensityUtils.dp2px(context, 3));
     }
 
 
@@ -151,7 +151,7 @@ public class GlideUtil {
      */
 
     public static void loadRoundSquare(Context context, ImageView view, String url) {
-        loadRoundSquare(context, view, url, DensityUtils.dp2px(context, 4));
+        loadRoundSquare(context, view, url, DensityUtils.dp2px(context, 3));
     }
 
     /**
@@ -186,7 +186,7 @@ public class GlideUtil {
      */
 
     public static void loadRoundSquare(Context context, ImageView view, int resId) {
-        loadRoundSquare(context, view, resId, DensityUtils.dp2px(context, 4));
+        loadRoundSquare(context, view, resId, DensityUtils.dp2px(context, 3));
     }
 
     /**

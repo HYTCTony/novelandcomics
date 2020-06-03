@@ -20,6 +20,7 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.ReadRecordEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.entity.eventbus.BookRackChangeEvent;
 import com.huli.foxread.ui.adapters.ReadingRecordsAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
@@ -30,6 +31,8 @@ import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -274,6 +277,9 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                         if (entity.error_code == 0) {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
                             change2NormalMode();
+
+                            //通知刷新书架
+                            EventBus.getDefault().post(new BookRackChangeEvent(true));
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }

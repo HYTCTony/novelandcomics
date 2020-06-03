@@ -728,7 +728,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             }
             manager.setApkName("FoxRead.apk")
                     .setApkUrl(updateInfo.getDownloadurl())
-                    .setSmallIcon(R.mipmap.app_huli_logo_round_small)
+                    .setSmallIcon(R.mipmap.app_huli_logo_small)
                     .download();
         }
     }

@@ -195,7 +195,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         }
     }
 
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);

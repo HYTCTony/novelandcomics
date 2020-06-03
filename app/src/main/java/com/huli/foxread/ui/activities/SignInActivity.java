@@ -21,6 +21,7 @@ import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.NormalSignInEntity;
 import com.huli.foxread.entity.SignInDetailEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
+import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
 import com.huli.foxread.ui.adapters.WeekSignInStateAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
@@ -32,6 +33,7 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -277,6 +279,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
                                 v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
                             });
+
+                            EventBus.getDefault().post(new WelfareChangeEvent(true));
                         }
                     }
 

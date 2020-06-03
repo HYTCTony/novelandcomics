@@ -27,6 +27,7 @@ import com.huli.foxread.entity.sections.HpSection;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.adapters.BsSelectionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
+import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -212,9 +213,9 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 EditorRecoEntity bookLeft = recoThree.get(1);
                 EditorRecoEntity bookRight = recoThree.get(2);
 
-                GlideUtil.loadRoundRect(mActivity, ivRecoBookCenter, bookCenter.getHttpImage(), 0);
-                GlideUtil.loadRoundRect(mActivity, ivRecoBookLeft, bookLeft.getHttpImage(), 0);
-                GlideUtil.loadRoundRect(mActivity, ivRecoBookRight, bookRight.getHttpImage(), 0);
+                GlideUtil.loadRoundRect(mActivity, ivRecoBookCenter, bookCenter.getHttpImage(), DensityUtils.dp2px(mActivity, 6));
+                GlideUtil.loadRoundRect(mActivity, ivRecoBookLeft, bookLeft.getHttpImage(), DensityUtils.dp2px(mActivity, 6));
+                GlideUtil.loadRoundRect(mActivity, ivRecoBookRight, bookRight.getHttpImage(), DensityUtils.dp2px(mActivity, 6));
 
                 ivRecoBookCenter.setTag(bookCenter.getNovelId());
                 ivRecoBookLeft.setTag(bookLeft.getNovelId());
@@ -231,8 +232,8 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 EditorRecoEntity bookCenter = recoThree.get(0);
                 EditorRecoEntity bookLeft = recoThree.get(1);
 
-                GlideUtil.loadRoundRect(mActivity, ivRecoBookCenter, bookCenter.getHttpImage(), 0);
-                GlideUtil.loadRoundRect(mActivity, ivRecoBookLeft, bookLeft.getHttpImage(), 0);
+                GlideUtil.loadRoundRect(mActivity, ivRecoBookCenter, bookCenter.getHttpImage(), DensityUtils.dp2px(mActivity, 6));
+                GlideUtil.loadRoundRect(mActivity, ivRecoBookLeft, bookLeft.getHttpImage(), DensityUtils.dp2px(mActivity, 6));
 
                 ivRecoBookCenter.setTag(bookCenter.getNovelId());
                 ivRecoBookLeft.setTag(bookLeft.getNovelId());
@@ -246,7 +247,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
             } else if (recoThree.size() == 1) {
                 EditorRecoEntity bookCenter = recoThree.get(0);
 
-                GlideUtil.loadRoundRect(mActivity, ivRecoBookCenter, bookCenter.getHttpImage(), 0);
+                GlideUtil.loadRoundRect(mActivity, ivRecoBookCenter, bookCenter.getHttpImage(), DensityUtils.dp2px(mActivity, 6));
 
                 ivRecoBookCenter.setTag(bookCenter.getNovelId());
 

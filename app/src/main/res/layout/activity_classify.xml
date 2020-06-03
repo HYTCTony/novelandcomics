@@ -26,14 +26,13 @@
 
     <com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout
         android:id="@+id/verticaltablayout_classify"
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="@dimen/dp_72"
         android:layout_height="@dimen/dp_0"
-        android:layout_marginTop="@dimen/px_1"
         android:background="@color/white"
         app:indicator_color="@color/col_red"
-        app:indicator_corners="@dimen/dp_1"
+        app:indicator_corners="@dimen/dp_0"
         app:indicator_gravity="left"
-        app:indicator_width="4dp"
+        app:indicator_width="@dimen/dp_4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_normal"

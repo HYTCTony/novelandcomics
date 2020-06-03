@@ -104,23 +104,23 @@ public class BsSelectionAdapter extends BaseSectionQuickAdapter<HpSection, BaseV
                     }
                     break;
                 case HpSection.SE_TYPE_CATE_EXC_WORKS://分类佳作类型的
-                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image(), 0);
+                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image());
                     holder.setText(R.id.tv_book_name, novel.getName());
                     holder.setText(R.id.tv_book_type, novel.getClassify_name());
                     break;
                 case HpSection.SE_TYPE_HOT_SEARCH://实时热搜类型的
-                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image(), 0);
+                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image());
                     holder.setText(R.id.tv_book_name, novel.getName());
                     holder.setText(R.id.tv_search_count, String.format(getContext().getString(R.string.txt_search_count_x), FigureProcessor.formatNum(getContext(), novel.getNumber())));
                     break;
                 case HpSection.SE_TYPE_FIRST_ITEM://首本书独占一行类型的
-                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image(), 0);
+                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image());
                     holder.setText(R.id.tv_book_title, novel.getName());
                     holder.setText(R.id.tv_book_score, novel.getScore() + getContext().getString(R.string.unit_score));
                     holder.setText(R.id.tv_book_description, novel.getIntroduce());
                     break;
                 case HpSection.SE_TYPE_LIST://List类型的
-                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image(), 0);
+                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image());
                     holder.setText(R.id.tv_book_title, novel.getName());
                     holder.setText(R.id.tv_book_score, novel.getScore() + getContext().getString(R.string.unit_score));
                     holder.setText(R.id.tv_book_description, novel.getIntroduce());
@@ -135,7 +135,7 @@ public class BsSelectionAdapter extends BaseSectionQuickAdapter<HpSection, BaseV
                     }*/
                     break;
                 case HpSection.SE_TYPE_GRID_NOR://普通griditem类型的
-                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image(), 0);
+                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), novel.getHttp_image());
                     holder.setText(R.id.tv_book_name, novel.getName());
                     holder.setText(R.id.tv_authorName, novel.getAuthor());
                     break;

@@ -65,7 +65,7 @@
                 android:layout_marginTop="@dimen/dp_56"
                 android:layout_marginEnd="@dimen/dp_16"
                 android:layout_marginBottom="@dimen/dp_36"
-                android:background="@drawable/ripple_round_btn_gradual_bg_red"
+                android:background="@drawable/ripple_normal_btn_bg_red"
                 android:text="@string/txt_update_version"
                 android:textColor="@color/txt_white"
                 android:textSize="@dimen/sp_16" />

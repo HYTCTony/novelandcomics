@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_24"
             android:layout_marginBottom="@dimen/dp_16"
-            android:background="@drawable/ripple_round_btn_gradual_bg_red"
+            android:background="@drawable/ripple_normal_btn_bg_red"
             android:text="@string/txt_next_step"
             android:textColor="@color/txt_white"
             android:textSize="@dimen/sp_16"

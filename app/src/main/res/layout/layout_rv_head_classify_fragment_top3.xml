@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintLeft_toRightOf="@+id/iv_top3_bookCover_second"
         app:layout_constraintRight_toLeftOf="@+id/iv_top3_bookCover_third"
-        app:layout_constraintTop_toBottomOf="@+id/iv_top3_first_sign"
+        app:layout_constraintTop_toBottomOf="@+id/iv_top3_gold_crown_sign"
         tools:ignore="ContentDescription" />
 
     <ImageView
@@ -52,39 +52,111 @@
         tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/iv_top3_first_sign"
+        android:id="@+id/iv_top3_gold_crown_sign"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
-        android:src="@mipmap/icon_classify_rank_first_sign"
-        app:layout_constraintDimensionRatio="83:30"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
+        android:src="@mipmap/icon_classify_rank_gold_crown"
         app:layout_constraintBottom_toTopOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintDimensionRatio="50:18"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_first"
         app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/iv_top3_second_sign"
+        android:id="@+id/iv_top3_silver_crown_sign"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
-        app:layout_constraintDimensionRatio="67:10"
-        android:src="@mipmap/icon_classify_rank_second_sign"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:src="@mipmap/icon_classify_rank_silver_crown"
         app:layout_constraintBottom_toTopOf="@+id/iv_top3_bookCover_second"
+        app:layout_constraintDimensionRatio="50:18"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_second"
         app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_second"
         tools:ignore="ContentDescription" />
 
     <ImageView
-        android:id="@+id/iv_top3_third_sign"
+        android:id="@+id/iv_top3_copper_crown_sign"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
-        app:layout_constraintDimensionRatio="67:10"
-        android:src="@mipmap/icon_classify_rank_third_sign"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:src="@mipmap/icon_classify_rank_copper_crown"
         app:layout_constraintBottom_toTopOf="@+id/iv_top3_bookCover_third"
+        app:layout_constraintDimensionRatio="50:18"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_third"
         app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_third"
         tools:ignore="ContentDescription" />
+
+    <FrameLayout
+        android:id="@+id/fl_top3_first_sign"
+        android:layout_width="@dimen/dp_0"
+        android:background="@drawable/shape_classify_rank_top1_bg"
+        app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_first"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_top3_bookCover_first"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="TOP1"
+            android:drawableStart="@drawable/ic_crown_white_10dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/txt_white"
+            android:drawablePadding="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:textSize="@dimen/sp_8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_top3_second_sign"
+        android:layout_width="@dimen/dp_0"
+        android:background="@drawable/shape_classify_rank_top2_bg"
+        app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_second"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_second"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_top3_bookCover_second"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="TOP2"
+            android:drawableStart="@drawable/ic_crown_white_10dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/txt_white"
+            android:drawablePadding="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:textSize="@dimen/sp_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_top3_third_sign"
+        android:layout_width="@dimen/dp_0"
+        android:background="@drawable/shape_classify_rank_top3_bg"
+        app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_third"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_third"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_top3_bookCover_third"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="TOP3"
+            android:drawableStart="@drawable/ic_crown_white_10dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/txt_white"
+            android:drawablePadding="@dimen/dp_2"
+            android:layout_marginTop="@dimen/dp_2"
+            android:layout_marginBottom="@dimen/dp_2"
+            android:textSize="@dimen/sp_7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_top3_bookName_first"
@@ -94,12 +166,12 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:singleLine="true"
-        tools:text="豪门千金的超级战神"
         android:textColor="@color/txt_black_191919"
         android:textSize="@dimen/sp_12"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_first"
         app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_first"
-        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_first" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_first"
+        tools:text="豪门千金的超级战神" />
 
     <TextView
         android:id="@+id/tv_top3_bookName_second"
@@ -109,12 +181,12 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:singleLine="true"
-        tools:text="天启时代"
         android:textColor="@color/txt_black_191919"
         android:textSize="@dimen/sp_12"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_second"
         app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_second"
-        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_second" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_second"
+        tools:text="天启时代" />
 
     <TextView
         android:id="@+id/tv_top3_bookName_third"
@@ -124,12 +196,12 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:singleLine="true"
-        tools:text="傲娇总裁侨萌妻"
         android:textColor="@color/txt_black_191919"
         android:textSize="@dimen/sp_12"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_third"
         app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_third"
-        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_third" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_top3_bookCover_third"
+        tools:text="傲娇总裁侨萌妻" />
 
     <FrameLayout
         android:id="@+id/fl_content_hits_center"
@@ -152,9 +224,9 @@
             android:layout_gravity="center"
             android:drawableStart="@drawable/ic_fire_white_8dp"
             android:gravity="center_vertical"
-            tools:text="1256万人气"
             android:textColor="@color/txt_white"
-            android:textSize="@dimen/sp_8" />
+            android:textSize="@dimen/sp_8"
+            tools:text="1256万人气" />
 
     </FrameLayout>
 
@@ -179,9 +251,9 @@
             android:layout_gravity="center"
             android:drawableStart="@drawable/ic_fire_white_8dp"
             android:gravity="center_vertical"
-            tools:text="1256万人气"
             android:textColor="@color/txt_white"
-            android:textSize="@dimen/sp_8" />
+            android:textSize="@dimen/sp_8"
+            tools:text="1256万人气" />
     </FrameLayout>
 
     <FrameLayout
@@ -205,9 +277,9 @@
             android:layout_gravity="center"
             android:drawableStart="@drawable/ic_fire_white_8dp"
             android:gravity="center_vertical"
-            tools:text="1256万人气"
             android:textColor="@color/txt_white"
-            android:textSize="@dimen/sp_8" />
+            android:textSize="@dimen/sp_8"
+            tools:text="1256万人气" />
 
     </FrameLayout>
 

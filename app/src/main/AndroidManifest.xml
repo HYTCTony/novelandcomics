@@ -137,16 +137,6 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.InviteFriendsActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait">
-            <!-- <intent-filter>
-                 <action android:name="com.huli.invite_friends.ACTION_START" />
-                 <category android:name="android.intent.category.DEFAULT" />
-             </intent-filter>-->
-        </activity>
-
-        <activity
             android:name=".ui.activities.InviteFriendsActivity2"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">

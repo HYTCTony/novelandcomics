@@ -20,7 +20,7 @@ public class SearchResultBooksAdapter extends BaseQuickAdapter<BookEntity, BaseV
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, BookEntity item) {
-        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getHttp_image());
         holder.setText(R.id.tv_book_name, item.getName());
         holder.setText(R.id.tv_book_introduction, item.getIntroduce());
     }

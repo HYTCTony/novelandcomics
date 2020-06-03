@@ -193,7 +193,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_32"
-            android:background="@drawable/ripple_round_btn_gradual_bg_red"
+            android:background="@drawable/ripple_normal_btn_bg_red"
             android:text="@string/txt_logout_account"
             android:textColor="@color/txt_white"
             android:textSize="@dimen/sp_14" />

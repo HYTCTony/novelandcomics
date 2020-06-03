@@ -3,6 +3,7 @@ package com.huli.foxread.ui.activities;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -163,6 +165,16 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
         tvServiceAgreement = $(R.id.tv_agree_service_agreement);
         btnOpenOrRenew = $(R.id.btn_open_or_renew_vip);
+
+        TextView tvVoiceBook = $(R.id.tv_vip_privilege_VoiceBook);
+        tvVoiceBook.getPaint().setAntiAlias(true); // 抗锯齿
+        tvVoiceBook.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置中划线并加清晰
+        tvVoiceBook.setOnClickListener(new OnClickEvent() {
+            @Override
+            public void singleClick(View v) {
+                Toast.makeText(MyPrivilegeActivity.this, "此功能正在完善中，敬请期待！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

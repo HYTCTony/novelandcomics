@@ -24,7 +24,7 @@ public class AttTopSearchAdapter extends BaseQuickAdapter<BookEntity, BaseViewHo
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, BookEntity book) {
-        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), book.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), book.getHttp_image());
         helper.setText(R.id.tv_book_name, book.getName());
         helper.setText(R.id.tv_search_count, String.format(getContext().getString(R.string.txt_search_count_x), FigureProcessor.formatNum(getContext(), book.getNumber())));
     }

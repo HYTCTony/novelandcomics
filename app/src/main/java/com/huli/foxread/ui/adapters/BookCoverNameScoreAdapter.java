@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.utils.GlideUtil;
 
 import java.util.List;
 
@@ -29,10 +30,6 @@ public class BookCoverNameScoreAdapter extends BaseQuickAdapter<BookEntity, Base
     protected void convert(@NonNull BaseViewHolder holder, BookEntity data) {
         holder.setText(R.id.tv_book_name, data.getName());
         holder.setText(R.id.tv_book_score, String.valueOf(data.getScore()));
-        GlideApp.with(getContext())
-                .load(data.getHttp_image())
-                .placeholder(R.mipmap.img_holder_rect)
-                .error(R.mipmap.img_holder_rect)
-                .into((ImageView) holder.getView(R.id.iv_book_cover));
+        GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), data.getHttp_image());
     }
 }

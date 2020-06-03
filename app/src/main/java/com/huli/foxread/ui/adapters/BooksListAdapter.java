@@ -24,7 +24,7 @@ public class BooksListAdapter extends BaseQuickAdapter<BookEntity, BaseViewHolde
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, BookEntity item) {
-        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(getContext(), helper.getView(R.id.iv_book_cover), item.getHttp_image());
         helper.setText(R.id.tv_book_title, item.getName());
         helper.setText(R.id.tv_book_score, item.getScore() + getContext().getString(R.string.unit_score));
         helper.setText(R.id.tv_book_description, item.getIntroduce());

@@ -25,7 +25,7 @@ public class BookEntity implements Serializable {
     private String classify_name;       //归属分类
     private int number;                 //搜索次数
     private int greet;                  //人气
-    private int rank;                   //排名
+    private int rank;                   //排名(未生效)
 
     public String getId() {
         return id;

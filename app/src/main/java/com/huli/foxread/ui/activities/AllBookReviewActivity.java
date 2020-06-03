@@ -166,7 +166,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
             TipDialog.show(this, "数据神秘消失了！", TipDialog.TYPE.ERROR).setOnDismissListener(this::finish);
             return;
         }
-        GlideUtil.loadRoundRect(this, ivBookCover, bookBean.getHttp_image(), 0);
+        GlideUtil.loadRoundRect(this, ivBookCover, bookBean.getHttp_image());
         GlideApp.with(this)
                 .asBitmap()
                 .load(bookBean.getHttp_image())

@@ -143,7 +143,7 @@ public class HpBoyGirlAdapter extends BaseMultiItemQuickAdapter<HpBGModuleEntity
                 List<BookEntity> novelList = item.getNovel();
                 if (novelList.size() > 1) {
                     BookEntity book = novelList.get(0);
-                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), book.getHttp_image(), 0);
+                    GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), book.getHttp_image());
                     holder.setText(R.id.tv_book_title, book.getName());
                     holder.setText(R.id.tv_book_score, book.getScore() + getContext().getString(R.string.unit_score));
                     holder.setText(R.id.tv_book_description, book.getIntroduce());

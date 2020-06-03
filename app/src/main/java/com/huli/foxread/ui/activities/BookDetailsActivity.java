@@ -31,6 +31,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.BookReview;
 import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.entity.eventbus.BookRackChangeEvent;
 import com.huli.foxread.listeners.OnRecyCbCheckListener;
 import com.huli.foxread.ui.adapters.BookCoverNameAdapter;
 import com.huli.foxread.ui.adapters.BookReviewAdapter;
@@ -50,6 +51,8 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -528,6 +531,8 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             isCollected = true;
                             btnAddBookcase.setText(R.string.txt_in_kookshelf);
                             btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
+
+                            EventBus.getDefault().post(new BookRackChangeEvent(true));
                         } else {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
