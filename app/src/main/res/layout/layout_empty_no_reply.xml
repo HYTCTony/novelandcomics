@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/iv_no_data"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="@dimen/dp_92"
+        android:layout_width="@dimen/dp_132"
+        android:layout_height="@dimen/dp_132"
         android:layout_centerInParent="true"
-        app:layout_constraintDimensionRatio="622:256"
-        android:layout_marginTop="@dimen/dp_84"
+        android:layout_marginTop="@dimen/dp_64"
+        android:layout_marginBottom="@dimen/dp_64"
         android:scaleType="centerInside"
         android:src="@mipmap/icon_no_comments"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -28,7 +28,7 @@
         android:text="@string/txt_no_reply"
         android:textColor="@color/txt_dark_gold"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/dp_84"
+        android:layout_marginBottom="@dimen/dp_64"
         android:textSize="@dimen/sp_14"
         android:layout_marginTop="@dimen/dp_16"
         android:layout_height="wrap_content"/>

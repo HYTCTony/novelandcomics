@@ -5,7 +5,7 @@ package com.huli.foxread.entity;
  */
 public class FreeAdvRespone {
     private int space;              //免广告时间，分钟;
-    private int interval;           //任务冷却时间；
+    private int interval;           //任务冷却时间；秒;
     private long advert_time;       //免广告到期时间戳；
     private int site;               //剩余次数
 

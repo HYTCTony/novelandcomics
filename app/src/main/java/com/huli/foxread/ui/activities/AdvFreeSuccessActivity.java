@@ -19,6 +19,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FreeAdvRespone;
 import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
+import com.huli.foxread.services.CountService;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.page.model.local.ReadSettingManager;
 import com.kongzue.dialog.v3.TipDialog;
@@ -112,6 +113,10 @@ public class AdvFreeSuccessActivity extends BaseActivity {
 
                             /*通知刷新福利列表*/
                             EventBus.getDefault().post(new WelfareChangeEvent(true));
+                            //启动免广告倒计时服务
+                            Intent intent = new Intent(AdvFreeSuccessActivity.this, CountService.class);
+                            intent.putExtra(CountService.EXTRA_COUNT_MIN, data.getInterval());
+                            startService(intent);
                         } else {
                             TipDialog.show(AdvFreeSuccessActivity.this, entity.msg, TipDialog.TYPE.ERROR).setOnDismissListener(() -> finish());
                         }

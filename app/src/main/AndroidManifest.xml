@@ -329,6 +329,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/ThemeSplash" />
 
+        <service android:name=".services.CountService" />
+
         <provider
             android:name=".provider.BuglyFileProvider"
             android:authorities="${applicationId}.fileProvider"
