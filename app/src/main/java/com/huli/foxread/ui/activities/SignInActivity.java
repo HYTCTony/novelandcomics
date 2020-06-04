@@ -280,6 +280,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                                 v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
                             });
 
+                            //通知刷新福利列表
                             EventBus.getDefault().post(new WelfareChangeEvent(true));
                         }
                     }

@@ -38,6 +38,7 @@ import com.huli.foxread.ui.adapters.BookReviewAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.ui.dialogs.ChaptersDialogFragment;
+import com.huli.foxread.ui.fragments.MainBookrackFragment;
 import com.huli.foxread.ui.widget.ExpandableTextView;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.FigureProcessor;
@@ -532,7 +533,8 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             btnAddBookcase.setText(R.string.txt_in_kookshelf);
                             btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
 
-                            EventBus.getDefault().post(new BookRackChangeEvent(true));
+                            //通知刷新书架
+                            EventBus.getDefault().post(new BookRackChangeEvent(false));
                         } else {
                             TipDialog.show(BookDetailsActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }

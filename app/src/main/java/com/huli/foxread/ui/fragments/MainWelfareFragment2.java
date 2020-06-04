@@ -98,6 +98,8 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
     private View footerRule;
 
+    //当Fragment可见的时候刷新书架
+    private boolean shouldRefresh = false;
 
     private TTAdNative mTTAdNative;
     private TTRewardVideoAd mttRewardVideoAd;
@@ -348,8 +350,10 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     /*刷新福利列表*/
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWelfareChangeEvent(WelfareChangeEvent event) {
-        if (event.isHasChange()) {
+        if (event.isRefreshImmediately()) {
             reqGetWerfareTasks(false);
+        } else {
+            shouldRefresh = true;
         }
     }
 
@@ -358,6 +362,22 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         super.onHiddenChanged(hidden);
         if (!hidden) {
             StatusBarUtils.setStatusBarTextDark(mActivity, false);
+
+            if (isVisible() && shouldRefresh) {
+//                Log.e("ssssssss", "onHiddenChanged可见");
+                reqGetWerfareTasks(false);
+                shouldRefresh = false;
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isVisible() && shouldRefresh) {
+//            Log.e("ssssssss", "onResume可见");
+            reqGetWerfareTasks(false);
+            shouldRefresh = false;
         }
     }
 

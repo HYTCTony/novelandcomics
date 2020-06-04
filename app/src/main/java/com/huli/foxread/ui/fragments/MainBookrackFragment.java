@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -88,6 +89,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     private TextView tvBookNamePush, tvBookIntroPush, tvTotalReadingTimeToday, tvAsBtnSignIngGold;
 
     private List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
+
+    //当Fragment可见的时候刷新书架
+    private boolean shouldRefresh = false;
 
     private String specialBookId;
 
@@ -190,8 +194,10 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRefreshBookRackEvent(BookRackChangeEvent event) {
-        if (event.isHasChange()) {
+        if (event.isRefreshImmediately()) {
             refreshBookRack();
+        } else {
+            shouldRefresh = true;
         }
     }
 
@@ -200,6 +206,21 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         super.onHiddenChanged(hidden);
         if (!hidden) {
             StatusBarUtils.setStatusBarTextDark(mActivity, true);
+            if (isVisible() && shouldRefresh) {
+//                Log.e("ssssssss", "onHiddenChanged可见");
+                refreshBookRack();
+                shouldRefresh = false;
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isVisible() && shouldRefresh) {
+//            Log.e("ssssssss", "onResume可见");
+            refreshBookRack();
+            shouldRefresh = false;
         }
     }
 

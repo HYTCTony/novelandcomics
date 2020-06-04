@@ -5,20 +5,21 @@ package com.huli.foxread.entity.eventbus;
  */
 public class WelfareChangeEvent {
 
+    //是否立即刷新
+    private boolean refreshImmediately;
+
     public WelfareChangeEvent() {
     }
 
-    public WelfareChangeEvent(boolean hasChange) {
-        this.hasChange = hasChange;
+    public WelfareChangeEvent(boolean refreshImmediately) {
+        this.refreshImmediately = refreshImmediately;
     }
 
-    private boolean hasChange;
-
-    public boolean isHasChange() {
-        return hasChange;
+    public boolean isRefreshImmediately() {
+        return refreshImmediately;
     }
 
-    public void setHasChange(boolean hasChange) {
-        this.hasChange = hasChange;
+    public void setRefreshImmediately(boolean refreshImmediately) {
+        this.refreshImmediately = refreshImmediately;
     }
 }

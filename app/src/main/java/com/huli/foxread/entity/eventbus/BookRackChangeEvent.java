@@ -5,20 +5,23 @@ package com.huli.foxread.entity.eventbus;
  */
 public class BookRackChangeEvent {
 
+    //是否立即刷新
+    private boolean refreshImmediately;
+
+
     public BookRackChangeEvent() {
     }
 
-    public BookRackChangeEvent(boolean hasChange) {
-        this.hasChange = hasChange;
+    public BookRackChangeEvent(boolean refreshImmediately) {
+        this.refreshImmediately = refreshImmediately;
     }
 
-    private boolean hasChange;
 
-    public boolean isHasChange() {
-        return hasChange;
+    public boolean isRefreshImmediately() {
+        return refreshImmediately;
     }
 
-    public void setHasChange(boolean hasChange) {
-        this.hasChange = hasChange;
+    public void setRefreshImmediately(boolean refreshImmediately) {
+        this.refreshImmediately = refreshImmediately;
     }
 }

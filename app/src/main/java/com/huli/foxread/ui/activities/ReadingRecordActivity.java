@@ -279,7 +279,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                             change2NormalMode();
 
                             //通知刷新书架
-                            EventBus.getDefault().post(new BookRackChangeEvent(true));
+                            EventBus.getDefault().post(new BookRackChangeEvent(false));
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
