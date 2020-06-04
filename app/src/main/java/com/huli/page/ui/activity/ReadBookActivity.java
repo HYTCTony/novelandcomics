@@ -50,6 +50,7 @@ import com.huli.foxread.ui.activities.AdvFreeSuccessActivity;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.huli.page.model.bean.Advert;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.local.BookRepository;
@@ -68,6 +69,7 @@ import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.SpanUtils;
 import com.huli.page.utils.StringUtils;
 import com.huli.page.utils.SystemBarUtils;
+import com.huli.page.utils.TimeUtils;
 import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.read.PageView;
@@ -167,8 +169,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int MSG_POLLING = 3;
     private static final int MSG_BOTTOM_AD = 4;
     private static final int MSG_IS_ABC = 5;
+    private static final int POLLING_INTERVAL = 10 * 1000;
     private static final int POLLING_REQUE_BOTTOM_AD = 2 * 60 * 1000;
-    private static final int POLLING_SET_IS_ABC = 60 * 1000;
+    private static final int POLLING_SET_IS_ABC = 30 * 1000;
     private static final int READ_ONE_PAGE_INTERVAL = 15;
 
     private View mAdView;
@@ -196,12 +199,16 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private boolean mRewardVerify;
     private boolean isABC = false;
     private boolean isFirstRequest = true;
+    private int site = 0;
+    private long lapse = 0;
 
     private String id;
     private String title;
-    private int sum;
+    private int sum;//pages
     private int quota = READ_ONE_PAGE_INTERVAL;
-    private long second = 0;
+    private long second = 0;//read time
+    private int curPos = 0;//当前页码
+    private int perPos = 0;//上一页页码
     private Timer timer;
     private TimerTask timerTask;
 
@@ -245,13 +252,25 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mPageLoader.openChapter();
                     break;
                 case MSG_POLLING:
-//                    doPolling(READ_TYPE_CONTINUE);
+                    if (timer == null)
+                        doPolling(READ_TYPE_START);
                     break;
                 case MSG_BOTTOM_AD:
                     requestAdBottom();
                     break;
                 case MSG_IS_ABC:
-                    isABC = testingIsABC();
+                    isABC = testingIsABC(-1);
+                    if (isABC) {
+                        rl.setVisibility(GONE);
+                    } else {
+                        rl.setVisibility(VISIBLE);
+                    }
+                    if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
+                        tvAdView.setVisibility(GONE);
+                    } else {
+                        tvAdView.setVisibility(VISIBLE);
+                    }
+                    mPageLoader.setABC(isABC);
                     break;
             }
         }
@@ -379,7 +398,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     isFirstRequest = false;
                 }
                 quota = READ_ONE_PAGE_INTERVAL;
-                sum++;
+                perPos = curPos;
+                curPos = pos;
+                if (curPos != perPos)
+                    sum++;
+
             }
 
             @Override
@@ -487,9 +510,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mAdView = LayoutInflater.from(this).inflate(R.layout.layout_ad_view, null, false);
         mExpressContainer = mAdView.findViewById(R.id.express_container);
         tvAdView = mAdView.findViewById(R.id.btn_watch_video);
+        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext)) {
+            tvAdView.setVisibility(GONE);
+        } else {
+            tvAdView.setVisibility(VISIBLE);
+        }
         SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
         tvAdView.setText(builderVideoMessage);
-        tvAdView.setVisibility(UserInfoCache.getIsTourist(mContext) ? GONE : VISIBLE);
         btnNextPage = mAdView.findViewById(R.id.btn_next_page);
         btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
                 R.color.txt_gray_b2));
@@ -521,6 +548,168 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 return coverPageView;
             }
         });
+        presenter.reqAdvertAd(ReadBookActivity.this);
+    }
+
+    @Override
+    protected void initToolbar(Toolbar toolbar) {
+        setTitle(data.getNovel_name());
+        tvTitle.setText(data.getNovel_name());
+        toolbar.setNavigationOnClickListener(
+                (v) -> onBackPressed()
+        );
+        super.initToolbar(toolbar);
+    }
+
+    private void loadCategory() {
+        presenter.loadCategory(ReadBookActivity.this, mBookId);
+    }
+
+    @Override
+    public void reqAdvertAd(Advert data) {
+        site = data.getSite();
+        lapse = data.getLapse() * 1000;
+        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0 || data.getInterval() > 0) {
+            tvAdView.setVisibility(GONE);
+        } else {
+            tvAdView.setVisibility(VISIBLE);
+        }
+        ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
+        isABC = testingIsABC(data.getLapse());
+        if (isABC) {
+            rl.setVisibility(GONE);
+        } else {
+            rl.setVisibility(VISIBLE);
+        }
+        mPageLoader.setABC(isABC);
+    }
+
+    private boolean testingIsABC(long lapse) {
+        if (UserInfoCache.getIsVip(mContext)) {
+            Log.d(TAG, "VIP大佬");
+            return true;
+        }
+        long now = System.currentTimeMillis();
+        long advertTime = ReadSettingManager.getInstance().getAdvertTime() * 1000;
+        mHandler.sendEmptyMessageDelayed(MSG_IS_ABC, POLLING_SET_IS_ABC);
+        mPvPage.postInvalidate();
+        Log.d(TAG, "免广告到期时间为：：" + TimeUtils.yyyyMMddHHmmss(advertTime));
+        return lapse != 0 && advertTime > now;
+    }
+
+    @Override
+    public void reqAddBookrack(String data) {
+        exit();
+    }
+
+    @Override
+    public void showCategory(List<BookChapter> bookChapters) {
+        this.bookChapters = bookChapters;
+        mPageLoader.getCollBook().setBookChapters(bookChapters);
+        mPageLoader.refreshChapterList();
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(data.getIs_end() == 1 ? "已完结" : "未完结");
+        buffer.append("，共");
+        buffer.append(bookChapters.size());
+        buffer.append("章");
+        tvBookStatu.setText(buffer);
+        // 如果是目录更新的情况，那么就需要存储更新数据
+//        if (data.getIsUpdate() && isCollected) {
+//            BookRepository.getInstance().saveBookChaptersToAsync(bookChapters);
+//        }
+    }
+
+    @Override
+    public void finishChapter() {
+        if (mPageLoader.getPageStatus() == ReadLoader.STATUS_LOADING) {
+            mHandler.sendEmptyMessage(WHAT_CHAPTER);
+        }
+        // 当完成章节的时候，刷新列表
+        catalogAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void errorChapter() {
+        if (mPageLoader.getPageStatus() == ReadLoader.STATUS_LOADING) {
+            mPageLoader.chapterError();
+        }
+    }
+
+    @OnClick({R.id.read_tv_pre_chapter, R.id.read_tv_next_chapter, R.id.read_tv_category, R.id.read_tv_night_mode, R.id.read_tv_brightness,
+            R.id.read_tv_setting})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.read_tv_pre_chapter:
+                if (mPageLoader.skipPreChapter()) {
+                    mProgress.post(
+                            () -> mProgress.setProgress(mPageLoader.getChapterPos())
+                    );
+                    for (TxtChapter data : mChapters) {
+                        data.setSelect(false);
+                    }
+                    mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
+                    catalogAdapter.notifyDataSetChanged();
+                }
+                break;
+            case R.id.read_tv_next_chapter:
+                if (mPageLoader.skipNextChapter()) {
+                    mProgress.post(
+                            () -> mProgress.setProgress(mPageLoader.getChapterPos())
+                    );
+                    for (TxtChapter data : mChapters) {
+                        data.setSelect(false);
+                    }
+                    mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
+                    catalogAdapter.notifyDataSetChanged();
+                } else {
+                    showToast("已经是最后一章了！");
+                }
+                break;
+            case R.id.read_tv_category:
+                mProgress.post(
+                        () -> mProgress.setProgress(mPageLoader.getChapterPos())
+                );
+                //移动到指定位置
+                if (mChapters.size() > 0) {
+                    for (TxtChapter data : mChapters) {
+                        data.setSelect(false);
+                    }
+                    mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
+                    catalogAdapter.notifyDataSetChanged();
+                }
+                PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
+                if (mPageStyle.getBgColor() == R.color.hl_read_bg_1) {
+                    llDrawerLayout.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : R.drawable.theme_leather_bg);
+                } else {
+                    llDrawerLayout.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : mPageStyle.getBgColor());
+                }
+                tvTitle.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
+                tvBookStatu.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
+                //切换菜单
+                toggleMenu(true);
+                //打开侧滑动栏
+                mDlSlide.openDrawer(GravityCompat.START);
+                break;
+            case R.id.read_tv_night_mode:
+                if (isNightMode) {
+                    isNightMode = false;
+                } else {
+                    isNightMode = true;
+                }
+                btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
+                        R.color.txt_gray_b2));
+                mPageLoader.setNightMode(isNightMode);
+                toggleNightMode();
+                break;
+            case R.id.read_tv_brightness:
+                toggleMenu(false);
+                mBrightnessDialog.show();
+                break;
+            case R.id.read_tv_setting:
+                toggleMenu(false);
+                mSettingDialog.show();
+                break;
+        }
     }
 
     private void requestAdPage() {
@@ -556,6 +745,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     private void requestAdBottom() {
         if (isABC) {
+            if (lapse >= 0) {
+                mHandler.sendEmptyMessageDelayed(MSG_BOTTOM_AD, lapse);
+            }
             return;
         }
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
@@ -649,8 +841,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                         if (mRewardVerify) {
                             AdvFreeSuccessActivity.start(mContext);
                             mRewardVerify = false;
-                            isABC = true;
-                            mHandler.sendEmptyMessageDelayed(MSG_IS_ABC, POLLING_SET_IS_ABC);
                         }
                     }
 
@@ -869,156 +1059,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         });
     }
 
-    @Override
-    protected void initToolbar(Toolbar toolbar) {
-        setTitle(data.getNovel_name());
-        tvTitle.setText(data.getNovel_name());
-        toolbar.setNavigationOnClickListener(
-                (v) -> onBackPressed()
-        );
-        super.initToolbar(toolbar);
-    }
-
-    private void loadCategory() {
-//        // 如果是已经收藏的，那么就从数据库中获取目录
-//        if (isCollected) {
-//            Disposable disposable = BookRepository.getInstance()
-//                    .getBookChaptersFormRx(mBookId)
-//                    .compose(RxUtils::toSimpleSingle)
-//                    .subscribe((bookChapterBeen, throwable) -> {
-//                                // 设置 CollBook
-//                                mPageLoader.getCollBook().setBookChapters(bookChapterBeen);
-//                                // 刷新章节列表
-//                                mPageLoader.refreshChapterList();
-//                                // 如果是网络小说并被标记更新的，则从网络下载目录
-//                                if (data.getIsUpdate() && !data.getIsLocal()) {
-//                                    presenter.loadCategory(ReadBookActivity.this, mBookId);
-//                                }
-//                            }
-//                    );
-//            CompositeDisposable mDisposable = new CompositeDisposable();
-//            mDisposable.add(disposable);
-//        } else {
-//            // 从网络中获取目录
-//        }
-        presenter.loadCategory(ReadBookActivity.this, mBookId);
-    }
-
-    @Override
-    public void reqAddBookrack(String data) {
-        exit();
-    }
-
-    @Override
-    public void showCategory(List<BookChapter> bookChapters) {
-        this.bookChapters = bookChapters;
-        mPageLoader.getCollBook().setBookChapters(bookChapters);
-        mPageLoader.refreshChapterList();
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(data.getIs_end() == 1 ? "已完结" : "未完结");
-        buffer.append("，共");
-        buffer.append(bookChapters.size());
-        buffer.append("章");
-        tvBookStatu.setText(buffer);
-        // 如果是目录更新的情况，那么就需要存储更新数据
-//        if (data.getIsUpdate() && isCollected) {
-//            BookRepository.getInstance().saveBookChaptersToAsync(bookChapters);
-//        }
-    }
-
-    @Override
-    public void finishChapter() {
-        if (mPageLoader.getPageStatus() == ReadLoader.STATUS_LOADING) {
-            mHandler.sendEmptyMessage(WHAT_CHAPTER);
-        }
-        // 当完成章节的时候，刷新列表
-        catalogAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void errorChapter() {
-        if (mPageLoader.getPageStatus() == ReadLoader.STATUS_LOADING) {
-            mPageLoader.chapterError();
-        }
-    }
-
-    @OnClick({R.id.read_tv_pre_chapter, R.id.read_tv_next_chapter, R.id.read_tv_category, R.id.read_tv_night_mode, R.id.read_tv_brightness,
-            R.id.read_tv_setting})
-    void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.read_tv_pre_chapter:
-                if (mPageLoader.skipPreChapter()) {
-                    mProgress.post(
-                            () -> mProgress.setProgress(mPageLoader.getChapterPos())
-                    );
-                    for (TxtChapter data : mChapters) {
-                        data.setSelect(false);
-                    }
-                    mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
-                    catalogAdapter.notifyDataSetChanged();
-                }
-                break;
-            case R.id.read_tv_next_chapter:
-                if (mPageLoader.skipNextChapter()) {
-                    mProgress.post(
-                            () -> mProgress.setProgress(mPageLoader.getChapterPos())
-                    );
-                    for (TxtChapter data : mChapters) {
-                        data.setSelect(false);
-                    }
-                    mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
-                    catalogAdapter.notifyDataSetChanged();
-                } else {
-                    showToast("已经是最后一章了！");
-                }
-                break;
-            case R.id.read_tv_category:
-                mProgress.post(
-                        () -> mProgress.setProgress(mPageLoader.getChapterPos())
-                );
-                //移动到指定位置
-                if (mChapters.size() > 0) {
-                    for (TxtChapter data : mChapters) {
-                        data.setSelect(false);
-                    }
-                    mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
-                    catalogAdapter.notifyDataSetChanged();
-                }
-                PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
-                if (mPageStyle.getBgColor() == R.color.hl_read_bg_1) {
-                    llDrawerLayout.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : R.drawable.theme_leather_bg);
-                } else {
-                    llDrawerLayout.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : mPageStyle.getBgColor());
-                }
-                tvTitle.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
-                tvBookStatu.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
-                //切换菜单
-                toggleMenu(true);
-                //打开侧滑动栏
-                mDlSlide.openDrawer(GravityCompat.START);
-                break;
-            case R.id.read_tv_night_mode:
-                if (isNightMode) {
-                    isNightMode = false;
-                } else {
-                    isNightMode = true;
-                }
-                btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
-                        R.color.txt_gray_b2));
-                mPageLoader.setNightMode(isNightMode);
-                toggleNightMode();
-                break;
-            case R.id.read_tv_brightness:
-                toggleMenu(false);
-                mBrightnessDialog.show();
-                break;
-            case R.id.read_tv_setting:
-                toggleMenu(false);
-                mSettingDialog.show();
-                break;
-        }
-    }
-
     /**
      * 切换菜单栏的可视状态
      * 默认是隐藏的
@@ -1116,15 +1156,17 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onResume() {
         super.onResume();
-        isABC = testingIsABC();
+        isABC = testingIsABC(-1);
         if (isABC) {
             rl.setVisibility(GONE);
-            mPageLoader.setABC(isABC);
+        } else {
+            rl.setVisibility(VISIBLE);
         }
+        mPageLoader.setABC(isABC);
         //加载广告
         requestAdPage();
         mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        if (!TextUtils.isEmpty(id) && timer == null)
+        if (timer == null)
             doPolling(READ_TYPE_START);
     }
 
@@ -1209,15 +1251,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             // 如果系统亮度改变，则修改当前 Activity 亮度
             if (BRIGHTNESS_MODE_URI.equals(uri)) {
-                Log.d(TAG, "亮度模式改变");
+//                Log.d(TAG, "亮度模式改变");
             } else if (BRIGHTNESS_URI.equals(uri) && !BrightnessUtils.isAutoBrightness(mContext)) {
-                Log.d(TAG, "亮度模式为手动模式 值改变");
+//                Log.d(TAG, "亮度模式为手动模式 值改变");
                 BrightnessUtils.setBrightness(mContext, BrightnessUtils.getScreenBrightness(mContext));
             } else if (BRIGHTNESS_ADJ_URI.equals(uri) && BrightnessUtils.isAutoBrightness(mContext)) {
-                Log.d(TAG, "亮度模式为自动模式 值改变");
+//                Log.d(TAG, "亮度模式为自动模式 值改变");
                 BrightnessUtils.setDefaultBrightness(mContext);
             } else {
-                Log.d(TAG, "亮度调整 其他");
+//                Log.d(TAG, "亮度调整 其他");
             }
         }
     };
@@ -1267,6 +1309,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private void doPolling(int type) {
+        if (TextUtils.isEmpty(id)) {
+            mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
+            return;
+        }
         String check = MD5Utils.strToMd5By32(id + title);
         if (type == READ_TYPE_START)
             //开始计时
@@ -1279,14 +1325,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
         }
         presenter.recordDuration(ReadBookActivity.this, type, second, id, check, sum);
-//        mHandler.sendEmptyMessageDelayed(MSG_POLLING, POLLING_INTERVAL);
-    }
-
-    private boolean testingIsABC() {
-        long now = System.currentTimeMillis();
-        long advertTime = ReadSettingManager.getInstance().getAdvertTime() * 1000;
-        Log.d(TAG, "now==" + now + "    advertTime==" + advertTime);
-        return advertTime > now;
     }
 
     // 退出

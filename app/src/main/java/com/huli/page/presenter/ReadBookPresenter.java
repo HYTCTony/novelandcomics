@@ -6,6 +6,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.eventbus.BookRackChangeEvent;
+import com.huli.page.model.bean.Advert;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.ChapterBean;
 import com.huli.page.model.local.BookRepository;
@@ -26,6 +27,23 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     private static final String TAG = "ReadBookPresenter";
 
     @Override
+    public void reqAdvertAd(AppCompatActivity context) {
+        OkGo.<String>post(Consts.ADVERT_AD_API)
+                .execute(new LtbCallback(context) {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        LzyResponse<Advert> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<Advert>>() {
+                        });
+                        if (entity.error_code == 0) {
+                            view.reqAdvertAd(entity.getData());
+                        } else {
+                            view.onFailure(entity.error_code, entity.msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void reqAddBookrack(AppCompatActivity context, String novelId) {
         OkGo.<String>post(Consts.BOOKRACK_ADD_API)
                 .params(Consts.NOVEL_ID, novelId)
@@ -37,8 +55,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                 });
                         if (entity.error_code == 0) {
                             view.reqAddBookrack("加入成功!");
-                            //通知刷新书架
-                            EventBus.getDefault().post(new BookRackChangeEvent(false));
+                            EventBus.getDefault().post(new BookRackChangeEvent(true));
                         } else {
                             view.onFailure(entity.error_code, entity.msg);
                         }

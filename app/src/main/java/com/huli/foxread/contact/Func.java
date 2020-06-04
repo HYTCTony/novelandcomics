@@ -353,6 +353,13 @@ public interface Func {
      */
     String BOOKRACK_ADD = "/bookshelf/create";
     /**
+     * 用途：免广告详情
+     * 头：token---token(Y)
+     * 参数：
+     * id---小说id
+     */
+    String ADVERT_AD = "/welfare/advert";
+    /**
      * -----------------------------废弃
      * 用途：批量加入书架(GET)
      * 头：token---token(Y)

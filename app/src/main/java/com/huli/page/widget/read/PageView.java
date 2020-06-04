@@ -21,7 +21,6 @@ import com.huli.page.widget.animation.ScrollPageAnim;
 import com.huli.page.widget.animation.SimulationPageAnim;
 import com.huli.page.widget.animation.SlidePageAnim;
 import com.huli.page.widget.page.PageMode;
-import com.huli.page.widget.page.TxtPage;
 
 public class PageView extends FrameLayout {
 
@@ -218,10 +217,7 @@ public class PageView extends FrameLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        //绘制背景
-        canvas.drawColor(mBgColor);
-        //绘制动画
-        mPageAnim.draw(canvas);
+        super.onDraw(canvas);
     }
 
     public Bitmap mBitmap;
@@ -229,27 +225,29 @@ public class PageView extends FrameLayout {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        try {
-            if (mBitmap != null) {
-                canvas = new Canvas(mBitmap);
+        //绘制背景
+        canvas.drawColor(mBgColor);
+        //绘制动画
+        mPageAnim.draw(canvas);
+        if (mBitmap != null) {
+            canvas = new Canvas(mBitmap);
 //                canvas.drawColor(Color.YELLOW,PorterDuff.Mode.CLEAR);
-            }
-            if (mPageLoader == null || mPageLoader.mCurPage == null) {
-                return;
-            }
-            if (mPageLoader.mCurPage.pageType.equals(TxtPage.VALUE_STRING_COVER_TYPE)) {
-                //这里用一个标记位解决透明图片的问题
-                if (shouldDraw) {
-                    super.dispatchDraw(canvas);
-//                    shouldDraw = false;
-                }
-            } else {
-                super.dispatchDraw(canvas);
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
+        if (mPageLoader == null || mPageLoader.mCurPage == null) {
+            return;
+        }
+        if (mPageLoader.mCurPage.isCustomView) {
+            if (shouldDraw) {
+                super.dispatchDraw(canvas);
+//                shouldDraw = false;
+            }
+        }else{
+            super.dispatchDraw(canvas);
+        }
+//        if (shouldDraw) {
+//            super.dispatchDraw(canvas);
+//            shouldDraw = false;
+//        }
     }
 
     @Override
@@ -302,6 +300,15 @@ public class PageView extends FrameLayout {
                 break;
         }
         return true;
+    }
+
+    /**
+     * 判断是否重新绘制子view
+     *
+     * @return
+     */
+    public void reDraw() {
+        shouldDraw = true;
     }
 
     /**
@@ -404,6 +411,7 @@ public class PageView extends FrameLayout {
             addView(mCoverPageView);
             return;
         } else {
+            shouldDraw = true;
             mCoverPageView = mReaderAdListener.getCoverPageView();
         }
 
@@ -417,7 +425,6 @@ public class PageView extends FrameLayout {
             UtilsView.removeParent(mCoverPageView);
             addView(mCoverPageView);
         }
-        mPageLoader.mCurPage.hasDrawAd = true;
         return;
     }
 
@@ -432,6 +439,7 @@ public class PageView extends FrameLayout {
             addAdLayout();
             return true;
         } else {
+            shouldDraw = true;
             mAdView = mReaderAdListener.getAdView();
             mReaderAdListener.onRequestAd();
         }

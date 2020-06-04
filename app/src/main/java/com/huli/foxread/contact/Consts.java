@@ -5,7 +5,7 @@ public interface Consts {
 
         String BASE_URL = "http://testnovel.hongyutiancheng.com.cn";
 //    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
-//    String BASE_URL = "http://api.hulimedia.com";
+//    String BASE_URL = "http://api.hulimedia.com";*
     String NOT_CPL_URL = BASE_URL + "/api/v2";
 
     /*帮助反馈*/
@@ -78,6 +78,7 @@ public interface Consts {
     String OPINION_CREATE_API = NOT_CPL_URL + Func.OPINION_CREATE;
 
 
+    String ADVERT_AD_API = NOT_CPL_URL + Func.ADVERT_AD;
     String BOOKRACK_ADD_API = NOT_CPL_URL + Func.BOOKRACK_ADD;
     String BOOKRACK_ADD_BATCH_API = NOT_CPL_URL + Func.BOOKRACK_ADD_BATCH;
     String BOOKRACK_DEL_API = NOT_CPL_URL + Func.BOOKRACK_DEL;
