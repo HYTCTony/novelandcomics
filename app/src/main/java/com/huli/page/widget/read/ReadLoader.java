@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.util.Log;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -137,6 +136,8 @@ public abstract class ReadLoader {
     //段落距离(基于行间距的额外距离)
     private int mTextPara;
     private int mTitlePara;
+    //适配刘海屏，向下偏移量
+    int titleMarginHeight;
     //电池的百分比
     private int mBatteryLevel;
     //当前页面的背景
@@ -185,10 +186,22 @@ public abstract class ReadLoader {
         mTitleSize = mTextSize + ScreenUtils.spToPx(EXTRA_TITLE_SIZE);
         // 行间距
         mTextInterval = mTxtSpecing.getTextInterval();
-        mTitleInterval = mTxtSpecing.getTextInterval();
+        mTitleInterval = mTxtSpecing.getTitleInterval();
         // 段落间距
-        mTextPara = mTxtSpecing.getTextPara();
-        mTitlePara = mTxtSpecing.getTextPara() * 2;
+        mTextPara = mTextInterval / 3 * 4;
+        mTitlePara = mTitleInterval / 3 * 4;
+        //适配刘海屏，向下偏移量
+        titleMarginHeight = ScreenUtils.dpToPx(24);
+//        Log.d(TAG, "tipTextSize：" + ScreenUtils.spToPx(DEFAULT_TIP_SIZE));
+//        Log.d(TAG, "mMarginHeight：" + mMarginHeight);
+//
+//        Log.d(TAG, "mTextSize：" + mTextSize);
+//        Log.d(TAG, "mTitleSize：" + mTitleSize);
+//        Log.d(TAG, "mTextInterval：" + mTextInterval);
+//        Log.d(TAG, "mTitleInterval：" + mTitleInterval);
+//        Log.d(TAG, "mTextPara：" + mTextPara);
+//        Log.d(TAG, "mTitlePara：" + mTitlePara);
+
     }
 
     /**
@@ -215,12 +228,12 @@ public abstract class ReadLoader {
      */
     private void setUpSpecingParams(TxtSpecing txtSpecing) {
         this.mTxtSpecing = txtSpecing;
-        // 段落间距
-        mTextPara = txtSpecing.getTextPara();
-        mTitlePara = txtSpecing.getTextPara() * 2;
         // 行间距
         mTextInterval = txtSpecing.getTextInterval();
-        mTitleInterval = txtSpecing.getTextInterval();
+        mTitleInterval = txtSpecing.getTitleInterval();
+        // 段落间距
+        mTextPara = mTextInterval / 3 * 4;
+        mTitlePara = mTitleInterval / 3 * 4;
         // 存储间距大小
         mSettingManager.setTxtSpecing(txtSpecing);
     }
@@ -409,6 +422,18 @@ public abstract class ReadLoader {
         mPageView.drawCurPage(false);
     }
 
+    public void refreshPage() {
+        // 如果当前已经显示数据
+        if (isChapterListPrepare && mStatus == STATUS_FINISH) {
+            // 重新计算当前页面
+            dealLoadPageList(mCurChapterPos);
+            // 重新获取指定页面
+            mCurPage = mCurPageList.get(mCurPage.position);
+        }
+
+        mPageView.drawCurPage(false);
+    }
+
     public void setTxtSpecing(TxtSpecing txtSpecing) {
         setUpSpecingParams(txtSpecing);
         // 取消缓存
@@ -418,12 +443,6 @@ public abstract class ReadLoader {
         if (isChapterListPrepare && mStatus == STATUS_FINISH) {
             // 重新计算当前页面
             dealLoadPageList(mCurChapterPos);
-
-            // 防止在最后一页，通过修改字体，以至于页面数减少导致崩溃的问题
-            if (mCurPage.position >= mCurPageList.size()) {
-                mCurPage.position = mCurPageList.size() - 1;
-            }
-
             // 重新获取指定页面
             mCurPage = mCurPageList.get(mCurPage.position);
         }
@@ -793,7 +812,6 @@ public abstract class ReadLoader {
             return;
         }
         int tipMarginHeight = ScreenUtils.dpToPx(3);
-        int titleMarginHeight = ScreenUtils.dpToPx(24);
         if (!isUpdate) {
             /****绘制背景****/
             canvas.drawColor(mBgColor);
@@ -809,7 +827,7 @@ public abstract class ReadLoader {
             if (!mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
                 //需要注意的是:绘制text的y的起始点是text的基准线的位置，而不是从text的头部的位置
-                float tipTop = titleMarginHeight - mTipPaint.getFontMetrics().top;
+                float tipTop = titleMarginHeight + mTipPaint.getTextSize() + tipMarginHeight;
                 //根据状态不一样，数据不一样
                 if (!mCurPage.isCustomView) {
                     if (mStatus != STATUS_FINISH) {
@@ -848,7 +866,6 @@ public abstract class ReadLoader {
             //擦除区域
             if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
                 Bitmap kraftPaper = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.theme_leather_bg_corner);
-                Rect rect = new Rect(kraftPaper.getWidth() / 2, kraftPaper.getHeight() - tipMarginHeight, kraftPaper.getWidth(), kraftPaper.getHeight());
                 RectF rectF = new RectF(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight);
                 canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
             } else {
@@ -915,6 +932,7 @@ public abstract class ReadLoader {
                 canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
             }
         }
+
         /******绘制内容****/
 
         if (mStatus != STATUS_FINISH) {
@@ -951,9 +969,9 @@ public abstract class ReadLoader {
         } else {
             float top;
             if (mPageMode == PageMode.SCROLL) {
-                top = -mTextPaint.getFontMetrics().top;
+                top = mMarginHeight;
             } else {
-                top = mMarginHeight - mTextPaint.getFontMetrics().top;
+                top = mMarginHeight + titleMarginHeight;
             }
             if (mCurPage != null && mCurPage.isCustomView) {
                 if (TxtPage.VALUE_STRING_COVER_TYPE.equals(mCurPage.pageType)) {
@@ -970,28 +988,27 @@ public abstract class ReadLoader {
                 }
             }
             mPageView.cleanAdView();
-
+            float allOffset = mCurPage.offset < 0 ? 0 : mCurPage.offset;
+            int lines = mCurPage.lines.size();
+            float heightOffset = allOffset / lines;
+//            Log.d(TAG, "是否换段：" + mCurPage.wrap);
+//            Log.d(TAG, "总偏移：" + allOffset);
+//            Log.d(TAG, "偏移量：" + heightOffset);
             //设置总距离
-            int titlePara = mTitlePara + (int) mTextPaint.getTextSize();
-            int titleInterval = mTitleInterval + (int) mTitlePaint.getTextSize();
-            int para = mTextPara + (int) mTextPaint.getTextSize();
-            int interval = mTextInterval + (int) mTextPaint.getTextSize();
-            Log.d(TAG, "mTitlePara：" + mTitlePara);
-            Log.d(TAG, "titlePara：" + titlePara);
-            Log.d(TAG, "titleInterval：" + titleInterval);
-            Log.d(TAG, "para：" + para);
-            Log.d(TAG, "interval：" + interval);
+            float titleMarinTop = mTitlePara + (int) mTitlePaint.getTextSize() + heightOffset;
+            float titlePara = mTitlePara + mTextPaint.getTextSize() + heightOffset;
+            float titleInterval = mTitleInterval + mTitlePaint.getTextSize() + heightOffset;
+            float para = mTextPara + mTextPaint.getTextSize() + heightOffset;
+            float interval = mTextInterval + mTextPaint.getTextSize() + heightOffset;
 
             String str = null;
-
+            //设置顶部间距
+            if (mCurPage.titleLines > 0) {
+                top += titleMarinTop;
+            }
             //对标题进行绘制
             for (int i = 0; i < mCurPage.titleLines; ++i) {
                 str = mCurPage.lines.get(i);
-
-                //设置顶部间距
-                if (i == 0) {
-                    top += mTitlePara;
-                }
 
                 //计算文字显示的起始点
                 int start = (int) (mDisplayWidth - mTitlePaint.measureText(str)) / 2;
@@ -1008,9 +1025,8 @@ public abstract class ReadLoader {
             }
 
             if (mCurPage.titleLines <= 0) {
-                top += mTextPara;
+                top += interval;
             }
-
             //对内容进行绘制
             for (int i = mCurPage.titleLines; i < mCurPage.lines.size(); ++i) {
                 str = mCurPage.lines.get(i);
@@ -1026,7 +1042,8 @@ public abstract class ReadLoader {
                     else
                         x += (cw + offset);
                 }
-//                canvas.drawText(str, mMarginWidth, top, mTextPaint);
+//                if (i == mCurPage.lines.size() - 1)
+//                    Log.d(TAG, "book：" + top);
                 if (str.endsWith("\n")) {
                     top += para;
                 } else {
@@ -1041,7 +1058,6 @@ public abstract class ReadLoader {
         mDisplayWidth = w;
         mDisplayHeight = h;
         //高度偏移量
-        int titleMarginHeight = ScreenUtils.dpToPx(24);
         // 获取内容显示位置的大小
         mVisibleWidth = mDisplayWidth - mMarginWidth * 2;
         mVisibleHeight = mDisplayHeight - mMarginHeight * 2 - titleMarginHeight;
@@ -1067,6 +1083,9 @@ public abstract class ReadLoader {
             }
             mPageView.drawCurPage(false);
         }
+//        Log.d(TAG, "mVisibleHeight：" + mVisibleHeight);
+//        Log.d(TAG, "mDisplayHeight：" + mDisplayHeight);
+//        Log.d(TAG, "titleMarginHeight：" + titleMarginHeight);
     }
 
     /**
@@ -1401,11 +1420,12 @@ public abstract class ReadLoader {
         List<String> lines = new ArrayList<>();
         int rHeight = mVisibleHeight;
         int titleLinesCount = 0;
+        boolean isWrap = false; // 是否换下一段
         boolean showTitle = true; // 是否展示标题
         String paragraph = chapter.getTitle();//默认展示标题
         try {
             while (showTitle || (paragraph = br.readLine()) != null) {
-                paragraph = StringUtils.convertCC(paragraph, mContext);
+//                paragraph = StringUtils.convertCC(paragraph, mContext);
                 // 重置段落
                 if (!showTitle) {
                     paragraph = paragraph.replaceAll("\\s", "");
@@ -1418,7 +1438,6 @@ public abstract class ReadLoader {
                 }
                 int wordCount = 0;
                 String subStr = null;
-//                StringBuffer content = new StringBuffer();
                 while (paragraph.length() > 0) {
                     //当前空间，是否容得下一行文字
                     if (showTitle) {
@@ -1434,13 +1453,17 @@ public abstract class ReadLoader {
                         page.title = StringUtils.convertCC(chapter.getTitle(), mContext);
                         page.lines = new ArrayList<>(lines);
                         page.titleLines = titleLinesCount;
+                        float wrap = isWrap ? mTextPara : mTextInterval;
+                        page.offset = rHeight + mTextPaint.getTextSize() + wrap;
+                        page.wrap = isWrap;
                         pages.add(page);
-
                         //尝试加入广告page
                         addAdPage(pages, chapter.getTitle(), titleLinesCount);
                         // 重置Lines
                         lines.clear();
                         rHeight = mVisibleHeight;
+                        if (!showTitle)
+                            rHeight -= mTextInterval;
                         titleLinesCount = 0;
                         continue;
                     }
@@ -1468,8 +1491,12 @@ public abstract class ReadLoader {
                             titleLinesCount += 1;
                             rHeight -= mTitleInterval;
                         } else {
+                            isWrap = false;
                             rHeight -= mTextInterval;
                         }
+                    } else {
+                        //对高度进行补偿
+                        rHeight += mTextPaint.getTextSize();
                     }
                     //裁剪
                     paragraph = paragraph.substring(wordCount);
@@ -1477,6 +1504,7 @@ public abstract class ReadLoader {
 
                 //增加段落的间距
                 if (!showTitle && lines.size() != 0) {
+                    isWrap = true;
                     rHeight = rHeight - mTextPara + mTextInterval;
                 }
 
@@ -1484,8 +1512,8 @@ public abstract class ReadLoader {
                     rHeight = rHeight - mTitlePara + mTitleInterval;
                     showTitle = false;
                 }
-            }
 
+            }
             if (lines.size() != 0) {
                 //创建Page
                 TxtPage page = new TxtPage();
@@ -1493,6 +1521,7 @@ public abstract class ReadLoader {
                 page.title = StringUtils.convertCC(chapter.getTitle(), mContext);
                 page.lines = new ArrayList<>(lines);
                 page.titleLines = titleLinesCount;
+                page.offset = 0;
                 pages.add(page);
                 //尝试加入广告page
                 addAdPage(pages, chapter.getTitle(), titleLinesCount);

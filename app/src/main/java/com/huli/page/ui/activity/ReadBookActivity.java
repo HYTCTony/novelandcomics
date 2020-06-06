@@ -53,6 +53,7 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.Advert;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
+import com.huli.page.model.event.AdMessage;
 import com.huli.page.model.local.BookRepository;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.presenter.ReadBookPresenter;
@@ -69,7 +70,6 @@ import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.SpanUtils;
 import com.huli.page.utils.StringUtils;
 import com.huli.page.utils.SystemBarUtils;
-import com.huli.page.utils.TimeUtils;
 import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.read.PageView;
@@ -79,6 +79,10 @@ import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +205,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private boolean isFirstRequest = true;
     private int site = 0;
     private long lapse = 0;
+    private boolean needRefreshPage = false;
 
     private String id;
     private String title;
@@ -261,8 +266,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 case MSG_IS_ABC:
                     isABC = testingIsABC(-1);
                     if (isABC) {
+                        needRefreshPage = true;
                         rl.setVisibility(GONE);
                     } else {
+                        if (needRefreshPage)
+                            mPageLoader.refreshPage();
+                        needRefreshPage = true;
                         rl.setVisibility(VISIBLE);
                     }
                     if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
@@ -296,6 +305,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, -1);
         isNightMode = ReadSettingManager.getInstance().isNightMode();
         isFullScreen = ReadSettingManager.getInstance().isFullScreen();
+        EventBus.getDefault().register(this);
         PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
         rl.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : mPageStyle.getBgColor());
         mBookId = data.getNovel_id();
@@ -393,9 +403,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onPageChange(int pos) {
-                if (isFirstRequest && sum > 0) {
-                    requestAdBottom();
-                    isFirstRequest = false;
+                if (!isABC) {
+                    if (isFirstRequest && sum > 0) {
+                        requestAdBottom();
+                        isFirstRequest = false;
+                    }
                 }
                 quota = READ_ONE_PAGE_INTERVAL;
                 perPos = curPos;
@@ -487,7 +499,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //step2:创建TTAdNative对象，createAdNative(Context context) banner广告context需要传入Activity对象
         mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
         //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
-        TTAdManagerHolder.get().requestPermissionIfNecessary(this);
+//        TTAdManagerHolder.get().requestPermissionIfNecessary(this);
         //封面
         View coverPageView = LayoutInflater.from(this).inflate(R.layout.layout_cover_view, null, false);
         ImageView ivBookCover = coverPageView.findViewById(R.id.iv_book_cover);
@@ -577,8 +589,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
         isABC = testingIsABC(data.getLapse());
         if (isABC) {
+            needRefreshPage = true;
             rl.setVisibility(GONE);
         } else {
+            if (needRefreshPage)
+                mPageLoader.refreshPage();
+            needRefreshPage = true;
             rl.setVisibility(VISIBLE);
         }
         mPageLoader.setABC(isABC);
@@ -586,14 +602,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     private boolean testingIsABC(long lapse) {
         if (UserInfoCache.getIsVip(mContext)) {
-            Log.d(TAG, "VIP大佬");
             return true;
         }
         long now = System.currentTimeMillis();
         long advertTime = ReadSettingManager.getInstance().getAdvertTime() * 1000;
         mHandler.sendEmptyMessageDelayed(MSG_IS_ABC, POLLING_SET_IS_ABC);
-        mPvPage.postInvalidate();
-        Log.d(TAG, "免广告到期时间为：：" + TimeUtils.yyyyMMddHHmmss(advertTime));
         return lapse != 0 && advertTime > now;
     }
 
@@ -745,9 +758,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     private void requestAdBottom() {
         if (isABC) {
-            if (lapse >= 0) {
-                mHandler.sendEmptyMessageDelayed(MSG_BOTTOM_AD, lapse);
-            }
+            isFirstRequest = true;
             return;
         }
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
@@ -1153,16 +1164,25 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onABCRefreshEvent(AdMessage event) {
         isABC = testingIsABC(-1);
         if (isABC) {
+            needRefreshPage = true;
             rl.setVisibility(GONE);
         } else {
+            if (needRefreshPage)
+                mPageLoader.refreshPage();
+            needRefreshPage = true;
             rl.setVisibility(VISIBLE);
         }
         mPageLoader.setABC(isABC);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         //加载广告
         requestAdPage();
         mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -1201,6 +1221,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         unregisterReceiver(mReceiver);
         mHandler.removeMessages(MSG_BOTTOM_AD);
         mHandler.removeMessages(MSG_POLLING);
@@ -1406,6 +1427,20 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Override
     public void onFailure(int code, String err) {
+        if (code == -1) {
+            Log.d(TAG, "onFailure");
+            isABC = testingIsABC(-1);
+            if (isABC) {
+                needRefreshPage = true;
+                rl.setVisibility(GONE);
+            } else {
+                if (needRefreshPage)
+                    mPageLoader.refreshPage();
+                needRefreshPage = true;
+                rl.setVisibility(VISIBLE);
+            }
+            mPageLoader.setABC(isABC);
+        }
         showToast(err);
     }
 

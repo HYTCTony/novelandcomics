@@ -21,6 +21,7 @@ import com.huli.foxread.entity.FreeAdvRespone;
 import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
 import com.huli.foxread.services.CountService;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.page.model.event.AdMessage;
 import com.huli.page.model.local.ReadSettingManager;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
@@ -117,6 +118,7 @@ public class AdvFreeSuccessActivity extends BaseActivity {
                             Intent intent = new Intent(AdvFreeSuccessActivity.this, CountService.class);
                             intent.putExtra(CountService.EXTRA_COUNT_MIN, data.getInterval());
                             startService(intent);
+                            EventBus.getDefault().post(new AdMessage());
                         } else {
                             TipDialog.show(AdvFreeSuccessActivity.this, entity.msg, TipDialog.TYPE.ERROR).setOnDismissListener(() -> finish());
                         }

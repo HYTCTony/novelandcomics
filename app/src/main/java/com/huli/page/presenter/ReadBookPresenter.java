@@ -37,7 +37,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                         if (entity.error_code == 0) {
                             view.reqAdvertAd(entity.getData());
                         } else {
-                            view.onFailure(entity.error_code, entity.msg);
+                            view.onFailure(-1, entity.msg);
                         }
                     }
                 });

@@ -16,6 +16,16 @@ public class TimeUtils {
     //时间戳转换成时间
     public static String yyyyMMddHHmmss(long seconds) {
         try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+            return sdf.format(new Date(seconds));
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    //时间戳转换成时间
+    public static String yyyyMMdd(long seconds) {
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
             return sdf.format(new Date(seconds));
         } catch (Exception e) {
