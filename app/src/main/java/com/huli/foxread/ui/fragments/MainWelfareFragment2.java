@@ -212,6 +212,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
     /**
      * 显示视频广告
+     *
      * @param vType
      */
     private void loadAd(final String vType) {
@@ -294,10 +295,12 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                             } else if (vType.equals(Common.VIDEO_ADVERT)) {
                                 AdvFreeSuccessActivity.start(mActivity);
                             }
-                            if (!mRewardVerify) {
-                                Toast.makeText(mActivity, "激励视频验证为无效！", Toast.LENGTH_SHORT).show();
-                            }
                             mRewardVerify = false;
+                        } else {
+                            if (vType.equals(Common.VIDEO_ADVERT)) {
+                                Toast.makeText(mActivity, "激励视频验证失败！", Toast.LENGTH_SHORT).show();
+                                reqGetWerfareTasks(false);
+                            }
                         }
                     }
 
@@ -347,7 +350,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         tvGoldCoin.setText(String.valueOf(event.getScore()));
     }
 
-    /*刷新福利列表*/
+    /*开放evb通知 刷新福利列表*/
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWelfareChangeEvent(WelfareChangeEvent event) {
         if (event.isRefreshImmediately()) {
