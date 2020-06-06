@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookShelfListBean;
-import com.huli.page.utils.TimeUtils;
 
 public class BookShelfAdapter extends BaseQuickAdapter<BookShelfListBean, BaseViewHolder> {
 
@@ -38,7 +37,6 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfListBean, BaseVi
         helper.setText(R.id.coll_book_tv_name, item.getNovel_name())
                 .setText(R.id.coll_book_tv_chapter, item.getLastChapter());
         if (!item.getIsLocal()) {
-            String time = TimeUtils.yyyyMMddHHmmss(item.getUpdatetime() * 1000);
 //            helper.setText(R.id.coll_book_tv_lately_update, StringUtils.dateConvert(time, Constant.FORMAT_FILE_DATE) + ":");
             helper.setVisible(R.id.coll_book_tv_lately_update, true);
         } else {

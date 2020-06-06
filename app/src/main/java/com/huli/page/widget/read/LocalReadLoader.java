@@ -349,7 +349,7 @@ public class LocalReadLoader extends ReadLoader {
         mCharset = FileUtils.getCharset(mBookFile.getAbsolutePath());
 
         String lastModified = StringUtils.dateConvert(mBookFile.lastModified(), Constant.FORMAT_BOOK_DATE);
-        String time = TimeUtils.yyyyMMddHHmmss(mCollBook.getUpdatetime() * 1000);
+        String time = TimeUtils.yyyyMMdd(mCollBook.getUpdatetime() * 1000);
         String updatetime = StringUtils.convertCC(time, FrApp.getInstance());
         // 判断文件是否已经加载过，并具有缓存
         if (!mCollBook.getIsUpdate() && updatetime != null
