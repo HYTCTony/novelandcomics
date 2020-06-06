@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 23
-# pg_map_id: 369b4c7
+# pg_map_id: 0544e29
 android.support.v4.app.INotificationSideChannel$Stub -> android.support.v4.app.INotificationSideChannel$Stub:
     1:2:void <init>():20:21 -> <init>
     1:3:android.support.v4.app.INotificationSideChannel asInterface(android.os.IBinder):32:34 -> asInterface
@@ -116191,15 +116191,15 @@ com.huli.foxread.ui.dialogs.base.ViewHolder -> com.huli.foxread.ui.dialogs.base.
     1:2:void setTextColor(int,int):56:57 -> setTextColor
 com.huli.foxread.ui.fragments.-$$Lambda$BookStoreBoyFragment$V2hpI5cyiaSIt__roY7y9Fdc_TE -> com.huli.foxread.ui.fragments.a:
     com.huli.foxread.ui.fragments.BookStoreBoyFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$CqOE1MqWSK10jzkGKbUcR-5zTio -> com.huli.foxread.ui.fragments.b:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$N5gilnVy4npfMtM_wReqWm7sPOQ -> com.huli.foxread.ui.fragments.b:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$TAGUlG1TENs1e1Qf2Tj4no3xF8s -> com.huli.foxread.ui.fragments.c:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$P2VB39SyObo4ULSZJ9VjmLuFhQg -> com.huli.foxread.ui.fragments.c:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$eBlD5BVu0Sx06-WbTKQ3cw3bIGw -> com.huli.foxread.ui.fragments.d:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$TAGUlG1TENs1e1Qf2Tj4no3xF8s -> com.huli.foxread.ui.fragments.d:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$hEqxAn8xEus1hFClbJIDKFGTX5w -> com.huli.foxread.ui.fragments.e:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$eBlD5BVu0Sx06-WbTKQ3cw3bIGw -> com.huli.foxread.ui.fragments.e:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
-com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$tVVyzVuLjIVS5zKFF3TP3O4QxAE -> com.huli.foxread.ui.fragments.f:
+com.huli.foxread.ui.fragments.-$$Lambda$BookStoreSelectionFragment$hEqxAn8xEus1hFClbJIDKFGTX5w -> com.huli.foxread.ui.fragments.f:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment f$0 -> a
 com.huli.foxread.ui.fragments.-$$Lambda$ClassifyVpFragment$DnjZjrEctJqvH4mk4B9mAWMu1G8 -> com.huli.foxread.ui.fragments.g:
     com.huli.foxread.ui.fragments.ClassifyVpFragment f$0 -> a
@@ -116334,54 +116334,54 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     android.widget.ImageView ivCornerRight -> s
     1:1:void <init>():46:46 -> <init>
     2:2:void <init>():61:61 -> <init>
-    3:3:void <init>():143:143 -> <init>
+    3:3:void <init>():145:145 -> <init>
     1:1:com.google.android.material.appbar.AppBarLayout access$000(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):46:46 -> a
     2:2:void access$100(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,java.util.List):46:46 -> a
-    3:3:void access$200(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):46:46 -> a
-    4:4:int access$402(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,int):46:46 -> a
+    3:3:java.util.List access$200(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,com.huli.foxread.entity.HomePageEntity):46:46 -> a
+    4:4:int access$502(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,int):46:46 -> a
     5:5:int lambda$initView$94(androidx.recyclerview.widget.GridLayoutManager,int,int):99:99 -> a
     6:6:void lambda$setListener$95(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):108:108 -> a
     7:13:void lambda$setListener$95(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):111:117 -> a
-    14:14:void lambda$setListener$97(com.scwang.smartrefresh.layout.api.RefreshLayout):125:125 -> a
-    15:15:void lambda$setListener$97(com.scwang.smartrefresh.layout.api.RefreshLayout):127:127 -> a
-    16:18:void lambda$onResume$98(com.google.android.material.appbar.AppBarLayout,int):156:158 -> a
-    19:19:void lambda$onResume$98(com.google.android.material.appbar.AppBarLayout,int):160:160 -> a
-    20:29:void initTopView(android.view.View):188:197 -> a
-    30:32:void initTopView(android.view.View):199:201 -> a
-    33:36:void setTopDatas(java.util.List):211:214 -> a
-    37:39:void setTopDatas(java.util.List):216:218 -> a
-    40:42:void setTopDatas(java.util.List):220:222 -> a
-    43:45:void setTopDatas(java.util.List):224:226 -> a
-    46:51:void setTopDatas(java.util.List):228:233 -> a
-    52:53:void setTopDatas(java.util.List):235:236 -> a
-    54:55:void setTopDatas(java.util.List):238:239 -> a
-    56:57:void setTopDatas(java.util.List):241:242 -> a
-    58:62:void setTopDatas(java.util.List):244:248 -> a
-    63:63:void setTopDatas(java.util.List):250:250 -> a
+    14:14:void lambda$setListener$96(com.scwang.smartrefresh.layout.api.RefreshLayout):123:123 -> a
+    15:15:void lambda$setListener$96(com.scwang.smartrefresh.layout.api.RefreshLayout):125:125 -> a
+    16:16:void lambda$setListener$96(com.scwang.smartrefresh.layout.api.RefreshLayout):127:127 -> a
+    17:19:void lambda$onResume$98(com.google.android.material.appbar.AppBarLayout,int):158:160 -> a
+    20:20:void lambda$onResume$98(com.google.android.material.appbar.AppBarLayout,int):162:162 -> a
+    21:30:void initTopView(android.view.View):190:199 -> a
+    31:33:void initTopView(android.view.View):201:203 -> a
+    34:37:void setTopDatas(java.util.List):213:216 -> a
+    38:40:void setTopDatas(java.util.List):218:220 -> a
+    41:43:void setTopDatas(java.util.List):222:224 -> a
+    44:46:void setTopDatas(java.util.List):226:228 -> a
+    47:52:void setTopDatas(java.util.List):230:235 -> a
+    53:54:void setTopDatas(java.util.List):237:238 -> a
+    55:56:void setTopDatas(java.util.List):240:241 -> a
+    57:58:void setTopDatas(java.util.List):243:244 -> a
+    59:63:void setTopDatas(java.util.List):246:250 -> a
     64:64:void setTopDatas(java.util.List):252:252 -> a
     65:65:void setTopDatas(java.util.List):254:254 -> a
-    66:68:void setTopDatas(java.util.List):256:258 -> a
-    69:69:void setTopDatas(java.util.List):260:260 -> a
+    66:66:void setTopDatas(java.util.List):256:256 -> a
+    67:69:void setTopDatas(java.util.List):258:260 -> a
     70:70:void setTopDatas(java.util.List):262:262 -> a
-    71:77:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):272:278 -> a
-    78:79:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):318:319 -> a
-    80:81:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):311:312 -> a
-    82:82:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):302:302 -> a
-    83:83:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):304:304 -> a
-    84:84:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):306:306 -> a
-    85:86:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):297:298 -> a
-    87:87:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):288:288 -> a
-    88:88:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):290:290 -> a
-    89:89:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):292:292 -> a
-    90:93:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):281:284 -> a
-    94:94:void constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):324:324 -> a
-    95:97:void reqIndexDatas(boolean):334:336 -> a
-    98:101:void reqHighMarksDatas(int):368:371 -> a
-    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$300(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):46:46 -> b
-    1:3:void back2Top():133:135 -> back2Top
-    1:1:int access$400(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):46:46 -> c
-    1:1:com.huli.foxread.ui.adapters.BsSelectionAdapter access$500(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):46:46 -> d
-    1:1:void lambda$setListener$96():122:122 -> e
+    71:71:void setTopDatas(java.util.List):264:264 -> a
+    72:78:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):274:280 -> a
+    79:80:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):320:321 -> a
+    81:82:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):313:314 -> a
+    83:83:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):304:304 -> a
+    84:84:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):306:306 -> a
+    85:85:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):308:308 -> a
+    86:87:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):299:300 -> a
+    88:88:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):290:290 -> a
+    89:89:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):292:292 -> a
+    90:90:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):294:294 -> a
+    91:94:java.util.List constructDatas4Rv(com.huli.foxread.entity.HomePageEntity):283:286 -> a
+    95:97:void reqIndexDatas(boolean):336:338 -> a
+    98:101:void reqHighMarksDatas(int):371:374 -> a
+    1:1:com.huli.foxread.ui.adapters.BsSelectionAdapter access$300(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):46:46 -> b
+    1:3:void back2Top():135:137 -> back2Top
+    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$400(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):46:46 -> c
+    1:1:int access$500(com.huli.foxread.ui.fragments.BookStoreSelectionFragment):46:46 -> d
+    1:1:void lambda$setListener$97():131:131 -> e
     1:1:void initView(android.view.View):83:83 -> initView
     2:2:void initView(android.view.View):85:85 -> initView
     3:6:void initView(android.view.View):87:90 -> initView
@@ -116389,39 +116389,39 @@ com.huli.foxread.ui.fragments.BookStoreSelectionFragment -> com.huli.foxread.ui.
     12:12:void initView(android.view.View):99:99 -> initView
     13:13:void initView(android.view.View):101:101 -> initView
     1:4:com.huli.foxread.ui.fragments.BookStoreSelectionFragment newInstance(int):64:67 -> newInstance
-    1:1:void onClick(android.view.View):168:168 -> onClick
-    2:6:void onClick(android.view.View):172:176 -> onClick
-    1:1:void onResume():147:147 -> onResume
-    2:3:void onResume():149:150 -> onResume
-    4:4:void onResume():152:152 -> onResume
-    5:5:void onResume():155:155 -> onResume
+    1:1:void onClick(android.view.View):170:170 -> onClick
+    2:6:void onClick(android.view.View):174:178 -> onClick
+    1:1:void onResume():149:149 -> onResume
+    2:3:void onResume():151:152 -> onResume
+    4:4:void onResume():154:154 -> onResume
+    5:5:void onResume():157:157 -> onResume
     1:1:void setListener():107:107 -> setListener
     2:2:void setListener():122:122 -> setListener
-    3:3:void setListener():124:124 -> setListener
+    3:3:void setListener():131:131 -> setListener
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$1 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$a:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean):336:336 -> <init>
-    1:2:void onFinish():355:356 -> onFinish
-    1:1:void onSuccess(com.lzy.okgo.model.Response):339:339 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):342:343 -> onSuccess
-    4:6:void onSuccess(com.lzy.okgo.model.Response):347:349 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean):338:338 -> <init>
+    1:2:void onFinish():358:359 -> onFinish
+    1:1:void onSuccess(com.lzy.okgo.model.Response):341:341 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):344:345 -> onSuccess
+    4:7:void onSuccess(com.lzy.okgo.model.Response):349:352 -> onSuccess
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$1$1 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$a$a:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment$1 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment$1):340:340 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment$1):342:342 -> <init>
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$2 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$b:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean):371:371 -> <init>
-    1:2:void onError(com.lzy.okgo.model.Response):402:403 -> onError
-    1:1:void onSuccess(com.lzy.okgo.model.Response):374:374 -> onSuccess
-    2:8:void onSuccess(com.lzy.okgo.model.Response):377:383 -> onSuccess
-    9:10:void onSuccess(com.lzy.okgo.model.Response):385:386 -> onSuccess
-    11:11:void onSuccess(com.lzy.okgo.model.Response):388:388 -> onSuccess
-    12:12:void onSuccess(com.lzy.okgo.model.Response):390:390 -> onSuccess
-    13:13:void onSuccess(com.lzy.okgo.model.Response):392:392 -> onSuccess
-    14:14:void onSuccess(com.lzy.okgo.model.Response):395:395 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment,androidx.appcompat.app.AppCompatActivity,boolean):374:374 -> <init>
+    1:2:void onError(com.lzy.okgo.model.Response):405:406 -> onError
+    1:1:void onSuccess(com.lzy.okgo.model.Response):377:377 -> onSuccess
+    2:8:void onSuccess(com.lzy.okgo.model.Response):380:386 -> onSuccess
+    9:10:void onSuccess(com.lzy.okgo.model.Response):388:389 -> onSuccess
+    11:11:void onSuccess(com.lzy.okgo.model.Response):391:391 -> onSuccess
+    12:12:void onSuccess(com.lzy.okgo.model.Response):393:393 -> onSuccess
+    13:13:void onSuccess(com.lzy.okgo.model.Response):395:395 -> onSuccess
+    14:14:void onSuccess(com.lzy.okgo.model.Response):398:398 -> onSuccess
 com.huli.foxread.ui.fragments.BookStoreSelectionFragment$2$1 -> com.huli.foxread.ui.fragments.BookStoreSelectionFragment$b$a:
     com.huli.foxread.ui.fragments.BookStoreSelectionFragment$2 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment$2):375:375 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.BookStoreSelectionFragment$2):378:378 -> <init>
 com.huli.foxread.ui.fragments.ClassifyVpFragment -> com.huli.foxread.ui.fragments.ClassifyVpFragment:
     android.view.View flContentCenter -> z
     com.kongzue.stacklabelview.StackLabel stackLabel3 -> j

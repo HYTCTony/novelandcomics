@@ -259,7 +259,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
                             List<BookReview> reviews = datas.getData();
 
                             if (curPage == 1) {
-                                mAdapter.setNewInstance(reviews);
+                                mAdapter.setList(reviews);
                             } else {
                                 mAdapter.addData(reviews);
                             }

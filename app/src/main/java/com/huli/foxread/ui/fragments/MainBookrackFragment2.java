@@ -172,7 +172,7 @@ public class MainBookrackFragment2 extends BaseFragment implements OnItemLongCli
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
         data.add(new BookShelfListBean());
-        mAdapter.setNewInstance(data);
+        mAdapter.setList(data);
         getSpecialBook();
 
 

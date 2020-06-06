@@ -235,7 +235,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                             List<ReadRecordEntity> record = datas.getData();
                             curPage = datas.getCurrent_page();
                             if (curPage == 1) {
-                                mAdapter.setNewInstance(record);
+                                mAdapter.setList(record);
                                 layout.finishRefresh();
                             } else {
                                 if (record != null && record.size() > 1) {

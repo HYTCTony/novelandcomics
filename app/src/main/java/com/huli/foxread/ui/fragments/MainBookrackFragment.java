@@ -165,7 +165,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         //step2:创建TTAdNative对象,用于调用广告请求接口
         mTTAdNative = ttAdManager.createAdNative(mActivity);
         //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
-//        TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
+        TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
 
         getSpecialBook();
         reqGetBooks();
@@ -384,7 +384,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 }
                 if (isRefresh) {
                     datas.add(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
-                    rackAdapter.setNewInstance(datas);
+                    rackAdapter.setList(datas);
                 } else {
                     rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
                     recyclerView.scrollToPosition(0);
@@ -505,7 +505,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 datas.add(multEntity);
                             }
                             datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
-                            rackAdapter.setNewInstance(datas);
+                            rackAdapter.setList(datas);
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }

@@ -93,7 +93,7 @@ public class MyInviteFriendsActivity extends BaseActivity {
                             curPage = datas.getCurrent_page();
                             List<InvitedFriendInfo> friendInfos = datas.getData();
                             if (curPage == 1) {
-                                mAdapter.setNewInstance(friendInfos);
+                                mAdapter.setList(friendInfos);
                             } else {
                                 mAdapter.addData(friendInfos);
                             }

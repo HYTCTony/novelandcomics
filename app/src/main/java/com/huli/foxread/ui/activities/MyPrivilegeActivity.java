@@ -372,7 +372,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                                 });
                         if (entity.error_code == 0) {
                             List<ReChargeSetEntity> datas = entity.getData();
-                            mAdapter.setNewInstance(datas);
+                            mAdapter.setList(datas);
                         }
                     }
                 });
