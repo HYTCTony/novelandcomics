@@ -96,6 +96,9 @@ public class WriteBookReviewActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        if(onMoreClick()){
+            return;
+        }
         switch (v.getId()) {
             case R.id.tv_asBtn_txt_issued_comment:
                 String content = edComment.getText().toString();
@@ -109,6 +112,9 @@ public class WriteBookReviewActivity extends BaseActivity implements View.OnClic
                     return;
                 }
                 reqPostComment(novelId, content, rating * 2);
+
+                edComment.setText("");
+                ratingBar.setRating(0f);
                 break;
 
             default:
