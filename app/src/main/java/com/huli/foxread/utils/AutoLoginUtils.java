@@ -33,11 +33,11 @@ public class AutoLoginUtils {
 
         model.setAuthNavTransparent(false); // 设置授权页导航栏是否透明
         model.setNavColor(0xffffffff); // 设置导航栏颜色
-        model.setNavText(""); // 设置导航栏标题文字
+        model.setNavText("免密登陆"); // 设置导航栏标题文字
         model.setNavTextColor(0xffffffff); // 设置导航栏标题文字颜色
         // 设置导航栏返回按钮图片资源，
         // 参数为图片名称，如umcsdk_return_bg，不要加上.png、.jpg等后缀，注意目录为drawable
-        model.setNavGoBackImgPName("custom_return_bg");
+        model.setNavGoBackImgPName("ic_arrow_back_24dp");
 
         // 授权页logo
         model.setLogoHidden(false); // 设置logo图片是否隐藏

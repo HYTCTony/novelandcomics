@@ -10,9 +10,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -53,7 +51,6 @@ import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
-import com.kongzue.dialog.v3.FullScreenDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -350,7 +347,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 if (welfareFragment == null) {
                     welfareFragment = new MainWelfareFragment2();
                     transaction.add(R.id.fl_frag_content_main, welfareFragment);
-                    sendShowLoginDialogMsg();
+                    invokeOneClickLogin();
                 } else {
                     transaction.show(welfareFragment);
                 }
@@ -359,7 +356,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 if (mineFragment == null) {
                     mineFragment = new MainMineFragment();
                     transaction.add(R.id.fl_frag_content_main, mineFragment);
-                    sendShowLoginDialogMsg();
+                    invokeOneClickLogin();
                 } else {
                     transaction.show(mineFragment);
                 }
@@ -424,50 +421,22 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     }
 
 
-    private boolean ignoreLoginDialog;
+    private boolean ignoreOneClickLogin;
 
-    private void sendShowLoginDialogMsg() {
-        if (!ignoreLoginDialog) {
-            mHandler.sendEmptyMessageDelayed(121, 500);
-            ignoreLoginDialog = true;
+    /**
+     * 调起一键登录
+     */
+    private void invokeOneClickLogin() {
+        if (!ignoreOneClickLogin) {
+            obtainOperatorsToken();
+            ignoreOneClickLogin = true;
         }
     }
-
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(@NonNull Message msg) {
-            if (msg.what == 121) {
-                /* 一键登陆弹窗 */
-                if (UserInfoCache.getIsTourist(MainActivity.this) && flagPreGetSuccess) {
-                    FullScreenDialog.build(MainActivity.this)
-                            .setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.col_blue_d8e9f9))
-                            .setCustomView(R.layout.dialog_full_screen_one_click_login, (dialog, rootView) -> {
-                                Button btnGo2Login = rootView.findViewById(R.id.btn_one_click_go2_login);
-                                TextView btnOtherWays = rootView.findViewById(R.id.tv_asBtn_other_ways_2_login);
-                                btnGo2Login.setOnClickListener(v -> {
-                                    oneClickLogin();
-                                    dialog.doDismiss();
-                                });
-                                btnOtherWays.setOnClickListener(v -> {
-                                    LoginActivity.start(MainActivity.this);
-                                    dialog.doDismiss();
-                                });
-                            })
-                            .setOkButton("")
-                            .setCancelButton(R.string.txt_cancel)
-                            .setTitle(R.string.txt_one_click_login).show();
-                }
-            } else if (msg.what == 998) {
-
-            }
-            return false;
-        }
-    });
 
     /**
      * 调起一键登录获取运营商提供的token
      */
-    private void oneClickLogin() {
+    private void obtainOperatorsToken() {
         AutoLoginManager.getInstance().doAvoidPwdLogin(this, new AvoidPwdLoginListener() {
             @Override
             public void onGetLoginTokenSuccess(String operatorType, String token, String secureMobile) {
@@ -477,7 +446,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                  * token 移动联通为登录token    电信为accessCode
                  * secureMobile 移动联通为带星手机号  电信为authCode
                  */
-                getPhoneNum(operatorType, token, secureMobile);
+                oneClickLogin(operatorType, token, secureMobile);
                 AutoLoginManager.getInstance().closeOperatorActivity();
             }
 
@@ -495,7 +464,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
             @Override
             public void onOtherWayLogin() {
-                Log.e(TAG, "点击其他登录方式");
+//                Log.e(TAG, "点击其他登录方式");
+                LoginActivity.start(MainActivity.this);
                 AutoLoginManager.getInstance().closeOperatorActivity();
             }
         });
@@ -508,7 +478,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * @param uToken       电信运营商的token
      * @param authCode
      */
-    private void getPhoneNum(String operatorType, String uToken, String authCode) {
+    private void oneClickLogin(String operatorType, String uToken, String authCode) {
         String uniqueID = UniqueIdManager.getUniqueID(this);
         OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USE_PHONE_ONEKEY_LOGIN)
                 .params(Consts.TYPE, operatorType)
