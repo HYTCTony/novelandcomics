@@ -414,7 +414,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 curPos = pos;
                 if (curPos != perPos)
                     sum++;
-
             }
 
             @Override
@@ -1166,6 +1165,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onABCRefreshEvent(AdMessage event) {
+        site--;
         isABC = testingIsABC(-1);
         if (isABC) {
             needRefreshPage = true;

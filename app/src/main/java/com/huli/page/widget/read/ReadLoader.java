@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.util.Log;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -994,6 +995,7 @@ public abstract class ReadLoader {
 //            Log.d(TAG, "是否换段：" + mCurPage.wrap);
 //            Log.d(TAG, "总偏移：" + allOffset);
 //            Log.d(TAG, "偏移量：" + heightOffset);
+//            Log.d(TAG, "行间距：" + mTitleInterval);
             //设置总距离
             float titleMarinTop = mTitlePara + (int) mTitlePaint.getTextSize() + heightOffset;
             float titlePara = mTitlePara + mTextPaint.getTextSize() + heightOffset;
