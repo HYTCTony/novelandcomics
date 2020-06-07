@@ -280,10 +280,10 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
                                     tvBookNameFirst.setText(book1.getName());
                                     tvBookNameSecond.setText(book2.getName());
                                     tvBookNameThird.setText(book3.getName());
-                                    mAdapter.setNewInstance(bookList.subList(3, size));
+                                    mAdapter.setList(bookList.subList(3, size));
                                 } else {
                                     mAdapter.removeHeaderView(headViewTop3);
-                                    mAdapter.setNewInstance(bookList);
+                                    mAdapter.setList(bookList);
                                 }
                             } else {
                                 mAdapter.addData(bookList);

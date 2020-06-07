@@ -230,7 +230,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             WelfareTaskEntity welfare = data.getWelfare();
                             String number = welfare.getNumber();
                             tvGrpPeopleCount.setText((number + getString(R.string.txt_people_already_receive)));
-                            mAdapter.setNewInstance(data.getList());
+                            mAdapter.setList(data.getList());
 
                             if (signFlag == 2) {        //已签到
                                 mAdapter.setSignInChange(true);

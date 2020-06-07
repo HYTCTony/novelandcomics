@@ -276,7 +276,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                             if (paramCurPage == 1) {
                                 int size = bookList.size();
                                 if (size >= 3) {
-                                    mAdapter.setNewInstance(bookList.subList(3, size));
+                                    mAdapter.setList(bookList.subList(3, size));
 
                                     headView.setVisibility(View.VISIBLE);
                                     ivFirstSign.setVisibility(View.VISIBLE);
@@ -299,7 +299,7 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                                     showBookTop2(bookList);
                                     showBookTop3(bookList);
                                 } else {
-                                    mAdapter.setNewInstance(null);
+                                    mAdapter.setList(null);
                                     if (size == 1) {
                                         headView.setVisibility(View.VISIBLE);
                                         ivFirstSign.setVisibility(View.VISIBLE);

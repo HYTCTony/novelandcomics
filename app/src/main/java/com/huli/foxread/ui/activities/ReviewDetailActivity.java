@@ -202,7 +202,7 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
                             List<BookReview> reviews = datas.getData();
 
                             if (curPage == 1) {
-                                mAdapter.setNewInstance(reviews);
+                                mAdapter.setList(reviews);
                             } else {
                                 mAdapter.addData(reviews);
                             }

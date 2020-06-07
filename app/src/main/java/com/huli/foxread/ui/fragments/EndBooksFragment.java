@@ -133,7 +133,7 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
                                     list.add(new NEbookSection<>(false, false, ebgEntity.getId(), ebgEntity.getName(), novels.get(j)));
                                 }
                             }
-                            mAdapter.setNewInstance(list);
+                            mAdapter.setList(list);
                         }
                     }
                 });

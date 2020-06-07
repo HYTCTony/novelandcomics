@@ -169,7 +169,7 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
                                 });
                         if (entity.error_code == 0) {
                             List<WithdrawalOptionEntity> datas = entity.getData();
-                            mAdapter.setNewInstance(datas);
+                            mAdapter.setList(datas);
                         }
                     }
                 });

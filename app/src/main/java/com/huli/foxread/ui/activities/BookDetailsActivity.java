@@ -451,7 +451,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                         if (entity.error_code == 0) {
                             List<BookEntity> booksList = entity.getData();
                             if (booksList != null && booksList.size() > 0) {
-                                mAdapter.setNewInstance(booksList);
+                                mAdapter.setList(booksList);
                             }
                         }
                     }
@@ -478,7 +478,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                             PagingWarpper<List<BookReview>> datas = entity.getData();
                             int totalNum = datas.getTotal();
                             List<BookReview> reviews = datas.getData();
-                            reviewAdapter.setNewInstance(reviews);
+                            reviewAdapter.setList(reviews);
                             if (totalNum >= 3) {
                                 btnMoreReview.setText(String.format(getString(R.string.txt_more_review_x), totalNum));
                                 btnMoreReview.setVisibility(View.VISIBLE);

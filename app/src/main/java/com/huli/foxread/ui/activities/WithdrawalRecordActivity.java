@@ -102,7 +102,7 @@ public class WithdrawalRecordActivity extends BaseActivity {
                             curPage = datas.getCurrent_page();
                             List<WithdrawalRecordBean> bookList = datas.getData();
                             if (curPage == 1) {
-                                mAdapter.setNewInstance(bookList);
+                                mAdapter.setList(bookList);
                             } else {
                                 mAdapter.addData(bookList);
                             }

@@ -150,7 +150,7 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
                             curPage = datas.getCurrent_page();
                             List<SMsgBean> bookList = datas.getData();
                             if (curPage == 1) {
-                                mAdapter.setNewInstance(bookList);
+                                mAdapter.setList(bookList);
                             } else {
                                 mAdapter.addData(bookList);
                             }

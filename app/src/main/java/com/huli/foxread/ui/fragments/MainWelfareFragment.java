@@ -557,7 +557,7 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
                                 }
                             }
                             mAdapter.setVipMode(UserInfoCache.getIsVip(mActivity));
-                            mAdapter.setNewInstance(list);
+                            mAdapter.setList(list);
 
                             footerRule.setVisibility(View.VISIBLE);
                         }

@@ -306,7 +306,7 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
                             curPage = datas.getCurrent_page();
                             List<RankBookEntity> bookList = datas.getData();
                             if (curPage == 1) {
-                                mAdapter.setNewInstance(bookList);
+                                mAdapter.setList(bookList);
                             } else {
                                 mAdapter.addData(bookList);
                             }

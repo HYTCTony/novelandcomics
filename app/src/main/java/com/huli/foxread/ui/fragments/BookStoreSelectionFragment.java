@@ -58,7 +58,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
     private TextView tvRecoBookNameLeft, tvRecoBookNameCenter, tvRecoBookNameRight;
     private ImageView ivCornerLeft, ivCornerCenter, ivCornerRight;
 
-    private int curPage = 0;
+    private int curPage = 0;//高分精选页码
 
     public static BookStoreSelectionFragment newInstance(int index) {
         Bundle bundle = new Bundle();
@@ -118,15 +118,17 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
             }
         });
 
-        // 设置加载更多监听事件
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqHighMarksDatas(curPage));
         //刷新
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             reqIndexDatas(false);
             //可以上拉加载
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
+            //重置高分精选页码
+            curPage = 0;
         });
 
+        // 设置加载更多监听事件
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqHighMarksDatas(curPage));
     }
 
     public void back2Top() {
@@ -268,7 +270,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      *
      * @param hpDatas
      */
-    private void constructDatas4Rv(HomePageEntity hpDatas) {
+    private List<HpSection> constructDatas4Rv(HomePageEntity hpDatas) {
         List<HpBGModuleEntity> modules = hpDatas.getModule();
         List<HpSection> datas = new ArrayList<>();
         for (int i = 0; i < modules.size(); i++) {
@@ -321,7 +323,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                     break;
             }
         }
-        mAdapter.setNewInstance(datas);
+        return datas;
     }
 
 
@@ -346,7 +348,8 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                             }
                             mAppBarLayout.setVisibility(View.VISIBLE);
                             setTopDatas(hpDatas.getTop());
-                            constructDatas4Rv(hpDatas);
+                            List<HpSection> list = constructDatas4Rv(hpDatas);
+                            mAdapter.setList(list);
                         }
                     }
 

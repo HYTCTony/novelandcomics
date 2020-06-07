@@ -252,7 +252,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
 
                             List<HpBGModuleEntity> moduleList = hpDatas.getModule();
 
-                            mAdapter.setNewInstance(moduleList);
+                            mAdapter.setList(moduleList);
                             //轮播图
                             bannerDatas = hpDatas.getBanner();
                             if (bannerDatas != null) {
