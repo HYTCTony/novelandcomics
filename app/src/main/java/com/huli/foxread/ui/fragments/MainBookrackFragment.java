@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +42,7 @@ import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.adapters.BookRackAdapter2;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.GlideUtil;
+import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.UIUtils;
 import com.huli.page.model.bean.BookShelfListBean;
@@ -165,7 +165,11 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         //step2:创建TTAdNative对象,用于调用广告请求接口
         mTTAdNative = ttAdManager.createAdNative(mActivity);
         //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
-        TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
+        boolean haveAsked = (boolean) SPFUtils.get(mContext, "csj_have_asked_perm", false);
+        if (!haveAsked) {
+            TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
+            SPFUtils.put(mContext, "csj_have_asked_perm", true);
+        }
 
         getSpecialBook();
         reqGetBooks();
@@ -208,7 +212,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             StatusBarUtils.setStatusBarTextDark(mActivity, true);
             if (isVisible() && shouldRefresh) {
 //                Log.e("ssssssss", "onHiddenChanged可见");
-                refreshBookRack();
+                layout.autoRefresh();
                 shouldRefresh = false;
             }
         }
@@ -219,7 +223,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         super.onResume();
         if (isVisible() && shouldRefresh) {
 //            Log.e("ssssssss", "onResume可见");
-            refreshBookRack();
+            layout.autoRefresh();
             shouldRefresh = false;
         }
     }
@@ -383,8 +387,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                     return;
                 }
                 if (isRefresh) {
-                    datas.add(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
-                    rackAdapter.setList(datas);
+                    rackAdapter.setData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
                 } else {
                     rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
                     recyclerView.scrollToPosition(0);
@@ -451,6 +454,12 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 datas.add(multEntity);
                             }
                             datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
+                            List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
+                            if (oldDatas.size() > 0) {
+                                BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
+                                datas.add(0, adEntity);
+                            }
+                            rackAdapter.setList(datas);
                             loadListAd(1, true);
                         }
                     }

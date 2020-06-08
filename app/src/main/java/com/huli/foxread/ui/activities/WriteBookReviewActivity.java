@@ -156,7 +156,7 @@ public class WriteBookReviewActivity extends BaseActivity implements View.OnClic
      * @param content
      */
     private void reqPostComment(String novelId, String content, float score) {
-        OkGo.<String>get(Consts.APPRAISE_CREATE_API)
+        OkGo.<String>post(Consts.APPRAISE_CREATE_API)
                 .params(Consts.NOVEL_ID, novelId)
                 .params(Consts.CONTENT, content)
                 .params(Consts.SCORE, score)

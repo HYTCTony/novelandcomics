@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 23
-# pg_map_id: 0544e29
+# pg_map_id: 5bdae06
 android.support.v4.app.INotificationSideChannel$Stub -> android.support.v4.app.INotificationSideChannel$Stub:
     1:2:void <init>():20:21 -> <init>
     1:3:android.support.v4.app.INotificationSideChannel asInterface(android.os.IBinder):32:34 -> asInterface
@@ -109649,10 +109649,7 @@ com.huli.foxread.FrApp -> com.huli.foxread.FrApp:
     1:2:void initKzDialog():183:184 -> c
     3:6:void initKzDialog():187:190 -> c
     1:3:void initOkgo():246:248 -> d
-    4:4:void initOkgo():250:250 -> d
-    5:5:void initOkgo():252:252 -> d
-    6:7:void initOkgo():254:255 -> d
-    8:10:void initOkgo():257:259 -> d
+    4:6:void initOkgo():257:259 -> d
     1:1:void initUMeng():212:212 -> e
     2:3:void initUMeng():214:215 -> e
     4:4:void initUMeng():228:228 -> e
@@ -111156,13 +111153,11 @@ com.huli.foxread.entity.FUser -> com.huli.foxread.entity.FUser:
     2:3:void <init>():6:7 -> <init>
     4:5:void <init>():9:10 -> <init>
     6:7:void <init>():13:14 -> <init>
-    8:8:void <init>():16:16 -> <init>
-    9:9:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):23:23 -> <init>
-    10:11:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):6:7 -> <init>
-    12:13:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):9:10 -> <init>
-    14:15:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):13:14 -> <init>
-    16:16:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean) -> <init>
-    17:28:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):24:35 -> <init>
+    8:8:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):23:23 -> <init>
+    9:10:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):6:7 -> <init>
+    11:12:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):9:10 -> <init>
+    13:14:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean) -> <init>
+    15:26:void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,boolean,long,boolean,java.lang.String,boolean,boolean,boolean):24:35 -> <init>
     1:1:java.lang.String getDistribution():63:63 -> getDistribution
     1:1:int getGender():55:55 -> getGender
     1:1:java.lang.String getHttp_avatar():103:103 -> getHttp_avatar
@@ -112851,38 +112846,38 @@ com.huli.foxread.ui.activities.AdvFreeSuccessActivity -> com.huli.foxread.ui.act
     android.widget.TextView tvRewardTips -> g
     android.widget.TextView tvAdvFreeSuccess -> f
     android.widget.TextView tvResidueDegree -> h
-    1:1:void <init>():37:37 -> <init>
-    1:1:android.widget.TextView access$000(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):37:37 -> a
-    2:2:android.text.SpannableStringBuilder access$100(android.content.Context,java.lang.String):37:37 -> a
-    1:1:android.widget.TextView access$200(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):37:37 -> b
-    2:2:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):135:135 -> b
-    3:5:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):138:140 -> b
-    6:6:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):142:142 -> b
-    1:1:android.widget.TextView access$300(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):37:37 -> c
-    2:2:void lambda$setListener$9(android.view.View):82:82 -> c
-    1:1:android.widget.Button access$400(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):37:37 -> d
-    2:3:void reqAdvMissionComplete():95:96 -> d
-    1:1:void doBusiness(android.content.Context):87:87 -> doBusiness
-    1:2:void initView(android.view.View):66:67 -> initView
-    3:6:void initView(android.view.View):69:72 -> initView
-    7:10:void initView(android.view.View):74:77 -> initView
-    1:1:void setListener():82:82 -> setListener
-    1:2:void start(android.content.Context):45:46 -> start
+    1:1:void <init>():38:38 -> <init>
+    1:1:android.widget.TextView access$000(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):38:38 -> a
+    2:2:android.text.SpannableStringBuilder access$100(android.content.Context,java.lang.String):38:38 -> a
+    1:1:android.widget.TextView access$200(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):38:38 -> b
+    2:2:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):137:137 -> b
+    3:5:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):140:142 -> b
+    6:6:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):144:144 -> b
+    1:1:android.widget.TextView access$300(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):38:38 -> c
+    2:2:void lambda$setListener$9(android.view.View):83:83 -> c
+    1:1:android.widget.Button access$400(com.huli.foxread.ui.activities.AdvFreeSuccessActivity):38:38 -> d
+    2:3:void reqAdvMissionComplete():96:97 -> d
+    1:1:void doBusiness(android.content.Context):88:88 -> doBusiness
+    1:2:void initView(android.view.View):67:68 -> initView
+    3:6:void initView(android.view.View):70:73 -> initView
+    7:10:void initView(android.view.View):75:78 -> initView
+    1:1:void setListener():83:83 -> setListener
+    1:2:void start(android.content.Context):46:47 -> start
 com.huli.foxread.ui.activities.AdvFreeSuccessActivity$1 -> com.huli.foxread.ui.activities.AdvFreeSuccessActivity$a:
     com.huli.foxread.ui.activities.AdvFreeSuccessActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.AdvFreeSuccessActivity,androidx.appcompat.app.AppCompatActivity):96:96 -> <init>
-    1:1:void lambda$onError$11():128:128 -> a
-    1:1:void lambda$onSuccess$10():121:121 -> b
-    1:2:void onError(com.lzy.okgo.model.Response):127:128 -> onError
-    1:1:void onSuccess(com.lzy.okgo.model.Response):99:99 -> onSuccess
-    2:7:void onSuccess(com.lzy.okgo.model.Response):102:107 -> onSuccess
-    8:11:void onSuccess(com.lzy.okgo.model.Response):109:112 -> onSuccess
-    12:12:void onSuccess(com.lzy.okgo.model.Response):115:115 -> onSuccess
-    13:15:void onSuccess(com.lzy.okgo.model.Response):117:119 -> onSuccess
-    16:16:void onSuccess(com.lzy.okgo.model.Response):121:121 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.AdvFreeSuccessActivity,androidx.appcompat.app.AppCompatActivity):97:97 -> <init>
+    1:1:void lambda$onError$11():130:130 -> a
+    1:1:void lambda$onSuccess$10():123:123 -> b
+    1:2:void onError(com.lzy.okgo.model.Response):129:130 -> onError
+    1:1:void onSuccess(com.lzy.okgo.model.Response):100:100 -> onSuccess
+    2:7:void onSuccess(com.lzy.okgo.model.Response):103:108 -> onSuccess
+    8:11:void onSuccess(com.lzy.okgo.model.Response):110:113 -> onSuccess
+    12:12:void onSuccess(com.lzy.okgo.model.Response):116:116 -> onSuccess
+    13:16:void onSuccess(com.lzy.okgo.model.Response):118:121 -> onSuccess
+    17:17:void onSuccess(com.lzy.okgo.model.Response):123:123 -> onSuccess
 com.huli.foxread.ui.activities.AdvFreeSuccessActivity$1$1 -> com.huli.foxread.ui.activities.AdvFreeSuccessActivity$a$a:
     com.huli.foxread.ui.activities.AdvFreeSuccessActivity$1 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.AdvFreeSuccessActivity$1):100:100 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.AdvFreeSuccessActivity$1):101:101 -> <init>
 com.huli.foxread.ui.activities.AllBookReviewActivity -> com.huli.foxread.ui.activities.AllBookReviewActivity:
     androidx.appcompat.widget.Toolbar toolbar -> h
     android.widget.TextView tvBookScore -> n
@@ -116602,38 +116597,40 @@ com.huli.foxread.ui.fragments.MainBookrackFragment -> com.huli.foxread.ui.fragme
     1:1:void <init>():79:79 -> <init>
     2:2:void <init>():91:91 -> <init>
     3:3:void <init>():94:94 -> <init>
-    1:1:java.util.List access$000(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> a
-    2:2:java.util.List access$002(com.huli.foxread.ui.fragments.MainBookrackFragment,java.util.List):79:79 -> a
+    1:1:com.huli.foxread.ui.adapters.BookRackAdapter2 access$000(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> a
+    2:2:java.util.List access$202(com.huli.foxread.ui.fragments.MainBookrackFragment,java.util.List):79:79 -> a
     3:3:void access$300(com.huli.foxread.ui.fragments.MainBookrackFragment,int,boolean):79:79 -> a
     4:4:java.lang.String access$702(com.huli.foxread.ui.fragments.MainBookrackFragment,java.lang.String):79:79 -> a
     5:5:void lambda$setListener$46(android.view.View):147:147 -> a
-    6:9:boolean lambda$onItemClick$49(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):251:254 -> a
-    10:10:void lambda$null$48(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):255:255 -> a
-    11:12:void banAppBarScroll(boolean):305:306 -> a
-    13:14:void banAppBarScroll(boolean):308:309 -> a
-    15:15:void banAppBarScroll(boolean):311:311 -> a
-    16:16:void loadListAd(int,boolean):351:351 -> a
-    17:19:void loadListAd(int,boolean):354:356 -> a
-    20:22:void loadListAd(int,boolean):358:360 -> a
-    23:23:void loadListAd(int,boolean):373:373 -> a
-    24:26:void reqDelBooks(java.lang.String):471:473 -> a
-    1:1:com.huli.foxread.ui.adapters.BookRackAdapter2 access$100(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> b
+    6:9:boolean lambda$onItemClick$49(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):255:258 -> a
+    10:10:void lambda$null$48(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):259:259 -> a
+    11:12:void banAppBarScroll(boolean):309:310 -> a
+    13:14:void banAppBarScroll(boolean):312:313 -> a
+    15:15:void banAppBarScroll(boolean):315:315 -> a
+    16:16:void loadListAd(int,boolean):355:355 -> a
+    17:19:void loadListAd(int,boolean):358:360 -> a
+    20:22:void loadListAd(int,boolean):362:364 -> a
+    23:23:void loadListAd(int,boolean):377:377 -> a
+    24:26:void reqDelBooks(java.lang.String):480:482 -> a
+    1:1:androidx.recyclerview.widget.RecyclerView access$100(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> b
     2:3:void lambda$setListener$47(android.view.View):149:150 -> b
     4:6:void lambda$setListener$47(android.view.View):153:155 -> b
-    7:10:boolean lambda$onItemLongClick$51(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):287:290 -> b
-    11:11:void lambda$null$50(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):291:291 -> b
+    7:10:boolean lambda$onItemLongClick$51(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):291:294 -> b
+    11:11:void lambda$null$50(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):295:295 -> b
     1:1:android.widget.TextView access$1000(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> c
     1:1:android.widget.TextView access$1100(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> d
     1:1:void doBusiness(android.content.Context):161:161 -> doBusiness
     2:2:void doBusiness(android.content.Context):164:164 -> doBusiness
     3:3:void doBusiness(android.content.Context):166:166 -> doBusiness
-    4:5:void doBusiness(android.content.Context):170:171 -> doBusiness
+    4:4:void doBusiness(android.content.Context):168:168 -> doBusiness
+    5:6:void doBusiness(android.content.Context):170:171 -> doBusiness
+    7:8:void doBusiness(android.content.Context):174:175 -> doBusiness
     1:1:android.app.Activity access$1200(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> e
-    2:3:void getSpecialBook():521:522 -> e
-    1:1:androidx.recyclerview.widget.RecyclerView access$200(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> f
-    2:3:void refreshBookRack():438:439 -> f
+    2:3:void getSpecialBook():530:531 -> e
+    1:1:java.util.List access$200(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> f
+    2:3:void refreshBookRack():441:442 -> f
     1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$400(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> g
-    2:3:void reqGetBooks():492:493 -> g
+    2:3:void reqGetBooks():501:502 -> g
     1:1:android.app.Activity access$500(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> h
     1:1:android.app.Activity access$600(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> i
     1:4:void initView(android.view.View):113:116 -> initView
@@ -116644,83 +116641,84 @@ com.huli.foxread.ui.fragments.MainBookrackFragment -> com.huli.foxread.ui.fragme
     15:20:void initView(android.view.View):132:137 -> initView
     1:1:android.app.Activity access$800(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> j
     1:1:android.widget.ImageView access$900(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> k
-    1:2:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):317:318 -> onCreateOptionsMenu
-    3:3:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):320:320 -> onCreateOptionsMenu
-    4:6:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):322:324 -> onCreateOptionsMenu
-    7:7:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):326:326 -> onCreateOptionsMenu
-    1:2:void onDestroy():176:177 -> onDestroy
-    1:1:void onHiddenChanged(boolean):206:206 -> onHiddenChanged
-    2:3:void onHiddenChanged(boolean):208:209 -> onHiddenChanged
-    4:5:void onHiddenChanged(boolean):211:212 -> onHiddenChanged
-    1:6:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):238:243 -> onItemClick
-    7:8:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):246:247 -> onItemClick
-    9:10:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):249:250 -> onItemClick
-    11:12:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):260:261 -> onItemClick
-    1:6:boolean onItemLongClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):281:286 -> onItemLongClick
-    1:1:boolean onOptionsItemSelected(android.view.MenuItem):334:334 -> onOptionsItemSelected
-    2:3:boolean onOptionsItemSelected(android.view.MenuItem):339:340 -> onOptionsItemSelected
-    4:4:boolean onOptionsItemSelected(android.view.MenuItem):336:336 -> onOptionsItemSelected
-    5:5:boolean onOptionsItemSelected(android.view.MenuItem):343:343 -> onOptionsItemSelected
-    1:1:void onReadingTimeEvent(com.huli.foxread.entity.eventbus.ReadingTimeEvent):192:192 -> onReadingTimeEvent
-    1:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):229:231 -> onRefresh
-    1:2:void onRefreshBookRackEvent(com.huli.foxread.entity.eventbus.BookRackChangeEvent):197:198 -> onRefreshBookRackEvent
-    3:3:void onRefreshBookRackEvent(com.huli.foxread.entity.eventbus.BookRackChangeEvent):200:200 -> onRefreshBookRackEvent
-    1:2:void onResume():219:220 -> onResume
-    3:4:void onResume():222:223 -> onResume
-    1:2:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):182:183 -> onUserInfoChangeEvent
-    3:3:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):185:185 -> onUserInfoChangeEvent
-    4:4:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):187:187 -> onUserInfoChangeEvent
+    1:2:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):321:322 -> onCreateOptionsMenu
+    3:3:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):324:324 -> onCreateOptionsMenu
+    4:6:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):326:328 -> onCreateOptionsMenu
+    7:7:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):330:330 -> onCreateOptionsMenu
+    1:2:void onDestroy():180:181 -> onDestroy
+    1:1:void onHiddenChanged(boolean):210:210 -> onHiddenChanged
+    2:3:void onHiddenChanged(boolean):212:213 -> onHiddenChanged
+    4:5:void onHiddenChanged(boolean):215:216 -> onHiddenChanged
+    1:6:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):242:247 -> onItemClick
+    7:8:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):250:251 -> onItemClick
+    9:10:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):253:254 -> onItemClick
+    11:12:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):264:265 -> onItemClick
+    1:6:boolean onItemLongClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):285:290 -> onItemLongClick
+    1:1:boolean onOptionsItemSelected(android.view.MenuItem):338:338 -> onOptionsItemSelected
+    2:3:boolean onOptionsItemSelected(android.view.MenuItem):343:344 -> onOptionsItemSelected
+    4:4:boolean onOptionsItemSelected(android.view.MenuItem):340:340 -> onOptionsItemSelected
+    5:5:boolean onOptionsItemSelected(android.view.MenuItem):347:347 -> onOptionsItemSelected
+    1:1:void onReadingTimeEvent(com.huli.foxread.entity.eventbus.ReadingTimeEvent):196:196 -> onReadingTimeEvent
+    1:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):233:235 -> onRefresh
+    1:2:void onRefreshBookRackEvent(com.huli.foxread.entity.eventbus.BookRackChangeEvent):201:202 -> onRefreshBookRackEvent
+    3:3:void onRefreshBookRackEvent(com.huli.foxread.entity.eventbus.BookRackChangeEvent):204:204 -> onRefreshBookRackEvent
+    1:2:void onResume():223:224 -> onResume
+    3:4:void onResume():226:227 -> onResume
+    1:2:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):186:187 -> onUserInfoChangeEvent
+    3:3:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):189:189 -> onUserInfoChangeEvent
+    4:4:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):191:191 -> onUserInfoChangeEvent
     1:4:void setListener():142:145 -> setListener
     5:6:void setListener():147:148 -> setListener
     1:2:void setStatusBar(android.view.View):107:108 -> setStatusBar
 com.huli.foxread.ui.fragments.MainBookrackFragment$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$a:
     boolean val$isRefresh -> a
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> b
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,boolean):373:373 -> <init>
-    1:1:void onNativeExpressAdLoad(java.util.List):381:381 -> onNativeExpressAdLoad
-    2:4:void onNativeExpressAdLoad(java.util.List):385:387 -> onNativeExpressAdLoad
-    5:6:void onNativeExpressAdLoad(java.util.List):389:390 -> onNativeExpressAdLoad
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,boolean):377:377 -> <init>
+    1:1:void onNativeExpressAdLoad(java.util.List):385:385 -> onNativeExpressAdLoad
+    2:3:void onNativeExpressAdLoad(java.util.List):389:390 -> onNativeExpressAdLoad
+    4:5:void onNativeExpressAdLoad(java.util.List):392:393 -> onNativeExpressAdLoad
 com.huli.foxread.ui.fragments.MainBookrackFragment$2 -> com.huli.foxread.ui.fragments.MainBookrackFragment$b:
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):439:439 -> <init>
-    1:2:void onFinish():460:461 -> onFinish
-    1:2:void onSuccess(com.lzy.okgo.model.Response):442:443 -> onSuccess
-    3:4:void onSuccess(com.lzy.okgo.model.Response):446:447 -> onSuccess
-    5:7:void onSuccess(com.lzy.okgo.model.Response):449:451 -> onSuccess
-    8:9:void onSuccess(com.lzy.okgo.model.Response):453:454 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):442:442 -> <init>
+    1:2:void onFinish():469:470 -> onFinish
+    1:2:void onSuccess(com.lzy.okgo.model.Response):445:446 -> onSuccess
+    3:4:void onSuccess(com.lzy.okgo.model.Response):449:450 -> onSuccess
+    5:7:void onSuccess(com.lzy.okgo.model.Response):452:454 -> onSuccess
+    8:12:void onSuccess(com.lzy.okgo.model.Response):456:460 -> onSuccess
+    13:14:void onSuccess(com.lzy.okgo.model.Response):462:463 -> onSuccess
 com.huli.foxread.ui.fragments.MainBookrackFragment$2$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$b$a:
     com.huli.foxread.ui.fragments.MainBookrackFragment$2 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$2):444:444 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$2):447:447 -> <init>
 com.huli.foxread.ui.fragments.MainBookrackFragment$3 -> com.huli.foxread.ui.fragments.MainBookrackFragment$c:
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity):473:473 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):476:476 -> onSuccess
-    2:2:void onSuccess(com.lzy.okgo.model.Response):479:479 -> onSuccess
-    3:3:void onSuccess(com.lzy.okgo.model.Response):482:482 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity):482:482 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):485:485 -> onSuccess
+    2:2:void onSuccess(com.lzy.okgo.model.Response):488:488 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):491:491 -> onSuccess
 com.huli.foxread.ui.fragments.MainBookrackFragment$3$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$c$a:
     com.huli.foxread.ui.fragments.MainBookrackFragment$3 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$3):477:477 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$3):486:486 -> <init>
 com.huli.foxread.ui.fragments.MainBookrackFragment$4 -> com.huli.foxread.ui.fragments.MainBookrackFragment$d:
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):493:493 -> <init>
-    1:2:void onSuccess(com.lzy.okgo.model.Response):496:497 -> onSuccess
-    3:4:void onSuccess(com.lzy.okgo.model.Response):500:501 -> onSuccess
-    5:7:void onSuccess(com.lzy.okgo.model.Response):503:505 -> onSuccess
-    8:9:void onSuccess(com.lzy.okgo.model.Response):507:508 -> onSuccess
-    10:10:void onSuccess(com.lzy.okgo.model.Response):510:510 -> onSuccess
-    11:11:void onSuccess(com.lzy.okgo.model.Response):512:512 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):502:502 -> <init>
+    1:2:void onSuccess(com.lzy.okgo.model.Response):505:506 -> onSuccess
+    3:4:void onSuccess(com.lzy.okgo.model.Response):509:510 -> onSuccess
+    5:7:void onSuccess(com.lzy.okgo.model.Response):512:514 -> onSuccess
+    8:9:void onSuccess(com.lzy.okgo.model.Response):516:517 -> onSuccess
+    10:10:void onSuccess(com.lzy.okgo.model.Response):519:519 -> onSuccess
+    11:11:void onSuccess(com.lzy.okgo.model.Response):521:521 -> onSuccess
 com.huli.foxread.ui.fragments.MainBookrackFragment$4$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$d$a:
     com.huli.foxread.ui.fragments.MainBookrackFragment$4 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$4):498:498 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$4):507:507 -> <init>
 com.huli.foxread.ui.fragments.MainBookrackFragment$5 -> com.huli.foxread.ui.fragments.MainBookrackFragment$e:
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):522:522 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):525:525 -> onSuccess
-    2:7:void onSuccess(com.lzy.okgo.model.Response):528:533 -> onSuccess
-    8:8:void onSuccess(com.lzy.okgo.model.Response):535:535 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):531:531 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):534:534 -> onSuccess
+    2:7:void onSuccess(com.lzy.okgo.model.Response):537:542 -> onSuccess
+    8:8:void onSuccess(com.lzy.okgo.model.Response):544:544 -> onSuccess
 com.huli.foxread.ui.fragments.MainBookrackFragment$5$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$e$a:
     com.huli.foxread.ui.fragments.MainBookrackFragment$5 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$5):526:526 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$5):535:535 -> <init>
 com.huli.foxread.ui.fragments.MainBookrackFragment2 -> com.huli.foxread.ui.fragments.MainBookrackFragment2:
     android.widget.TextView tvAsBtnSignIngGold -> o
     android.widget.TextView tvTotalReadingTimeToday -> n
@@ -117162,29 +117160,28 @@ com.huli.foxread.ui.fragments.MainWelfareFragment2 -> com.huli.foxread.ui.fragme
     android.view.View footerRule -> q
     boolean mIsExpress -> u
     boolean mHasShowDownloadActive -> v
-    boolean mRewardVerify -> w
     android.widget.LinearLayout btnGoldCoinUsable -> g
     com.bytedance.sdk.openadsdk.TTRewardVideoAd mttRewardVideoAd -> t
     boolean shouldRefresh -> r
     com.scwang.smartrefresh.layout.SmartRefreshLayout mRefreshLayout -> e
     com.bytedance.sdk.openadsdk.TTAdNative mTTAdNative -> s
-    java.lang.String GOLD_COIN_CODE_ID -> y
+    java.lang.String ADV_FREE_CODE_ID -> w
     androidx.recyclerview.widget.RecyclerView recyclerView -> i
     android.view.View headViewTop -> k
-    java.lang.String ADV_FREE_CODE_ID -> x
+    java.lang.String GOLD_COIN_CODE_ID -> x
     com.huli.foxread.ui.adapters.WelfareMissionAdapter2 mAdapter -> j
     android.widget.TextView btnClick2Login -> f
     android.widget.TextView tvGoldCoin -> h
     java.util.List bannerDatas -> m
-    1:1:void <init>():83:83 -> <init>
-    2:2:void <init>():102:102 -> <init>
-    3:4:void <init>():110:111 -> <init>
-    1:3:void OnBannerClick(int):426:428 -> OnBannerClick
-    1:1:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$000(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> a
-    2:2:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$002(com.huli.foxread.ui.fragments.MainWelfareFragment2,com.bytedance.sdk.openadsdk.TTRewardVideoAd):83:83 -> a
-    3:3:android.text.SpannableStringBuilder access$1400(android.content.Context,java.lang.String):83:83 -> a
-    4:4:boolean access$202(com.huli.foxread.ui.fragments.MainWelfareFragment2,boolean):83:83 -> a
-    5:5:java.util.List access$802(com.huli.foxread.ui.fragments.MainWelfareFragment2,java.util.List):83:83 -> a
+    1:1:void <init>():82:82 -> <init>
+    2:2:void <init>():101:101 -> <init>
+    3:4:void <init>():109:110 -> <init>
+    1:3:void OnBannerClick(int):433:435 -> OnBannerClick
+    1:1:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$000(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> a
+    2:2:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$002(com.huli.foxread.ui.fragments.MainWelfareFragment2,com.bytedance.sdk.openadsdk.TTRewardVideoAd):82:82 -> a
+    3:3:android.text.SpannableStringBuilder access$1200(android.content.Context,java.lang.String):82:82 -> a
+    4:4:void access$200(com.huli.foxread.ui.fragments.MainWelfareFragment2,boolean):82:82 -> a
+    5:5:java.util.List access$602(com.huli.foxread.ui.fragments.MainWelfareFragment2,java.util.List):82:82 -> a
     6:6:void loadAd(java.lang.String):218:218 -> a
     7:7:void loadAd(java.lang.String):222:222 -> a
     8:10:void loadAd(java.lang.String):224:226 -> a
@@ -117193,91 +117190,88 @@ com.huli.foxread.ui.fragments.MainWelfareFragment2 -> com.huli.foxread.ui.fragme
     19:22:void loadAd(java.lang.String):242:245 -> a
     23:23:void loadAd(java.lang.String):251:251 -> a
     24:24:void loadAd(java.lang.String):247:247 -> a
-    25:26:void displayIsLoginUI(boolean):386:387 -> a
-    27:28:void displayIsLoginUI(boolean):389:390 -> a
-    29:29:void initBannerView(android.view.View):489:489 -> a
-    30:30:void initBannerView(android.view.View):493:493 -> a
-    31:31:void initBannerView(android.view.View):495:495 -> a
-    32:32:void initBannerView(android.view.View):497:497 -> a
-    33:33:void initBannerView(android.view.View):499:499 -> a
-    34:35:void initBannerView(android.view.View):501:502 -> a
-    36:36:void initBannerView(android.view.View):508:508 -> a
-    1:1:android.app.Activity access$100(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> b
-    2:2:void access$300(com.huli.foxread.ui.fragments.MainWelfareFragment2,boolean):83:83 -> b
-    3:5:void reqGetWerfareTasks(boolean):516:518 -> b
-    6:8:void reqMissionComplete(java.lang.String):586:588 -> b
-    9:11:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):610:612 -> b
-    12:12:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):614:614 -> b
-    1:1:android.widget.TextView access$1000(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> c
-    1:1:android.app.Activity access$1100(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> d
-    1:1:void doBusiness(android.content.Context):161:161 -> doBusiness
-    2:3:void doBusiness(android.content.Context):163:164 -> doBusiness
-    4:4:void doBusiness(android.content.Context):166:166 -> doBusiness
-    5:5:void doBusiness(android.content.Context):170:170 -> doBusiness
-    6:6:void doBusiness(android.content.Context):174:174 -> doBusiness
-    1:1:android.app.Activity access$1200(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> e
-    2:6:void initFooterView():452:456 -> e
-    7:7:void initFooterView():471:471 -> e
-    8:8:void initFooterView():456:456 -> e
-    9:12:void initFooterView():472:475 -> e
-    13:13:void initFooterView():477:477 -> e
-    1:1:android.app.Activity access$1300(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> f
-    2:3:void initTopLayout():482:483 -> f
-    4:4:void initTopLayout():485:485 -> f
-    1:1:android.widget.TextView access$1500(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> g
-    1:1:android.app.Activity access$1600(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> h
-    1:1:android.widget.TextView access$1700(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> i
-    1:5:void initView(android.view.View):129:133 -> initView
-    6:8:void initView(android.view.View):135:137 -> initView
-    9:13:void initView(android.view.View):139:143 -> initView
-    14:14:void initView(android.view.View):145:145 -> initView
-    1:1:android.app.Activity access$1800(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> j
-    1:1:com.huli.foxread.ui.adapters.WelfareMissionAdapter2 access$1900(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> k
-    1:1:boolean access$200(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> l
-    1:1:android.view.View access$2000(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> m
-    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$2100(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> n
-    1:1:android.app.Activity access$2200(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> o
-    1:1:void onCapitalRefreshEvent(com.huli.foxread.entity.CapitalEntity):347:347 -> onCapitalRefreshEvent
-    1:1:void onClick(android.view.View):405:405 -> onClick
-    2:2:void onClick(android.view.View):408:408 -> onClick
-    3:3:void onClick(android.view.View):416:416 -> onClick
-    4:4:void onClick(android.view.View):413:413 -> onClick
-    5:5:void onClick(android.view.View):410:410 -> onClick
-    1:2:void onDestroy():330:331 -> onDestroy
-    3:3:void onDestroy():333:333 -> onDestroy
-    1:1:void onHiddenChanged(boolean):362:362 -> onHiddenChanged
-    2:2:void onHiddenChanged(boolean):364:364 -> onHiddenChanged
-    3:3:void onHiddenChanged(boolean):366:366 -> onHiddenChanged
-    4:5:void onHiddenChanged(boolean):368:369 -> onHiddenChanged
-    1:1:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):180:180 -> onItemChildClick
-    2:11:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):183:192 -> onItemChildClick
-    12:13:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):194:195 -> onItemChildClick
-    14:14:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):197:197 -> onItemChildClick
-    15:15:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):199:199 -> onItemChildClick
-    16:17:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):201:202 -> onItemChildClick
-    18:18:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):207:207 -> onItemChildClick
-    1:1:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):397:397 -> onRefresh
-    2:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):399:400 -> onRefresh
-    1:2:void onResume():376:377 -> onResume
-    3:4:void onResume():379:380 -> onResume
-    1:1:void onStart():435:435 -> onStart
-    2:3:void onStart():437:438 -> onStart
-    1:1:void onStop():444:444 -> onStop
-    2:3:void onStop():446:447 -> onStop
-    1:3:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):339:341 -> onUserInfoChangeEvent
-    1:2:void onWelfareChangeEvent(com.huli.foxread.entity.eventbus.WelfareChangeEvent):353:354 -> onWelfareChangeEvent
-    3:3:void onWelfareChangeEvent(com.huli.foxread.entity.eventbus.WelfareChangeEvent):356:356 -> onWelfareChangeEvent
-    1:1:android.app.Activity access$2300(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> p
-    1:1:android.app.Activity access$2400(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> q
-    1:1:android.app.Activity access$400(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> r
-    1:1:android.app.Activity access$500(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> s
-    1:4:void setListener():150:153 -> setListener
-    5:5:void setListener():155:155 -> setListener
-    1:2:void setStatusBar(android.view.View):122:123 -> setStatusBar
-    1:1:android.app.Activity access$600(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> t
-    1:1:android.app.Activity access$700(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> u
-    1:1:java.util.List access$800(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> v
-    1:1:com.youth.banner.Banner access$900(com.huli.foxread.ui.fragments.MainWelfareFragment2):83:83 -> w
+    25:26:void displayIsLoginUI(boolean):393:394 -> a
+    27:28:void displayIsLoginUI(boolean):396:397 -> a
+    29:29:void initBannerView(android.view.View):496:496 -> a
+    30:30:void initBannerView(android.view.View):500:500 -> a
+    31:31:void initBannerView(android.view.View):502:502 -> a
+    32:32:void initBannerView(android.view.View):504:504 -> a
+    33:33:void initBannerView(android.view.View):506:506 -> a
+    34:35:void initBannerView(android.view.View):508:509 -> a
+    36:36:void initBannerView(android.view.View):515:515 -> a
+    1:1:android.app.Activity access$100(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> b
+    2:4:void reqGetWerfareTasks(boolean):523:525 -> b
+    5:7:void reqMissionComplete(java.lang.String):593:595 -> b
+    8:10:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):617:619 -> b
+    11:11:android.text.SpannableStringBuilder setNumColor(android.content.Context,java.lang.String):621:621 -> b
+    1:1:android.app.Activity access$1000(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> c
+    1:1:android.app.Activity access$1100(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> d
+    1:1:void doBusiness(android.content.Context):160:160 -> doBusiness
+    2:3:void doBusiness(android.content.Context):162:163 -> doBusiness
+    4:4:void doBusiness(android.content.Context):165:165 -> doBusiness
+    5:5:void doBusiness(android.content.Context):169:169 -> doBusiness
+    6:6:void doBusiness(android.content.Context):173:173 -> doBusiness
+    1:1:android.widget.TextView access$1300(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> e
+    2:6:void initFooterView():459:463 -> e
+    7:7:void initFooterView():478:478 -> e
+    8:8:void initFooterView():463:463 -> e
+    9:12:void initFooterView():479:482 -> e
+    13:13:void initFooterView():484:484 -> e
+    1:1:android.app.Activity access$1400(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> f
+    2:3:void initTopLayout():489:490 -> f
+    4:4:void initTopLayout():492:492 -> f
+    1:1:android.widget.TextView access$1500(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> g
+    1:1:android.app.Activity access$1600(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> h
+    1:1:com.huli.foxread.ui.adapters.WelfareMissionAdapter2 access$1700(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> i
+    1:5:void initView(android.view.View):128:132 -> initView
+    6:8:void initView(android.view.View):134:136 -> initView
+    9:13:void initView(android.view.View):138:142 -> initView
+    14:14:void initView(android.view.View):144:144 -> initView
+    1:1:android.view.View access$1800(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> j
+    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$1900(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> k
+    1:1:android.app.Activity access$2000(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> l
+    1:1:android.app.Activity access$2100(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> m
+    1:1:android.app.Activity access$2200(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> n
+    1:1:android.app.Activity access$300(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> o
+    1:1:void onCapitalRefreshEvent(com.huli.foxread.entity.CapitalEntity):354:354 -> onCapitalRefreshEvent
+    1:1:void onClick(android.view.View):412:412 -> onClick
+    2:2:void onClick(android.view.View):415:415 -> onClick
+    3:3:void onClick(android.view.View):423:423 -> onClick
+    4:4:void onClick(android.view.View):420:420 -> onClick
+    5:5:void onClick(android.view.View):417:417 -> onClick
+    1:2:void onDestroy():337:338 -> onDestroy
+    3:3:void onDestroy():340:340 -> onDestroy
+    1:1:void onHiddenChanged(boolean):369:369 -> onHiddenChanged
+    2:2:void onHiddenChanged(boolean):371:371 -> onHiddenChanged
+    3:3:void onHiddenChanged(boolean):373:373 -> onHiddenChanged
+    4:5:void onHiddenChanged(boolean):375:376 -> onHiddenChanged
+    1:1:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):179:179 -> onItemChildClick
+    2:11:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):182:191 -> onItemChildClick
+    12:13:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):193:194 -> onItemChildClick
+    14:14:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):196:196 -> onItemChildClick
+    15:15:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):198:198 -> onItemChildClick
+    16:17:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):200:201 -> onItemChildClick
+    18:18:void onItemChildClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):206:206 -> onItemChildClick
+    1:1:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):404:404 -> onRefresh
+    2:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):406:407 -> onRefresh
+    1:2:void onResume():383:384 -> onResume
+    3:4:void onResume():386:387 -> onResume
+    1:1:void onStart():442:442 -> onStart
+    2:3:void onStart():444:445 -> onStart
+    1:1:void onStop():451:451 -> onStop
+    2:3:void onStop():453:454 -> onStop
+    1:3:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):346:348 -> onUserInfoChangeEvent
+    1:2:void onWelfareChangeEvent(com.huli.foxread.entity.eventbus.WelfareChangeEvent):360:361 -> onWelfareChangeEvent
+    3:3:void onWelfareChangeEvent(com.huli.foxread.entity.eventbus.WelfareChangeEvent):363:363 -> onWelfareChangeEvent
+    1:1:android.app.Activity access$400(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> p
+    1:1:android.app.Activity access$500(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> q
+    1:1:java.util.List access$600(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> r
+    1:1:com.youth.banner.Banner access$700(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> s
+    1:4:void setListener():149:152 -> setListener
+    5:5:void setListener():154:154 -> setListener
+    1:2:void setStatusBar(android.view.View):121:122 -> setStatusBar
+    1:1:android.widget.TextView access$800(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> t
+    1:1:android.app.Activity access$900(com.huli.foxread.ui.fragments.MainWelfareFragment2):82:82 -> u
 com.huli.foxread.ui.fragments.MainWelfareFragment2$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment2$a:
     java.lang.String val$vType -> a
     com.huli.foxread.ui.fragments.MainWelfareFragment2 this$0 -> b
@@ -117291,46 +117285,43 @@ com.huli.foxread.ui.fragments.MainWelfareFragment2$1 -> com.huli.foxread.ui.frag
 com.huli.foxread.ui.fragments.MainWelfareFragment2$1$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment2$a$a:
     com.huli.foxread.ui.fragments.MainWelfareFragment2$1 this$1 -> a
     1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2$1):280:280 -> <init>
-    1:5:void onAdClose():291:295 -> onAdClose
-    6:7:void onAdClose():297:298 -> onAdClose
-    8:8:void onAdClose():300:300 -> onAdClose
-    1:1:void onRewardVerify(boolean,int,java.lang.String):316:316 -> onRewardVerify
+    1:4:void onAdClose():291:294 -> onAdClose
 com.huli.foxread.ui.fragments.MainWelfareFragment2$2 -> com.huli.foxread.ui.fragments.MainWelfareFragment2$b:
     com.huli.foxread.ui.fragments.MainWelfareFragment2 this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2):456:456 -> <init>
-    1:3:void onClick(android.view.View):459:461 -> onClick
-    1:1:void updateDrawState(android.text.TextPaint):467:467 -> updateDrawState
-    2:2:void updateDrawState(android.text.TextPaint):469:469 -> updateDrawState
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2):463:463 -> <init>
+    1:3:void onClick(android.view.View):466:468 -> onClick
+    1:1:void updateDrawState(android.text.TextPaint):474:474 -> updateDrawState
+    2:2:void updateDrawState(android.text.TextPaint):476:476 -> updateDrawState
 com.huli.foxread.ui.fragments.MainWelfareFragment2$3 -> com.huli.foxread.ui.fragments.MainWelfareFragment2$c:
     com.huli.foxread.ui.fragments.MainWelfareFragment2 this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2,androidx.appcompat.app.AppCompatActivity,boolean):518:518 -> <init>
-    1:2:void onFinish():575:576 -> onFinish
-    1:1:void onSuccess(com.lzy.okgo.model.Response):521:521 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):524:525 -> onSuccess
-    4:6:void onSuccess(com.lzy.okgo.model.Response):528:530 -> onSuccess
-    7:9:void onSuccess(com.lzy.okgo.model.Response):534:536 -> onSuccess
-    10:11:void onSuccess(com.lzy.okgo.model.Response):538:539 -> onSuccess
-    12:13:void onSuccess(com.lzy.okgo.model.Response):541:542 -> onSuccess
-    14:15:void onSuccess(com.lzy.okgo.model.Response):544:545 -> onSuccess
-    16:20:void onSuccess(com.lzy.okgo.model.Response):548:552 -> onSuccess
-    21:25:void onSuccess(com.lzy.okgo.model.Response):556:560 -> onSuccess
-    26:26:void onSuccess(com.lzy.okgo.model.Response):562:562 -> onSuccess
-    27:28:void onSuccess(com.lzy.okgo.model.Response):566:567 -> onSuccess
-    29:29:void onSuccess(com.lzy.okgo.model.Response):569:569 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2,androidx.appcompat.app.AppCompatActivity,boolean):525:525 -> <init>
+    1:2:void onFinish():582:583 -> onFinish
+    1:1:void onSuccess(com.lzy.okgo.model.Response):528:528 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):531:532 -> onSuccess
+    4:6:void onSuccess(com.lzy.okgo.model.Response):535:537 -> onSuccess
+    7:9:void onSuccess(com.lzy.okgo.model.Response):541:543 -> onSuccess
+    10:11:void onSuccess(com.lzy.okgo.model.Response):545:546 -> onSuccess
+    12:13:void onSuccess(com.lzy.okgo.model.Response):548:549 -> onSuccess
+    14:15:void onSuccess(com.lzy.okgo.model.Response):551:552 -> onSuccess
+    16:20:void onSuccess(com.lzy.okgo.model.Response):555:559 -> onSuccess
+    21:25:void onSuccess(com.lzy.okgo.model.Response):563:567 -> onSuccess
+    26:26:void onSuccess(com.lzy.okgo.model.Response):569:569 -> onSuccess
+    27:28:void onSuccess(com.lzy.okgo.model.Response):573:574 -> onSuccess
+    29:29:void onSuccess(com.lzy.okgo.model.Response):576:576 -> onSuccess
 com.huli.foxread.ui.fragments.MainWelfareFragment2$3$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment2$c$a:
     com.huli.foxread.ui.fragments.MainWelfareFragment2$3 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2$3):522:522 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2$3):529:529 -> <init>
 com.huli.foxread.ui.fragments.MainWelfareFragment2$4 -> com.huli.foxread.ui.fragments.MainWelfareFragment2$d:
     com.huli.foxread.ui.fragments.MainWelfareFragment2 this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2,androidx.appcompat.app.AppCompatActivity):588:588 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):591:591 -> onSuccess
-    2:2:void onSuccess(com.lzy.okgo.model.Response):594:594 -> onSuccess
-    3:3:void onSuccess(com.lzy.okgo.model.Response):596:596 -> onSuccess
-    4:5:void onSuccess(com.lzy.okgo.model.Response):598:599 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):601:601 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2,androidx.appcompat.app.AppCompatActivity):595:595 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):598:598 -> onSuccess
+    2:2:void onSuccess(com.lzy.okgo.model.Response):601:601 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):603:603 -> onSuccess
+    4:5:void onSuccess(com.lzy.okgo.model.Response):605:606 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):608:608 -> onSuccess
 com.huli.foxread.ui.fragments.MainWelfareFragment2$4$1 -> com.huli.foxread.ui.fragments.MainWelfareFragment2$d$a:
     com.huli.foxread.ui.fragments.MainWelfareFragment2$4 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2$4):592:592 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainWelfareFragment2$4):599:599 -> <init>
 com.huli.foxread.ui.fragments.RankingBoyGirlFragment -> com.huli.foxread.ui.fragments.RankingBoyGirlFragment:
     int mType -> l
     com.huli.foxread.ui.widget.NoScrollViewPager viewPager -> k
@@ -119823,16 +119814,18 @@ com.huli.page.model.dao.DownloadTaskBeanDao$Properties -> com.huli.page.model.da
     org.greenrobot.greendao.Property Size -> f
     1:6:void <clinit>():27:32 -> <clinit>
     1:1:void <init>():26:26 -> <init>
-com.huli.page.model.local.-$$Lambda$BookRepository$PzRBluEAUzu1Gx9g9zLsN8Iv2IA -> b.c.a.a.a.a:
+com.huli.page.model.event.AdMessage -> b.c.a.a.a.a:
+    1:1:void <init>():3:3 -> <init>
+com.huli.page.model.local.-$$Lambda$BookRepository$PzRBluEAUzu1Gx9g9zLsN8Iv2IA -> b.c.a.a.b.a:
     com.huli.page.model.local.BookRepository f$0 -> a
     com.huli.page.model.bean.BookShelfListBean f$1 -> b
-com.huli.page.model.local.-$$Lambda$BookRepository$b8R2UKPypm3zgUHH4mwo07vkuoc -> b.c.a.a.a.b:
+com.huli.page.model.local.-$$Lambda$BookRepository$b8R2UKPypm3zgUHH4mwo07vkuoc -> b.c.a.a.b.b:
     java.util.List f$1 -> b
     com.huli.page.model.local.BookRepository f$0 -> a
-com.huli.page.model.local.-$$Lambda$BookRepository$lb9O18MqUXe0TxMJ8dvvoadngso -> b.c.a.a.a.c:
+com.huli.page.model.local.-$$Lambda$BookRepository$lb9O18MqUXe0TxMJ8dvvoadngso -> b.c.a.a.b.c:
     java.util.List f$1 -> b
     com.huli.page.model.local.BookRepository f$0 -> a
-com.huli.page.model.local.BookRepository -> b.c.a.a.a.d:
+com.huli.page.model.local.BookRepository -> b.c.a.a.b.d:
     com.huli.page.model.local.BookRepository sInstance -> c
     com.huli.page.model.dao.DaoSession mSession -> a
     java.lang.String TAG -> b
@@ -119861,12 +119854,12 @@ com.huli.page.model.local.BookRepository -> b.c.a.a.a.d:
     1:1:void saveChapterInfo(java.lang.String,java.lang.String,java.lang.String):124:124 -> saveChapterInfo
     2:4:void saveChapterInfo(java.lang.String,java.lang.String,java.lang.String):128:130 -> saveChapterInfo
     5:6:void saveChapterInfo(java.lang.String,java.lang.String,java.lang.String):132:133 -> saveChapterInfo
-com.huli.page.model.local.BookRepository$1 -> b.c.a.a.a.d$a:
+com.huli.page.model.local.BookRepository$1 -> b.c.a.a.b.d$a:
     java.lang.String val$bookId -> a
     com.huli.page.model.local.BookRepository this$0 -> b
     1:1:void <init>(com.huli.page.model.local.BookRepository,java.lang.String):159:159 -> <init>
     1:6:void subscribe(io.reactivex.SingleEmitter):162:167 -> subscribe
-com.huli.page.model.local.BookRepository$2 -> b.c.a.a.a.d$b:
+com.huli.page.model.local.BookRepository$2 -> b.c.a.a.b.d$b:
     com.huli.page.model.bean.BookShelfListBean val$bean -> a
     com.huli.page.model.local.BookRepository this$0 -> b
     1:1:void <init>(com.huli.page.model.local.BookRepository,com.huli.page.model.bean.BookShelfListBean):212:212 -> <init>
@@ -119874,7 +119867,7 @@ com.huli.page.model.local.BookRepository$2 -> b.c.a.a.a.d$b:
     2:2:void subscribe(io.reactivex.SingleEmitter):218:218 -> subscribe
     3:3:void subscribe(io.reactivex.SingleEmitter):220:220 -> subscribe
     4:4:void subscribe(io.reactivex.SingleEmitter):223:223 -> subscribe
-com.huli.page.model.local.DaoDbHelper -> b.c.a.a.a.e:
+com.huli.page.model.local.DaoDbHelper -> b.c.a.a.b.e:
     android.database.sqlite.SQLiteDatabase mDb -> a
     com.huli.page.model.local.DaoDbHelper sInstance -> e
     com.huli.page.model.dao.DaoMaster mDaoMaster -> b
@@ -119891,9 +119884,9 @@ com.huli.page.model.local.DaoDbHelper -> b.c.a.a.a.e:
     6:6:com.huli.page.model.local.DaoDbHelper getInstance():37:37 -> getInstance
     1:1:com.huli.page.model.dao.DaoSession getNewSession():49:49 -> getNewSession
     1:1:com.huli.page.model.dao.DaoSession getSession():41:41 -> getSession
-com.huli.page.model.local.DeleteDbHelper -> b.c.a.a.a.f:
-com.huli.page.model.local.GetDbHelper -> b.c.a.a.a.g:
-com.huli.page.model.local.LocalRepository -> b.c.a.a.a.h:
+com.huli.page.model.local.DeleteDbHelper -> b.c.a.a.b.f:
+com.huli.page.model.local.GetDbHelper -> b.c.a.a.b.g:
+com.huli.page.model.local.LocalRepository -> b.c.a.a.b.h:
     com.huli.page.model.local.LocalRepository sInstance -> e
     com.huli.page.model.dao.DaoSession mSession -> a
     java.lang.String DISTILLATE_ALL -> c
@@ -119911,16 +119904,16 @@ com.huli.page.model.local.LocalRepository -> b.c.a.a.a.h:
     5:5:com.huli.page.model.local.LocalRepository getInstance():38:38 -> getInstance
     6:6:com.huli.page.model.local.LocalRepository getInstance():40:40 -> getInstance
     1:4:void saveDownloadTask(com.huli.page.model.bean.DownloadTaskBean):129:132 -> saveDownloadTask
-com.huli.page.model.local.LocalRepository$1 -> b.c.a.a.a.h$a:
+com.huli.page.model.local.LocalRepository$1 -> b.c.a.a.b.h$a:
     org.greenrobot.greendao.query.QueryBuilder val$builder -> a
     com.huli.page.model.local.LocalRepository this$0 -> b
     1:1:void <init>(com.huli.page.model.local.LocalRepository,org.greenrobot.greendao.query.QueryBuilder):281:281 -> <init>
     1:1:void subscribe(io.reactivex.SingleEmitter):284:284 -> subscribe
     2:2:void subscribe(io.reactivex.SingleEmitter):286:286 -> subscribe
     3:3:void subscribe(io.reactivex.SingleEmitter):288:288 -> subscribe
-com.huli.page.model.local.MyOpenHelper -> b.c.a.a.a.i:
+com.huli.page.model.local.MyOpenHelper -> b.c.a.a.b.i:
     1:1:void <init>(android.content.Context,java.lang.String,android.database.sqlite.SQLiteDatabase$CursorFactory):12:12 -> <init>
-com.huli.page.model.local.ReadSettingManager -> b.c.a.a.a.j:
+com.huli.page.model.local.ReadSettingManager -> b.c.a.a.b.j:
     java.lang.String SHARED_READ_BRIGHTNESS -> i
     java.lang.String SHARED_READ_BG -> h
     java.lang.String SHARED_READ_TEXT_SIZE -> k
@@ -119970,10 +119963,10 @@ com.huli.page.model.local.ReadSettingManager -> b.c.a.a.a.j:
     1:1:void setTextSize(int):96:96 -> setTextSize
     1:1:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):63:63 -> setTxtSpecing
     1:1:void setVolumeTurnPage(boolean):124:124 -> setVolumeTurnPage
-com.huli.page.model.local.SaveDbHelper -> b.c.a.a.a.k:
-com.huli.page.model.local.Void -> b.c.a.a.a.l:
+com.huli.page.model.local.SaveDbHelper -> b.c.a.a.b.k:
+com.huli.page.model.local.Void -> b.c.a.a.b.l:
     1:1:void <init>():3:3 -> <init>
-com.huli.page.model.local.update.MigrationHelper -> b.c.a.a.a.m.a:
+com.huli.page.model.local.update.MigrationHelper -> b.c.a.a.b.m.a:
     java.lang.String CONVERSION_CLASS_NOT_FOUND_EXCEPTION -> a
     com.huli.page.model.local.update.MigrationHelper instance -> b
     1:1:void <init>():20:20 -> <init>
@@ -120021,7 +120014,7 @@ com.huli.page.model.local.update.MigrationHelper -> b.c.a.a.a.m.a:
     1:2:com.huli.page.model.local.update.MigrationHelper getInstance():26:27 -> getInstance
     3:3:com.huli.page.model.local.update.MigrationHelper getInstance():29:29 -> getInstance
     1:4:void migrate(org.greenrobot.greendao.database.Database,java.lang.Class[]):34:37 -> migrate
-com.huli.page.model.local.update.Update2Helper -> b.c.a.a.a.m.b:
+com.huli.page.model.local.update.Update2Helper -> b.c.a.a.b.m.b:
     com.huli.page.model.local.update.Update2Helper instance -> e
     java.lang.String TAG -> a
     java.lang.String DIVIDER -> c
@@ -120207,439 +120200,446 @@ com.huli.page.ui.activity.MoreSettingActivity_ViewBinding -> com.huli.page.ui.ac
     9:9:void unbind():51:51 -> unbind
     10:10:void unbind():41:41 -> unbind
 com.huli.page.ui.activity.ReadBookActivity -> com.huli.page.ui.activity.ReadBookActivity:
-    java.util.TimerTask timerTask -> W
+    java.util.Timer timer -> W
     boolean isFirstRequest -> L
+    java.lang.String title -> Q
     boolean isCollected -> q
     android.net.Uri BRIGHTNESS_MODE_URI -> c
     android.view.animation.Animation mBottomInAnim -> k
     java.lang.String mBookId -> v
-    android.content.BroadcastReceiver mReceiver -> Y
     com.bytedance.sdk.openadsdk.TTNativeExpressAd mTTAdBottom -> A
     android.widget.TextView btnNextPage -> E
     com.huli.page.model.bean.BookShelfListBean data -> p
+    java.lang.String EXTRA_PAGE_POS -> p0
     android.widget.TextView tvCopyrightDescription -> I
-    int curPos -> T
+    long second -> T
     int chapter -> u
-    java.lang.String EXTRA_IS_COLLECTED -> n0
+    java.lang.String EXTRA_COLL_BOOK -> n0
     boolean mHasShowDownloadActive -> C
-    java.lang.String TAG -> h0
     com.bytedance.sdk.openadsdk.TTAdNative mTTAdNative -> x
-    int READ_TYPE_STOP -> l0
-    int READ_TYPE_START -> j0
-    java.lang.String title -> P
-    int TIMER -> p0
+    int READ_TYPE_CONTINUE -> l0
+    int REQUEST_MORE_SETTING -> j0
+    java.lang.String id -> P
     boolean isNightMode -> r
     android.view.View mAdView -> w
+    android.os.Handler mHandler -> Y
     android.view.animation.Animation mBottomOutAnim -> l
-    int MSG_BOTTOM_AD -> t0
-    int WHAT_CHAPTER -> r0
-    int POLLING_SET_IS_ABC -> x0
-    android.database.ContentObserver mBrightObserver -> Z
-    int POLLING_INTERVAL -> v0
+    int MSG_POLLING -> t0
+    int WHAT_CATEGORY -> r0
+    android.content.BroadcastReceiver mReceiver -> Z
+    int POLLING_REQUE_BOTTOM_AD -> x0
+    int MSG_IS_ABC -> v0
     android.widget.TextView tvAdView -> F
-    long second -> S
-    int perPos -> U
+    int READ_ONE_PAGE_INTERVAL -> z0
+    int curPos -> U
     com.huli.page.widget.read.ReadLoader mPageLoader -> h
     com.bytedance.sdk.openadsdk.TTNativeExpressAd mTTAdPage -> z
-    int sum -> Q
     android.net.Uri BRIGHTNESS_ADJ_URI -> e
     int site -> M
     android.widget.RelativeLayout mExpressContainer -> D
     boolean mRewardVerify -> J
     long startTime -> B
-    java.lang.String id -> O
     android.view.animation.Animation mTopInAnim -> i
     com.bytedance.sdk.openadsdk.TTRewardVideoAd mttRewardVideoAd -> y
     boolean isFullScreen -> s
-    android.os.Handler mHandler -> X
     android.widget.TextView tvBookName -> G
-    java.lang.String EXTRA_PAGE_POS -> o0
+    int perPos -> V
+    java.lang.String EXTRA_IS_COLLECTED -> o0
     java.util.List bookChapters -> n
     long lapse -> N
-    int quota -> R
-    java.lang.String EXTRA_COLL_BOOK -> m0
-    java.util.Timer timer -> V
+    int sum -> R
+    java.lang.String TAG -> i0
+    boolean needRefreshPage -> O
+    java.util.TimerTask timerTask -> X
     boolean isABC -> K
-    int READ_TYPE_CONTINUE -> k0
+    android.database.ContentObserver mBrightObserver -> h0
+    int READ_TYPE_START -> k0
     com.huli.page.ui.adapter.CatalogAdapter catalogAdapter -> o
-    int REQUEST_MORE_SETTING -> i0
     android.net.Uri BRIGHTNESS_URI -> d
     android.view.animation.Animation mTopOutAnim -> j
+    int READ_TYPE_STOP -> m0
     boolean isRegistered -> t
-    int MSG_POLLING -> s0
+    int WHAT_CHAPTER -> s0
     com.huli.page.ui.dialog.BrightnessDialog mBrightnessDialog -> g
-    int WHAT_CATEGORY -> q0
-    int POLLING_REQUE_BOTTOM_AD -> w0
-    int MSG_IS_ABC -> u0
-    int READ_ONE_PAGE_INTERVAL -> y0
+    int TIMER -> q0
+    int POLLING_INTERVAL -> w0
+    int MSG_BOTTOM_AD -> u0
+    int POLLING_SET_IS_ABC -> y0
     android.widget.TextView tvAuthorName -> H
     java.util.List mChapters -> m
+    int quota -> S
     com.huli.page.ui.dialog.ReadSettingDialog mSettingDialog -> f
-    1:1:void <init>():101:101 -> <init>
-    2:2:void <init>():109:109 -> <init>
-    3:3:void <init>():111:111 -> <init>
-    4:4:void <init>():113:113 -> <init>
-    5:6:void <init>():152:153 -> <init>
-    7:11:void <init>():160:164 -> <init>
-    12:13:void <init>():182:183 -> <init>
-    14:17:void <init>():200:203 -> <init>
-    18:21:void <init>():208:211 -> <init>
-    22:22:void <init>():236:236 -> <init>
-    23:23:void <init>():1223:1223 -> <init>
-    24:24:void <init>():1239:1239 -> <init>
-    1:1:void access$3700(com.huli.page.ui.activity.ReadBookActivity):101:101 -> A
-    1:1:java.util.Timer access$400(com.huli.page.ui.activity.ReadBookActivity):101:101 -> B
-    1:1:void access$600(com.huli.page.ui.activity.ReadBookActivity):101:101 -> C
-    1:1:boolean access$700(com.huli.page.ui.activity.ReadBookActivity):101:101 -> D
-    1:1:int access$900(com.huli.page.ui.activity.ReadBookActivity):101:101 -> E
+    1:1:void <init>():105:105 -> <init>
+    2:2:void <init>():113:113 -> <init>
+    3:3:void <init>():115:115 -> <init>
+    4:4:void <init>():117:117 -> <init>
+    5:6:void <init>():156:157 -> <init>
+    7:11:void <init>():164:168 -> <init>
+    12:13:void <init>():186:187 -> <init>
+    14:18:void <init>():204:208 -> <init>
+    19:22:void <init>():213:216 -> <init>
+    23:23:void <init>():241:241 -> <init>
+    24:24:void <init>():1248:1248 -> <init>
+    25:25:void <init>():1264:1264 -> <init>
+    1:1:android.net.Uri access$3700(com.huli.page.ui.activity.ReadBookActivity):105:105 -> A
+    1:1:void access$3800(com.huli.page.ui.activity.ReadBookActivity):105:105 -> B
+    1:1:java.util.Timer access$400(com.huli.page.ui.activity.ReadBookActivity):105:105 -> C
+    1:1:void access$600(com.huli.page.ui.activity.ReadBookActivity):105:105 -> D
+    1:1:boolean access$700(com.huli.page.ui.activity.ReadBookActivity):105:105 -> E
+    1:1:boolean access$900(com.huli.page.ui.activity.ReadBookActivity):105:105 -> F
     int getContentViewResId() -> a
-    1:1:android.os.Handler access$000(com.huli.page.ui.activity.ReadBookActivity):101:101 -> a
-    2:2:int access$102(com.huli.page.ui.activity.ReadBookActivity,int):101:101 -> a
-    3:3:java.lang.String access$1102(com.huli.page.ui.activity.ReadBookActivity,java.lang.String):101:101 -> a
-    4:4:boolean access$1402(com.huli.page.ui.activity.ReadBookActivity,boolean):101:101 -> a
-    5:5:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2502(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):101:101 -> a
-    6:6:long access$2702(com.huli.page.ui.activity.ReadBookActivity,long):101:101 -> a
-    7:7:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$3002(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTRewardVideoAd):101:101 -> a
-    8:8:void lambda$initView$115(android.content.DialogInterface):482:482 -> a
-    9:11:void initToolbar(androidx.appcompat.widget.Toolbar):556:558 -> a
-    12:12:void initToolbar(androidx.appcompat.widget.Toolbar):561:561 -> a
-    13:13:void lambda$initToolbar$117(android.view.View):559:559 -> a
-    14:14:boolean testingIsABC(long):588:588 -> a
-    15:19:boolean testingIsABC(long):592:596 -> a
-    20:20:void bindAdListener1(com.bytedance.sdk.openadsdk.TTNativeExpressAd):875:875 -> a
-    21:22:void bindAdListener1(com.bytedance.sdk.openadsdk.TTNativeExpressAd):906:907 -> a
-    23:23:void bindAdListener1(com.bytedance.sdk.openadsdk.TTNativeExpressAd):910:910 -> a
-    24:25:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1028:1029 -> a
-    26:27:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1033:1034 -> a
-    28:28:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1043:1043 -> a
-    29:29:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1047:1047 -> a
-    30:30:void toggleMenu(boolean):1067:1067 -> a
-    31:31:void toggleMenu(boolean):1069:1069 -> a
-    32:36:void toggleMenu(boolean):1071:1075 -> a
-    37:37:void toggleMenu(boolean):1078:1078 -> a
-    38:41:void toggleMenu(boolean):1081:1084 -> a
-    42:42:void toggleMenu(boolean):1086:1086 -> a
-    43:43:boolean lambda$onBackPressed$121(com.kongzue.dialog.util.BaseDialog,android.view.View):1298:1298 -> a
-    44:47:boolean lambda$onBackPressed$121(com.kongzue.dialog.util.BaseDialog,android.view.View):1300:1303 -> a
-    48:49:void doPolling(int):1312:1313 -> a
-    50:50:void doPolling(int):1316:1316 -> a
-    51:51:void doPolling(int):1319:1319 -> a
-    52:55:void doPolling(int):1321:1324 -> a
-    56:56:void doPolling(int):1327:1327 -> a
-    1:1:int access$100(com.huli.page.ui.activity.ReadBookActivity):101:101 -> b
-    2:2:java.lang.String access$1202(com.huli.page.ui.activity.ReadBookActivity,java.lang.String):101:101 -> b
-    3:3:int access$1602(com.huli.page.ui.activity.ReadBookActivity,int):101:101 -> b
-    4:4:boolean access$1902(com.huli.page.ui.activity.ReadBookActivity,boolean):101:101 -> b
-    5:5:void access$2600(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):101:101 -> b
-    6:6:boolean access$800(com.huli.page.ui.activity.ReadBookActivity,long):101:101 -> b
-    7:7:void lambda$initView$116(android.content.DialogInterface):485:485 -> b
-    8:8:void bindAdListener2(com.bytedance.sdk.openadsdk.TTNativeExpressAd):947:947 -> b
-    9:10:void bindAdListener2(com.bytedance.sdk.openadsdk.TTNativeExpressAd):979:980 -> b
-    11:11:void bindAdListener2(com.bytedance.sdk.openadsdk.TTNativeExpressAd):983:983 -> b
-    1:1:com.huli.page.ui.adapter.CatalogAdapter access$1000(com.huli.page.ui.activity.ReadBookActivity):101:101 -> c
-    2:2:int access$1702(com.huli.page.ui.activity.ReadBookActivity,int):101:101 -> c
-    3:3:void access$2100(com.huli.page.ui.activity.ReadBookActivity,boolean):101:101 -> c
-    4:4:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2802(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):101:101 -> c
-    5:12:void initView():294:301 -> c
-    13:13:void initView():303:303 -> c
-    14:18:void initView():305:309 -> c
-    19:21:void initView():311:313 -> c
-    22:22:void initView():315:315 -> c
-    23:28:void initView():317:322 -> c
-    29:29:void initView():324:324 -> c
-    30:33:void initView():326:329 -> c
-    34:35:void initView():331:332 -> c
-    36:36:void initView():334:334 -> c
-    37:39:void initView():337:339 -> c
-    40:40:void initView():341:341 -> c
-    41:41:void initView():419:419 -> c
-    42:42:void initView():445:445 -> c
-    43:43:void initView():474:474 -> c
-    44:44:void initView():481:481 -> c
-    45:45:void initView():484:484 -> c
-    46:46:void initView():488:488 -> c
-    47:47:void initView():490:490 -> c
-    48:59:void initView():492:503 -> c
-    60:60:void initView():505:505 -> c
-    61:61:void initView():507:507 -> c
-    62:65:void initView():510:513 -> c
-    66:66:void initView():516:516 -> c
-    67:67:void initView():514:514 -> c
-    68:71:void initView():518:521 -> c
-    72:72:void initView():523:523 -> c
-    73:73:void initView():529:529 -> c
-    74:74:void initView():535:535 -> c
-    75:75:void initView():551:551 -> c
-    1:1:int access$110(com.huli.page.ui.activity.ReadBookActivity):101:101 -> d
-    2:2:void access$2900(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):101:101 -> d
-    3:3:boolean access$3102(com.huli.page.ui.activity.ReadBookActivity,boolean):101:101 -> d
-    4:4:void access$500(com.huli.page.ui.activity.ReadBookActivity,int):101:101 -> d
-    5:5:com.huli.page.ui.base.BaseContract$IBasePresenter initPresenter():101:101 -> d
-    6:6:com.huli.page.presenter.contract.ReadBookContract$Presenter initPresenter():1420:1420 -> d
-    1:1:java.lang.String access$1300(com.huli.page.ui.activity.ReadBookActivity):101:101 -> e
-    2:2:boolean access$3202(com.huli.page.ui.activity.ReadBookActivity,boolean):101:101 -> e
-    3:3:void lambda$onClick$118():645:645 -> e
-    1:2:void errorChapter():633:634 -> errorChapter
-    1:1:boolean access$1400(com.huli.page.ui.activity.ReadBookActivity):101:101 -> f
-    2:2:boolean access$702(com.huli.page.ui.activity.ReadBookActivity,boolean):101:101 -> f
-    3:3:void lambda$onClick$119():657:657 -> f
-    1:2:void finishChapter():624:625 -> finishChapter
-    3:3:void finishChapter():628:628 -> finishChapter
-    1:1:int access$1500(com.huli.page.ui.activity.ReadBookActivity):101:101 -> g
-    2:2:void lambda$onClick$120():670:670 -> g
-    1:1:int access$1508(com.huli.page.ui.activity.ReadBookActivity):101:101 -> h
-    2:4:void exit():1333:1335 -> h
-    5:5:void exit():1337:1337 -> h
-    1:1:int access$1600(com.huli.page.ui.activity.ReadBookActivity):101:101 -> i
-    2:4:boolean hideReadMenu():1096:1098 -> i
-    5:6:boolean hideReadMenu():1100:1101 -> i
-    7:8:boolean hideReadMenu():1103:1104 -> i
-    1:1:int access$1700(com.huli.page.ui.activity.ReadBookActivity):101:101 -> j
-    2:5:void hideSystemBar():1369:1372 -> j
-    1:1:boolean access$1800(com.huli.page.ui.activity.ReadBookActivity):101:101 -> k
-    2:2:void initMenuAnim():1112:1112 -> k
-    3:6:void initMenuAnim():1114:1117 -> k
-    7:10:void initMenuAnim():1119:1122 -> k
-    1:1:void access$2000(com.huli.page.ui.activity.ReadBookActivity):101:101 -> l
-    2:2:void loadCategory():565:565 -> l
-    1:1:long access$208(com.huli.page.ui.activity.ReadBookActivity):101:101 -> m
-    2:2:void loadVideoAd():782:782 -> m
-    3:3:void loadVideoAd():785:785 -> m
-    4:6:void loadVideoAd():789:791 -> m
-    7:10:void loadVideoAd():794:797 -> m
-    11:11:void loadVideoAd():799:799 -> m
-    1:1:void access$2200(com.huli.page.ui.activity.ReadBookActivity):101:101 -> n
-    2:4:void requestAdBottom():747:749 -> n
-    5:10:void requestAdBottom():754:759 -> n
-    11:11:void requestAdBottom():761:761 -> n
-    12:12:void requestAdBottom():778:778 -> n
-    1:1:android.view.View access$2300(com.huli.page.ui.activity.ReadBookActivity):101:101 -> o
-    2:2:void requestAdPage():716:716 -> o
-    3:8:void requestAdPage():720:725 -> o
-    9:9:void requestAdPage():727:727 -> o
-    1:1:void onActivityResult(int,int,android.content.Intent):1378:1378 -> onActivityResult
-    2:4:void onActivityResult(int,int,android.content.Intent):1380:1382 -> onActivityResult
-    5:6:void onActivityResult(int,int,android.content.Intent):1385:1386 -> onActivityResult
-    7:11:void onActivityResult(int,int,android.content.Intent):1388:1392 -> onActivityResult
-    1:1:void onBackPressed():1269:1269 -> onBackPressed
-    2:3:void onBackPressed():1271:1272 -> onBackPressed
-    4:5:void onBackPressed():1274:1275 -> onBackPressed
-    6:7:void onBackPressed():1277:1278 -> onBackPressed
-    8:9:void onBackPressed():1280:1281 -> onBackPressed
-    10:13:void onBackPressed():1285:1288 -> onBackPressed
-    14:14:void onBackPressed():1296:1296 -> onBackPressed
-    15:15:void onBackPressed():1307:1307 -> onBackPressed
-    1:1:void onClick(android.view.View):641:641 -> onClick
-    2:3:void onClick(android.view.View):709:710 -> onClick
-    4:5:void onClick(android.view.View):643:644 -> onClick
-    6:7:void onClick(android.view.View):647:648 -> onClick
-    8:9:void onClick(android.view.View):650:651 -> onClick
-    10:11:void onClick(android.view.View):694:695 -> onClick
-    12:12:void onClick(android.view.View):697:697 -> onClick
-    13:13:void onClick(android.view.View):699:699 -> onClick
-    14:15:void onClick(android.view.View):701:702 -> onClick
-    16:17:void onClick(android.view.View):655:656 -> onClick
-    18:19:void onClick(android.view.View):659:660 -> onClick
-    20:21:void onClick(android.view.View):662:663 -> onClick
-    22:22:void onClick(android.view.View):665:665 -> onClick
-    23:23:void onClick(android.view.View):669:669 -> onClick
-    24:26:void onClick(android.view.View):673:675 -> onClick
-    27:28:void onClick(android.view.View):677:678 -> onClick
-    29:31:void onClick(android.view.View):680:682 -> onClick
-    32:32:void onClick(android.view.View):684:684 -> onClick
-    33:34:void onClick(android.view.View):686:687 -> onClick
-    35:35:void onClick(android.view.View):689:689 -> onClick
-    36:36:void onClick(android.view.View):691:691 -> onClick
-    37:38:void onClick(android.view.View):705:706 -> onClick
-    1:7:void onDestroy():1203:1209 -> onDestroy
-    8:11:void onDestroy():1211:1214 -> onDestroy
-    12:13:void onDestroy():1216:1217 -> onDestroy
-    14:14:void onDestroy():1219:1219 -> onDestroy
-    1:1:void onFailure(int,java.lang.String):1409:1409 -> onFailure
-    1:1:boolean onKeyDown(int,android.view.KeyEvent):1342:1342 -> onKeyDown
-    2:2:boolean onKeyDown(int,android.view.KeyEvent):1351:1351 -> onKeyDown
-    3:3:boolean onKeyDown(int,android.view.KeyEvent):1346:1346 -> onKeyDown
-    4:4:boolean onKeyDown(int,android.view.KeyEvent):1355:1355 -> onKeyDown
-    1:4:void onPause():1175:1178 -> onPause
-    5:8:void onPause():1180:1183 -> onPause
-    1:4:void onResume():1158:1161 -> onResume
-    5:5:void onResume():1163:1163 -> onResume
-    6:6:void onResume():1165:1165 -> onResume
-    7:10:void onResume():1167:1170 -> onResume
-    1:1:void onStart():1139:1139 -> onStart
-    2:9:void onStart():1141:1148 -> onStart
-    10:10:void onStart():1152:1152 -> onStart
-    1:1:void onStop():1188:1188 -> onStop
-    2:5:void onStop():1190:1193 -> onStop
-    6:6:void onStop():1197:1197 -> onStop
-    1:1:void access$2400(com.huli.page.ui.activity.ReadBookActivity):101:101 -> p
-    2:7:void showSystemBar():1359:1364 -> p
-    1:1:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2500(com.huli.page.ui.activity.ReadBookActivity):101:101 -> q
-    2:4:void startMethod():217:219 -> q
-    5:6:void startMethod():221:222 -> q
-    7:7:void startMethod():224:224 -> q
-    8:9:void startMethod():232:233 -> q
-    1:1:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2800(com.huli.page.ui.activity.ReadBookActivity):101:101 -> r
-    2:5:void toggleNightMode():1126:1129 -> r
-    6:8:void toggleNightMode():1131:1133 -> r
-    1:1:void reqAddBookrack(java.lang.String):602:602 -> reqAddBookrack
-    1:3:void reqAdvertAd(com.huli.page.model.bean.Advert):570:572 -> reqAdvertAd
-    4:4:void reqAdvertAd(com.huli.page.model.bean.Advert):575:575 -> reqAdvertAd
-    5:5:void reqAdvertAd(com.huli.page.model.bean.Advert):573:573 -> reqAdvertAd
-    6:9:void reqAdvertAd(com.huli.page.model.bean.Advert):577:580 -> reqAdvertAd
-    10:10:void reqAdvertAd(com.huli.page.model.bean.Advert):582:582 -> reqAdvertAd
-    11:11:void reqAdvertAd(com.huli.page.model.bean.Advert):584:584 -> reqAdvertAd
-    1:1:com.huli.page.widget.read.ReadLoader access$300(com.huli.page.ui.activity.ReadBookActivity):101:101 -> s
-    1:9:void showCategory(java.util.List):607:615 -> showCategory
-    1:1:void showToast(java.lang.String):1414:1414 -> showToast
-    1:4:void start(android.content.Context,com.huli.page.model.bean.BookShelfListBean,boolean,int):280:283 -> start
-    5:5:void start(android.content.Context,com.huli.page.model.bean.BookShelfListBean,boolean,int):280:280 -> start
-    1:1:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$3000(com.huli.page.ui.activity.ReadBookActivity):101:101 -> t
-    1:1:boolean access$3100(com.huli.page.ui.activity.ReadBookActivity):101:101 -> u
-    1:1:boolean access$3200(com.huli.page.ui.activity.ReadBookActivity):101:101 -> v
-    1:1:com.huli.page.ui.dialog.ReadSettingDialog access$3300(com.huli.page.ui.activity.ReadBookActivity):101:101 -> w
-    1:1:android.net.Uri access$3400(com.huli.page.ui.activity.ReadBookActivity):101:101 -> x
-    1:1:android.net.Uri access$3500(com.huli.page.ui.activity.ReadBookActivity):101:101 -> y
-    1:1:android.net.Uri access$3600(com.huli.page.ui.activity.ReadBookActivity):101:101 -> z
+    1:1:android.os.Handler access$000(com.huli.page.ui.activity.ReadBookActivity):105:105 -> a
+    2:2:int access$102(com.huli.page.ui.activity.ReadBookActivity,int):105:105 -> a
+    3:3:java.lang.String access$1202(com.huli.page.ui.activity.ReadBookActivity,java.lang.String):105:105 -> a
+    4:4:boolean access$1502(com.huli.page.ui.activity.ReadBookActivity,boolean):105:105 -> a
+    5:5:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2602(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):105:105 -> a
+    6:6:long access$2802(com.huli.page.ui.activity.ReadBookActivity,long):105:105 -> a
+    7:7:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$3102(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTRewardVideoAd):105:105 -> a
+    8:8:void lambda$initView$115(android.content.DialogInterface):493:493 -> a
+    9:11:void initToolbar(androidx.appcompat.widget.Toolbar):567:569 -> a
+    12:12:void initToolbar(androidx.appcompat.widget.Toolbar):572:572 -> a
+    13:13:void lambda$initToolbar$117(android.view.View):570:570 -> a
+    14:14:boolean testingIsABC(long):604:604 -> a
+    15:15:boolean testingIsABC(long):607:607 -> a
+    16:18:boolean testingIsABC(long):610:612 -> a
+    19:19:void bindAdListener1(com.bytedance.sdk.openadsdk.TTNativeExpressAd):889:889 -> a
+    20:21:void bindAdListener1(com.bytedance.sdk.openadsdk.TTNativeExpressAd):920:921 -> a
+    22:22:void bindAdListener1(com.bytedance.sdk.openadsdk.TTNativeExpressAd):924:924 -> a
+    23:24:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1042:1043 -> a
+    25:26:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1047:1048 -> a
+    27:27:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1057:1057 -> a
+    28:28:void bindDislike(com.bytedance.sdk.openadsdk.TTNativeExpressAd,boolean):1061:1061 -> a
+    29:29:void toggleMenu(boolean):1081:1081 -> a
+    30:30:void toggleMenu(boolean):1083:1083 -> a
+    31:35:void toggleMenu(boolean):1085:1089 -> a
+    36:36:void toggleMenu(boolean):1092:1092 -> a
+    37:40:void toggleMenu(boolean):1095:1098 -> a
+    41:41:void toggleMenu(boolean):1100:1100 -> a
+    42:42:boolean lambda$onBackPressed$121(com.kongzue.dialog.util.BaseDialog,android.view.View):1323:1323 -> a
+    43:46:boolean lambda$onBackPressed$121(com.kongzue.dialog.util.BaseDialog,android.view.View):1325:1328 -> a
+    47:48:void doPolling(int):1337:1338 -> a
+    49:49:void doPolling(int):1341:1341 -> a
+    50:50:void doPolling(int):1344:1344 -> a
+    51:54:void doPolling(int):1346:1349 -> a
+    55:55:void doPolling(int):1352:1352 -> a
+    1:1:int access$100(com.huli.page.ui.activity.ReadBookActivity):105:105 -> b
+    2:2:java.lang.String access$1302(com.huli.page.ui.activity.ReadBookActivity,java.lang.String):105:105 -> b
+    3:3:int access$1702(com.huli.page.ui.activity.ReadBookActivity,int):105:105 -> b
+    4:4:boolean access$2002(com.huli.page.ui.activity.ReadBookActivity,boolean):105:105 -> b
+    5:5:void access$2700(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):105:105 -> b
+    6:6:boolean access$800(com.huli.page.ui.activity.ReadBookActivity,long):105:105 -> b
+    7:7:void lambda$initView$116(android.content.DialogInterface):496:496 -> b
+    8:8:void bindAdListener2(com.bytedance.sdk.openadsdk.TTNativeExpressAd):961:961 -> b
+    9:10:void bindAdListener2(com.bytedance.sdk.openadsdk.TTNativeExpressAd):993:994 -> b
+    11:11:void bindAdListener2(com.bytedance.sdk.openadsdk.TTNativeExpressAd):997:997 -> b
+    1:1:int access$1000(com.huli.page.ui.activity.ReadBookActivity):105:105 -> c
+    2:2:int access$1802(com.huli.page.ui.activity.ReadBookActivity,int):105:105 -> c
+    3:3:void access$2200(com.huli.page.ui.activity.ReadBookActivity,boolean):105:105 -> c
+    4:4:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2902(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):105:105 -> c
+    5:13:void initView():303:311 -> c
+    14:14:void initView():313:313 -> c
+    15:19:void initView():315:319 -> c
+    20:22:void initView():321:323 -> c
+    23:23:void initView():325:325 -> c
+    24:29:void initView():327:332 -> c
+    30:30:void initView():334:334 -> c
+    31:34:void initView():336:339 -> c
+    35:36:void initView():341:342 -> c
+    37:37:void initView():344:344 -> c
+    38:40:void initView():347:349 -> c
+    41:41:void initView():351:351 -> c
+    42:42:void initView():430:430 -> c
+    43:43:void initView():456:456 -> c
+    44:44:void initView():485:485 -> c
+    45:45:void initView():492:492 -> c
+    46:46:void initView():495:495 -> c
+    47:47:void initView():499:499 -> c
+    48:59:void initView():503:514 -> c
+    60:60:void initView():516:516 -> c
+    61:61:void initView():518:518 -> c
+    62:65:void initView():521:524 -> c
+    66:66:void initView():527:527 -> c
+    67:67:void initView():525:525 -> c
+    68:71:void initView():529:532 -> c
+    72:72:void initView():534:534 -> c
+    73:73:void initView():540:540 -> c
+    74:74:void initView():546:546 -> c
+    75:75:void initView():562:562 -> c
+    1:1:int access$110(com.huli.page.ui.activity.ReadBookActivity):105:105 -> d
+    2:2:void access$3000(com.huli.page.ui.activity.ReadBookActivity,com.bytedance.sdk.openadsdk.TTNativeExpressAd):105:105 -> d
+    3:3:boolean access$3202(com.huli.page.ui.activity.ReadBookActivity,boolean):105:105 -> d
+    4:4:void access$500(com.huli.page.ui.activity.ReadBookActivity,int):105:105 -> d
+    5:5:com.huli.page.ui.base.BaseContract$IBasePresenter initPresenter():105:105 -> d
+    6:6:com.huli.page.presenter.contract.ReadBookContract$Presenter initPresenter():1459:1459 -> d
+    1:1:com.huli.page.ui.adapter.CatalogAdapter access$1100(com.huli.page.ui.activity.ReadBookActivity):105:105 -> e
+    2:2:boolean access$3302(com.huli.page.ui.activity.ReadBookActivity,boolean):105:105 -> e
+    3:3:void lambda$onClick$118():661:661 -> e
+    1:2:void errorChapter():649:650 -> errorChapter
+    1:1:java.lang.String access$1400(com.huli.page.ui.activity.ReadBookActivity):105:105 -> f
+    2:2:boolean access$702(com.huli.page.ui.activity.ReadBookActivity,boolean):105:105 -> f
+    3:3:void lambda$onClick$119():673:673 -> f
+    1:2:void finishChapter():640:641 -> finishChapter
+    3:3:void finishChapter():644:644 -> finishChapter
+    1:1:boolean access$1500(com.huli.page.ui.activity.ReadBookActivity):105:105 -> g
+    2:2:boolean access$902(com.huli.page.ui.activity.ReadBookActivity,boolean):105:105 -> g
+    3:3:void lambda$onClick$120():686:686 -> g
+    1:1:int access$1600(com.huli.page.ui.activity.ReadBookActivity):105:105 -> h
+    2:4:void exit():1358:1360 -> h
+    5:5:void exit():1362:1362 -> h
+    1:1:int access$1608(com.huli.page.ui.activity.ReadBookActivity):105:105 -> i
+    2:4:boolean hideReadMenu():1110:1112 -> i
+    5:6:boolean hideReadMenu():1114:1115 -> i
+    7:8:boolean hideReadMenu():1117:1118 -> i
+    1:1:int access$1700(com.huli.page.ui.activity.ReadBookActivity):105:105 -> j
+    2:5:void hideSystemBar():1394:1397 -> j
+    1:1:int access$1800(com.huli.page.ui.activity.ReadBookActivity):105:105 -> k
+    2:2:void initMenuAnim():1126:1126 -> k
+    3:6:void initMenuAnim():1128:1131 -> k
+    7:10:void initMenuAnim():1133:1136 -> k
+    1:1:boolean access$1900(com.huli.page.ui.activity.ReadBookActivity):105:105 -> l
+    2:2:void loadCategory():576:576 -> l
+    1:1:long access$208(com.huli.page.ui.activity.ReadBookActivity):105:105 -> m
+    2:2:void loadVideoAd():796:796 -> m
+    3:3:void loadVideoAd():799:799 -> m
+    4:6:void loadVideoAd():803:805 -> m
+    7:10:void loadVideoAd():808:811 -> m
+    11:11:void loadVideoAd():813:813 -> m
+    1:1:void access$2100(com.huli.page.ui.activity.ReadBookActivity):105:105 -> n
+    2:3:void requestAdBottom():763:764 -> n
+    4:9:void requestAdBottom():768:773 -> n
+    10:10:void requestAdBottom():775:775 -> n
+    11:11:void requestAdBottom():792:792 -> n
+    1:1:void access$2300(com.huli.page.ui.activity.ReadBookActivity):105:105 -> o
+    2:2:void requestAdPage():732:732 -> o
+    3:8:void requestAdPage():736:741 -> o
+    9:9:void requestAdPage():743:743 -> o
+    1:5:void onABCRefreshEvent(com.huli.page.model.event.AdMessage):1172:1176 -> onABCRefreshEvent
+    6:9:void onABCRefreshEvent(com.huli.page.model.event.AdMessage):1178:1181 -> onABCRefreshEvent
+    10:10:void onABCRefreshEvent(com.huli.page.model.event.AdMessage):1183:1183 -> onABCRefreshEvent
+    1:1:void onActivityResult(int,int,android.content.Intent):1403:1403 -> onActivityResult
+    2:4:void onActivityResult(int,int,android.content.Intent):1405:1407 -> onActivityResult
+    5:6:void onActivityResult(int,int,android.content.Intent):1410:1411 -> onActivityResult
+    7:11:void onActivityResult(int,int,android.content.Intent):1413:1417 -> onActivityResult
+    1:1:void onBackPressed():1294:1294 -> onBackPressed
+    2:3:void onBackPressed():1296:1297 -> onBackPressed
+    4:5:void onBackPressed():1299:1300 -> onBackPressed
+    6:7:void onBackPressed():1302:1303 -> onBackPressed
+    8:9:void onBackPressed():1305:1306 -> onBackPressed
+    10:13:void onBackPressed():1310:1313 -> onBackPressed
+    14:14:void onBackPressed():1321:1321 -> onBackPressed
+    15:15:void onBackPressed():1332:1332 -> onBackPressed
+    1:1:void onClick(android.view.View):657:657 -> onClick
+    2:3:void onClick(android.view.View):725:726 -> onClick
+    4:5:void onClick(android.view.View):659:660 -> onClick
+    6:7:void onClick(android.view.View):663:664 -> onClick
+    8:9:void onClick(android.view.View):666:667 -> onClick
+    10:11:void onClick(android.view.View):710:711 -> onClick
+    12:12:void onClick(android.view.View):713:713 -> onClick
+    13:13:void onClick(android.view.View):715:715 -> onClick
+    14:15:void onClick(android.view.View):717:718 -> onClick
+    16:17:void onClick(android.view.View):671:672 -> onClick
+    18:19:void onClick(android.view.View):675:676 -> onClick
+    20:21:void onClick(android.view.View):678:679 -> onClick
+    22:22:void onClick(android.view.View):681:681 -> onClick
+    23:23:void onClick(android.view.View):685:685 -> onClick
+    24:26:void onClick(android.view.View):689:691 -> onClick
+    27:28:void onClick(android.view.View):693:694 -> onClick
+    29:31:void onClick(android.view.View):696:698 -> onClick
+    32:32:void onClick(android.view.View):700:700 -> onClick
+    33:34:void onClick(android.view.View):702:703 -> onClick
+    35:35:void onClick(android.view.View):705:705 -> onClick
+    36:36:void onClick(android.view.View):707:707 -> onClick
+    37:38:void onClick(android.view.View):721:722 -> onClick
+    1:8:void onDestroy():1227:1234 -> onDestroy
+    9:12:void onDestroy():1236:1239 -> onDestroy
+    13:14:void onDestroy():1241:1242 -> onDestroy
+    15:15:void onDestroy():1244:1244 -> onDestroy
+    1:4:void onFailure(int,java.lang.String):1436:1439 -> onFailure
+    5:8:void onFailure(int,java.lang.String):1441:1444 -> onFailure
+    9:9:void onFailure(int,java.lang.String):1446:1446 -> onFailure
+    10:10:void onFailure(int,java.lang.String):1448:1448 -> onFailure
+    1:1:boolean onKeyDown(int,android.view.KeyEvent):1367:1367 -> onKeyDown
+    2:2:boolean onKeyDown(int,android.view.KeyEvent):1376:1376 -> onKeyDown
+    3:3:boolean onKeyDown(int,android.view.KeyEvent):1371:1371 -> onKeyDown
+    4:4:boolean onKeyDown(int,android.view.KeyEvent):1380:1380 -> onKeyDown
+    1:4:void onPause():1199:1202 -> onPause
+    5:8:void onPause():1204:1207 -> onPause
+    1:1:void onResume():1188:1188 -> onResume
+    2:5:void onResume():1191:1194 -> onResume
+    1:1:void onStart():1153:1153 -> onStart
+    2:9:void onStart():1155:1162 -> onStart
+    10:10:void onStart():1166:1166 -> onStart
+    1:1:void onStop():1212:1212 -> onStop
+    2:5:void onStop():1214:1217 -> onStop
+    6:6:void onStop():1221:1221 -> onStop
+    1:1:android.view.View access$2400(com.huli.page.ui.activity.ReadBookActivity):105:105 -> p
+    2:7:void showSystemBar():1384:1389 -> p
+    1:1:void access$2500(com.huli.page.ui.activity.ReadBookActivity):105:105 -> q
+    2:4:void startMethod():222:224 -> q
+    5:6:void startMethod():226:227 -> q
+    7:7:void startMethod():229:229 -> q
+    8:9:void startMethod():237:238 -> q
+    1:1:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2600(com.huli.page.ui.activity.ReadBookActivity):105:105 -> r
+    2:5:void toggleNightMode():1140:1143 -> r
+    6:8:void toggleNightMode():1145:1147 -> r
+    1:1:void reqAddBookrack(java.lang.String):618:618 -> reqAddBookrack
+    1:3:void reqAdvertAd(com.huli.page.model.bean.Advert):581:583 -> reqAdvertAd
+    4:4:void reqAdvertAd(com.huli.page.model.bean.Advert):586:586 -> reqAdvertAd
+    5:5:void reqAdvertAd(com.huli.page.model.bean.Advert):584:584 -> reqAdvertAd
+    6:10:void reqAdvertAd(com.huli.page.model.bean.Advert):588:592 -> reqAdvertAd
+    11:14:void reqAdvertAd(com.huli.page.model.bean.Advert):594:597 -> reqAdvertAd
+    15:16:void reqAdvertAd(com.huli.page.model.bean.Advert):599:600 -> reqAdvertAd
+    1:1:com.bytedance.sdk.openadsdk.TTNativeExpressAd access$2900(com.huli.page.ui.activity.ReadBookActivity):105:105 -> s
+    1:9:void showCategory(java.util.List):623:631 -> showCategory
+    1:1:void showToast(java.lang.String):1453:1453 -> showToast
+    1:4:void start(android.content.Context,com.huli.page.model.bean.BookShelfListBean,boolean,int):289:292 -> start
+    5:5:void start(android.content.Context,com.huli.page.model.bean.BookShelfListBean,boolean,int):289:289 -> start
+    1:1:com.huli.page.widget.read.ReadLoader access$300(com.huli.page.ui.activity.ReadBookActivity):105:105 -> t
+    1:1:com.bytedance.sdk.openadsdk.TTRewardVideoAd access$3100(com.huli.page.ui.activity.ReadBookActivity):105:105 -> u
+    1:1:boolean access$3200(com.huli.page.ui.activity.ReadBookActivity):105:105 -> v
+    1:1:boolean access$3300(com.huli.page.ui.activity.ReadBookActivity):105:105 -> w
+    1:1:com.huli.page.ui.dialog.ReadSettingDialog access$3400(com.huli.page.ui.activity.ReadBookActivity):105:105 -> x
+    1:1:android.net.Uri access$3500(com.huli.page.ui.activity.ReadBookActivity):105:105 -> y
+    1:1:android.net.Uri access$3600(com.huli.page.ui.activity.ReadBookActivity):105:105 -> z
 com.huli.page.ui.activity.ReadBookActivity$1 -> com.huli.page.ui.activity.ReadBookActivity$k:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):224:224 -> <init>
-    1:3:void run():227:229 -> run
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):229:229 -> <init>
+    1:3:void run():232:234 -> run
 com.huli.page.ui.activity.ReadBookActivity$10 -> com.huli.page.ui.activity.ReadBookActivity$a:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):727:727 -> <init>
-    1:1:void onNativeExpressAdLoad(java.util.List):735:735 -> onNativeExpressAdLoad
-    2:5:void onNativeExpressAdLoad(java.util.List):738:741 -> onNativeExpressAdLoad
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):743:743 -> <init>
+    1:1:void onNativeExpressAdLoad(java.util.List):751:751 -> onNativeExpressAdLoad
+    2:5:void onNativeExpressAdLoad(java.util.List):754:757 -> onNativeExpressAdLoad
 com.huli.page.ui.activity.ReadBookActivity$11 -> com.huli.page.ui.activity.ReadBookActivity$b:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):761:761 -> <init>
-    1:1:void onNativeExpressAdLoad(java.util.List):769:769 -> onNativeExpressAdLoad
-    2:5:void onNativeExpressAdLoad(java.util.List):772:775 -> onNativeExpressAdLoad
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):775:775 -> <init>
+    1:1:void onNativeExpressAdLoad(java.util.List):783:783 -> onNativeExpressAdLoad
+    2:5:void onNativeExpressAdLoad(java.util.List):786:789 -> onNativeExpressAdLoad
 com.huli.page.ui.activity.ReadBookActivity$12 -> com.huli.page.ui.activity.ReadBookActivity$c:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):799:799 -> <init>
-    1:1:void onError(int,java.lang.String):803:803 -> onError
-    1:1:void onRewardVideoAdLoad(com.bytedance.sdk.openadsdk.TTRewardVideoAd):828:828 -> onRewardVideoAdLoad
-    2:2:void onRewardVideoAdLoad(com.bytedance.sdk.openadsdk.TTRewardVideoAd):830:830 -> onRewardVideoAdLoad
-    1:1:void onRewardVideoCached():810:810 -> onRewardVideoCached
-    2:2:void onRewardVideoCached():812:812 -> onRewardVideoCached
-    3:4:void onRewardVideoCached():818:819 -> onRewardVideoCached
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):813:813 -> <init>
+    1:1:void onError(int,java.lang.String):817:817 -> onError
+    1:1:void onRewardVideoAdLoad(com.bytedance.sdk.openadsdk.TTRewardVideoAd):842:842 -> onRewardVideoAdLoad
+    2:2:void onRewardVideoAdLoad(com.bytedance.sdk.openadsdk.TTRewardVideoAd):844:844 -> onRewardVideoAdLoad
+    1:1:void onRewardVideoCached():824:824 -> onRewardVideoCached
+    2:2:void onRewardVideoCached():826:826 -> onRewardVideoCached
+    3:4:void onRewardVideoCached():832:833 -> onRewardVideoCached
 com.huli.page.ui.activity.ReadBookActivity$12$1 -> com.huli.page.ui.activity.ReadBookActivity$c$a:
     com.huli.page.ui.activity.ReadBookActivity$12 this$1 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity$12):830:830 -> <init>
-    1:3:void onAdClose():841:843 -> onAdClose
-    1:2:void onRewardVerify(boolean,int,java.lang.String):861:862 -> onRewardVerify
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity$12):844:844 -> <init>
+    1:3:void onAdClose():855:857 -> onAdClose
+    1:2:void onRewardVerify(boolean,int,java.lang.String):875:876 -> onRewardVerify
 com.huli.page.ui.activity.ReadBookActivity$13 -> com.huli.page.ui.activity.ReadBookActivity$d:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):875:875 -> <init>
-    1:2:void onRenderSuccess(android.view.View,float,float):900:901 -> onRenderSuccess
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):889:889 -> <init>
+    1:2:void onRenderSuccess(android.view.View,float,float):914:915 -> onRenderSuccess
 com.huli.page.ui.activity.ReadBookActivity$14 -> com.huli.page.ui.activity.ReadBookActivity$e:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):910:910 -> <init>
-    1:2:void onDownloadActive(long,long,java.lang.String,java.lang.String):918:919 -> onDownloadActive
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):924:924 -> <init>
+    1:2:void onDownloadActive(long,long,java.lang.String,java.lang.String):932:933 -> onDownloadActive
 com.huli.page.ui.activity.ReadBookActivity$15 -> com.huli.page.ui.activity.ReadBookActivity$f:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):947:947 -> <init>
-    1:2:void onAdShow(android.view.View,int):956:957 -> onAdShow
-    1:2:void onRenderFail(android.view.View,java.lang.String,int):964:965 -> onRenderFail
-    1:3:void onRenderSuccess(android.view.View,float,float):973:975 -> onRenderSuccess
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):961:961 -> <init>
+    1:2:void onAdShow(android.view.View,int):970:971 -> onAdShow
+    1:2:void onRenderFail(android.view.View,java.lang.String,int):978:979 -> onRenderFail
+    1:3:void onRenderSuccess(android.view.View,float,float):987:989 -> onRenderSuccess
 com.huli.page.ui.activity.ReadBookActivity$16 -> com.huli.page.ui.activity.ReadBookActivity$g:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):983:983 -> <init>
-    1:2:void onDownloadActive(long,long,java.lang.String,java.lang.String):991:992 -> onDownloadActive
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):997:997 -> <init>
+    1:2:void onDownloadActive(long,long,java.lang.String,java.lang.String):1005:1006 -> onDownloadActive
 com.huli.page.ui.activity.ReadBookActivity$17 -> com.huli.page.ui.activity.ReadBookActivity$h:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1034:1034 -> <init>
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1048:1048 -> <init>
 com.huli.page.ui.activity.ReadBookActivity$18 -> com.huli.page.ui.activity.ReadBookActivity$i:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1047:1047 -> <init>
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1061:1061 -> <init>
 com.huli.page.ui.activity.ReadBookActivity$19 -> com.huli.page.ui.activity.ReadBookActivity$j:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1223:1223 -> <init>
-    1:3:void onReceive(android.content.Context,android.content.Intent):1226:1228 -> onReceive
-    4:5:void onReceive(android.content.Context,android.content.Intent):1231:1232 -> onReceive
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1248:1248 -> <init>
+    1:3:void onReceive(android.content.Context,android.content.Intent):1251:1253 -> onReceive
+    4:5:void onReceive(android.content.Context,android.content.Intent):1256:1257 -> onReceive
 com.huli.page.ui.activity.ReadBookActivity$2 -> com.huli.page.ui.activity.ReadBookActivity$n:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):237:237 -> <init>
-    1:2:void handleMessage(android.os.Message):240:241 -> handleMessage
-    3:5:void handleMessage(android.os.Message):262:264 -> handleMessage
-    6:6:void handleMessage(android.os.Message):266:266 -> handleMessage
-    7:7:void handleMessage(android.os.Message):268:268 -> handleMessage
-    8:8:void handleMessage(android.os.Message):271:271 -> handleMessage
-    9:9:void handleMessage(android.os.Message):269:269 -> handleMessage
-    10:10:void handleMessage(android.os.Message):273:273 -> handleMessage
-    11:11:void handleMessage(android.os.Message):259:259 -> handleMessage
-    12:13:void handleMessage(android.os.Message):255:256 -> handleMessage
-    14:14:void handleMessage(android.os.Message):252:252 -> handleMessage
-    15:15:void handleMessage(android.os.Message):249:249 -> handleMessage
-    16:18:void handleMessage(android.os.Message):243:245 -> handleMessage
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):242:242 -> <init>
+    1:2:void handleMessage(android.os.Message):245:246 -> handleMessage
+    3:6:void handleMessage(android.os.Message):267:270 -> handleMessage
+    7:10:void handleMessage(android.os.Message):272:275 -> handleMessage
+    11:11:void handleMessage(android.os.Message):277:277 -> handleMessage
+    12:12:void handleMessage(android.os.Message):280:280 -> handleMessage
+    13:13:void handleMessage(android.os.Message):278:278 -> handleMessage
+    14:14:void handleMessage(android.os.Message):282:282 -> handleMessage
+    15:15:void handleMessage(android.os.Message):264:264 -> handleMessage
+    16:17:void handleMessage(android.os.Message):260:261 -> handleMessage
+    18:18:void handleMessage(android.os.Message):257:257 -> handleMessage
+    19:19:void handleMessage(android.os.Message):254:254 -> handleMessage
+    20:22:void handleMessage(android.os.Message):248:250 -> handleMessage
 com.huli.page.ui.activity.ReadBookActivity$20 -> com.huli.page.ui.activity.ReadBookActivity$l:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.os.Handler):1239:1239 -> <init>
-    1:1:void onChange(boolean):1242:1242 -> onChange
-    2:2:void onChange(boolean,android.net.Uri):1247:1247 -> onChange
-    3:3:void onChange(boolean,android.net.Uri):1250:1250 -> onChange
-    4:4:void onChange(boolean,android.net.Uri):1253:1253 -> onChange
-    5:5:void onChange(boolean,android.net.Uri):1255:1255 -> onChange
-    6:7:void onChange(boolean,android.net.Uri):1257:1258 -> onChange
-    8:8:void onChange(boolean,android.net.Uri):1260:1260 -> onChange
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.os.Handler):1264:1264 -> <init>
+    1:1:void onChange(boolean):1267:1267 -> onChange
+    2:2:void onChange(boolean,android.net.Uri):1272:1272 -> onChange
+    3:3:void onChange(boolean,android.net.Uri):1275:1275 -> onChange
+    4:4:void onChange(boolean,android.net.Uri):1278:1278 -> onChange
+    5:5:void onChange(boolean,android.net.Uri):1280:1280 -> onChange
+    6:7:void onChange(boolean,android.net.Uri):1282:1283 -> onChange
+    8:8:void onChange(boolean,android.net.Uri):1285:1285 -> onChange
 com.huli.page.ui.activity.ReadBookActivity$21 -> com.huli.page.ui.activity.ReadBookActivity$m:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1288:1288 -> <init>
-    1:2:boolean onClick(com.kongzue.dialog.util.BaseDialog,android.view.View):1291:1292 -> onClick
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):1313:1313 -> <init>
+    1:2:boolean onClick(com.kongzue.dialog.util.BaseDialog,android.view.View):1316:1317 -> onClick
 com.huli.page.ui.activity.ReadBookActivity$3 -> com.huli.page.ui.activity.ReadBookActivity$o:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):341:341 -> <init>
-    1:1:void lambda$onChapterChange$114(int):345:345 -> a
-    1:1:void onCategoryFinish(java.util.List):366:366 -> onCategoryFinish
-    2:5:void onCategoryFinish(java.util.List):373:376 -> onCategoryFinish
-    6:11:void onCategoryFinish(java.util.List):379:384 -> onCategoryFinish
-    12:12:void onCategoryFinish(java.util.List):386:386 -> onCategoryFinish
-    1:1:void onChapterChange(int):344:344 -> onChapterChange
-    2:3:void onChapterChange(int):347:348 -> onChapterChange
-    4:7:void onChapterChange(int):350:353 -> onChapterChange
-    1:3:void onPageChange(int):396:398 -> onPageChange
-    4:8:void onPageChange(int):400:404 -> onPageChange
-    1:3:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):410:412 -> onStyleChange
-    4:4:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):411:411 -> onStyleChange
-    5:6:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):413:414 -> onStyleChange
-    7:7:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):413:413 -> onStyleChange
-    8:9:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):415:416 -> onStyleChange
-    10:10:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):415:415 -> onStyleChange
-    1:2:void requestChapters(java.util.List):358:359 -> requestChapters
-    3:3:void requestChapters(java.util.List):361:361 -> requestChapters
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):351:351 -> <init>
+    1:1:void lambda$onChapterChange$114(int):355:355 -> a
+    1:1:void onCategoryFinish(java.util.List):376:376 -> onCategoryFinish
+    2:5:void onCategoryFinish(java.util.List):383:386 -> onCategoryFinish
+    6:11:void onCategoryFinish(java.util.List):389:394 -> onCategoryFinish
+    12:12:void onCategoryFinish(java.util.List):396:396 -> onCategoryFinish
+    1:1:void onChapterChange(int):354:354 -> onChapterChange
+    2:3:void onChapterChange(int):357:358 -> onChapterChange
+    4:7:void onChapterChange(int):360:363 -> onChapterChange
+    1:4:void onPageChange(int):406:409 -> onPageChange
+    5:9:void onPageChange(int):412:416 -> onPageChange
+    1:3:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):421:423 -> onStyleChange
+    4:4:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):422:422 -> onStyleChange
+    5:6:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):424:425 -> onStyleChange
+    7:7:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):424:424 -> onStyleChange
+    8:9:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):426:427 -> onStyleChange
+    10:10:void onStyleChange(com.huli.page.widget.page.PageStyle,boolean):426:426 -> onStyleChange
+    1:2:void requestChapters(java.util.List):368:369 -> requestChapters
+    3:3:void requestChapters(java.util.List):371:371 -> requestChapters
 com.huli.page.ui.activity.ReadBookActivity$4 -> com.huli.page.ui.activity.ReadBookActivity$p:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):419:419 -> <init>
-    1:1:void onProgressChanged(android.widget.SeekBar,int,boolean):422:422 -> onProgressChanged
-    2:3:void onProgressChanged(android.widget.SeekBar,int,boolean):424:425 -> onProgressChanged
-    1:3:void onStopTrackingTouch(android.widget.SeekBar):437:439 -> onStopTrackingTouch
-    4:4:void onStopTrackingTouch(android.widget.SeekBar):442:442 -> onStopTrackingTouch
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):430:430 -> <init>
+    1:1:void onProgressChanged(android.widget.SeekBar,int,boolean):433:433 -> onProgressChanged
+    2:3:void onProgressChanged(android.widget.SeekBar,int,boolean):435:436 -> onProgressChanged
+    1:3:void onStopTrackingTouch(android.widget.SeekBar):448:450 -> onStopTrackingTouch
+    4:4:void onStopTrackingTouch(android.widget.SeekBar):453:453 -> onStopTrackingTouch
 com.huli.page.ui.activity.ReadBookActivity$5 -> com.huli.page.ui.activity.ReadBookActivity$q:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):445:445 -> <init>
-    1:1:void center():453:453 -> center
-    2:3:void center():455:456 -> center
-    1:1:boolean onTouch():448:448 -> onTouch
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):456:456 -> <init>
+    1:1:void center():464:464 -> center
+    2:3:void center():466:467 -> center
+    1:1:boolean onTouch():459:459 -> onTouch
 com.huli.page.ui.activity.ReadBookActivity$6 -> com.huli.page.ui.activity.ReadBookActivity$r:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):474:474 -> <init>
-    1:2:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):477:478 -> onItemClick
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):485:485 -> <init>
+    1:2:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):488:489 -> onItemClick
 com.huli.page.ui.activity.ReadBookActivity$7 -> com.huli.page.ui.activity.ReadBookActivity$s:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):523:523 -> <init>
-    1:1:void onClick(android.view.View):526:526 -> onClick
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):534:534 -> <init>
+    1:1:void onClick(android.view.View):537:537 -> onClick
 com.huli.page.ui.activity.ReadBookActivity$8 -> com.huli.page.ui.activity.ReadBookActivity$t:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):529:529 -> <init>
-    1:1:void onClick(android.view.View):532:532 -> onClick
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity):540:540 -> <init>
+    1:1:void onClick(android.view.View):543:543 -> onClick
 com.huli.page.ui.activity.ReadBookActivity$9 -> com.huli.page.ui.activity.ReadBookActivity$u:
     com.huli.page.ui.activity.ReadBookActivity this$0 -> b
     android.view.View val$coverPageView -> a
-    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.view.View):535:535 -> <init>
-    1:1:android.view.View getAdView():538:538 -> getAdView
-    1:1:android.view.View getCoverPageView():548:548 -> getCoverPageView
-    1:1:void onRequestAd():543:543 -> onRequestAd
+    1:1:void <init>(com.huli.page.ui.activity.ReadBookActivity,android.view.View):546:546 -> <init>
+    1:1:android.view.View getAdView():549:549 -> getAdView
+    1:1:android.view.View getCoverPageView():559:559 -> getCoverPageView
+    1:1:void onRequestAd():554:554 -> onRequestAd
 com.huli.page.ui.activity.ReadBookActivity_ViewBinding -> com.huli.page.ui.activity.ReadBookActivity_ViewBinding:
     android.view.View view7f0a026a -> h
     com.huli.page.ui.activity.ReadBookActivity target -> b
@@ -120747,17 +120747,17 @@ com.huli.page.ui.adapter.BaseViewHolder -> com.huli.page.ui.adapter.BaseViewHold
     com.huli.page.ui.adapter.IViewHolder holder -> a
     1:3:void <init>(android.view.View,com.huli.page.ui.adapter.IViewHolder):12:14 -> <init>
 com.huli.page.ui.adapter.BookShelfAdapter -> com.huli.page.ui.adapter.BookShelfAdapter:
-    1:1:void <init>():15:15 -> <init>
-    1:1:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):20:20 -> a
-    2:2:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):22:22 -> a
-    3:6:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):24:27 -> a
-    7:12:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):30:35 -> a
-    13:16:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):38:41 -> a
+    1:1:void <init>():14:14 -> <init>
+    1:1:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):19:19 -> a
+    2:2:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):21:21 -> a
+    3:6:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):23:26 -> a
+    7:12:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):29:34 -> a
+    13:15:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):37:39 -> a
+    16:16:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):41:41 -> a
     17:17:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):43:43 -> a
-    18:18:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):45:45 -> a
-    19:20:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):48:49 -> a
-    21:21:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):51:51 -> a
-    1:1:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.Object):12:12 -> convert
+    18:19:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):46:47 -> a
+    20:20:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.model.bean.BookShelfListBean):49:49 -> a
+    1:1:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.Object):11:11 -> convert
 com.huli.page.ui.adapter.CatalogAdapter -> com.huli.page.ui.adapter.CatalogAdapter:
     1:1:void <init>(java.util.List):20:20 -> <init>
     1:5:void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.huli.page.widget.page.TxtChapter):25:29 -> a
@@ -121845,23 +121845,24 @@ com.huli.page.utils.TimeUtils -> com.huli.page.utils.u:
     long month -> d
     long day -> c
     1:1:void <init>():8:8 -> <init>
-    1:2:java.lang.String HHmm(java.lang.String):39:40 -> HHmm
-    1:2:java.lang.String MMdd(java.lang.String):29:30 -> MMdd
-    1:1:java.lang.String formatFriendly(long):116:116 -> formatFriendly
-    2:2:java.lang.String formatFriendly(long):120:120 -> formatFriendly
-    3:4:java.lang.String formatFriendly(long):123:124 -> formatFriendly
-    5:6:java.lang.String formatFriendly(long):127:128 -> formatFriendly
-    7:8:java.lang.String formatFriendly(long):131:132 -> formatFriendly
-    9:10:java.lang.String formatFriendly(long):135:136 -> formatFriendly
-    11:12:java.lang.String formatFriendly(long):139:140 -> formatFriendly
-    1:2:java.lang.String getCurrentTime():49:50 -> getCurrentTime
-    1:2:java.lang.String getCurrentTimeForDay():76:77 -> getCurrentTimeForDay
-    1:2:java.lang.String getCurrentTimeForMonth():67:68 -> getCurrentTimeForMonth
-    1:2:java.lang.String getCurrentTimeForYear():58:59 -> getCurrentTimeForYear
-    1:3:java.lang.String getStringFormLong(long):104:106 -> getStringFormLong
-    1:6:java.lang.String getTreeYearCurrentTime():86:91 -> getTreeYearCurrentTime
-    1:2:boolean onMoreClick():151:152 -> onMoreClick
-    3:3:boolean onMoreClick():155:155 -> onMoreClick
+    1:2:java.lang.String HHmm(java.lang.String):49:50 -> HHmm
+    1:2:java.lang.String MMdd(java.lang.String):39:40 -> MMdd
+    1:1:java.lang.String formatFriendly(long):126:126 -> formatFriendly
+    2:2:java.lang.String formatFriendly(long):130:130 -> formatFriendly
+    3:4:java.lang.String formatFriendly(long):133:134 -> formatFriendly
+    5:6:java.lang.String formatFriendly(long):137:138 -> formatFriendly
+    7:8:java.lang.String formatFriendly(long):141:142 -> formatFriendly
+    9:10:java.lang.String formatFriendly(long):145:146 -> formatFriendly
+    11:12:java.lang.String formatFriendly(long):149:150 -> formatFriendly
+    1:2:java.lang.String getCurrentTime():59:60 -> getCurrentTime
+    1:2:java.lang.String getCurrentTimeForDay():86:87 -> getCurrentTimeForDay
+    1:2:java.lang.String getCurrentTimeForMonth():77:78 -> getCurrentTimeForMonth
+    1:2:java.lang.String getCurrentTimeForYear():68:69 -> getCurrentTimeForYear
+    1:3:java.lang.String getStringFormLong(long):114:116 -> getStringFormLong
+    1:6:java.lang.String getTreeYearCurrentTime():96:101 -> getTreeYearCurrentTime
+    1:2:boolean onMoreClick():161:162 -> onMoreClick
+    3:3:boolean onMoreClick():165:165 -> onMoreClick
+    1:2:java.lang.String yyyyMMdd(long):29:30 -> yyyyMMdd
     1:2:java.lang.String yyyyMMddHHmmss(long):19:20 -> yyyyMMddHHmmss
 com.huli.page.utils.UtilsView -> com.huli.page.utils.v:
     1:1:void <init>():6:6 -> <init>
@@ -122506,38 +122507,40 @@ com.huli.page.widget.page.TxtChapter -> com.huli.page.widget.page.a:
     1:1:void setTitle(java.lang.String):62:62 -> setTitle
     1:1:java.lang.String toString():91:91 -> toString
 com.huli.page.widget.page.TxtPage -> com.huli.page.widget.page.b:
-    java.lang.String pageType -> g
-    java.lang.String VALUE_STRING_AD_TYPE -> i
-    java.lang.String VALUE_STRING_COVER_TYPE -> h
+    java.lang.String pageType -> i
+    java.lang.String VALUE_STRING_AD_TYPE -> k
+    java.lang.String VALUE_STRING_COVER_TYPE -> j
     java.util.List lines -> d
-    boolean isCustomView -> e
-    boolean hasDrawAd -> f
+    float offset -> e
+    boolean wrap -> f
+    boolean isCustomView -> g
+    boolean hasDrawAd -> h
     java.lang.String title -> b
     int titleLines -> c
     int position -> a
     1:1:void <init>():5:5 -> <init>
-    2:2:void <init>():13:13 -> <init>
+    2:2:void <init>():15:15 -> <init>
 com.huli.page.widget.page.TxtSpecing -> com.huli.page.widget.page.TxtSpecing:
     com.huli.page.widget.page.TxtSpecing[] $VALUES -> a
     1:3:void <clinit>():7:9 -> <clinit>
     4:4:void <clinit>():6:6 -> <clinit>
     1:3:void <init>(java.lang.String,int,int,int):14:16 -> <init>
     1:1:int getTextInterval():24:24 -> getTextInterval
-    1:1:int getTextPara():20:20 -> getTextPara
+    1:1:int getTitleInterval():20:20 -> getTitleInterval
     1:1:com.huli.page.widget.page.TxtSpecing valueOf(java.lang.String):6:6 -> valueOf
     1:1:com.huli.page.widget.page.TxtSpecing[] values():6:6 -> values
 com.huli.page.widget.read.-$$Lambda$Tnpb6a9z36AmNA3WJEmeeTVTg3M -> com.huli.page.widget.read.a:
     com.huli.page.widget.read.-$$Lambda$Tnpb6a9z36AmNA3WJEmeeTVTg3M INSTANCE -> a
 com.huli.page.widget.read.LocalReadLoader -> com.huli.page.widget.read.b:
-    java.util.regex.Pattern mChapterPattern -> i0
-    java.lang.String[] CHAPTER_PATTERNS -> q0
-    java.io.File mBookFile -> j0
-    com.huli.page.utils.Charset mCharset -> k0
-    io.reactivex.disposables.Disposable mChapterDisp -> l0
-    java.lang.String TAG -> m0
-    int MAX_LENGTH_WITH_NO_CHAPTER -> o0
-    java.util.regex.Pattern mPreChapterPattern -> p0
-    int BUFFER_SIZE -> n0
+    java.util.regex.Pattern mChapterPattern -> j0
+    java.lang.String[] CHAPTER_PATTERNS -> r0
+    java.io.File mBookFile -> k0
+    com.huli.page.utils.Charset mCharset -> l0
+    java.lang.String TAG -> n0
+    int MAX_LENGTH_WITH_NO_CHAPTER -> p0
+    int BUFFER_SIZE -> o0
+    io.reactivex.disposables.Disposable mChapterDisp -> m0
+    java.util.regex.Pattern mPreChapterPattern -> q0
     1:1:void <clinit>():46:46 -> <clinit>
     2:2:void <clinit>():51:51 -> <clinit>
     1:1:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):70:70 -> <init>
@@ -122624,7 +122627,7 @@ com.huli.page.widget.read.LocalReadLoader$2 -> com.huli.page.widget.read.b$b:
     1:1:void <init>(com.huli.page.widget.read.LocalReadLoader):373:373 -> <init>
     1:2:void subscribe(io.reactivex.SingleEmitter):376:377 -> subscribe
 com.huli.page.widget.read.NetReadLoader -> com.huli.page.widget.read.c:
-    java.lang.String TAG -> i0
+    java.lang.String TAG -> j0
     1:1:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):24:24 -> <init>
     1:9:java.util.List convertTxtChapter(java.util.List):28:36 -> a
     10:10:java.io.BufferedReader getChapterReader(com.huli.page.widget.page.TxtChapter):63:63 -> a
@@ -122908,390 +122911,396 @@ com.huli.page.widget.read.PageWidget$2 -> com.huli.page.widget.read.PageWidget$b
 com.huli.page.widget.read.PageWidget$TouchListener -> com.huli.page.widget.read.PageWidget$c:
 com.huli.page.widget.read.ReadLoader -> com.huli.page.widget.read.d:
     io.reactivex.disposables.Disposable mPreLoadDisp -> r
-    int mBatteryLevel -> O
+    int titleMarginHeight -> O
     int mTextInterval -> K
     boolean isChapterOpen -> u
     int mMarginHeight -> G
     int mVisibleHeight -> C
     android.graphics.Paint mBatteryPaint -> j
-    int STATUS_FINISH -> X
+    int STATUS_LOADING -> X
     android.text.TextPaint mTextPaint -> n
     java.util.List mCurPageList -> h
-    int index -> T
+    int mLastChapterPos -> T
     com.huli.page.model.bean.BookRecordBean mBookRecord -> q
-    int mBgColor -> P
-    int DEFAULT_MARGIN_HEIGHT -> d0
-    int STATUS_PARSE_ERROR -> b0
+    int mBatteryLevel -> P
+    int STATUS_CATEGORY_EMPTY -> d0
+    int STATUS_PARING -> b0
     int mTitleInterval -> L
-    int AD_FOR_PAGE_NUM -> h0
+    int EXTRA_TITLE_SIZE -> h0
     com.huli.page.model.local.ReadSettingManager mSettingManager -> o
-    int DEFAULT_TIP_SIZE -> f0
+    int DEFAULT_MARGIN_WIDTH -> f0
     int mTextColor -> H
-    boolean isABC -> U
     boolean isFirstOpen -> v
     int mDisplayWidth -> D
-    boolean isGoNextPage -> Q
     com.huli.page.widget.page.TxtPage mCancelPage -> p
     android.graphics.Paint mTipPaint -> k
     com.huli.page.widget.page.TxtSpecing mTxtSpecing -> z
     com.huli.page.widget.page.PageMode mPageMode -> x
     com.huli.page.widget.read.ReadLoader$OnPageChangeListener mPageChangeListener -> c
-    int STATUS_ERROR -> Y
+    int STATUS_FINISH -> Y
     java.util.List mPrePageList -> g
+    int index -> U
+    int mBgColor -> Q
     int mTextPara -> M
     com.huli.page.widget.page.PageStyle mPageStyle -> y
     int mTitleSize -> I
+    boolean isABC -> V
     boolean isClose -> w
     com.huli.page.model.bean.BookShelfListBean mCollBook -> b
     int mDisplayHeight -> E
+    boolean isGoNextPage -> R
     android.graphics.Paint mTitlePaint -> l
-    int STATUS_EMPTY -> Z
+    java.lang.String TAG -> W
+    int STATUS_ERROR -> Z
     boolean isNightMode -> A
-    int mCurChapterPos -> R
     int mStatus -> s
     int mTitlePara -> N
-    int STATUS_CATEGORY_EMPTY -> c0
-    int STATUS_PARING -> a0
+    int STATUS_PARSE_ERROR -> c0
+    int STATUS_EMPTY -> a0
     com.huli.page.widget.page.TxtPage mCurPage -> f
     int mTextSize -> J
-    int EXTRA_TITLE_SIZE -> g0
-    int DEFAULT_MARGIN_WIDTH -> e0
+    int DEFAULT_TIP_SIZE -> g0
+    int DEFAULT_MARGIN_HEIGHT -> e0
     int mMarginWidth -> F
+    int AD_FOR_PAGE_NUM -> i0
     int mVisibleWidth -> B
     android.content.Context mContext -> d
     android.graphics.Paint mBgPaint -> m
     boolean isChapterListPrepare -> t
-    java.lang.String TAG -> V
     java.util.List mChapterList -> a
     com.huli.page.widget.read.PageView mPageView -> e
-    int STATUS_LOADING -> W
     java.util.List mNextPageList -> i
-    int mLastChapterPos -> S
-    1:1:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):156:156 -> <init>
-    2:2:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):102:102 -> <init>
-    3:3:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):108:108 -> <init>
-    4:4:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):145:145 -> <init>
-    5:5:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):147:147 -> <init>
-    6:6:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):149:149 -> <init>
-    7:7:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):151:151 -> <init>
-    8:8:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):153:153 -> <init>
-    9:12:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):157:160 -> <init>
-    13:13:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):163:163 -> <init>
-    14:14:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):165:165 -> <init>
-    15:15:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):167:167 -> <init>
-    16:16:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):169:169 -> <init>
+    int mCurChapterPos -> S
+    1:1:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):157:157 -> <init>
+    2:2:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):101:101 -> <init>
+    3:3:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):107:107 -> <init>
+    4:4:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):146:146 -> <init>
+    5:5:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):148:148 -> <init>
+    6:6:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):150:150 -> <init>
+    7:7:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):152:152 -> <init>
+    8:8:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):154:154 -> <init>
+    9:12:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):158:161 -> <init>
+    13:13:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):164:164 -> <init>
+    14:14:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):166:166 -> <init>
+    15:15:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):168:168 -> <init>
+    16:16:void <init>(com.huli.page.widget.read.PageView,com.huli.page.model.bean.BookShelfListBean):170:170 -> <init>
     java.io.BufferedReader getChapterReader(com.huli.page.widget.page.TxtChapter) -> a
-    1:1:io.reactivex.disposables.Disposable access$002(com.huli.page.widget.read.ReadLoader,io.reactivex.disposables.Disposable):44:44 -> a
-    2:2:java.util.List access$102(com.huli.page.widget.read.ReadLoader,java.util.List):44:44 -> a
-    3:3:java.util.List access$200(com.huli.page.widget.read.ReadLoader,int):44:44 -> a
-    4:4:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):217:217 -> a
-    5:6:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):219:220 -> a
-    7:8:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):222:223 -> a
-    9:9:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):225:225 -> a
-    10:10:void clearList(java.util.List):725:725 -> a
-    11:11:void drawPage(android.graphics.Bitmap,boolean):782:782 -> a
-    12:12:void drawPage(android.graphics.Bitmap,boolean):784:784 -> a
-    13:13:void drawPage(android.graphics.Bitmap,boolean):787:787 -> a
-    14:14:void drawContent(android.graphics.Bitmap):908:908 -> a
-    15:20:void drawContent(android.graphics.Bitmap):910:915 -> a
-    21:21:void drawContent(android.graphics.Bitmap):920:920 -> a
-    22:27:void drawContent(android.graphics.Bitmap):945:950 -> a
-    28:29:void drawContent(android.graphics.Bitmap):953:954 -> a
-    30:30:void drawContent(android.graphics.Bitmap):956:956 -> a
-    31:33:void drawContent(android.graphics.Bitmap):958:960 -> a
-    34:37:void drawContent(android.graphics.Bitmap):964:967 -> a
-    38:38:void drawContent(android.graphics.Bitmap):972:972 -> a
-    39:47:void drawContent(android.graphics.Bitmap):975:983 -> a
-    48:49:void drawContent(android.graphics.Bitmap):988:989 -> a
-    50:50:void drawContent(android.graphics.Bitmap):993:993 -> a
-    51:51:void drawContent(android.graphics.Bitmap):997:997 -> a
-    52:52:void drawContent(android.graphics.Bitmap):999:999 -> a
-    53:53:void drawContent(android.graphics.Bitmap):1002:1002 -> a
-    54:54:void drawContent(android.graphics.Bitmap):1011:1011 -> a
-    55:57:void drawContent(android.graphics.Bitmap):1015:1017 -> a
-    58:63:void drawContent(android.graphics.Bitmap):1019:1024 -> a
-    64:64:void drawContent(android.graphics.Bitmap):1030:1030 -> a
-    65:66:void prepareDisplay(int,int):1041:1042 -> a
-    67:67:void prepareDisplay(int,int):1044:1044 -> a
-    68:69:void prepareDisplay(int,int):1046:1047 -> a
-    70:70:void prepareDisplay(int,int):1050:1050 -> a
-    71:71:void prepareDisplay(int,int):1052:1052 -> a
-    72:72:void prepareDisplay(int,int):1054:1054 -> a
-    73:73:void prepareDisplay(int,int):1057:1057 -> a
-    74:74:void prepareDisplay(int,int):1059:1059 -> a
-    75:76:void prepareDisplay(int,int):1063:1064 -> a
-    77:77:void prepareDisplay(int,int):1066:1066 -> a
-    78:78:void prepareDisplay(int,int):1068:1068 -> a
-    79:79:boolean next():1157:1157 -> a
-    80:80:boolean next():1160:1160 -> a
-    81:81:boolean next():1162:1162 -> a
-    82:84:boolean next():1164:1166 -> a
-    85:88:boolean next():1168:1171 -> a
-    89:89:boolean next():1176:1176 -> a
-    90:90:boolean next():1180:1180 -> a
-    91:92:boolean next():1182:1183 -> a
-    93:93:boolean next():1185:1185 -> a
-    94:96:boolean next():1187:1189 -> a
-    97:98:boolean next():1191:1192 -> a
-    99:102:void dealLoadPageList(int):1240:1243 -> a
-    103:105:void dealLoadPageList(int):1246:1248 -> a
-    106:106:void dealLoadPageList(int):1250:1250 -> a
-    107:107:void dealLoadPageList(int):1253:1253 -> a
-    108:108:void dealLoadPageList(int):1256:1256 -> a
-    109:110:void dealLoadPageList(int):1258:1259 -> a
-    111:111:void dealLoadPageList(int):1263:1263 -> a
-    112:113:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1390:1391 -> a
-    114:119:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1393:1398 -> a
-    120:121:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1401:1402 -> a
-    122:122:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1405:1405 -> a
-    123:123:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1407:1407 -> a
-    124:124:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1489:1489 -> a
-    125:130:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1491:1496 -> a
-    131:131:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1498:1498 -> a
-    132:132:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1500:1500 -> a
-    133:133:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1408:1408 -> a
-    134:134:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1411:1411 -> a
-    135:136:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1413:1414 -> a
-    137:137:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1417:1417 -> a
-    138:138:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1422:1422 -> a
-    139:139:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1425:1425 -> a
-    140:140:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1427:1427 -> a
-    141:146:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1432:1437 -> a
-    147:147:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1440:1440 -> a
-    148:149:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1442:1443 -> a
-    150:150:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1450:1450 -> a
-    151:151:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1452:1452 -> a
-    152:155:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1454:1457 -> a
-    156:156:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1461:1461 -> a
-    157:157:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1463:1463 -> a
-    158:158:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1465:1465 -> a
-    159:159:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1469:1469 -> a
-    160:160:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1471:1471 -> a
-    161:161:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1475:1475 -> a
-    162:163:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1479:1480 -> a
-    164:164:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1484:1484 -> a
-    165:165:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1503:1503 -> a
-    166:166:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1505:1505 -> a
-    167:171:void addAdPage(java.util.List,java.lang.String,int):1525:1529 -> a
-    172:173:void addAdPage(java.util.List,java.lang.String,int):1531:1532 -> a
+    1:1:io.reactivex.disposables.Disposable access$002(com.huli.page.widget.read.ReadLoader,io.reactivex.disposables.Disposable):43:43 -> a
+    2:2:java.util.List access$102(com.huli.page.widget.read.ReadLoader,java.util.List):43:43 -> a
+    3:3:java.util.List access$200(com.huli.page.widget.read.ReadLoader,int):43:43 -> a
+    4:4:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):230:230 -> a
+    5:6:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):232:233 -> a
+    7:8:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):235:236 -> a
+    9:9:void setUpSpecingParams(com.huli.page.widget.page.TxtSpecing):238:238 -> a
+    10:10:void clearList(java.util.List):744:744 -> a
+    11:11:void drawPage(android.graphics.Bitmap,boolean):801:801 -> a
+    12:12:void drawPage(android.graphics.Bitmap,boolean):803:803 -> a
+    13:13:void drawPage(android.graphics.Bitmap,boolean):806:806 -> a
+    14:14:void drawContent(android.graphics.Bitmap):925:925 -> a
+    15:20:void drawContent(android.graphics.Bitmap):927:932 -> a
+    21:21:void drawContent(android.graphics.Bitmap):938:938 -> a
+    22:27:void drawContent(android.graphics.Bitmap):963:968 -> a
+    28:29:void drawContent(android.graphics.Bitmap):971:972 -> a
+    30:30:void drawContent(android.graphics.Bitmap):974:974 -> a
+    31:33:void drawContent(android.graphics.Bitmap):976:978 -> a
+    34:37:void drawContent(android.graphics.Bitmap):982:985 -> a
+    38:40:void drawContent(android.graphics.Bitmap):990:992 -> a
+    41:45:void drawContent(android.graphics.Bitmap):999:1003 -> a
+    46:46:void drawContent(android.graphics.Bitmap):1007:1007 -> a
+    47:48:void drawContent(android.graphics.Bitmap):1011:1012 -> a
+    49:49:void drawContent(android.graphics.Bitmap):1015:1015 -> a
+    50:50:void drawContent(android.graphics.Bitmap):1017:1017 -> a
+    51:51:void drawContent(android.graphics.Bitmap):1020:1020 -> a
+    52:52:void drawContent(android.graphics.Bitmap):1029:1029 -> a
+    53:55:void drawContent(android.graphics.Bitmap):1032:1034 -> a
+    56:61:void drawContent(android.graphics.Bitmap):1036:1041 -> a
+    62:62:void drawContent(android.graphics.Bitmap):1048:1048 -> a
+    63:64:void prepareDisplay(int,int):1059:1060 -> a
+    65:66:void prepareDisplay(int,int):1063:1064 -> a
+    67:67:void prepareDisplay(int,int):1067:1067 -> a
+    68:68:void prepareDisplay(int,int):1069:1069 -> a
+    69:69:void prepareDisplay(int,int):1071:1071 -> a
+    70:70:void prepareDisplay(int,int):1074:1074 -> a
+    71:71:void prepareDisplay(int,int):1076:1076 -> a
+    72:73:void prepareDisplay(int,int):1080:1081 -> a
+    74:74:void prepareDisplay(int,int):1083:1083 -> a
+    75:75:void prepareDisplay(int,int):1085:1085 -> a
+    76:76:boolean next():1177:1177 -> a
+    77:77:boolean next():1180:1180 -> a
+    78:78:boolean next():1182:1182 -> a
+    79:81:boolean next():1184:1186 -> a
+    82:85:boolean next():1188:1191 -> a
+    86:86:boolean next():1196:1196 -> a
+    87:87:boolean next():1200:1200 -> a
+    88:89:boolean next():1202:1203 -> a
+    90:90:boolean next():1205:1205 -> a
+    91:93:boolean next():1207:1209 -> a
+    94:95:boolean next():1211:1212 -> a
+    96:99:void dealLoadPageList(int):1260:1263 -> a
+    100:102:void dealLoadPageList(int):1266:1268 -> a
+    103:103:void dealLoadPageList(int):1270:1270 -> a
+    104:104:void dealLoadPageList(int):1273:1273 -> a
+    105:105:void dealLoadPageList(int):1276:1276 -> a
+    106:107:void dealLoadPageList(int):1278:1279 -> a
+    108:108:void dealLoadPageList(int):1283:1283 -> a
+    109:110:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1410:1411 -> a
+    111:116:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1413:1418 -> a
+    117:118:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1421:1422 -> a
+    119:119:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1426:1426 -> a
+    120:120:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1428:1428 -> a
+    121:121:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1518:1518 -> a
+    122:128:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1520:1526 -> a
+    129:129:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1528:1528 -> a
+    130:130:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1530:1530 -> a
+    131:131:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1432:1432 -> a
+    132:133:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1434:1435 -> a
+    134:134:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1438:1438 -> a
+    135:135:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1442:1442 -> a
+    136:136:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1445:1445 -> a
+    137:137:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1447:1447 -> a
+    138:146:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1452:1460 -> a
+    147:147:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1462:1462 -> a
+    148:149:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1464:1465 -> a
+    150:150:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1467:1467 -> a
+    151:151:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1474:1474 -> a
+    152:152:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1476:1476 -> a
+    153:156:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1478:1481 -> a
+    157:157:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1485:1485 -> a
+    158:158:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1487:1487 -> a
+    159:159:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1489:1489 -> a
+    160:160:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1493:1493 -> a
+    161:161:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1496:1496 -> a
+    162:162:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1500:1500 -> a
+    163:163:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1503:1503 -> a
+    164:164:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1507:1507 -> a
+    165:165:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1509:1509 -> a
+    166:166:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1513:1513 -> a
+    167:167:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1533:1533 -> a
+    168:168:java.util.List loadPages(com.huli.page.widget.page.TxtChapter,java.io.BufferedReader):1535:1535 -> a
+    169:173:void addAdPage(java.util.List,java.lang.String,int):1555:1559 -> a
+    174:175:void addAdPage(java.util.List,java.lang.String,int):1561:1562 -> a
     boolean hasChapterData(com.huli.page.widget.page.TxtChapter) -> b
-    1:2:void drawBackground(android.graphics.Bitmap,boolean):791:792 -> b
-    3:4:void drawBackground(android.graphics.Bitmap,boolean):795:796 -> b
-    5:9:void drawBackground(android.graphics.Bitmap,boolean):799:803 -> b
-    10:10:void drawBackground(android.graphics.Bitmap,boolean):805:805 -> b
-    11:11:void drawBackground(android.graphics.Bitmap,boolean):807:807 -> b
-    12:12:void drawBackground(android.graphics.Bitmap,boolean):809:809 -> b
-    13:13:void drawBackground(android.graphics.Bitmap,boolean):812:812 -> b
-    14:17:void drawBackground(android.graphics.Bitmap,boolean):814:817 -> b
-    18:19:void drawBackground(android.graphics.Bitmap,boolean):820:821 -> b
-    20:20:void drawBackground(android.graphics.Bitmap,boolean):823:823 -> b
-    21:21:void drawBackground(android.graphics.Bitmap,boolean):830:830 -> b
-    22:23:void drawBackground(android.graphics.Bitmap,boolean):832:833 -> b
-    24:29:void drawBackground(android.graphics.Bitmap,boolean):835:840 -> b
-    30:30:void drawBackground(android.graphics.Bitmap,boolean):844:844 -> b
-    31:31:void drawBackground(android.graphics.Bitmap,boolean):846:846 -> b
-    32:36:void drawBackground(android.graphics.Bitmap,boolean):849:853 -> b
-    37:38:void drawBackground(android.graphics.Bitmap,boolean):855:856 -> b
-    39:40:void drawBackground(android.graphics.Bitmap,boolean):861:862 -> b
-    41:42:void drawBackground(android.graphics.Bitmap,boolean):864:865 -> b
-    43:44:void drawBackground(android.graphics.Bitmap,boolean):867:868 -> b
-    45:47:void drawBackground(android.graphics.Bitmap,boolean):874:876 -> b
-    48:49:void drawBackground(android.graphics.Bitmap,boolean):878:879 -> b
-    50:51:void drawBackground(android.graphics.Bitmap,boolean):884:885 -> b
-    52:54:void drawBackground(android.graphics.Bitmap,boolean):887:889 -> b
-    55:56:void drawBackground(android.graphics.Bitmap,boolean):892:893 -> b
-    57:58:void drawBackground(android.graphics.Bitmap,boolean):896:897 -> b
-    59:62:void drawBackground(android.graphics.Bitmap,boolean):901:904 -> b
-    63:66:void pageCancel():1314:1317 -> b
-    67:69:void pageCancel():1320:1322 -> b
-    70:71:void pageCancel():1324:1325 -> b
-    72:72:void pageCancel():1327:1327 -> b
-    73:74:void pageCancel():1330:1331 -> b
-    75:75:void pageCancel():1345:1345 -> b
-    76:77:void pageCancel():1334:1335 -> b
-    78:79:void pageCancel():1337:1338 -> b
-    80:80:void pageCancel():1340:1340 -> b
-    81:82:com.huli.page.widget.page.TxtPage getCurPage(int):1540:1541 -> b
-    83:84:com.huli.page.widget.page.TxtPage getCurPage(int):1543:1544 -> b
-    85:85:com.huli.page.widget.page.TxtPage getCurPage(int):1546:1546 -> b
-    1:2:java.util.List loadPageList(int):745:746 -> c
-    3:3:java.util.List loadPageList(int):748:748 -> c
-    4:4:java.util.List loadPageList(int):752:752 -> c
-    5:5:java.util.List loadPageList(int):754:754 -> c
-    6:6:boolean parseCurChapter():1203:1203 -> c
-    7:8:boolean parseCurChapter():1205:1206 -> c
-    1:2:void chapterError():697:698 -> chapterError
-    1:2:void closeBook():705:706 -> closeBook
-    3:4:void closeBook():708:709 -> closeBook
-    5:7:void closeBook():712:714 -> closeBook
-    8:12:void closeBook():716:720 -> closeBook
-    1:2:void setUpTextParams(int):201:202 -> d
-    3:3:void setUpTextParams(int):204:204 -> d
-    4:4:void setUpTextParams(int):206:206 -> d
-    5:5:void setUpTextParams(int):208:208 -> d
-    6:6:boolean parseNextChapter():1215:1215 -> d
-    7:8:boolean parseNextChapter():1217:1218 -> d
-    9:9:boolean parseNextChapter():1221:1221 -> d
-    10:12:boolean parseNextChapter():1224:1226 -> d
-    13:13:boolean parseNextChapter():1228:1228 -> d
-    14:14:boolean parseNextChapter():1231:1231 -> d
-    15:16:boolean parseNextChapter():1234:1235 -> d
-    1:1:boolean parsePrevChapter():1124:1124 -> e
-    2:3:boolean parsePrevChapter():1126:1127 -> e
-    4:4:boolean parsePrevChapter():1130:1130 -> e
-    5:7:boolean parsePrevChapter():1133:1135 -> e
-    8:8:boolean parsePrevChapter():1138:1138 -> e
-    9:9:boolean parsePrevChapter():1140:1140 -> e
-    10:10:boolean parsePrevChapter():1142:1142 -> e
-    1:1:boolean prev():1079:1079 -> f
-    2:2:boolean prev():1082:1082 -> f
-    3:3:boolean prev():1084:1084 -> f
-    4:6:boolean prev():1086:1088 -> f
-    7:10:boolean prev():1090:1093 -> f
-    11:11:boolean prev():1098:1098 -> f
-    12:14:boolean prev():1102:1104 -> f
-    15:15:boolean prev():1106:1106 -> f
-    16:19:boolean prev():1108:1111 -> f
-    20:20:boolean prev():1113:1113 -> f
-    1:1:boolean canTurnPage():1610:1610 -> g
-    2:2:boolean canTurnPage():1613:1613 -> g
-    3:3:boolean canTurnPage():1617:1617 -> g
-    1:1:java.util.List getChapterCategory():582:582 -> getChapterCategory
-    1:1:int getChapterPos():600:600 -> getChapterPos
-    1:1:com.huli.page.model.bean.BookShelfListBean getCollBook():573:573 -> getCollBook
-    1:1:int getMarginHeight():609:609 -> getMarginHeight
-    1:1:int getPagePos():591:591 -> getPagePos
-    1:1:int getPageStatus():564:564 -> getPageStatus
-    1:3:void cancelNextChapter():1350:1352 -> h
-    4:6:void cancelNextChapter():1354:1356 -> h
-    7:7:void cancelNextChapter():1358:1358 -> h
-    8:9:void cancelNextChapter():1360:1361 -> h
-    1:3:void cancelPreChapter():1366:1368 -> i
-    4:6:void cancelPreChapter():1370:1372 -> i
-    7:7:void cancelPreChapter():1374:1374 -> i
-    8:9:void cancelPreChapter():1376:1377 -> i
-    1:1:boolean isChapterOpen():734:734 -> isChapterOpen
-    1:2:boolean isChinesePunctuation(char):1512:1513 -> isChinesePunctuation
-    1:1:boolean isClose():730:730 -> isClose
-    1:3:void chapterChangeCallback():1267:1269 -> j
-    1:2:com.huli.page.widget.page.TxtPage getNextPage():1575:1576 -> k
-    3:3:com.huli.page.widget.page.TxtPage getNextPage():1578:1578 -> k
-    4:4:com.huli.page.widget.page.TxtPage getNextPage():1582:1582 -> k
-    5:6:com.huli.page.widget.page.TxtPage getNextPage():1585:1586 -> k
-    7:7:com.huli.page.widget.page.TxtPage getNextPage():1588:1588 -> k
-    1:1:com.huli.page.widget.page.TxtPage getPrevLastPage():1595:1595 -> l
-    2:3:com.huli.page.widget.page.TxtPage getPrevLastPage():1597:1598 -> l
-    4:4:com.huli.page.widget.page.TxtPage getPrevLastPage():1601:1601 -> l
-    1:2:com.huli.page.widget.page.TxtPage getPrevPage():1554:1555 -> m
-    3:3:com.huli.page.widget.page.TxtPage getPrevPage():1557:1557 -> m
-    4:5:com.huli.page.widget.page.TxtPage getPrevPage():1564:1565 -> m
-    6:6:com.huli.page.widget.page.TxtPage getPrevPage():1567:1567 -> m
-    1:1:boolean hasNextChapter():1198:1198 -> n
-    1:1:boolean hasPrevChapter():1147:1147 -> o
-    1:1:void openChapter():652:652 -> openChapter
-    2:2:void openChapter():654:654 -> openChapter
-    3:5:void openChapter():659:661 -> openChapter
-    6:8:void openChapter():666:668 -> openChapter
-    9:9:void openChapter():672:672 -> openChapter
-    10:11:void openChapter():674:675 -> openChapter
-    12:13:void openChapter():678:679 -> openChapter
-    14:15:void openChapter():681:682 -> openChapter
-    16:16:void openChapter():684:684 -> openChapter
-    17:17:void openChapter():686:686 -> openChapter
-    18:18:void openChapter():689:689 -> openChapter
-    19:19:void openChapter():692:692 -> openChapter
-    1:1:void initData():174:174 -> p
-    2:4:void initData():176:178 -> p
-    5:6:void initData():180:181 -> p
-    7:8:void initData():184:185 -> p
-    9:10:void initData():187:188 -> p
-    11:12:void initData():190:191 -> p
-    1:2:void initPageView():266:267 -> q
-    1:6:void initPaint():230:235 -> r
-    7:10:void initPaint():238:241 -> r
-    11:16:void initPaint():244:249 -> r
-    17:18:void initPaint():252:253 -> r
-    19:21:void initPaint():256:258 -> r
-    22:22:void initPaint():261:261 -> r
-    1:1:void preLoadNextChapter():1275:1275 -> s
-    2:2:void preLoadNextChapter():1278:1278 -> s
-    3:4:void preLoadNextChapter():1283:1284 -> s
-    5:5:void preLoadNextChapter():1288:1288 -> s
-    6:7:void preLoadNextChapter():1293:1294 -> s
-    1:1:void saveRecord():617:617 -> saveRecord
-    2:3:void saveRecord():621:622 -> saveRecord
-    4:5:void saveRecord():624:625 -> saveRecord
-    6:6:void saveRecord():627:627 -> saveRecord
-    7:7:void saveRecord():631:631 -> saveRecord
-    1:1:void setABC(boolean):277:277 -> setABC
-    1:2:void setMargin(int,int):533:534 -> setMargin
-    3:4:void setMargin(int,int):537:538 -> setMargin
-    5:5:void setMargin(int,int):541:541 -> setMargin
-    1:2:void setNightMode(boolean):469:470 -> setNightMode
-    3:4:void setNightMode(boolean):472:473 -> setNightMode
-    5:5:void setNightMode(boolean):475:475 -> setNightMode
-    1:1:void setOnPageChangeListener(com.huli.page.widget.read.ReadLoader$OnPageChangeListener):550:550 -> setOnPageChangeListener
-    2:3:void setOnPageChangeListener(com.huli.page.widget.read.ReadLoader$OnPageChangeListener):553:554 -> setOnPageChangeListener
-    1:1:void setPageMode(com.huli.page.widget.page.PageMode):517:517 -> setPageMode
-    2:3:void setPageMode(com.huli.page.widget.page.PageMode):519:520 -> setPageMode
-    4:4:void setPageMode(com.huli.page.widget.page.PageMode):523:523 -> setPageMode
-    1:4:void setPageStyle(com.huli.page.widget.page.PageStyle):485:488 -> setPageStyle
-    5:6:void setPageStyle(com.huli.page.widget.page.PageStyle):495:496 -> setPageStyle
-    7:11:void setPageStyle(com.huli.page.widget.page.PageStyle):498:502 -> setPageStyle
-    12:14:void setPageStyle(com.huli.page.widget.page.PageStyle):504:506 -> setPageStyle
-    1:1:void setTextSize(int):441:441 -> setTextSize
-    2:3:void setTextSize(int):443:444 -> setTextSize
-    4:4:void setTextSize(int):447:447 -> setTextSize
-    5:5:void setTextSize(int):449:449 -> setTextSize
-    6:7:void setTextSize(int):452:453 -> setTextSize
-    8:8:void setTextSize(int):457:457 -> setTextSize
-    9:9:void setTextSize(int):460:460 -> setTextSize
-    1:1:void setTipTextSize(int):406:406 -> setTipTextSize
-    2:2:void setTipTextSize(int):409:409 -> setTipTextSize
-    1:1:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):413:413 -> setTxtSpecing
-    2:3:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):415:416 -> setTxtSpecing
-    4:4:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):418:418 -> setTxtSpecing
-    5:5:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):420:420 -> setTxtSpecing
-    6:7:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):423:424 -> setTxtSpecing
-    8:8:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):428:428 -> setTxtSpecing
-    9:9:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):431:431 -> setTxtSpecing
-    1:1:boolean skipNextChapter():306:306 -> skipNextChapter
-    2:3:boolean skipNextChapter():311:312 -> skipNextChapter
-    4:4:boolean skipNextChapter():314:314 -> skipNextChapter
-    5:5:boolean skipNextChapter():316:316 -> skipNextChapter
-    1:1:boolean skipPreChapter():286:286 -> skipPreChapter
-    2:2:boolean skipPreChapter():289:289 -> skipPreChapter
-    3:4:boolean skipPreChapter():291:292 -> skipPreChapter
-    5:5:boolean skipPreChapter():294:294 -> skipPreChapter
-    6:6:boolean skipPreChapter():296:296 -> skipPreChapter
-    1:1:void skipToChapter(int):327:327 -> skipToChapter
-    2:2:void skipToChapter(int):329:329 -> skipToChapter
-    3:3:void skipToChapter(int):331:331 -> skipToChapter
-    4:4:void skipToChapter(int):334:334 -> skipToChapter
-    5:6:void skipToChapter(int):336:337 -> skipToChapter
-    7:7:void skipToChapter(int):340:340 -> skipToChapter
-    8:8:void skipToChapter(int):343:343 -> skipToChapter
-    1:1:boolean skipToNextPage():375:375 -> skipToNextPage
-    1:1:boolean skipToPage(int):352:352 -> skipToPage
-    2:3:boolean skipToPage(int):355:356 -> skipToPage
-    1:1:boolean skipToPrePage():366:366 -> skipToPrePage
-    1:1:void prepareBook():638:638 -> t
-    2:3:void prepareBook():640:641 -> t
-    4:5:void prepareBook():644:645 -> t
-    1:1:void updateBattery(int):393:393 -> updateBattery
-    2:3:void updateBattery(int):395:396 -> updateBattery
-    1:2:void updateTime():382:383 -> updateTime
+    1:2:void drawBackground(android.graphics.Bitmap,boolean):810:811 -> b
+    3:3:void drawBackground(android.graphics.Bitmap,boolean):814:814 -> b
+    4:8:void drawBackground(android.graphics.Bitmap,boolean):817:821 -> b
+    9:9:void drawBackground(android.graphics.Bitmap,boolean):823:823 -> b
+    10:10:void drawBackground(android.graphics.Bitmap,boolean):825:825 -> b
+    11:11:void drawBackground(android.graphics.Bitmap,boolean):827:827 -> b
+    12:12:void drawBackground(android.graphics.Bitmap,boolean):830:830 -> b
+    13:16:void drawBackground(android.graphics.Bitmap,boolean):832:835 -> b
+    17:18:void drawBackground(android.graphics.Bitmap,boolean):838:839 -> b
+    19:19:void drawBackground(android.graphics.Bitmap,boolean):841:841 -> b
+    20:20:void drawBackground(android.graphics.Bitmap,boolean):848:848 -> b
+    21:22:void drawBackground(android.graphics.Bitmap,boolean):850:851 -> b
+    23:28:void drawBackground(android.graphics.Bitmap,boolean):853:858 -> b
+    29:29:void drawBackground(android.graphics.Bitmap,boolean):862:862 -> b
+    30:30:void drawBackground(android.graphics.Bitmap,boolean):864:864 -> b
+    31:34:void drawBackground(android.graphics.Bitmap,boolean):867:870 -> b
+    35:36:void drawBackground(android.graphics.Bitmap,boolean):872:873 -> b
+    37:38:void drawBackground(android.graphics.Bitmap,boolean):878:879 -> b
+    39:40:void drawBackground(android.graphics.Bitmap,boolean):881:882 -> b
+    41:42:void drawBackground(android.graphics.Bitmap,boolean):884:885 -> b
+    43:45:void drawBackground(android.graphics.Bitmap,boolean):891:893 -> b
+    46:47:void drawBackground(android.graphics.Bitmap,boolean):895:896 -> b
+    48:49:void drawBackground(android.graphics.Bitmap,boolean):901:902 -> b
+    50:52:void drawBackground(android.graphics.Bitmap,boolean):904:906 -> b
+    53:54:void drawBackground(android.graphics.Bitmap,boolean):909:910 -> b
+    55:56:void drawBackground(android.graphics.Bitmap,boolean):913:914 -> b
+    57:60:void drawBackground(android.graphics.Bitmap,boolean):918:921 -> b
+    61:64:void pageCancel():1334:1337 -> b
+    65:67:void pageCancel():1340:1342 -> b
+    68:69:void pageCancel():1344:1345 -> b
+    70:70:void pageCancel():1347:1347 -> b
+    71:72:void pageCancel():1350:1351 -> b
+    73:73:void pageCancel():1365:1365 -> b
+    74:75:void pageCancel():1354:1355 -> b
+    76:77:void pageCancel():1357:1358 -> b
+    78:78:void pageCancel():1360:1360 -> b
+    79:80:com.huli.page.widget.page.TxtPage getCurPage(int):1570:1571 -> b
+    81:82:com.huli.page.widget.page.TxtPage getCurPage(int):1573:1574 -> b
+    83:83:com.huli.page.widget.page.TxtPage getCurPage(int):1576:1576 -> b
+    1:2:java.util.List loadPageList(int):764:765 -> c
+    3:3:java.util.List loadPageList(int):767:767 -> c
+    4:4:java.util.List loadPageList(int):771:771 -> c
+    5:5:java.util.List loadPageList(int):773:773 -> c
+    6:6:boolean parseCurChapter():1223:1223 -> c
+    7:8:boolean parseCurChapter():1225:1226 -> c
+    1:2:void chapterError():716:717 -> chapterError
+    1:2:void closeBook():724:725 -> closeBook
+    3:4:void closeBook():727:728 -> closeBook
+    5:7:void closeBook():731:733 -> closeBook
+    8:12:void closeBook():735:739 -> closeBook
+    1:2:void setUpTextParams(int):214:215 -> d
+    3:3:void setUpTextParams(int):217:217 -> d
+    4:4:void setUpTextParams(int):219:219 -> d
+    5:5:void setUpTextParams(int):221:221 -> d
+    6:6:boolean parseNextChapter():1235:1235 -> d
+    7:8:boolean parseNextChapter():1237:1238 -> d
+    9:9:boolean parseNextChapter():1241:1241 -> d
+    10:12:boolean parseNextChapter():1244:1246 -> d
+    13:13:boolean parseNextChapter():1248:1248 -> d
+    14:14:boolean parseNextChapter():1251:1251 -> d
+    15:16:boolean parseNextChapter():1254:1255 -> d
+    1:1:boolean parsePrevChapter():1144:1144 -> e
+    2:3:boolean parsePrevChapter():1146:1147 -> e
+    4:4:boolean parsePrevChapter():1150:1150 -> e
+    5:7:boolean parsePrevChapter():1153:1155 -> e
+    8:8:boolean parsePrevChapter():1158:1158 -> e
+    9:9:boolean parsePrevChapter():1160:1160 -> e
+    10:10:boolean parsePrevChapter():1162:1162 -> e
+    1:1:boolean prev():1099:1099 -> f
+    2:2:boolean prev():1102:1102 -> f
+    3:3:boolean prev():1104:1104 -> f
+    4:6:boolean prev():1106:1108 -> f
+    7:10:boolean prev():1110:1113 -> f
+    11:11:boolean prev():1118:1118 -> f
+    12:14:boolean prev():1122:1124 -> f
+    15:15:boolean prev():1126:1126 -> f
+    16:19:boolean prev():1128:1131 -> f
+    20:20:boolean prev():1133:1133 -> f
+    1:1:boolean canTurnPage():1640:1640 -> g
+    2:2:boolean canTurnPage():1643:1643 -> g
+    3:3:boolean canTurnPage():1647:1647 -> g
+    1:1:java.util.List getChapterCategory():601:601 -> getChapterCategory
+    1:1:int getChapterPos():619:619 -> getChapterPos
+    1:1:com.huli.page.model.bean.BookShelfListBean getCollBook():592:592 -> getCollBook
+    1:1:int getMarginHeight():628:628 -> getMarginHeight
+    1:1:int getPagePos():610:610 -> getPagePos
+    1:1:int getPageStatus():583:583 -> getPageStatus
+    1:3:void cancelNextChapter():1370:1372 -> h
+    4:6:void cancelNextChapter():1374:1376 -> h
+    7:7:void cancelNextChapter():1378:1378 -> h
+    8:9:void cancelNextChapter():1380:1381 -> h
+    1:3:void cancelPreChapter():1386:1388 -> i
+    4:6:void cancelPreChapter():1390:1392 -> i
+    7:7:void cancelPreChapter():1394:1394 -> i
+    8:9:void cancelPreChapter():1396:1397 -> i
+    1:1:boolean isChapterOpen():753:753 -> isChapterOpen
+    1:2:boolean isChinesePunctuation(char):1542:1543 -> isChinesePunctuation
+    1:1:boolean isClose():749:749 -> isClose
+    1:3:void chapterChangeCallback():1287:1289 -> j
+    1:2:com.huli.page.widget.page.TxtPage getNextPage():1605:1606 -> k
+    3:3:com.huli.page.widget.page.TxtPage getNextPage():1608:1608 -> k
+    4:4:com.huli.page.widget.page.TxtPage getNextPage():1612:1612 -> k
+    5:6:com.huli.page.widget.page.TxtPage getNextPage():1615:1616 -> k
+    7:7:com.huli.page.widget.page.TxtPage getNextPage():1618:1618 -> k
+    1:1:com.huli.page.widget.page.TxtPage getPrevLastPage():1625:1625 -> l
+    2:3:com.huli.page.widget.page.TxtPage getPrevLastPage():1627:1628 -> l
+    4:4:com.huli.page.widget.page.TxtPage getPrevLastPage():1631:1631 -> l
+    1:2:com.huli.page.widget.page.TxtPage getPrevPage():1584:1585 -> m
+    3:3:com.huli.page.widget.page.TxtPage getPrevPage():1587:1587 -> m
+    4:5:com.huli.page.widget.page.TxtPage getPrevPage():1594:1595 -> m
+    6:6:com.huli.page.widget.page.TxtPage getPrevPage():1597:1597 -> m
+    1:1:boolean hasNextChapter():1218:1218 -> n
+    1:1:boolean hasPrevChapter():1167:1167 -> o
+    1:1:void openChapter():671:671 -> openChapter
+    2:2:void openChapter():673:673 -> openChapter
+    3:5:void openChapter():678:680 -> openChapter
+    6:8:void openChapter():685:687 -> openChapter
+    9:9:void openChapter():691:691 -> openChapter
+    10:11:void openChapter():693:694 -> openChapter
+    12:13:void openChapter():697:698 -> openChapter
+    14:15:void openChapter():700:701 -> openChapter
+    16:16:void openChapter():703:703 -> openChapter
+    17:17:void openChapter():705:705 -> openChapter
+    18:18:void openChapter():708:708 -> openChapter
+    19:19:void openChapter():711:711 -> openChapter
+    1:1:void initData():175:175 -> p
+    2:4:void initData():177:179 -> p
+    5:6:void initData():181:182 -> p
+    7:8:void initData():185:186 -> p
+    9:10:void initData():188:189 -> p
+    11:12:void initData():191:192 -> p
+    13:13:void initData():194:194 -> p
+    1:2:void initPageView():279:280 -> q
+    1:6:void initPaint():243:248 -> r
+    7:10:void initPaint():251:254 -> r
+    11:16:void initPaint():257:262 -> r
+    17:18:void initPaint():265:266 -> r
+    19:21:void initPaint():269:271 -> r
+    22:22:void initPaint():274:274 -> r
+    1:1:void refreshPage():427:427 -> refreshPage
+    2:2:void refreshPage():429:429 -> refreshPage
+    3:3:void refreshPage():431:431 -> refreshPage
+    4:4:void refreshPage():434:434 -> refreshPage
+    1:1:void preLoadNextChapter():1295:1295 -> s
+    2:2:void preLoadNextChapter():1298:1298 -> s
+    3:4:void preLoadNextChapter():1303:1304 -> s
+    5:5:void preLoadNextChapter():1308:1308 -> s
+    6:7:void preLoadNextChapter():1313:1314 -> s
+    1:1:void saveRecord():636:636 -> saveRecord
+    2:3:void saveRecord():640:641 -> saveRecord
+    4:5:void saveRecord():643:644 -> saveRecord
+    6:6:void saveRecord():646:646 -> saveRecord
+    7:7:void saveRecord():650:650 -> saveRecord
+    1:1:void setABC(boolean):290:290 -> setABC
+    1:2:void setMargin(int,int):552:553 -> setMargin
+    3:4:void setMargin(int,int):556:557 -> setMargin
+    5:5:void setMargin(int,int):560:560 -> setMargin
+    1:2:void setNightMode(boolean):488:489 -> setNightMode
+    3:4:void setNightMode(boolean):491:492 -> setNightMode
+    5:5:void setNightMode(boolean):494:494 -> setNightMode
+    1:1:void setOnPageChangeListener(com.huli.page.widget.read.ReadLoader$OnPageChangeListener):569:569 -> setOnPageChangeListener
+    2:3:void setOnPageChangeListener(com.huli.page.widget.read.ReadLoader$OnPageChangeListener):572:573 -> setOnPageChangeListener
+    1:1:void setPageMode(com.huli.page.widget.page.PageMode):536:536 -> setPageMode
+    2:3:void setPageMode(com.huli.page.widget.page.PageMode):538:539 -> setPageMode
+    4:4:void setPageMode(com.huli.page.widget.page.PageMode):542:542 -> setPageMode
+    1:4:void setPageStyle(com.huli.page.widget.page.PageStyle):504:507 -> setPageStyle
+    5:6:void setPageStyle(com.huli.page.widget.page.PageStyle):514:515 -> setPageStyle
+    7:11:void setPageStyle(com.huli.page.widget.page.PageStyle):517:521 -> setPageStyle
+    12:14:void setPageStyle(com.huli.page.widget.page.PageStyle):523:525 -> setPageStyle
+    1:1:void setTextSize(int):460:460 -> setTextSize
+    2:3:void setTextSize(int):462:463 -> setTextSize
+    4:4:void setTextSize(int):466:466 -> setTextSize
+    5:5:void setTextSize(int):468:468 -> setTextSize
+    6:7:void setTextSize(int):471:472 -> setTextSize
+    8:8:void setTextSize(int):476:476 -> setTextSize
+    9:9:void setTextSize(int):479:479 -> setTextSize
+    1:1:void setTipTextSize(int):419:419 -> setTipTextSize
+    2:2:void setTipTextSize(int):422:422 -> setTipTextSize
+    1:1:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):438:438 -> setTxtSpecing
+    2:3:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):440:441 -> setTxtSpecing
+    4:4:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):443:443 -> setTxtSpecing
+    5:5:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):445:445 -> setTxtSpecing
+    6:6:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):447:447 -> setTxtSpecing
+    7:7:void setTxtSpecing(com.huli.page.widget.page.TxtSpecing):450:450 -> setTxtSpecing
+    1:1:boolean skipNextChapter():319:319 -> skipNextChapter
+    2:3:boolean skipNextChapter():324:325 -> skipNextChapter
+    4:4:boolean skipNextChapter():327:327 -> skipNextChapter
+    5:5:boolean skipNextChapter():329:329 -> skipNextChapter
+    1:1:boolean skipPreChapter():299:299 -> skipPreChapter
+    2:2:boolean skipPreChapter():302:302 -> skipPreChapter
+    3:4:boolean skipPreChapter():304:305 -> skipPreChapter
+    5:5:boolean skipPreChapter():307:307 -> skipPreChapter
+    6:6:boolean skipPreChapter():309:309 -> skipPreChapter
+    1:1:void skipToChapter(int):340:340 -> skipToChapter
+    2:2:void skipToChapter(int):342:342 -> skipToChapter
+    3:3:void skipToChapter(int):344:344 -> skipToChapter
+    4:4:void skipToChapter(int):347:347 -> skipToChapter
+    5:6:void skipToChapter(int):349:350 -> skipToChapter
+    7:7:void skipToChapter(int):353:353 -> skipToChapter
+    8:8:void skipToChapter(int):356:356 -> skipToChapter
+    1:1:boolean skipToNextPage():388:388 -> skipToNextPage
+    1:1:boolean skipToPage(int):365:365 -> skipToPage
+    2:3:boolean skipToPage(int):368:369 -> skipToPage
+    1:1:boolean skipToPrePage():379:379 -> skipToPrePage
+    1:1:void prepareBook():657:657 -> t
+    2:3:void prepareBook():659:660 -> t
+    4:5:void prepareBook():663:664 -> t
+    1:1:void updateBattery(int):406:406 -> updateBattery
+    2:3:void updateBattery(int):408:409 -> updateBattery
+    1:2:void updateTime():395:396 -> updateTime
 com.huli.page.widget.read.ReadLoader$1 -> com.huli.page.widget.read.d$a:
     com.huli.page.widget.read.ReadLoader this$0 -> a
-    1:1:void <init>(com.huli.page.widget.read.ReadLoader):1294:1294 -> <init>
-    1:1:void onSubscribe(io.reactivex.disposables.Disposable):1297:1297 -> onSubscribe
-    1:1:void onSuccess(java.lang.Object):1294:1294 -> onSuccess
-    2:2:void onSuccess(java.util.List):1302:1302 -> onSuccess
+    1:1:void <init>(com.huli.page.widget.read.ReadLoader):1314:1314 -> <init>
+    1:1:void onSubscribe(io.reactivex.disposables.Disposable):1317:1317 -> onSubscribe
+    1:1:void onSuccess(java.lang.Object):1314:1314 -> onSuccess
+    2:2:void onSuccess(java.util.List):1322:1322 -> onSuccess
 com.huli.page.widget.read.ReadLoader$2 -> com.huli.page.widget.read.d$b:
     com.huli.page.widget.read.ReadLoader this$0 -> b
     int val$nextChapter -> a
-    1:1:void <init>(com.huli.page.widget.read.ReadLoader,int):1288:1288 -> <init>
-    1:1:void subscribe(io.reactivex.SingleEmitter):1291:1291 -> subscribe
+    1:1:void <init>(com.huli.page.widget.read.ReadLoader,int):1308:1308 -> <init>
+    1:1:void subscribe(io.reactivex.SingleEmitter):1311:1311 -> subscribe
 com.huli.page.widget.read.ReadLoader$OnPageChangeListener -> com.huli.page.widget.read.d$c:
 com.kongzue.dialog.BuildConfig -> com.kongzue.dialog.BuildConfig:
     1:1:void <init>():6:6 -> <init>
