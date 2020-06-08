@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.util.Log;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -991,7 +990,7 @@ public abstract class ReadLoader {
             mPageView.cleanAdView();
             float allOffset = mCurPage.offset < 0 ? 0 : mCurPage.offset;
             int lines = mCurPage.lines.size();
-            float heightOffset = allOffset / lines;
+            float heightOffset = allOffset / (lines - 1);
 //            Log.d(TAG, "是否换段：" + mCurPage.wrap);
 //            Log.d(TAG, "总偏移：" + allOffset);
 //            Log.d(TAG, "偏移量：" + heightOffset);
@@ -1027,7 +1026,7 @@ public abstract class ReadLoader {
             }
 
             if (mCurPage.titleLines <= 0) {
-                top += interval;
+                top += (mTextInterval + mTextPaint.getTextSize());
             }
             //对内容进行绘制
             for (int i = mCurPage.titleLines; i < mCurPage.lines.size(); ++i) {
