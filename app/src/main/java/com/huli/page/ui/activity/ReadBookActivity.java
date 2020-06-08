@@ -597,10 +597,14 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             rl.setVisibility(VISIBLE);
         }
         mPageLoader.setABC(isABC);
+        Log.d(TAG, "isABC" + isABC);
     }
 
     private boolean testingIsABC(long lapse) {
         if (UserInfoCache.getIsVip(mContext)) {
+            return true;
+        }
+        if (UserInfoCache.getIsNewMan(mContext)) {
             return true;
         }
         long now = System.currentTimeMillis();
@@ -848,8 +852,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
                     @Override
                     public void onAdClose() {
+                        AdvFreeSuccessActivity.start(mContext);
                         if (mRewardVerify) {
-                            AdvFreeSuccessActivity.start(mContext);
                             mRewardVerify = false;
                         }
                     }

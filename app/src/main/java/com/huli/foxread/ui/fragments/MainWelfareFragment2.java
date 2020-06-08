@@ -16,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -110,7 +109,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     private boolean mIsExpress = false; //是否请求模板广告
     private boolean mHasShowDownloadActive = false;
     /*观看视频验证*/
-    private boolean mRewardVerify;
+//    private boolean mRewardVerify;
 
     @Override
     public int bindLayout() {
@@ -289,7 +288,12 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
                     @Override
                     public void onAdClose() {
-                        if (mRewardVerify) {
+                        if (vType.equals(Common.VIDEO_BONUSES)) {
+                            reqGetWerfareTasks(false);
+                        } else if (vType.equals(Common.VIDEO_ADVERT)) {
+                            AdvFreeSuccessActivity.start(mActivity);
+                        }
+                        /*if (mRewardVerify) {
                             if (vType.equals(Common.VIDEO_BONUSES)) {
                                 reqGetWerfareTasks(false);
                             } else if (vType.equals(Common.VIDEO_ADVERT)) {
@@ -301,7 +305,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                                 Toast.makeText(mActivity, "激励视频验证失败！", Toast.LENGTH_SHORT).show();
                                 reqGetWerfareTasks(false);
                             }
-                        }
+                        }*/
                     }
 
                     //视频播放完成回调
@@ -316,7 +320,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                     //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
                     @Override
                     public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
-                        mRewardVerify = rewardVerify;
+//                        mRewardVerify = rewardVerify;
                     }
 
                     @Override

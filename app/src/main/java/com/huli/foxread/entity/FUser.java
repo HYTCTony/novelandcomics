@@ -13,7 +13,7 @@ public class FUser implements Serializable {
     private boolean is_tourist = true;      //是否为游客
     private String http_avatar = "";        //头像
     private boolean is_invited;             //是否已填写邀请码
-    private boolean is_new = true;          //是否为新用户(只有新用户能填写邀请码，以获得奖励)
+    private boolean is_new;                 //是否为新用户
     private boolean is_wx;                  //是否绑定微信
 
     //游客
