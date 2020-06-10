@@ -31,7 +31,6 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.eventbus.BookRackChangeEvent;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.multi.BookShelfOrADsMultEntity;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
@@ -88,10 +87,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     private ImageView ivookCoverPush;
     private TextView tvBookNamePush, tvBookIntroPush, tvTotalReadingTimeToday, tvAsBtnSignIngGold;
 
+    /*书架数据*/
     private List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
-
-    //当Fragment可见的时候刷新书架
-    private boolean shouldRefresh = false;
 
     private String specialBookId;
 
@@ -172,7 +169,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         }
 
         getSpecialBook();
-        reqGetBooks();
+//        reqGetBooks();
     }
 
     @Override
@@ -196,24 +193,14 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         tvTotalReadingTimeToday.setText(event.getReadMin());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onRefreshBookRackEvent(BookRackChangeEvent event) {
-        if (event.isRefreshImmediately()) {
-            refreshBookRack();
-        } else {
-            shouldRefresh = true;
-        }
-    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             StatusBarUtils.setStatusBarTextDark(mActivity, true);
-            if (isVisible() && shouldRefresh) {
+            if (isVisible()) {
 //                Log.e("ssssssss", "onHiddenChanged可见");
-                layout.autoRefresh();
-                shouldRefresh = false;
+                reqGetBooks();
             }
         }
     }
@@ -221,17 +208,17 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public void onResume() {
         super.onResume();
-        if (isVisible() && shouldRefresh) {
+        if (isVisible()) {
 //            Log.e("ssssssss", "onResume可见");
-            layout.autoRefresh();
-            shouldRefresh = false;
+            reqGetBooks();
         }
     }
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         getSpecialBook();
-        refreshBookRack();
+//        refreshBookRack();
+        reqGetBooks();
         ((MainActivity) mActivity).getUserReadTime();
     }
 
@@ -362,18 +349,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 .setExpressViewAcceptedSize(expressViewWidth, expressViewWidth / 4) //期望模板广告view的size,单位dp
                 .setAdCount(count) //请求广告数量为1到3条
                 .build();
-        //step5:请求广告，调用feed广告异步请求接口，加载到广告后，拿到广告素材自定义渲染
-       /* mTTAdNative.loadFeedAd(adSlot, new TTAdNative.FeedAdListener() {
-            @Override
-            public void onError(int i, String s) {
-
-            }
-
-            @Override
-            public void onFeedAdLoad(List<TTFeedAd> list) {
-                TTFeedAd ttFeedAd;
-            }
-        });*/
         mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int code, String message) {
@@ -386,12 +361,26 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 //                    Toast.makeText(mActivity, "on FeedAdLoaded: ad is null!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (isRefresh) {
-                    rackAdapter.setData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+               /* if (isRefresh) {
+                } else {
+                    rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+                    recyclerView.scrollToPosition(0);
+                }*/
+
+                List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
+                if (oldDatas.size() > 0) {
+                    BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
+                    if (adEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADS) {
+                        rackAdapter.setData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+                    } else {
+                        rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+                        recyclerView.scrollToPosition(0);
+                    }
                 } else {
                     rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
                     recyclerView.scrollToPosition(0);
                 }
+
             }
         });
     }
@@ -435,45 +424,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
 
     /**
-     * 刷新书架
-     */
-    private void refreshBookRack() {
-        OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        datas = new ArrayList<>();
-                        LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<BookShelfListBean> list = entity.getData();
-                            BookShelfOrADsMultEntity multEntity;
-                            for (BookShelfListBean bean : list) {
-                                multEntity = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.DETAILED, bean, null);
-                                datas.add(multEntity);
-                            }
-                            datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
-                            List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
-                            if (oldDatas.size() > 0) {
-                                BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
-                                datas.add(0, adEntity);
-                            }
-                            rackAdapter.setList(datas);
-                            loadListAd(1, true);
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        layout.finishRefresh();
-                    }
-                });
-    }
-
-
-    /**
      * 删除书架书籍
      */
     private void reqDelBooks(String novelIds) {
@@ -502,23 +452,47 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        datas = new ArrayList<>();
+                        List<BookShelfOrADsMultEntity> newDatas = new ArrayList<>();
                         LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
                                 new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
                                 });
                         if (entity.error_code == 0) {
+
                             List<BookShelfListBean> list = entity.getData();
                             BookShelfOrADsMultEntity multEntity;
                             for (BookShelfListBean bean : list) {
                                 multEntity = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.DETAILED, bean, null);
-                                datas.add(multEntity);
+                                newDatas.add(multEntity);
                             }
-                            datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
-                            rackAdapter.setList(datas);
+                            newDatas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
+
+                            List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
+                            if (oldDatas.size() > 0) {
+                                BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
+                                if (adEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADS) {  //如果第一个item有广告
+                                    datas.clear();
+                                    datas.add(0, adEntity);
+                                    datas.addAll(newDatas);
+                                    rackAdapter.notifyItemRangeChanged(1, datas.size() - 1);
+                                } else {
+                                    datas.addAll(newDatas);
+                                    rackAdapter.setList(datas);
+                                }
+                            } else {
+                                datas.addAll(newDatas);
+                                rackAdapter.setList(datas);
+                            }
+
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                         loadListAd(1, false);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        layout.finishRefresh();
                     }
                 });
     }

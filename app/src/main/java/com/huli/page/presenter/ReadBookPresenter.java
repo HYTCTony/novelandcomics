@@ -5,7 +5,6 @@ import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.eventbus.BookRackChangeEvent;
 import com.huli.page.model.bean.Advert;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.ChapterBean;
@@ -16,8 +15,6 @@ import com.huli.page.widget.page.TxtChapter;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -55,7 +52,6 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                 });
                         if (entity.error_code == 0) {
                             view.reqAddBookrack("加入成功!");
-                            EventBus.getDefault().post(new BookRackChangeEvent(true));
                         } else {
                             view.onFailure(entity.error_code, entity.msg);
                         }

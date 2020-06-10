@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -69,7 +67,6 @@ import org.json.JSONException;
 import java.io.File;
 import java.util.ArrayList;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -427,7 +424,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 调起一键登录
      */
     private void invokeOneClickLogin() {
-        if (!ignoreOneClickLogin) {
+        if (!ignoreOneClickLogin && UserInfoCache.getIsTourist(this)) {
             obtainOperatorsToken();
             ignoreOneClickLogin = true;
         }

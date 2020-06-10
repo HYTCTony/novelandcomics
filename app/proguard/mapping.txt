@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 23
-# pg_map_id: 5bdae06
+# pg_map_id: 6165dc2
 android.support.v4.app.INotificationSideChannel$Stub -> android.support.v4.app.INotificationSideChannel$Stub:
     1:2:void <init>():20:21 -> <init>
     1:3:android.support.v4.app.INotificationSideChannel asInterface(android.os.IBinder):32:34 -> asInterface
@@ -113108,161 +113108,160 @@ com.huli.foxread.ui.activities.BookDetailsActivity -> com.huli.foxread.ui.activi
     android.widget.TextView tvBookScore -> m
     java.lang.String nId -> E
     com.kongzue.stacklabelview.StackLabel labelBookTags -> q
-    1:1:void <init>():73:73 -> <init>
-    2:2:void <init>():106:106 -> <init>
-    3:4:void <init>():109:110 -> <init>
-    1:1:android.widget.ImageView access$000(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> a
-    2:2:boolean access$1102(com.huli.foxread.ui.activities.BookDetailsActivity,boolean):73:73 -> a
-    3:3:void access$1400(com.huli.foxread.ui.activities.BookDetailsActivity,java.lang.String):73:73 -> a
-    4:4:int access$2102(com.huli.foxread.ui.activities.BookDetailsActivity,int):73:73 -> a
-    5:8:void lambda$setListener$19(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):208:211 -> a
-    9:11:void lambda$setListener$20(android.view.View,int,int,int,int):215:217 -> a
-    12:12:void lambda$setListener$20(android.view.View,int,int,int,int):220:220 -> a
-    13:17:void giveALikeOrCancel(java.lang.String,java.lang.String,boolean):499:503 -> a
-    18:20:void loadCategory(java.lang.String):551:553 -> a
-    1:1:android.widget.TextView access$100(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> b
-    2:2:void access$1500(com.huli.foxread.ui.activities.BookDetailsActivity,java.lang.String):73:73 -> b
-    3:4:void lambda$setListener$21(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):227:228 -> b
-    5:7:void lambda$onClick$22(int):266:268 -> b
-    8:8:void lambda$onClick$22(int):270:270 -> b
-    9:11:void reqNovelDetails(java.lang.String):360:362 -> b
-    1:1:android.widget.TextView access$1000(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> c
-    2:3:void setStatusBar():120:121 -> c
-    4:4:void lambda$initView$18(android.view.View):147:147 -> c
-    5:8:void openBook(int):308:311 -> c
-    9:9:void openBook(int):308:308 -> c
-    10:12:void reqRelatedRecoBooks(java.lang.String):443:445 -> c
-    1:1:android.widget.TextView access$1200(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> d
-    2:6:void reqReviewList(java.lang.String):467:471 -> d
-    1:3:void doBusiness(android.content.Context):238:240 -> doBusiness
-    4:5:void doBusiness(android.content.Context):244:245 -> doBusiness
-    1:1:java.lang.String access$1300(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> e
-    1:1:com.huli.foxread.ui.adapters.BookCoverNameAdapter access$1600(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> f
-    1:1:com.huli.foxread.ui.adapters.BookReviewAdapter access$1700(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> g
-    1:1:android.widget.TextView access$1800(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> h
-    1:1:android.widget.TextView access$1900(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> i
-    1:1:void initParms(android.os.Bundle):127:127 -> initParms
-    1:5:void initView(android.view.View):143:147 -> initView
-    6:14:void initView(android.view.View):149:157 -> initView
-    15:16:void initView(android.view.View):159:160 -> initView
-    17:18:void initView(android.view.View):162:163 -> initView
-    19:21:void initView(android.view.View):165:167 -> initView
-    22:25:void initView(android.view.View):178:181 -> initView
-    26:26:void initView(android.view.View):183:183 -> initView
-    27:28:void initView(android.view.View):185:186 -> initView
-    29:37:void initView(android.view.View):188:196 -> initView
-    1:1:android.widget.TextView access$200(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> j
-    1:1:android.widget.TextView access$2000(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> k
-    1:1:android.widget.TextView access$300(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> l
-    1:1:android.widget.TextView access$400(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> m
-    1:1:android.widget.TextView access$500(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> n
-    1:1:android.widget.TextView access$600(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> o
-    1:1:void onActivityResult(int,int,android.content.Intent):586:586 -> onActivityResult
-    2:2:void onActivityResult(int,int,android.content.Intent):603:603 -> onActivityResult
-    3:3:void onActivityResult(int,int,android.content.Intent):607:607 -> onActivityResult
-    4:7:void onActivityResult(int,int,android.content.Intent):593:596 -> onActivityResult
-    1:1:void onBackPressed():616:616 -> onBackPressed
-    2:3:void onBackPressed():619:620 -> onBackPressed
-    4:4:void onBackPressed():623:623 -> onBackPressed
-    5:7:void onBackPressed():628:630 -> onBackPressed
-    8:8:void onBackPressed():632:632 -> onBackPressed
-    1:1:void onCbCheckChanged(android.widget.CompoundButton,boolean,int):346:346 -> onCbCheckChanged
-    2:3:void onCbCheckChanged(android.widget.CompoundButton,boolean,int):349:350 -> onCbCheckChanged
-    1:1:void onClick(android.view.View):250:250 -> onClick
-    2:2:void onClick(android.view.View):253:253 -> onClick
-    3:4:void onClick(android.view.View):298:299 -> onClick
-    5:5:void onClick(android.view.View):276:276 -> onClick
-    6:7:void onClick(android.view.View):293:294 -> onClick
-    8:10:void onClick(android.view.View):255:257 -> onClick
-    11:11:void onClick(android.view.View):259:259 -> onClick
-    12:14:void onClick(android.view.View):263:265 -> onClick
-    15:16:void onClick(android.view.View):286:287 -> onClick
-    17:17:void onClick(android.view.View):290:290 -> onClick
-    18:19:void onClick(android.view.View):279:280 -> onClick
-    20:20:void onClick(android.view.View):283:283 -> onClick
-    1:1:boolean onCreateOptionsMenu(android.view.Menu):318:318 -> onCreateOptionsMenu
-    2:2:boolean onCreateOptionsMenu(android.view.Menu):321:321 -> onCreateOptionsMenu
-    3:5:boolean onCreateOptionsMenu(android.view.Menu):323:325 -> onCreateOptionsMenu
-    6:6:boolean onCreateOptionsMenu(android.view.Menu):327:327 -> onCreateOptionsMenu
-    7:7:boolean onCreateOptionsMenu(android.view.Menu):331:331 -> onCreateOptionsMenu
-    1:2:boolean onOptionsItemSelected(android.view.MenuItem):336:337 -> onOptionsItemSelected
-    3:3:boolean onOptionsItemSelected(android.view.MenuItem):339:339 -> onOptionsItemSelected
-    1:1:me.zhanghai.android.materialratingbar.MaterialRatingBar access$700(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> p
-    1:1:com.huli.foxread.ui.widget.ExpandableTextView access$800(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> q
-    1:1:com.kongzue.stacklabelview.StackLabel access$900(com.huli.foxread.ui.activities.BookDetailsActivity):73:73 -> r
-    1:3:void reqAddBookrack(java.lang.String):522:524 -> reqAddBookrack
-    1:5:void setListener():201:205 -> setListener
-    6:6:void setListener():207:207 -> setListener
-    7:7:void setListener():214:214 -> setListener
-    8:8:void setListener():226:226 -> setListener
-    9:11:void setListener():230:232 -> setListener
+    1:1:void <init>():69:69 -> <init>
+    2:2:void <init>():102:102 -> <init>
+    3:4:void <init>():105:106 -> <init>
+    1:1:android.widget.ImageView access$000(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> a
+    2:2:boolean access$1102(com.huli.foxread.ui.activities.BookDetailsActivity,boolean):69:69 -> a
+    3:3:void access$1400(com.huli.foxread.ui.activities.BookDetailsActivity,java.lang.String):69:69 -> a
+    4:4:int access$2102(com.huli.foxread.ui.activities.BookDetailsActivity,int):69:69 -> a
+    5:8:void lambda$setListener$19(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):204:207 -> a
+    9:11:void lambda$setListener$20(android.view.View,int,int,int,int):211:213 -> a
+    12:12:void lambda$setListener$20(android.view.View,int,int,int,int):216:216 -> a
+    13:17:void giveALikeOrCancel(java.lang.String,java.lang.String,boolean):495:499 -> a
+    18:20:void loadCategory(java.lang.String):544:546 -> a
+    1:1:android.widget.TextView access$100(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> b
+    2:2:void access$1500(com.huli.foxread.ui.activities.BookDetailsActivity,java.lang.String):69:69 -> b
+    3:4:void lambda$setListener$21(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):223:224 -> b
+    5:7:void lambda$onClick$22(int):262:264 -> b
+    8:8:void lambda$onClick$22(int):266:266 -> b
+    9:11:void reqNovelDetails(java.lang.String):356:358 -> b
+    1:1:android.widget.TextView access$1000(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> c
+    2:3:void setStatusBar():116:117 -> c
+    4:4:void lambda$initView$18(android.view.View):143:143 -> c
+    5:8:void openBook(int):304:307 -> c
+    9:9:void openBook(int):304:304 -> c
+    10:12:void reqRelatedRecoBooks(java.lang.String):439:441 -> c
+    1:1:android.widget.TextView access$1200(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> d
+    2:6:void reqReviewList(java.lang.String):463:467 -> d
+    1:3:void doBusiness(android.content.Context):234:236 -> doBusiness
+    4:5:void doBusiness(android.content.Context):240:241 -> doBusiness
+    1:1:java.lang.String access$1300(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> e
+    1:1:com.huli.foxread.ui.adapters.BookCoverNameAdapter access$1600(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> f
+    1:1:com.huli.foxread.ui.adapters.BookReviewAdapter access$1700(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> g
+    1:1:android.widget.TextView access$1800(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> h
+    1:1:android.widget.TextView access$1900(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> i
+    1:1:void initParms(android.os.Bundle):123:123 -> initParms
+    1:5:void initView(android.view.View):139:143 -> initView
+    6:14:void initView(android.view.View):145:153 -> initView
+    15:16:void initView(android.view.View):155:156 -> initView
+    17:18:void initView(android.view.View):158:159 -> initView
+    19:21:void initView(android.view.View):161:163 -> initView
+    22:25:void initView(android.view.View):174:177 -> initView
+    26:26:void initView(android.view.View):179:179 -> initView
+    27:28:void initView(android.view.View):181:182 -> initView
+    29:37:void initView(android.view.View):184:192 -> initView
+    1:1:android.widget.TextView access$200(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> j
+    1:1:android.widget.TextView access$2000(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> k
+    1:1:android.widget.TextView access$300(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> l
+    1:1:android.widget.TextView access$400(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> m
+    1:1:android.widget.TextView access$500(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> n
+    1:1:android.widget.TextView access$600(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> o
+    1:1:void onActivityResult(int,int,android.content.Intent):579:579 -> onActivityResult
+    2:2:void onActivityResult(int,int,android.content.Intent):596:596 -> onActivityResult
+    3:3:void onActivityResult(int,int,android.content.Intent):600:600 -> onActivityResult
+    4:7:void onActivityResult(int,int,android.content.Intent):586:589 -> onActivityResult
+    1:1:void onBackPressed():609:609 -> onBackPressed
+    2:3:void onBackPressed():612:613 -> onBackPressed
+    4:4:void onBackPressed():616:616 -> onBackPressed
+    5:7:void onBackPressed():621:623 -> onBackPressed
+    8:8:void onBackPressed():625:625 -> onBackPressed
+    1:1:void onCbCheckChanged(android.widget.CompoundButton,boolean,int):342:342 -> onCbCheckChanged
+    2:3:void onCbCheckChanged(android.widget.CompoundButton,boolean,int):345:346 -> onCbCheckChanged
+    1:1:void onClick(android.view.View):246:246 -> onClick
+    2:2:void onClick(android.view.View):249:249 -> onClick
+    3:4:void onClick(android.view.View):294:295 -> onClick
+    5:5:void onClick(android.view.View):272:272 -> onClick
+    6:7:void onClick(android.view.View):289:290 -> onClick
+    8:10:void onClick(android.view.View):251:253 -> onClick
+    11:11:void onClick(android.view.View):255:255 -> onClick
+    12:14:void onClick(android.view.View):259:261 -> onClick
+    15:16:void onClick(android.view.View):282:283 -> onClick
+    17:17:void onClick(android.view.View):286:286 -> onClick
+    18:19:void onClick(android.view.View):275:276 -> onClick
+    20:20:void onClick(android.view.View):279:279 -> onClick
+    1:1:boolean onCreateOptionsMenu(android.view.Menu):314:314 -> onCreateOptionsMenu
+    2:2:boolean onCreateOptionsMenu(android.view.Menu):317:317 -> onCreateOptionsMenu
+    3:5:boolean onCreateOptionsMenu(android.view.Menu):319:321 -> onCreateOptionsMenu
+    6:6:boolean onCreateOptionsMenu(android.view.Menu):323:323 -> onCreateOptionsMenu
+    7:7:boolean onCreateOptionsMenu(android.view.Menu):327:327 -> onCreateOptionsMenu
+    1:2:boolean onOptionsItemSelected(android.view.MenuItem):332:333 -> onOptionsItemSelected
+    3:3:boolean onOptionsItemSelected(android.view.MenuItem):335:335 -> onOptionsItemSelected
+    1:1:me.zhanghai.android.materialratingbar.MaterialRatingBar access$700(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> p
+    1:1:com.huli.foxread.ui.widget.ExpandableTextView access$800(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> q
+    1:1:com.kongzue.stacklabelview.StackLabel access$900(com.huli.foxread.ui.activities.BookDetailsActivity):69:69 -> r
+    1:3:void reqAddBookrack(java.lang.String):518:520 -> reqAddBookrack
+    1:5:void setListener():197:201 -> setListener
+    6:6:void setListener():203:203 -> setListener
+    7:7:void setListener():210:210 -> setListener
+    8:8:void setListener():222:222 -> setListener
+    9:11:void setListener():226:228 -> setListener
 com.huli.foxread.ui.activities.BookDetailsActivity$1 -> com.huli.foxread.ui.activities.BookDetailsActivity$a:
     com.huli.foxread.ui.activities.BookDetailsActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,android.content.Context,int):167:167 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,android.content.Context,int):163:163 -> <init>
 com.huli.foxread.ui.activities.BookDetailsActivity$2 -> com.huli.foxread.ui.activities.BookDetailsActivity$b:
     com.huli.foxread.ui.activities.BookDetailsActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity):362:362 -> <init>
-    1:1:void lambda$onError$24():432:432 -> a
-    1:1:void lambda$onSuccess$23():419:419 -> b
-    1:2:void onCacheSuccess(com.lzy.okgo.model.Response):425:426 -> onCacheSuccess
-    1:2:void onError(com.lzy.okgo.model.Response):431:432 -> onError
-    1:1:void onSuccess(com.lzy.okgo.model.Response):365:365 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):368:370 -> onSuccess
-    5:16:void onSuccess(com.lzy.okgo.model.Response):372:383 -> onSuccess
-    17:17:void onSuccess(com.lzy.okgo.model.Response):385:385 -> onSuccess
-    18:19:void onSuccess(com.lzy.okgo.model.Response):387:388 -> onSuccess
-    20:28:void onSuccess(com.lzy.okgo.model.Response):392:400 -> onSuccess
-    29:32:void onSuccess(com.lzy.okgo.model.Response):402:405 -> onSuccess
-    33:35:void onSuccess(com.lzy.okgo.model.Response):407:409 -> onSuccess
-    36:36:void onSuccess(com.lzy.okgo.model.Response):413:413 -> onSuccess
-    37:37:void onSuccess(com.lzy.okgo.model.Response):416:416 -> onSuccess
-    38:39:void onSuccess(com.lzy.okgo.model.Response):418:419 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity):358:358 -> <init>
+    1:1:void lambda$onError$24():428:428 -> a
+    1:1:void lambda$onSuccess$23():415:415 -> b
+    1:2:void onCacheSuccess(com.lzy.okgo.model.Response):421:422 -> onCacheSuccess
+    1:2:void onError(com.lzy.okgo.model.Response):427:428 -> onError
+    1:1:void onSuccess(com.lzy.okgo.model.Response):361:361 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):364:366 -> onSuccess
+    5:16:void onSuccess(com.lzy.okgo.model.Response):368:379 -> onSuccess
+    17:17:void onSuccess(com.lzy.okgo.model.Response):381:381 -> onSuccess
+    18:19:void onSuccess(com.lzy.okgo.model.Response):383:384 -> onSuccess
+    20:28:void onSuccess(com.lzy.okgo.model.Response):388:396 -> onSuccess
+    29:32:void onSuccess(com.lzy.okgo.model.Response):398:401 -> onSuccess
+    33:35:void onSuccess(com.lzy.okgo.model.Response):403:405 -> onSuccess
+    36:36:void onSuccess(com.lzy.okgo.model.Response):409:409 -> onSuccess
+    37:37:void onSuccess(com.lzy.okgo.model.Response):412:412 -> onSuccess
+    38:39:void onSuccess(com.lzy.okgo.model.Response):414:415 -> onSuccess
 com.huli.foxread.ui.activities.BookDetailsActivity$2$1 -> com.huli.foxread.ui.activities.BookDetailsActivity$b$a:
     com.huli.foxread.ui.activities.BookDetailsActivity$2 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$2):366:366 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$2):362:362 -> <init>
 com.huli.foxread.ui.activities.BookDetailsActivity$3 -> com.huli.foxread.ui.activities.BookDetailsActivity$c:
     com.huli.foxread.ui.activities.BookDetailsActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):445:445 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):448:448 -> onSuccess
-    2:5:void onSuccess(com.lzy.okgo.model.Response):451:454 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):441:441 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):444:444 -> onSuccess
+    2:5:void onSuccess(com.lzy.okgo.model.Response):447:450 -> onSuccess
 com.huli.foxread.ui.activities.BookDetailsActivity$3$1 -> com.huli.foxread.ui.activities.BookDetailsActivity$c$a:
     com.huli.foxread.ui.activities.BookDetailsActivity$3 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$3):449:449 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$3):445:445 -> <init>
 com.huli.foxread.ui.activities.BookDetailsActivity$4 -> com.huli.foxread.ui.activities.BookDetailsActivity$d:
     com.huli.foxread.ui.activities.BookDetailsActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):471:471 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):474:474 -> onSuccess
-    2:6:void onSuccess(com.lzy.okgo.model.Response):477:481 -> onSuccess
-    7:8:void onSuccess(com.lzy.okgo.model.Response):483:484 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):467:467 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):470:470 -> onSuccess
+    2:6:void onSuccess(com.lzy.okgo.model.Response):473:477 -> onSuccess
+    7:8:void onSuccess(com.lzy.okgo.model.Response):479:480 -> onSuccess
 com.huli.foxread.ui.activities.BookDetailsActivity$4$1 -> com.huli.foxread.ui.activities.BookDetailsActivity$d$a:
     com.huli.foxread.ui.activities.BookDetailsActivity$4 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$4):475:475 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$4):471:471 -> <init>
 com.huli.foxread.ui.activities.BookDetailsActivity$5 -> com.huli.foxread.ui.activities.BookDetailsActivity$e:
     com.huli.foxread.ui.activities.BookDetailsActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):503:503 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):499:499 -> <init>
 com.huli.foxread.ui.activities.BookDetailsActivity$6 -> com.huli.foxread.ui.activities.BookDetailsActivity$f:
     com.huli.foxread.ui.activities.BookDetailsActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity):524:524 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):527:527 -> onSuccess
-    2:6:void onSuccess(com.lzy.okgo.model.Response):530:534 -> onSuccess
-    7:7:void onSuccess(com.lzy.okgo.model.Response):537:537 -> onSuccess
-    8:8:void onSuccess(com.lzy.okgo.model.Response):539:539 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity):520:520 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):523:523 -> onSuccess
+    2:6:void onSuccess(com.lzy.okgo.model.Response):526:530 -> onSuccess
+    7:7:void onSuccess(com.lzy.okgo.model.Response):532:532 -> onSuccess
 com.huli.foxread.ui.activities.BookDetailsActivity$6$1 -> com.huli.foxread.ui.activities.BookDetailsActivity$f$a:
     com.huli.foxread.ui.activities.BookDetailsActivity$6 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$6):528:528 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$6):524:524 -> <init>
 com.huli.foxread.ui.activities.BookDetailsActivity$7 -> com.huli.foxread.ui.activities.BookDetailsActivity$g:
     com.huli.foxread.ui.activities.BookDetailsActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):553:553 -> <init>
-    1:2:boolean lambda$onSuccess$25(com.kongzue.dialog.util.BaseDialog,android.view.View):575:576 -> a
-    1:1:void onSuccess(com.lzy.okgo.model.Response):556:556 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):559:561 -> onSuccess
-    5:5:void onSuccess(com.lzy.okgo.model.Response):563:563 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):565:565 -> onSuccess
-    7:8:void onSuccess(com.lzy.okgo.model.Response):567:568 -> onSuccess
-    9:12:void onSuccess(com.lzy.okgo.model.Response):571:574 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity,androidx.appcompat.app.AppCompatActivity,boolean):546:546 -> <init>
+    1:2:boolean lambda$onSuccess$25(com.kongzue.dialog.util.BaseDialog,android.view.View):568:569 -> a
+    1:1:void onSuccess(com.lzy.okgo.model.Response):549:549 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):552:554 -> onSuccess
+    5:5:void onSuccess(com.lzy.okgo.model.Response):556:556 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):558:558 -> onSuccess
+    7:8:void onSuccess(com.lzy.okgo.model.Response):560:561 -> onSuccess
+    9:12:void onSuccess(com.lzy.okgo.model.Response):564:567 -> onSuccess
 com.huli.foxread.ui.activities.BookDetailsActivity$7$1 -> com.huli.foxread.ui.activities.BookDetailsActivity$g$a:
     com.huli.foxread.ui.activities.BookDetailsActivity$7 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$7):557:557 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.BookDetailsActivity$7):550:550 -> <init>
 com.huli.foxread.ui.activities.BookRankingActivity -> com.huli.foxread.ui.activities.BookRankingActivity:
     androidx.viewpager.widget.ViewPager viewPager -> h
     android.widget.ImageView btnSearch -> f
@@ -114112,165 +114111,165 @@ com.huli.foxread.ui.activities.MainActivity -> com.huli.foxread.ui.activities.Ma
     androidx.fragment.app.FragmentManager fragmentManager -> i
     com.huli.foxread.ui.fragments.MainClassifyFragment classifyFragment -> l
     com.huli.foxread.ui.fragments.MainWelfareFragment2 welfareFragment -> m
-    1:1:void <init>():78:78 -> <init>
-    2:2:void <init>():83:83 -> <init>
-    3:3:void <init>():92:92 -> <init>
-    4:4:void <init>():244:244 -> <init>
-    1:1:java.lang.String access$000(com.huli.foxread.ui.activities.MainActivity):78:78 -> a
-    2:2:boolean access$202(com.huli.foxread.ui.activities.MainActivity,boolean):78:78 -> a
-    3:3:void access$400(com.huli.foxread.ui.activities.MainActivity,java.lang.String,java.lang.String,java.lang.String):78:78 -> a
-    4:4:void access$500(com.huli.foxread.ui.activities.MainActivity,java.lang.String):78:78 -> a
-    5:5:void access$600(com.huli.foxread.ui.activities.MainActivity,com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):78:78 -> a
-    6:6:void lambda$doBusiness$42(java.lang.String):150:150 -> a
-    7:7:void lambda$doBusiness$42(java.lang.String):152:152 -> a
-    8:10:void lambda$doBusiness$42(java.lang.String):154:156 -> a
-    11:11:void lambda$doBusiness$42(java.lang.String):158:158 -> a
-    12:13:void hideFragments(androidx.fragment.app.FragmentTransaction):376:377 -> a
-    14:15:void hideFragments(androidx.fragment.app.FragmentTransaction):379:380 -> a
-    16:17:void hideFragments(androidx.fragment.app.FragmentTransaction):382:383 -> a
-    18:19:void hideFragments(androidx.fragment.app.FragmentTransaction):385:386 -> a
-    20:21:void hideFragments(androidx.fragment.app.FragmentTransaction):388:389 -> a
-    22:29:void oneClickLogin(java.lang.String,java.lang.String,java.lang.String):482:489 -> a
-    30:34:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):663:667 -> a
-    35:35:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):669:669 -> a
-    36:36:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):697:697 -> a
-    37:40:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):699:702 -> a
-    1:1:java.lang.String access$100(com.huli.foxread.ui.activities.MainActivity):78:78 -> b
-    2:2:void changeFragment(int):315:315 -> b
-    3:3:void changeFragment(int):318:318 -> b
-    4:7:void changeFragment(int):356:359 -> b
-    8:8:void changeFragment(int):361:361 -> b
-    9:12:void changeFragment(int):347:350 -> b
-    13:13:void changeFragment(int):352:352 -> b
-    14:16:void changeFragment(int):338:340 -> b
-    17:17:void changeFragment(int):342:342 -> b
-    18:20:void changeFragment(int):330:332 -> b
-    21:21:void changeFragment(int):334:334 -> b
-    22:24:void changeFragment(int):321:323 -> b
-    25:25:void changeFragment(int):325:325 -> b
-    26:26:void changeFragment(int):368:368 -> b
-    27:29:void reqInviteCodeSubmit(java.lang.String):560:562 -> b
-    1:1:java.lang.String access$300(com.huli.foxread.ui.activities.MainActivity):78:78 -> c
-    2:3:void setStatusBar():99:100 -> c
-    1:6:void checkNewVersion():611:616 -> d
-    1:3:void doBusiness(android.content.Context):140:142 -> doBusiness
-    4:6:void doBusiness(android.content.Context):146:148 -> doBusiness
-    7:7:void doBusiness(android.content.Context):163:163 -> doBusiness
-    8:9:void doBusiness(android.content.Context):166:167 -> doBusiness
-    10:10:void doBusiness(android.content.Context):199:199 -> doBusiness
-    1:3:java.lang.String getChannel():599:601 -> e
-    1:3:void invokeOneClickLogin():430:432 -> f
-    1:1:void obtainOperatorsToken():440:440 -> g
-    1:2:void getUserReadTime():579:580 -> getUserReadTime
-    1:1:void preAvoidPwd1ClickLogin():226:226 -> h
-    2:2:void preAvoidPwd1ClickLogin():229:229 -> h
-    1:1:void initParms(android.os.Bundle):106:106 -> initParms
-    1:9:void initView(android.view.View):122:130 -> initView
-    1:1:void onDestroy():281:281 -> onDestroy
-    2:2:void onDestroy():283:283 -> onDestroy
-    1:3:boolean onKeyDown(int,android.view.KeyEvent):412:414 -> onKeyDown
-    4:4:boolean onKeyDown(int,android.view.KeyEvent):416:416 -> onKeyDown
-    5:5:boolean onKeyDown(int,android.view.KeyEvent):420:420 -> onKeyDown
-    1:1:void onNewIntent(android.content.Intent):204:204 -> onNewIntent
-    2:2:void onNewIntent(android.content.Intent):207:207 -> onNewIntent
-    1:2:void onResume():264:265 -> onResume
-    3:3:void onResume():267:267 -> onResume
-    1:2:void onTabReselect(int):295:296 -> onTabReselect
-    3:6:void onTabReselect(int):298:301 -> onTabReselect
-    7:7:void onTabReselect(int):305:305 -> onTabReselect
-    1:1:void onTabSelect(int):288:288 -> onTabSelect
-    1:2:void reqMyCapitalDetail():512:513 -> reqMyCapitalDetail
-    1:2:void reqUserInfo():531:532 -> reqUserInfo
-    1:1:void setListener():135:135 -> setListener
-    1:2:void switch2Bookstore():397:398 -> switch2Bookstore
-    1:2:void switch2Welfare():405:406 -> switch2Welfare
+    1:1:void <init>():75:75 -> <init>
+    2:2:void <init>():80:80 -> <init>
+    3:3:void <init>():89:89 -> <init>
+    4:4:void <init>():241:241 -> <init>
+    1:1:java.lang.String access$000(com.huli.foxread.ui.activities.MainActivity):75:75 -> a
+    2:2:boolean access$202(com.huli.foxread.ui.activities.MainActivity,boolean):75:75 -> a
+    3:3:void access$400(com.huli.foxread.ui.activities.MainActivity,java.lang.String,java.lang.String,java.lang.String):75:75 -> a
+    4:4:void access$500(com.huli.foxread.ui.activities.MainActivity,java.lang.String):75:75 -> a
+    5:5:void access$600(com.huli.foxread.ui.activities.MainActivity,com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):75:75 -> a
+    6:6:void lambda$doBusiness$42(java.lang.String):147:147 -> a
+    7:7:void lambda$doBusiness$42(java.lang.String):149:149 -> a
+    8:10:void lambda$doBusiness$42(java.lang.String):151:153 -> a
+    11:11:void lambda$doBusiness$42(java.lang.String):155:155 -> a
+    12:13:void hideFragments(androidx.fragment.app.FragmentTransaction):373:374 -> a
+    14:15:void hideFragments(androidx.fragment.app.FragmentTransaction):376:377 -> a
+    16:17:void hideFragments(androidx.fragment.app.FragmentTransaction):379:380 -> a
+    18:19:void hideFragments(androidx.fragment.app.FragmentTransaction):382:383 -> a
+    20:21:void hideFragments(androidx.fragment.app.FragmentTransaction):385:386 -> a
+    22:29:void oneClickLogin(java.lang.String,java.lang.String,java.lang.String):479:486 -> a
+    30:34:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):660:664 -> a
+    35:35:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):666:666 -> a
+    36:36:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):694:694 -> a
+    37:40:void downloadApkTask(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):696:699 -> a
+    1:1:java.lang.String access$100(com.huli.foxread.ui.activities.MainActivity):75:75 -> b
+    2:2:void changeFragment(int):312:312 -> b
+    3:3:void changeFragment(int):315:315 -> b
+    4:7:void changeFragment(int):353:356 -> b
+    8:8:void changeFragment(int):358:358 -> b
+    9:12:void changeFragment(int):344:347 -> b
+    13:13:void changeFragment(int):349:349 -> b
+    14:16:void changeFragment(int):335:337 -> b
+    17:17:void changeFragment(int):339:339 -> b
+    18:20:void changeFragment(int):327:329 -> b
+    21:21:void changeFragment(int):331:331 -> b
+    22:24:void changeFragment(int):318:320 -> b
+    25:25:void changeFragment(int):322:322 -> b
+    26:26:void changeFragment(int):365:365 -> b
+    27:29:void reqInviteCodeSubmit(java.lang.String):557:559 -> b
+    1:1:java.lang.String access$300(com.huli.foxread.ui.activities.MainActivity):75:75 -> c
+    2:3:void setStatusBar():96:97 -> c
+    1:6:void checkNewVersion():608:613 -> d
+    1:3:void doBusiness(android.content.Context):137:139 -> doBusiness
+    4:6:void doBusiness(android.content.Context):143:145 -> doBusiness
+    7:7:void doBusiness(android.content.Context):160:160 -> doBusiness
+    8:9:void doBusiness(android.content.Context):163:164 -> doBusiness
+    10:10:void doBusiness(android.content.Context):196:196 -> doBusiness
+    1:3:java.lang.String getChannel():596:598 -> e
+    1:3:void invokeOneClickLogin():427:429 -> f
+    1:1:void obtainOperatorsToken():437:437 -> g
+    1:2:void getUserReadTime():576:577 -> getUserReadTime
+    1:1:void preAvoidPwd1ClickLogin():223:223 -> h
+    2:2:void preAvoidPwd1ClickLogin():226:226 -> h
+    1:1:void initParms(android.os.Bundle):103:103 -> initParms
+    1:9:void initView(android.view.View):119:127 -> initView
+    1:1:void onDestroy():278:278 -> onDestroy
+    2:2:void onDestroy():280:280 -> onDestroy
+    1:3:boolean onKeyDown(int,android.view.KeyEvent):409:411 -> onKeyDown
+    4:4:boolean onKeyDown(int,android.view.KeyEvent):413:413 -> onKeyDown
+    5:5:boolean onKeyDown(int,android.view.KeyEvent):417:417 -> onKeyDown
+    1:1:void onNewIntent(android.content.Intent):201:201 -> onNewIntent
+    2:2:void onNewIntent(android.content.Intent):204:204 -> onNewIntent
+    1:2:void onResume():261:262 -> onResume
+    3:3:void onResume():264:264 -> onResume
+    1:2:void onTabReselect(int):292:293 -> onTabReselect
+    3:6:void onTabReselect(int):295:298 -> onTabReselect
+    7:7:void onTabReselect(int):302:302 -> onTabReselect
+    1:1:void onTabSelect(int):285:285 -> onTabSelect
+    1:2:void reqMyCapitalDetail():509:510 -> reqMyCapitalDetail
+    1:2:void reqUserInfo():528:529 -> reqUserInfo
+    1:1:void setListener():132:132 -> setListener
+    1:2:void switch2Bookstore():394:395 -> switch2Bookstore
+    1:2:void switch2Welfare():402:403 -> switch2Welfare
 com.huli.foxread.ui.activities.MainActivity$1 -> com.huli.foxread.ui.activities.MainActivity$e:
     com.huli.foxread.ui.activities.MainActivity this$0 -> m
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):167:167 -> <init>
-    1:1:void dealWithCustomMessage(android.content.Context,com.umeng.message.entity.UMessage):170:170 -> dealWithCustomMessage
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):164:164 -> <init>
+    1:1:void dealWithCustomMessage(android.content.Context,com.umeng.message.entity.UMessage):167:167 -> dealWithCustomMessage
 com.huli.foxread.ui.activities.MainActivity$10 -> com.huli.foxread.ui.activities.MainActivity$a:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):562:562 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):565:565 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):567:569 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):559:559 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):562:562 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):564:566 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$10$1 -> com.huli.foxread.ui.activities.MainActivity$a$a:
     com.huli.foxread.ui.activities.MainActivity$10 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$10):565:565 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$10):562:562 -> <init>
 com.huli.foxread.ui.activities.MainActivity$11 -> com.huli.foxread.ui.activities.MainActivity$b:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):580:580 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):583:583 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):586:587 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):577:577 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):580:580 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):583:584 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$11$1 -> com.huli.foxread.ui.activities.MainActivity$b$a:
     com.huli.foxread.ui.activities.MainActivity$11 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$11):584:584 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$11):581:581 -> <init>
 com.huli.foxread.ui.activities.MainActivity$12 -> com.huli.foxread.ui.activities.MainActivity$c:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):616:616 -> <init>
-    1:6:void lambda$onSuccess$45(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):627:632 -> a
-    7:8:void lambda$onSuccess$45(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):634:635 -> a
-    9:9:void lambda$null$43(com.huli.foxread.ui.dialogs.base.BaseDialog,android.view.View):634:634 -> a
-    10:10:void lambda$null$44(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):636:636 -> a
-    11:11:void lambda$null$44(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):638:638 -> a
-    1:1:void onSuccess(com.lzy.okgo.model.Response):619:619 -> onSuccess
-    2:7:void onSuccess(com.lzy.okgo.model.Response):621:626 -> onSuccess
-    8:14:void onSuccess(com.lzy.okgo.model.Response):642:648 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):613:613 -> <init>
+    1:6:void lambda$onSuccess$45(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):624:629 -> a
+    7:8:void lambda$onSuccess$45(boolean,com.huli.foxread.entity.UpdateInfo,com.huli.foxread.ui.dialogs.base.ViewHolder,com.huli.foxread.ui.dialogs.base.BaseDialog):631:632 -> a
+    9:9:void lambda$null$43(com.huli.foxread.ui.dialogs.base.BaseDialog,android.view.View):631:631 -> a
+    10:10:void lambda$null$44(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):633:633 -> a
+    11:11:void lambda$null$44(com.huli.foxread.entity.UpdateInfo,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog,boolean,android.view.View):635:635 -> a
+    1:1:void onSuccess(com.lzy.okgo.model.Response):616:616 -> onSuccess
+    2:7:void onSuccess(com.lzy.okgo.model.Response):618:623 -> onSuccess
+    8:14:void onSuccess(com.lzy.okgo.model.Response):639:645 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$12$1 -> com.huli.foxread.ui.activities.MainActivity$c$a:
     com.huli.foxread.ui.activities.MainActivity$12 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$12):619:619 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$12):616:616 -> <init>
 com.huli.foxread.ui.activities.MainActivity$13 -> com.huli.foxread.ui.activities.MainActivity$d:
     com.azhon.appupdate.dialog.NumberProgressBar val$progressBar -> a
     com.huli.foxread.ui.dialogs.base.BaseDialog val$dialog -> b
     com.huli.foxread.ui.activities.MainActivity this$0 -> c
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):669:669 -> <init>
-    1:2:void done(java.io.File):683:684 -> done
-    1:1:void downloading(int,int):678:678 -> downloading
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,com.azhon.appupdate.dialog.NumberProgressBar,com.huli.foxread.ui.dialogs.base.BaseDialog):666:666 -> <init>
+    1:2:void done(java.io.File):680:681 -> done
+    1:1:void downloading(int,int):675:675 -> downloading
 com.huli.foxread.ui.activities.MainActivity$2 -> com.huli.foxread.ui.activities.MainActivity$f:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):229:229 -> <init>
-    1:1:void onPreGetNumberError(java.lang.String):238:238 -> onPreGetNumberError
-    1:2:void onPreGetNumberSuccess(java.lang.String):232:233 -> onPreGetNumberSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):226:226 -> <init>
+    1:1:void onPreGetNumberError(java.lang.String):235:235 -> onPreGetNumberError
+    1:2:void onPreGetNumberSuccess(java.lang.String):229:230 -> onPreGetNumberSuccess
 com.huli.foxread.ui.activities.MainActivity$3 -> com.huli.foxread.ui.activities.MainActivity$g:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):244:244 -> <init>
-    1:1:void onGetWakeUpFinish(java.lang.String):248:248 -> onGetWakeUpFinish
-    2:2:void onGetWakeUpFinish(java.lang.String):250:250 -> onGetWakeUpFinish
-    3:6:void onGetWakeUpFinish(java.lang.String):252:255 -> onGetWakeUpFinish
-    7:7:void onGetWakeUpFinish(java.lang.String):257:257 -> onGetWakeUpFinish
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):241:241 -> <init>
+    1:1:void onGetWakeUpFinish(java.lang.String):245:245 -> onGetWakeUpFinish
+    2:2:void onGetWakeUpFinish(java.lang.String):247:247 -> onGetWakeUpFinish
+    3:6:void onGetWakeUpFinish(java.lang.String):249:252 -> onGetWakeUpFinish
+    7:7:void onGetWakeUpFinish(java.lang.String):254:254 -> onGetWakeUpFinish
 com.huli.foxread.ui.activities.MainActivity$4 -> com.huli.foxread.ui.activities.MainActivity$h:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):440:440 -> <init>
-    1:1:void onGetLoginTokenFaild(java.lang.String,java.lang.String,java.lang.String):462:462 -> onGetLoginTokenFaild
-    1:2:void onGetLoginTokenSuccess(java.lang.String,java.lang.String,java.lang.String):449:450 -> onGetLoginTokenSuccess
-    1:2:void onOtherWayLogin():468:469 -> onOtherWayLogin
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):437:437 -> <init>
+    1:1:void onGetLoginTokenFaild(java.lang.String,java.lang.String,java.lang.String):459:459 -> onGetLoginTokenFaild
+    1:2:void onGetLoginTokenSuccess(java.lang.String,java.lang.String,java.lang.String):446:447 -> onGetLoginTokenSuccess
+    1:2:void onOtherWayLogin():465:466 -> onOtherWayLogin
 com.huli.foxread.ui.activities.MainActivity$5 -> com.huli.foxread.ui.activities.MainActivity$i:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):490:490 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):487:487 -> <init>
 com.huli.foxread.ui.activities.MainActivity$6 -> com.huli.foxread.ui.activities.MainActivity$j:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):491:491 -> <init>
-    1:3:void onSuccess(com.lzy.okgo.model.Response):494:496 -> onSuccess
-    4:4:void onSuccess(com.lzy.okgo.model.Response):498:498 -> onSuccess
-    5:5:void onSuccess(com.lzy.okgo.model.Response):500:500 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):502:502 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):488:488 -> <init>
+    1:3:void onSuccess(com.lzy.okgo.model.Response):491:493 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):495:495 -> onSuccess
+    5:5:void onSuccess(com.lzy.okgo.model.Response):497:497 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):499:499 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$7 -> com.huli.foxread.ui.activities.MainActivity$k:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):513:513 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):516:516 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):519:521 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean):510:510 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):513:513 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):516:518 -> onSuccess
 com.huli.foxread.ui.activities.MainActivity$7$1 -> com.huli.foxread.ui.activities.MainActivity$k$a:
     com.huli.foxread.ui.activities.MainActivity$7 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$7):517:517 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity$7):514:514 -> <init>
 com.huli.foxread.ui.activities.MainActivity$8 -> com.huli.foxread.ui.activities.MainActivity$l:
     com.huli.foxread.ui.activities.MainActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):533:533 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity):530:530 -> <init>
 com.huli.foxread.ui.activities.MainActivity$9 -> com.huli.foxread.ui.activities.MainActivity$m:
     com.huli.foxread.ui.activities.MainActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):534:534 -> <init>
-    1:3:void onSuccess(com.lzy.okgo.model.Response):537:539 -> onSuccess
-    4:5:void onSuccess(com.lzy.okgo.model.Response):542:543 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):545:545 -> onSuccess
-    7:7:void onSuccess(com.lzy.okgo.model.Response):547:547 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.MainActivity,androidx.appcompat.app.AppCompatActivity,boolean,com.alibaba.fastjson.TypeReference):531:531 -> <init>
+    1:3:void onSuccess(com.lzy.okgo.model.Response):534:536 -> onSuccess
+    4:5:void onSuccess(com.lzy.okgo.model.Response):539:540 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):542:542 -> onSuccess
+    7:7:void onSuccess(com.lzy.okgo.model.Response):544:544 -> onSuccess
 com.huli.foxread.ui.activities.MsgNotifyActivity -> com.huli.foxread.ui.activities.MsgNotifyActivity:
     androidx.recyclerview.widget.RecyclerView recyclerView -> g
     android.widget.ImageView btnClose -> i
@@ -114623,85 +114622,84 @@ com.huli.foxread.ui.activities.ReadingRecordActivity -> com.huli.foxread.ui.acti
     android.widget.TextView btnDelBooks -> j
     androidx.recyclerview.widget.RecyclerView recyclerView -> m
     int curPage -> p
-    1:1:void <clinit>():44:44 -> <clinit>
-    1:1:void <init>():44:44 -> <init>
-    2:2:void <init>():56:56 -> <init>
-    3:3:void <init>():58:58 -> <init>
-    1:1:void access$000(com.huli.foxread.ui.activities.ReadingRecordActivity,int,boolean):44:44 -> a
-    2:2:com.huli.foxread.ui.adapters.ReadingRecordsAdapter access$100(com.huli.foxread.ui.activities.ReadingRecordActivity):44:44 -> a
-    3:3:int access$202(com.huli.foxread.ui.activities.ReadingRecordActivity,int):44:44 -> a
-    4:4:boolean lambda$onClick$61(com.kongzue.dialog.util.BaseDialog,android.view.View):158:158 -> a
-    5:7:void reqReadingRecord(int,boolean):225:227 -> a
-    8:10:void reqDeleteBookRecord(java.lang.String):296:298 -> a
-    1:1:int access$200(com.huli.foxread.ui.activities.ReadingRecordActivity):44:44 -> b
-    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$300(com.huli.foxread.ui.activities.ReadingRecordActivity):44:44 -> c
-    1:1:void access$400(com.huli.foxread.ui.activities.ReadingRecordActivity):44:44 -> d
-    2:9:void change2ManagerMode():174:181 -> d
-    10:10:void change2ManagerMode():183:183 -> d
-    1:1:void doBusiness(android.content.Context):125:125 -> doBusiness
-    1:7:void change2NormalMode():190:196 -> e
-    1:2:void initView(android.view.View):77:78 -> initView
-    3:3:void initView(android.view.View):80:80 -> initView
-    4:8:void initView(android.view.View):82:86 -> initView
-    9:11:void initView(android.view.View):88:90 -> initView
-    12:15:void initView(android.view.View):92:95 -> initView
-    1:1:void onClick(android.view.View):130:130 -> onClick
-    2:4:void onClick(android.view.View):135:137 -> onClick
-    5:5:void onClick(android.view.View):140:140 -> onClick
-    6:6:void onClick(android.view.View):132:132 -> onClick
-    7:8:void onClick(android.view.View):143:144 -> onClick
-    9:9:void onClick(android.view.View):147:147 -> onClick
-    10:11:void onClick(android.view.View):150:151 -> onClick
-    12:15:void onClick(android.view.View):154:157 -> onClick
-    16:16:void onClick(android.view.View):163:163 -> onClick
-    1:4:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):201:204 -> onItemClick
-    5:5:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):206:206 -> onItemClick
-    6:8:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):208:210 -> onItemClick
-    9:11:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):213:215 -> onItemClick
-    1:3:void reqAddBookrack(java.lang.String):269:271 -> reqAddBookrack
-    1:5:void setListener():100:104 -> setListener
-    6:7:void setListener():106:107 -> setListener
-    8:8:void setListener():115:115 -> setListener
+    1:1:void <clinit>():41:41 -> <clinit>
+    1:1:void <init>():41:41 -> <init>
+    2:2:void <init>():53:53 -> <init>
+    3:3:void <init>():55:55 -> <init>
+    1:1:void access$000(com.huli.foxread.ui.activities.ReadingRecordActivity,int,boolean):41:41 -> a
+    2:2:com.huli.foxread.ui.adapters.ReadingRecordsAdapter access$100(com.huli.foxread.ui.activities.ReadingRecordActivity):41:41 -> a
+    3:3:int access$202(com.huli.foxread.ui.activities.ReadingRecordActivity,int):41:41 -> a
+    4:4:boolean lambda$onClick$61(com.kongzue.dialog.util.BaseDialog,android.view.View):155:155 -> a
+    5:7:void reqReadingRecord(int,boolean):222:224 -> a
+    8:10:void reqDeleteBookRecord(java.lang.String):290:292 -> a
+    1:1:int access$200(com.huli.foxread.ui.activities.ReadingRecordActivity):41:41 -> b
+    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$300(com.huli.foxread.ui.activities.ReadingRecordActivity):41:41 -> c
+    1:1:void access$400(com.huli.foxread.ui.activities.ReadingRecordActivity):41:41 -> d
+    2:9:void change2ManagerMode():171:178 -> d
+    10:10:void change2ManagerMode():180:180 -> d
+    1:1:void doBusiness(android.content.Context):122:122 -> doBusiness
+    1:7:void change2NormalMode():187:193 -> e
+    1:2:void initView(android.view.View):74:75 -> initView
+    3:3:void initView(android.view.View):77:77 -> initView
+    4:8:void initView(android.view.View):79:83 -> initView
+    9:11:void initView(android.view.View):85:87 -> initView
+    12:15:void initView(android.view.View):89:92 -> initView
+    1:1:void onClick(android.view.View):127:127 -> onClick
+    2:4:void onClick(android.view.View):132:134 -> onClick
+    5:5:void onClick(android.view.View):137:137 -> onClick
+    6:6:void onClick(android.view.View):129:129 -> onClick
+    7:8:void onClick(android.view.View):140:141 -> onClick
+    9:9:void onClick(android.view.View):144:144 -> onClick
+    10:11:void onClick(android.view.View):147:148 -> onClick
+    12:15:void onClick(android.view.View):151:154 -> onClick
+    16:16:void onClick(android.view.View):160:160 -> onClick
+    1:4:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):198:201 -> onItemClick
+    5:5:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):203:203 -> onItemClick
+    6:8:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):205:207 -> onItemClick
+    9:11:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):210:212 -> onItemClick
+    1:3:void reqAddBookrack(java.lang.String):266:268 -> reqAddBookrack
+    1:5:void setListener():97:101 -> setListener
+    6:7:void setListener():103:104 -> setListener
+    8:8:void setListener():112:112 -> setListener
 com.huli.foxread.ui.activities.ReadingRecordActivity$1 -> com.huli.foxread.ui.activities.ReadingRecordActivity$a:
     com.huli.foxread.ui.activities.ReadingRecordActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity):107:107 -> <init>
-    1:2:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):111:112 -> onRefresh
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity):104:104 -> <init>
+    1:2:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):108:109 -> onRefresh
 com.huli.foxread.ui.activities.ReadingRecordActivity$2 -> com.huli.foxread.ui.activities.ReadingRecordActivity$b:
     com.huli.foxread.ui.activities.ReadingRecordActivity this$0 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity):115:115 -> <init>
-    1:1:void onLoadMore():118:118 -> onLoadMore
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity):112:112 -> <init>
+    1:1:void onLoadMore():115:115 -> onLoadMore
 com.huli.foxread.ui.activities.ReadingRecordActivity$3 -> com.huli.foxread.ui.activities.ReadingRecordActivity$c:
     com.huli.foxread.ui.activities.ReadingRecordActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity,androidx.appcompat.app.AppCompatActivity,boolean):227:227 -> <init>
-    1:2:void onError(com.lzy.okgo.model.Response):257:258 -> onError
-    1:1:void onSuccess(com.lzy.okgo.model.Response):230:230 -> onSuccess
-    2:8:void onSuccess(com.lzy.okgo.model.Response):233:239 -> onSuccess
-    9:10:void onSuccess(com.lzy.okgo.model.Response):241:242 -> onSuccess
-    11:12:void onSuccess(com.lzy.okgo.model.Response):245:246 -> onSuccess
-    13:13:void onSuccess(com.lzy.okgo.model.Response):248:248 -> onSuccess
-    14:14:void onSuccess(com.lzy.okgo.model.Response):251:251 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity,androidx.appcompat.app.AppCompatActivity,boolean):224:224 -> <init>
+    1:2:void onError(com.lzy.okgo.model.Response):254:255 -> onError
+    1:1:void onSuccess(com.lzy.okgo.model.Response):227:227 -> onSuccess
+    2:8:void onSuccess(com.lzy.okgo.model.Response):230:236 -> onSuccess
+    9:10:void onSuccess(com.lzy.okgo.model.Response):238:239 -> onSuccess
+    11:12:void onSuccess(com.lzy.okgo.model.Response):242:243 -> onSuccess
+    13:13:void onSuccess(com.lzy.okgo.model.Response):245:245 -> onSuccess
+    14:14:void onSuccess(com.lzy.okgo.model.Response):248:248 -> onSuccess
 com.huli.foxread.ui.activities.ReadingRecordActivity$3$1 -> com.huli.foxread.ui.activities.ReadingRecordActivity$c$a:
     com.huli.foxread.ui.activities.ReadingRecordActivity$3 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity$3):231:231 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity$3):228:228 -> <init>
 com.huli.foxread.ui.activities.ReadingRecordActivity$4 -> com.huli.foxread.ui.activities.ReadingRecordActivity$d:
     com.huli.foxread.ui.activities.ReadingRecordActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity,androidx.appcompat.app.AppCompatActivity):271:271 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):274:274 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):277:279 -> onSuccess
-    5:5:void onSuccess(com.lzy.okgo.model.Response):282:282 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):284:284 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity,androidx.appcompat.app.AppCompatActivity):268:268 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):271:271 -> onSuccess
+    2:4:void onSuccess(com.lzy.okgo.model.Response):274:276 -> onSuccess
+    5:5:void onSuccess(com.lzy.okgo.model.Response):278:278 -> onSuccess
 com.huli.foxread.ui.activities.ReadingRecordActivity$4$1 -> com.huli.foxread.ui.activities.ReadingRecordActivity$d$a:
     com.huli.foxread.ui.activities.ReadingRecordActivity$4 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity$4):275:275 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity$4):272:272 -> <init>
 com.huli.foxread.ui.activities.ReadingRecordActivity$5 -> com.huli.foxread.ui.activities.ReadingRecordActivity$e:
     com.huli.foxread.ui.activities.ReadingRecordActivity this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity,androidx.appcompat.app.AppCompatActivity):298:298 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):301:301 -> onSuccess
-    2:5:void onSuccess(com.lzy.okgo.model.Response):304:307 -> onSuccess
-    6:6:void onSuccess(com.lzy.okgo.model.Response):309:309 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity,androidx.appcompat.app.AppCompatActivity):292:292 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):295:295 -> onSuccess
+    2:5:void onSuccess(com.lzy.okgo.model.Response):298:301 -> onSuccess
+    6:6:void onSuccess(com.lzy.okgo.model.Response):303:303 -> onSuccess
 com.huli.foxread.ui.activities.ReadingRecordActivity$5$1 -> com.huli.foxread.ui.activities.ReadingRecordActivity$e$a:
     com.huli.foxread.ui.activities.ReadingRecordActivity$5 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity$5):302:302 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.activities.ReadingRecordActivity$5):296:296 -> <init>
 com.huli.foxread.ui.activities.ReviewDetailActivity -> com.huli.foxread.ui.activities.ReviewDetailActivity:
     android.widget.TextView tvBookName -> o
     android.widget.TextView tvAllReply -> q
@@ -116584,141 +116582,128 @@ com.huli.foxread.ui.fragments.MainBookrackFragment -> com.huli.foxread.ui.fragme
     androidx.appcompat.widget.Toolbar mToolbar -> f
     com.google.android.material.appbar.AppBarLayout appBarLayout -> e
     com.scwang.smartrefresh.layout.SmartRefreshLayout layout -> g
-    boolean shouldRefresh -> q
-    java.lang.String specialBookId -> r
-    com.bytedance.sdk.openadsdk.TTAdNative mTTAdNative -> s
-    boolean fff -> t
+    java.lang.String specialBookId -> q
+    boolean fff -> s
+    com.bytedance.sdk.openadsdk.TTAdNative mTTAdNative -> r
     com.huli.foxread.ui.adapters.BookRackAdapter2 rackAdapter -> i
     androidx.recyclerview.widget.RecyclerView recyclerView -> h
     androidx.cardview.widget.CardView cardSpecialRecommend -> j
     android.widget.ImageView ivookCoverPush -> k
     android.widget.TextView tvBookIntroPush -> m
     android.widget.TextView tvBookNamePush -> l
-    1:1:void <init>():79:79 -> <init>
+    1:1:void <init>():78:78 -> <init>
     2:2:void <init>():91:91 -> <init>
-    3:3:void <init>():94:94 -> <init>
-    1:1:com.huli.foxread.ui.adapters.BookRackAdapter2 access$000(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> a
-    2:2:java.util.List access$202(com.huli.foxread.ui.fragments.MainBookrackFragment,java.util.List):79:79 -> a
-    3:3:void access$300(com.huli.foxread.ui.fragments.MainBookrackFragment,int,boolean):79:79 -> a
-    4:4:java.lang.String access$702(com.huli.foxread.ui.fragments.MainBookrackFragment,java.lang.String):79:79 -> a
-    5:5:void lambda$setListener$46(android.view.View):147:147 -> a
-    6:9:boolean lambda$onItemClick$49(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):255:258 -> a
-    10:10:void lambda$null$48(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):259:259 -> a
-    11:12:void banAppBarScroll(boolean):309:310 -> a
-    13:14:void banAppBarScroll(boolean):312:313 -> a
-    15:15:void banAppBarScroll(boolean):315:315 -> a
-    16:16:void loadListAd(int,boolean):355:355 -> a
-    17:19:void loadListAd(int,boolean):358:360 -> a
-    20:22:void loadListAd(int,boolean):362:364 -> a
-    23:23:void loadListAd(int,boolean):377:377 -> a
-    24:26:void reqDelBooks(java.lang.String):480:482 -> a
-    1:1:androidx.recyclerview.widget.RecyclerView access$100(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> b
-    2:3:void lambda$setListener$47(android.view.View):149:150 -> b
-    4:6:void lambda$setListener$47(android.view.View):153:155 -> b
-    7:10:boolean lambda$onItemLongClick$51(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):291:294 -> b
-    11:11:void lambda$null$50(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):295:295 -> b
-    1:1:android.widget.TextView access$1000(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> c
-    1:1:android.widget.TextView access$1100(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> d
-    1:1:void doBusiness(android.content.Context):161:161 -> doBusiness
-    2:2:void doBusiness(android.content.Context):164:164 -> doBusiness
-    3:3:void doBusiness(android.content.Context):166:166 -> doBusiness
-    4:4:void doBusiness(android.content.Context):168:168 -> doBusiness
-    5:6:void doBusiness(android.content.Context):170:171 -> doBusiness
-    7:8:void doBusiness(android.content.Context):174:175 -> doBusiness
-    1:1:android.app.Activity access$1200(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> e
-    2:3:void getSpecialBook():530:531 -> e
-    1:1:java.util.List access$200(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> f
-    2:3:void refreshBookRack():441:442 -> f
-    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$400(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> g
-    2:3:void reqGetBooks():501:502 -> g
-    1:1:android.app.Activity access$500(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> h
-    1:1:android.app.Activity access$600(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> i
-    1:4:void initView(android.view.View):113:116 -> initView
-    5:5:void initView(android.view.View):118:118 -> initView
-    6:7:void initView(android.view.View):120:121 -> initView
-    8:8:void initView(android.view.View):123:123 -> initView
-    9:14:void initView(android.view.View):125:130 -> initView
-    15:20:void initView(android.view.View):132:137 -> initView
-    1:1:android.app.Activity access$800(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> j
-    1:1:android.widget.ImageView access$900(com.huli.foxread.ui.fragments.MainBookrackFragment):79:79 -> k
-    1:2:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):321:322 -> onCreateOptionsMenu
-    3:3:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):324:324 -> onCreateOptionsMenu
-    4:6:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):326:328 -> onCreateOptionsMenu
-    7:7:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):330:330 -> onCreateOptionsMenu
-    1:2:void onDestroy():180:181 -> onDestroy
-    1:1:void onHiddenChanged(boolean):210:210 -> onHiddenChanged
-    2:3:void onHiddenChanged(boolean):212:213 -> onHiddenChanged
-    4:5:void onHiddenChanged(boolean):215:216 -> onHiddenChanged
-    1:6:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):242:247 -> onItemClick
-    7:8:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):250:251 -> onItemClick
-    9:10:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):253:254 -> onItemClick
-    11:12:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):264:265 -> onItemClick
-    1:6:boolean onItemLongClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):285:290 -> onItemLongClick
-    1:1:boolean onOptionsItemSelected(android.view.MenuItem):338:338 -> onOptionsItemSelected
-    2:3:boolean onOptionsItemSelected(android.view.MenuItem):343:344 -> onOptionsItemSelected
-    4:4:boolean onOptionsItemSelected(android.view.MenuItem):340:340 -> onOptionsItemSelected
-    5:5:boolean onOptionsItemSelected(android.view.MenuItem):347:347 -> onOptionsItemSelected
-    1:1:void onReadingTimeEvent(com.huli.foxread.entity.eventbus.ReadingTimeEvent):196:196 -> onReadingTimeEvent
-    1:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):233:235 -> onRefresh
-    1:2:void onRefreshBookRackEvent(com.huli.foxread.entity.eventbus.BookRackChangeEvent):201:202 -> onRefreshBookRackEvent
-    3:3:void onRefreshBookRackEvent(com.huli.foxread.entity.eventbus.BookRackChangeEvent):204:204 -> onRefreshBookRackEvent
-    1:2:void onResume():223:224 -> onResume
-    3:4:void onResume():226:227 -> onResume
-    1:2:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):186:187 -> onUserInfoChangeEvent
-    3:3:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):189:189 -> onUserInfoChangeEvent
-    4:4:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):191:191 -> onUserInfoChangeEvent
-    1:4:void setListener():142:145 -> setListener
-    5:6:void setListener():147:148 -> setListener
-    1:2:void setStatusBar(android.view.View):107:108 -> setStatusBar
+    1:1:com.huli.foxread.ui.adapters.BookRackAdapter2 access$000(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> a
+    2:2:void access$500(com.huli.foxread.ui.fragments.MainBookrackFragment,int,boolean):78:78 -> a
+    3:3:java.lang.String access$702(com.huli.foxread.ui.fragments.MainBookrackFragment,java.lang.String):78:78 -> a
+    4:4:void lambda$setListener$46(android.view.View):144:144 -> a
+    5:8:boolean lambda$onItemClick$49(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):242:245 -> a
+    9:9:void lambda$null$48(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):246:246 -> a
+    10:11:void banAppBarScroll(boolean):296:297 -> a
+    12:13:void banAppBarScroll(boolean):299:300 -> a
+    14:14:void banAppBarScroll(boolean):302:302 -> a
+    15:15:void loadListAd(int,boolean):342:342 -> a
+    16:18:void loadListAd(int,boolean):345:347 -> a
+    19:22:void loadListAd(int,boolean):349:352 -> a
+    23:25:void reqDelBooks(java.lang.String):430:432 -> a
+    1:1:androidx.recyclerview.widget.RecyclerView access$100(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> b
+    2:3:void lambda$setListener$47(android.view.View):146:147 -> b
+    4:6:void lambda$setListener$47(android.view.View):150:152 -> b
+    7:10:boolean lambda$onItemLongClick$51(com.huli.page.model.bean.BookShelfListBean,com.chad.library.adapter.base.BaseQuickAdapter,int,com.kongzue.dialog.util.BaseDialog,android.view.View):278:281 -> b
+    11:11:void lambda$null$50(com.chad.library.adapter.base.BaseQuickAdapter,int,com.huli.page.model.local.Void):282:282 -> b
+    1:1:android.widget.TextView access$1000(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> c
+    1:1:android.widget.TextView access$1100(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> d
+    1:1:void doBusiness(android.content.Context):158:158 -> doBusiness
+    2:2:void doBusiness(android.content.Context):161:161 -> doBusiness
+    3:3:void doBusiness(android.content.Context):163:163 -> doBusiness
+    4:4:void doBusiness(android.content.Context):165:165 -> doBusiness
+    5:6:void doBusiness(android.content.Context):167:168 -> doBusiness
+    7:7:void doBusiness(android.content.Context):171:171 -> doBusiness
+    1:1:android.app.Activity access$1200(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> e
+    2:3:void getSpecialBook():504:505 -> e
+    1:1:android.app.Activity access$200(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> f
+    2:3:void reqGetBooks():451:452 -> f
+    1:1:java.util.List access$300(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> g
+    1:1:android.app.Activity access$400(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> h
+    1:1:com.scwang.smartrefresh.layout.SmartRefreshLayout access$600(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> i
+    1:4:void initView(android.view.View):110:113 -> initView
+    5:5:void initView(android.view.View):115:115 -> initView
+    6:7:void initView(android.view.View):117:118 -> initView
+    8:8:void initView(android.view.View):120:120 -> initView
+    9:14:void initView(android.view.View):122:127 -> initView
+    15:20:void initView(android.view.View):129:134 -> initView
+    1:1:android.app.Activity access$800(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> j
+    1:1:android.widget.ImageView access$900(com.huli.foxread.ui.fragments.MainBookrackFragment):78:78 -> k
+    1:2:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):308:309 -> onCreateOptionsMenu
+    3:3:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):311:311 -> onCreateOptionsMenu
+    4:6:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):313:315 -> onCreateOptionsMenu
+    7:7:void onCreateOptionsMenu(android.view.Menu,android.view.MenuInflater):317:317 -> onCreateOptionsMenu
+    1:2:void onDestroy():177:178 -> onDestroy
+    1:1:void onHiddenChanged(boolean):198:198 -> onHiddenChanged
+    2:3:void onHiddenChanged(boolean):200:201 -> onHiddenChanged
+    4:4:void onHiddenChanged(boolean):203:203 -> onHiddenChanged
+    1:6:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):229:234 -> onItemClick
+    7:8:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):237:238 -> onItemClick
+    9:10:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):240:241 -> onItemClick
+    11:12:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):251:252 -> onItemClick
+    1:6:boolean onItemLongClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):272:277 -> onItemLongClick
+    1:1:boolean onOptionsItemSelected(android.view.MenuItem):325:325 -> onOptionsItemSelected
+    2:3:boolean onOptionsItemSelected(android.view.MenuItem):330:331 -> onOptionsItemSelected
+    4:4:boolean onOptionsItemSelected(android.view.MenuItem):327:327 -> onOptionsItemSelected
+    5:5:boolean onOptionsItemSelected(android.view.MenuItem):334:334 -> onOptionsItemSelected
+    1:1:void onReadingTimeEvent(com.huli.foxread.entity.eventbus.ReadingTimeEvent):193:193 -> onReadingTimeEvent
+    1:1:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):219:219 -> onRefresh
+    2:3:void onRefresh(com.scwang.smartrefresh.layout.api.RefreshLayout):221:222 -> onRefresh
+    1:2:void onResume():210:211 -> onResume
+    3:3:void onResume():213:213 -> onResume
+    1:2:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):183:184 -> onUserInfoChangeEvent
+    3:3:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):186:186 -> onUserInfoChangeEvent
+    4:4:void onUserInfoChangeEvent(com.huli.foxread.entity.FUser):188:188 -> onUserInfoChangeEvent
+    1:4:void setListener():139:142 -> setListener
+    5:6:void setListener():144:145 -> setListener
+    1:2:void setStatusBar(android.view.View):104:105 -> setStatusBar
 com.huli.foxread.ui.fragments.MainBookrackFragment$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$a:
-    boolean val$isRefresh -> a
-    com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> b
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,boolean):377:377 -> <init>
-    1:1:void onNativeExpressAdLoad(java.util.List):385:385 -> onNativeExpressAdLoad
-    2:3:void onNativeExpressAdLoad(java.util.List):389:390 -> onNativeExpressAdLoad
-    4:5:void onNativeExpressAdLoad(java.util.List):392:393 -> onNativeExpressAdLoad
+    com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> a
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment):352:352 -> <init>
+    1:1:void onNativeExpressAdLoad(java.util.List):360:360 -> onNativeExpressAdLoad
+    2:6:void onNativeExpressAdLoad(java.util.List):370:374 -> onNativeExpressAdLoad
+    7:8:void onNativeExpressAdLoad(java.util.List):376:377 -> onNativeExpressAdLoad
+    9:10:void onNativeExpressAdLoad(java.util.List):380:381 -> onNativeExpressAdLoad
 com.huli.foxread.ui.fragments.MainBookrackFragment$2 -> com.huli.foxread.ui.fragments.MainBookrackFragment$b:
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):442:442 -> <init>
-    1:2:void onFinish():469:470 -> onFinish
-    1:2:void onSuccess(com.lzy.okgo.model.Response):445:446 -> onSuccess
-    3:4:void onSuccess(com.lzy.okgo.model.Response):449:450 -> onSuccess
-    5:7:void onSuccess(com.lzy.okgo.model.Response):452:454 -> onSuccess
-    8:12:void onSuccess(com.lzy.okgo.model.Response):456:460 -> onSuccess
-    13:14:void onSuccess(com.lzy.okgo.model.Response):462:463 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity):432:432 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):435:435 -> onSuccess
+    2:2:void onSuccess(com.lzy.okgo.model.Response):438:438 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):441:441 -> onSuccess
 com.huli.foxread.ui.fragments.MainBookrackFragment$2$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$b$a:
     com.huli.foxread.ui.fragments.MainBookrackFragment$2 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$2):447:447 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$2):436:436 -> <init>
 com.huli.foxread.ui.fragments.MainBookrackFragment$3 -> com.huli.foxread.ui.fragments.MainBookrackFragment$c:
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity):482:482 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):485:485 -> onSuccess
-    2:2:void onSuccess(com.lzy.okgo.model.Response):488:488 -> onSuccess
-    3:3:void onSuccess(com.lzy.okgo.model.Response):491:491 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):452:452 -> <init>
+    1:2:void onFinish():494:495 -> onFinish
+    1:2:void onSuccess(com.lzy.okgo.model.Response):455:456 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):459:459 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):461:461 -> onSuccess
+    5:7:void onSuccess(com.lzy.okgo.model.Response):463:465 -> onSuccess
+    8:8:void onSuccess(com.lzy.okgo.model.Response):467:467 -> onSuccess
+    9:16:void onSuccess(com.lzy.okgo.model.Response):469:476 -> onSuccess
+    17:18:void onSuccess(com.lzy.okgo.model.Response):478:479 -> onSuccess
+    19:20:void onSuccess(com.lzy.okgo.model.Response):482:483 -> onSuccess
+    21:21:void onSuccess(com.lzy.okgo.model.Response):487:487 -> onSuccess
+    22:22:void onSuccess(com.lzy.okgo.model.Response):489:489 -> onSuccess
 com.huli.foxread.ui.fragments.MainBookrackFragment$3$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$c$a:
     com.huli.foxread.ui.fragments.MainBookrackFragment$3 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$3):486:486 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$3):457:457 -> <init>
 com.huli.foxread.ui.fragments.MainBookrackFragment$4 -> com.huli.foxread.ui.fragments.MainBookrackFragment$d:
     com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):502:502 -> <init>
-    1:2:void onSuccess(com.lzy.okgo.model.Response):505:506 -> onSuccess
-    3:4:void onSuccess(com.lzy.okgo.model.Response):509:510 -> onSuccess
-    5:7:void onSuccess(com.lzy.okgo.model.Response):512:514 -> onSuccess
-    8:9:void onSuccess(com.lzy.okgo.model.Response):516:517 -> onSuccess
-    10:10:void onSuccess(com.lzy.okgo.model.Response):519:519 -> onSuccess
-    11:11:void onSuccess(com.lzy.okgo.model.Response):521:521 -> onSuccess
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):505:505 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):508:508 -> onSuccess
+    2:7:void onSuccess(com.lzy.okgo.model.Response):511:516 -> onSuccess
+    8:8:void onSuccess(com.lzy.okgo.model.Response):518:518 -> onSuccess
 com.huli.foxread.ui.fragments.MainBookrackFragment$4$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$d$a:
     com.huli.foxread.ui.fragments.MainBookrackFragment$4 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$4):507:507 -> <init>
-com.huli.foxread.ui.fragments.MainBookrackFragment$5 -> com.huli.foxread.ui.fragments.MainBookrackFragment$e:
-    com.huli.foxread.ui.fragments.MainBookrackFragment this$0 -> f
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment,androidx.appcompat.app.AppCompatActivity,boolean):531:531 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):534:534 -> onSuccess
-    2:7:void onSuccess(com.lzy.okgo.model.Response):537:542 -> onSuccess
-    8:8:void onSuccess(com.lzy.okgo.model.Response):544:544 -> onSuccess
-com.huli.foxread.ui.fragments.MainBookrackFragment$5$1 -> com.huli.foxread.ui.fragments.MainBookrackFragment$e$a:
-    com.huli.foxread.ui.fragments.MainBookrackFragment$5 this$1 -> a
-    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$5):535:535 -> <init>
+    1:1:void <init>(com.huli.foxread.ui.fragments.MainBookrackFragment$4):509:509 -> <init>
 com.huli.foxread.ui.fragments.MainBookrackFragment2 -> com.huli.foxread.ui.fragments.MainBookrackFragment2:
     android.widget.TextView tvAsBtnSignIngGold -> o
     android.widget.TextView tvTotalReadingTimeToday -> n
@@ -120070,70 +120055,70 @@ com.huli.page.model.local.update.Update2Helper -> b.c.a.a.b.m.b:
     1:1:void update(org.greenrobot.greendao.database.Database):42:42 -> update
 com.huli.page.presenter.ReadBookPresenter -> b.c.a.b.a:
     java.lang.String TAG -> c
-    1:1:void <init>():26:26 -> <init>
-    1:7:void loadCategory(androidx.appcompat.app.AppCompatActivity,java.lang.String):68:74 -> loadCategory
-    1:2:void loadChapter(androidx.appcompat.app.AppCompatActivity,java.lang.String,java.util.List):97:98 -> loadChapter
-    3:8:void loadChapter(androidx.appcompat.app.AppCompatActivity,java.lang.String,java.util.List):101:106 -> loadChapter
-    1:8:void recordDuration(androidx.appcompat.app.AppCompatActivity,int,long,java.lang.String,java.lang.String,int):130:137 -> recordDuration
-    1:7:void recordRead(androidx.appcompat.app.AppCompatActivity,java.lang.String,java.lang.String,java.lang.String,int):154:160 -> recordRead
-    1:3:void reqAddBookrack(androidx.appcompat.app.AppCompatActivity,java.lang.String):48:50 -> reqAddBookrack
-    1:2:void reqAdvertAd(androidx.appcompat.app.AppCompatActivity):31:32 -> reqAdvertAd
+    1:1:void <init>():23:23 -> <init>
+    1:7:void loadCategory(androidx.appcompat.app.AppCompatActivity,java.lang.String):64:70 -> loadCategory
+    1:2:void loadChapter(androidx.appcompat.app.AppCompatActivity,java.lang.String,java.util.List):93:94 -> loadChapter
+    3:8:void loadChapter(androidx.appcompat.app.AppCompatActivity,java.lang.String,java.util.List):97:102 -> loadChapter
+    1:8:void recordDuration(androidx.appcompat.app.AppCompatActivity,int,long,java.lang.String,java.lang.String,int):126:133 -> recordDuration
+    1:7:void recordRead(androidx.appcompat.app.AppCompatActivity,java.lang.String,java.lang.String,java.lang.String,int):150:156 -> recordRead
+    1:3:void reqAddBookrack(androidx.appcompat.app.AppCompatActivity,java.lang.String):45:47 -> reqAddBookrack
+    1:2:void reqAdvertAd(androidx.appcompat.app.AppCompatActivity):28:29 -> reqAdvertAd
 com.huli.page.presenter.ReadBookPresenter$1 -> b.c.a.b.a$a:
     com.huli.page.presenter.ReadBookPresenter this$0 -> f
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity):32:32 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):35:35 -> onSuccess
-    2:3:void onSuccess(com.lzy.okgo.model.Response):37:38 -> onSuccess
-    4:4:void onSuccess(com.lzy.okgo.model.Response):40:40 -> onSuccess
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity):29:29 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):32:32 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):34:35 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):37:37 -> onSuccess
 com.huli.page.presenter.ReadBookPresenter$1$1 -> b.c.a.b.a$a$a:
     com.huli.page.presenter.ReadBookPresenter$1 this$1 -> a
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$1):35:35 -> <init>
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$1):32:32 -> <init>
 com.huli.page.presenter.ReadBookPresenter$2 -> b.c.a.b.a$b:
     com.huli.page.presenter.ReadBookPresenter this$0 -> f
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity):50:50 -> <init>
-    1:1:void onSuccess(com.lzy.okgo.model.Response):53:53 -> onSuccess
-    2:4:void onSuccess(com.lzy.okgo.model.Response):56:58 -> onSuccess
-    5:5:void onSuccess(com.lzy.okgo.model.Response):60:60 -> onSuccess
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity):47:47 -> <init>
+    1:1:void onSuccess(com.lzy.okgo.model.Response):50:50 -> onSuccess
+    2:3:void onSuccess(com.lzy.okgo.model.Response):53:54 -> onSuccess
+    4:4:void onSuccess(com.lzy.okgo.model.Response):56:56 -> onSuccess
 com.huli.page.presenter.ReadBookPresenter$2$1 -> b.c.a.b.a$b$a:
     com.huli.page.presenter.ReadBookPresenter$2 this$1 -> a
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$2):54:54 -> <init>
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$2):51:51 -> <init>
 com.huli.page.presenter.ReadBookPresenter$3 -> b.c.a.b.a$c:
     com.huli.page.presenter.ReadBookPresenter this$0 -> f
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean):74:74 -> <init>
-    1:2:void onCacheSuccess(com.lzy.okgo.model.Response):89:90 -> onCacheSuccess
-    1:2:void onSuccess(com.lzy.okgo.model.Response):77:78 -> onSuccess
-    3:4:void onSuccess(com.lzy.okgo.model.Response):81:82 -> onSuccess
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean):70:70 -> <init>
+    1:2:void onCacheSuccess(com.lzy.okgo.model.Response):85:86 -> onCacheSuccess
+    1:2:void onSuccess(com.lzy.okgo.model.Response):73:74 -> onSuccess
+    3:4:void onSuccess(com.lzy.okgo.model.Response):77:78 -> onSuccess
 com.huli.page.presenter.ReadBookPresenter$3$1 -> b.c.a.b.a$c$a:
     com.huli.page.presenter.ReadBookPresenter$3 this$1 -> a
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$3):79:79 -> <init>
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$3):75:75 -> <init>
 com.huli.page.presenter.ReadBookPresenter$4 -> b.c.a.b.a$d:
     java.lang.String val$bookId -> f
     com.huli.page.presenter.ReadBookPresenter this$0 -> i
     java.util.List val$bookChapters -> h
     com.huli.page.widget.page.TxtChapter val$bookChapter -> g
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean,java.lang.String,com.huli.page.widget.page.TxtChapter,java.util.List):106:106 -> <init>
-    1:2:void onSuccess(com.lzy.okgo.model.Response):109:110 -> onSuccess
-    3:3:void onSuccess(com.lzy.okgo.model.Response):112:112 -> onSuccess
-    4:5:void onSuccess(com.lzy.okgo.model.Response):114:115 -> onSuccess
-    6:7:void onSuccess(com.lzy.okgo.model.Response):118:119 -> onSuccess
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean,java.lang.String,com.huli.page.widget.page.TxtChapter,java.util.List):102:102 -> <init>
+    1:2:void onSuccess(com.lzy.okgo.model.Response):105:106 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):108:108 -> onSuccess
+    4:5:void onSuccess(com.lzy.okgo.model.Response):110:111 -> onSuccess
+    6:7:void onSuccess(com.lzy.okgo.model.Response):114:115 -> onSuccess
 com.huli.page.presenter.ReadBookPresenter$4$1 -> b.c.a.b.a$d$a:
     com.huli.page.presenter.ReadBookPresenter$4 this$1 -> a
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$4):110:110 -> <init>
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$4):106:106 -> <init>
 com.huli.page.presenter.ReadBookPresenter$5 -> b.c.a.b.a$e:
     com.huli.page.presenter.ReadBookPresenter this$0 -> f
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean):137:137 -> <init>
-    1:2:void onSuccess(com.lzy.okgo.model.Response):140:141 -> onSuccess
-    3:3:void onSuccess(com.lzy.okgo.model.Response):144:144 -> onSuccess
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean):133:133 -> <init>
+    1:2:void onSuccess(com.lzy.okgo.model.Response):136:137 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):140:140 -> onSuccess
 com.huli.page.presenter.ReadBookPresenter$5$1 -> b.c.a.b.a$e$a:
     com.huli.page.presenter.ReadBookPresenter$5 this$1 -> a
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$5):142:142 -> <init>
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$5):138:138 -> <init>
 com.huli.page.presenter.ReadBookPresenter$6 -> b.c.a.b.a$f:
     com.huli.page.presenter.ReadBookPresenter this$0 -> f
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean):160:160 -> <init>
-    1:2:void onSuccess(com.lzy.okgo.model.Response):163:164 -> onSuccess
-    3:3:void onSuccess(com.lzy.okgo.model.Response):167:167 -> onSuccess
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter,androidx.appcompat.app.AppCompatActivity,boolean):156:156 -> <init>
+    1:2:void onSuccess(com.lzy.okgo.model.Response):159:160 -> onSuccess
+    3:3:void onSuccess(com.lzy.okgo.model.Response):163:163 -> onSuccess
 com.huli.page.presenter.ReadBookPresenter$6$1 -> b.c.a.b.a$f$a:
     com.huli.page.presenter.ReadBookPresenter$6 this$1 -> a
-    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$6):165:165 -> <init>
+    1:1:void <init>(com.huli.page.presenter.ReadBookPresenter$6):161:161 -> <init>
 com.huli.page.presenter.contract.ReadBookContract -> b.c.a.b.b.a:
 com.huli.page.presenter.contract.ReadBookContract$Presenter -> b.c.a.b.b.a$a:
 com.huli.page.presenter.contract.ReadBookContract$View -> b.c.a.b.b.a$b:
