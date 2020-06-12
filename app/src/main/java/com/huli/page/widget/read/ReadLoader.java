@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.util.Log;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -430,7 +431,7 @@ public abstract class ReadLoader {
             // 重新获取指定页面
             mCurPage = mCurPageList.get(mCurPage.position);
         }
-
+        Log.d(TAG, "refreshPage()");
         mPageView.drawCurPage(false);
     }
 
@@ -820,9 +821,7 @@ public abstract class ReadLoader {
                 RectF rectF = new RectF(0, 0, mDisplayWidth, mDisplayHeight);
                 canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
             }
-            if (index == AD_FOR_PAGE_NUM && !isABC)
-                return;
-            if (mCurPage != null && mCurPage.isCustomView)
+            if (mCurPage.isCustomView)
                 return;
             if (!mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
@@ -859,9 +858,7 @@ public abstract class ReadLoader {
                 }
             }
         } else {
-            if (index == AD_FOR_PAGE_NUM && !isABC)
-                return;
-            if (mCurPage != null && mCurPage.isCustomView)
+            if (mCurPage.isCustomView)
                 return;
             //擦除区域
             if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
@@ -974,18 +971,19 @@ public abstract class ReadLoader {
                 top = mMarginHeight + titleMarginHeight;
             }
             if (mCurPage != null && mCurPage.isCustomView) {
-                if (TxtPage.VALUE_STRING_COVER_TYPE.equals(mCurPage.pageType)) {
-                    mPageView.drawCoverPage(bitmap);
+                switch (mCurPage.pageType) {
+                    case TxtPage.VALUE_STRING_AD_TYPE:
+                        if (!mPageView.drawAdPage(bitmap)) {
+                            //如果获取广告失败，跳下一页
+                            mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
+                            drawContent(bitmap);
+                        }
+                        break;
+                    case TxtPage.VALUE_STRING_COVER_TYPE:
+                        mPageView.drawCoverPage(bitmap);
+                        break;
                 }
                 return;
-            } else {
-                if (index == AD_FOR_PAGE_NUM && !isABC) {
-                    if (!mPageView.drawAdPage(bitmap)) {
-                        mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
-                        drawContent(bitmap);
-                    }
-                    return;
-                }
             }
             mPageView.cleanAdView();
             float allOffset = mCurPage.offset < 0 ? 0 : mCurPage.offset;
@@ -1099,18 +1097,22 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
+        index--;
+        if (index < 5) {
+            if (index > 1)
+                mPageView.requestAd();
+            index = 1;
+        }
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在上一页
             TxtPage prevPage = getPrevPage();
             if (prevPage != null) {
-                index--;
-                if (index < 5) {
-                    index = 1;
-                }
+                Log.d(TAG, "index：" + index);
                 mCancelPage = mCurPage;
                 mCurPage = prevPage;
                 mPageView.drawNextPage();
                 isGoNextPage = false;
+//                Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
                 return true;
             }
         }
@@ -1126,11 +1128,8 @@ public abstract class ReadLoader {
             mCurPage = new TxtPage();
         }
         isGoNextPage = false;
-        index--;
-        if (index < 5) {
-            index = 1;
-        }
         mPageView.drawNextPage();
+//        Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
         return true;
     }
 
@@ -1177,18 +1176,21 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
+        index++;
+        if (index > 7) {
+            mPageView.requestAd();
+            index = 2;
+        }
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在下一页
             TxtPage nextPage = getNextPage();
             if (nextPage != null) {
-                index++;
-                if (index > 7) {
-                    index = 2;
-                }
+                Log.d(TAG, "index：" + index);
                 mCancelPage = mCurPage;
                 mCurPage = nextPage;
                 mPageView.drawNextPage();
                 isGoNextPage = true;
+//                Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
                 return true;
             }
         }
@@ -1204,12 +1206,9 @@ public abstract class ReadLoader {
         } else {
             mCurPage = new TxtPage();
         }
-        index++;
-        if (index > 7) {
-            index = 2;
-        }
         isGoNextPage = true;
         mPageView.drawNextPage();
+//        Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
         return true;
     }
 
@@ -1458,8 +1457,6 @@ public abstract class ReadLoader {
                         page.offset = rHeight + mTextPaint.getTextSize() + wrap;
                         page.wrap = isWrap;
                         pages.add(page);
-                        //尝试加入广告page
-                        addAdPage(pages, chapter.getTitle(), titleLinesCount);
                         // 重置Lines
                         lines.clear();
                         rHeight = mVisibleHeight;
@@ -1524,8 +1521,6 @@ public abstract class ReadLoader {
                 page.titleLines = titleLinesCount;
                 page.offset = 0;
                 pages.add(page);
-                //尝试加入广告page
-                addAdPage(pages, chapter.getTitle(), titleLinesCount);
                 //重置Lines
                 lines.clear();
             }
@@ -1551,18 +1546,6 @@ public abstract class ReadLoader {
         }
     }
 
-    private void addAdPage(List<TxtPage> pages, String title, int titleLinesCount) {
-        if (pages.size() < 0) {
-            TxtPage adPage = new TxtPage();
-            adPage.isCustomView = true;
-            adPage.position = pages.size();
-            adPage.title = title;
-            //adPage.lines = new ArrayList<>(lines);
-            adPage.titleLines = titleLinesCount;
-            pages.add(adPage);
-        }
-    }
-
     /**
      * @return:获取初始显示的页面
      */
@@ -1581,13 +1564,11 @@ public abstract class ReadLoader {
      */
     private TxtPage getPrevPage() {
         int pos;
-        if (index == AD_FOR_PAGE_NUM + 1 && !isABC)
-            pos = mCurPage.position;
-        else {
+        if (index == AD_FOR_PAGE_NUM && !isABC) {
+            return addAdPage();
+        } else {
             pos = mCurPage.position - 1;
         }
-//        Log.d(TAG, "getPrevPage()  当前页是 == " + mCurPage.position);
-//        Log.d(TAG, "getPrevPage()  下一页是 == " + pos);
         if (pos < 0) {
             return null;
         }
@@ -1602,13 +1583,11 @@ public abstract class ReadLoader {
      */
     private TxtPage getNextPage() {
         int pos;
-        if (index == AD_FOR_PAGE_NUM - 1 && !isABC)
-            pos = mCurPage.position;
-        else {
+        if (index == AD_FOR_PAGE_NUM && !isABC) {
+            return addAdPage();
+        } else {
             pos = mCurPage.position + 1;
         }
-//        Log.d(TAG, "getNextPage() 当前页是 == " + mCurPage.position);
-//        Log.d(TAG, "getNextPage() 下一页是 == " + pos);
         if (pos >= mCurPageList.size()) {
             return null;
         }
@@ -1616,6 +1595,17 @@ public abstract class ReadLoader {
             mPageChangeListener.onPageChange(pos);
         }
         return mCurPageList.get(pos);
+    }
+
+    private TxtPage addAdPage() {
+        TxtPage adPage = new TxtPage();
+        adPage.pageType = TxtPage.VALUE_STRING_AD_TYPE;
+        adPage.isCustomView = true;
+        adPage.position = mCurPage.position;
+        adPage.title = mCurPage.title;
+        //adPage.lines = new ArrayList<>(lines);
+        adPage.titleLines = mCurPage.titleLines;
+        return adPage;
     }
 
     /**

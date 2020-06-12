@@ -271,7 +271,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     } else {
                         if (needRefreshPage)
                             mPageLoader.refreshPage();
-                        needRefreshPage = true;
+                        needRefreshPage = false;
                         rl.setVisibility(VISIBLE);
                     }
                     if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
@@ -529,8 +529,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
         tvAdView.setText(builderVideoMessage);
         btnNextPage = mAdView.findViewById(R.id.btn_next_page);
-        btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
-                R.color.txt_gray_b2));
+        btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext, R.color.txt_gray_b2));
         btnNextPage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -560,6 +559,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
         });
         presenter.reqAdvertAd(ReadBookActivity.this);
+        //加载广告
+        requestAdPage();
     }
 
     @Override
@@ -593,11 +594,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } else {
             if (needRefreshPage)
                 mPageLoader.refreshPage();
-            needRefreshPage = true;
+            needRefreshPage = false;
             rl.setVisibility(VISIBLE);
         }
         mPageLoader.setABC(isABC);
-        Log.d(TAG, "isABC" + isABC);
     }
 
     private boolean testingIsABC(long lapse) {
@@ -743,7 +743,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mTTAdNative.loadNativeExpressAd(adSlotPage, new TTAdNative.NativeExpressAdListener() {
             @Override
             public void onError(int code, String message) {
-//                Log.e("ExpressView", "load error : " + code + ", " + message);
+                Log.e("ExpressView", "load error : " + code + ", " + message);
             }
 
             @Override
@@ -755,6 +755,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 bindAdListener1(mTTAdPage);
                 startTime = System.currentTimeMillis();
                 mTTAdPage.render();
+                Log.e("ExpressView", "onNativeExpressAdLoad");
             }
         });
     }
@@ -889,31 +890,32 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {
-//                Log.e("ExpressView", "广告被点击");
+                Log.e("ExpressView", "广告被点击");
             }
 
             @Override
             public void onAdShow(View view, int type) {
-//                Log.e("ExpressView", "广告展示");
+                Log.e("ExpressView", "广告展示");
             }
 
             @Override
             public void onRenderFail(View view, String msg, int code) {
-//                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
-//                Log.e("ExpressView", msg + " code:" + code);
+                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
+                Log.e("ExpressView", msg + " code:" + code);
             }
 
             @Override
             public void onRenderSuccess(View view, float width, float height) {
-//                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
-//                Log.e("ExpressView", "width:" + width);
-//                Log.e("ExpressView", "height:" + height);
-                //返回view的宽高 单位 dp
-//                Log.e("ExpressView", "渲染成功");
+                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
+                Log.e("ExpressView", "width:" + width);
+                Log.e("ExpressView", "height:" + height);
+                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
+                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
+//                返回view的宽高 单位 dp
+                Log.e("ExpressView", "渲染成功");
 //                mAdView = view;
                 mExpressContainer.removeAllViews();
                 mExpressContainer.addView(view);
-
             }
         });
         //dislike设置
@@ -924,35 +926,35 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         ad.setDownloadListener(new TTAppDownloadListener() {
             @Override
             public void onIdle() {
-//                Log.e("ExpressView", "点击开始下载");
+                Log.e("ExpressView", "点击开始下载  onIdle()");
             }
 
             @Override
             public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
                 if (!mHasShowDownloadActive) {
                     mHasShowDownloadActive = true;
-//                    Log.e("ExpressView", "下载中，点击暂停");
+                    Log.e("ExpressView", "下载中，点击暂停 onDownloadActive()");
                 }
             }
 
             @Override
             public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "下载暂停，点击继续");
+                Log.e("ExpressView", "下载暂停，点击继续  onDownloadPaused()");
             }
 
             @Override
             public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "下载失败，点击重新下载");
+                Log.e("ExpressView", "下载失败，点击重新下载  onDownloadFailed()");
             }
 
             @Override
             public void onInstalled(String fileName, String appName) {
-//                Log.e("ExpressView", "安装完成，点击图片打开");
+                Log.e("ExpressView", "安装完成，点击图片打开 onInstalled()");
             }
 
             @Override
             public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "点击安装");
+                Log.e("ExpressView", "点击安装  onDownloadFinished()");
             }
         });
     }
@@ -1177,7 +1179,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } else {
             if (needRefreshPage)
                 mPageLoader.refreshPage();
-            needRefreshPage = true;
+            needRefreshPage = false;
             rl.setVisibility(VISIBLE);
         }
         mPageLoader.setABC(isABC);
@@ -1186,9 +1188,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onResume() {
         super.onResume();
-
-        //加载广告
-        requestAdPage();
         mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (timer == null)
             doPolling(READ_TYPE_START);
@@ -1440,7 +1439,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             } else {
                 if (needRefreshPage)
                     mPageLoader.refreshPage();
-                needRefreshPage = true;
+                needRefreshPage = false;
                 rl.setVisibility(VISIBLE);
             }
             mPageLoader.setABC(isABC);
