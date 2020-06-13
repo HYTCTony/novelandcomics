@@ -109,4 +109,22 @@
             android:longClickable="false"
             android:textSize="14sp" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/express_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:text="请求"
+        android:visibility="visible"
+        android:gravity="center"
+        android:textSize="14sp" />
+
 </LinearLayout>

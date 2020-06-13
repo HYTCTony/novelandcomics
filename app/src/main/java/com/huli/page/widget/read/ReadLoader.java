@@ -138,13 +138,13 @@ public abstract class ReadLoader {
     private int mTextPara;
     private int mTitlePara;
     //适配刘海屏，向下偏移量
-    int titleMarginHeight;
+    private int titleMarginHeight;
     //电池的百分比
     private int mBatteryLevel;
     //当前页面的背景
     private int mBgColor;
 
-    boolean isGoNextPage = false;
+    private boolean isGoNextPage = false;
     // 当前章
     protected int mCurChapterPos = 0;
     //上一章的记录
@@ -393,6 +393,7 @@ public abstract class ReadLoader {
      * 更新时间
      */
     public void updateTime() {
+        mPageView.unDraw();
         if (!mPageView.isRunning()) {
             mPageView.drawCurPage(true);
         }
@@ -404,6 +405,7 @@ public abstract class ReadLoader {
      * @param level
      */
     public void updateBattery(int level) {
+        mPageView.unDraw();
         mBatteryLevel = level;
 
         if (!mPageView.isRunning()) {
@@ -507,6 +509,7 @@ public abstract class ReadLoader {
             mPageStyle = pageStyle;
             mSettingManager.setPageStyle(pageStyle);
         }
+        //是否限制夜间模式不能切换风格
         //        if (isNightMode && pageStyle != PageStyle.NIGHT) {
         //            return;
         //        }
@@ -985,7 +988,7 @@ public abstract class ReadLoader {
                 }
                 return;
             }
-            mPageView.cleanAdView();
+            mPageView.removeAllViews();
             float allOffset = mCurPage.offset < 0 ? 0 : mCurPage.offset;
             int lines = mCurPage.lines.size();
             float heightOffset = allOffset / (lines - 1);

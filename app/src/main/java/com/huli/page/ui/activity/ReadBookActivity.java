@@ -180,9 +180,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     private View mAdView;
     private TTAdNative mTTAdNative;
-    private TTRewardVideoAd mttRewardVideoAd;
     private TTNativeExpressAd mTTAdPage;
     private TTNativeExpressAd mTTAdBottom;
+    private TTRewardVideoAd mttRewardVideoAd;
     private long startTime = 0;
     private boolean mHasShowDownloadActive = false;
     @BindView(R.id.banner_container)
@@ -732,6 +732,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         if (isABC) {
             return;
         }
+        mPvPage.removeAllViews();
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlotPage = new AdSlot.Builder()
                 .setCodeId("945191706") //广告位id  945191678*视频   945191706*图片
@@ -926,35 +927,35 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         ad.setDownloadListener(new TTAppDownloadListener() {
             @Override
             public void onIdle() {
-                Log.e("ExpressView", "点击开始下载  onIdle()");
+                Log.e("ExpressView", "点击开始下载");
             }
 
             @Override
             public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
                 if (!mHasShowDownloadActive) {
                     mHasShowDownloadActive = true;
-                    Log.e("ExpressView", "下载中，点击暂停 onDownloadActive()");
+                    Log.e("ExpressView", "下载中，点击暂停");
                 }
             }
 
             @Override
             public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                Log.e("ExpressView", "下载暂停，点击继续  onDownloadPaused()");
+                Log.e("ExpressView", "下载暂停，点击继续");
             }
 
             @Override
             public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                Log.e("ExpressView", "下载失败，点击重新下载  onDownloadFailed()");
+                Log.e("ExpressView", "下载失败，点击重新下载");
             }
 
             @Override
             public void onInstalled(String fileName, String appName) {
-                Log.e("ExpressView", "安装完成，点击图片打开 onInstalled()");
+                Log.e("ExpressView", "安装完成，点击图片打开");
             }
 
             @Override
             public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                Log.e("ExpressView", "点击安装  onDownloadFinished()");
+                Log.e("ExpressView", "点击安装");
             }
         });
     }
@@ -989,45 +990,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 ivBackgroud.setVisibility(View.INVISIBLE);
                 mBannerContainer.removeAllViews();
                 mBannerContainer.addView(view);
-            }
-        });
-        //dislike设置
-        bindDislike(ad, false);
-        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-            return;
-        }
-        ad.setDownloadListener(new TTAppDownloadListener() {
-            @Override
-            public void onIdle() {
-//                Log.e("ExpressView", "点击开始下载");
-            }
-
-            @Override
-            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                if (!mHasShowDownloadActive) {
-                    mHasShowDownloadActive = true;
-//                    Log.e("ExpressView", "下载中，点击暂停");
-                }
-            }
-
-            @Override
-            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "下载暂停，点击继续");
-            }
-
-            @Override
-            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "下载失败，点击重新下载");
-            }
-
-            @Override
-            public void onInstalled(String fileName, String appName) {
-//                Log.e("ExpressView", "安装完成，点击图片打开");
-            }
-
-            @Override
-            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "点击安装");
             }
         });
     }

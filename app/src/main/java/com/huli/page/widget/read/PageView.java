@@ -13,7 +13,6 @@ import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 
 import com.huli.page.model.bean.BookShelfListBean;
-import com.huli.page.utils.UtilsView;
 import com.huli.page.widget.animation.CoverPageAnim;
 import com.huli.page.widget.animation.HorizonPageAnim;
 import com.huli.page.widget.animation.NonePageAnim;
@@ -44,9 +43,14 @@ public class PageView extends FrameLayout {
     // 唤醒菜单的区域
     private RectF mCenterRect = null;
     private boolean isPrepare;
+    //
+    public Bitmap mBitmap;
+    private boolean shouldDraw = true;
     // 动画类
     public PageAnimation mPageAnim;
     private View mAdView, mCoverPageView;
+    int index = 0;
+
     // 动画监听类
     private PageAnimation.OnPageChangeListener mPageAnimListener = new PageAnimation.OnPageChangeListener() {
         @Override
@@ -228,12 +232,9 @@ public class PageView extends FrameLayout {
         mPageAnim.draw(canvas);
     }
 
-    public Bitmap mBitmap;
-    private boolean shouldDraw = true;
-
     @Override
     public void onDescendantInvalidated(@NonNull View child, @NonNull View target) {
-        Log.d(TAG, "onDescendantInvalidated: ");
+//        Log.d(TAG, "onDescendantInvalidated: ");
         shouldDraw = true;
         super.onDescendantInvalidated(child, target);
     }
@@ -247,7 +248,6 @@ public class PageView extends FrameLayout {
             if (mPageLoader == null || mPageLoader.mCurPage == null) {
                 return;
             }
-            Log.d(TAG, "dispatchDraw()");
             if (mPageLoader.mCurPage.isCustomView) {
                 switch (mPageLoader.mCurPage.pageType) {
                     case TxtPage.VALUE_STRING_COVER_TYPE:
@@ -258,11 +258,17 @@ public class PageView extends FrameLayout {
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
+                        if (index < 2) {
+                            removeView(mAdView);
+                            addView(mAdView);
+                            super.dispatchDraw(canvas);
+                            Log.d(TAG, "addAdLayout()");
+                        }
                         if (shouldDraw) {
                             Log.d(TAG, "adView.dispatchDraw()");
-                            super.dispatchDraw(canvas);
                             shouldDraw = false;
                         }
+                        index++;
                         break;
                 }
             }
@@ -311,6 +317,9 @@ public class PageView extends FrameLayout {
                     //是否点击了中间
                     if (mCenterRect.contains(x, y)) {
                         if (mTouchListener != null) {
+                            if (mPageLoader.mCurPage.isCustomView) {
+                                return false;
+                            }
                             mTouchListener.center();
                         }
                         return true;
@@ -328,7 +337,17 @@ public class PageView extends FrameLayout {
      * @return
      */
     public void reDraw() {
+        index = 0;
         shouldDraw = true;
+    }
+
+    /**
+     * 判断是否重新绘制子view
+     *
+     * @return
+     */
+    public void unDraw() {
+        shouldDraw = false;
     }
 
     /**
@@ -338,6 +357,7 @@ public class PageView extends FrameLayout {
      */
     private boolean hasPrevPage() {
         mTouchListener.prePage();
+        index = 0;
         shouldDraw = true;
         return mPageLoader.prev();
     }
@@ -349,6 +369,7 @@ public class PageView extends FrameLayout {
      */
     private boolean hasNextPage() {
         mTouchListener.nextPage();
+        index = 0;
         shouldDraw = true;
         return mPageLoader.next();
     }
@@ -362,7 +383,7 @@ public class PageView extends FrameLayout {
             addAdLayout();
         } else {
             //否则清除
-            cleanAdView();
+            removeAllViews();
         }
     }
 
@@ -371,16 +392,9 @@ public class PageView extends FrameLayout {
             return;
         }
         if (mAdView != null) {
-            UtilsView.removeParent(mAdView);
+            removeView(mAdView);
             addView(mAdView);
         }
-    }
-
-    /**
-     * 清除添加的所有view
-     */
-    public void cleanAdView() {
-        removeAllViews();
     }
 
     @Override
@@ -427,7 +441,7 @@ public class PageView extends FrameLayout {
         }
         mBitmap = bitmap;
         if (mCoverPageView != null) {
-            UtilsView.removeParent(mCoverPageView);
+            removeAllViews();
             addView(mCoverPageView);
             return;
         } else {
@@ -442,7 +456,7 @@ public class PageView extends FrameLayout {
         params.gravity = Gravity.CENTER;
         mCoverPageView.setLayoutParams(params);
         if (mCoverPageView != null) {
-            UtilsView.removeParent(mCoverPageView);
+            removeAllViews();
             addView(mCoverPageView);
         }
         return;
@@ -457,13 +471,12 @@ public class PageView extends FrameLayout {
 
         mBitmap = bitmap;
         shouldDraw = true;
-
+        mAdView = mReaderAdListener.getAdView();
         if (mAdView != null) {
-            addAdLayout();
             mPageLoader.mCurPage.hasDrawAd = true;
+            addAdLayout();
             return true;
         } else {
-            mAdView = mReaderAdListener.getAdView();
             mReaderAdListener.onRequestAd();
         }
 
@@ -480,7 +493,6 @@ public class PageView extends FrameLayout {
 
     public void requestAd() {
         mReaderAdListener.onRequestAd();
-        mAdView = mReaderAdListener.getAdView();
     }
 
     /**
