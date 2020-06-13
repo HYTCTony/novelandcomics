@@ -6,6 +6,6 @@
         android:bottomRightRadius="@dimen/dp_3" />
     <gradient
         android:angle="0"
-        android:endColor="#DA926C"
-        android:startColor="#DCB097" />
+        android:endColor="#99DA926C"
+        android:startColor="#99DCB097" />
 </shape>

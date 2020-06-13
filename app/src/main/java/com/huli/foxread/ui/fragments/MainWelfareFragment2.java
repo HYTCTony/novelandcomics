@@ -34,6 +34,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.contact.CsjAdsCode;
 import com.huli.foxread.engines.GlideImageLoaderWf;
 import com.huli.foxread.entity.BannerADEntity;
 import com.huli.foxread.entity.CapitalEntity;
@@ -102,10 +103,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
     private TTAdNative mTTAdNative;
     private TTRewardVideoAd mttRewardVideoAd;
-    /*看激励视频免广告20分钟*/
-    private static final String ADV_FREE_CODE_ID = "945192284";
-    /*看激励视频得金币*/
-    private static final String GOLD_COIN_CODE_ID = "945166035";
+
     private boolean mIsExpress = false; //是否请求模板广告
     private boolean mHasShowDownloadActive = false;
     /*观看视频验证*/
@@ -139,6 +137,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new WelfareMissionAdapter2();
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
         initTopLayout();
 
         initFooterView();
@@ -222,7 +221,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         if (vType.equals(Common.VIDEO_BONUSES)) {
             //个性化模板广告需要传入期望广告view的宽、高，单位dp，
             adSlot = new AdSlot.Builder()
-                    .setCodeId(GOLD_COIN_CODE_ID)
+                    .setCodeId(CsjAdsCode.GOLD_COIN_CODE_ID)
                     .setSupportDeepLink(true)
 //                    .setRewardName("金币") //奖励的名称
 //                    .setRewardAmount(3)  //奖励的数量
@@ -235,7 +234,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         } else if (vType.equals(Common.VIDEO_ADVERT)) {
             //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
             adSlot = new AdSlot.Builder()
-                    .setCodeId(ADV_FREE_CODE_ID)
+                    .setCodeId(CsjAdsCode.ADV_FREE_CODE_ID)
                     .setSupportDeepLink(true)
 //                    .setRewardName("金币") //奖励的名称
 //                    .setRewardAmount(3)  //奖励的数量

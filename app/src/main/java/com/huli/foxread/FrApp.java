@@ -247,12 +247,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);*/
+        builder.addInterceptor(loggingInterceptor);
 
         OkGo.getInstance()
                 .init(this)
@@ -277,7 +277,7 @@ public class FrApp extends Application implements ActivityState {
     /**
      * 判断当前进程是否是应用的主进程
      *
-     * @return
+     * @return *
      */
     public boolean isMainProcess() {
         int pid = android.os.Process.myPid();

@@ -27,6 +27,13 @@ public class BookRackAdapter2 extends BaseMultiItemQuickAdapter<BookShelfOrADsMu
         addItemType(BookShelfOrADsMultEntity.DETAILED, R.layout.recy_grid_item_my_book_rack2);
     }
 
+    public BookRackAdapter2() {
+        super();
+        addItemType(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, R.layout.recy_grid_item_my_book_rack_addbook);
+        addItemType(BookShelfOrADsMultEntity.ITEM_ADS, R.layout.listitem_ad_native_express);
+        addItemType(BookShelfOrADsMultEntity.DETAILED, R.layout.recy_grid_item_my_book_rack2);
+    }
+
     @Override
     protected void convert(BaseViewHolder helper, BookShelfOrADsMultEntity item) {
         switch (helper.getItemViewType()) {

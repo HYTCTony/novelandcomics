@@ -53,7 +53,18 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        try {
+            super.onCreate(savedInstanceState);
+        } catch (Exception e) {
+            e.printStackTrace();
+            //处置应用后台化后系统对内存回收导致的应用崩溃
+            Intent i = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            //LogUtils.d("重启");
+            finish();
+        }
+
         setStatusBar();
 
         Bundle bundle = getIntent().getExtras();
@@ -123,7 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
             ignoreHint = true;
         } else {
-//            Tos.showShort(this, R.string.txt_network_error);
+//            Tos.showShort(this, R.string.txt_radio_wave_connection_interruption);
             ignoreHint = false;
         }
     }
@@ -136,14 +147,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * [初始化参数] *
      *
-     * @param parms
+     * @param parms *
      */
     public abstract void initParms(Bundle parms);
 
     /**
      * [绑定视图] *
      *
-     * @return
+     * @return *
      */
     public abstract View bindView();
 
@@ -155,7 +166,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * [初始化控件] *
      *
-     * @param view
+     * @param view *
      */
     public abstract void initView(final View view);
 
@@ -163,7 +174,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * [绑定控件] *
      *
      * @param resId *
-     * @return
+     * @return *
      */
     @SuppressWarnings("unchecked")
     protected <T extends View> T $(@IdRes int resId) {
@@ -179,7 +190,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * [业务操作]
      *
-     * @param mContext
+     * @param mContext 上下文
      */
     public abstract void doBusiness(Context mContext);
 
@@ -204,7 +215,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 为子类提供设置标题的方法
      *
-     * @param title
+     * @param title 标题名
      */
     @SuppressWarnings("ConstantConditions")
     protected void initToolBar(Toolbar mToolbar, String title) {
@@ -246,7 +257,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    /**
+    /*
      * 设置 app 字体不随系统字体设置改变
      */
     /*@Override

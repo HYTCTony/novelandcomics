@@ -29,6 +29,7 @@ import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.contact.CsjAdsCode;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
@@ -51,6 +52,7 @@ import com.huli.page.utils.RxUtils;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -130,7 +132,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         layout.setDragRate(1);
         recyclerView = $(view, R.id.recyclerView_my_bookrack);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        rackAdapter = new BookRackAdapter2(datas);
+        rackAdapter = new BookRackAdapter2();
         recyclerView.setAdapter(rackAdapter);
     }
 
@@ -169,7 +171,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         }
 
         getSpecialBook();
-//        reqGetBooks();
     }
 
     @Override
@@ -217,7 +218,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         getSpecialBook();
-//        refreshBookRack();
         reqGetBooks();
         ((MainActivity) mActivity).getUserReadTime();
     }
@@ -343,7 +343,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         float expressViewHeight = 0;     //高度设置为0,则高度会自适应
         //step4:创建feed广告请求类型参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("945165433")
+                .setCodeId(CsjAdsCode.BOOKRACK_CODE_ID)
                 .setSupportDeepLink(true)
 //                .setImageAcceptedSize(280,360 )//这个参数设置即可，不影响个性化模板广告的size
                 .setExpressViewAcceptedSize(expressViewWidth, expressViewWidth / 4) //期望模板广告view的size,单位dp
@@ -448,44 +448,46 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      * 获取书架列表
      */
     private void reqGetBooks() {
+        long nowTime = System.currentTimeMillis();
+        if ((nowTime - lastReqTime) < 5 * 1000) {
+            layout.finishRefresh(1000);
+            return;
+        }
+        lastReqTime = nowTime;
+
         OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        List<BookShelfOrADsMultEntity> newDatas = new ArrayList<>();
                         LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
                                 new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
                                 });
+
+                        List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
                         if (entity.error_code == 0) {
 
                             List<BookShelfListBean> list = entity.getData();
                             BookShelfOrADsMultEntity multEntity;
                             for (BookShelfListBean bean : list) {
                                 multEntity = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.DETAILED, bean, null);
-                                newDatas.add(multEntity);
+                                datas.add(multEntity);
                             }
-                            newDatas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
+                            datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
 
                             List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
                             if (oldDatas.size() > 0) {
                                 BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
                                 if (adEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADS) {  //如果第一个item有广告
-                                    datas.clear();
                                     datas.add(0, adEntity);
-                                    datas.addAll(newDatas);
-                                    rackAdapter.notifyItemRangeChanged(1, datas.size() - 1);
-                                } else {
-                                    datas.addAll(newDatas);
-                                    rackAdapter.setList(datas);
                                 }
-                            } else {
-                                datas.addAll(newDatas);
-                                rackAdapter.setList(datas);
                             }
+                            rackAdapter.setList(datas);
 
                         } else {
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
+
                         loadListAd(1, false);
                     }
 
@@ -493,6 +495,28 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                     public void onFinish() {
                         super.onFinish();
                         layout.finishRefresh();
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
+                                new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
+                                });
+
+                        List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
+                        if (entity.error_code == 0) {
+
+                            List<BookShelfListBean> list = entity.getData();
+                            BookShelfOrADsMultEntity multEntity;
+                            for (BookShelfListBean bean : list) {
+                                multEntity = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.DETAILED, bean, null);
+                                datas.add(multEntity);
+                            }
+                            datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
+
+                            rackAdapter.setList(datas);
+                        }
                     }
                 });
     }
@@ -502,6 +526,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void getSpecialBook() {
         OkGo.<String>get(Consts.SPECIAL_BOOK_API)
+                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -518,7 +543,14 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
+                    }
                 });
     }
 
+    private long lastReqTime;
 }

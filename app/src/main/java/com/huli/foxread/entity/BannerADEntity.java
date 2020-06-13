@@ -1,6 +1,8 @@
 package com.huli.foxread.entity;
 
-public class BannerADEntity {
+import java.io.Serializable;
+
+public class BannerADEntity implements Serializable {
     private String id;
     private String title;
     private String link;            //链接

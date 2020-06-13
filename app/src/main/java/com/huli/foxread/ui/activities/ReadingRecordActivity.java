@@ -88,8 +88,9 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
 //        recyclerView.addItemDecoration(new SimpleDividerDecoration(this, R.dimen.dp_1, R.dimen.dp_16, R.color.col_gray_e5e5e5));
         mAdapter = new ReadingRecordsAdapter(isManagerMode);
         mAdapter.setAnimationEnable(true);
-        mAdapter.setAnimationFirstOnly(false);
+        mAdapter.setAnimationFirstOnly(true);
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
     }
 
     @Override
@@ -101,25 +102,17 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
         btnAddBookcase.setOnClickListener(this);
 
         mAdapter.setOnItemClickListener(this);
-        layout.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                //可以上拉加载
-                reqReadingRecord(0, false);
-                mAdapter.getLoadMoreModule().setEnableLoadMore(true);
-            }
+        layout.setOnRefreshListener(refreshLayout -> {
+            //可以上拉加载
+            reqReadingRecord(0, false);
+            mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                reqReadingRecord(curPage, false);
-            }
-        });
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqReadingRecord(curPage, false));
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        reqReadingRecord(0, true);
+        reqReadingRecord(0, false);
     }
 
     @Override
@@ -233,7 +226,6 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                             curPage = datas.getCurrent_page();
                             if (curPage == 1) {
                                 mAdapter.setList(record);
-                                layout.finishRefresh();
                             } else {
                                 if (record != null && record.size() > 1) {
                                     mAdapter.addData(record);
@@ -247,6 +239,12 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        super.onFinish();
+                        layout.finishRefresh();
                     }
 
                     @Override
@@ -296,9 +294,9 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
                                 new TypeReference<LzyResponse<String>>() {
                                 });
                         if (entity.error_code == 0) {
-                            reqReadingRecord(0, true);
                             change2NormalMode();
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
+                            layout.autoRefresh();
                         } else {
                             TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
                         }

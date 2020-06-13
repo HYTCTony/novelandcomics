@@ -17,6 +17,7 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -73,6 +74,10 @@ public class InvitationCodeActivity extends BaseActivity {
         if (UserInfoCache.getIsTourist(mContext)) {
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
             return;
+        }
+
+        if(UserInfoCache.getIsInvited(mContext)){
+            TipDialog.show(this,"你已填写过邀请码", TipDialog.TYPE.WARNING).setOnDismissListener(this::onBackPressed);
         }
     }
 

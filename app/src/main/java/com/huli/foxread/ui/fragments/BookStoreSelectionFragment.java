@@ -30,6 +30,7 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -94,7 +95,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         mAdapter = new BsSelectionAdapter();
         mAdapter.setAnimationEnable(true);
         recyclerView.setAdapter(mAdapter);
-//        mAdapter.setEmptyView(R.layout.layout_empty);
+        mAdapter.setEmptyView(R.layout.layout_empty);
 //        mAdapter.setHeaderWithEmptyEnable(true);
         mAdapter.setGridSpanSizeLookup((gridLayoutManager, viewType, position) -> mAdapter.getData().get(position).getSpanSize());
 
@@ -125,6 +126,8 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
             //重置高分精选页码
             curPage = 0;
+
+            refreshLayout.finishLoadMore(15);
         });
 
         // 设置加载更多监听事件
@@ -150,7 +153,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
 
         if (isInit) {
             mRefreshLayout.autoRefresh();
-//            reqIndexDatas(true);
+//            reqIndexDatas(false);
             isInit = false;
         }
 
@@ -335,6 +338,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
     private void reqIndexDatas(boolean showDialog) {
         OkGo.<String>post(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -357,6 +361,12 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                     public void onFinish() {
                         super.onFinish();
                         mRefreshLayout.finishRefresh();
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
                     }
                 });
     }

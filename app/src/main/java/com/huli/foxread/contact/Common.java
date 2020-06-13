@@ -38,14 +38,8 @@ public interface Common {
 
     String KEY_TOKEN = "token";
 
-    String EXTRA_KEY_MSG_NUM = "msg_num";
     String EXTRA_KEY_MONEY = "key_money";
-    String EXTRA_KEY_SCORE = "key_score";
-    String EXTRA_KEY_TODAY_SCORE = "key_today_score";
 
-    String EXTRA_KEY_WXRESP = "wechat_resp_entity";
-
-    String EXTRA_HAS_GET_USERINFO = "has_get_user_info";
 
 
     String USER_DTO = "user_dto";
@@ -61,5 +55,8 @@ public interface Common {
     String KEY_IS_INVITED = "is_invited";
     String KEY_HTTP_AVATAR = "http_avatar";
     String INVITE_CODE = "invate_code";
+
+
+    String SPF_KEY_FIRST_RUN = "is_first_run";
 
 }

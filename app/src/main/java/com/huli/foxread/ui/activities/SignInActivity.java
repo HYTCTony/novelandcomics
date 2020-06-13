@@ -273,12 +273,12 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                             int getGb = entity.getData();       //签到的奖励
 
                             //弹窗提示签到成功
-                            CustomDialog.show(SignInActivity.this, R.layout.layout_custom_dialog_sign_in_success, (dialog, v) -> {
+                            CustomDialog.build(SignInActivity.this, R.layout.layout_custom_dialog_sign_in_success, (dialog, v) -> {
                                 TextView tvGetGold = v.findViewById(R.id.iv_get_gold_coin_count);
                                 tvGetGold.setText(String.format(getString(R.string.txt_get_goldcoin_x), getGb));
                                 v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
                                 v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
-                            });
+                            }).show();
 
                             //通知刷新福利列表
                             EventBus.getDefault().post(new WelfareChangeEvent(true));
