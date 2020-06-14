@@ -86,8 +86,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private MainWelfareFragment2 welfareFragment;
     private MainMineFragment mineFragment;
 
-    private boolean hasGetUserInfo = false;
-
     //预取号成功标记
     private boolean flagPreGetSuccess;
 
@@ -99,9 +97,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void initParms(Bundle parms) {
-        if (parms != null) {
-            hasGetUserInfo = parms.getBoolean(Common.EXTRA_HAS_GET_USERINFO, false);
-        }
     }
 
     @Override
@@ -135,9 +130,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     public void doBusiness(Context mContext) {
         switch2Bookstore();
-        if (!hasGetUserInfo) {
-            reqUserInfo();
-        }
+        reqUserInfo();
 
         // 获取唤醒参数
         ShareInstall.getInstance().getWakeUpParams(getIntent(), wakeUpListener);
@@ -417,8 +410,12 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onNetWorkResume() {
+        super.onNetWorkResume();
+    }
 
-    private boolean ignoreOneClickLogin;
+    private boolean ignoreOneClickLogin;    //忽略唤起一键登录
 
     /**
      * 调起一键登录

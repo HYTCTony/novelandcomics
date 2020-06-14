@@ -3,9 +3,10 @@ package com.huli.foxread.entity.multi;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.huli.foxread.entity.BookEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class HpBGModuleEntity implements MultiItemEntity {
+public class HpBGModuleEntity implements MultiItemEntity, Serializable {
     public static final int TYPE_HOT_BILLBOARD = 1;             //（一行两个）布局
     public static final int TYPE_CATE_EXC_WORKS = 2;            //分类佳作布局
     public static final int TYPE_SPECIAL = 3;                   //专题布局

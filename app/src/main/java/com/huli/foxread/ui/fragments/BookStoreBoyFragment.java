@@ -3,7 +3,6 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
@@ -24,6 +23,7 @@ import com.huli.foxread.ui.adapters.HpBoyGirlAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
@@ -99,7 +99,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mAdapter = new HpBoyGirlAdapter();
         recyclerView.setAdapter(mAdapter);
-//        mAdapter.setEmptyView(R.layout.layout_empty);
+        mAdapter.setEmptyView(R.layout.layout_empty);
         initTopView(view);
 //        mAdapter.addHeaderView(headViewTop);
         headViewTop.setVisibility(View.GONE);
@@ -110,6 +110,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     public void setListener() {
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             reqIndexDatas(false);
+            refreshLayout.finishLoadMore(15);
         });
     }
 
@@ -125,7 +126,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
         super.onResume();
         if (isInitData) {
             mRefreshLayout.autoRefresh();
-//            reqIndexDatas(true);
+//            reqIndexDatas(false);
             isInitData = false;
         }
     }
@@ -241,6 +242,8 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
     private void reqIndexDatas(boolean showDialog) {
         OkGo.<String>post(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, mType)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
+                .cacheKey(Consts.INDEX_PAGE_API + "/" + mType)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -268,6 +271,12 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
                     public void onFinish() {
                         super.onFinish();
                         mRefreshLayout.finishRefresh();
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<String> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
                     }
                 });
     }

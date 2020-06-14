@@ -2,9 +2,10 @@ package com.huli.foxread.entity;
 
 import com.huli.foxread.entity.multi.HpBGModuleEntity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class HomePageBGEntity {
+public class HomePageBGEntity implements Serializable {
     private List<BannerADEntity> banner;                    //轮播广告
     private List<HpBGModuleEntity> module;
 

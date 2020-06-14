@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
                     android:textColor="@color/txt_black"
-                    android:textSize="@dimen/sp_22"
+                    android:textSize="@dimen/sp_20"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/tv_user_id"
                     app:layout_constraintLeft_toRightOf="@+id/iv_user_headImg"

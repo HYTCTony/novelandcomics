@@ -308,7 +308,7 @@ public static java.lang.String TABLENAME;
 }
 ######################---BaseRecyclerViewAdapterHelper---#######################
 
-
+#####################----空祖家的Dialog----##################################_BEGIN
 -keep class com.kongzue.dialog.** { *; }
 -dontwarn com.kongzue.dialog.**
 
@@ -318,6 +318,11 @@ public static java.lang.String TABLENAME;
 # 如果有开启模糊效果，建议将 Renderscript 也列入 keep 范围：
 -dontwarn android.support.v8.renderscript.**
 -keep public class android.support.v8.renderscript.** { *; }
+
+# AndroidX版本请使用如下配置：
+-dontwarn androidx.renderscript.**
+-keep public class androidx.renderscript.** { *; }
+#####################----空祖家的Dialog----##################################_END
 
 
 ###################### banner 的混淆代码######################

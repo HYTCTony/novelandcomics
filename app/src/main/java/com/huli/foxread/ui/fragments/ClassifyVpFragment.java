@@ -30,6 +30,7 @@ import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
 import com.kongzue.stacklabelview.StackLabel;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -213,6 +214,9 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+        if (stackLabel1.getLabels().size() <= 1) {
+            reqSubCategory();
+        }
         paramCurPage = 0;
         reqCategoryDatas(false);
     }
@@ -401,6 +405,8 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     private void reqSubCategory() {
         OkGo.<LzyResponse<List<CategoryEntity>>>post(Consts.NOVEL_CATEGORY_SUB_API)
                 .params(Consts.CAT_PID, index + 1)
+                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
+                .cacheKey(Consts.NOVEL_CATEGORY_SUB_API + "/gender_" + (index + 1))
                 .execute(new LtbJsonCallback<LzyResponse<List<CategoryEntity>>>((AppCompatActivity) mActivity, false,
                         new TypeReference<LzyResponse<List<CategoryEntity>>>() {
                         }) {
@@ -417,6 +423,12 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
                             stackLabel1.setLabels(stack1Datas);
                             stackLabel1.setSelectMode(true, stack1Datas.subList(0, 1));
                         }
+                    }
+
+                    @Override
+                    public void onCacheSuccess(Response<LzyResponse<List<CategoryEntity>>> response) {
+                        super.onCacheSuccess(response);
+                        onSuccess(response);
                     }
                 });
     }

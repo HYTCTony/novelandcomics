@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +20,7 @@ import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ebsevent.NetworkChangeEvent;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
@@ -51,6 +53,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -100,7 +103,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvTodayGoldCoin = $(view, R.id.tv_today_gold_coin_mine);
         tvTodayReadingTime = $(view, R.id.tv_today_reading_time_mine);
 
-        TextView tvVoiceBook = $(view,R.id.tv_vip_privilege_VoiceBook);
+        TextView tvVoiceBook = $(view, R.id.tv_vip_privilege_VoiceBook);
         tvVoiceBook.getPaint().setAntiAlias(true); // 抗锯齿
         tvVoiceBook.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG); // 设置中划线并加清晰
         tvVoiceBook.setOnClickListener(new OnClickEvent() {
@@ -149,11 +152,13 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     public void onResume() {
         super.onResume();
 
-        reqMineWelfareZone();
+        if (isVisible()) {
+            reqMineWelfareZone();
+        }
     }
 
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         MineWelfareZoneEntity data = wzAdapter.getData().get(position);
         ClickJumpUtil.handleJump(mActivity, data.getLink(), data.getJump());
     }
@@ -187,6 +192,12 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvTodayReadingTime.setText(event.getReadMin());
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onNetworkChangeEvent(NetworkChangeEvent event) {    //接到网络状态变化通知
+        if (event.isConnected && isVisible()) {
+            reqMineWelfareZone();
+        }
+    }
 
     /**
      * 用户信息改变的时候改变UI
@@ -246,6 +257,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         super.onHiddenChanged(hidden);
         if (!hidden) {
             StatusBarUtils.setStatusBarTextDark(mActivity, true);
+
+            reqMineWelfareZone();
         }
     }
 
