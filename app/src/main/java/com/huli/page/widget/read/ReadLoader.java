@@ -1100,17 +1100,18 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
-        index--;
+        if (hasNextPage())
+            index--;
         if (index < 5) {
             if (index > 1)
                 mPageView.requestAd();
             index = 1;
         }
+        Log.d(TAG, "index==" + index);
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在上一页
             TxtPage prevPage = getPrevPage();
             if (prevPage != null) {
-                Log.d(TAG, "index：" + index);
                 mCancelPage = mCurPage;
                 mCurPage = prevPage;
                 mPageView.drawNextPage();
@@ -1179,16 +1180,17 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
-        index++;
+        if (hasNextPage())
+            index++;
         if (index > 7) {
             mPageView.requestAd();
             index = 2;
         }
+        Log.d(TAG, "index==" + index);
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在下一页
             TxtPage nextPage = getNextPage();
             if (nextPage != null) {
-                Log.d(TAG, "index：" + index);
                 mCancelPage = mCurPage;
                 mCurPage = nextPage;
                 mPageView.drawNextPage();
@@ -1215,9 +1217,19 @@ public abstract class ReadLoader {
         return true;
     }
 
+    // 判断目录是否还有下一章
     private boolean hasNextChapter() {
-        // 判断是否到达目录最后一章
         return mCurChapterPos + 1 < mChapterList.size();
+    }
+
+    // 判断是否还能继续翻页
+    private boolean hasNextPage() {
+        if (!hasNextChapter() && mCurPage.position + 1 >= mCurPageList.size()) {
+            return false;
+        } else if (mCurPage.isCustomView && mCurPage.pageType.equals(TxtPage.VALUE_STRING_COVER_TYPE)) {
+            return false;
+        } else
+            return true;
     }
 
     boolean parseCurChapter() {
@@ -1334,7 +1346,8 @@ public abstract class ReadLoader {
     // 取消翻页
     void pageCancel() {
         if (isGoNextPage) {
-            index--;
+            if (hasNextPage())
+                index--;
             if (index < 1) {
                 index = 1;
             }
@@ -1586,7 +1599,7 @@ public abstract class ReadLoader {
      */
     private TxtPage getNextPage() {
         int pos;
-        if (index == AD_FOR_PAGE_NUM && !isABC) {
+        if (index == AD_FOR_PAGE_NUM && !isABC && !hasNextPage()) {
             return addAdPage();
         } else {
             pos = mCurPage.position + 1;

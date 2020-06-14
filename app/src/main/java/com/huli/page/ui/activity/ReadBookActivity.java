@@ -35,7 +35,6 @@ import com.bytedance.sdk.openadsdk.FilterWord;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -753,7 +752,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     return;
                 }
                 mTTAdPage = ads.get(0);
-                bindAdListener1(mTTAdPage);
+                bindPageAdListener(mTTAdPage);
                 startTime = System.currentTimeMillis();
                 mTTAdPage.render();
                 Log.e("ExpressView", "onNativeExpressAdLoad");
@@ -786,7 +785,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     return;
                 }
                 mTTAdBottom = ads.get(0);
-                bindAdListener2(mTTAdBottom);
+                bindBottomAdListener(mTTAdBottom);
                 startTime = System.currentTimeMillis();
                 mTTAdBottom.render();
             }
@@ -887,80 +886,41 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         });
     }
 
-    private void bindAdListener1(TTNativeExpressAd ad) {
+    private void bindPageAdListener(TTNativeExpressAd ad) {
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {
-                Log.e("ExpressView", "广告被点击");
+//                Log.e("ExpressView", "广告被点击");
             }
 
             @Override
             public void onAdShow(View view, int type) {
-                Log.e("ExpressView", "广告展示");
+//                Log.e("ExpressView", "广告展示");
             }
 
             @Override
             public void onRenderFail(View view, String msg, int code) {
-                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
-                Log.e("ExpressView", msg + " code:" + code);
+//                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
+//                Log.e("ExpressView", msg + " code:" + code);
             }
 
             @Override
             public void onRenderSuccess(View view, float width, float height) {
-                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
-                Log.e("ExpressView", "width:" + width);
-                Log.e("ExpressView", "height:" + height);
-                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
-                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
+//                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
+//                Log.e("ExpressView", "width:" + width);
+//                Log.e("ExpressView", "height:" + height);
+//                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
+//                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
 //                返回view的宽高 单位 dp
-                Log.e("ExpressView", "渲染成功");
+//                Log.e("ExpressView", "渲染成功");
 //                mAdView = view;
                 mExpressContainer.removeAllViews();
                 mExpressContainer.addView(view);
             }
         });
-        //dislike设置
-        bindDislike(ad, false);
-        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-            return;
-        }
-        ad.setDownloadListener(new TTAppDownloadListener() {
-            @Override
-            public void onIdle() {
-                Log.e("ExpressView", "点击开始下载");
-            }
-
-            @Override
-            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                if (!mHasShowDownloadActive) {
-                    mHasShowDownloadActive = true;
-                    Log.e("ExpressView", "下载中，点击暂停");
-                }
-            }
-
-            @Override
-            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-                Log.e("ExpressView", "下载暂停，点击继续");
-            }
-
-            @Override
-            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-                Log.e("ExpressView", "下载失败，点击重新下载");
-            }
-
-            @Override
-            public void onInstalled(String fileName, String appName) {
-                Log.e("ExpressView", "安装完成，点击图片打开");
-            }
-
-            @Override
-            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-                Log.e("ExpressView", "点击安装");
-            }
-        });
     }
 
-    private void bindAdListener2(TTNativeExpressAd ad) {
+    private void bindBottomAdListener(TTNativeExpressAd ad) {
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {

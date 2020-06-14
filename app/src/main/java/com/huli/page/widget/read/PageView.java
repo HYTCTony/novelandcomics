@@ -251,24 +251,26 @@ public class PageView extends FrameLayout {
             if (mPageLoader.mCurPage.isCustomView) {
                 switch (mPageLoader.mCurPage.pageType) {
                     case TxtPage.VALUE_STRING_COVER_TYPE:
-                        if (shouldDraw) {
+                        if (index < 1) {
                             Log.d(TAG, "customView.dispatchDraw()");
+                            addCoverLayout();
                             super.dispatchDraw(canvas);
+                        }
+                        if (shouldDraw) {
+                            index++;
                             shouldDraw = false;
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
                         if (index < 2) {
-                            removeView(mAdView);
-                            addView(mAdView);
+                            addAdLayout();
                             super.dispatchDraw(canvas);
-                            Log.d(TAG, "addAdLayout()");
+                            Log.d(TAG, "adView.dispatchDraw()");
                         }
                         if (shouldDraw) {
-                            Log.d(TAG, "adView.dispatchDraw()");
+                            index++;
                             shouldDraw = false;
                         }
-                        index++;
                         break;
                 }
             }
@@ -387,16 +389,6 @@ public class PageView extends FrameLayout {
         }
     }
 
-    private void addAdLayout() {
-        if (mPageLoader == null || mPageLoader.mCurPage == null) {
-            return;
-        }
-        if (mAdView != null) {
-            removeView(mAdView);
-            addView(mAdView);
-        }
-    }
-
     @Override
     public void computeScroll() {
         //进行滑动
@@ -441,8 +433,7 @@ public class PageView extends FrameLayout {
         }
         mBitmap = bitmap;
         if (mCoverPageView != null) {
-            removeAllViews();
-            addView(mCoverPageView);
+            addCoverLayout();
             return;
         } else {
             shouldDraw = true;
@@ -456,10 +447,20 @@ public class PageView extends FrameLayout {
         params.gravity = Gravity.CENTER;
         mCoverPageView.setLayoutParams(params);
         if (mCoverPageView != null) {
+            addCoverLayout();
+        }
+        return;
+    }
+
+    private void addCoverLayout() {
+        if (mPageLoader == null || mPageLoader.mCurPage == null) {
+            return;
+        }
+        if (mCoverPageView != null) {
+            Log.d(TAG, "addCoverLayout()");
             removeAllViews();
             addView(mCoverPageView);
         }
-        return;
     }
 
     public boolean drawAdPage(Bitmap bitmap) {
@@ -489,6 +490,16 @@ public class PageView extends FrameLayout {
         addAdLayout();
         mPageLoader.mCurPage.hasDrawAd = true;
         return true;
+    }
+
+    private void addAdLayout() {
+        if (mPageLoader == null || mPageLoader.mCurPage == null) {
+            return;
+        }
+        if (mAdView != null) {
+            removeView(mAdView);
+            addView(mAdView);
+        }
     }
 
     public void requestAd() {
