@@ -283,19 +283,18 @@ public static java.lang.String TABLENAME;
 #-----------------------------end-----------------------------------------
 
 #---------------okgo---------------------begin
-#okhttp
--dontwarn okhttp3.**
--keep class okhttp3.**{*;}
-
-#okio
--dontwarn okio.**
--keep class okio.**{*;}
-
 #okserver
 -dontwarn com.lzy.okserver.**
 -keep class com.lzy.okserver.**{*;}
 #---------------okgo---------------------end
 
+# RxHttp
+-keep class rxhttp.**{*;}
+# OkHttp
+-keep class okhttp3.**{*;}
+-dontwarn okhttp3.**
+-keep class okio.**{*;}
+-dontwarn okio.**
 
 ######################---BaseRecyclerViewAdapterHelper---#######################
 -keep class com.chad.library.adapter.** {

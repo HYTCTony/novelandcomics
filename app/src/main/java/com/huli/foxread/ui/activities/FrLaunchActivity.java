@@ -12,7 +12,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -20,11 +19,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
-import com.bytedance.sdk.openadsdk.TTSplashAd;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.TokenCache;
@@ -44,7 +39,6 @@ import com.huli.foxread.notchtools.core.NotchProperty;
 import com.huli.foxread.notchtools.core.OnNotchCallBack;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.SPFUtils;
-import com.huli.foxread.utils.UIUtils;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.lzy.okgo.OkGo;
@@ -52,7 +46,6 @@ import com.lzy.okgo.model.Response;
 
 import java.util.List;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -164,12 +157,21 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         mIsExpress = intent.getBooleanExtra("is_express", false);
     }
 
+    private Handler handler = new Handler(msg -> {
+        if (msg.what == 9) {
+            goMain();
+        }
+        return false;
+    });
 
     /**
      * 加载开屏广告
      */
     private void loadSplashAd() {
-        //step3:创建开屏广告请求参数AdSlot,具体参数含义参考文档
+        handler.sendEmptyMessageDelayed(9, 1200);
+
+
+       /* //step3:创建开屏广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlot;
         if (mIsExpress) {
             //个性化模板广告需要传入期望广告view的宽、高，单位dp，请传入实际需要的大小，
@@ -297,7 +299,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                     });
                 }
             }
-        }, AD_TIME_OUT);
+        }, AD_TIME_OUT);*/
 
     }
 
@@ -327,7 +329,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
 
     @Override
     protected void onPause() {
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         super.onPause();
     }
 

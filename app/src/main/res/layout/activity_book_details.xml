@@ -130,13 +130,13 @@
                     android:layout_width="@dimen/dp_1"
                     android:layout_height="@dimen/dp_12"
                     android:background="#80FFFFFF"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_reader_dt"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_greet_dt"
                     app:layout_constraintLeft_toRightOf="@+id/ratingBar_book_score_dt"
-                    app:layout_constraintRight_toLeftOf="@+id/tv_book_reader_dt"
-                    app:layout_constraintTop_toTopOf="@+id/tv_book_reader_dt" />
+                    app:layout_constraintRight_toLeftOf="@+id/tv_book_greet_dt"
+                    app:layout_constraintTop_toTopOf="@+id/tv_book_greet_dt" />
 
                 <TextView
-                    android:id="@+id/tv_book_reader_dt"
+                    android:id="@+id/tv_book_greet_dt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/txt_zero"
@@ -144,20 +144,20 @@
                     android:textColorHint="@color/txt_white"
                     android:textSize="@dimen/sp_14"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_score_dt"
-                    app:layout_constraintRight_toLeftOf="@+id/tv_book_reader_label_dt"
+                    app:layout_constraintRight_toLeftOf="@+id/tv_book_greet_label_dt"
                     app:layout_constraintTop_toTopOf="@+id/tv_book_score_dt" />
 
                 <TextView
-                    android:id="@+id/tv_book_reader_label_dt"
+                    android:id="@+id/tv_book_greet_label_dt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    android:text="@string/txt_book_reader"
+                    android:text="@string/txt_greet"
                     android:textColor="@color/txt_af80_white"
                     android:textSize="@dimen/sp_10"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_reader_dt"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_book_greet_dt"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_book_reader_dt" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_book_greet_dt" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

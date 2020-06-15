@@ -5,16 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.engines.GlideImageLoader;
 import com.huli.foxread.entity.BannerADEntity;
 import com.huli.foxread.entity.HomePageBGEntity;
 import com.huli.foxread.entity.multi.HpBGModuleEntity;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.activities.BookRankingActivity;
 import com.huli.foxread.ui.activities.ClassifyActivity;
 import com.huli.foxread.ui.activities.EndBooksActivity;
@@ -22,9 +21,8 @@ import com.huli.foxread.ui.activities.NewBooksActivity;
 import com.huli.foxread.ui.adapters.HpBoyGirlAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.ClickJumpUtil;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
+import com.kongzue.dialog.v3.TipDialog;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -37,6 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 /**
  * 书城---男生（女生）
@@ -240,7 +239,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
      * 各个模块数据
      */
     private void reqIndexDatas(boolean showDialog) {
-        OkGo.<String>post(Consts.INDEX_PAGE_API)
+        /*OkGo.<String>post(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, mType)
                 .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .cacheKey(Consts.INDEX_PAGE_API + "/" + mType)
@@ -278,7 +277,28 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
                         super.onCacheSuccess(response);
                         onSuccess(response);
                     }
-                });
+                });*/
+
+        RxHttp.postForm(Consts.INDEX_PAGE_API)
+                .add(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .add(Consts.TYPE, mType)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .asResponse(HomePageBGEntity.class)
+                .doFinally(() -> mRefreshLayout.finishRefresh())
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(entity -> {
+                    List<HpBGModuleEntity> moduleList = entity.getModule();
+
+                    mAdapter.setList(moduleList);
+                    //轮播图
+                    bannerDatas = entity.getBanner();
+                    if (bannerDatas != null) {
+                        mBanner.update(bannerDatas);
+                    }
+
+                    headViewTop.setVisibility(View.VISIBLE);
+                    viewFooter.setVisibility(View.VISIBLE);
+                }, (OnError) error -> TipDialog.show((AppCompatActivity) mActivity, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import com.chad.library.adapter.base.module.LoadMoreModuleConfig;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
+import com.huli.foxread.rxhttp.RxHttpManager;
 import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.ui.activities.MainActivity;
@@ -19,7 +20,6 @@ import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qq.e.comm.managers.GDTADManager;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -44,7 +44,6 @@ import com.umeng.socialize.PlatformConfig;
 import org.android.agoo.xiaomi.MiPushRegistar;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -96,6 +95,7 @@ public class FrApp extends Application implements ActivityState {
         //放在其他库初始化前
 //        SpiderMan.init(this);
 
+        RxHttpManager.init(this);
         initOkgo();  //okgo
 
         registerActivityLifecycleCallbacks(mActivityManager);
@@ -227,6 +227,7 @@ public class FrApp extends Application implements ActivityState {
         //小米
         MiPushRegistar.register(getApplicationContext(), "2882303761518355168", "5471835523168");
 
+        UMConfigure.setLogEnabled(true);
         //debug模式
 //        InAppMessageManager.getInstance(getApplicationContext()).setInAppMsgDebugMode(true);
 
@@ -247,12 +248,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+       /* HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);
+        builder.addInterceptor(loggingInterceptor);*/
 
         OkGo.getInstance()
                 .init(this)
