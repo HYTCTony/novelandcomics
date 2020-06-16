@@ -44,7 +44,7 @@ public class PageView extends FrameLayout {
     private boolean isPrepare;
     //
     public Bitmap mBitmap;
-    private boolean shouldDraw = true;
+    public boolean shouldDraw = true;
     // 动画类
     public PageAnimation mPageAnim;
     private View mAdView, mCoverPageView;
@@ -257,13 +257,14 @@ public class PageView extends FrameLayout {
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
-                        if (index < 3) {
-                            addAdLayout();
-                            super.dispatchDraw(canvas);
-//                            Log.d(TAG, "adView.dispatchDraw()");
-                        }
+//                        Log.d(TAG, "dispatchDraw()");
                         if (shouldDraw) {
-                            index++;
+//                            Log.d(TAG, "index==" + index);
+                            if (index < 2) {
+//                                Log.d(TAG, "adView.dispatchDraw()");
+                                super.dispatchDraw(canvas);
+                                index++;
+                            }
                             shouldDraw = false;
                         }
                         break;
@@ -468,27 +469,17 @@ public class PageView extends FrameLayout {
             addAdLayout();
             return true;
         } else {
-            mReaderAdListener.onRequestAd();
-        }
-
-        if (mAdView == null) {
             return false;
         }
-//        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-//        params.gravity = Gravity.CENTER;
-//        mAdView.setLayoutParams(params);
-        addAdLayout();
-        mPageLoader.mCurPage.hasDrawAd = true;
-        return true;
     }
 
-    private void addAdLayout() {
+    public void addAdLayout() {
         if (mPageLoader == null || mPageLoader.mCurPage == null) {
             return;
         }
         if (mAdView != null) {
 //            Log.d(TAG, "addAdLayout()");
-            removeView(mAdView);
+            removeAllViews();
             addView(mAdView);
         }
     }

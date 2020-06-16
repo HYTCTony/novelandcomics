@@ -2,33 +2,23 @@ package com.huli.page.ui.activity;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.huli.foxread.R;
-import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.ui.base.BaseViewActivity;
-import com.huli.page.utils.ScreenUtils;
-
-import java.util.List;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.TintTypedArray;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class MoreSettingActivity extends BaseViewActivity {
     @BindView(R.id.more_setting_rl_volume)
@@ -47,11 +37,6 @@ public class MoreSettingActivity extends BaseViewActivity {
     private boolean isVolumeTurnPage;
     private boolean isFullScreen;
     private int convertType;
-
-    private TTAdNative mTTAdNative;
-    private TTNativeExpressAd mTTAdPage;
-    @BindView(R.id.express_container)
-    FrameLayout mExpressContainer;
 
     @Override
     protected int getContentViewResId() {
@@ -73,8 +58,6 @@ public class MoreSettingActivity extends BaseViewActivity {
 
     @Override
     protected void initView() {
-        mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
-        requestAdPage();
         StatusBarUtils.setTransparentForImageView(mContext, toolbar);
         StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
         StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
@@ -132,70 +115,5 @@ public class MoreSettingActivity extends BaseViewActivity {
                 }
         );
 
-    }
-
-    @OnClick(R.id.btn)
-    void onClick() {
-//        requestAdPage();
-        ReadTestActivity.start(mContext);
-    }
-
-    private void requestAdPage() {
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-        AdSlot adSlotPage = new AdSlot.Builder()
-                .setCodeId("945191706") //广告位id  945191678*视频   945191706*图片
-                .setSupportDeepLink(true)
-                .setAdCount(1) //请求广告数量为1到3条
-                .setExpressViewAcceptedSize(ScreenUtils.getScreenSize(mContext)[0], 0) //期望模板广告view的size,单位dp
-                .build();
-        //step5:请求广告，对请求回调的广告作渲染处理
-        mTTAdNative.loadNativeExpressAd(adSlotPage, new TTAdNative.NativeExpressAdListener() {
-            @Override
-            public void onError(int code, String message) {
-                Log.e("ExpressView", "load error : " + code + ", " + message);
-            }
-
-            @Override
-            public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
-                if (ads == null || ads.size() == 0) {
-                    return;
-                }
-                mTTAdPage = ads.get(0);
-                bindAdListener1(mTTAdPage);
-                mTTAdPage.render();
-                Log.e("ExpressView", "onNativeExpressAdLoad");
-            }
-        });
-    }
-
-    private void bindAdListener1(TTNativeExpressAd ad) {
-        ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
-            @Override
-            public void onAdClicked(View view, int type) {
-                Log.e("ExpressView", "广告被点击");
-            }
-
-            @Override
-            public void onAdShow(View view, int type) {
-                Log.e("ExpressView", "广告展示");
-            }
-
-            @Override
-            public void onRenderFail(View view, String msg, int code) {
-                Log.e("ExpressView", msg + " code:" + code);
-            }
-
-            @Override
-            public void onRenderSuccess(View view, float width, float height) {
-                Log.e("ExpressView", "width:" + width);
-                Log.e("ExpressView", "height:" + height);
-                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
-                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
-//                返回view的宽高 单位 dp
-                Log.e("ExpressView", "渲染成功");
-                mExpressContainer.removeAllViews();
-                mExpressContainer.addView(view);
-            }
-        });
     }
 }

@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.StaticLayout;
 import android.text.TextPaint;
-import android.util.Log;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -154,6 +153,8 @@ public abstract class ReadLoader {
     private int index = 1;
     //是否ABC
     private boolean isABC = false;
+    //ABC失败
+    private boolean isABCFail = false;
 
     /*****************************init params*******************************/
     public ReadLoader(PageView pageView, BookShelfListBean collBook) {
@@ -280,6 +281,15 @@ public abstract class ReadLoader {
      */
     public void setABC(boolean isABC) {
         this.isABC = isABC;
+    }
+
+    /**
+     * ABC失败回调
+     *
+     * @return
+     */
+    public void setABCFail(boolean isABCFail) {
+        this.isABCFail = isABCFail;
     }
 
     /**
@@ -1122,7 +1132,7 @@ public abstract class ReadLoader {
                 mPageView.requestAd();
             index = 1;
         }
-        Log.d(TAG, "index==" + index);
+//        Log.d(TAG, "index==" + index);
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在上一页
             TxtPage prevPage = getPrevPage();
@@ -1131,7 +1141,7 @@ public abstract class ReadLoader {
                 mCurPage = prevPage;
                 mPageView.drawNextPage();
                 isGoNextPage = false;
-                Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
+//                Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
                 return true;
             }
         }
@@ -1148,7 +1158,7 @@ public abstract class ReadLoader {
         }
         isGoNextPage = false;
         mPageView.drawNextPage();
-        Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
+//        Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
         return true;
     }
 
@@ -1201,7 +1211,7 @@ public abstract class ReadLoader {
             mPageView.requestAd();
             index = 2;
         }
-        Log.d(TAG, "index==" + index);
+//        Log.d(TAG, "index==" + index);
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在下一页
             TxtPage nextPage = getNextPage();
@@ -1210,7 +1220,7 @@ public abstract class ReadLoader {
                 mCurPage = nextPage;
                 mPageView.drawNextPage();
                 isGoNextPage = true;
-                Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
+//                Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
                 return true;
             }
         }
@@ -1228,7 +1238,7 @@ public abstract class ReadLoader {
         }
         isGoNextPage = true;
         mPageView.drawNextPage();
-        Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
+//        Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
         return true;
     }
 
@@ -1364,6 +1374,12 @@ public abstract class ReadLoader {
             if (hasNextPage())
                 index--;
             if (index < 1) {
+                index = 1;
+            }
+        } else {
+            if (hasNextPage())
+                index++;
+            if (index > 7) {
                 index = 1;
             }
         }
@@ -1596,7 +1612,11 @@ public abstract class ReadLoader {
     private TxtPage getPrevPage() {
         int pos;
         if (index == AD_FOR_PAGE_NUM && !isABC) {
-            return addAdPage();
+            TxtPage page = addAdPage();
+            if (page != null)
+                return page;
+            else
+                pos = mCurPage.position - 1;
         } else {
             pos = mCurPage.position - 1;
         }
@@ -1615,7 +1635,11 @@ public abstract class ReadLoader {
     private TxtPage getNextPage() {
         int pos;
         if (index == AD_FOR_PAGE_NUM && !isABC && hasNextPage()) {
-            return addAdPage();
+            TxtPage page = addAdPage();
+            if (page != null)
+                return page;
+            else
+                pos = mCurPage.position + 1;
         } else {
             pos = mCurPage.position + 1;
         }
@@ -1629,7 +1653,7 @@ public abstract class ReadLoader {
     }
 
     private TxtPage addAdPage() {
-        if (NetworkUtils.isAvailable() && NetworkUtils.isConnected()) {
+        if (NetworkUtils.isAvailable() && NetworkUtils.isConnected() && !isABCFail) {
             TxtPage adPage = new TxtPage();
             adPage.pageType = TxtPage.VALUE_STRING_AD_TYPE;
             adPage.isCustomView = true;

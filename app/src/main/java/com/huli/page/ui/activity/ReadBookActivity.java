@@ -869,30 +869,34 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {
-                Log.e("ExpressView", "广告被点击");
+//                Log.e("ExpressView", "广告被点击");
             }
 
             @Override
             public void onAdShow(View view, int type) {
-                Log.e("ExpressView", "广告展示");
+//                Log.e("ExpressView", "广告展示");
+                mPvPage.shouldDraw = true;
+                mPvPage.postInvalidate();
             }
 
             @Override
             public void onRenderFail(View view, String msg, int code) {
 //                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
-                Log.e("ExpressView", msg + " code:" + code);
+//                Log.e("ExpressView", msg + " code:" + code);
                 mAdView = null;
+                mPvPage.unDraw();
+                mPageLoader.setABCFail(true);
             }
 
             @Override
             public void onRenderSuccess(View view, float width, float height) {
-                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
+//                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
 //                Log.e("ExpressView", "width:" + width);
 //                Log.e("ExpressView", "height:" + height);
 //                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
 //                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
 //                返回view的宽高 单位 dp
-                Log.e("ExpressView", "渲染成功");
+//                Log.e("ExpressView", "渲染成功");
 //                mAdView = view;
                 if (mAdView == null) {
                     mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
@@ -923,8 +927,48 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 }
                 mExpressContainer.removeAllViews();
                 mExpressContainer.addView(view);
+                mPageLoader.setABCFail(false);
             }
         });
+//        //dislike设置
+//        bindDislike(ad, false);
+//        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+//            return;
+//        }
+//        ad.setDownloadListener(new TTAppDownloadListener() {
+//            @Override
+//            public void onIdle() {
+//                Log.e("ExpressView", "点击开始下载");
+//            }
+//
+//            @Override
+//            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+//                if (!mHasShowDownloadActive) {
+//                    mHasShowDownloadActive = true;
+//                    Log.e("ExpressView", "下载中，点击暂停");
+//                }
+//            }
+//
+//            @Override
+//            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+//                Log.e("ExpressView", "下载暂停，点击继续");
+//            }
+//
+//            @Override
+//            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+//                Log.e("ExpressView", "下载失败，点击重新下载");
+//            }
+//
+//            @Override
+//            public void onInstalled(String fileName, String appName) {
+//                Log.e("ExpressView", "安装完成，点击图片打开");
+//            }
+//
+//            @Override
+//            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+//                Log.e("ExpressView", "点击安装");
+//            }
+//        });
     }
 
     private void bindBottomAdListener(TTNativeExpressAd ad) {
