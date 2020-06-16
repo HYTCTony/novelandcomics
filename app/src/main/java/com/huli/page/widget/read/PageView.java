@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -251,21 +250,17 @@ public class PageView extends FrameLayout {
             if (mPageLoader.mCurPage.isCustomView) {
                 switch (mPageLoader.mCurPage.pageType) {
                     case TxtPage.VALUE_STRING_COVER_TYPE:
-                        if (index < 1) {
-                            Log.d(TAG, "customView.dispatchDraw()");
-                            addCoverLayout();
-                            super.dispatchDraw(canvas);
-                        }
                         if (shouldDraw) {
-                            index++;
+//                            Log.d(TAG, "customView.dispatchDraw()");
+                            super.dispatchDraw(canvas);
                             shouldDraw = false;
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
-                        if (index < 2) {
+                        if (index < 3) {
                             addAdLayout();
                             super.dispatchDraw(canvas);
-                            Log.d(TAG, "adView.dispatchDraw()");
+//                            Log.d(TAG, "adView.dispatchDraw()");
                         }
                         if (shouldDraw) {
                             index++;
@@ -449,18 +444,13 @@ public class PageView extends FrameLayout {
         if (mCoverPageView != null) {
             addCoverLayout();
         }
-        return;
     }
 
     private void addCoverLayout() {
-        if (mPageLoader == null || mPageLoader.mCurPage == null) {
-            return;
-        }
-        if (mCoverPageView != null) {
-            Log.d(TAG, "addCoverLayout()");
-            removeAllViews();
-            addView(mCoverPageView);
-        }
+//        Log.d(TAG, "addCoverLayout()");
+        shouldDraw = true;
+        removeView(mCoverPageView);
+        addView(mCoverPageView);
     }
 
     public boolean drawAdPage(Bitmap bitmap) {
@@ -497,6 +487,7 @@ public class PageView extends FrameLayout {
             return;
         }
         if (mAdView != null) {
+//            Log.d(TAG, "addAdLayout()");
             removeView(mAdView);
             addView(mAdView);
         }

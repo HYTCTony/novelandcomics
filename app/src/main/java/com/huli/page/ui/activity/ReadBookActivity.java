@@ -273,11 +273,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                         needRefreshPage = false;
                         rl.setVisibility(VISIBLE);
                     }
-                    if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
-                        tvAdView.setVisibility(GONE);
-                    } else {
-                        tvAdView.setVisibility(VISIBLE);
-                    }
+                    if (mAdView != null)
+                        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
+                            tvAdView.setVisibility(GONE);
+                        } else {
+                            tvAdView.setVisibility(VISIBLE);
+                        }
                     mPageLoader.setABC(isABC);
                     break;
             }
@@ -516,31 +517,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 R.color.hl_read_font_1));
         tvCopyrightDescription.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) : ContextCompat.getColor(mContext,
                 R.color.hl_read_font_1));
-        //广告
-        mAdView = LayoutInflater.from(this).inflate(R.layout.layout_ad_view, null, false);
-        mExpressContainer = mAdView.findViewById(R.id.express_container);
-        tvAdView = mAdView.findViewById(R.id.btn_watch_video);
-        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext)) {
-            tvAdView.setVisibility(GONE);
-        } else {
-            tvAdView.setVisibility(VISIBLE);
-        }
-        SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
-        tvAdView.setText(builderVideoMessage);
-        btnNextPage = mAdView.findViewById(R.id.btn_next_page);
-        btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext, R.color.txt_gray_b2));
-        btnNextPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPvPage.autoNextPage();
-            }
-        });
-        tvAdView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadVideoAd();
-            }
-        });
         mPvPage.setReaderAdListener(new PageView.ReaderAdListener() {
             @Override
             public View getAdView() {
@@ -580,11 +556,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     public void reqAdvertAd(Advert data) {
         site = data.getSite();
         lapse = data.getLapse() * 1000;
-        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0 || data.getInterval() > 0) {
-            tvAdView.setVisibility(GONE);
-        } else {
-            tvAdView.setVisibility(VISIBLE);
-        }
+        if (mAdView != null)
+            if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0 || data.getInterval() > 0) {
+                tvAdView.setVisibility(GONE);
+            } else {
+                tvAdView.setVisibility(VISIBLE);
+            }
         ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
         isABC = testingIsABC(data.getLapse());
         if (isABC) {
@@ -711,8 +688,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 } else {
                     isNightMode = true;
                 }
-                btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
-                        R.color.txt_gray_b2));
+                if (btnNextPage != null) {
+                    btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
+                            R.color.txt_gray_b2));
+                }
                 mPageLoader.setNightMode(isNightMode);
                 toggleNightMode();
                 break;
@@ -890,30 +869,58 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {
-//                Log.e("ExpressView", "广告被点击");
+                Log.e("ExpressView", "广告被点击");
             }
 
             @Override
             public void onAdShow(View view, int type) {
-//                Log.e("ExpressView", "广告展示");
+                Log.e("ExpressView", "广告展示");
             }
 
             @Override
             public void onRenderFail(View view, String msg, int code) {
 //                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
-//                Log.e("ExpressView", msg + " code:" + code);
+                Log.e("ExpressView", msg + " code:" + code);
+                mAdView = null;
             }
 
             @Override
             public void onRenderSuccess(View view, float width, float height) {
-//                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
+                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
 //                Log.e("ExpressView", "width:" + width);
 //                Log.e("ExpressView", "height:" + height);
 //                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
 //                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
 //                返回view的宽高 单位 dp
-//                Log.e("ExpressView", "渲染成功");
+                Log.e("ExpressView", "渲染成功");
 //                mAdView = view;
+                if (mAdView == null) {
+                    mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
+                    mExpressContainer = mAdView.findViewById(R.id.express_container);
+                    tvAdView = mAdView.findViewById(R.id.btn_watch_video);
+                    if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext)) {
+                        tvAdView.setVisibility(GONE);
+                    } else {
+                        tvAdView.setVisibility(VISIBLE);
+                    }
+                    SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
+                    tvAdView.setText(builderVideoMessage);
+                    btnNextPage = mAdView.findViewById(R.id.btn_next_page);
+                    btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
+                            R.color.txt_gray_b2));
+                    btnNextPage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPvPage.autoNextPage();
+                        }
+                    });
+                    tvAdView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            loadVideoAd();
+                        }
+                    });
+                }
                 mExpressContainer.removeAllViews();
                 mExpressContainer.addView(view);
             }
