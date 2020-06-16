@@ -149,7 +149,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         tvBookAuthor = $(R.id.tv_book_author_dt);
         tvBookTips = $(R.id.tv_book_tips_dt);
         tvBookScore = $(R.id.tv_book_score_dt);
-        tvBookReader = $(R.id.tv_book_reader_dt);
+        tvBookReader = $(R.id.tv_book_greet_dt);
         ratingBarScore = $(R.id.ratingBar_book_score_dt);
 
         expTextView = $(R.id.etv_book_synopsis);
@@ -372,7 +372,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                                     + " · " + ((bookBean.getIs_end() == 1) ? getString(R.string.txt_end) : getString(R.string.txt_serialize))
                                     + " · " + FigureProcessor.formatWordNum(BookDetailsActivity.this, bookBean.getWord());
                             tvBookTips.setText(bookTagStr);
-                            tvBookReader.setText(FigureProcessor.formatNum(BookDetailsActivity.this, bookBean.getReading_size()));
+                            tvBookReader.setText(FigureProcessor.formatNum(BookDetailsActivity.this, bookBean.getGreet()));
                             float score = bookBean.getScore();
                             tvBookScore.setText(String.valueOf(score));
                             ratingBarScore.setRating(score / 2);

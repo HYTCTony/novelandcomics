@@ -8,13 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
@@ -24,14 +22,14 @@ import com.huli.foxread.entity.RvTitleEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.entity.multi.HpBGModuleEntity;
 import com.huli.foxread.entity.sections.HpSection;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.adapters.BsSelectionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
+import com.kongzue.dialog.v3.TipDialog;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
@@ -40,6 +38,7 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 /**
  * 书城---精选
@@ -336,7 +335,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      * @param showDialog 进入页面初次加载
      */
     private void reqIndexDatas(boolean showDialog) {
-        OkGo.<String>post(Consts.INDEX_PAGE_API)
+        /*OkGo.<String>post(Consts.INDEX_PAGE_API)
                 .params(Consts.TYPE, Consts.TYPE_SELECTION)
                 .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
@@ -368,7 +367,24 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                         super.onCacheSuccess(response);
                         onSuccess(response);
                     }
-                });
+                });*/
+
+        RxHttp.postForm(Consts.INDEX_PAGE_API)
+                .add(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .add(Consts.TYPE, Consts.TYPE_SELECTION)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .asResponse(HomePageEntity.class)
+                .doFinally(() -> mRefreshLayout.finishRefresh())
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(entity -> {
+                    if (entity == null) {
+                        return;
+                    }
+                    mAppBarLayout.setVisibility(View.VISIBLE);
+                    setTopDatas(entity.getTop());
+                    List<HpSection> list = constructDatas4Rv(entity);
+                    mAdapter.setList(list);
+                }, (OnError) error -> TipDialog.show((AppCompatActivity) mActivity, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 
@@ -378,7 +394,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      * @param prePage 上一页页码
      */
     private void reqHighMarksDatas(int prePage) {
-        OkGo.<String>get(Consts.NOVEL_POPULAR_API)
+       /* OkGo.<String>get(Consts.NOVEL_POPULAR_API)
                 .params(Consts.PAGE, prePage + 1)
                 .params(Consts.TYPE, UserInfoCache.getGender(mActivity))
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
@@ -415,6 +431,36 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                         super.onError(response);
                         mAdapter.getLoadMoreModule().loadMoreFail();
                     }
+                });*/
+
+        RxHttp.postForm(Consts.NOVEL_POPULAR_API)
+                .add(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .add(Consts.PAGE, prePage + 1)
+                .add(Consts.TYPE, UserInfoCache.getGender(mActivity))
+                .asResponsePageList(BookEntity.class)
+                .doFinally(() -> mRefreshLayout.finishRefresh())
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(entity -> {
+                    curPage = entity.getCurrent_page();
+                    List<BookEntity> bookList = entity.getData();
+                    List<HpSection> newdatas = new ArrayList<>();
+                    if (curPage == 1) {
+                        newdatas.add(new HpSection(true, new RvTitleEntity("", getString(R.string.txt_high_score_well_chosen), "", "经典，正能量")));
+                    }
+                    for (BookEntity book : bookList) {
+                        newdatas.add(new HpSection(false, HpSection.SE_TYPE_LIST, book));
+                    }
+                    mAdapter.addData(newdatas);
+
+                    if (entity.getLast_page() <= curPage) {
+                        //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+//                      recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
+                    }
+                }, (OnError) error -> {
+                    mAdapter.getLoadMoreModule().loadMoreFail();
                 });
     }
 

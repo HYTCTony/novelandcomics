@@ -13,24 +13,21 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.utils.Tos;
 import com.huli.page.ui.activity.MoreSettingActivity;
 import com.huli.page.utils.DataCleanManager;
 import com.kongzue.dialog.v3.MessageDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.kongzue.dialog.v3.TipDialog;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -161,6 +158,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
+        if (onMoreClick()) {
+            return;
+        }
         switch (view.getId()) {
             case R.id.rtl_asBtn_user_basic_info:
                 startActivityForResult(new Intent(this, UserBasicInfoActivity.class), REQCODE_USER_ATTR);
@@ -209,29 +209,29 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     /**
-     * 正式用户登出
+     * 退出登录
      */
     private void logout() {
-        OkGo.<String>post(Consts.USER_LOGOUT_API)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<LoginRpsEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            UserInfoCache.clearCache(SettingActivity.this);
-                            TokenCache.saveToken(SettingActivity.this, entity.getData().getToken());
+        RxHttp.postForm(Consts.USER_LOGOUT_API) //发送登出请求
+                .add(Consts.TOKEN, TokenCache.getToken(this))
+                .asResponse(LoginRpsEntity.class)
+                .flatMap(loginRpsEntity -> {
+                    UserInfoCache.clearCache(SettingActivity.this);
+                    TokenCache.saveToken(SettingActivity.this, loginRpsEntity.getToken());
 
-                            EventBus.getDefault().postSticky(UserInfoCache.getUserInfo(SettingActivity.this));
-
-                            setResult(RESULT_OK);
-                            finish();
-                        } else {
-                            Tos.showShort(SettingActivity.this, entity.msg);
-                        }
-                    }
-                });
+                    //登出成功，得到新的Token去获取游客身份信息，并返回User对象
+                    return RxHttp.get(Consts.USERS_INFO_API) //发送登录请求
+                            .add(Consts.TOKEN, TokenCache.getToken(this))
+                            .subscribeOnCurrent() //当前线程发送登录请求
+                            .asResponse(FUser.class);
+                })
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(fUser -> {
+                    UserInfoCache.saveUserInfo(SettingActivity.this, fUser);
+                    EventBus.getDefault().postSticky(fUser);
+                    finish();
+                }, (OnError) error -> TipDialog.show(this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
-
 }
