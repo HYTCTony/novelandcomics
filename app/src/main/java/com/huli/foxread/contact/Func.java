@@ -127,6 +127,7 @@ public interface Func {
      * username---用户名
      * avatar---头像
      * gender---性别(0=男,1=女)
+     * like---阅读偏好(1=男性向,2=女性向)
      */
     String USER_PROFILE = "/user/profile";
 

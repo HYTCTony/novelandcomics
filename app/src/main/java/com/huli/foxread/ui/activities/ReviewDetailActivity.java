@@ -130,7 +130,7 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
         }
 
         GlideUtil.loadCircle(this, ivReviewerHeadImg, review.getHttp_avatar());
-        ivReviewerId.setText(String.format(getString(R.string.txt_book_friend_xid), review.getUser_id()));
+        ivReviewerId.setText(String.format(getString(R.string.txt_book_friend_xid), review.getUsername()));
         tvReviewContent.setText(review.getContent());
         tvReviewTime.setText(DateTimeUtil.formatDateTime(review.getCreatetime() * 1000, DateTimeUtil.DF_YYYY_MM_DD));
 

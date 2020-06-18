@@ -106,7 +106,6 @@
                     android:text="@string/txt_login_or_reg"
                     android:textColor="@color/txt_white"
                     android:textSize="@dimen/sp_18" />
-
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -117,34 +116,61 @@
 
                 <ImageView
                     android:id="@+id/iv_user_headImg"
-                    android:layout_width="@dimen/dp_72"
-                    android:layout_height="@dimen/dp_72"
-                    android:layout_margin="@dimen/dp_12"
+                    android:layout_width="@dimen/dp_68"
+                    android:layout_height="@dimen/dp_68"
+                    android:layout_marginStart="@dimen/dp_12"
+                    android:layout_marginTop="@dimen/dp_24"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription"
                     tools:src="@mipmap/holder_headimg" />
 
-                <TextView
-                    android:id="@+id/tv_user_nickname"
-                    android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/iv_user_headImg_life_member_vip_sign"
+                    android:layout_width="@dimen/dp_76"
+                    android:layout_height="@dimen/dp_80"
+                    android:src="@drawable/ic_headimg_vip_crown"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_user_headImg"
+                    app:layout_constraintLeft_toLeftOf="@+id/iv_user_headImg"
+                    tools:ignore="ContentDescription" />
+
+                <FrameLayout
+                    android:id="@+id/fl_user_nickname"
+                    android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_16"
-                    android:textColor="@color/txt_black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold"
+                    android:layout_marginEnd="@dimen/dp_16"
                     app:layout_constraintBottom_toTopOf="@+id/tv_user_id"
                     app:layout_constraintLeft_toRightOf="@+id/iv_user_headImg"
-                    app:layout_constraintTop_toTopOf="@+id/iv_user_headImg"
-                    tools:text="拉不出事一声吼！" />
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/iv_user_headImg">
+
+                    <TextView
+                        android:id="@+id/tv_user_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:singleLine="true"
+                        android:textColor="@color/txt_black"
+                        android:textSize="@dimen/sp_20"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_user_id"
+                        app:layout_constraintLeft_toRightOf="@+id/iv_user_headImg"
+                        app:layout_constraintTop_toTopOf="@+id/iv_user_headImg"
+                        tools:drawableEnd="@drawable/ic_yellow_diamond_18dp"
+                        tools:text="拉不出屎一声吼！" />
+                </FrameLayout>
+
 
                 <TextView
                     android:id="@+id/tv_user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_user_headImg"
-                    app:layout_constraintLeft_toLeftOf="@+id/tv_user_nickname"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_user_nickname"
+                    app:layout_constraintLeft_toLeftOf="@+id/fl_user_nickname"
+                    app:layout_constraintTop_toBottomOf="@+id/fl_user_nickname"
                     tools:text="ID:225566" />
 
                 <LinearLayout
@@ -169,9 +195,9 @@
                             android:id="@+id/tv_my_gold_coin_mine"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="@string/txt_zero"
                             android:textColor="@color/txt_black"
                             android:textColorHint="@color/txt_black"
-                            android:hint="@string/txt_zero"
                             android:textSize="@dimen/sp_20"
                             android:textStyle="bold"
                             tools:text="1100" />
@@ -205,9 +231,9 @@
                             android:id="@+id/tv_today_gold_coin_mine"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="@string/txt_zero"
                             android:textColor="@color/txt_black"
                             android:textColorHint="@color/txt_black"
-                            android:hint="@string/txt_zero"
                             android:textSize="@dimen/sp_20"
                             android:textStyle="bold"
                             tools:text="100" />
@@ -241,9 +267,9 @@
                             android:id="@+id/tv_today_reading_time_mine"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:hint="@string/txt_zero"
                             android:textColor="@color/txt_black"
                             android:textColorHint="@color/txt_black"
-                            android:hint="@string/txt_zero"
                             android:textSize="@dimen/sp_20"
                             android:textStyle="bold"
                             tools:text="110" />
@@ -260,6 +286,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctl_content_vip_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_16"
@@ -318,7 +345,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_1"
                     android:layout_margin="@dimen/dp_16"
-                    android:background="@color/off_gray"
+                    android:background="#33F4F3F3"
                     app:layout_constraintTop_toBottomOf="@+id/tv_huli_vip_member" />
 
                 <TextView
@@ -421,8 +448,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:background="@color/color_f2"
-                android:layout_height="@dimen/dp_8"/>
+                android:layout_height="@dimen/dp_8"
+                android:background="@color/color_f2" />
 
             <RelativeLayout
                 android:id="@+id/rtl_asBtn_my_privilege"
@@ -475,6 +502,40 @@
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_msg_notify"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rtl_asBtn_reading_preference"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginTop="@dimen/px_1"
+                android:background="@drawable/ripple_normal_btn_bg_white"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:drawableStart="@drawable/ic_mine_read_history"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:text="@string/txt_reading_preference"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
 
@@ -551,10 +612,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:text="@string/txt_invite_book_friend_get_reward"
                     android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
+                    android:text="@string/txt_invite_book_friend_get_reward"
                     android:textColor="@color/txt_gray_999"
                     android:textSize="@dimen/sp_12"
                     tools:ignore="RelativeOverlap" />
@@ -600,11 +661,11 @@
                 android:id="@+id/rtl_asBtn_mode_adolescent"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/px_1"
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
-                android:paddingEnd="@dimen/dp_16">
+                android:paddingEnd="@dimen/dp_16"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"

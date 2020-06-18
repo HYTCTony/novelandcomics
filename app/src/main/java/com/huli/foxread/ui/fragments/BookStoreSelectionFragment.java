@@ -396,7 +396,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
     private void reqHighMarksDatas(int prePage) {
        /* OkGo.<String>get(Consts.NOVEL_POPULAR_API)
                 .params(Consts.PAGE, prePage + 1)
-                .params(Consts.TYPE, UserInfoCache.getGender(mActivity))
+                .params(Consts.TYPE, Consts.TYPE_SELECTION)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -436,7 +436,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
         RxHttp.postForm(Consts.NOVEL_POPULAR_API)
                 .add(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.PAGE, prePage + 1)
-                .add(Consts.TYPE, UserInfoCache.getGender(mActivity))
+                .add(Consts.TYPE, Consts.TYPE_SELECTION)
                 .asResponsePageList(BookEntity.class)
                 .doFinally(() -> mRefreshLayout.finishRefresh())
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调

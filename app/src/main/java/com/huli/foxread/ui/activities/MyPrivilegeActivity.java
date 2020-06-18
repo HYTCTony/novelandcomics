@@ -204,9 +204,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         displayVipUI(userInfo);
 
         btnOpenOrRenew.setText(R.string.txt_activate_immediately);
-
+        //获取会员套餐
         reqRechargeCombo();
-
     }
 
 
@@ -237,21 +236,31 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         btnOpenOrRenew.setText((new DecimalFormat("######0.00").format(discountPrice) + getString(R.string.txt_yuan_open)));
     }
 
+    /**
+     * 不同身份用户对应不同UI
+     */
     private void displayVipUI(FUser fUser) {
-        boolean isVip = fUser.isIs_vip();
-        if (isVip) {
-            tvVipTypeTitle.setText(R.string.txt_monthly_vip);
-            tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
-                    DateTimeUtil.formatDateTime(fUser.getVip_end() * 1000, "yyyy-MM-dd")));
-            tvVipTips.setText(R.string.txt_tips_vip_state);
+        if (fUser.getSuper_vip() == 1) {    //终身会员
+            tvVipTypeTitle.setText(R.string.txt_honor_vip);
+            tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon), "∞"));
+            tvVipTips.setText(R.string.txt_tips_vip_state_life_member);
             tvAccountSetup.setVisibility(View.GONE);
             ivIconVipSymbol.setVisibility(View.VISIBLE);
-        } else {
-            tvVipTypeTitle.setText(null);
-            tvVipTime.setText(null);
-            tvVipTips.setText(null);
-            tvAccountSetup.setVisibility(View.VISIBLE);
-            ivIconVipSymbol.setVisibility(View.GONE);
+        } else {     //非终身VIP
+            if (fUser.isIs_vip()) {     //普通VIP
+                tvVipTypeTitle.setText(R.string.txt_monthly_vip);
+                tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
+                        DateTimeUtil.formatDateTime(fUser.getVip_end() * 1000, "yyyy-MM-dd")));
+                tvVipTips.setText(R.string.txt_tips_vip_state);
+                tvAccountSetup.setVisibility(View.GONE);
+                ivIconVipSymbol.setVisibility(View.VISIBLE);
+            } else {        //非VIP
+                tvVipTypeTitle.setText(null);
+                tvVipTime.setText(null);
+                tvVipTips.setText(null);
+                tvAccountSetup.setVisibility(View.VISIBLE);
+                ivIconVipSymbol.setVisibility(View.GONE);
+            }
         }
     }
 

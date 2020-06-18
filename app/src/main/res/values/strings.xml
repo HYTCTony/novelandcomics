@@ -198,6 +198,7 @@
     <string name="txt_today_gold_coin">今日金币</string>
     <string name="txt_today_reading">今日阅读(min)</string>
     <string name="txt_fox_vip_member">VIP会员</string>
+    <string name="txt_you_have_become_a_life_member_vip">您已成为尊贵终身VIP</string>
     <string name="txt_you_have_become_a_vip">您已成为尊贵VIP</string>
     <string name="txt_fox_vip_effect">去除广告，优质阅读</string>
     <string name="txt_activate_immediately">立即开通</string>
@@ -211,6 +212,7 @@
     <string name="txt_my_privilege">我的特权</string>
     <string name="txt_enjoy_no_ads_privilege">尊享无广告等特权</string>
     <string name="txt_msg_notify">消息通知</string>
+    <string name="txt_reading_preference">阅读偏好</string>
     <string name="txt_reading_record">阅读历史</string>
     <string name="txt_inviter">邀请人</string>
     <string name="txt_gold_coin_withdrawal">金币提现</string>
@@ -273,6 +275,7 @@
 
     <string name="txt_fox_vip">一起看书VIP</string>
     <string name="txt_vip_advantage">VIP尊享4大特权，免广告看书爽翻天</string>
+    <string name="txt_tips_vip_state_life_member">您是尊贵终身VIP，请尽情畅读吧</string>
     <string name="txt_tips_vip_state">您已开通尊贵VIP，请尽情畅读吧</string>
     <string name="txt_vip_enjoyment">VIP尊享</string>
     <string name="txt_check_privilege_description">查看特权说明</string>
@@ -393,6 +396,7 @@
     <string name="txt_look_a_little_bit_more">再看看</string>
 
     <string name="txt_yuan_open">元 立即开通</string>
+    <string name="txt_honor_vip">荣誉VIP</string>
     <string name="txt_monthly_vip">包月VIP</string>
     <string name="txt_vip_end_time_colon">到期时间：%1$s</string>
 

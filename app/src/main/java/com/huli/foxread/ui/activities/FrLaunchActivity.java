@@ -43,6 +43,8 @@ import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.qq.gdt.action.ActionType;
+import com.qq.gdt.action.GDTAction;
 
 import java.util.List;
 
@@ -132,17 +134,6 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         } else {
             statrInitTask();
         }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     private void getExtraInfo() {
@@ -327,10 +318,23 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         }
     }
 
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GDTAction.logAction(ActionType.START_APP);      //上报广点通启动
+    }
+
     @Override
     protected void onPause() {
         overridePendingTransition(0, 0);
         super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     public void goMain() {

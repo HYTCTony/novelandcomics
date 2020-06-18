@@ -86,6 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         EventBus.getDefault().register(this);
 
+        //在所有的Activity 的onCreate 方法或在应用的BaseActivity的onCreate方法中添加
         PushAgent.getInstance(this).onAppStart();
     }
 
@@ -114,7 +115,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
-        OkGo.getInstance().cancelAll();
+//        OkGo.getInstance().cancelAll();
         super.onDestroy();
     }
 

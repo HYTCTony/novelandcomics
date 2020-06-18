@@ -17,8 +17,6 @@ import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.pageradapter.BsPagerAdapter;
 import com.huli.foxread.utils.StatusBarUtils;
 
-import java.lang.reflect.Field;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -74,19 +72,30 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
         viewPager.setAdapter(mAdapter);
         slidingTabLayout.setViewPager(viewPager);
 
-        int gender = UserInfoCache.getGender(mActivity);
-        if (gender == 1) {
+        int preference = UserInfoCache.getPreference(mActivity);
+        if (preference == 1) {
             isWhite = true;
             viewPager.setCurrentItem(1);
             ctlTabLayout.setBackgroundResource(R.color.white);
-        } else if (gender == 2) {
+        } else if (preference == 2) {
             isWhite = true;
             viewPager.setCurrentItem(2);
             ctlTabLayout.setBackgroundResource(R.color.white);
         } else {
-            isWhite = false;
-            viewPager.setCurrentItem(0);
-            ctlTabLayout.setBackgroundResource(R.color.colorPrimaryDark);
+            int gender = UserInfoCache.getGender(mActivity);
+            if (gender == 1) {
+                isWhite = true;
+                viewPager.setCurrentItem(1);
+                ctlTabLayout.setBackgroundResource(R.color.white);
+            } else if (gender == 2) {
+                isWhite = true;
+                viewPager.setCurrentItem(2);
+                ctlTabLayout.setBackgroundResource(R.color.white);
+            } else {
+                isWhite = false;
+                viewPager.setCurrentItem(0);
+                ctlTabLayout.setBackgroundResource(R.color.colorPrimaryDark);
+            }
         }
     }
 
@@ -176,7 +185,7 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
      */
     private void changeColorAmin(View view, int colStar, int colEnd) {
         ValueAnimator colorAnim = ObjectAnimator.ofInt(view, "backgroundColor", colStar, colEnd);
-        colorAnim.setDuration(350);
+        colorAnim.setDuration(300);
         colorAnim.setEvaluator(new ArgbEvaluator());
 //        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
 //        colorAnim.setRepeatMode(ValueAnimator.REVERSE);

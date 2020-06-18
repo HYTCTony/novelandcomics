@@ -3,27 +3,24 @@ package com.huli.foxread.contact;
 public interface Consts {
     String DOWNLOAD_URL = "https://download.hulimedia.com/?my_invite_code=";
 
-//        String BASE_URL = "http://testnovel.hongyutiancheng.com.cn";
-//    String BASE_URL = "http://buildnovel.hongyutiancheng.com.cn";
-    String BASE_URL = "http://api.hulimedia.com";
-    String NOT_CPL_URL = BASE_URL + "/api/v2";
+    String NOT_CPL_URL = Url.baseurl + "/api/v2";
 
     /*帮助反馈*/
-    String FEEDBACK_URL = BASE_URL + "/api/feedback";
+    String FEEDBACK_URL = Url.baseurl + "/api/feedback";
     /*用户协议*/
-    String USER_AGREEMENT_URL = BASE_URL + "/api/clause/detail?id=2";
+    String USER_AGREEMENT_URL = Url.baseurl + "/api/clause/detail?id=2";
     /*隐私策略*/
-    String PRIVACY_POLICY_URL = BASE_URL + "/api/clause/detail?id=1";
+    String PRIVACY_POLICY_URL = Url.baseurl + "/api/clause/detail?id=1";
     /*会员特权说明*/
-    String PRIVILEGE_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=3";
+    String PRIVILEGE_EXPLAIN_URL = Url.baseurl + "/api/clause/detail?id=3";
     /*会员服务协议*/
-    String MEMBERSHIP_AGREEMENT_URL = BASE_URL + "/api/clause/detail?id=4";
+    String MEMBERSHIP_AGREEMENT_URL = Url.baseurl + "/api/clause/detail?id=4";
     /*邀请好友说明*/
-    String INVITE_FRIENDS_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=5";
+    String INVITE_FRIENDS_EXPLAIN_URL = Url.baseurl + "/api/clause/detail?id=5";
     /*签到说明*/
-    String SIGN_IN_EXPLAIN_URL = BASE_URL + "/api/clause/detail?id=6";
+    String SIGN_IN_EXPLAIN_URL = Url.baseurl + "/api/clause/detail?id=6";
     /*福利规则*/
-    String WELFARE_RULE_URL = BASE_URL + "/api/clause/detail?id=7";
+    String WELFARE_RULE_URL = Url.baseurl + "/api/clause/detail?id=7";
 
     String USE_UNIQUE_ID_LOGIN_OR_REG_API = NOT_CPL_URL + Func.USER_VISITOR_LOGIN;
     String USE_PHONE_ONEKEY_LOGIN = NOT_CPL_URL + Func.USER_ONEKEY_LOGIN;
@@ -190,6 +187,7 @@ public interface Consts {
     String USERNAME = "username";
     String GENDER = "gender";
     String AVATAR = "avatar";
+    String PERFRENCE = "like";          //用户阅读偏好
 
     String CODE = "code";
     String UNIONID = "unionid";
