@@ -5,10 +5,11 @@
     android:padding="16dp">
 
     <ImageView
+        android:id="@+id/bg_frame_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="32dp"
-        android:background="@mipmap/theme_book_cover_bg" />
+        android:background="@mipmap/theme_book_cover_bg_01" />
 
     <ImageView
         android:id="@+id/iv_book_cover"

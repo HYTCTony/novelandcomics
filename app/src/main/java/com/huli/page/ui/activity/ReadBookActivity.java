@@ -35,6 +35,7 @@ import com.bytedance.sdk.openadsdk.FilterWord;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -177,11 +178,26 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int POLLING_SET_IS_ABC = 30 * 1000;
     private static final int READ_ONE_PAGE_INTERVAL = 15;
 
-    private View mAdView;
+    //广告
+    /*
+     * 黄皮纸：945191706
+     * 粉色：945191678
+     * 灰白：945245835
+     * 绿色：945245831
+     * 浅蓝：945245836
+     * 深蓝：945245837
+     * 夜间：945245839
+     * */
+    private String[] adId = {"945191706", "945191678", "945245835", "945245831", "945245836", "945245837", "945245839"};
+    private String codeId = adId[0];
     private TTAdNative mTTAdNative;
     private TTNativeExpressAd mTTAdPage;
     private TTNativeExpressAd mTTAdBottom;
     private TTRewardVideoAd mttRewardVideoAd;
+    private View mAdView, coverPageView;
+    RelativeLayout mExpressContainer;
+    TextView btnNextPage;
+    TextView tvAdView;
     private long startTime = 0;
     private boolean mHasShowDownloadActive = false;
     @BindView(R.id.banner_container)
@@ -192,12 +208,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     TextView btnBottomAd;
     @BindView(R.id.rl)
     RelativeLayout rl;
-    RelativeLayout mExpressContainer;
-    TextView btnNextPage;
-    TextView tvAdView;
+    //封面
+    ImageView bgFrameImage;
     TextView tvBookName;
     TextView tvAuthorName;
     TextView tvCopyrightDescription;
+
     /*观看视频验证*/
     private boolean mRewardVerify;
     private boolean isABC = false;
@@ -300,6 +316,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void initView() {
         /*初始化数据*/
+        mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
         data = (BookShelfListBean) getIntent().getSerializableExtra(EXTRA_COLL_BOOK);
         isCollected = getIntent().getBooleanExtra(EXTRA_IS_COLLECTED, false);
         chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, -1);
@@ -307,8 +324,17 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         isFullScreen = ReadSettingManager.getInstance().isFullScreen();
         EventBus.getDefault().register(this);
         PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
-        rl.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : mPageStyle.getBgColor());
         mBookId = data.getNovel_id();
+        //获取目录
+        presenter.loadCategory(ReadBookActivity.this, mBookId);
+        //请求广告权限
+        presenter.reqAdvertAd(ReadBookActivity.this);
+        //初始化封面
+        initCover();
+        //初始化风格
+        changeStyle(mPageStyle);
+        //加载广告
+//        requestAdPage();
         //获取页面加载器
         mPageLoader = mPvPage.getPageLoader(data);
         /*初始化状态栏*/
@@ -343,8 +369,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } else {
             BrightnessUtils.setBrightness(mContext, ReadSettingManager.getInstance().getBrightness());
         }
-        //获取目录
-        loadCategory();
         if (chapter != -1) {
             mPageLoader.skipToChapter(chapter);
         }
@@ -418,13 +442,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onStyleChange(PageStyle pageStyle, boolean isNightMode) {
-                rl.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : pageStyle.getBgColor());
-                tvBookName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) :
-                        ContextCompat.getColor(mContext, pageStyle.getFontColor()));
-                tvAuthorName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) :
-                        ContextCompat.getColor(mContext, pageStyle.getFontColor()));
-                tvCopyrightDescription.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) :
-                        ContextCompat.getColor(mContext, pageStyle.getFontColor()));
+                ReadBookActivity.this.isNightMode = isNightMode;
+                changeStyle(pageStyle);
             }
         });
         mProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -495,28 +514,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mBrightnessDialog.setOnDismissListener(
                 dialog -> hideSystemBar()
         );
-        //step2:创建TTAdNative对象，createAdNative(Context context) banner广告context需要传入Activity对象
-        mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
-        //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
-//        TTAdManagerHolder.get().requestPermissionIfNecessary(this);
-        //封面
-        View coverPageView = LayoutInflater.from(this).inflate(R.layout.layout_cover_view, null, false);
-        ImageView ivBookCover = coverPageView.findViewById(R.id.iv_book_cover);
-        tvBookName = coverPageView.findViewById(R.id.tv_book_name);
-        tvAuthorName = coverPageView.findViewById(R.id.tv_author_name);
-        tvCopyrightDescription = coverPageView.findViewById(R.id.tv_copyright_description);
-        GlideUtil.loadRoundRect(mContext, ivBookCover, data.getHttp_image());
-        tvBookName.setText(data.getNovel_name());
-        tvAuthorName.setText("作者：" + data.getAuthor());
-        SpannableStringBuilder builderCopyrightDescription = new SpanUtils(mContext).appendLine("本书已授权一起看书进行电子制作发行").append
-                ("本故事纯属虚构·版权所有·侵权必究").create();
-        tvCopyrightDescription.setText(builderCopyrightDescription);
-        tvBookName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) : ContextCompat.getColor(mContext,
-                R.color.hl_read_font_1));
-        tvAuthorName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) : ContextCompat.getColor(mContext,
-                R.color.hl_read_font_1));
-        tvCopyrightDescription.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.hl_read_font_night) : ContextCompat.getColor(mContext,
-                R.color.hl_read_font_1));
         mPvPage.setReaderAdListener(new PageView.ReaderAdListener() {
             @Override
             public View getAdView() {
@@ -533,9 +530,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 return coverPageView;
             }
         });
-        presenter.reqAdvertAd(ReadBookActivity.this);
-        //加载广告
-        requestAdPage();
     }
 
     @Override
@@ -548,8 +542,76 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         super.initToolbar(toolbar);
     }
 
-    private void loadCategory() {
-        presenter.loadCategory(ReadBookActivity.this, mBookId);
+    private void initCover() {
+        //封面
+        coverPageView = LayoutInflater.from(this).inflate(R.layout.layout_cover_view, null, false);
+        ImageView ivBookCover = coverPageView.findViewById(R.id.iv_book_cover);
+        bgFrameImage = coverPageView.findViewById(R.id.bg_frame_image);
+        tvBookName = coverPageView.findViewById(R.id.tv_book_name);
+        tvAuthorName = coverPageView.findViewById(R.id.tv_author_name);
+        tvCopyrightDescription = coverPageView.findViewById(R.id.tv_copyright_description);
+        GlideUtil.loadRoundRect(mContext, ivBookCover, data.getHttp_image());
+        tvBookName.setText(data.getNovel_name());
+        tvAuthorName.setText("作者：" + data.getAuthor());
+        SpannableStringBuilder builderCopyrightDescription = new SpanUtils(mContext).appendLine("本书已授权一起看书进行电子制作发行").append
+                ("本故事纯属虚构·版权所有·侵权必究").create();
+        tvCopyrightDescription.setText(builderCopyrightDescription);
+    }
+
+    private void changeStyle(PageStyle mPageStyle) {
+        //改变广告位id
+        switch (mPageStyle) {
+            case BG_0:
+                codeId = adId[0];
+                break;
+            case BG_1:
+                codeId = adId[1];
+                break;
+            case BG_2:
+                codeId = adId[2];
+                break;
+            case BG_3:
+                codeId = adId[3];
+                break;
+            case BG_4:
+                codeId = adId[4];
+                break;
+            case BG_5:
+                codeId = adId[5];
+                break;
+            case NIGHT:
+                codeId = adId[6];
+                break;
+        }
+        //改变封面风格
+        bgFrameImage.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getCoverBgImg() : mPageStyle.getCoverBgImg());
+        tvBookName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getFontColor()) : ContextCompat.getColor(mContext,
+                mPageStyle.getFontColor()));
+        tvAuthorName.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getFontColor()) : ContextCompat.getColor(mContext,
+                mPageStyle.getFontColor()));
+        tvCopyrightDescription.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) :
+                ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
+        //改变底部风格
+        rl.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getBgColor() : mPageStyle.getBgColor());
+        ivBackgroud.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdPlaceholderImg() : mPageStyle.getAdPlaceholderImg());
+        //改变目录风格
+        if (mPageStyle.getBgColor() == R.color.hl_read_bg_1) {
+            llDrawerLayout.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getBgColor() : R.drawable.theme_leather_bg);
+        } else {
+            llDrawerLayout.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getBgColor() : mPageStyle.getBgColor());
+        }
+        tvTitle.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getFontColor()) : ContextCompat.getColor(mContext,
+                mPageStyle.getFontColor()));
+        tvBookStatu.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                mPageStyle.getPromptColor()));
+        //改变广告页风格
+        if (mAdView != null) {
+            btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getTipsColor()) : ContextCompat.getColor(mContext,
+                    mPageStyle.getTipsColor()));
+//            mExpressContainer.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdBgColor() : mPageStyle.getAdBgColor());
+            btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                    mPageStyle.getPromptColor()));
+        }
     }
 
     @Override
@@ -669,14 +731,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mChapters.get(mPageLoader.getChapterPos()).setSelect(true);
                     catalogAdapter.notifyDataSetChanged();
                 }
-                PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
-                if (mPageStyle.getBgColor() == R.color.hl_read_bg_1) {
-                    llDrawerLayout.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : R.drawable.theme_leather_bg);
-                } else {
-                    llDrawerLayout.setBackgroundResource(isNightMode ? R.color.hl_read_bg_night : mPageStyle.getBgColor());
-                }
-                tvTitle.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
-                tvBookStatu.setTextColor(ContextCompat.getColor(mContext, isNightMode ? R.color.hl_read_font_night : mPageStyle.getFontColor()));
+
                 //切换菜单
                 toggleMenu(true);
                 //打开侧滑动栏
@@ -687,10 +742,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     isNightMode = false;
                 } else {
                     isNightMode = true;
-                }
-                if (btnNextPage != null) {
-                    btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
-                            R.color.txt_gray_b2));
                 }
                 mPageLoader.setNightMode(isNightMode);
                 toggleNightMode();
@@ -707,13 +758,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private void requestAdPage() {
-        if (isABC) {
+        if (isABC)
             return;
-        }
+
         mPvPage.removeAllViews();
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlotPage = new AdSlot.Builder()
-                .setCodeId("945191706") //广告位id  945191678*视频   945191706*图片
+                .setCodeId(codeId)
                 .setSupportDeepLink(true)
                 .setAdCount(1) //请求广告数量为1到3条
                 .setExpressViewAcceptedSize(ScreenUtils.getScreenSize(mContext)[0], 0) //期望模板广告view的size,单位dp
@@ -723,6 +774,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             @Override
             public void onError(int code, String message) {
                 Log.e("ExpressView", "load error : " + code + ", " + message);
+                mAdView = null;
+                mPvPage.unDraw();
+                if (mPageLoader != null)
+                    mPageLoader.setABCFail(true);
             }
 
             @Override
@@ -773,9 +828,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private void loadVideoAd() {
-        if (isABC) {
+        if (isABC)
             return;
-        }
+
         WaitDialog.show(ReadBookActivity.this, R.string.loading).setCancelable(true);
 
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
@@ -853,7 +908,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     @Override
                     public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
                         mRewardVerify = rewardVerify;
-                        Log.e(TAG, "onRewardVerify===" + rewardVerify + "---" + rewardAmount + "---" + rewardName);
+//                        Log.e(TAG, "onRewardVerify===" + rewardVerify + "---" + rewardAmount + "---" + rewardName);
                     }
 
                     @Override
@@ -869,7 +924,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
             @Override
             public void onAdClicked(View view, int type) {
-//                Log.e("ExpressView", "广告被点击");
+                Log.e("ExpressView", "广告被点击");
             }
 
             @Override
@@ -885,18 +940,19 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 //                Log.e("ExpressView", msg + " code:" + code);
                 mAdView = null;
                 mPvPage.unDraw();
-                mPageLoader.setABCFail(true);
+                if (mPageLoader != null)
+                    mPageLoader.setABCFail(true);
             }
 
             @Override
             public void onRenderSuccess(View view, float width, float height) {
 //                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
-//                Log.e("ExpressView", "width:" + width);
-//                Log.e("ExpressView", "height:" + height);
+                Log.e("ExpressView", "width:" + width);
+                Log.e("ExpressView", "height:" + height);
 //                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
 //                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
 //                返回view的宽高 单位 dp
-//                Log.e("ExpressView", "渲染成功");
+                Log.e("ExpressView", "渲染成功");
 //                mAdView = view;
                 if (mAdView == null) {
                     mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
@@ -910,8 +966,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
                     tvAdView.setText(builderVideoMessage);
                     btnNextPage = mAdView.findViewById(R.id.btn_next_page);
-                    btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, R.color.txt_black) : ContextCompat.getColor(mContext,
-                            R.color.txt_gray_b2));
+
                     btnNextPage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -924,51 +979,55 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                             loadVideoAd();
                         }
                     });
+                    PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
+                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getTipsColor()));
+                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
                 }
                 mExpressContainer.removeAllViews();
                 mExpressContainer.addView(view);
-                mPageLoader.setABCFail(false);
+                if (mPageLoader != null)
+                    mPageLoader.setABCFail(false);
             }
         });
-//        //dislike设置
-//        bindDislike(ad, false);
-//        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-//            return;
-//        }
-//        ad.setDownloadListener(new TTAppDownloadListener() {
-//            @Override
-//            public void onIdle() {
+        //dislike设置
+        bindDislike(ad, false);
+        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
+            return;
+        }
+        ad.setDownloadListener(new TTAppDownloadListener() {
+            @Override
+            public void onIdle() {
 //                Log.e("ExpressView", "点击开始下载");
-//            }
-//
-//            @Override
-//            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-//                if (!mHasShowDownloadActive) {
-//                    mHasShowDownloadActive = true;
+            }
+
+            @Override
+            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
+                if (!mHasShowDownloadActive) {
+                    mHasShowDownloadActive = true;
 //                    Log.e("ExpressView", "下载中，点击暂停");
-//                }
-//            }
-//
-//            @Override
-//            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
+                }
+            }
+
+            @Override
+            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
 //                Log.e("ExpressView", "下载暂停，点击继续");
-//            }
-//
-//            @Override
-//            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
+            }
+
+            @Override
+            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
 //                Log.e("ExpressView", "下载失败，点击重新下载");
-//            }
-//
-//            @Override
-//            public void onInstalled(String fileName, String appName) {
+            }
+
+            @Override
+            public void onInstalled(String fileName, String appName) {
 //                Log.e("ExpressView", "安装完成，点击图片打开");
-//            }
-//
-//            @Override
-//            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
+            }
+
+            @Override
+            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
 //                Log.e("ExpressView", "点击安装");
-//            }
-//        });
+            }
+        });
     }
 
     private void bindBottomAdListener(TTNativeExpressAd ad) {
@@ -1026,7 +1085,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     //屏蔽广告
 //                    Log.e("ExpressView", "点击 " + filterWord.getName());
                     //用户选择不喜欢原因后，移除广告展示
-//                    mExpressContainer.removeAllViews();
+                    mExpressContainer.removeAllViews();
                 }
             });
             ad.setDislikeDialog(dislikeDialog);
@@ -1038,7 +1097,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             public void onSelected(int position, String value) {
 //                Log.e("ExpressView", "点击 " + value);
                 //用户选择不喜欢原因后，移除广告展示
-//                mExpressContainer.removeAllViews();
+                mExpressContainer.removeAllViews();
             }
 
             @Override

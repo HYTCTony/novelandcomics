@@ -48,7 +48,7 @@ public class PageView extends FrameLayout {
     // 动画类
     public PageAnimation mPageAnim;
     private View mAdView, mCoverPageView;
-    int index = 0;
+    int drawIndex = 0;
 
     // 动画监听类
     private PageAnimation.OnPageChangeListener mPageAnimListener = new PageAnimation.OnPageChangeListener() {
@@ -84,7 +84,7 @@ public class PageView extends FrameLayout {
 
     public PageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setWillNotDraw(false);
+//        setWillNotDraw(false);
         //千万不要关闭硬件加速，否则页面渲染会很卡
         setLayerType(LAYER_TYPE_HARDWARE, null);
     }
@@ -221,15 +221,12 @@ public class PageView extends FrameLayout {
     public void setBgColor(int color) {
         mBgColor = color;
     }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        //绘制背景
-        canvas.drawColor(mBgColor);
-        //绘制动画
-        mPageAnim.draw(canvas);
-    }
+//
+//    @Override
+//    protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+//
+//    }
 
     @Override
     public void onDescendantInvalidated(@NonNull View child, @NonNull View target) {
@@ -240,6 +237,10 @@ public class PageView extends FrameLayout {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
+        //绘制背景
+        canvas.drawColor(mBgColor);
+        //绘制动画
+        mPageAnim.draw(canvas);
         try {
             if (mBitmap != null) {
                 canvas = new Canvas(mBitmap);
@@ -260,10 +261,10 @@ public class PageView extends FrameLayout {
 //                        Log.d(TAG, "dispatchDraw()");
                         if (shouldDraw) {
 //                            Log.d(TAG, "index==" + index);
-                            if (index < 2) {
+                            if (drawIndex < 2) {
 //                                Log.d(TAG, "adView.dispatchDraw()");
                                 super.dispatchDraw(canvas);
-                                index++;
+                                drawIndex++;
                             }
                             shouldDraw = false;
                         }
@@ -335,7 +336,7 @@ public class PageView extends FrameLayout {
      * @return
      */
     public void reDraw() {
-        index = 0;
+        drawIndex = 0;
         shouldDraw = true;
     }
 
@@ -355,7 +356,7 @@ public class PageView extends FrameLayout {
      */
     private boolean hasPrevPage() {
         mTouchListener.prePage();
-        index = 0;
+        drawIndex = 0;
         shouldDraw = true;
         return mPageLoader.prev();
     }
@@ -367,7 +368,7 @@ public class PageView extends FrameLayout {
      */
     private boolean hasNextPage() {
         mTouchListener.nextPage();
-        index = 0;
+        drawIndex = 0;
         shouldDraw = true;
         return mPageLoader.next();
     }

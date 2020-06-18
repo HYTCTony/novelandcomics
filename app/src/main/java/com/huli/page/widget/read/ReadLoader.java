@@ -126,6 +126,8 @@ public abstract class ReadLoader {
     private int mMarginHeight;
     //字体的颜色
     private int mTextColor;
+    //提示内容的颜色
+    private int mTipsColor;
     //标题的大小
     private int mTitleSize;
     //字体的大小
@@ -155,6 +157,8 @@ public abstract class ReadLoader {
     private boolean isABC = false;
     //ABC失败
     private boolean isABCFail = false;
+    //风格已改变，请作相应处理
+    private boolean isSetStyle = false;
 
     /*****************************init params*******************************/
     public ReadLoader(PageView pageView, BookShelfListBean collBook) {
@@ -505,6 +509,8 @@ public abstract class ReadLoader {
      * @param pageStyle:页面样式
      */
     public void setPageStyle(PageStyle pageStyle) {
+        isSetStyle = true;
+        index = 1;
         mPageView.reDraw();
         if (pageStyle != PageStyle.NIGHT) {
             mPageStyle = pageStyle;
@@ -514,12 +520,12 @@ public abstract class ReadLoader {
         //        if (isNightMode && pageStyle != PageStyle.NIGHT) {
         //            return;
         //        }
-
         // 设置当前颜色样式
+        mTipsColor = ContextCompat.getColor(mContext, pageStyle.getPromptColor());
         mTextColor = ContextCompat.getColor(mContext, pageStyle.getFontColor());
         mBgColor = ContextCompat.getColor(mContext, pageStyle.getBgColor());
 
-        mTipPaint.setColor(mTextColor);
+        mTipPaint.setColor(mTipsColor);
         mTitlePaint.setColor(mTextColor);
         mTextPaint.setColor(mTextColor);
         mBatteryPaint.setColor(mTextColor);
@@ -1128,8 +1134,6 @@ public abstract class ReadLoader {
         if (hasNextPage())
             index--;
         if (index < 5) {
-            if (index > 1)
-                mPageView.requestAd();
             index = 1;
         }
 //        Log.d(TAG, "index==" + index);
@@ -1207,10 +1211,15 @@ public abstract class ReadLoader {
         }
         if (hasNextPage())
             index++;
-        if (index > 7) {
-            mPageView.requestAd();
+
+        if (index > 7)
             index = 2;
+
+        if (index == 2) {
+            isSetStyle = false;
+            mPageView.requestAd();
         }
+
 //        Log.d(TAG, "index==" + index);
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在下一页
@@ -1742,7 +1751,6 @@ public abstract class ReadLoader {
          * 作用：当页面风格发生改变时候回调
          *
          * @param pageStyle:当前的页面的风格
-         * @param isNightMode:是否是夜间模式
          */
         void onStyleChange(PageStyle pageStyle, boolean isNightMode);
     }
