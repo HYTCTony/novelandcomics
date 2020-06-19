@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -230,13 +231,14 @@ public class PageView extends FrameLayout {
 
     @Override
     public void onDescendantInvalidated(@NonNull View child, @NonNull View target) {
-//        Log.d(TAG, "onDescendantInvalidated: ");
+        Log.d(TAG, "onDescendantInvalidated: ");
         shouldDraw = true;
         super.onDescendantInvalidated(child, target);
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
+        Log.d(TAG, "dispatchDraw()");
         //绘制背景
         canvas.drawColor(mBgColor);
         //绘制动画
@@ -252,17 +254,16 @@ public class PageView extends FrameLayout {
                 switch (mPageLoader.mCurPage.pageType) {
                     case TxtPage.VALUE_STRING_COVER_TYPE:
                         if (shouldDraw) {
-//                            Log.d(TAG, "customView.dispatchDraw()");
+                            Log.d(TAG, "customView.dispatchDraw()");
                             super.dispatchDraw(canvas);
                             shouldDraw = false;
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
-//                        Log.d(TAG, "dispatchDraw()");
                         if (shouldDraw) {
-//                            Log.d(TAG, "index==" + index);
+                            Log.d(TAG, "drawIndex==" + drawIndex);
                             if (drawIndex < 2) {
-//                                Log.d(TAG, "adView.dispatchDraw()");
+                                Log.d(TAG, "adView.dispatchDraw()");
                                 super.dispatchDraw(canvas);
                                 drawIndex++;
                             }

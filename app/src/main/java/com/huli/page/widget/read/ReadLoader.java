@@ -10,6 +10,8 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.StaticLayout;
 import android.text.TextPaint;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -510,7 +512,6 @@ public abstract class ReadLoader {
      */
     public void setPageStyle(PageStyle pageStyle) {
         isSetStyle = true;
-        index = 1;
         mPageView.reDraw();
         if (pageStyle != PageStyle.NIGHT) {
             mPageStyle = pageStyle;
@@ -1068,18 +1069,26 @@ public abstract class ReadLoader {
                 str = mCurPage.lines.get(i);
                 float x = mMarginWidth;
 //                float width = StaticLayout.getDesiredWidth(str, lineStart, lineEnd, paint);
-                float offset = (mVisibleWidth - mTextPaint.measureText(str)) / (str.length() - 1);
+                float offset;
+                if (isWhitespace(str.charAt(0)))
+                    offset = (mVisibleWidth - mTextPaint.measureText(str)) / (str.length() - 3);
+                else
+                    offset = (mVisibleWidth - mTextPaint.measureText(str)) / (str.length() - 1);
                 for (int j = 0; j < str.length(); j++) {
                     String character = String.valueOf(str.charAt(j));
                     float cw = StaticLayout.getDesiredWidth(character, mTextPaint);
                     canvas.drawText(character, x, top, mTextPaint);
                     if (str.endsWith("\n"))
-                        x += cw;
-                    else
-                        x += (cw + offset);
+                        x += (cw + mTextSize / 10f);
+                    else {
+                        if (isWhitespace(str.charAt(j)))
+                            x += cw;
+                        else
+                            x += (cw + offset);
+                    }
                 }
 //                if (i == mCurPage.lines.size() - 1)
-//                    Log.d(TAG, "book：" + top);
+                Log.d(TAG, " mCurPage.titleLines：" + mCurPage.titleLines);
                 if (str.endsWith("\n")) {
                     top += para;
                 } else {
@@ -1087,6 +1096,13 @@ public abstract class ReadLoader {
                 }
             }
         }
+    }
+
+    private boolean isWhitespace(char ch) {
+        if (ch == '　') {
+            return true;
+        }
+        return Character.isWhitespace(ch);
     }
 
     void prepareDisplay(int w, int h) {
@@ -1216,8 +1232,10 @@ public abstract class ReadLoader {
             index = 2;
 
         if (index == 2) {
-            isSetStyle = false;
             mPageView.requestAd();
+        } else if (isSetStyle) {
+            mPageView.requestAd();
+            isSetStyle = false;
         }
 
 //        Log.d(TAG, "index==" + index);
@@ -1526,13 +1544,41 @@ public abstract class ReadLoader {
                     if (showTitle) {
                         wordCount = mTitlePaint.breakText(paragraph, true, mVisibleWidth, null);
                     } else {
-                        wordCount = mTextPaint.breakText(paragraph, true, mVisibleWidth, null);
+                        wordCount = mTextPaint.breakText(paragraph, true, mVisibleWidth - mTextSize, null);
                     }
-                    if (paragraph.length() - 1 > wordCount) {
+                    if (paragraph.length() - 2 > wordCount) {
                         char a = paragraph.charAt(wordCount);
                         char b = paragraph.charAt(wordCount + 1);
-                        if (isChinesePunctuation(a) && !isChinesePunctuation(b)) {
-                            wordCount += 1;
+                        char c = paragraph.charAt(wordCount + 2);
+                        char d = paragraph.charAt(wordCount - 1);
+                        if (TextUtils.equals("" + d, "“")) {
+                            wordCount -= 1;
+                        } else {
+                            if (!TextUtils.equals("" + a, "“"))
+                                if (isChinesePunctuation(a) && isChinesePunctuation(b) && isChinesePunctuation(c)) {
+                                    wordCount -= 1;
+                                } else {
+                                    if (isChinesePunctuation(a) && !TextUtils.equals("" + a, "“")) {
+                                        wordCount += 1;
+                                        if (isChinesePunctuation(b) && !TextUtils.equals("" + b, "“")) {
+                                            wordCount += 1;
+                                        }
+                                    }
+                                }
+                        }
+                    } else if (paragraph.length() - 1 > wordCount) {
+                        char a = paragraph.charAt(wordCount);
+                        char b = paragraph.charAt(wordCount + 1);
+                        char d = paragraph.charAt(wordCount - 1);
+                        if (TextUtils.equals("" + d, "“")) {
+                            wordCount -= 1;
+                        } else {
+                            if (isChinesePunctuation(a) && !TextUtils.equals("" + a, "“")) {
+                                wordCount += 1;
+                                if (isChinesePunctuation(b) && !TextUtils.equals("" + b, "“")) {
+                                    wordCount += 1;
+                                }
+                            }
                         }
                     }
                     subStr = paragraph.substring(0, wordCount);

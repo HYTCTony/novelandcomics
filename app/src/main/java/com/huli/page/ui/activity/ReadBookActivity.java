@@ -220,6 +220,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private boolean isFirstRequest = true;
     private int site = 0;
     private long lapse = 0;
+    private long interval = 0;
     private boolean needRefreshPage = false;
 
     private String id;
@@ -288,13 +289,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                             mPageLoader.refreshPage();
                         needRefreshPage = false;
                         rl.setVisibility(VISIBLE);
+                        if (mAdView != null)
+                            if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
+                                tvAdView.setVisibility(GONE);
+                            } else {
+                                tvAdView.setVisibility(VISIBLE);
+                            }
                     }
-                    if (mAdView != null)
-                        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
-                            tvAdView.setVisibility(GONE);
-                        } else {
-                            tvAdView.setVisibility(VISIBLE);
-                        }
                     mPageLoader.setABC(isABC);
                     break;
             }
@@ -618,12 +619,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     public void reqAdvertAd(Advert data) {
         site = data.getSite();
         lapse = data.getLapse() * 1000;
-        if (mAdView != null)
-            if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0 || data.getInterval() > 0) {
-                tvAdView.setVisibility(GONE);
-            } else {
-                tvAdView.setVisibility(VISIBLE);
-            }
+        interval = data.getInterval();
         ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
         isABC = testingIsABC(data.getLapse());
         if (isABC) {
@@ -634,6 +630,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 mPageLoader.refreshPage();
             needRefreshPage = false;
             rl.setVisibility(VISIBLE);
+            if (mAdView != null)
+                if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0 || interval > 0) {
+                    tvAdView.setVisibility(GONE);
+                } else {
+                    tvAdView.setVisibility(VISIBLE);
+                }
         }
         mPageLoader.setABC(isABC);
     }
@@ -761,7 +763,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         if (isABC)
             return;
 
-        mPvPage.removeAllViews();
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlotPage = new AdSlot.Builder()
                 .setCodeId(codeId)
@@ -958,25 +959,24 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
                     mExpressContainer = mAdView.findViewById(R.id.express_container);
                     tvAdView = mAdView.findViewById(R.id.btn_watch_video);
-                    if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext)) {
+                    SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
+                    tvAdView.setText(builderVideoMessage);
+                    if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
                         tvAdView.setVisibility(GONE);
                     } else {
                         tvAdView.setVisibility(VISIBLE);
                     }
-                    SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
-                    tvAdView.setText(builderVideoMessage);
-                    btnNextPage = mAdView.findViewById(R.id.btn_next_page);
-
-                    btnNextPage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mPvPage.autoNextPage();
-                        }
-                    });
                     tvAdView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             loadVideoAd();
+                        }
+                    });
+                    btnNextPage = mAdView.findViewById(R.id.btn_next_page);
+                    btnNextPage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPvPage.autoNextPage();
                         }
                     });
                     PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
