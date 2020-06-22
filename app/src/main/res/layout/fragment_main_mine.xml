@@ -505,7 +505,7 @@
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -515,6 +515,19 @@
                     android:gravity="center_vertical"
                     android:textColor="@color/txt_gray_999"
                     android:textSize="@dimen/sp_12"
+                    tools:ignore="RelativeOverlap" />-->
+                <cn.bingoogolapple.badgeview.BGABadgeTextView
+                    android:id="@+id/bgabadge_msg_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    app:badge_draggable="true"
                     tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
@@ -532,24 +545,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_mine_read_history"
+                    android:drawableStart="@drawable/ic_mine_reading_preference"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
                     android:text="@string/txt_reading_preference"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/txt_gray_999"
-                    android:textSize="@dimen/sp_12"
-                    tools:ignore="RelativeOverlap" />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentEnd="true"
+                     android:layout_centerVertical="true"
+                     android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                     android:drawablePadding="@dimen/dp_8"
+                     android:gravity="center_vertical"
+                     android:textColor="@color/txt_gray_999"
+                     android:textSize="@dimen/sp_12"
+                     tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 

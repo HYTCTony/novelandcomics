@@ -16,6 +16,7 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +85,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
     private TextView tvNickname, tvTel;
     private TextView btnPrivilegeExplain;
 
+    private LinearLayout llContent;
     private RecyclerView recyclerView;
     private VipComboAdapter mAdapter;
     private TextView tvServiceAgreement;
@@ -155,6 +157,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         tvTel = $(R.id.tv_user_tel);
         btnPrivilegeExplain = $(R.id.tv_asBtn_privilege_explain);
 
+        llContent = $(R.id.ll_content_member_combo);
         recyclerView = $(R.id.recyclerView_vip_packages);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setHasFixedSize(true);
@@ -201,11 +204,13 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
 
         initWarmPrompt();
 
+        userInfo.setSuper_vip(1);
         displayVipUI(userInfo);
 
-        btnOpenOrRenew.setText(R.string.txt_activate_immediately);
-        //获取会员套餐
-        reqRechargeCombo();
+        //非终身会员，获取会员资费套餐
+        if (userInfo.getSuper_vip() != 1) {
+            reqRechargeCombo();
+        }
     }
 
 
@@ -240,12 +245,16 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
      * 不同身份用户对应不同UI
      */
     private void displayVipUI(FUser fUser) {
+        btnOpenOrRenew.setText(R.string.txt_activate_immediately);
         if (fUser.getSuper_vip() == 1) {    //终身会员
             tvVipTypeTitle.setText(R.string.txt_honor_vip);
             tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon), "∞"));
             tvVipTips.setText(R.string.txt_tips_vip_state_life_member);
             tvAccountSetup.setVisibility(View.GONE);
             ivIconVipSymbol.setVisibility(View.VISIBLE);
+
+            llContent.setVisibility(View.GONE);
+            btnOpenOrRenew.setVisibility(View.GONE);
         } else {     //非终身VIP
             if (fUser.isIs_vip()) {     //普通VIP
                 tvVipTypeTitle.setText(R.string.txt_monthly_vip);
@@ -254,12 +263,18 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
                 tvVipTips.setText(R.string.txt_tips_vip_state);
                 tvAccountSetup.setVisibility(View.GONE);
                 ivIconVipSymbol.setVisibility(View.VISIBLE);
+
+                llContent.setVisibility(View.VISIBLE);
+                btnOpenOrRenew.setVisibility(View.VISIBLE);
             } else {        //非VIP
                 tvVipTypeTitle.setText(null);
                 tvVipTime.setText(null);
                 tvVipTips.setText(null);
                 tvAccountSetup.setVisibility(View.VISIBLE);
                 ivIconVipSymbol.setVisibility(View.GONE);
+
+                llContent.setVisibility(View.VISIBLE);
+                btnOpenOrRenew.setVisibility(View.VISIBLE);
             }
         }
     }

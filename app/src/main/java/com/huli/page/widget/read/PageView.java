@@ -12,7 +12,6 @@ import android.view.ViewConfiguration;
 import android.widget.FrameLayout;
 
 import com.huli.page.model.bean.BookShelfListBean;
-import com.huli.page.utils.UtilsView;
 import com.huli.page.widget.animation.CoverPageAnim;
 import com.huli.page.widget.animation.HorizonPageAnim;
 import com.huli.page.widget.animation.NonePageAnim;
@@ -21,6 +20,9 @@ import com.huli.page.widget.animation.ScrollPageAnim;
 import com.huli.page.widget.animation.SimulationPageAnim;
 import com.huli.page.widget.animation.SlidePageAnim;
 import com.huli.page.widget.page.PageMode;
+import com.huli.page.widget.page.TxtPage;
+
+import androidx.annotation.NonNull;
 
 public class PageView extends FrameLayout {
 
@@ -40,9 +42,14 @@ public class PageView extends FrameLayout {
     // 唤醒菜单的区域
     private RectF mCenterRect = null;
     private boolean isPrepare;
+    //
+    public Bitmap mBitmap;
+    public boolean shouldDraw = true;
     // 动画类
     public PageAnimation mPageAnim;
     private View mAdView, mCoverPageView;
+    int drawIndex = 0;
+
     // 动画监听类
     private PageAnimation.OnPageChangeListener mPageAnimListener = new PageAnimation.OnPageChangeListener() {
         @Override
@@ -77,7 +84,7 @@ public class PageView extends FrameLayout {
 
     public PageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setWillNotDraw(false);
+//        setWillNotDraw(false);
         //千万不要关闭硬件加速，否则页面渲染会很卡
         setLayerType(LAYER_TYPE_HARDWARE, null);
     }
@@ -214,14 +221,19 @@ public class PageView extends FrameLayout {
     public void setBgColor(int color) {
         mBgColor = color;
     }
+//
+//    @Override
+//    protected void onDraw(Canvas canvas) {
+//        super.onDraw(canvas);
+//
+//    }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+    public void onDescendantInvalidated(@NonNull View child, @NonNull View target) {
+//        Log.d(TAG, "onDescendantInvalidated: ");
+        shouldDraw = true;
+        super.onDescendantInvalidated(child, target);
     }
-
-    public Bitmap mBitmap;
-    private boolean shouldDraw = true;
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
@@ -229,25 +241,39 @@ public class PageView extends FrameLayout {
         canvas.drawColor(mBgColor);
         //绘制动画
         mPageAnim.draw(canvas);
-        if (mBitmap != null) {
-            canvas = new Canvas(mBitmap);
-//                canvas.drawColor(Color.YELLOW,PorterDuff.Mode.CLEAR);
-        }
-        if (mPageLoader == null || mPageLoader.mCurPage == null) {
-            return;
-        }
-        if (mPageLoader.mCurPage.isCustomView) {
-            if (shouldDraw) {
-                super.dispatchDraw(canvas);
-//                shouldDraw = false;
+        try {
+            if (mBitmap != null) {
+                canvas = new Canvas(mBitmap);
             }
-        }else{
-            super.dispatchDraw(canvas);
+            if (mPageLoader == null || mPageLoader.mCurPage == null) {
+                return;
+            }
+            if (mPageLoader.mCurPage.isCustomView) {
+                switch (mPageLoader.mCurPage.pageType) {
+                    case TxtPage.VALUE_STRING_COVER_TYPE:
+                        if (shouldDraw) {
+//                            Log.d(TAG, "customView.dispatchDraw()");
+                            super.dispatchDraw(canvas);
+                            shouldDraw = false;
+                        }
+                        break;
+                    case TxtPage.VALUE_STRING_AD_TYPE:
+//                        Log.d(TAG, "dispatchDraw()");
+                        if (shouldDraw) {
+//                            Log.d(TAG, "index==" + index);
+                            if (drawIndex < 2) {
+//                                Log.d(TAG, "adView.dispatchDraw()");
+                                super.dispatchDraw(canvas);
+                                drawIndex++;
+                            }
+                            shouldDraw = false;
+                        }
+                        break;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-//        if (shouldDraw) {
-//            super.dispatchDraw(canvas);
-//            shouldDraw = false;
-//        }
     }
 
     @Override
@@ -262,7 +288,6 @@ public class PageView extends FrameLayout {
                 mStartX = x;
                 mStartY = y;
                 isMove = false;
-
                 canTouch = mTouchListener.onTouch();
                 mPageAnim.onTouchEvent(event);
                 break;
@@ -291,6 +316,9 @@ public class PageView extends FrameLayout {
                     //是否点击了中间
                     if (mCenterRect.contains(x, y)) {
                         if (mTouchListener != null) {
+                            if (mPageLoader.mCurPage.isCustomView) {
+                                return false;
+                            }
                             mTouchListener.center();
                         }
                         return true;
@@ -308,7 +336,17 @@ public class PageView extends FrameLayout {
      * @return
      */
     public void reDraw() {
+        drawIndex = 0;
         shouldDraw = true;
+    }
+
+    /**
+     * 判断是否重新绘制子view
+     *
+     * @return
+     */
+    public void unDraw() {
+        shouldDraw = false;
     }
 
     /**
@@ -318,6 +356,7 @@ public class PageView extends FrameLayout {
      */
     private boolean hasPrevPage() {
         mTouchListener.prePage();
+        drawIndex = 0;
         shouldDraw = true;
         return mPageLoader.prev();
     }
@@ -329,6 +368,7 @@ public class PageView extends FrameLayout {
      */
     private boolean hasNextPage() {
         mTouchListener.nextPage();
+        drawIndex = 0;
         shouldDraw = true;
         return mPageLoader.next();
     }
@@ -338,29 +378,12 @@ public class PageView extends FrameLayout {
         mPageLoader.pageCancel();
 
         //翻页取消的时候，如果当前页是广告页，那么就重新添加
-        if (mPageLoader.mCurPage != null && mPageLoader.mCurPage.isCustomView) {
+        if (mPageLoader.mCurPage != null && mPageLoader.mCurPage.hasDrawAd) {
             addAdLayout();
         } else {
             //否则清除
-            cleanAdView();
+            removeAllViews();
         }
-    }
-
-    private void addAdLayout() {
-        if (mPageLoader == null || mPageLoader.mCurPage == null) {
-            return;
-        }
-        if (mAdView != null) {
-            UtilsView.removeParent(mAdView);
-            addView(mAdView);
-        }
-    }
-
-    /**
-     * 清除添加的所有view
-     */
-    public void cleanAdView() {
-        removeAllViews();
     }
 
     @Override
@@ -407,8 +430,7 @@ public class PageView extends FrameLayout {
         }
         mBitmap = bitmap;
         if (mCoverPageView != null) {
-            UtilsView.removeParent(mCoverPageView);
-            addView(mCoverPageView);
+            addCoverLayout();
             return;
         } else {
             shouldDraw = true;
@@ -422,10 +444,15 @@ public class PageView extends FrameLayout {
         params.gravity = Gravity.CENTER;
         mCoverPageView.setLayoutParams(params);
         if (mCoverPageView != null) {
-            UtilsView.removeParent(mCoverPageView);
-            addView(mCoverPageView);
+            addCoverLayout();
         }
-        return;
+    }
+
+    private void addCoverLayout() {
+//        Log.d(TAG, "addCoverLayout()");
+        shouldDraw = true;
+        removeView(mCoverPageView);
+        addView(mCoverPageView);
     }
 
     public boolean drawAdPage(Bitmap bitmap) {
@@ -434,25 +461,32 @@ public class PageView extends FrameLayout {
         if (mReaderAdListener == null) {
             return false;
         }
+
         mBitmap = bitmap;
+        shouldDraw = true;
+        mAdView = mReaderAdListener.getAdView();
         if (mAdView != null) {
+            mPageLoader.mCurPage.hasDrawAd = true;
             addAdLayout();
             return true;
         } else {
-            shouldDraw = true;
-            mAdView = mReaderAdListener.getAdView();
-            mReaderAdListener.onRequestAd();
-        }
-
-        if (mAdView == null) {
             return false;
         }
-//        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-//        params.gravity = Gravity.CENTER;
-//        mAdView.setLayoutParams(params);
-        addAdLayout();
-        mPageLoader.mCurPage.hasDrawAd = true;
-        return true;
+    }
+
+    public void addAdLayout() {
+        if (mPageLoader == null || mPageLoader.mCurPage == null) {
+            return;
+        }
+        if (mAdView != null) {
+//            Log.d(TAG, "addAdLayout()");
+            removeAllViews();
+            addView(mAdView);
+        }
+    }
+
+    public void requestAd() {
+        mReaderAdListener.onRequestAd();
     }
 
     /**
@@ -483,7 +517,6 @@ public class PageView extends FrameLayout {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     /**

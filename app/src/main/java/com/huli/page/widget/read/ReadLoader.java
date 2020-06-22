@@ -18,6 +18,7 @@ import com.huli.page.model.local.BookRepository;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.utils.Constant;
 import com.huli.page.utils.IOUtils;
+import com.huli.page.utils.NetworkUtils;
 import com.huli.page.utils.RxUtils;
 import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.StringUtils;
@@ -125,6 +126,8 @@ public abstract class ReadLoader {
     private int mMarginHeight;
     //字体的颜色
     private int mTextColor;
+    //提示内容的颜色
+    private int mTipsColor;
     //标题的大小
     private int mTitleSize;
     //字体的大小
@@ -137,13 +140,13 @@ public abstract class ReadLoader {
     private int mTextPara;
     private int mTitlePara;
     //适配刘海屏，向下偏移量
-    int titleMarginHeight;
+    private int titleMarginHeight;
     //电池的百分比
     private int mBatteryLevel;
     //当前页面的背景
     private int mBgColor;
 
-    boolean isGoNextPage = false;
+    private boolean isGoNextPage = false;
     // 当前章
     protected int mCurChapterPos = 0;
     //上一章的记录
@@ -152,6 +155,10 @@ public abstract class ReadLoader {
     private int index = 1;
     //是否ABC
     private boolean isABC = false;
+    //ABC失败
+    private boolean isABCFail = false;
+    //风格已改变，请作相应处理
+    private boolean isSetStyle = false;
 
     /*****************************init params*******************************/
     public ReadLoader(PageView pageView, BookShelfListBean collBook) {
@@ -192,16 +199,6 @@ public abstract class ReadLoader {
         mTitlePara = mTitleInterval / 3 * 4;
         //适配刘海屏，向下偏移量
         titleMarginHeight = ScreenUtils.dpToPx(24);
-//        Log.d(TAG, "tipTextSize：" + ScreenUtils.spToPx(DEFAULT_TIP_SIZE));
-//        Log.d(TAG, "mMarginHeight：" + mMarginHeight);
-//
-//        Log.d(TAG, "mTextSize：" + mTextSize);
-//        Log.d(TAG, "mTitleSize：" + mTitleSize);
-//        Log.d(TAG, "mTextInterval：" + mTextInterval);
-//        Log.d(TAG, "mTitleInterval：" + mTitleInterval);
-//        Log.d(TAG, "mTextPara：" + mTextPara);
-//        Log.d(TAG, "mTitlePara：" + mTitlePara);
-
     }
 
     /**
@@ -288,6 +285,15 @@ public abstract class ReadLoader {
      */
     public void setABC(boolean isABC) {
         this.isABC = isABC;
+    }
+
+    /**
+     * ABC失败回调
+     *
+     * @return
+     */
+    public void setABCFail(boolean isABCFail) {
+        this.isABCFail = isABCFail;
     }
 
     /**
@@ -392,6 +398,7 @@ public abstract class ReadLoader {
      * 更新时间
      */
     public void updateTime() {
+        mPageView.unDraw();
         if (!mPageView.isRunning()) {
             mPageView.drawCurPage(true);
         }
@@ -403,6 +410,7 @@ public abstract class ReadLoader {
      * @param level
      */
     public void updateBattery(int level) {
+        mPageView.unDraw();
         mBatteryLevel = level;
 
         if (!mPageView.isRunning()) {
@@ -430,7 +438,7 @@ public abstract class ReadLoader {
             // 重新获取指定页面
             mCurPage = mCurPageList.get(mCurPage.position);
         }
-
+//        Log.d(TAG, "refreshPage()");
         mPageView.drawCurPage(false);
     }
 
@@ -501,20 +509,23 @@ public abstract class ReadLoader {
      * @param pageStyle:页面样式
      */
     public void setPageStyle(PageStyle pageStyle) {
+        isSetStyle = true;
+        index = 1;
         mPageView.reDraw();
         if (pageStyle != PageStyle.NIGHT) {
             mPageStyle = pageStyle;
             mSettingManager.setPageStyle(pageStyle);
         }
+        //是否限制夜间模式不能切换风格
         //        if (isNightMode && pageStyle != PageStyle.NIGHT) {
         //            return;
         //        }
-
         // 设置当前颜色样式
+        mTipsColor = ContextCompat.getColor(mContext, pageStyle.getPromptColor());
         mTextColor = ContextCompat.getColor(mContext, pageStyle.getFontColor());
         mBgColor = ContextCompat.getColor(mContext, pageStyle.getBgColor());
 
-        mTipPaint.setColor(mTextColor);
+        mTipPaint.setColor(mTipsColor);
         mTitlePaint.setColor(mTextColor);
         mTextPaint.setColor(mTextColor);
         mBatteryPaint.setColor(mTextColor);
@@ -820,9 +831,7 @@ public abstract class ReadLoader {
                 RectF rectF = new RectF(0, 0, mDisplayWidth, mDisplayHeight);
                 canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
             }
-            if (index == AD_FOR_PAGE_NUM && !isABC)
-                return;
-            if (mCurPage != null && mCurPage.isCustomView)
+            if (mCurPage.isCustomView)
                 return;
             if (!mChapterList.isEmpty()) {
                 /*****初始化标题的参数********/
@@ -859,9 +868,7 @@ public abstract class ReadLoader {
                 }
             }
         } else {
-            if (index == AD_FOR_PAGE_NUM && !isABC)
-                return;
-            if (mCurPage != null && mCurPage.isCustomView)
+            if (mCurPage.isCustomView)
                 return;
             //擦除区域
             if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
@@ -974,20 +981,48 @@ public abstract class ReadLoader {
                 top = mMarginHeight + titleMarginHeight;
             }
             if (mCurPage != null && mCurPage.isCustomView) {
-                if (TxtPage.VALUE_STRING_COVER_TYPE.equals(mCurPage.pageType)) {
-                    mPageView.drawCoverPage(bitmap);
+                switch (mCurPage.pageType) {
+                    case TxtPage.VALUE_STRING_AD_TYPE:
+                        if (!mPageView.drawAdPage(bitmap)) {
+                            index = 1;
+                            //如果获取广告失败，跳下一页
+                            mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
+                            if (mCurPage != null) {
+                                drawContent(bitmap);
+                            } else {
+                                if (isGoNextPage) {
+                                    if (!hasNextChapter()) {
+                                        mCancelPage = mCurPage;
+                                        // 解析下一章数据
+                                        if (parseNextChapter()) {
+                                            mCurPage = mCurPageList.get(0);
+                                        } else {
+                                            mCurPage = new TxtPage();
+                                        }
+                                        drawContent(bitmap);
+                                    }
+                                } else {
+                                    if (!hasPrevChapter()) {
+                                        mCancelPage = mCurPage;
+                                        if (parsePrevChapter()) {
+                                            mCurPage = getPrevLastPage();
+                                        } else {
+                                            mCurPage = new TxtPage();
+                                        }
+                                    }
+                                    drawContent(bitmap);
+                                }
+                            }
+                            return;
+                        }
+                        break;
+                    case TxtPage.VALUE_STRING_COVER_TYPE:
+                        mPageView.drawCoverPage(bitmap);
+                        break;
                 }
                 return;
-            } else {
-                if (index == AD_FOR_PAGE_NUM && !isABC) {
-                    if (!mPageView.drawAdPage(bitmap)) {
-                        mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
-                        drawContent(bitmap);
-                    }
-                    return;
-                }
             }
-            mPageView.cleanAdView();
+            mPageView.removeAllViews();
             float allOffset = mCurPage.offset < 0 ? 0 : mCurPage.offset;
             int lines = mCurPage.lines.size();
             float heightOffset = allOffset / (lines - 1);
@@ -1084,9 +1119,6 @@ public abstract class ReadLoader {
             }
             mPageView.drawCurPage(false);
         }
-//        Log.d(TAG, "mVisibleHeight：" + mVisibleHeight);
-//        Log.d(TAG, "mDisplayHeight：" + mDisplayHeight);
-//        Log.d(TAG, "titleMarginHeight：" + titleMarginHeight);
     }
 
     /**
@@ -1099,18 +1131,21 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
+        if (hasNextPage())
+            index--;
+        if (index < 5) {
+            index = 1;
+        }
+//        Log.d(TAG, "index==" + index);
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在上一页
             TxtPage prevPage = getPrevPage();
             if (prevPage != null) {
-                index--;
-                if (index < 5) {
-                    index = 1;
-                }
                 mCancelPage = mCurPage;
                 mCurPage = prevPage;
                 mPageView.drawNextPage();
                 isGoNextPage = false;
+//                Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
                 return true;
             }
         }
@@ -1126,11 +1161,8 @@ public abstract class ReadLoader {
             mCurPage = new TxtPage();
         }
         isGoNextPage = false;
-        index--;
-        if (index < 5) {
-            index = 1;
-        }
         mPageView.drawNextPage();
+//        Log.d(TAG, "prev()  当前页是 == " + mCurPage.position);
         return true;
     }
 
@@ -1177,18 +1209,27 @@ public abstract class ReadLoader {
         if (!canTurnPage()) {
             return false;
         }
+        if (hasNextPage())
+            index++;
+
+        if (index > 7)
+            index = 2;
+
+        if (index == 2) {
+            isSetStyle = false;
+            mPageView.requestAd();
+        }
+
+//        Log.d(TAG, "index==" + index);
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在下一页
             TxtPage nextPage = getNextPage();
             if (nextPage != null) {
-                index++;
-                if (index > 7) {
-                    index = 2;
-                }
                 mCancelPage = mCurPage;
                 mCurPage = nextPage;
                 mPageView.drawNextPage();
                 isGoNextPage = true;
+//                Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
                 return true;
             }
         }
@@ -1204,18 +1245,25 @@ public abstract class ReadLoader {
         } else {
             mCurPage = new TxtPage();
         }
-        index++;
-        if (index > 7) {
-            index = 2;
-        }
         isGoNextPage = true;
         mPageView.drawNextPage();
+//        Log.d(TAG, "next()  当前页是 == " + mCurPage.position);
         return true;
     }
 
+    // 判断目录是否还有下一章
     private boolean hasNextChapter() {
-        // 判断是否到达目录最后一章
         return mCurChapterPos + 1 < mChapterList.size();
+    }
+
+    // 判断是否还能继续翻页
+    private boolean hasNextPage() {
+        if (!hasNextChapter() && mCurPage.position + 1 >= mCurPageList.size()) {
+            return false;
+        } else if (mCurPage.isCustomView && mCurPage.pageType.equals(TxtPage.VALUE_STRING_COVER_TYPE)) {
+            return false;
+        } else
+            return true;
     }
 
     boolean parseCurChapter() {
@@ -1332,8 +1380,15 @@ public abstract class ReadLoader {
     // 取消翻页
     void pageCancel() {
         if (isGoNextPage) {
-            index--;
+            if (hasNextPage())
+                index--;
             if (index < 1) {
+                index = 1;
+            }
+        } else {
+            if (hasNextPage())
+                index++;
+            if (index > 7) {
                 index = 1;
             }
         }
@@ -1458,8 +1513,6 @@ public abstract class ReadLoader {
                         page.offset = rHeight + mTextPaint.getTextSize() + wrap;
                         page.wrap = isWrap;
                         pages.add(page);
-                        //尝试加入广告page
-                        addAdPage(pages, chapter.getTitle(), titleLinesCount);
                         // 重置Lines
                         lines.clear();
                         rHeight = mVisibleHeight;
@@ -1524,8 +1577,6 @@ public abstract class ReadLoader {
                 page.titleLines = titleLinesCount;
                 page.offset = 0;
                 pages.add(page);
-                //尝试加入广告page
-                addAdPage(pages, chapter.getTitle(), titleLinesCount);
                 //重置Lines
                 lines.clear();
             }
@@ -1551,18 +1602,6 @@ public abstract class ReadLoader {
         }
     }
 
-    private void addAdPage(List<TxtPage> pages, String title, int titleLinesCount) {
-        if (pages.size() < 0) {
-            TxtPage adPage = new TxtPage();
-            adPage.isCustomView = true;
-            adPage.position = pages.size();
-            adPage.title = title;
-            //adPage.lines = new ArrayList<>(lines);
-            adPage.titleLines = titleLinesCount;
-            pages.add(adPage);
-        }
-    }
-
     /**
      * @return:获取初始显示的页面
      */
@@ -1581,13 +1620,15 @@ public abstract class ReadLoader {
      */
     private TxtPage getPrevPage() {
         int pos;
-        if (index == AD_FOR_PAGE_NUM + 1 && !isABC)
-            pos = mCurPage.position;
-        else {
+        if (index == AD_FOR_PAGE_NUM && !isABC) {
+            TxtPage page = addAdPage();
+            if (page != null)
+                return page;
+            else
+                pos = mCurPage.position - 1;
+        } else {
             pos = mCurPage.position - 1;
         }
-//        Log.d(TAG, "getPrevPage()  当前页是 == " + mCurPage.position);
-//        Log.d(TAG, "getPrevPage()  下一页是 == " + pos);
         if (pos < 0) {
             return null;
         }
@@ -1602,13 +1643,15 @@ public abstract class ReadLoader {
      */
     private TxtPage getNextPage() {
         int pos;
-        if (index == AD_FOR_PAGE_NUM - 1 && !isABC)
-            pos = mCurPage.position;
-        else {
+        if (index == AD_FOR_PAGE_NUM && !isABC && hasNextPage()) {
+            TxtPage page = addAdPage();
+            if (page != null)
+                return page;
+            else
+                pos = mCurPage.position + 1;
+        } else {
             pos = mCurPage.position + 1;
         }
-//        Log.d(TAG, "getNextPage() 当前页是 == " + mCurPage.position);
-//        Log.d(TAG, "getNextPage() 下一页是 == " + pos);
         if (pos >= mCurPageList.size()) {
             return null;
         }
@@ -1616,6 +1659,23 @@ public abstract class ReadLoader {
             mPageChangeListener.onPageChange(pos);
         }
         return mCurPageList.get(pos);
+    }
+
+    private TxtPage addAdPage() {
+        if (NetworkUtils.isAvailable() && NetworkUtils.isConnected() && !isABCFail) {
+            TxtPage adPage = new TxtPage();
+            adPage.pageType = TxtPage.VALUE_STRING_AD_TYPE;
+            adPage.isCustomView = true;
+            adPage.position = mCurPage.position;
+            adPage.title = mCurPage.title;
+            adPage.titleLines = mCurPage.titleLines;
+            adPage.offset = mCurPage.offset;
+            adPage.wrap = mCurPage.wrap;
+            //adPage.lines = new ArrayList<>(lines);
+            return adPage;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -1691,7 +1751,6 @@ public abstract class ReadLoader {
          * 作用：当页面风格发生改变时候回调
          *
          * @param pageStyle:当前的页面的风格
-         * @param isNightMode:是否是夜间模式
          */
         void onStyleChange(PageStyle pageStyle, boolean isNightMode);
     }

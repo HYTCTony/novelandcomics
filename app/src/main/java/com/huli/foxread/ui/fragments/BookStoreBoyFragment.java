@@ -280,7 +280,7 @@ public class BookStoreBoyFragment extends BaseFragment implements View.OnClickLi
                 });*/
 
         RxHttp.postForm(Consts.INDEX_PAGE_API)
-                .add(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.TYPE, mType)
                 .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
                 .asResponse(HomePageBGEntity.class)

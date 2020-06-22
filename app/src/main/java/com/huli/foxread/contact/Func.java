@@ -142,6 +142,28 @@ public interface Func {
      */
     String MSG_LIST = "/message/read";
 
+    /**
+     * 用途：未读消息数量(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String MSG_UNREAD = "/message/amount";
+
+    /**
+     * 用途：msg标记为已读(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 消息id,多个用逗号隔开
+     */
+    String MSG_MARKED_READ = "/message/update";
+
+    /**
+     * 用途：msg全部标记为已读(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String MSG_MARKED_ALL_READ = "/message/updateAll";
+
 
     /**
      * 开屏广告(GET)

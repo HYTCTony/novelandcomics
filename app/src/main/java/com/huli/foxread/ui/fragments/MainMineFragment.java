@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,20 +16,23 @@ import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.ebsevent.NetworkChangeEvent;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
+import com.huli.foxread.entity.eventbus.UnReadMsgEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InviteFriendsActivity2;
 import com.huli.foxread.ui.activities.LoginActivity;
+import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.MyPrivilegeActivity;
@@ -47,6 +51,7 @@ import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,6 +65,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import cn.bingoogolapple.badgeview.BGABadgeTextView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 
 public class MainMineFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener {
@@ -75,6 +82,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     private ConstraintLayout ctlVipCard;
     private TextView tvHuliVip, tvVipAdvantage;
     private TextView btnOpenVip;
+
+    private BGABadgeTextView bgabadge;//未读消息
 
     private RecyclerView rvWelfareZone;
     private WelfareZoneMineAdapter wzAdapter;
@@ -134,10 +143,12 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.rtl_asBtn_mode_adolescent).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
+        bgabadge = $(view, R.id.bgabadge_msg_count);
 
         FUser userInfo = UserInfoCache.getUserInfo(mActivity);
         changeUIbyUserInfo(userInfo);
     }
+
 
     @Override
     public void setListener() {
@@ -145,6 +156,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         btnOpenVip.setOnClickListener(this);
         ivUserHeadImg.setOnClickListener(this);
         wzAdapter.setOnItemClickListener(this);
+
+        bgabadge.setDragDismissDelegate(badge -> {
+            reqSetMsgAllRead();
+            ((MainActivity)mActivity).mTabLayout.hideMsg(4);
+        });
     }
 
     @Override
@@ -197,6 +213,19 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onReadingTimeEvent(ReadingTimeEvent event) {
         tvTodayReadingTime.setText(event.getReadMin());
+    }
+
+    /**
+     * 未读消息
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onUnReadMsgEvent(UnReadMsgEvent event) {
+        if (event.getMessage() > 0) {
+            bgabadge.showTextBadge("" + event.getMessage());
+        } else {
+            bgabadge.hiddenBadge();
+        }
+        EventBus.getDefault().removeStickyEvent(event);
     }
 
     /**
@@ -367,7 +396,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
      * 福利专区
      */
     private void reqMineWelfareZone() {
-        OkGo.<String>get(Consts.WELFARE_USERLIST_API)
+        /*OkGo.<String>get(Consts.WELFARE_USERLIST_API)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -379,6 +408,38 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                             wzAdapter.setList(datas);
                         }
                     }
+                });*/
+        //先获取缓存的
+        RxHttp.postForm(Consts.WELFARE_USERLIST_API)
+                .setCacheMode(CacheMode.ONLY_CACHE)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .asResponseList(MineWelfareZoneEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(result -> {
+                    wzAdapter.setList(result);
+                });
+
+        //再获取网络的
+        RxHttp.postForm(Consts.WELFARE_USERLIST_API)
+                .setCacheMode(CacheMode.NETWORK_SUCCESS_WRITE_CACHE)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .asResponseList(MineWelfareZoneEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(result -> {
+                    wzAdapter.setList(result);
+                });
+    }
+
+    /**
+     * 全部标记为已读
+     */
+    private void reqSetMsgAllRead() {
+        RxHttp.postForm(Consts.MSG_SET_ALL_READ_API)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+
                 });
     }
 

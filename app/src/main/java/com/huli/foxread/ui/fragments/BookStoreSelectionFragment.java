@@ -434,7 +434,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 });*/
 
         RxHttp.postForm(Consts.NOVEL_POPULAR_API)
-                .add(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.PAGE, prePage + 1)
                 .add(Consts.TYPE, Consts.TYPE_SELECTION)
                 .asResponsePageList(BookEntity.class)

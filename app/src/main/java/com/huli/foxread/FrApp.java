@@ -10,9 +10,9 @@ import android.util.Log;
 import com.chad.library.adapter.base.module.LoadMoreModuleConfig;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
-import com.huli.foxread.rxhttp.RxHttpManager;
 import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.interceptors.TokenInterceptor;
+import com.huli.foxread.rxhttp.RxHttpManager;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
@@ -141,6 +141,7 @@ public class FrApp extends Application implements ActivityState {
         //穿山甲SDK初始化
         //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
         TTAdManagerHolder.init(this);
+
         //腾讯广告初始化
         GDTADManager.getInstance().initWith(this, "207010113294");
         //广点通数据上报

@@ -44,7 +44,7 @@ public class RxHttpManager {
         //log颜色级别，决定了log在控制台显示的颜色
         loggingInterceptor.setColorLevel(Level.SEVERE);
 
-        File file = new File(context.getExternalCacheDir(), "FoxRead_RxHttpCookie");
+        File file = new File(context.getExternalCacheDir(), "RxHttpCookie");
         SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         OkHttpClient client = new OkHttpClient.Builder()
                 .cookieJar(new CookieStore(file))
@@ -62,7 +62,7 @@ public class RxHttpManager {
         RxHttp.init(client, false);
 
         //设置缓存策略，非必须
-        File cacheFile = new File(context.getExternalCacheDir(), "FoxRead_RxHttpCache");
+        File cacheFile = new File(context.getExternalCacheDir(), "RxHttpCache");
         RxHttpPlugins.setCache(cacheFile, 1000 * 200, CacheMode.ONLY_NETWORK);
         RxHttpPlugins.setExcludeCacheKeys("time"); //设置一些key，不参与cacheKey的组拼
 
@@ -74,9 +74,15 @@ public class RxHttpManager {
 
         //设置公共参数，非必须
         /* RxHttp.setOnParamAssembly(p -> {
-         *//*根据不同请求添加不同参数，子线程执行，每次发送请求前都会被回调
-            如果希望部分请求不回调这里，发请求前调用Param.setAssemblyEnabled(false)即可
-             *//*
+//         根据不同请求添加不同参数，子线程执行，每次发送请求前都会被回调
+//            如果希望部分请求不回调这里，发请求前调用Param.setAssemblyEnabled(false)即可
+
+             if (p instanceof GetRequest) {//根据不同请求添加不同参数
+             } else if (p instanceof PostRequest) {
+             } else if (p instanceof PutRequest) {
+             } else if (p instanceof DeleteRequest) {
+             }
+
             Method method = p.getMethod();
             if (method.isGet()) { //Get请求
 

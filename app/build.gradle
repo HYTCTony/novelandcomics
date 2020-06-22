@@ -7,8 +7,8 @@ android {
         applicationId "com.huli.foxread"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 25
-        versionName "1.2.1"
+        versionCode 26
+        versionName "1.2.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -110,6 +110,7 @@ android {
  //            versionName "3.1"//设置版本号
          }//自己打包测试使用*/
         Tencent {}//投放应用宝市场
+        TencentGDT {}//投放腾讯广点通
         Baidu {
 //            versionCode 1
 //            versionName "3.0"
@@ -252,7 +253,12 @@ dependencies {
     //App升级
     implementation 'com.azhon:appupdateX:2.9.0'
 
+    //js交互
     implementation 'com.github.lzyzsd:jsbridge:1.0.4'
+
+    //可拖拽徽章空间
+    implementation 'cn.bingoogolapple:bga-badgeview-api:1.1.8'
+    annotationProcessor "cn.bingoogolapple:bga-badgeview-compiler:1.1.8"
 
     //********************友盟************************
     //基础组件库依赖(必须)

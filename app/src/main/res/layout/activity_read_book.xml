@@ -34,7 +34,7 @@
                     android:layout_height="40dp"
                     android:layout_centerInParent="true"
                     android:visibility="visible"
-                    android:background="@mipmap/bg_theme_bottom_ad" />
+                    android:background="@mipmap/bg_theme_bottom_ad_01" />
 
                 <FrameLayout
                     android:id="@+id/banner_container"

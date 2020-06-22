@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -34,6 +36,7 @@ import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.UpdateInfo;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
+import com.huli.foxread.entity.eventbus.UnReadMsgEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
@@ -52,6 +55,7 @@ import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.sh.sdk.shareinstall.ShareInstall;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
@@ -76,7 +80,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
     private long mExitFirstTime;  //用于暂存第一次按返回键的时间
 
-    private CommonTabLayout mTabLayout;
+    public CommonTabLayout mTabLayout;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private FragmentManager fragmentManager;
 
@@ -85,6 +89,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private MainClassifyFragment classifyFragment;
     private MainWelfareFragment2 welfareFragment;
     private MainMineFragment mineFragment;
+
+    private boolean isInit = true;
 
     @Override
     protected void setStatusBar() {
@@ -251,6 +257,10 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
         getUserReadTime();
 
+        if (!isInit) {
+            reqUnReadMsgCount();
+        }
+        isInit = false;
        /* Stack<Activity> activityStack = FrApp.getInstance().mActivityManager.getActivityStack();
         Log.e(TAG, "activityStack.size===" + activityStack.size());
         boolean mainActExist = false;//栈中是否存在MainActivity
@@ -530,14 +540,35 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                             //是否已经填写邀请码
                             boolean isInvited = data.isIs_invited();
                             String inviteCode = (String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, "");
-                            if (!isInvited) {
+                            if (!isInvited && !TextUtils.isEmpty(inviteCode)) {
                                 reqInviteCodeSubmit(inviteCode);
                             }
                             EventBus.getDefault().postSticky(data);
+
+                            reqUnReadMsgCount();
                         }
                     }
                 });
     }
+
+    /**
+     * 获取未读消息
+     */
+    private void reqUnReadMsgCount() {
+        RxHttp.get(Consts.MSG_UNREAD_API) //发送登出请求
+                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
+                .asResponse(UnReadMsgEvent.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(unread -> {
+                    if (unread.getMessage() > 0) {
+                        mTabLayout.showDot(4);
+                    } else {
+                        mTabLayout.hideMsg(4);
+                    }
+                    EventBus.getDefault().postSticky(unread);
+                });
+    }
+
 
     /**
      * 提交邀请码

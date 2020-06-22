@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,18 +8,19 @@
         android:id="@+id/express_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="120dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/btn_next_page"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/express_container"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:gravity="center"
+        android:layout_marginTop="48dp"
         android:maxLines="1"
+        android:padding="16dp"
         android:text="点击/滑动可继续阅读"
         android:textColor="@color/txt_gray_b2"
         android:textSize="16sp" />
@@ -28,7 +29,8 @@
         android:id="@+id/btn_watch_video"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
         android:gravity="center"
         android:textColor="@color/txt_gray"
         android:textSize="14sp" />
-</LinearLayout>
+</RelativeLayout>

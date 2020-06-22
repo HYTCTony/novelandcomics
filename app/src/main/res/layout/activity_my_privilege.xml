@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:overScrollMode="never"
+        android:background="@color/white"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/fl_bottom_bar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_normal">
@@ -21,6 +22,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/color_f2"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -241,6 +243,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
+                android:id="@+id/ll_content_member_combo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_16"
