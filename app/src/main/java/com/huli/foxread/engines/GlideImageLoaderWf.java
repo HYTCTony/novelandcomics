@@ -3,11 +3,11 @@ package com.huli.foxread.engines;
 import android.content.Context;
 import android.widget.ImageView;
 
-import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BannerADEntity;
-import com.huli.foxread.transforms.CenterCropRoundCornerTransform;
 import com.huli.foxread.utils.DensityUtils;
 import com.youth.banner.loader.ImageLoader;
 
@@ -28,7 +28,7 @@ public class GlideImageLoaderWf extends ImageLoader {
             //Glide 加载图片简单用法
             GlideApp.with(context)
                     .load(adEntity.getImageText())
-                    .apply(RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(DensityUtils.dp2px(context, 8))))
+                    .transform(new CenterCrop(), new RoundedCorners(DensityUtils.dp2px(context, 8)))
 //                    .placeholder(R.mipmap.banner_place_holder)
                     .error(R.mipmap.banner_place_holder)
                     .into(imageView);

@@ -140,7 +140,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         });
 
 
-
         SpannableString spannableString = new SpannableString(getString(R.string.txt_agree_login_agreement));
         spannableString.setSpan(new ClickableSpan() {
             @Override
@@ -245,7 +244,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 });
                 break;
             case R.id.tv_asBtn_login_one_click:
-//                oneClickLogin();
                 preAvoidPwd1ClickLogin();
                 break;
             default:
@@ -364,8 +362,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                             //是否已经填写邀请码
                             boolean isInvited = data.isIs_invited();
                             String inviteCode = (String) SPFUtils.get(LoginActivity.this, Common.INVITE_CODE, "");
-                            if (!isInvited && !TextUtils.isEmpty(inviteCode))
+                            if (!isInvited && !TextUtils.isEmpty(inviteCode)){
                                 reqInviteCodeSubmit(inviteCode);
+                            }
 
                             if (!TextUtils.isEmpty(data.getMobile())) {     //微信登录，且绑定手机号、 或者直接手机号登录
                                 TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)

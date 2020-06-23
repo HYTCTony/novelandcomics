@@ -2,6 +2,8 @@ package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -28,11 +31,11 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AppVersionInfo;
 import com.huli.foxread.entity.UpdateInfo;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.ui.dialogs.CommonDialog;
-import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.PackageUtils;
+import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -45,6 +48,7 @@ import androidx.core.content.ContextCompat;
 
 public class AboutUsActivity extends BaseActivity implements View.OnClickListener {
 
+    private ImageView ivLogo;
     private TextView tvCurVer;
     private TextView btnViewDetail;
     private Button btnUpdate;
@@ -71,6 +75,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         Toolbar toolbar = $(R.id.toolbar_normal);
         initToolBar(toolbar, R.string.txt_about_us);
 
+        ivLogo = $(R.id.iv_logo);
         tvCurVer = $(R.id.tv_cur_app_version);
         btnViewDetail = $(R.id.tv_asBtn_view_detail);
         btnUpdate = $(R.id.btn_update_app_version);
@@ -79,6 +84,10 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void setListener() {
+        ivLogo.setOnLongClickListener(v -> {
+            Tip.show("渠道：" + getChannel());
+            return true;
+        });
         btnViewDetail.setOnClickListener(this);
         btnUpdate.setOnClickListener(this);
     }
@@ -136,6 +145,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                 String title = "当前版本内容";
                 String message = info.toString();
                 if (TextUtils.isEmpty(message)) {
+                    Toast.makeText(this, "找不到相关信息~", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 MessageDialog.show(AboutUsActivity.this, title, message, "知道了")
@@ -158,14 +168,10 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     private UpdateInfo newVerInfo;
 
     private void loadUpgradeInfo(AppVersionInfo appVersionInfo) {
-        if (btnUpdate == null)
-            return;
-
         newVerInfo = appVersionInfo.getNewVersion();
         if (appVersionInfo.getNewVersion() == null) {
             btnUpdate.setText("已是最新版本");
             btnUpdate.setBackgroundResource(R.drawable.ripple_round_btn_gradual_bg_grey);
-            btnUpdate.setEnabled(true);
         }
 
         UpdateInfo nowVersion = appVersionInfo.getNowVersion();
@@ -185,6 +191,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     private void getCurVersionInfo() {
         OkGo.<String>post(Consts.VERSION_DETAIL_API)
                 .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
+                .params(Consts.APK_CHANNEL, getChannel())
                 .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
                 .execute(new LtbCallback(this, false) {
                     @Override
@@ -205,6 +212,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
     private void checkNewVersion() {
         OkGo.<String>post(Consts.VERSION_CHECK_API)
                 .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
+                .params(Consts.APK_CHANNEL, getChannel())
                 .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
                 .execute(new LtbCallback(this, false) {
                     @Override
@@ -214,7 +222,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                         if (entity.error_code == 0) {
                             newVerInfo = entity.getData();
                             boolean isForce = newVerInfo.getEnforce() == 1;
-                            CommonDialog.newInstance()
+                            /*CommonDialog.newInstance()
                                     .setLayoutId(R.layout.layout_custom_dialog_version_check)
                                     .setConvertListener((holder, dialog) -> {
                                         ImageView btnClose = holder.getView(R.id.iv_asBtn_close_update);
@@ -238,7 +246,27 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
                                     .setMargin(32)
                                     .setShowBottom(false)
                                     .setAnimStyle(R.style.BaseDialog)
-                                    .show(getSupportFragmentManager());
+                                    .show(getSupportFragmentManager());*/
+                            CustomDialog.show(AboutUsActivity.this, R.layout.layout_custom_dialog_version_check, (dialog, v) -> {
+                                ImageView btnClose = v.findViewById(R.id.iv_asBtn_close_update);
+                                btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
+                                NumberProgressBar progressBar = v.findViewById((R.id.numberProgressBar_download_apk));
+                                progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
+                                TextView tvVerName = v.findViewById(R.id.tv_new_version_name);
+                                tvVerName.setText(("v_" + newVerInfo.getVersionName()));
+                                TextView tvContent = v.findViewById(R.id.tv_update_info_content);
+                                tvContent.setText(newVerInfo.getContent());
+
+                                btnClose.setOnClickListener(v1 -> dialog.doDismiss());
+                                v.findViewById(R.id.versionchecklib_version_dialog_commit).setOnClickListener(v11 -> {
+                                    downloadApkTask(newVerInfo, progressBar, dialog);
+                                    if (!isForce) {
+                                        dialog.doDismiss();
+                                    }
+                                });
+                            });
+                        } else {
+                            Toast.makeText(mContext, entity.msg, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -251,7 +279,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
      * @param progressBar 进度条
      * @param dialog      更新提示框
      */
-    private void downloadApkTask(UpdateInfo updateInfo, NumberProgressBar progressBar, BaseDialog dialog) {
+    private void downloadApkTask(UpdateInfo updateInfo, NumberProgressBar progressBar, CustomDialog dialog) {
         if (updateInfo != null) {
             DownloadManager manager = DownloadManager.getInstance(this);
             if (updateInfo.getEnforce() == 1) {
@@ -273,7 +301,7 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
 
                             @Override
                             public void done(File apk) {
-                                dialog.dismiss();
+                                dialog.doDismiss();
                                 FrApp.getInstance().exitApp();
                             }
 
@@ -296,5 +324,18 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+
+    /**
+     * 统计---获取渠道名
+     */
+    private String getChannel() {
+        try {
+            PackageManager pm = getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL");
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return "";
+    }
 
 }

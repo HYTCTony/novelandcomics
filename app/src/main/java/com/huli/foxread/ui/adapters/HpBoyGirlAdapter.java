@@ -17,7 +17,7 @@ import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.multi.HpBGModuleEntity;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
-import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter2;
+import com.huli.foxread.ui.pageradapter.SpecialTopicPagerAdapter;
 import com.huli.foxread.ui.widget.WrapViewPager;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
@@ -97,7 +97,7 @@ public class HpBoyGirlAdapter extends BaseMultiItemQuickAdapter<HpBGModuleEntity
                 vpSpt.setPageMargin(DensityUtils.dp2px(getContext(), 8));
                 List<BookEntity> specialList = item.getNovel();
                 vpSpt.setOffscreenPageLimit(specialList.size());
-                SpecialTopicPagerAdapter2 stPagerAdapter = new SpecialTopicPagerAdapter2(getContext(), specialList);
+                SpecialTopicPagerAdapter stPagerAdapter = new SpecialTopicPagerAdapter(getContext(), specialList);
                 vpSpt.setAdapter(stPagerAdapter);
                 stPagerAdapter.setmOnPagerItemClickListener(bookID -> {
                     Intent intent = new Intent(getContext(), BookDetailsActivity.class);

@@ -4,11 +4,14 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
-import com.huli.foxread.transforms.CenterCropRoundCornerTransform;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RawRes;
 
 public class GlideUtil {
 
@@ -35,7 +38,7 @@ public class GlideUtil {
      * @param view
      * @param resId
      */
-    public static void loadCircle(Context context, ImageView view, int resId) {
+    public static void loadCircle(Context context, ImageView view, @RawRes @DrawableRes int resId) {
         GlideApp.with(context)
                 .load(resId)
                 .placeholder(R.mipmap.holder_headimg)
@@ -88,10 +91,12 @@ public class GlideUtil {
         }
         //设置图片圆角角度
         if (radius > 0) {
-            RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//            RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//            RequestOptions transform = new RequestOptions().transform(new CenterCrop(), new RoundedCorners(radius));
             GlideApp.with(context)
                     .load(url)
-                    .apply(options)
+//                    .apply(transform)
+                    .transform(new CenterCrop(), new RoundedCorners(radius))
                     .placeholder(R.mipmap.img_holder_rect)
                     .error(R.mipmap.img_holder_rect)
                     .into(view);
@@ -113,7 +118,7 @@ public class GlideUtil {
      * @param resId   资源图片
      */
 
-    public static void loadRoundRect(Context context, ImageView view, int resId) {
+    public static void loadRoundRect(Context context, ImageView view, @RawRes @DrawableRes int resId) {
         loadRoundRect(context, view, resId, DensityUtils.dp2px(context, 3));
     }
 
@@ -127,14 +132,16 @@ public class GlideUtil {
      * @param radius  圆角度数
      */
 
-    public static void loadRoundRect(Context context, ImageView view, int resId, int radius) {
+    public static void loadRoundRect(Context context, ImageView view, @RawRes @DrawableRes int resId, int radius) {
         if (view == null) {
             return;
         }
-        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//        RequestOptions transform = new RequestOptions().transform(new CenterCrop(), new RoundedCorners(radius));
         GlideApp.with(context)
                 .load(resId)
-                .apply(options)
+//                .apply(transform)
+                .transform(new CenterCrop(), new RoundedCorners(radius))
 //                .transition(DrawableTransitionOptions.withCrossFade(100))//淡入淡出
                 .placeholder(R.mipmap.img_holder_rect)
                 .error(R.mipmap.img_holder_rect)
@@ -168,10 +175,12 @@ public class GlideUtil {
             return;
         }
         //设置图片圆角角度
-        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//        RequestOptions transform = new RequestOptions().transform(new CenterCrop(), new RoundedCorners(radius));
         GlideApp.with(context)
                 .load(url)
-                .apply(options)
+//                .apply(transform)
+                .transform(new CenterCrop(), new RoundedCorners(radius))
                 .placeholder(R.mipmap.img_holder_square)
                 .error(R.mipmap.img_holder_square)
                 .into(view);
@@ -185,7 +194,7 @@ public class GlideUtil {
      * @param resId   资源图片
      */
 
-    public static void loadRoundSquare(Context context, ImageView view, int resId) {
+    public static void loadRoundSquare(Context context, ImageView view, @RawRes @DrawableRes int resId) {
         loadRoundSquare(context, view, resId, DensityUtils.dp2px(context, 3));
     }
 
@@ -198,14 +207,16 @@ public class GlideUtil {
      * @param radius  圆角度数
      */
 
-    public static void loadRoundSquare(Context context, ImageView view, int resId, int radius) {
+    public static void loadRoundSquare(Context context, ImageView view, @RawRes @DrawableRes int resId, int radius) {
         if (view == null) {
             return;
         }
-        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(radius));
+//        RequestOptions transform = new RequestOptions().transform(new CenterCrop(), new RoundedCorners(radius));
         GlideApp.with(context)
                 .load(resId)
-                .apply(options)
+//                .apply(transform)
+                .transform(new CenterCrop(), new RoundedCorners(radius))
                 .placeholder(R.mipmap.img_holder_square)
                 .error(R.mipmap.img_holder_square)
                 .into(view);

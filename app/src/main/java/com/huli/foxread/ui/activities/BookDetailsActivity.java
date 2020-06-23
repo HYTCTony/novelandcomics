@@ -386,14 +386,19 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
 
                             //  版权说明
                             String copyRightStr = bookBean.getCopyright_name();
-                            SpannableString spannableString = new SpannableString(getString(R.string.tips_copyright_colon) + copyRightStr);
-                            ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(BookDetailsActivity.this, R.color.col_red));
-                            StyleSpan styleSpan_B = new StyleSpan(Typeface.BOLD);
-                            AbsoluteSizeSpan aSize = new AbsoluteSizeSpan(DensityUtils.sp2px(BookDetailsActivity.this, 15));
-                            spannableString.setSpan(colorSpan, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            spannableString.setSpan(styleSpan_B, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            spannableString.setSpan(aSize, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-                            tvCopyright.setText(spannableString);
+                            if (TextUtils.isEmpty(copyRightStr)) {
+                                tvCopyright.setVisibility(View.GONE);
+                            } else {
+                                tvCopyright.setVisibility(View.VISIBLE);
+                                SpannableString spannableString = new SpannableString(getString(R.string.tips_copyright_colon) + copyRightStr);
+                                ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(BookDetailsActivity.this, R.color.col_red));
+                                StyleSpan styleSpan_B = new StyleSpan(Typeface.BOLD);
+                                AbsoluteSizeSpan aSize = new AbsoluteSizeSpan(DensityUtils.sp2px(BookDetailsActivity.this, 15));
+                                spannableString.setSpan(colorSpan, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                spannableString.setSpan(styleSpan_B, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                spannableString.setSpan(aSize, 0, 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                                tvCopyright.setText(spannableString);
+                            }
 
                             if (bookBean.getIs_exist_bookshelf() == 1) {
                                 isCollected = true;

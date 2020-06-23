@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -21,6 +23,7 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -33,10 +36,9 @@ import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.UpdateInfo;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
+import com.huli.foxread.entity.eventbus.UnReadMsgEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.ui.dialogs.CommonDialog;
-import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
 import com.huli.foxread.ui.fragments.MainBookrackFragment;
@@ -49,9 +51,11 @@ import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
+import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.sh.sdk.shareinstall.ShareInstall;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
@@ -76,7 +80,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
     private long mExitFirstTime;  //用于暂存第一次按返回键的时间
 
-    private CommonTabLayout mTabLayout;
+    public CommonTabLayout mTabLayout;
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private FragmentManager fragmentManager;
 
@@ -86,8 +90,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private MainWelfareFragment2 welfareFragment;
     private MainMineFragment mineFragment;
 
-    //预取号成功标记
-    private boolean flagPreGetSuccess;
+    private boolean isInit = true;
 
     @Override
     protected void setStatusBar() {
@@ -129,8 +132,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void doBusiness(Context mContext) {
-        switch2Bookstore();
-        reqUserInfo();
+//        switch2Bookstore();
+        mTabLayout.postDelayed(this::switch2Bookstore, 120);        //延迟初始化，MainActivity启动时间由2225ms变成676ms
 
         // 获取唤醒参数
         ShareInstall.getInstance().getWakeUpParams(getIntent(), wakeUpListener);
@@ -153,8 +156,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         preAvoidPwd1ClickLogin();
 
         /*友盟推送消息*/
-        PushAgent pushAgent = PushAgent.getInstance(this);
-        pushAgent.setMessageHandler(new UmengMessageHandler() {
+        PushAgent.getInstance(this).setMessageHandler(new UmengMessageHandler() {
             @Override
             public void dealWithCustomMessage(Context context, UMessage uMessage) {
                 Log.e(TAG, "CustomMessage===" + uMessage.custom);
@@ -185,6 +187,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 //              Toast.makeText(mContext, "OpenInstall : installData_install = " + appData.toString(), Toast.LENGTH_LONG).show();
 //          }
 //       });
+
+
+        reqUserInfo();
 
         checkNewVersion();
     }
@@ -220,7 +225,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             @Override
             public void onPreGetNumberSuccess(String secureMobile) {
                 Log.e(TAG, "预取号成功：" + secureMobile);
-                flagPreGetSuccess = true;
             }
 
             @Override
@@ -231,21 +235,18 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     }
 
     // 注意：SDK调用getWakeUpParams方法获取参数是异步操作，请确保在onGetWakeUpFinish回调中拿到参数后才去处理自己的业务逻辑
-    private AppGetWakeUpListener wakeUpListener = new AppGetWakeUpListener() {
-        @Override
-        public void onGetWakeUpFinish(String info) {
-            // 客户端获取到的参数是json字符串格式
-            Log.d("ShareInstall", "info = " + info);
-            try {
-                org.json.JSONObject object = new org.json.JSONObject(info);
-                // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
-                String channel = object.optString("channel");
-                String invateCode = object.optString("my_invite_code");
-                if (!ShareInstall.getInstance().isFirstInstall())
-                    SPFUtils.put(MainActivity.this, Common.INVITE_CODE, invateCode);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    private AppGetWakeUpListener wakeUpListener = info -> {
+        // 客户端获取到的参数是json字符串格式
+        Log.d("ShareInstall", "info = " + info);
+        try {
+            org.json.JSONObject object = new org.json.JSONObject(info);
+            // 通过该方法拿到设置的渠道值，剩余值为自定义的其他参数
+            String channel = object.optString("channel");
+            String invateCode = object.optString("my_invite_code");
+            if (!ShareInstall.getInstance().isFirstInstall())
+                SPFUtils.put(MainActivity.this, Common.INVITE_CODE, invateCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     };
 
@@ -256,6 +257,10 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
         getUserReadTime();
 
+        if (!isInit) {
+            reqUnReadMsgCount();
+        }
+        isInit = false;
        /* Stack<Activity> activityStack = FrApp.getInstance().mActivityManager.getActivityStack();
         Log.e(TAG, "activityStack.size===" + activityStack.size());
         boolean mainActExist = false;//栈中是否存在MainActivity
@@ -535,14 +540,35 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                             //是否已经填写邀请码
                             boolean isInvited = data.isIs_invited();
                             String inviteCode = (String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, "");
-                            if (!isInvited) {
+                            if (!isInvited && !TextUtils.isEmpty(inviteCode)) {
                                 reqInviteCodeSubmit(inviteCode);
                             }
                             EventBus.getDefault().postSticky(data);
+
+                            reqUnReadMsgCount();
                         }
                     }
                 });
     }
+
+    /**
+     * 获取未读消息
+     */
+    private void reqUnReadMsgCount() {
+        RxHttp.get(Consts.MSG_UNREAD_API) //发送登出请求
+                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
+                .asResponse(UnReadMsgEvent.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(unread -> {
+                    if (unread.getMessage() > 0) {
+                        mTabLayout.showDot(4);
+                    } else {
+                        mTabLayout.hideMsg(4);
+                    }
+                    EventBus.getDefault().postSticky(unread);
+                });
+    }
+
 
     /**
      * 提交邀请码
@@ -615,31 +641,24 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                         if (entity.error_code == 0) {
                             UpdateInfo updateInfo = entity.getData();
                             boolean isForce = updateInfo.getEnforce() == 1;
-                            CommonDialog.newInstance()
-                                    .setLayoutId(R.layout.layout_custom_dialog_version_check)
-                                    .setConvertListener((holder, dialog) -> {
-                                        ImageView btnClose = holder.getView(R.id.iv_asBtn_close_update);
-                                        btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
-                                        NumberProgressBar progressBar = holder.getView(R.id.numberProgressBar_download_apk);
-                                        progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
-                                        holder.setText(R.id.tv_new_version_name, "v_" + updateInfo.getVersionName());
-                                        holder.setText(R.id.tv_update_info_content, updateInfo.getContent());
+                            CustomDialog.show(MainActivity.this, R.layout.layout_custom_dialog_version_check, (dialog, v) -> {
+                                ImageView btnClose = v.findViewById(R.id.iv_asBtn_close_update);
+                                btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
+                                NumberProgressBar progressBar = v.findViewById((R.id.numberProgressBar_download_apk));
+                                progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
+                                TextView tvVerName = v.findViewById(R.id.tv_new_version_name);
+                                tvVerName.setText(("v_" + updateInfo.getVersionName()));
+                                TextView tvContent = v.findViewById(R.id.tv_update_info_content);
+                                tvContent.setText(updateInfo.getContent());
 
-                                        btnClose.setOnClickListener(v -> dialog.dismiss());
-                                        holder.setOnClickListener(R.id.versionchecklib_version_dialog_commit, v -> {
-                                            downloadApkTask(updateInfo, progressBar, dialog);
-                                            if (!isForce) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                    })
-                                    .setDimAmout(0.5f)
-                                    .setOutCancel(!isForce)
-                                    .setBackCancel(!isForce)
-                                    .setMargin(32)
-                                    .setShowBottom(false)
-                                    .setAnimStyle(R.style.BaseDialog)
-                                    .show(getSupportFragmentManager());
+                                btnClose.setOnClickListener(v1 -> dialog.doDismiss());
+                                v.findViewById(R.id.versionchecklib_version_dialog_commit).setOnClickListener(v11 -> {
+                                    downloadApkTask(updateInfo, progressBar, dialog);
+                                    if (!isForce) {
+                                        dialog.doDismiss();
+                                    }
+                                });
+                            });
                         }
                     }
                 });
@@ -652,7 +671,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * @param progressBar 进度条
      * @param dialog      更新提示框
      */
-    private void downloadApkTask(UpdateInfo updateInfo, NumberProgressBar progressBar, BaseDialog dialog) {
+    private void downloadApkTask(UpdateInfo updateInfo, NumberProgressBar progressBar, CustomDialog dialog) {
         if (updateInfo != null) {
             DownloadManager manager = DownloadManager.getInstance(MainActivity.this);
             if (updateInfo.getEnforce() == 1) {
@@ -674,7 +693,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
                             @Override
                             public void done(File apk) {
-                                dialog.dismiss();
+                                dialog.doDismiss();
                                 FrApp.getInstance().exitApp();
                             }
 

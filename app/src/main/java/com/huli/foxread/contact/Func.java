@@ -127,6 +127,7 @@ public interface Func {
      * username---用户名
      * avatar---头像
      * gender---性别(0=男,1=女)
+     * like---阅读偏好(1=男性向,2=女性向)
      */
     String USER_PROFILE = "/user/profile";
 
@@ -140,6 +141,28 @@ public interface Func {
      * page_size (Y）--- 页数据量,默认15
      */
     String MSG_LIST = "/message/read";
+
+    /**
+     * 用途：未读消息数量(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String MSG_UNREAD = "/message/amount";
+
+    /**
+     * 用途：msg标记为已读(GET)
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 消息id,多个用逗号隔开
+     */
+    String MSG_MARKED_READ = "/message/update";
+
+    /**
+     * 用途：msg全部标记为已读(GET)
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String MSG_MARKED_ALL_READ = "/message/updateAll";
 
 
     /**

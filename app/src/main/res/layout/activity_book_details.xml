@@ -49,7 +49,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="ContentDescription"
-                    tools:src="@mipmap/img_holder_rect" />
+                    android:src="@mipmap/img_holder_rect" />
 
                 <TextView
                     android:id="@+id/tv_hot_recommend_flag"

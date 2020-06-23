@@ -44,7 +44,7 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
     @Override
     protected void convert(@NonNull BaseViewHolder holder, BookReview bookReview) {
         GlideUtil.loadCircle(getContext(), holder.getView(R.id.iv_reviewer_headImg), bookReview.getHttp_avatar());
-        holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUser_id()));
+        holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUsername()));
         TextView tvContent = holder.getView(R.id.tv_review_content);
         holder.setText(R.id.tv_review_time, DateTimeUtil.formatDateTime(bookReview.getCreatetime() * 1000, DateTimeUtil.DF_YYYY_MM_DD));
 

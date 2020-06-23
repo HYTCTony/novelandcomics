@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,7 +22,6 @@ import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
-import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
@@ -32,7 +32,6 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.contact.CsjAdsCode;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
 import com.huli.foxread.entity.multi.BookShelfOrADsMultEntity;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.MainActivity;
@@ -79,7 +78,6 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class MainBookrackFragment extends BaseFragment implements OnItemLongClickListener, OnItemClickListener, OnRefreshListener {
 
-    private AppBarLayout appBarLayout;
     private Toolbar mToolbar;
     private SmartRefreshLayout layout;
     private RecyclerView recyclerView;
@@ -87,14 +85,16 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     private CardView cardSpecialRecommend;
     private ImageView ivookCoverPush;
-    private TextView tvBookNamePush, tvBookIntroPush, tvTotalReadingTimeToday, tvAsBtnSignIngGold;
+    private TextView tvBookNamePush, tvBookIntroPush;
 
     /*书架数据*/
-    private List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
+//    private List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
 
     private String specialBookId;
 
     private TTAdNative mTTAdNative;
+
+    private long lastReqTime;       //上次获取书架数据的时间
 
     @Override
     public int bindLayout() {
@@ -119,21 +119,19 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         ((AppCompatActivity) mActivity).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
 
-        appBarLayout = $(view, R.id.appBarLayout_bookrack);
-
-        cardSpecialRecommend = $(view, R.id.card_special_recommend);
-        tvTotalReadingTimeToday = $(view, R.id.tv_total_reading_time_today);
-        tvAsBtnSignIngGold = $(view, R.id.tv_asBtn_sign_in_4_gold);
-        ivookCoverPush = $(view, R.id.iv_book_cover_push);
-        tvBookNamePush = $(view, R.id.tv_book_name_push);
-        tvBookIntroPush = $(view, R.id.tv_book_introduction_push);
-
         layout = $(view, R.id.smart);
         layout.setDragRate(1);
         recyclerView = $(view, R.id.recyclerView_my_bookrack);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         rackAdapter = new BookRackAdapter2();
         recyclerView.setAdapter(rackAdapter);
+        View headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_book_rack, recyclerView, false);
+        rackAdapter.setHeaderView(headView);
+
+        cardSpecialRecommend = $(headView, R.id.card_special_recommend);
+        ivookCoverPush = $(headView, R.id.iv_book_cover_push);
+        tvBookNamePush = $(headView, R.id.tv_book_name_push);
+        tvBookIntroPush = $(headView, R.id.tv_book_introduction_push);
     }
 
     @Override
@@ -143,7 +141,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         layout.setOnRefreshListener(this);
         layout.setEnableLoadMore(false);
 
-        tvAsBtnSignIngGold.setOnClickListener(v -> startActivity(new Intent(mActivity, SignInActivity.class)));
         cardSpecialRecommend.setOnClickListener(v -> {
             if (TextUtils.isEmpty(specialBookId)) {
                 Toast.makeText(mActivity, "获取书籍失败！", Toast.LENGTH_SHORT).show();
@@ -187,11 +184,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
             mToolbar.setTitle(event.getUsername());
         }
         reqGetBooks();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onReadingTimeEvent(ReadingTimeEvent event) {
-        tvTotalReadingTimeToday.setText(event.getReadMin());
     }
 
     @Override
@@ -289,10 +281,10 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     /**
      * 控制appbar的滑动
-     *
-     * @param isScroll true 允许滑动 false 禁止滑动
+     * <p>
+     * true 允许滑动 false 禁止滑动
      */
-    private void banAppBarScroll(boolean isScroll) {
+    /*private void banAppBarScroll(boolean isScroll) {
         View mAppBarChildAt = appBarLayout.getChildAt(0);
         AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
         if (isScroll) {
@@ -301,8 +293,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         } else {
             mAppBarParams.setScrollFlags(0);
         }
-    }
-
+    }*/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -323,6 +314,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_sign_in:
+                startActivity(new Intent(mActivity, SignInActivity.class));
+                break;
             case R.id.action_history:
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
                 break;
@@ -552,5 +546,5 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                 });
     }
 
-    private long lastReqTime;
+
 }

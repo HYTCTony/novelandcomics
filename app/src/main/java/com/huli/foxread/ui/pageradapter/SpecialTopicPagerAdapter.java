@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookEntity;
-import com.huli.foxread.transforms.CenterCropRoundCornerTransform;
 import com.huli.foxread.utils.DensityUtils;
 
 import java.util.List;
@@ -19,12 +19,12 @@ import java.util.List;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-public class SpecialTopicPagerAdapter2 extends PagerAdapter {
+public class SpecialTopicPagerAdapter extends PagerAdapter {
     private List<BookEntity> mList;
     private LayoutInflater layoutInflater;
     private Context context;
 
-    public SpecialTopicPagerAdapter2(Context context, List<BookEntity> list) {
+    public SpecialTopicPagerAdapter(Context context, List<BookEntity> list) {
         super();
         this.context = context;
         this.mList = list;
@@ -65,10 +65,9 @@ public class SpecialTopicPagerAdapter2 extends PagerAdapter {
 
         ImageView ivImg = inflate.findViewById(R.id.iv_st_img);
         //设置图片圆角角度
-        RequestOptions options = RequestOptions.bitmapTransform(new CenterCropRoundCornerTransform(DensityUtils.dp2px(context, 4)));
         GlideApp.with(context)
                 .load(data.getHttp_image())
-                .apply(options)
+                .transform(new CenterCrop(), new RoundedCorners(DensityUtils.dp2px(context, 4)))
                 .placeholder(R.mipmap.img_holder_special_topic)
                 .error(R.mipmap.img_holder_special_topic)
                 .into(ivImg);

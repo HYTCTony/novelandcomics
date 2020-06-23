@@ -51,6 +51,7 @@
     <color name="txt_white">#ffffff</color>
     <color name="txt_dark_gold">#daaa47</color>
     <color name="txt_faint_yellow">#F3DFA7</color>
+    <color name="txt_col_life_member">#FFE4BF</color>
 
     <!--common-->
     <color name="translucent">#99343434</color>

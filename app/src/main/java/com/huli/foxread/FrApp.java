@@ -22,6 +22,7 @@ import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qq.e.comm.managers.GDTADManager;
+import com.qq.gdt.action.GDTAction;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
@@ -94,8 +95,6 @@ public class FrApp extends Application implements ActivityState {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
-        //放在其他库初始化前
-//        SpiderMan.init(this);
 
         RxHttpManager.init(this);
         initOkgo();  //okgo
@@ -142,8 +141,11 @@ public class FrApp extends Application implements ActivityState {
         //穿山甲SDK初始化
         //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
         TTAdManagerHolder.init(this);
+
         //腾讯广告初始化
         GDTADManager.getInstance().initWith(this, "207010113294");
+        //广点通数据上报
+        GDTAction.init(this, "1110534603", "d1522e4f9d76fb2f910b15527a82efd4", getChannel());
     }
 
 

@@ -3,7 +3,6 @@ package com.huli.foxread.interceptors;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -55,9 +54,8 @@ public class TokenInterceptor implements Interceptor {
 
         //不拦截获取token的方法
         String url = request.url().toString();
-        if (url.contains(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API) || url.contains(Consts.ADS_TAIL_API)
-                || url.contains(Consts.USER_MOBILE_LOGIN_API) || url.contains(Consts.USER_LOGOUT_API)
-                || (Consts.USERS_INFO_API + "_launch").equals(request.tag())) {
+        if (url.contains(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API) || url.contains(Consts.USER_MOBILE_LOGIN_API)
+                || url.contains(Consts.USER_LOGOUT_API) || (Consts.USERS_INFO_API + "_launch").equals(request.tag())) {
             return response;
         }
 
@@ -97,7 +95,7 @@ public class TokenInterceptor implements Interceptor {
                 String result = buffer.clone().readString(charset);
 
                 JSONObject jsonObject = JSONObject.parseObject(result);
-                if(jsonObject==null){
+                if (jsonObject == null) {
                     return response;
                 }
                 int errorCode = jsonObject.getIntValue("error_code");

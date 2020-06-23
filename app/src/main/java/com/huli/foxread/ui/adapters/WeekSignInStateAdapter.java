@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
-import com.huli.foxread.entity.tab.SignInDay;
 import com.huli.foxread.utils.DateTimeUtil;
 
 import java.util.Calendar;
@@ -54,7 +53,7 @@ public class WeekSignInStateAdapter extends BaseQuickAdapter<Integer, BaseViewHo
         holder.setText(R.id.tv_reward, String.valueOf(data));
     }
 
-    public void setSignInChange(boolean isSign){
+    public void setSignInChange(boolean isSign) {
         isSignInToday = isSign;
         notifyItemChanged(0);
     }

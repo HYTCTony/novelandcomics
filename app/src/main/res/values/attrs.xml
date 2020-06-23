@@ -121,4 +121,13 @@
         <attr name="overlayColor" format="color"/>
     </declare-styleable>
 
+
+    <!--  RadioButton选中缩放动画  -->
+    <declare-styleable name="FixedAnimatedRadioButton">
+        <attr name="animation_open" format="boolean"/>
+        <attr name="max_scale" format="float"/>
+        <attr name="min_scale" format="float"/>
+    </declare-styleable>
+
+
 </resources>

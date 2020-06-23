@@ -49,11 +49,8 @@ import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.SignInActivity;
 import com.huli.foxread.ui.adapters.WelfareMissionAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
-import com.huli.foxread.ui.dialogs.LoadingDialog;
-import com.huli.foxread.ui.dialogs.base.BaseDialog;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
@@ -166,7 +163,6 @@ public class MainWelfareFragment extends BaseFragment implements OnBannerListene
             }
         });
     }
-
 
 
     @Override

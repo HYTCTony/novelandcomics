@@ -89,7 +89,16 @@ public class UserInfoCache {
         return info;
     }
 
-    public static FUser saveIsVip(Context context, boolean flagIsVip) {
+    public static FUser saveSuperVip(Context context, int superVip) {
+        if (info == null) {
+            info = getUserInfo(context);
+        }
+        info.setSuper_vip(superVip);
+        saveUserInfo(context, info);
+        return info;
+    }
+
+  public static FUser saveIsVip(Context context, boolean flagIsVip) {
         if (info == null) {
             info = getUserInfo(context);
         }
@@ -130,6 +139,15 @@ public class UserInfoCache {
             info = getUserInfo(context);
         }
         info.setIs_wx(flagBindWx);
+        saveUserInfo(context, info);
+        return info;
+    }
+
+    public static FUser savePreference(Context context, int preference) {
+        if (info == null) {
+            info = getUserInfo(context);
+        }
+        info.setLike(preference);
         saveUserInfo(context, info);
         return info;
     }
@@ -191,6 +209,13 @@ public class UserInfoCache {
         return info.isIs_vip();
     }
 
+    public static int getSuperVip(Context context) {
+        if (info == null) {
+            info = getUserInfo(context);
+        }
+        return info.getSuper_vip();
+    }
+
     public static long getVipEndtime(Context context) {
         if (info == null) {
             info = getUserInfo(context);
@@ -217,6 +242,13 @@ public class UserInfoCache {
             info = getUserInfo(context);
         }
         return info.isIs_wx();
+    }
+
+    public static int getPreference(Context context) {
+        if (info == null) {
+            info = getUserInfo(context);
+        }
+        return info.getLike();
     }
 
 

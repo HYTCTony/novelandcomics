@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_sign_in"
+        android:icon="@drawable/ic_sign_in_24dp"
+        android:orderInCategory="80"
+        android:title="@string/txt_sign_in_for_gold"
+        app:showAsAction="always" />
+
     <!--搜索菜单-->
     <item
         android:id="@+id/action_history"
         android:icon="@drawable/ic_gray_clock"
         android:orderInCategory="80"
         android:title="历史"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_gray"
         android:orderInCategory="80"
         android:title="搜索"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 </menu>

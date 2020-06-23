@@ -26,8 +26,8 @@ android {
             //告知RxHttp你依赖的okhttp版本，目前已适配 v3.12.0 - v4.7.2版本
             annotationProcessorOptions {
                 arguments = [
-                        rxhttp_okhttp: '4.7.2',
-                        rxhttp_rxjava: 'rxjava3', //告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
+                        rxhttp_okhttp : '4.7.2',
+                        rxhttp_rxjava : 'rxjava3', //告知RxHttp你依赖的rxjava版本，可传入rxjava2、rxjava3
                         rxhttp_package: 'com.huli.foxread'   //指定RxHttp相关类的生成路径，即包名
                 ]
             }
@@ -40,8 +40,8 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("C:/Users/hp/.android/debug.keystore")
-//            storeFile file("C:/Users/Lili/.android/debug.keystore")
+//            storeFile file("C:/Users/hp/.android/debug.keystore")
+            storeFile file("C:/Users/Lili/.android/debug.keystore")
 //            storePassword "android"
 //            keyAlias "androiddebugkey"
 //            keyPassword "android"
@@ -51,8 +51,8 @@ android {
 //            keyPassword "hytc1688"
         }
         release {// 自己的签名文件
-//            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
-            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
+            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+//            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
             storePassword "hytc1688"
             keyAlias "hytc"
             keyPassword "hytc1688"
@@ -104,12 +104,13 @@ android {
     //多渠道打包支持
     productFlavors {
         Invite {}//自己的邀请链接下载
-        Alpha {
-//            applicationId "info.xinfu.o2o"//设置包名
-//            versionCode 2
-//            versionName "3.1"//设置版本号
-        }//自己打包测试使用
+        /* Aalpha {
+ //            applicationId "info.xinfu.o2o"//设置包名
+ //            versionCode 2
+ //            versionName "3.1"//设置版本号
+         }//自己打包测试使用*/
         Tencent {}//投放应用宝市场
+        TencentGDT {}//投放腾讯广点通
         Baidu {
 //            versionCode 1
 //            versionName "3.0"
@@ -180,7 +181,8 @@ dependencies {
     //RxHttp
     implementation 'com.ljx.rxlife:rxlife-coroutine:2.0.0' //管理协程生命周期，页面销毁，关闭请求
     implementation 'com.ljx.rxhttp:rxhttp:2.2.7'
-    annotationProcessor 'com.ljx.rxhttp:rxhttp-compiler:2.2.7' //生成RxHttp类，非kotlin项目，请使用annotationProcessor代替kapt
+    annotationProcessor 'com.ljx.rxhttp:rxhttp-compiler:2.2.7'
+    //生成RxHttp类，非kotlin项目，请使用annotationProcessor代替kapt
     implementation 'com.squareup.okhttp3:okhttp:4.7.2' //rxhttp v2.2.2版本起，需要手动依赖okhttp
 
     //rxjava3
@@ -251,12 +253,21 @@ dependencies {
     //App升级
     implementation 'com.azhon:appupdateX:2.9.0'
 
+    //js交互
     implementation 'com.github.lzyzsd:jsbridge:1.0.4'
 
+    //可拖拽徽章空间
+    implementation 'cn.bingoogolapple:bga-badgeview-api:1.1.8'
+    annotationProcessor "cn.bingoogolapple:bga-badgeview-compiler:1.1.8"
+
     //********************友盟************************
-    implementation 'com.umeng.umsdk:common:2.2.5'
-//    implementation  'com.umeng.umsdk:utdid:1.1.5.3'
-    implementation 'com.umeng.umsdk:analytics:8.1.6'       //统计
+    //基础组件库依赖(必须)
+    implementation 'com.umeng.umsdk:common:9.1.0'       //基础和移动统计合二为一
+//    implementation 'com.umeng.umsdk:utdid:1.5.2'      //跟支付宝支付冲突
+
+    implementation 'com.umeng.umsdk:asms:1.1.3'         //这个有啥用？（没有就会弹SDK初始化失败的吐司）
+    implementation 'com.umeng.umsdk:crash:0.0.4'         //异常捕捉
+
     implementation 'com.umeng.umsdk:push:6.0.1'
     //小米Push通道
     implementation 'com.umeng.umsdk:xiaomi-push:3.6.17'
@@ -275,8 +286,7 @@ dependencies {
     implementation project(path: ':flycoTabLayout_lib')
     //Alipay支付
 //    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
-    //openinstall
-//    implementation files('libs/OpenInstall_v2.3.1.jar')
+
 //    implementation(name: 'CTAccountSdk_HY_v3.7.2_all', ext: 'aar')
 //    implementation(name: 'ShareInstall_v1.2.6', ext: 'aar')
 //    implementation(name: 'ShareInstallAutoLogin_v1.2.6', ext: 'aar')

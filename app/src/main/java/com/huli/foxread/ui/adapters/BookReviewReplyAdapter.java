@@ -38,7 +38,7 @@ public class BookReviewReplyAdapter extends BaseQuickAdapter<BookReview, BaseVie
     @Override
     protected void convert(@NonNull BaseViewHolder holder, BookReview bookReview) {
         GlideUtil.loadCircle(getContext(), holder.getView(R.id.iv_replier_headImg), bookReview.getHttp_avatar());
-        holder.setText(R.id.iv_replier_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUser_id()));
+        holder.setText(R.id.iv_replier_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUsername()));
         holder.setText(R.id.tv_reply_content, bookReview.getContent());
         holder.setText(R.id.tv_reply_time, DateTimeUtil.formatDateTime(bookReview.getCreatetime() * 1000, DateTimeUtil.DF_YYYY_MM_DD));
 

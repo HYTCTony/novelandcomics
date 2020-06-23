@@ -16,23 +16,27 @@ import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.ebsevent.NetworkChangeEvent;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
 import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
+import com.huli.foxread.entity.eventbus.UnReadMsgEvent;
 import com.huli.foxread.entity.eventbus.VipChargerEvent;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InviteFriendsActivity2;
 import com.huli.foxread.ui.activities.LoginActivity;
+import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
 import com.huli.foxread.ui.activities.MyGoldCoinActivity;
 import com.huli.foxread.ui.activities.MyPrivilegeActivity;
+import com.huli.foxread.ui.activities.ReadingPreferenceActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SettingActivity;
 import com.huli.foxread.ui.activities.SignInActivity;
@@ -42,10 +46,12 @@ import com.huli.foxread.ui.adapters.WelfareZoneMineAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.decoration.HorizontalItemDecoration;
 import com.huli.foxread.utils.ClickJumpUtil;
+import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -55,9 +61,12 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import cn.bingoogolapple.badgeview.BGABadgeTextView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 
 public class MainMineFragment extends BaseFragment implements View.OnClickListener, OnItemClickListener {
@@ -66,11 +75,15 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
     private Button btnLogin;
 
     private ImageView ivUserHeadImg;
+    private ImageView ivHeadImgLmVipSign;       //终身会员标志
     private TextView tvNickname, tvUserId;
     private TextView tvMyGoldCoin, tvTodayGoldCoin, tvTodayReadingTime;
 
+    private ConstraintLayout ctlVipCard;
     private TextView tvHuliVip, tvVipAdvantage;
     private TextView btnOpenVip;
+
+    private BGABadgeTextView bgabadge;//未读消息
 
     private RecyclerView rvWelfareZone;
     private WelfareZoneMineAdapter wzAdapter;
@@ -94,6 +107,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         initRecyWelfareZone(view);
 
         ivUserHeadImg = $(view, R.id.iv_user_headImg);
+        ivHeadImgLmVipSign = $(view, R.id.iv_user_headImg_life_member_vip_sign);
         tvNickname = $(view, R.id.tv_user_nickname);
         tvUserId = $(view, R.id.tv_user_id);
         $(view, R.id.ll_my_gold_coin_mine).setOnClickListener(this);
@@ -114,6 +128,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         });
 
         btnLogin = $(view, R.id.btn_login_mine);
+        ctlVipCard = $(view, R.id.ctl_content_vip_card);
         tvHuliVip = $(view, R.id.tv_huli_vip_member);
         tvVipAdvantage = $(view, R.id.tv_huli_vip_advantage_tip);
         btnOpenVip = $(view, R.id.tv_asBtn_open_membership_account);
@@ -121,16 +136,19 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         $(view, R.id.ll_asBtn_sign_in_4_gold).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_my_privilege).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_msg_notify).setOnClickListener(this);
+        $(view, R.id.rtl_asBtn_reading_preference).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_reading_record).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_invite_friends).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_cash_withdrawal).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_mode_adolescent).setOnClickListener(this);
         $(view, R.id.rtl_asBtn_help_and_feedback).setOnClickListener(this);
         $(view, R.id.iv_asBtn_setting_mine).setOnClickListener(this);
+        bgabadge = $(view, R.id.bgabadge_msg_count);
 
         FUser userInfo = UserInfoCache.getUserInfo(mActivity);
         changeUIbyUserInfo(userInfo);
     }
+
 
     @Override
     public void setListener() {
@@ -138,6 +156,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         btnOpenVip.setOnClickListener(this);
         ivUserHeadImg.setOnClickListener(this);
         wzAdapter.setOnItemClickListener(this);
+
+        bgabadge.setDragDismissDelegate(badge -> {
+            reqSetMsgAllRead();
+            ((MainActivity)mActivity).mTabLayout.hideMsg(4);
+        });
     }
 
     @Override
@@ -176,7 +199,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onVipChargerEvent(VipChargerEvent event) {
-        changeUIbyIsVip(event.isBecomingVip());
+        changeUIbyIsVip(UserInfoCache.getSuperVip(mActivity), event.isBecomingVip());
         EventBus.getDefault().removeStickyEvent(event);
     }
 
@@ -192,11 +215,17 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvTodayReadingTime.setText(event.getReadMin());
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNetworkChangeEvent(NetworkChangeEvent event) {    //接到网络状态变化通知
-        if (event.isConnected && isVisible()) {
-            reqMineWelfareZone();
+    /**
+     * 未读消息
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onUnReadMsgEvent(UnReadMsgEvent event) {
+        if (event.getMessage() > 0) {
+            bgabadge.showTextBadge("" + event.getMessage());
+        } else {
+            bgabadge.hiddenBadge();
         }
+        EventBus.getDefault().removeStickyEvent(event);
     }
 
     /**
@@ -214,29 +243,61 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
             layoutLogged.setVisibility(View.VISIBLE);
             displayUserInfo(fUser);
         }
-
-        //VIP
-        boolean isVip = fUser.isIs_vip();
-        changeUIbyIsVip(isVip);
+        //VIP（vip用户登出也要改变ui）
+        changeUIbyIsVip(fUser.getSuper_vip(), fUser.isIs_vip());
     }
 
 
-    private void changeUIbyIsVip(boolean isVip) {
-        if (isVip) {
-            //已成为VIP
-            tvHuliVip.setText(R.string.txt_you_have_become_a_vip);
-            Drawable drawable = ContextCompat.getDrawable(mActivity, R.mipmap.icon_vip_symbol);
-            if (drawable != null) {
-                drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                tvHuliVip.setCompoundDrawables(drawable, null, null, null);
+    /**
+     * 不同身份用户对应不同UI
+     *
+     * @param lifeMember 终身会员
+     * @param isVip      是不是VIP
+     */
+    private void changeUIbyIsVip(int lifeMember, boolean isVip) {
+        if (lifeMember == 1) {  //终身VIP
+            //用户昵称的
+            Drawable drawableR = ContextCompat.getDrawable(mActivity, R.drawable.ic_yellow_diamond_18dp);
+            if (drawableR != null) {
+                drawableR.setBounds(0, 0, drawableR.getMinimumWidth(), drawableR.getMinimumHeight());
+                tvNickname.setCompoundDrawables(null, null, drawableR, null);
+                tvNickname.setCompoundDrawablePadding(DensityUtils.dp2px(mActivity, 8));
+            }
+
+            ctlVipCard.setBackgroundResource(R.drawable.bg_mine_life_member_vip_card);
+            tvHuliVip.setText(R.string.txt_you_have_become_a_life_member_vip);
+            tvHuliVip.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_col_life_member));
+            ivHeadImgLmVipSign.setVisibility(View.VISIBLE);
+            //会员card的
+            Drawable drawableL = ContextCompat.getDrawable(mActivity, R.mipmap.icon_vip_symbol);
+            if (drawableL != null) {
+                drawableL.setBounds(0, 0, drawableL.getMinimumWidth(), drawableL.getMinimumHeight());
+                tvHuliVip.setCompoundDrawables(drawableL, null, null, null);
             }
             tvVipAdvantage.setVisibility(View.GONE);
-            btnOpenVip.setText(R.string.txt_view_details);
-        } else {
-            tvHuliVip.setText(null);
-            tvHuliVip.setCompoundDrawables(null, null, null, null);
-            tvVipAdvantage.setVisibility(View.VISIBLE);
-            btnOpenVip.setText(R.string.txt_activate_immediately);
+            btnOpenVip.setVisibility(View.GONE);
+        } else {    //非终身VIP
+            ctlVipCard.setBackgroundResource(R.drawable.bg_mine_vip_card);
+            tvHuliVip.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_white));
+            tvNickname.setCompoundDrawables(null, null, null, null);
+            ivHeadImgLmVipSign.setVisibility(View.GONE);
+            btnOpenVip.setVisibility(View.VISIBLE);
+            if (isVip) {        //普通VIP
+                tvHuliVip.setText(R.string.txt_you_have_become_a_vip);
+                //会员card的
+                Drawable drawable = ContextCompat.getDrawable(mActivity, R.mipmap.icon_vip_symbol);
+                if (drawable != null) {
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    tvHuliVip.setCompoundDrawables(drawable, null, null, null);
+                }
+                tvVipAdvantage.setVisibility(View.GONE);
+                btnOpenVip.setText(R.string.txt_view_details);
+            } else {            //非VIP
+                tvHuliVip.setText(null);
+                tvHuliVip.setCompoundDrawables(null, null, null, null);
+                tvVipAdvantage.setVisibility(View.VISIBLE);
+                btnOpenVip.setText(R.string.txt_activate_immediately);
+            }
         }
     }
 
@@ -269,6 +330,9 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, SignInActivity.class));
                 break;
             case R.id.iv_asBtn_setting_mine:
+                if (onMoreClick()) {
+                    return;
+                }
                 startActivity(new Intent(mActivity, SettingActivity.class));
                 break;
             case R.id.btn_login_mine:
@@ -287,6 +351,9 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.rtl_asBtn_msg_notify:
                 startActivity(new Intent(mActivity, MsgNotifyActivity.class));
+                break;
+            case R.id.rtl_asBtn_reading_preference:
+                startActivity(new Intent(mActivity, ReadingPreferenceActivity.class));
                 break;
             case R.id.rtl_asBtn_reading_record:
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
@@ -329,7 +396,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
      * 福利专区
      */
     private void reqMineWelfareZone() {
-        OkGo.<String>get(Consts.WELFARE_USERLIST_API)
+        /*OkGo.<String>get(Consts.WELFARE_USERLIST_API)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -341,6 +408,38 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                             wzAdapter.setList(datas);
                         }
                     }
+                });*/
+        //先获取缓存的
+        RxHttp.postForm(Consts.WELFARE_USERLIST_API)
+                .setCacheMode(CacheMode.ONLY_CACHE)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .asResponseList(MineWelfareZoneEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(result -> {
+                    wzAdapter.setList(result);
+                });
+
+        //再获取网络的
+        RxHttp.postForm(Consts.WELFARE_USERLIST_API)
+                .setCacheMode(CacheMode.NETWORK_SUCCESS_WRITE_CACHE)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .asResponseList(MineWelfareZoneEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(result -> {
+                    wzAdapter.setList(result);
+                });
+    }
+
+    /**
+     * 全部标记为已读
+     */
+    private void reqSetMsgAllRead() {
+        RxHttp.postForm(Consts.MSG_SET_ALL_READ_API)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+
                 });
     }
 

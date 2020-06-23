@@ -1,5 +1,7 @@
 package com.huli.foxread.rxhttp.parser;
 
+import android.util.Log;
+
 import com.huli.foxread.entity.base.BaseEntity;
 import com.huli.foxread.entity.base.PageList;
 
@@ -54,7 +56,8 @@ public class ResponseParser<T> extends AbstractParser<T> {
         final Type type = ParameterizedTypeImpl.get(BaseEntity.class, mType); //获取泛型类型
         BaseEntity<T> data = convert(response, type);
         T t = data.getData(); //获取data字段
-        if (data.getError_code() != 0 || t == null) {//这里假设code不等于0，代表数据不正确，抛出异常
+//        if (data.getError_code() != 0 || t == null) {//这里假设code不等于0，代表数据不正确，抛出异常
+        if (data.getError_code() != 0) {//这里假设code不等于0，代表数据不正确，抛出异常
             throw new ParseException(String.valueOf(data.getError_code()), data.getMsg(), response);
         }
         return t;

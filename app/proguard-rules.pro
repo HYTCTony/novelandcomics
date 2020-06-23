@@ -502,3 +502,12 @@ public static final int *;
 -keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
 -keep class com.pgl.sys.ces.* {*;}
 #########################穿山甲###########################
+
+#########################广点通上报行为###########################
+-dontwarn com.qq.gdt.action.**
+-keep class com.qq.gdt.action.** {*;}
+
+-keepclasseswithmembers class * {
+native <methods>;
+}
+#########################广点通上报行为###########################

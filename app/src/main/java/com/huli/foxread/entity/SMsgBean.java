@@ -4,7 +4,7 @@ public class SMsgBean {
     private String id;
     private String message_id;
     private String user_id;
-    private int status;
+    private int status;             //1已读；2未读
     private long createtime;
     private SMsgPmiBean profileMessageIssue;
 

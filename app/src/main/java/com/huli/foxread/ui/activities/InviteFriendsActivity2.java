@@ -28,6 +28,7 @@ import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.contact.Url;
 import com.huli.foxread.handlers.EncodingHandler;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.JsWebView;
@@ -149,7 +150,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
 
 
         String mToken = TokenCache.getToken(this);
-        String url = Consts.BASE_URL + "/api/share?token=" + mToken;
+        String url = Url.baseurl + "/api/share?token=" + mToken;
         mWebview.loadUrl(url);
 //        mWebview.loadUrl("file:///android_asset/demo.html");
 
