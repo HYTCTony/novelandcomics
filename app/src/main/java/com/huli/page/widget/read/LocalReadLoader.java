@@ -66,8 +66,8 @@ public class LocalReadLoader extends ReadLoader {
 
     private Disposable mChapterDisp = null;
 
-    public LocalReadLoader(PageView pageView, BookShelfListBean collBook) {
-        super(pageView, collBook);
+    public LocalReadLoader(PageView pageView, BookShelfListBean collBook, boolean hasNotchScreen) {
+        super(pageView, collBook, hasNotchScreen);
         mStatus = STATUS_PARING;
     }
 

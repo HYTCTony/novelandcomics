@@ -221,7 +221,7 @@ public class PageView extends FrameLayout {
     public void setBgColor(int color) {
         mBgColor = color;
     }
-//
+
 //    @Override
 //    protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
@@ -237,6 +237,7 @@ public class PageView extends FrameLayout {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
+//        Log.d(TAG, "dispatchDraw()");
         //绘制背景
         canvas.drawColor(mBgColor);
         //绘制动画
@@ -258,9 +259,8 @@ public class PageView extends FrameLayout {
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
-//                        Log.d(TAG, "dispatchDraw()");
                         if (shouldDraw) {
-//                            Log.d(TAG, "index==" + index);
+//                            Log.d(TAG, "drawIndex==" + drawIndex);
                             if (drawIndex < 2) {
 //                                Log.d(TAG, "adView.dispatchDraw()");
                                 super.dispatchDraw(canvas);
@@ -525,16 +525,16 @@ public class PageView extends FrameLayout {
      * @param collBook
      * @return
      */
-    public ReadLoader getPageLoader(BookShelfListBean collBook) {
+    public ReadLoader getPageLoader(BookShelfListBean collBook, boolean hasNotchScreen) {
         // 判是否已经存在
         if (mPageLoader != null) {
             return mPageLoader;
         }
         // 根据书籍类型，获取具体的加载器
         if (collBook.getIsLocal()) {
-            mPageLoader = new LocalReadLoader(this, collBook);
+            mPageLoader = new LocalReadLoader(this, collBook, hasNotchScreen);
         } else {
-            mPageLoader = new NetReadLoader(this, collBook);
+            mPageLoader = new NetReadLoader(this, collBook, hasNotchScreen);
         }
         // 判断是否 PageView 已经初始化完成
         if (mViewWidth != 0 || mViewHeight != 0) {

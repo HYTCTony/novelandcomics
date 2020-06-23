@@ -20,8 +20,8 @@ public class NetReadLoader extends ReadLoader {
 
     private static final String TAG = "NetReadLoader";
 
-    public NetReadLoader(PageView pageView, BookShelfListBean collBook) {
-        super(pageView, collBook);
+    public NetReadLoader(PageView pageView, BookShelfListBean collBook, boolean hasNotchScreen) {
+        super(pageView, collBook, hasNotchScreen);
     }
 
     private List<TxtChapter> convertTxtChapter(List<BookChapter> bookChapters) {

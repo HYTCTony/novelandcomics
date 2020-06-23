@@ -64,7 +64,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
         checkViewAttached();
         OkGo.<String>get(Consts.NOVEL_NOVELCHAPTERLIST_API)
                 .params(Consts.NOVEL_ID, bookId)
-                .cacheTime(8 * 60 * 60 * 1000)
+                .cacheTime(24 * 60 * 60 * 1000)
                 .cacheKey(Consts.NOVEL_NOVELCHAPTERLIST_API + bookId)
                 .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
                 .execute(new LtbCallback(context, false) {

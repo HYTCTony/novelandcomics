@@ -116,12 +116,11 @@
     <color name="hl_tips_next_font_7">#231806</color>
     <color name="hl_tips_next_font_8">#091507</color>
 
-    <color name="hl_read_bg_night">#161616</color>
+    <color name="hl_read_bg_night">#060606</color>
     <color name="hl_read_font_night">#656565</color>
     <color name="hl_prompt_font_night">#565656</color>
     <color name="hl_tips_next_font_night">#535353</color>
-    <color name="hl_ad_view_bg_night">#1C1C1C</color>
-
+    <color name="hl_ad_view_bg_night">#131313</color>
 
     <color name="hl_read_bg_dialog">#1C1C1C</color>
 
