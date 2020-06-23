@@ -248,7 +248,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
         btnOpenOrRenew.setText(R.string.txt_activate_immediately);
         if (fUser.getSuper_vip() == 1) {    //终身会员
             tvVipTypeTitle.setText(R.string.txt_honor_vip);
-            tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon), "∞"));
+            tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon), getString(R.string.txt_permanent_validity)));
             tvVipTips.setText(R.string.txt_tips_vip_state_life_member);
             tvAccountSetup.setVisibility(View.GONE);
             ivIconVipSymbol.setVisibility(View.VISIBLE);
@@ -259,7 +259,7 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             if (fUser.isIs_vip()) {     //普通VIP
                 tvVipTypeTitle.setText(R.string.txt_monthly_vip);
                 tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
-                        DateTimeUtil.formatDateTime(fUser.getVip_end() * 1000, "yyyy-MM-dd")));
+                        DateTimeUtil.formatDateTime(fUser.getVip_end() * 1000, DateTimeUtil.DF_YYYY_MM_DD)));
                 tvVipTips.setText(R.string.txt_tips_vip_state);
                 tvAccountSetup.setVisibility(View.GONE);
                 ivIconVipSymbol.setVisibility(View.VISIBLE);

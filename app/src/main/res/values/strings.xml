@@ -23,6 +23,7 @@
     <string name="txt_binding_cellphone_hint">您当前没有绑定手机号，要前往绑定吗？</string>
     <string name="txt_go2_binding">去绑定</string>
     <string name="txt_withhold">暂不</string>
+    <string name="txt_permanent_validity">永久</string>
 
 <!--    <string name="network_error">当前无网络，请检查你的网络设置</string>-->
     <string name="network_error">当前无网络</string>
