@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -222,7 +221,7 @@ public class PageView extends FrameLayout {
     public void setBgColor(int color) {
         mBgColor = color;
     }
-//
+
 //    @Override
 //    protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
@@ -231,14 +230,14 @@ public class PageView extends FrameLayout {
 
     @Override
     public void onDescendantInvalidated(@NonNull View child, @NonNull View target) {
-        Log.d(TAG, "onDescendantInvalidated: ");
+//        Log.d(TAG, "onDescendantInvalidated: ");
         shouldDraw = true;
         super.onDescendantInvalidated(child, target);
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        Log.d(TAG, "dispatchDraw()");
+//        Log.d(TAG, "dispatchDraw()");
         //绘制背景
         canvas.drawColor(mBgColor);
         //绘制动画
@@ -254,16 +253,16 @@ public class PageView extends FrameLayout {
                 switch (mPageLoader.mCurPage.pageType) {
                     case TxtPage.VALUE_STRING_COVER_TYPE:
                         if (shouldDraw) {
-                            Log.d(TAG, "customView.dispatchDraw()");
+//                            Log.d(TAG, "customView.dispatchDraw()");
                             super.dispatchDraw(canvas);
                             shouldDraw = false;
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
                         if (shouldDraw) {
-                            Log.d(TAG, "drawIndex==" + drawIndex);
+//                            Log.d(TAG, "drawIndex==" + drawIndex);
                             if (drawIndex < 2) {
-                                Log.d(TAG, "adView.dispatchDraw()");
+//                                Log.d(TAG, "adView.dispatchDraw()");
                                 super.dispatchDraw(canvas);
                                 drawIndex++;
                             }
@@ -526,16 +525,16 @@ public class PageView extends FrameLayout {
      * @param collBook
      * @return
      */
-    public ReadLoader getPageLoader(BookShelfListBean collBook) {
+    public ReadLoader getPageLoader(BookShelfListBean collBook, boolean hasNotchScreen) {
         // 判是否已经存在
         if (mPageLoader != null) {
             return mPageLoader;
         }
         // 根据书籍类型，获取具体的加载器
         if (collBook.getIsLocal()) {
-            mPageLoader = new LocalReadLoader(this, collBook);
+            mPageLoader = new LocalReadLoader(this, collBook, hasNotchScreen);
         } else {
-            mPageLoader = new NetReadLoader(this, collBook);
+            mPageLoader = new NetReadLoader(this, collBook, hasNotchScreen);
         }
         // 判断是否 PageView 已经初始化完成
         if (mViewWidth != 0 || mViewHeight != 0) {

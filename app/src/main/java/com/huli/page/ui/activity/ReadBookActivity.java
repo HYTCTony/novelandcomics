@@ -178,8 +178,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int POLLING_SET_IS_ABC = 30 * 1000;
     private static final int READ_ONE_PAGE_INTERVAL = 15;
 
-    //广告
     /*
+     * 广告
      * 黄皮纸：945191706
      * 粉色：945191678
      * 灰白：945245835
@@ -337,7 +337,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //加载广告
 //        requestAdPage();
         //获取页面加载器
-        mPageLoader = mPvPage.getPageLoader(data);
+        mPageLoader = mPvPage.getPageLoader(data, ScreenUtils.hasNotchScreen(mContext));
         /*初始化状态栏*/
         SystemBarUtils.blackNavBar(mContext);
         if (!isFullScreen) {
@@ -948,12 +948,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             @Override
             public void onRenderSuccess(View view, float width, float height) {
 //                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
-                Log.e("ExpressView", "width:" + width);
-                Log.e("ExpressView", "height:" + height);
+//                Log.e("ExpressView", "width:" + width);
+//                Log.e("ExpressView", "height:" + height);
 //                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
 //                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
 //                返回view的宽高 单位 dp
-                Log.e("ExpressView", "渲染成功");
+//                Log.e("ExpressView", "渲染成功");
 //                mAdView = view;
                 if (mAdView == null) {
                     mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
@@ -1463,7 +1463,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     public void onFailure(int code, String err) {
         if (code == -1) {
-            Log.d(TAG, "onFailure");
+//            Log.d(TAG, "onFailure");
             isABC = testingIsABC(-1);
             if (isABC) {
                 needRefreshPage = true;
