@@ -152,7 +152,7 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
         SMsgBean sMsgBean = msgs.get(position);
         MessageDialog.show(this, sMsgBean.getProfileMessageIssue().getName(), sMsgBean.getProfileMessageIssue().getContent());
         if (sMsgBean.getStatus() == 2) {
-            reqMarkMsgRead(sMsgBean.getMessage_id());
+            reqMarkMsgRead(sMsgBean.getId());
         }
 
         //改变msg已读状态
@@ -240,7 +240,7 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
-     * 全部标记为已读
+     * 标记为已读
      */
     private void reqMarkMsgRead(String msgId) {
         RxHttp.postForm(Consts.MSG_MARKED_READ_API)

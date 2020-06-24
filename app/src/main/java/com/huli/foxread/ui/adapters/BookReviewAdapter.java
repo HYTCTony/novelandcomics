@@ -1,5 +1,6 @@
 package com.huli.foxread.ui.adapters;
 
+import android.text.TextUtils;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
@@ -44,7 +45,12 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
     @Override
     protected void convert(@NonNull BaseViewHolder holder, BookReview bookReview) {
         GlideUtil.loadCircle(getContext(), holder.getView(R.id.iv_reviewer_headImg), bookReview.getHttp_avatar());
-        holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUsername()));
+        String userName = bookReview.getUsername();
+        if (!TextUtils.isEmpty(userName)) {
+            holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), userName));
+        }else {
+            holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUser_id()));
+        }
         TextView tvContent = holder.getView(R.id.tv_review_content);
         holder.setText(R.id.tv_review_time, DateTimeUtil.formatDateTime(bookReview.getCreatetime() * 1000, DateTimeUtil.DF_YYYY_MM_DD));
 
@@ -57,7 +63,7 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
         if (mRecyCbCheckListener != null) {
             cbLike.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (buttonView.isPressed()) {
-                    if(UserInfoCache.getIsTourist(getContext())){
+                    if (UserInfoCache.getIsTourist(getContext())) {
                         LoginActivity.start(getContext());
                         cbLike.setChecked(!isChecked);
                         return;

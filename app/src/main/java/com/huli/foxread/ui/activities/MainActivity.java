@@ -46,6 +46,7 @@ import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainClassifyFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment2;
+import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.PackageUtils;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
@@ -133,7 +134,11 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     public void doBusiness(Context mContext) {
 //        switch2Bookstore();
-        mTabLayout.postDelayed(this::switch2Bookstore, 120);        //延迟初始化，MainActivity启动时间由2225ms变成676ms
+        if (NetworkUtil.isNetworkAvailable(mContext)) {
+            mTabLayout.postDelayed(this::switch2Bookstore, 120);        //延迟初始化，MainActivity启动时间由2225ms变成676ms
+        }else {
+            mTabLayout.postDelayed(this::switch2Bookrack, 120);
+        }
 
         // 获取唤醒参数
         ShareInstall.getInstance().getWakeUpParams(getIntent(), wakeUpListener);
@@ -172,23 +177,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
             }
         });*/
 
-
-        //获取唤醒参数
-//      OpenInstall.getWakeUp(getIntent(), wakeUpAdapter);
-//
-//      OpenInstall.getInstall(new AppInstallAdapter() {
-//          @Override
-//          public void onInstall(AppData appData) {
-//              //获取渠道数据
-//              String channelCode = appData.getChannel();
-//              //获取自定义数据
-//              String bindData = appData.getData();
-//              Log.d("OpenInstall", "OpenInstall : installData = " + appData.toString());
-//              Toast.makeText(mContext, "OpenInstall : installData_install = " + appData.toString(), Toast.LENGTH_LONG).show();
-//          }
-//       });
-
-
         reqUserInfo();
 
         checkNewVersion();
@@ -198,7 +186,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         // 此处要调用，否则App在后台运行时，会无法截获
-//        OpenInstall.getWakeUp(intent, wakeUpAdapter);
         ShareInstall.getInstance().getWakeUpParams(intent, wakeUpListener);
     }
 
@@ -391,6 +378,14 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     public void switch2Bookstore() {
         mTabLayout.setCurrentTab(0);
         changeFragment(0);
+    }
+
+    /**
+     * 跳到书架
+     */
+    public void switch2Bookrack() {
+        mTabLayout.setCurrentTab(1);
+        changeFragment(1);
     }
 
     /**
