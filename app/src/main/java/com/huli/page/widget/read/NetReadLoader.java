@@ -93,7 +93,6 @@ public class NetReadLoader extends ReadLoader {
         boolean isRight = super.parseCurChapter();
         if (mStatus == STATUS_LOADING) {
             loadCurrentChapter();
-        } else if (mStatus == STATUS_FINISH) {
         }
         return isRight;
     }
