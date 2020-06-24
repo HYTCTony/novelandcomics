@@ -222,6 +222,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         BookShelfOrADsMultEntity multEntity = datas.get(position);
         if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
             BookShelfListBean bean = multEntity.getBook();
+            bean.setIs_exist_bookshelf(1);
             if (bean.getIsLocal()) {
                 Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
                 return;

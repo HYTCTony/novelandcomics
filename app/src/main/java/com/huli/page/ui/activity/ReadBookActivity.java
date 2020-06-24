@@ -140,6 +140,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     RecyclerView rv;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    @BindView(R.id.line_view)
+    View lineView;
     @BindView(R.id.tv_book_statu)
     TextView tvBookStatu;
     @BindColor(R.color.light_translucent)
@@ -554,8 +556,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         GlideUtil.loadRoundRect(mContext, ivBookCover, data.getHttp_image());
         tvBookName.setText(data.getNovel_name());
         tvAuthorName.setText("作者：" + data.getAuthor());
-        SpannableStringBuilder builderCopyrightDescription = new SpanUtils(mContext).appendLine("本书已授权一起看书进行电子制作发行").append
-                ("本故事纯属虚构·版权所有·侵权必究").create();
+        SpannableStringBuilder builderCopyrightDescription = new SpanUtils(mContext)
+//                .appendLine("本书已授权一起看书进行电子制作发行")
+                .append("本故事纯属虚构·版权所有·侵权必究").create();
         tvCopyrightDescription.setText(builderCopyrightDescription);
     }
 
@@ -603,6 +606,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         }
         tvTitle.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getFontColor()) : ContextCompat.getColor(mContext,
                 mPageStyle.getFontColor()));
+        lineView.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getTipsColor() : mPageStyle.getTipsColor());
         tvBookStatu.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
                 mPageStyle.getPromptColor()));
         //改变广告页风格
@@ -641,6 +645,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     private boolean testingIsABC(long lapse) {
+        if (UserInfoCache.getSuperVip(mContext) == 1) {
+            return true;
+        }
         if (UserInfoCache.getIsVip(mContext)) {
             return true;
         }
@@ -837,7 +844,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
         AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("945192284")
+                .setCodeId("945192284")/*正式服广告id：945192284  测试服广告id：945238286*/
                 .setSupportDeepLink(true)
 //                    .setRewardName("金币") //奖励的名称
 //                    .setRewardAmount(3)  //奖励的数量

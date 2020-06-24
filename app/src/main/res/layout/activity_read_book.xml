@@ -222,7 +222,6 @@
         </LinearLayout>
     </RelativeLayout>
 
-
     <!--侧滑栏-->
     <LinearLayout
         android:id="@+id/ll_drawer_layout"
@@ -255,10 +254,10 @@
             android:textSize="12sp" />
 
         <View
+            android:id="@+id/line_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0_5"
             android:background="@color/light_translucent" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@id/rv"

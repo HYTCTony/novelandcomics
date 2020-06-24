@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -230,7 +231,7 @@ public class PageView extends FrameLayout {
 
     @Override
     public void onDescendantInvalidated(@NonNull View child, @NonNull View target) {
-//        Log.d(TAG, "onDescendantInvalidated: ");
+        Log.d(TAG, "onDescendantInvalidated: ");
         shouldDraw = true;
         super.onDescendantInvalidated(child, target);
     }
@@ -260,9 +261,9 @@ public class PageView extends FrameLayout {
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
                         if (shouldDraw) {
-//                            Log.d(TAG, "drawIndex==" + drawIndex);
+                            Log.d(TAG, "drawIndex==" + drawIndex);
                             if (drawIndex < 2) {
-//                                Log.d(TAG, "adView.dispatchDraw()");
+                                Log.d(TAG, "adView.dispatchDraw()");
                                 super.dispatchDraw(canvas);
                                 drawIndex++;
                             }
