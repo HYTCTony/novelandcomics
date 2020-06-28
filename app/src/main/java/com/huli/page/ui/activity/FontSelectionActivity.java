@@ -29,10 +29,10 @@ import butterknife.BindView;
 public class FontSelectionActivity extends BaseViewActivity {
 
     @BindView(R.id.smart)
-    private SmartRefreshLayout layout;
+    SmartRefreshLayout layout;
     @BindView(R.id.rv)
-    private RecyclerView rv;
-    private FontAdapter mAdapter;
+    RecyclerView rv;
+    FontAdapter mAdapter;
     @BindColor(R.color.gray)
     int grey;
 
