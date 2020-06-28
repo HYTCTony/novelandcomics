@@ -7,8 +7,8 @@ android {
         applicationId "com.huli.foxread"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 26
-        versionName "1.2.2"
+        versionCode 27
+        versionName "1.2.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -275,7 +275,7 @@ dependencies {
     //PushSDK
 
     //shareSDK
-    /*implementation files('libs/umeng-share-QQ-simplify-6.9.8.jar')
+/*    implementation files('libs/umeng-share-QQ-simplify-6.9.8.jar')
     implementation files('libs/umeng-share-core-6.9.8.jar')
     implementation files('libs/umeng-share-wechat-simplify-6.9.8.jar')
     implementation files('libs/umeng-shareboard-widget-6.9.8.jar')

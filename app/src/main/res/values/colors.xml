@@ -77,8 +77,6 @@
     <color name="hl_read_bg_4">#DAE2CD</color>
     <color name="hl_read_bg_5">#CED6E1</color>
     <color name="hl_read_bg_6">#171B26</color>
-    <color name="hl_read_bg_7">#F8EFE6</color>
-    <color name="hl_read_bg_8">#D5E3D2</color>
 
     <color name="hl_read_font_1">#483318</color>
     <color name="hl_read_font_2">#1F0000</color>
@@ -86,8 +84,6 @@
     <color name="hl_read_font_4">#1F241E</color>
     <color name="hl_read_font_5">#293038</color>
     <color name="hl_read_font_6">#6C757E</color>
-    <color name="hl_read_font_7">#231806</color>
-    <color name="hl_read_font_8">#091507</color>
 
     <color name="hl_ad_view_bg_1">#F0E1BA</color>
     <color name="hl_ad_view_bg_2">#FFE0D9</color>
@@ -95,32 +91,34 @@
     <color name="hl_ad_view_bg_4">#CBDDC7</color>
     <color name="hl_ad_view_bg_5">#C5CFDE</color>
     <color name="hl_ad_view_bg_6">#1F232E</color>
-    <color name="hl_ad_view_bg_7">#F8EFE6</color>
-    <color name="hl_ad_view_bg_8">#D5E3D2</color>
 
     <color name="hl_prompt_font_1">#807056</color>
     <color name="hl_prompt_font_2">#7E6868</color>
     <color name="hl_prompt_font_3">#777777</color>
     <color name="hl_prompt_font_4">#7F8E7C</color>
     <color name="hl_prompt_font_5">#77808A</color>
-    <color name="hl_prompt_font_6">#555D65</color>
-    <color name="hl_prompt_font_7">#231806</color>
-    <color name="hl_prompt_font_8">#091507</color>
+    <color name="hl_prompt_font_6">#4D5467</color>
 
-    <color name="hl_tips_next_font_1">#CCBD96</color>
-    <color name="hl_tips_next_font_2">#E5B9AE</color>
-    <color name="hl_tips_next_font_3">#CECECE</color>
-    <color name="hl_tips_next_font_4">#7F8E7C</color>
-    <color name="hl_tips_next_font_5">#A0ABBE</color>
-    <color name="hl_tips_next_font_6">#4D5467</color>
-    <color name="hl_tips_next_font_7">#231806</color>
-    <color name="hl_tips_next_font_8">#091507</color>
+    <color name="hl_tips_font_1">#CCBD96</color>
+    <color name="hl_tips_font_2">#E5B9AE</color>
+    <color name="hl_tips_font_3">#CECECE</color>
+    <color name="hl_tips_font_4">#7F8E7C</color>
+    <color name="hl_tips_font_5">#A0ABBE</color>
+    <color name="hl_tips_font_6">#4A535D</color>
+
+    <color name="hl_select_font_1">#DE971F</color>
+    <color name="hl_select_font_2">#FC6D6D</color>
+    <color name="hl_select_font_3">#7DA9F6</color>
+    <color name="hl_select_font_4">#469235</color>
+    <color name="hl_select_font_5">#7DA9F6</color>
+    <color name="hl_select_font_6">#5582D1</color>
 
     <color name="hl_read_bg_night">#060606</color>
     <color name="hl_read_font_night">#656565</color>
     <color name="hl_prompt_font_night">#565656</color>
-    <color name="hl_tips_next_font_night">#535353</color>
+    <color name="hl_tips_font_night">#444444</color>
     <color name="hl_ad_view_bg_night">#131313</color>
+    <color name="hl_select_font_night">#BB9B57</color>
 
     <color name="hl_read_bg_dialog">#1C1C1C</color>
 

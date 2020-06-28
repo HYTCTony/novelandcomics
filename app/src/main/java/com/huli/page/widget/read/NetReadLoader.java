@@ -19,9 +19,11 @@ import java.util.List;
 public class NetReadLoader extends ReadLoader {
 
     private static final String TAG = "NetReadLoader";
+    private boolean isBookShelf = false;
 
     public NetReadLoader(PageView pageView, BookShelfListBean collBook, boolean hasNotchScreen) {
         super(pageView, collBook, hasNotchScreen);
+        isBookShelf = collBook.getIs_exist_bookshelf() == 1;
     }
 
     private List<TxtChapter> convertTxtChapter(List<BookChapter> bookChapters) {
@@ -77,7 +79,6 @@ public class NetReadLoader extends ReadLoader {
     @Override
     boolean parsePrevChapter() {
         boolean isRight = super.parsePrevChapter();
-
         if (mStatus == STATUS_FINISH) {
             loadPrevChapter();
         } else if (mStatus == STATUS_LOADING) {
@@ -90,7 +91,6 @@ public class NetReadLoader extends ReadLoader {
     @Override
     boolean parseCurChapter() {
         boolean isRight = super.parseCurChapter();
-
         if (mStatus == STATUS_LOADING) {
             loadCurrentChapter();
         }
@@ -101,13 +101,11 @@ public class NetReadLoader extends ReadLoader {
     @Override
     boolean parseNextChapter() {
         boolean isRight = super.parseNextChapter();
-
         if (mStatus == STATUS_FINISH) {
             loadNextChapter();
         } else if (mStatus == STATUS_LOADING) {
             loadCurrentChapter();
         }
-
         return isRight;
     }
 
@@ -121,7 +119,6 @@ public class NetReadLoader extends ReadLoader {
             if (begin < 0) {
                 begin = 0;
             }
-
             requestChapters(begin, end);
         }
     }
@@ -134,19 +131,22 @@ public class NetReadLoader extends ReadLoader {
             int begin = mCurChapterPos;
             int end = mCurChapterPos;
 
-            // 是否当前不是最后一章
-            if (end < mChapterList.size()) {
-                end = end + 1;
-                if (end >= mChapterList.size()) {
-                    end = mChapterList.size() - 1;
-                }
-            }
-
             // 如果当前不是第一章
             if (begin != 0) {
                 begin = begin - 1;
                 if (begin < 0) {
                     begin = 0;
+                }
+            }
+            // 是否当前不是最后一章
+            if (end < mChapterList.size()) {
+//                end = end + 1;
+                if (isBookShelf)
+                    end = begin + 19;
+                else
+                    end = begin + 9;
+                if (end >= mChapterList.size()) {
+                    end = mChapterList.size() - 1;
                 }
             }
 
@@ -163,7 +163,10 @@ public class NetReadLoader extends ReadLoader {
             // 提示加载后两章
             int begin = mCurChapterPos + 1;
             int end = begin + 1;
-
+            if (isBookShelf)
+                end = begin + 19;
+            else
+                end = begin + 9;
             // 判断是否大于最后一章
             if (begin >= mChapterList.size()) {
                 // 如果下一章超出目录了，就没有必要加载了

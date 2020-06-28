@@ -259,7 +259,7 @@ public abstract class ReadLoader {
         mTitlePaint.setTextSize(mTitleSize);
         mTitlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mTitlePaint.setTypeface(Typeface.DEFAULT_BOLD);
-        mTitlePaint.setTextAlign(Paint.Align.CENTER);
+        mTitlePaint.setTextAlign(Paint.Align.LEFT);
         mTitlePaint.setAntiAlias(true);
 
         // 绘制背景的画笔
@@ -1044,29 +1044,25 @@ public abstract class ReadLoader {
             float interval = mTextInterval + mTextPaint.getTextSize() + heightOffset;
 
             String str = null;
-            //设置顶部间距
-            if (mCurPage.titleLines > 0) {
-                top += titleMarinTop;
-            }
             //对标题进行绘制
             for (int i = 0; i < mCurPage.titleLines; ++i) {
+                //设置顶部间距
+                if (i == 0) {
+                    top += titleMarinTop;
+                }
                 str = mCurPage.lines.get(i);
-                float x = mMarginWidth;
+                float start = mMarginWidth;
                 float offset = (mVisibleWidth - mTitlePaint.measureText(str)) / (str.length() - 1);
                 for (int j = 0; j < str.length(); j++) {
                     String character = String.valueOf(str.charAt(j));
-                    float cw = StaticLayout.getDesiredWidth(character, mTitlePaint);
-                    canvas.drawText(character, x, top, mTitlePaint);
+                    float cw = mTitlePaint.measureText(character);
+                    canvas.drawText(character, start, top, mTitlePaint);
                     if (str.endsWith("\n"))
-                        x += (cw + mTitleSize / 12f);
+                        start += (cw + mTitleSize / 15f);
                     else
-                        x += (cw + offset);
+                        start += (cw + offset);
                 }
-                //计算文字显示的起始点
-//                int start = (int) (mDisplayWidth - mTitlePaint.measureText(str)) / 2;
-                //进行绘制
-//                canvas.drawText(str, start, top, mTitlePaint);
-                //设置尾部间距
+                // 设置尾部间距
                 if (i == mCurPage.titleLines - 1) {
                     top += titlePara;
                 } else {
@@ -1075,11 +1071,11 @@ public abstract class ReadLoader {
                 }
             }
 
-            if (mCurPage.titleLines <= 0) {
-                top += mTextPaint.getTextSize();
-            }
             //对内容进行绘制
             for (int i = mCurPage.titleLines; i < mCurPage.lines.size(); ++i) {
+                if (i == 0) {
+                    top += mTextPaint.getTextSize();
+                }
                 str = mCurPage.lines.get(i);
                 float x = mMarginWidth;
                 float offset;

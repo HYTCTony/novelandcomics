@@ -24,6 +24,7 @@
         android:layout_gravity="center_vertical"
         android:drawablePadding="10dp"
         android:padding="10dp"
+        android:visibility="gone"
         android:textColor="@color/selector_chapter"
         android:textSize="14sp"
         tools:text="已下载" />

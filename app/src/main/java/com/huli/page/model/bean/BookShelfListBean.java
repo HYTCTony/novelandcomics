@@ -4,18 +4,12 @@ package com.huli.page.model.bean;
 import com.huli.foxread.FrApp;
 import com.huli.page.utils.StringUtils;
 
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.ToMany;
-import org.greenrobot.greendao.annotation.Transient;
-
 import java.io.Serializable;
 import java.util.List;
 
 public class BookShelfListBean implements Serializable {
     private static final long serialVersionUID = 56423411313L;
 
-    @Id
     private String id;
     private String novel_id;//小说ID
     private String user_id;
@@ -24,9 +18,7 @@ public class BookShelfListBean implements Serializable {
     private String http_novel_image;//封面图
     private String author;
 
-    @Transient
     private List<String> tag;
-    @Transient
     private String copyright_name;
 
     /**************************************************************/
@@ -58,53 +50,7 @@ public class BookShelfListBean implements Serializable {
     private boolean isUpdate = true;
     //是否是本地文件
     private boolean isLocal = false;
-    @ToMany(referencedJoinProperty = "bookId")
     private List<BookChapter> bookChapterList;
-
-    public BookShelfListBean() {
-    }
-
-    @Generated(hash = 1725956324)
-    public BookShelfListBean(String id, String novel_id, String user_id, String novel_name,
-                             String novel_image, String http_novel_image, String author, float score,
-                             String file, int read_sum, int is_end, int type, int classify_id,
-                             String classify_name, int greet, int word, int is_new, int is_hot,
-                             int is_copyright, int reading_size, String introduce, String http_image,
-                             int chapter_sum, int is_exist_bookshelf, long createtime, long updatetime,
-                             long deletetime, String lastRead, String chapter_name, boolean isUpdate,
-                             boolean isLocal) {
-        this.id = id;
-        this.novel_id = novel_id;
-        this.user_id = user_id;
-        this.novel_name = novel_name;
-        this.novel_image = novel_image;
-        this.http_novel_image = http_novel_image;
-        this.author = author;
-        this.score = score;
-        this.file = file;
-        this.read_sum = read_sum;
-        this.is_end = is_end;
-        this.type = type;
-        this.classify_id = classify_id;
-        this.classify_name = classify_name;
-        this.greet = greet;
-        this.word = word;
-        this.is_new = is_new;
-        this.is_hot = is_hot;
-        this.is_copyright = is_copyright;
-        this.reading_size = reading_size;
-        this.introduce = introduce;
-        this.http_image = http_image;
-        this.chapter_sum = chapter_sum;
-        this.is_exist_bookshelf = is_exist_bookshelf;
-        this.createtime = createtime;
-        this.updatetime = updatetime;
-        this.deletetime = deletetime;
-        this.lastRead = lastRead;
-        this.chapter_name = chapter_name;
-        this.isUpdate = isUpdate;
-        this.isLocal = isLocal;
-    }
 
     public void setBookChapters(List<BookChapter> beans) {
         bookChapterList = beans;

@@ -1,10 +1,7 @@
 package com.huli.foxread.ui.adapters;
 
-import android.widget.ImageView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
-import com.huli.foxread.GlideApp;
 import com.huli.foxread.R;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.utils.GlideUtil;
