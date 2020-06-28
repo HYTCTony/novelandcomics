@@ -329,7 +329,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         return super.onOptionsItemSelected(item);
     }
 
-
     /**
      * 加载feed广告
      */

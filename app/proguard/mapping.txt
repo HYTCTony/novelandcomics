@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 23
-# pg_map_id: aed7bf9
+# pg_map_id: bbb1ae7
 $r8$java8methods$utility$Boolean$hashCode$IZ -> a:
     1:1:int hashCode(boolean) -> a
 $r8$java8methods$utility$Long$hashCode$IJ -> b:
@@ -115619,19 +115619,15 @@ com.huli.foxread.rxhttp.OnError$-CC -> com.huli.foxread.i0.e:
 com.huli.foxread.rxhttp.RxHttpManager -> com.huli.foxread.i0.g:
     okhttp3.OkHttpClient simpleClient -> b
     rxhttp.wrapper.callback.IConverter fastJsonConverter -> a
-    1:1:void <clinit>():34:34 -> <clinit>
-    2:2:void <clinit>():37:37 -> <clinit>
-    1:1:void <init>():30:30 -> <init>
+    1:1:void <clinit>():31:31 -> <clinit>
+    2:2:void <clinit>():34:34 -> <clinit>
+    1:1:void <init>():27:27 -> <init>
     boolean lambda$init$0(java.lang.String,javax.net.ssl.SSLSession) -> a
-    1:1:void init(android.app.Application):41:41 -> init
-    2:2:void init(android.app.Application):43:43 -> init
-    3:3:void init(android.app.Application):45:45 -> init
-    4:12:void init(android.app.Application):47:55 -> init
-    13:13:void init(android.app.Application):57:57 -> init
-    14:14:void init(android.app.Application):60:60 -> init
-    15:15:void init(android.app.Application):62:62 -> init
-    16:18:void init(android.app.Application):65:67 -> init
-    19:19:void init(android.app.Application):73:73 -> init
+    1:9:void init(android.app.Application):44:52 -> init
+    10:10:void init(android.app.Application):57:57 -> init
+    11:11:void init(android.app.Application):59:59 -> init
+    12:14:void init(android.app.Application):62:64 -> init
+    15:15:void init(android.app.Application):70:70 -> init
 com.huli.foxread.rxhttp.Tip -> com.huli.foxread.i0.h:
     android.widget.Toast mToast -> b
     android.os.Handler mHandler -> a

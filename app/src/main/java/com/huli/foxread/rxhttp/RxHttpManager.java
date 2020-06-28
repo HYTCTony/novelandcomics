@@ -2,13 +2,10 @@ package com.huli.foxread.rxhttp;
 
 import android.app.Application;
 
-import com.huli.foxread.BuildConfig;
 import com.huli.foxread.RxHttp;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 import rxhttp.RxHttpPlugins;
@@ -38,11 +35,11 @@ public class RxHttpManager {
 
 
     public static void init(Application context) {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("RxHttp");
+        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("RxHttp");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
-        loggingInterceptor.setColorLevel(Level.SEVERE);
+        loggingInterceptor.setColorLevel(Level.SEVERE);*/
 
         File file = new File(context.getExternalCacheDir(), "RxHttpCookie");
         SSLParams sslParams = HttpsUtils.getSslSocketFactory();
@@ -54,7 +51,7 @@ public class RxHttpManager {
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
                 .hostnameVerifier((hostname, session) -> true) //忽略host验证
 //            .followRedirects(false)  //禁制OkHttp的重定向操作，我们自己处理重定向
-                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
+//                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
 //            .addInterceptor(new RedirectInterceptor())
 //            .addInterceptor(new TokenInterceptor())
                 .build();
