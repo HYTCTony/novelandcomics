@@ -76,6 +76,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import io.reactivex.rxjava3.core.Observable;
+import kotlinx.coroutines.TimeoutCancellationException;
 
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
@@ -136,7 +138,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 //        switch2Bookstore();
         if (NetworkUtil.isNetworkAvailable(mContext)) {
             mTabLayout.postDelayed(this::switch2Bookstore, 120);        //延迟初始化，MainActivity启动时间由2225ms变成676ms
-        }else {
+        } else {
             mTabLayout.postDelayed(this::switch2Bookrack, 120);
         }
 
@@ -619,12 +621,75 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         return "";
     }
 
+    private void ssss() {
+        Observable<FUser> bannerObservable = RxHttp.get("http://...")
+                .asClass(FUser.class)
+                .onErrorReturn(throwable -> {
+                    if (throwable instanceof TimeoutCancellationException) {
+                        return UserInfoCache.getUserInfo(this);
+                    }else {
+                        throw throwable;
+                    }
+                });
+//                .onErrorReturnItem(UserInfoCache.getUserInfo(this));
+
+        //学生的Observable对象
+        Observable<UpdateInfo> studentObservable = RxHttp.get("http://...")
+                .asClass(UpdateInfo.class);
+
+        //这里使用RxJava组合符中的merge操作符，将两个被观察者合并为一个
+        Observable.merge(bannerObservable, studentObservable)
+                .to(RxLife.toMain(this)) //感知生命周期，自动关闭请求
+                .subscribe(o -> {
+                    //请求成功，回调2次，一次是Banner数据，一次Student列表
+                    if (o instanceof FUser) {
+                        //获取到banner数据
+                    } else if (o instanceof UpdateInfo) {
+                        //获取到学生列表数据
+                    }
+                }, throwable -> {
+                    //出现异常
+                }, () -> {
+                    //2个请求执行完毕，开始更新UI
+                });
+    }
+
     /**
      * 检测更新
      */
     private void checkNewVersion() {
         String channelName = getChannel();
-        OkGo.<String>post(Consts.VERSION_CHECK_API)
+        RxHttp.postForm(Consts.USER_LOGOUT_API) //发送登出请求
+                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
+                .add(Consts.FACILITY, Consts.DEVICE_ANDROID)
+                .add(Consts.APK_CHANNEL, channelName)
+                .add(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
+                .asResponse(UpdateInfo.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(updateInfo -> {
+                    boolean isForce = updateInfo.getEnforce() == 1;
+                    CustomDialog.show(MainActivity.this, R.layout.layout_custom_dialog_version_check, (dialog, v) -> {
+                        ImageView btnClose = v.findViewById(R.id.iv_asBtn_close_update);
+                        btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
+                        NumberProgressBar progressBar = v.findViewById((R.id.numberProgressBar_download_apk));
+                        progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
+                        TextView tvVerName = v.findViewById(R.id.tv_new_version_name);
+                        tvVerName.setText(("v_" + updateInfo.getVersionName()));
+                        TextView tvContent = v.findViewById(R.id.tv_update_info_content);
+                        tvContent.setText(updateInfo.getContent());
+
+                        btnClose.setOnClickListener(v1 -> dialog.doDismiss());
+                        v.findViewById(R.id.versionchecklib_version_dialog_commit).setOnClickListener(v11 -> {
+                            downloadApkTask(updateInfo, progressBar, dialog);
+                            if (!isForce) {
+                                dialog.doDismiss();
+                            }
+                        });
+                    });
+                });
+
+
+       /* OkGo.<String>post(Consts.VERSION_CHECK_API)
                 .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
                 .params(Consts.APK_CHANNEL, channelName)
                 .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
@@ -656,7 +721,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                             });
                         }
                     }
-                });
+                });*/
     }
 
     /**
