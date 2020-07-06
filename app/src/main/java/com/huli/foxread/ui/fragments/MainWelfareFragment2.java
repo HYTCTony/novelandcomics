@@ -17,24 +17,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
-import com.bytedance.sdk.openadsdk.TTAdManager;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
-import com.huli.foxread.config.TTAdManagerHolder;
+import com.huli.foxread.config.AdConfig;
+import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.contact.CsjAdsCode;
+import com.huli.foxread.ebsevent.WelfareChangeEvent;
 import com.huli.foxread.engines.GlideImageLoaderWf;
 import com.huli.foxread.entity.BannerADEntity;
 import com.huli.foxread.entity.CapitalEntity;
@@ -43,8 +36,10 @@ import com.huli.foxread.entity.MissionEntity;
 import com.huli.foxread.entity.MissionGroupEntity;
 import com.huli.foxread.entity.SignInMissionEntity;
 import com.huli.foxread.entity.WelfarePageEntity;
-import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
 import com.huli.foxread.entity.sections.MissionSection2;
+import com.huli.foxread.rxhttp.ErrorInfo;
+import com.huli.foxread.rxhttp.OnError;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.activities.AdvFreeSuccessActivity;
 import com.huli.foxread.ui.activities.CommonWebActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
@@ -55,10 +50,10 @@ import com.huli.foxread.ui.adapters.WelfareMissionAdapter2;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.ClickJumpUtil;
 import com.huli.foxread.utils.StatusBarUtils;
+import com.hytc.ads.helper.stimulatevideo.TogetherAdStimulate;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.dialog.v3.WaitDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -70,6 +65,8 @@ import com.youth.banner.listener.OnBannerListener;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,13 +98,13 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     //当Fragment可见的时候刷新书架
     private boolean shouldRefresh = false;
 
-    private TTAdNative mTTAdNative;
-    private TTRewardVideoAd mttRewardVideoAd;
+    /* private TTAdNative mTTAdNative;
+     private TTRewardVideoAd mttRewardVideoAd;
 
-    private boolean mIsExpress = false; //是否请求模板广告
-    private boolean mHasShowDownloadActive = false;
+     private boolean mIsExpress = false; //是否请求模板广告
+     private boolean mHasShowDownloadActive = false;*/
     /*观看视频验证*/
-//    private boolean mRewardVerify;
+    private boolean verify = false;
 
     @Override
     public int bindLayout() {
@@ -161,15 +158,15 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         boolean isTourist = UserInfoCache.getIsTourist(mActivity);
         displayIsLoginUI(isTourist);
 
-        reqGetWerfareTasks(false);
+        reqGetWerfareTasks();
 
 
         //step1:初始化sdk
-        TTAdManager ttAdManager = TTAdManagerHolder.get();
+        /*TTAdManager ttAdManager = TTAdManagerHolder.get();
         //step2:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
 //        TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
         //step3:创建TTAdNative对象,用于调用广告请求接口
-        mTTAdNative = ttAdManager.createAdNative(mActivity.getApplicationContext());
+        mTTAdNative = ttAdManager.createAdNative(mActivity.getApplicationContext());*/
 
     }
 
@@ -200,7 +197,6 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                         AdvFreeSuccessActivity.start(mActivity);
                         return;
                     }
-
                     //一般任务领取奖励
                     reqMissionComplete(missionEntity.getId());
                 }
@@ -214,10 +210,65 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
      * @param vType
      */
     private void loadAd(final String vType) {
-        WaitDialog.show((AppCompatActivity) mActivity, R.string.loading).setCancelable(false);
+        String token = TokenCache.getToken(mActivity);
+        String adConst;
+        if (vType.equals(Common.VIDEO_BONUSES)) {
+            adConst = TogetherAdConst.AD_WELFARE_STIMULATE_COIN;
+        } else {
+            adConst = TogetherAdConst.AD_WELFARE_STIMULATE_2;
+        }
+
+        TogetherAdStimulate.showAdFull(mActivity, token, AdConfig.welfareBonusesConfig(mActivity), adConst, new TogetherAdStimulate.AdListenerSplashFull() {
+
+            @Override
+            public void onStartRequest(@NotNull String channel) {
+                WaitDialog.show((AppCompatActivity) mActivity, R.string.loading).setCancelable(false);
+            }
+
+            @Override
+            public void onADClick(@NotNull String channel) {
+
+            }
+
+            @Override
+            public void onAdFailed(@Nullable String failedMsg) {
+                Tip.show(failedMsg);
+            }
+
+            @Override
+            public void onAdRewardVerify(boolean rewardVerify) {
+                verify = rewardVerify;
+                if (verify) {
+                    if (vType.equals(Common.VIDEO_BONUSES)) {
+                        reportStimulateMission(Consts.WELFARE_CHANGEBONUSES_API);
+                    } else if (vType.equals(Common.VIDEO_ADVERT)) {
+                        reportStimulateMission(Consts.WELFARE_CHANGEADVERT_API);
+                    }
+                }
+            }
+
+            @Override
+            public void onAdDismissed() {
+                if (verify) {
+                    if (vType.equals(Common.VIDEO_BONUSES)) {
+                        reqGetWerfareTasks();
+                    } else if (vType.equals(Common.VIDEO_ADVERT)) {
+                        AdvFreeSuccessActivity.start(mActivity);
+                    }
+                } else {
+                    Tip.show("激励视频奖励验证未通过");
+                }
+                verify = false;
+            }
+
+            @Override
+            public void onAdPrepared(@NotNull String channel) {
+                WaitDialog.dismiss();
+            }
+        });
 
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-        AdSlot adSlot;
+       /* AdSlot adSlot;
         if (vType.equals(Common.VIDEO_BONUSES)) {
             //个性化模板广告需要传入期望广告view的宽、高，单位dp，
             adSlot = new AdSlot.Builder()
@@ -292,19 +343,19 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                         } else if (vType.equals(Common.VIDEO_ADVERT)) {
                             AdvFreeSuccessActivity.start(mActivity);
                         }
-                        /*if (mRewardVerify) {
-                            if (vType.equals(Common.VIDEO_BONUSES)) {
-                                reqGetWerfareTasks(false);
-                            } else if (vType.equals(Common.VIDEO_ADVERT)) {
-                                AdvFreeSuccessActivity.start(mActivity);
-                            }
-                            mRewardVerify = false;
-                        } else {
-                            if (vType.equals(Common.VIDEO_ADVERT)) {
-                                Toast.makeText(mActivity, "激励视频验证失败！", Toast.LENGTH_SHORT).show();
-                                reqGetWerfareTasks(false);
-                            }
-                        }*/
+//                        if (mRewardVerify) {
+//                            if (vType.equals(Common.VIDEO_BONUSES)) {
+//                                reqGetWerfareTasks(false);
+//                            } else if (vType.equals(Common.VIDEO_ADVERT)) {
+//                                AdvFreeSuccessActivity.start(mActivity);
+//                            }
+//                            mRewardVerify = false;
+//                        } else {
+//                            if (vType.equals(Common.VIDEO_ADVERT)) {
+//                                Toast.makeText(mActivity, "激励视频验证失败！", Toast.LENGTH_SHORT).show();
+//                                reqGetWerfareTasks(false);
+//                            }
+//                        }
                     }
 
                     //视频播放完成回调
@@ -327,7 +378,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                     }
                 });
             }
-        });
+        });*/
     }
 
 
@@ -335,8 +386,6 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
-        OkGo.getInstance().cancelTag(Consts.WELFARE_LIST_API);
     }
 
     /*如用户登录 登出*/
@@ -344,7 +393,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     public void onUserInfoChangeEvent(FUser event) {
         boolean isTourist = event.isIs_tourist();
         displayIsLoginUI(isTourist);
-        reqGetWerfareTasks(false);
+        reqGetWerfareTasks();
     }
 
     /*刷新UI金币（资金）*/
@@ -357,7 +406,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWelfareChangeEvent(WelfareChangeEvent event) {
         if (event.isRefreshImmediately()) {
-            reqGetWerfareTasks(false);
+            reqGetWerfareTasks();
         } else {
             shouldRefresh = true;
         }
@@ -371,7 +420,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
             if (isVisible() && shouldRefresh) {
 //                Log.e("ssssssss", "onHiddenChanged可见");
-                reqGetWerfareTasks(false);
+                reqGetWerfareTasks();
                 shouldRefresh = false;
             }
         }
@@ -382,7 +431,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         super.onResume();
         if (isVisible() && shouldRefresh) {
 //            Log.e("ssssssss", "onResume可见");
-            reqGetWerfareTasks(false);
+            reqGetWerfareTasks();
             shouldRefresh = false;
         }
     }
@@ -400,7 +449,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        reqGetWerfareTasks(false);
+        reqGetWerfareTasks();
 
         ((MainActivity) mActivity).reqMyCapitalDetail();
         ((MainActivity) mActivity).getUserReadTime();
@@ -518,8 +567,57 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     /**
      * 福利任务列表
      */
-    private void reqGetWerfareTasks(boolean showDialog) {
-        OkGo.<String>get(Consts.WELFARE_LIST_API)
+    private void reqGetWerfareTasks() {
+        RxHttp.postForm(Consts.WELFARE_LIST_API)
+                .asResponse(WelfarePageEntity.class)
+                .doFinally(() -> mRefreshLayout.finishRefresh())
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(welfarePageEntity -> {
+                    //banner
+                    bannerDatas = welfarePageEntity.getBanner();
+                    if (bannerDatas != null) {
+                        mBanner.update(bannerDatas);
+                    }
+
+                    //普通签到
+                    SignInMissionEntity signInEntity = welfarePageEntity.getSign_in();
+                    int signInFlag = signInEntity.getStatus();
+                    btnSignInNow.setText(signInEntity.getProgress());
+                    if (signInFlag == 1) {
+                        btnSignInNow.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_white));
+                        btnSignInNow.setBackgroundResource(R.drawable.ripple_semicircle_btn_gradual_bg_yellow);
+                    } else {
+                        btnSignInNow.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray));
+                        btnSignInNow.setBackgroundResource(R.drawable.shape_btn_semicircle_bg_disabled);
+                    }
+                    tvGoldCoinCount.setText(setNumColor(mActivity, signInEntity.getType_name()));
+                    tvSignInCount.setText(setNumColor(mActivity, signInEntity.getContent()));
+
+                    //列表任务
+                    List<MissionSection2> list = new ArrayList<>();
+                    List<MissionGroupEntity> missionGroups = welfarePageEntity.getList();
+                    for (int i = 0; i < missionGroups.size(); i++) {
+                        MissionGroupEntity group = missionGroups.get(i);
+                        List<MissionEntity> welfares = group.getWelfare();
+                        if (welfares == null) {
+                            continue;
+                        }
+                        list.add(new MissionSection2(true, group.getTitle()));
+                        for (int j = 0; j < welfares.size(); j++) {
+                            MissionEntity missionEntity = welfares.get(j);
+                            if (missionEntity.getSign_successions() > 0 && missionEntity.getSign_successions() <= 7) {
+                                list.add(new MissionSection2(false, MissionSection2.TYPE_MISSION_7DAY, missionEntity));
+                            } else {
+                                list.add(new MissionSection2(false, MissionSection2.TYPE_MISSION_NOR, missionEntity));
+                            }
+                        }
+                    }
+                    mAdapter.setVipMode(UserInfoCache.getIsVip(mActivity));
+                    mAdapter.setList(list);
+
+                    footerRule.setVisibility(View.VISIBLE);
+                });
+       /* OkGo.<String>get(Consts.WELFARE_LIST_API)
                 .tag(Consts.WELFARE_LIST_API)
                 .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
                     @Override
@@ -581,7 +679,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                         super.onFinish();
                         mRefreshLayout.finishRefresh();
                     }
-                });
+                });*/
     }
 
 
@@ -589,7 +687,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
      * 完成任务领取奖励
      */
     private void reqMissionComplete(String id) {
-        OkGo.<String>get(Consts.WELFARE_COMPLETE_API)
+        /*OkGo.<String>get(Consts.WELFARE_COMPLETE_API)
                 .params(Consts.MISSION_ID, id)
                 .execute(new LtbCallback((AppCompatActivity) mActivity) {
                     @Override
@@ -607,7 +705,31 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                             TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
                         }
                     }
-                });
+                });*/
+        RxHttp.postForm(Consts.WELFARE_COMPLETE_API)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .add(Consts.MISSION_ID, id)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> WaitDialog.show((AppCompatActivity) mActivity, R.string.loading))
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+                    //刷新任务列表
+                    reqGetWerfareTasks();
+                    //刷新我的资产
+                    ((MainActivity) mActivity).reqMyCapitalDetail();
+                    TipDialog.show((AppCompatActivity) mActivity, "奖励领取成功", TipDialog.TYPE.SUCCESS);
+                }, (OnError) error -> TipDialog.show((AppCompatActivity) mActivity, error.getErrorMsg(), TipDialog.TYPE.ERROR));
+    }
+
+    /**
+     * 上报激励视频任务验证状况
+     */
+    private void reportStimulateMission(String url) {
+        RxHttp.postForm(url)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
+                .asResponse(String.class)
+                .subscribe(s -> {
+                }, (OnError) ErrorInfo::show);
     }
 
 

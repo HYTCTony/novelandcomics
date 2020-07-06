@@ -166,21 +166,9 @@ public interface Func {
 
 
     /**
-     * 开屏广告(GET)
+     * 获取不同平台广告出现几率配置(GET)
      */
-    String ADS_TAIL = "/advertisement/tail";
-    /**
-     * 横幅广告(GET)
-     */
-    String ADS_BANNER = "/advertisement/banner";
-    /**
-     * 插屏广告(GET)
-     */
-    String ADS_PLAQUE = "/advertisement/plaque";
-    /**
-     * 信息流广告(GET)
-     */
-    String ADS_INFO = "/advertisement/info";
+    String ADS_ADVERT_TAIL = "/Advert/tail";
 
 
     /**
@@ -512,6 +500,20 @@ public interface Func {
      * 参数：
      */
     String WELFARE_COMPLETESINGIN = "/welfare/completeSingIn";
+
+    /**
+     * 用途：激励视频（免广告）上报验证
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_CHANGEADVERT = "/welfare/changeAdvert";
+
+    /**
+     * 用途：激励视频（得金币）上报验证
+     * 头：token---token(Y)
+     * 参数：
+     */
+    String WELFARE_CHANGEBONUSES = "/welfare/changeBonuses";
 
     /**
      * 用途：邀请详情(奖励)(GET)

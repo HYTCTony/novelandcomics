@@ -22,7 +22,7 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.base.PagingWarpper;
-import com.huli.foxread.entity.eventbus.SearchRecordEvent;
+import com.huli.foxread.ebsevent.SearchRecordEvent;
 import com.huli.foxread.ui.adapters.SearchResultBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;

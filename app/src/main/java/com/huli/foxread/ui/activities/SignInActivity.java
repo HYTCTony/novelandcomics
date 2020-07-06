@@ -9,19 +9,18 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
+import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ebsevent.WelfareChangeEvent;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.NormalSignInEntity;
 import com.huli.foxread.entity.SignInDetailEntity;
 import com.huli.foxread.entity.WelfareTaskEntity;
-import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.WeekSignInStateAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
@@ -30,8 +29,7 @@ import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -190,7 +188,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     /**
      * 我的资金详情
      */
-    public void reqMyCapitalDetail() {
+    /*public void reqMyCapitalDetail() {
         OkGo.<String>get(Consts.USER_CAPITAL_API)
                 .execute(new LtbCallback(this, false) {
                     @Override
@@ -206,13 +204,13 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         }
                     }
                 });
-    }
+    }*/
 
 
     /**
      * 获取签到详情
      */
-    private void getSignInInfo() {
+    /*private void getSignInInfo() {
         OkGo.<String>get(Consts.WELFARE_SIGNIN_API)
                 .execute(new LtbCallback(this, false) {
                     @Override
@@ -253,12 +251,13 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         }
                     }
                 });
-    }
+    }*/
+
 
     /**
      * 签到
      */
-    private void reqSignIn() {
+   /* private void reqSignIn() {
         OkGo.<String>get(Consts.WELFARE_COMPLETESINGIN_API)
                 .execute(new LtbCallback(this) {
                     @Override
@@ -291,6 +290,92 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                         reqMyCapitalDetail();
                         getSignInInfo();
                     }
+                });
+    }*/
+
+    /**
+     * 我的资金详情
+     */
+    public void reqMyCapitalDetail() {
+        RxHttp.postForm(Consts.USER_CAPITAL_API)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
+                .asResponse(CapitalEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(capitalEntity -> {
+                    tvMyGoldCoin.setText(String.valueOf(capitalEntity.getScore()));
+                    tvTodayGoldCoin.setText(String.valueOf(capitalEntity.getToday_score()));
+                });
+    }
+
+
+    /**
+     * 获取签到详情
+     */
+    private void getSignInInfo() {
+        RxHttp.postForm(Consts.WELFARE_SIGNIN_API)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
+                .asResponse(SignInDetailEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(entity -> {
+                    NormalSignInEntity signIn = entity.getSign_in();
+                    signFlag = signIn.getStatus();             //是否已签到标记
+                    int getGb = signIn.getReward();               //签到获得的金币
+                    continuousSignInCount = signIn.getSign_successions();
+
+                    WelfareTaskEntity welfare = entity.getWelfare();
+                    String number = welfare.getNumber();
+                    tvGrpPeopleCount.setText((number + getString(R.string.txt_people_already_receive)));
+                    mAdapter.setList(entity.getList());
+
+                    if (signFlag == 2) {        //已签到
+                        mAdapter.setSignInChange(true);
+                    }
+
+                    btnSignIn.setEnabled(false);
+                    btnSignIn.setTextColor(ContextCompat.getColor(SignInActivity.this, R.color.txt_red));
+                    btnSignIn.setBackgroundResource(R.drawable.shape_btn_bg_semicircle_border_red);
+                    btnSignIn.setText(String.format(getString(R.string.txt_continuous_sign_in_day_x), (continuousSignInCount)));
+
+                    SpannableString spanbs = new SpannableString(String.format(getString(R.string.txt_congratulations_get_gold_coin_x), getGb));
+                    spanbs.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.txt_red)),
+                            spanbs.length() - 2 - String.valueOf(getGb).length() - 1,
+                            spanbs.length() - 2,
+                            Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+                    tvTitleSignIn.setText(spanbs);
+                }, (OnError) error -> TipDialog.show(SignInActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR)
+                        .setOnDismissListener(this::finish));
+    }
+
+    /**
+     * 签到
+     */
+    private void reqSignIn() {
+        RxHttp.postForm(Consts.WELFARE_COMPLETESINGIN_API)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
+                .asResponse(Integer.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(() -> {
+                    dismissLoadingDialog();
+                    reqMyCapitalDetail();
+                    getSignInInfo();
+                })
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(i -> {
+                    //刷新任务列表
+                    signFlag = 1;
+                    btnSignIn.setEnabled(false);
+
+                    int getGb = i;       //签到的奖励
+                    //弹窗提示签到成功
+                    CustomDialog.build(SignInActivity.this, R.layout.layout_custom_dialog_sign_in_success, (dialog, v) -> {
+                        TextView tvGetGold = v.findViewById(R.id.iv_get_gold_coin_count);
+                        tvGetGold.setText(String.format(getString(R.string.txt_get_goldcoin_x), getGb));
+                        v.findViewById(R.id.iv_asBtn_close).setOnClickListener(view1 -> dialog.doDismiss());
+                        v.findViewById(R.id.btn_i_see).setOnClickListener(view12 -> dialog.doDismiss());
+                    }).show();
+
+                    //通知刷新福利列表
+                    EventBus.getDefault().post(new WelfareChangeEvent(true));
                 });
     }
 }

@@ -17,34 +17,36 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.bytedance.sdk.openadsdk.TTAdNative;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
-import com.huli.foxread.config.TTAdManagerHolder;
+import com.huli.foxread.config.AdConfig;
+import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.contact.CsjAdsCode;
+import com.huli.foxread.entity.AdConfigBean;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.notchtools.NotchTools;
 import com.huli.foxread.notchtools.core.NotchProperty;
 import com.huli.foxread.notchtools.core.OnNotchCallBack;
+import com.huli.foxread.rxhttp.OnError;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.UniqueIdManager;
+import com.hytc.ads.helper.splash.TogetherAdSplash;
 import com.kongzue.dialog.v3.CustomDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.qq.gdt.action.ActionType;
 import com.qq.gdt.action.GDTAction;
+import com.rxjava.rxlife.RxLife;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -58,16 +60,7 @@ import pub.devrel.easypermissions.EasyPermissions;
  */
 public class FrLaunchActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks {
 
-    /*广告时间*/
-    private int count = 5;
-
-    private TTAdNative mTTAdNative;
     private FrameLayout mSplashContainer;
-
-    //开屏广告加载超时时间,建议大于3000,这里为了冷启动第一次加载到广告并且展示,示例设置了3000ms
-    private static final int AD_TIME_OUT = 5000;
-    private String mCodeId = CsjAdsCode.SPLASH_CODE_ID;
-    private boolean mIsExpress = false; //是否请求模板广告
 
     @Override
     protected void setStatusBar() {
@@ -114,39 +107,28 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         $(R.id.tv_asBtn_reconnect).setOnClickListener(new OnClickEvent() {
             @Override
             public void singleClick(View v) {
-                reqUniqueIDLogin(true);
+                if (NetworkUtil.isNetworkAvailable(FrLaunchActivity.this)) {
+                    reqUniqueIDLogin(true);
+                    $(R.id.ctl_no_network_show).setVisibility(View.GONE);
+                } else {
+                    Tip.show(R.string.network_error);
+                }
             }
         });
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        //step2:创建TTAdNative对象
-        mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
-        getExtraInfo();
-        //在合适的时机申请权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题
-        //在开屏时候申请不太合适，因为该页面倒计时结束或者请求超时会跳转，在该页面申请权限，体验不好
-        // TTAdManagerHolder.getInstance(this).requestPermissionIfNecessary(this);
-
         boolean isFirstRun = (boolean) SPFUtils.get(this, Common.SPF_KEY_FIRST_RUN, true);
         if (isFirstRun) {   //安装后首次运行（其实是有没有同意使用协议）
             showAgreementDialog();
         } else {
             statrInitTask();
         }
+
+        reqAdsProbabilityConfig();
     }
 
-    private void getExtraInfo() {
-        Intent intent = getIntent();
-        if (intent == null) {
-            return;
-        }
-        String codeId = intent.getStringExtra("splash_rit");
-        if (!TextUtils.isEmpty(codeId)) {
-            mCodeId = codeId;
-        }
-        mIsExpress = intent.getBooleanExtra("is_express", false);
-    }
 
     private Handler handler = new Handler(msg -> {
         if (msg.what == 9) {
@@ -159,139 +141,31 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
      * 加载开屏广告
      */
     private void loadSplashAd() {
-        handler.sendEmptyMessageDelayed(9, 1200);
+//        handler.sendEmptyMessageDelayed(9, 1200);
 
-
-       /* //step3:创建开屏广告请求参数AdSlot,具体参数含义参考文档
-        AdSlot adSlot;
-        if (mIsExpress) {
-            //个性化模板广告需要传入期望广告view的宽、高，单位dp，请传入实际需要的大小，
-            //比如：广告下方拼接logo、适配刘海屏等，需要考虑实际广告大小
-            float expressViewWidth = UIUtils.getScreenWidthDp(this);
-            float expressViewHeight = UIUtils.getHeight(this);
-            adSlot = new AdSlot.Builder()
-                    .setCodeId(mCodeId)
-                    .setSupportDeepLink(true)
-                    .setImageAcceptedSize(1080, 1920)
-                    //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
-                    .setExpressViewAcceptedSize(expressViewWidth, expressViewHeight)
-                    .build();
-        } else {
-            adSlot = new AdSlot.Builder()
-                    .setCodeId(mCodeId)
-                    .setSupportDeepLink(true)
-                    .setImageAcceptedSize(1080, 1920)
-                    .build();
-        }
-        //step4:请求广告，调用开屏广告异步请求接口，对请求回调的广告作渲染处理
-        mTTAdNative.loadSplashAd(adSlot, new TTAdNative.SplashAdListener() {
+        TogetherAdSplash.showAdFull(this, AdConfig.splashAdConfig(this), TogetherAdConst.AD_SPLASH, mSplashContainer, null, null, new TogetherAdSplash.AdListenerSplashFull() {
             @Override
-            @MainThread
-            public void onError(int code, String message) {
-//                Log.e(TAG, "onError===" + String.valueOf(message));
-                goMain();
+            public void onAdPrepared(@NotNull String channel) {
             }
 
             @Override
-            @MainThread
-            public void onTimeout() {
-//               Log.e(TAG, "开屏广告加载超时");
-                goMain();
+            public void onAdDismissed() {
+                handler.sendEmptyMessageDelayed(9, 100);
             }
 
             @Override
-            @MainThread
-            public void onSplashAdLoad(TTSplashAd ad) {
-//                Log.d(TAG, "开屏广告请求成功");
-                if (ad == null) {
-                    goMain();
-                    return;
-                }
-                //获取SplashView
-//                mSplashContainer.setVisibility(View.VISIBLE);
-                View view = ad.getSplashView();
-                if (mSplashContainer != null && !FrLaunchActivity.this.isFinishing()) {
-                    mSplashContainer.removeAllViews();
-                    //把SplashView 添加到ViewGroup中,注意开屏广告view：width >=70%屏幕宽；height >=50%屏幕高
-                    mSplashContainer.addView(view);
-                    //设置不开启开屏广告倒计时功能以及不显示跳过按钮,如果这么设置，您需要自定义倒计时逻辑
-                    //ad.setNotAllowSdkCountdown();
-                } else {
-                    goMain();
-                }
-
-                //设置SplashView的交互监听器
-                ad.setSplashInteractionListener(new TTSplashAd.AdInteractionListener() {
-                    @Override
-                    public void onAdClicked(View view, int type) {
-//                        Log.d(TAG, "开屏广告点击");
-//                        showToast("开屏广告点击");
-                    }
-
-                    @Override
-                    public void onAdShow(View view, int type) {
-//                        Log.d(TAG, "onAdShow");
-//                        showToast("开屏广告展示");
-                    }
-
-                    @Override
-                    public void onAdSkip() {
-//                        Log.d(TAG, "onAdSkip");
-//                        showToast("开屏广告跳过");
-                        goMain();
-                    }
-
-                    @Override
-                    public void onAdTimeOver() {
-//                        Log.d(TAG, "onAdTimeOver");
-//                        showToast("开屏广告倒计时结束");
-                        goMain();
-                    }
-                });
-                if (ad.getInteractionType() == TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-                    ad.setDownloadListener(new TTAppDownloadListener() {
-                        boolean hasShow = false;
-
-                        @Override
-                        public void onIdle() {
-                        }
-
-                        @Override
-                        public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                            if (!hasShow) {
-//                                showToast("下载中...");
-                                hasShow = true;
-                            }
-                        }
-
-                        @Override
-                        public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-//                            showToast("下载暂停...");
-
-                        }
-
-                        @Override
-                        public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-//                            showToast("下载失败...");
-
-                        }
-
-                        @Override
-                        public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-//                            showToast("下载完成...");
-
-                        }
-
-                        @Override
-                        public void onInstalled(String fileName, String appName) {
-//                            showToast("安装完成...");
-
-                        }
-                    });
-                }
+            public void onAdFailed(@Nullable String failedMsg) {
+                handler.sendEmptyMessageDelayed(9, 1200);
             }
-        }, AD_TIME_OUT);*/
 
+            @Override
+            public void onAdClick(@NotNull String channel) {
+            }
+
+            @Override
+            public void onStartRequest(@NotNull String channel) {
+            }
+        });
     }
 
 
@@ -302,8 +176,13 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         //token为空 判定为APP安装后第一次登录，反之。
         String token = TokenCache.getToken(this);
 
+        //判断为首次登录
         if (TextUtils.isEmpty(token)) {
-            reqUniqueIDLogin(false);
+            if (NetworkUtil.isNetworkAvailable(this)) {
+                reqUniqueIDLogin(false);
+            } else {
+                $(R.id.ctl_no_network_show).setVisibility(View.VISIBLE);    //-->无网络
+            }
         } else {
             //  是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
             //  是否有性别---> 有：   reqAdsFromNet();
@@ -317,7 +196,6 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
             }
         }
     }
-
 
 
     @Override
@@ -349,7 +227,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     /**
      * 获取用户信息
      */
-    private void reqInitUserInfo() {
+    /*private void reqInitUserInfo() {
         OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
                 .tag(Consts.USERS_INFO_API + "_launch")
                 .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
@@ -384,14 +262,59 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                         goMain();
                     }
                 });
-    }
+    }*/
 
     /**
      * 游客登录
      */
     private void reqUniqueIDLogin(boolean showDialog) {
         String uniqueID = UniqueIdManager.getUniqueID(FrLaunchActivity.this);
-        OkGo.<String>post(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
+        RxHttp.postForm(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
+                .add(Consts.UNIQUE_ID, uniqueID)
+                .asResponse(LoginRpsEntity.class)
+                .flatMap(loginRpsEntity -> {
+                    String token = loginRpsEntity.getToken();
+                    TokenCache.saveToken(FrLaunchActivity.this, token);
+                    //获取用户信息
+                    return RxHttp.postForm(Consts.USERS_INFO_API)
+                            .subscribeOnCurrent() //当前线程发送登录请求(RxHttp默认在IO线程执行请求，也默认在IO线程回调)
+                            .asResponse(FUser.class);
+                })
+                .doOnSubscribe(disposable -> {
+                    if (showDialog) {
+                        showLoadingDialog();
+                    }
+                })
+                .doFinally(() -> {
+                    if (showDialog) {
+                        dismissLoadingDialog();
+                    }
+                })
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(fUser -> {
+                    UserInfoCache.saveUserInfo(FrLaunchActivity.this, fUser);
+                    //  是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
+                    //  是否有性别---> 有：   reqAdsFromNet();
+                    int gender = fUser.getGender();
+                    if (gender == 0) {
+                        startActivity(new Intent(FrLaunchActivity.this, GenderChoiceActivity.class));
+                        finish();
+                    } else {
+                        //加载开屏广告
+                        loadSplashAd();
+                    }
+                }, (OnError) error -> {
+                    int code = error.getErrorCode();
+                    if (code == 10001 || code == 10010) {
+                        //加载开屏广告
+                        loadSplashAd();
+                    } else {
+                        goMain();
+                    }
+                });
+
+
+       /* OkGo.<String>post(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
                 .params(Consts.UNIQUE_ID, uniqueID)
                 .execute(new LtbCallback(this, showDialog) {
                     @Override
@@ -413,6 +336,19 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                         super.onError(response);
                         $(R.id.ctl_no_network_show).setVisibility(View.VISIBLE);
                     }
+                });*/
+    }
+
+    /**
+     * 获取三个平台广告出现几率配置
+     */
+    private void reqAdsProbabilityConfig() {
+        RxHttp.get(Consts.ADS_ADVERT_TAIL_API)
+                .setAssemblyEnabled(false)
+                .asResponse(AdConfigBean.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(bean -> {
+                    AdConfig.saveAdConfig(this, bean);
                 });
     }
 

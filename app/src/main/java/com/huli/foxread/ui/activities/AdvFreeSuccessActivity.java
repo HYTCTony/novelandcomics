@@ -18,7 +18,7 @@ import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FreeAdvRespone;
-import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
+import com.huli.foxread.ebsevent.WelfareChangeEvent;
 import com.huli.foxread.services.CountService;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.page.model.event.AdMessage;

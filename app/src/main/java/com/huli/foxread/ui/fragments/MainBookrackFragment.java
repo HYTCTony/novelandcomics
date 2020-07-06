@@ -13,46 +13,42 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.bytedance.sdk.openadsdk.AdSlot;
-import com.bytedance.sdk.openadsdk.TTAdManager;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
+import com.baidu.mobad.feeds.NativeResponse;
+import com.bytedance.sdk.openadsdk.TTFeedAd;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.config.AdConfig;
 import com.huli.foxread.config.TTAdManagerHolder;
+import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.contact.CsjAdsCode;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.multi.BookShelfOrADsMultEntity;
+import com.huli.foxread.rxhttp.ErrorInfo;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SearchBookActivity;
 import com.huli.foxread.ui.activities.SignInActivity;
-import com.huli.foxread.ui.adapters.BookRackAdapter2;
+import com.huli.foxread.ui.adapters.BookRackAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.UIUtils;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.local.BookRepository;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.huli.page.utils.RxUtils;
+import com.hytc.ads.helper.flow.TogetherAdFlow;
 import com.kongzue.dialog.v3.MessageDialog;
-import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
+import com.qq.e.ads.nativ.NativeUnifiedADData;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -60,10 +56,13 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,6 +71,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 /**
  * 书架
@@ -81,18 +81,17 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     private Toolbar mToolbar;
     private SmartRefreshLayout layout;
     private RecyclerView recyclerView;
-    private BookRackAdapter2 rackAdapter;
+    private BookRackAdapter rackAdapter;
 
     private CardView cardSpecialRecommend;
     private ImageView ivookCoverPush;
     private TextView tvBookNamePush, tvBookIntroPush;
 
     /*书架数据*/
-//    private List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
+    private List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
+    private boolean isInit = true;
 
     private String specialBookId;
-
-    private TTAdNative mTTAdNative;
 
     private long lastReqTime;       //上次获取书架数据的时间
 
@@ -123,7 +122,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         layout.setDragRate(1);
         recyclerView = $(view, R.id.recyclerView_my_bookrack);
         recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        rackAdapter = new BookRackAdapter2();
+        rackAdapter = new BookRackAdapter();
         recyclerView.setAdapter(rackAdapter);
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_book_rack, recyclerView, false);
         rackAdapter.setHeaderView(headView);
@@ -156,10 +155,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     public void doBusiness(Context mContext) {
         EventBus.getDefault().register(this);
 
-        //step1:初始化sdk
-        TTAdManager ttAdManager = TTAdManagerHolder.get();
-        //step2:创建TTAdNative对象,用于调用广告请求接口
-        mTTAdNative = ttAdManager.createAdNative(mActivity);
         //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
         boolean haveAsked = (boolean) SPFUtils.get(mContext, "csj_have_asked_perm", false);
         if (!haveAsked) {
@@ -183,6 +178,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         } else {
             mToolbar.setTitle(event.getUsername());
         }
+
+        isInit = true;
         reqGetBooks();
     }
 
@@ -217,7 +214,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @SuppressLint("CheckResult")
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
         BookShelfOrADsMultEntity multEntity = datas.get(position);
         if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
@@ -246,22 +243,10 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         }
     }
 
-    boolean fff;
 
     @SuppressLint("CheckResult")
     @Override
     public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-//        if (!fff) {
-//            appBarLayout.setExpanded(false, true);
-//            recyclerView.setNestedScrollingEnabled(false);
-//            Window window = mActivity.getWindow();//获取当前activity的window
-//            ViewGroup decorView = (ViewGroup) window.getDecorView();//获取activity的跟布局
-//        } else {
-//            appBarLayout.setExpanded(true, true);
-//            recyclerView.setNestedScrollingEnabled(true);
-//        }
-//        fff = !fff;
-
         List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
         BookShelfOrADsMultEntity multEntity = datas.get(position);
         if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
@@ -280,21 +265,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         return true;
     }
 
-    /**
-     * 控制appbar的滑动
-     * <p>
-     * true 允许滑动 false 禁止滑动
-     */
-    /*private void banAppBarScroll(boolean isScroll) {
-        View mAppBarChildAt = appBarLayout.getChildAt(0);
-        AppBarLayout.LayoutParams mAppBarParams = (AppBarLayout.LayoutParams) mAppBarChildAt.getLayoutParams();
-        if (isScroll) {
-            mAppBarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED);
-            mAppBarChildAt.setLayoutParams(mAppBarParams);
-        } else {
-            mAppBarParams.setScrollFlags(0);
-        }
-    }*/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -332,8 +302,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     /**
      * 加载feed广告
      */
-    private void loadListAd(int count, boolean isRefresh) {
-        float expressViewWidth = UIUtils.getScreenWidthDp(mActivity);
+    private void loadListAd(boolean isRefresh) {
+        /*float expressViewWidth = UIUtils.getScreenWidthDp(mActivity);
         float expressViewHeight = 0;     //高度设置为0,则高度会自适应
         //step4:创建feed广告请求类型参数AdSlot,具体参数含义参考文档
         AdSlot adSlot = new AdSlot.Builder()
@@ -355,87 +325,92 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 //                    Toast.makeText(mActivity, "on FeedAdLoaded: ad is null!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-               /* if (isRefresh) {
+               *//* if (isRefresh) {
                 } else {
-                    rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+                    rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
                     recyclerView.scrollToPosition(0);
-                }*/
+                }*//*
 
                 List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
                 if (oldDatas.size() > 0) {
                     BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
-                    if (adEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADS) {
-                        rackAdapter.setData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+                    if (adEntity.getItemType() == BookShelfOrADsMultEntity.TYPE_ADS_CSJ) {
+                        rackAdapter.setData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
                     } else {
-                        rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+                        rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
                         recyclerView.scrollToPosition(0);
                     }
                 } else {
-                    rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADS, null, ads.get(0)));
+                    rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
                     recyclerView.scrollToPosition(0);
                 }
+
+            }
+        });*/
+        /*List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
+        if (datas.size() > 0) {
+            BookShelfOrADsMultEntity multEntity = datas.get(0);
+            if(multEntity.getItemType()==BookShelfOrADsMultEntity.TYPE_ADS_GDT){
+                NativeUnifiedADData addata = (NativeUnifiedADData) multEntity.getAds();
+                if(addata!=null){
+                    addata.destroy();
+                }
+            }
+        }*/
+
+        TogetherAdFlow.getAdList(mActivity, AdConfig.listAdConfig(mActivity), TogetherAdConst.AD_FLOW_BOOKRACK, 4, new TogetherAdFlow.AdListenerList() {
+            @Override
+            public void onAdFailed(@Nullable String failedMsg) {
+
+            }
+
+            @Override
+            public void onAdLoaded(@NotNull String channel, @NotNull List<?> adList) {
+                if (adList.size() == 0) {
+//                    Toast.makeText(mActivity, "on FeedAdLoaded: ad is null!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                BookShelfOrADsMultEntity adData = null;
+                Random random = new Random();
+                Object any = adList.get(random.nextInt(adList.size()));
+                if (any instanceof NativeUnifiedADData) {
+                    adData = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_GDT, null, any);
+                } else if (any instanceof NativeResponse) {
+                    adData = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_BAIDU, null, any);
+                } else if (any instanceof TTFeedAd) {
+//                    adData = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, any);
+                }
+
+                if (adData != null) {
+                    if (isInit) {
+                        rackAdapter.addData(0, adData);
+                        recyclerView.scrollToPosition(0);
+                    } else {
+                        MainBookrackFragment.this.datas.add(0, adData);
+                        rackAdapter.setList(MainBookrackFragment.this.datas);
+                    }
+                }
+                isInit = false;
+            }
+
+            @Override
+            public void onStartRequest(@NotNull String channel) {
 
             }
         });
     }
 
-    /*private void bindAdListener(final List<TTNativeExpressAd> ads) {
-        final int count = mData.size();
-        for (TTNativeExpressAd ad : ads) {
-            final TTNativeExpressAd adTmp = ad;
-            int random = (int) (Math.random() * LIST_ITEM_COUNT) + count - LIST_ITEM_COUNT;
-            mData.set(random, adTmp);
-            myAdapter.notifyDataSetChanged();
-
-            adTmp.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
-                @Override
-                public void onAdClicked(View view, int type) {
-                    TToast.show(NativeExpressListActivity.this, "广告被点击");
-                }
-
-                @Override
-                public void onAdShow(View view, int type) {
-                    TToast.show(NativeExpressListActivity.this, "广告展示");
-                }
-
-                @Override
-                public void onRenderFail(View view, String msg, int code) {
-                    TToast.show(NativeExpressListActivity.this, msg + " code:" + code);
-                }
-
-                @Override
-                public void onRenderSuccess(View view, float width, float height) {
-                    //返回view的宽高 单位 dp
-                    TToast.show(NativeExpressListActivity.this, "渲染成功");
-                    myAdapter.notifyDataSetChanged();
-                }
-            });
-            ad.render();
-
-        }
-
-    }*/
-
-
     /**
      * 删除书架书籍
      */
     private void reqDelBooks(String novelIds) {
-        OkGo.<String>post(Consts.BOOKRACK_DEL_API)
-                .params(Consts.NOVEL_ID, novelIds)
-                .execute(new LtbCallback((AppCompatActivity) mActivity) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-
-                        } else {
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.BOOKRACK_DEL_API)
+                .add(Consts.NOVEL_ID, novelIds)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+                }, (OnError) ErrorInfo::show);
     }
 
     /**
@@ -449,69 +424,24 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         }
         lastReqTime = nowTime;
 
-        OkGo.<String>get(Consts.BOOKRACK_GETLIST_API)
-                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
-                                });
-
-                        List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
-                        if (entity.error_code == 0) {
-
-                            List<BookShelfListBean> list = entity.getData();
-                            BookShelfOrADsMultEntity multEntity;
-                            for (BookShelfListBean bean : list) {
-                                multEntity = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.DETAILED, bean, null);
-                                datas.add(multEntity);
-                            }
-                            datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
-
-                            List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
-                            if (oldDatas.size() > 0) {
-                                BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
-                                if (adEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADS) {  //如果第一个item有广告
-                                    datas.add(0, adEntity);
-                                }
-                            }
-                            rackAdapter.setList(datas);
-
-                        } else {
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-
-                        loadListAd(1, false);
+        RxHttp.postForm(Consts.BOOKRACK_GETLIST_API)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .asResponseList(BookShelfListBean.class)
+                .doFinally(() -> layout.finishRefresh())
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(list -> {
+                    datas.clear();
+                    BookShelfOrADsMultEntity multEntity;
+                    for (BookShelfListBean bean : list) {
+                        multEntity = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.DETAILED, bean, null);
+                        datas.add(multEntity);
                     }
+                    datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
 
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        layout.finishRefresh();
+                    if (isInit) {
+                        rackAdapter.setList(datas);
                     }
-
-                    @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
-                        LzyResponse<List<BookShelfListBean>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<BookShelfListBean>>>() {
-                                });
-
-                        List<BookShelfOrADsMultEntity> datas = new ArrayList<>();
-                        if (entity.error_code == 0) {
-
-                            List<BookShelfListBean> list = entity.getData();
-                            BookShelfOrADsMultEntity multEntity;
-                            for (BookShelfListBean bean : list) {
-                                multEntity = new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.DETAILED, bean, null);
-                                datas.add(multEntity);
-                            }
-                            datas.add(new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.ITEM_ADD_BOOK, null, null));
-
-                            rackAdapter.setList(datas);
-                        }
-                    }
+                    loadListAd(false);
                 });
     }
 
@@ -519,32 +449,16 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      * 获取特别推荐的一本书
      */
     private void getSpecialBook() {
-        OkGo.<String>get(Consts.SPECIAL_BOOK_API)
-                .cacheMode(CacheMode.FIRST_CACHE_THEN_REQUEST)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<BookEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<BookEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            BookEntity data = entity.getData();
-                            specialBookId = data.getId();
-                            GlideUtil.loadRoundRect(mActivity, ivookCoverPush, data.getHttp_image());
-                            tvBookNamePush.setText(data.getName());
-                            tvBookIntroPush.setText(data.getIntroduce());
-                        } else {
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-
-                    @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
-                        onSuccess(response);
-                    }
+        RxHttp.postForm(Consts.SPECIAL_BOOK_API)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .asResponse(BookEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(data -> {
+                    specialBookId = data.getId();
+                    GlideUtil.loadRoundRect(mActivity, ivookCoverPush, data.getHttp_image());
+                    tvBookNamePush.setText(data.getName());
+                    tvBookIntroPush.setText(data.getIntroduce());
                 });
     }
-
 
 }

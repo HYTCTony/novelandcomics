@@ -3,9 +3,14 @@ package com.huli.foxread.rxhttp;
 import android.app.Application;
 
 import com.huli.foxread.RxHttp;
+import com.huli.foxread.cache.TokenCache;
+import com.huli.foxread.contact.Consts;
+import com.huli.foxread.utils.PackageUtils;
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import okhttp3.OkHttpClient;
 import rxhttp.RxHttpPlugins;
@@ -35,11 +40,11 @@ public class RxHttpManager {
 
 
     public static void init(Application context) {
-        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("RxHttp");
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("RxHttp");
         //log打印级别，决定了log显示的详细程度
         loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
         //log颜色级别，决定了log在控制台显示的颜色
-        loggingInterceptor.setColorLevel(Level.SEVERE);*/
+        loggingInterceptor.setColorLevel(Level.SEVERE);
 
         File file = new File(context.getExternalCacheDir(), "RxHttpCookie");
         SSLParams sslParams = HttpsUtils.getSslSocketFactory();
@@ -51,7 +56,7 @@ public class RxHttpManager {
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
                 .hostnameVerifier((hostname, session) -> true) //忽略host验证
 //            .followRedirects(false)  //禁制OkHttp的重定向操作，我们自己处理重定向
-//                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
+                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
 //            .addInterceptor(new RedirectInterceptor())
 //            .addInterceptor(new TokenInterceptor())
                 .build();
@@ -70,11 +75,11 @@ public class RxHttpManager {
         RxHttp.setConverter(FastJsonConverter.create());
 
         //设置公共参数，非必须
-        /* RxHttp.setOnParamAssembly(p -> {
+        RxHttp.setOnParamAssembly(p -> {
 //         根据不同请求添加不同参数，子线程执行，每次发送请求前都会被回调
 //            如果希望部分请求不回调这里，发请求前调用Param.setAssemblyEnabled(false)即可
 
-             if (p instanceof GetRequest) {//根据不同请求添加不同参数
+             /*if (p instanceof GetRequest) {//根据不同请求添加不同参数
              } else if (p instanceof PostRequest) {
              } else if (p instanceof PutRequest) {
              } else if (p instanceof DeleteRequest) {
@@ -88,7 +93,9 @@ public class RxHttpManager {
             }
             return p.add("versionName", "1.0.0")//添加公共参数
                     .add("time", System.currentTimeMillis())
-                    .addHeader("deviceType", "android"); //添加公共请求头
-        });*/
+                    .addHeader("deviceType", "android"); //添加公共请求头*/
+            return p.add(Consts.VERSION_CODE, PackageUtils.getVersionCode(context))
+                    .addHeader(Consts.TOKEN, TokenCache.getToken(context));
+        });
     }
 }

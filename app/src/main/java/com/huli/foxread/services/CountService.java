@@ -6,7 +6,7 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.huli.foxread.entity.eventbus.WelfareChangeEvent;
+import com.huli.foxread.ebsevent.WelfareChangeEvent;
 
 import org.greenrobot.eventbus.EventBus;
 

@@ -17,9 +17,9 @@ public class TTAdManagerHolder {
 
 
     public static TTAdManager get() {
-        if (!sInit) {
+       /* if (!sInit) {
             throw new RuntimeException("TTAdSdk is not init, please check.");
-        }
+        }*/
         return TTAdSdk.getAdManager();
     }
 

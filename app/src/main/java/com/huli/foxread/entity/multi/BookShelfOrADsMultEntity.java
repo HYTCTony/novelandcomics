@@ -1,6 +1,5 @@
 package com.huli.foxread.entity.multi;
 
-import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.huli.page.model.bean.BookShelfListBean;
 
@@ -13,14 +12,16 @@ public class BookShelfOrADsMultEntity implements MultiItemEntity, Serializable {
 
     public static final int ITEM_ADD_BOOK = 0;
     public static final int DETAILED = 1;
-    public static final int ITEM_ADS = 2;
+    public static final int TYPE_ADS_CSJ = 2;
+    public static final int TYPE_ADS_GDT = 3;
+    public static final int TYPE_ADS_BAIDU = 4;
 
     private int itemType;
     private BookShelfListBean book;
-    private TTNativeExpressAd ads;
+    private Object ads;
 
 
-    public BookShelfOrADsMultEntity(int itemType, BookShelfListBean book, TTNativeExpressAd ads) {
+    public BookShelfOrADsMultEntity(int itemType, BookShelfListBean book, Object ads) {
         this.itemType = itemType;
         this.book = book;
         this.ads = ads;
@@ -34,11 +35,11 @@ public class BookShelfOrADsMultEntity implements MultiItemEntity, Serializable {
         this.book = book;
     }
 
-    public TTNativeExpressAd getAds() {
+    public Object getAds() {
         return ads;
     }
 
-    public void setAds(TTNativeExpressAd ads) {
+    public void setAds(Object ads) {
         this.ads = ads;
     }
 

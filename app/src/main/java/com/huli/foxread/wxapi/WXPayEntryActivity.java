@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.huli.foxread.FrApp;
-import com.huli.foxread.entity.eventbus.WXPaySuccessEvent;
+import com.huli.foxread.ebsevent.WXPaySuccessEvent;
 import com.huli.foxread.utils.Tos;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;

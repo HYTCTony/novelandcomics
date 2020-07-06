@@ -1,7 +1,5 @@
 package com.huli.foxread.rxhttp.parser;
 
-import android.util.Log;
-
 import com.huli.foxread.entity.base.BaseEntity;
 import com.huli.foxread.entity.base.PageList;
 

@@ -35,8 +35,8 @@ import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.UpdateInfo;
-import com.huli.foxread.entity.eventbus.ReadingTimeEvent;
-import com.huli.foxread.entity.eventbus.UnReadMsgEvent;
+import com.huli.foxread.ebsevent.ReadingTimeEvent;
+import com.huli.foxread.ebsevent.UnReadMsgEvent;
 import com.huli.foxread.entity.tab.TabEntity;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
@@ -137,9 +137,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     public void doBusiness(Context mContext) {
 //        switch2Bookstore();
         if (NetworkUtil.isNetworkAvailable(mContext)) {
-            mTabLayout.postDelayed(this::switch2Bookstore, 120);        //延迟初始化，MainActivity启动时间由2225ms变成676ms
+            mTabLayout.postDelayed(this::switch2Bookstore, 100);        //延迟初始化，MainActivity启动时间由2225ms变成676ms
         } else {
-            mTabLayout.postDelayed(this::switch2Bookrack, 120);
+            mTabLayout.postDelayed(this::switch2Bookrack, 100);
         }
 
         // 获取唤醒参数
@@ -659,7 +659,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      */
     private void checkNewVersion() {
         String channelName = getChannel();
-        RxHttp.postForm(Consts.USER_LOGOUT_API) //发送登出请求
+        RxHttp.postForm(Consts.VERSION_CHECK_API)
                 .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .add(Consts.FACILITY, Consts.DEVICE_ANDROID)
                 .add(Consts.APK_CHANNEL, channelName)

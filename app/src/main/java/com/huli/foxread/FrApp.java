@@ -10,17 +10,17 @@ import android.util.Log;
 import com.chad.library.adapter.base.module.LoadMoreModuleConfig;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
-import com.huli.foxread.config.TTAdManagerHolder;
+import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.rxhttp.RxHttpManager;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
+import com.hytc.ads.TogetherAd;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
-import com.qq.e.comm.managers.GDTADManager;
 import com.qq.gdt.action.GDTAction;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -44,12 +44,15 @@ import com.umeng.socialize.PlatformConfig;
 
 import org.android.agoo.xiaomi.MiPushRegistar;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import okhttp3.OkHttpClient;
+
 /*切换分支*/
 public class FrApp extends Application implements ActivityState {
 
@@ -110,38 +113,77 @@ public class FrApp extends Application implements ActivityState {
         LoadMoreModuleConfig.setDefLoadMoreView(new MyLoadMoreView());
 
         if (isMainProcess()) {
-//            OpenInstall.init(this);
             ShareInstall.getInstance().init(getApplicationContext(), new SDKInitListener() {
                 @Override
                 public void onSuccess() {
-                    Log.e("Application", "onInitSuccess");
+//                    Log.e("Application", "onInitSuccess");
                 }
 
                 @Override
                 public void onError(String s) {
-                    Log.e("Application", "onInitError:" + s);
+//                    Log.e("Application", "onInitError:" + s);
                 }
             });
             AutoLoginManager.getInstance().initAvoidPwd(sInstance, AutoLoginUtils.getCmccConfig(), AutoLoginUtils.getAuthViewDynamicConfig(sInstance),
                     AutoLoginUtils.getUnicomConfig(), new AvoidPwdLoginInitListener() {
                         @Override
                         public void onInitSuccess() {
-                            Log.e("Application", " AutoLogin onInitSuccess");
+//                            Log.e("Application", " AutoLogin onInitSuccess");
                         }
 
                         @Override
                         public void onInitError(String s) {
-                            Log.e("Application", " AutoLogin onInitError = " + s);
+//                            Log.e("Application", " AutoLogin onInitError = " + s);
                         }
                     });
         }
 
         //穿山甲SDK初始化
         //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
-        TTAdManagerHolder.init(this);
+//        TTAdManagerHolder.init(this);
+        Map<String, String> csjIdMap = new HashMap<>();
+        csjIdMap.put(TogetherAdConst.AD_SPLASH, "887319954");
+        csjIdMap.put(TogetherAdConst.AD_FLOW_BOOKRACK, "945165433");
+        csjIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_COIN, "945166035");
+        csjIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_2, "945192284");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_DARK_BLUE, "945160023");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_POOL_BLUE, "945160023");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_GREEN, "945160023");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_ASHEN, "945160023");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_PINK, "945160023");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_NIGHT, "945160023");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER, "945160023");
+        csjIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "945245837");
+        csjIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "945245836");
+        csjIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "945245831");
+        csjIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "945245835");
+        csjIdMap.put(TogetherAdConst.AD_CENTER_PINK, "945191678");
+        csjIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "945245839");
+        csjIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "945191706");
+        TogetherAd.initCsjAd(sInstance, "5063649", sInstance.getString(R.string.app_name), csjIdMap, true);
 
         //腾讯广告初始化
-        GDTADManager.getInstance().initWith(this, "207010113294");
+        Map<String, String> gdtIdMap = new HashMap<>();
+        gdtIdMap.put(TogetherAdConst.AD_SPLASH, "7061113827587147");
+        gdtIdMap.put(TogetherAdConst.AD_FLOW_BOOKRACK, "6061817848543342");
+        gdtIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_COIN, "4071315827299728");
+        gdtIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_2, "8071116807691652");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_DARK_BLUE, "6031314807992506");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_POOL_BLUE, "1051616857493878");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_GREEN, "9091012838409041");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_ASHEN, "4021613888626047");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_PINK, "1051910888820190");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_NIGHT, "7031518858722295");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER, "9071118858437887");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "9001217858920807");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "9071118858437887");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "2041811858431090");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "2031817858638698");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_PINK, "1061415838541032");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "6001219898794913");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "4011019898634903");
+        TogetherAd.initGDTAd(sInstance, "207010113294", gdtIdMap);
+
         //广点通数据上报
         GDTAction.init(this, "1110534603", "d1522e4f9d76fb2f910b15527a82efd4", getChannel());
     }
@@ -169,12 +211,12 @@ public class FrApp extends Application implements ActivityState {
 
     @Override
     public void isFront() {
-        Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到前台");
+//        Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到前台");
     }
 
     @Override
     public void isBack() {
-        Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到后台");
+//        Log.e("FrApp", ">>>>>>>>>>>>>>>>>>>App切到后台");
     }
 
 
@@ -229,7 +271,7 @@ public class FrApp extends Application implements ActivityState {
         //小米
         MiPushRegistar.register(getApplicationContext(), "2882303761518355168", "5471835523168");
 
-        UMConfigure.setLogEnabled(true);
+        UMConfigure.setLogEnabled(false);
         //debug模式
 //        InAppMessageManager.getInstance(getApplicationContext()).setInAppMsgDebugMode(true);
 

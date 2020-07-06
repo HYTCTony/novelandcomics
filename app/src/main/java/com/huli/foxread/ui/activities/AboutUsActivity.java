@@ -46,6 +46,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+/**
+ * 关于我们
+ */
 public class AboutUsActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView ivLogo;

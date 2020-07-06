@@ -8,6 +8,7 @@ import com.huli.foxread.utils.SPFUtils;
 
 public class TokenCache {
     private static String token;
+
     public static void saveToken(Context context, String mToken) {
         token = mToken;
         SPFUtils.put(context, Common.KEY_TOKEN, mToken);
@@ -20,7 +21,7 @@ public class TokenCache {
         return (String) SPFUtils.get(context, Common.KEY_TOKEN, "");
     }
 
-    public static void clearToken(Context context){
+    public static void clearToken(Context context) {
         SPFUtils.remove(context, Common.KEY_TOKEN);
     }
 }
