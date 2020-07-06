@@ -1,6 +1,8 @@
 package com.huli.page.model.local;
 
 
+import android.text.TextUtils;
+
 import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.SharedPreUtils;
 import com.huli.page.widget.page.PageMode;
@@ -30,6 +32,7 @@ public class ReadSettingManager {
     public static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
     public static final String SHARED_READ_CONVERT_TYPE = "shared_read_convert_type";
     public static final String SHARED_READ_ADVERT_TIME = "shared_read_advert_time";
+    public static final String SHARED_READ_FONT_NAME = "shared_read_font_name";
 
     private static volatile ReadSettingManager sInstance;
 
@@ -150,5 +153,13 @@ public class ReadSettingManager {
 
     public long getAdvertTime() {
         return sharedPreUtils.getLong(SHARED_READ_ADVERT_TIME, 0);
+    }
+
+    public void setFont(String fontName) {
+        sharedPreUtils.putString(SHARED_READ_FONT_NAME, fontName);
+    }
+
+    public String getFont() {
+        return TextUtils.isEmpty(sharedPreUtils.getString(SHARED_READ_FONT_NAME)) ? "DEFAULT" : sharedPreUtils.getString(SHARED_READ_FONT_NAME);
     }
 }

@@ -19,6 +19,7 @@ import com.huli.foxread.R;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.page.model.local.ReadSettingManager;
+import com.huli.page.ui.activity.FontSelectionActivity;
 import com.huli.page.ui.activity.MoreSettingActivity;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.huli.page.ui.adapter.PageStyleAdapter;
@@ -37,6 +38,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ReadSettingDialog extends Dialog {
     private static final String TAG = "ReadSettingDialog";
@@ -384,5 +386,12 @@ public class ReadSettingDialog extends Dialog {
             return false;
         }
         return mCbBrightnessAuto.isChecked();
+    }
+
+    @OnClick(R.id.btn_select_font)
+    void onClick() {
+        FontSelectionActivity.start(getContext());
+        //关闭当前设置
+        dismiss();
     }
 }

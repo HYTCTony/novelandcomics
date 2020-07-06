@@ -17,6 +17,8 @@ import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
 import com.hytc.ads.TogetherAd;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
@@ -186,6 +188,8 @@ public class FrApp extends Application implements ActivityState {
 
         //广点通数据上报
         GDTAction.init(this, "1110534603", "d1522e4f9d76fb2f910b15527a82efd4", getChannel());
+        //讯飞语言合成
+        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5edc91d4");
     }
 
 

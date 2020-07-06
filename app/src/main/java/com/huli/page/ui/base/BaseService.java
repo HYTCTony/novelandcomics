@@ -2,8 +2,9 @@ package com.huli.page.ui.base;
 
 import android.app.Service;
 
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+
 
 public abstract class BaseService extends Service {
 

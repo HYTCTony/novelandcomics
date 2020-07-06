@@ -5,9 +5,11 @@ public class Font {
     private boolean isSelect;
 
     private String fontName;
+    private String fontPath;
 
-    public Font(String fontName) {
+    public Font(String fontName, String fontPath) {
         this.fontName = fontName;
+        this.fontPath = fontPath;
     }
 
     public boolean isSelect() {
@@ -24,5 +26,13 @@ public class Font {
 
     public void setFontName(String fontName) {
         this.fontName = fontName;
+    }
+
+    public String getFontPath() {
+        return fontPath;
+    }
+
+    public void setFontPath(String fontPath) {
+        this.fontPath = fontPath;
     }
 }
