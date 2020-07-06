@@ -161,42 +161,53 @@ repositories {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
+    implementation fileTree(include: ['*.aar', '*.jar'], exclude: [], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
     //okgo
+
     /*implementation ("com.lzy.net:okgo:3.0.4"){
-        exclude group: 'com.squareup.okhttp3'
-    }*/
+            exclude group: 'com.squareup.okhttp3'
+        }*/
     implementation 'com.lzy.net:okgo:3.0.4'
-//    implementation 'com.lzy.net:okserver:2.0.5'
+
+    //    implementation 'com.lzy.net:okserver:2.0.5'
 
     //RxHttp
-    implementation 'com.ljx.rxlife:rxlife-coroutine:2.0.0' //管理协程生命周期，页面销毁，关闭请求
+    implementation 'com.ljx.rxlife:rxlife-coroutine:2.0.0'
+
+    //管理协程生命周期，页面销毁，关闭请求
     implementation 'com.ljx.rxhttp:rxhttp:2.2.7'
     annotationProcessor 'com.ljx.rxhttp:rxhttp-compiler:2.2.7'
+
     //生成RxHttp类，非kotlin项目，请使用annotationProcessor代替kapt
-    implementation 'com.squareup.okhttp3:okhttp:4.7.2' //rxhttp v2.2.2版本起，需要手动依赖okhttp
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+
+    //rxhttp v2.2.2版本起，需要手动依赖okhttp
 
     //rxjava3
     implementation 'io.reactivex.rxjava3:rxjava:3.0.2'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'com.ljx.rxlife3:rxlife-rxjava:3.0.0' //管理RxJava3生命周期，页面销毁，关闭请求
+    implementation 'com.ljx.rxlife3:rxlife-rxjava:3.0.0'
+
+    //管理RxJava3生命周期，页面销毁，关闭请求
 
     //Converter 根据自己需求选择 RxHttp默认内置了GsonConverter
-//    implementation 'com.ljx.rxhttp:converter-jackson:2.2.7'
-    implementation 'com.ljx.rxhttp:converter-fastjson:2.2.7'
-//    implementation 'com.ljx.rxhttp:converter-protobuf:2.2.7'
-//    implementation 'com.ljx.rxhttp:converter-simplexml:2.2.7'
-    //RxHttp
 
+    //    implementation 'com.ljx.rxhttp:converter-jackson:2.2.7'
+    implementation 'com.ljx.rxhttp:converter-fastjson:2.2.7'
+
+    //    implementation 'com.ljx.rxhttp:converter-protobuf:2.2.7'
+
+    //    implementation 'com.ljx.rxhttp:converter-simplexml:2.2.7'
+
+    //RxHttp
     implementation 'com.alibaba:fastjson:1.2.62'
 
     //glide
@@ -205,13 +216,11 @@ dependencies {
 
     //eventbus
     implementation 'org.greenrobot:eventbus:3.2.0'
-
     implementation 'com.kongzue.stacklabel:stacklabelview:1.1.9'
     implementation 'com.kongzue.dialog_v3x:dialog:3.1.9'
-
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2'
-//    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
+    //    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 
     //屏幕适配
@@ -221,8 +230,7 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
 
-//    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
+    //    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
     implementation 'pub.devrel:easypermissions:2.0.1'
 
     //轮播图
@@ -234,18 +242,26 @@ dependencies {
 
     // ORM Database
     implementation 'org.greenrobot:greendao:3.2.2'
+
     // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+
+    //    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+
+    //    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+
     //日志
     implementation 'com.orhanobut:logger:2.2.0'
+
     //注解
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+
     //下划线
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+
     //动画
     implementation 'com.airbnb.android:lottie:3.0.1'
+
     //bug监控
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
@@ -261,34 +277,51 @@ dependencies {
     annotationProcessor "cn.bingoogolapple:bga-badgeview-compiler:1.1.8"
 
     //********************友盟************************
+
     //基础组件库依赖(必须)
-    implementation 'com.umeng.umsdk:common:9.1.0'       //基础和移动统计合二为一
-//    implementation 'com.umeng.umsdk:utdid:1.5.2'      //跟支付宝支付冲突
+    implementation 'com.umeng.umsdk:common:9.1.0'
 
-    implementation 'com.umeng.umsdk:asms:1.1.3'         //这个有啥用？（没有就会弹SDK初始化失败的吐司）
-    implementation 'com.umeng.umsdk:crash:0.0.4'         //异常捕捉
+    //基础和移动统计合二为一
 
+    //    implementation 'com.umeng.umsdk:utdid:1.5.2'      //跟支付宝支付冲突
+    implementation 'com.umeng.umsdk:asms:1.1.3'
+
+    //这个有啥用？（没有就会弹SDK初始化失败的吐司）
+    implementation 'com.umeng.umsdk:crash:0.0.4'
+
+    //异常捕捉
     implementation 'com.umeng.umsdk:push:6.0.1'
+
     //小米Push通道
     implementation 'com.umeng.umsdk:xiaomi-push:3.6.17'
     implementation 'com.umeng.umsdk:xiaomi-umengaccs:1.1.0'
+
     //PushSDK
 
     //shareSDK
-/*    implementation files('libs/umeng-share-QQ-simplify-6.9.8.jar')
-    implementation files('libs/umeng-share-core-6.9.8.jar')
-    implementation files('libs/umeng-share-wechat-simplify-6.9.8.jar')
-    implementation files('libs/umeng-shareboard-widget-6.9.8.jar')
-    implementation files('libs/umeng-sharetool-6.9.8.jar')*/
+
+    /*    implementation files('libs/umeng-share-QQ-simplify-6.9.8.jar')
+        implementation files('libs/umeng-share-core-6.9.8.jar')
+        implementation files('libs/umeng-share-wechat-simplify-6.9.8.jar')
+        implementation files('libs/umeng-shareboard-widget-6.9.8.jar')
+        implementation files('libs/umeng-sharetool-6.9.8.jar')*/
+
     //********************友盟************************
+
     //微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.4.0'
     implementation project(path: ':flycoTabLayout_lib')
-    //Alipay支付
-//    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
 
-//    implementation(name: 'CTAccountSdk_HY_v3.7.2_all', ext: 'aar')
-//    implementation(name: 'ShareInstall_v1.2.6', ext: 'aar')
-//    implementation(name: 'ShareInstallAutoLogin_v1.2.6', ext: 'aar')
-//    implementation(name: 'open_ad_sdk', ext: 'aar')
+    //Alipay支付
+
+    //    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
+
+    //    implementation(name: 'CTAccountSdk_HY_v3.7.2_all', ext: 'aar')
+
+    //    implementation(name: 'ShareInstall_v1.2.6', ext: 'aar')
+
+    //    implementation(name: 'ShareInstallAutoLogin_v1.2.6', ext: 'aar')
+
+    //    implementation(name: 'open_ad_sdk', ext: 'aar')
+    implementation files('libs/Msc.jar')
 }

@@ -4,16 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
+import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.Font;
+import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.ui.adapter.FontAdapter;
 import com.huli.page.ui.base.BaseViewActivity;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,22 +25,25 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.TintTypedArray;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindColor;
 import butterknife.BindView;
 
 public class FontSelectionActivity extends BaseViewActivity {
+    private static final String TAG = "FontSelectionActivity";
 
-    @BindView(R.id.smart)
-    SmartRefreshLayout layout;
     @BindView(R.id.rv)
     RecyclerView rv;
     FontAdapter mAdapter;
-    @BindColor(R.color.gray)
+    @BindColor(R.color.col_gray_e5e5e5)
     int grey;
+    private ReadSettingManager mSettingManager;
+    private String path;
 
     String[] fontName = {"系统字体", "思源宋体", "方正黑体", "手书体"};
+    String[] fontPath = {"DEFAULT", "sourcehanserif_cn_regular_1.otf", "fangzhengheitijianti_1.ttf", "shoushuti_2.ttf"};
 
     public static void start(Context context) {
         Intent starter = new Intent(context, FontSelectionActivity.class);
@@ -50,9 +57,17 @@ public class FontSelectionActivity extends BaseViewActivity {
 
     @Override
     protected void initView() {
+        StatusBarUtils.setTransparentForImageView(mContext, toolbar);
+        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
+        mSettingManager = ReadSettingManager.getInstance();
+        path = mSettingManager.getFont();
         List<Font> datas = new ArrayList<>();
         for (int i = 0; i < fontName.length; i++) {
-            Font font = new Font(fontName[i]);
+            Font font = new Font(fontName[i], fontPath[i]);
+            if (path.equals(fontPath[i])) {
+                font.setSelect(true);
+            }
             datas.add(font);
         }
 
@@ -72,7 +87,12 @@ public class FontSelectionActivity extends BaseViewActivity {
                 for (Font font : datas) {
                     font.setSelect(false);
                 }
-                datas.get(position).setSelect(true);
+                Font font = (Font) adapter.getItem(position);
+                font.setSelect(true);
+                adapter.notifyDataSetChanged();
+                mSettingManager.setFont(font.getFontPath());
+                EventBus.getDefault().post(font);
+                Log.d(TAG, "click");
             }
         });
     }

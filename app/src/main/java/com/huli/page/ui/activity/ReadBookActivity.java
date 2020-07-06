@@ -53,6 +53,7 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.Advert;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
+import com.huli.page.model.bean.Font;
 import com.huli.page.model.event.AdMessage;
 import com.huli.page.model.local.BookRepository;
 import com.huli.page.model.local.ReadSettingManager;
@@ -179,7 +180,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int POLLING_REQUE_BOTTOM_AD = 2 * 60 * 1000;
     private static final int POLLING_SET_IS_ABC = 30 * 1000;
     private static final int READ_ONE_PAGE_INTERVAL = 15;
-
     /*
      * 广告
      * 黄皮纸：945191706
@@ -1206,6 +1206,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onFontChangeEvent(Font event) {
+        mPageLoader.setFont(event.getFontPath());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

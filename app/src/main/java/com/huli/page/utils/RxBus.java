@@ -1,7 +1,8 @@
 package com.huli.page.utils;
 
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 /**
  * 原理:PublishSubject本身作为观察者和被观察者。

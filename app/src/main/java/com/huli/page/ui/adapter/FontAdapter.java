@@ -1,5 +1,8 @@
 package com.huli.page.ui.adapter;
 
+import android.graphics.Typeface;
+import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
@@ -15,11 +18,13 @@ public class FontAdapter extends BaseQuickAdapter<Font, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, Font item) {
-        helper.setText(R.id.tv_font_name, item.getFontName());
+        TextView fontName = helper.getView(R.id.tv_font_name);
+        fontName.setText(item.getFontName());
+        fontName.setTypeface(item.getFontPath().equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromAsset(getContext().getAssets(), item.getFontPath()));
         if (item.isSelect()) {
-            helper.setGone(R.id.iv_select, true);
+            helper.setBackgroundResource(R.id.iv_select,R.mipmap.icon_select_red);
         } else {
-            helper.setGone(R.id.iv_select, false);
+            helper.setBackgroundResource(R.id.iv_select,R.mipmap.icon_select_white);
         }
     }
 }

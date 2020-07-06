@@ -1,7 +1,7 @@
 package com.huli.page.ui.base;
 
 
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class BasePresenter<V extends BaseContract.IBaseView> implements BaseContract.IBasePresenter<V> {
 
