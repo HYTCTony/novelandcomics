@@ -66,6 +66,7 @@ import com.huli.page.ui.dialog.DislikeDialog;
 import com.huli.page.ui.dialog.ReadSettingDialog;
 import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.Constant;
+import com.huli.page.utils.FileUtils;
 import com.huli.page.utils.MD5Utils;
 import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.SpanUtils;
@@ -1210,7 +1211,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onFontChangeEvent(Font event) {
-        mPageLoader.setFont(event.getFontPath());
+        if (FileUtils.isFontDownload(event.getFontPath())) {
+            mPageLoader.setFont(event.getFontPath());
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

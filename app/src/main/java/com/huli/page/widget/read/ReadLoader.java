@@ -18,6 +18,7 @@ import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.local.BookRepository;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.utils.Constant;
+import com.huli.page.utils.FileUtils;
 import com.huli.page.utils.IOUtils;
 import com.huli.page.utils.NetworkUtils;
 import com.huli.page.utils.RxUtils;
@@ -196,6 +197,9 @@ public abstract class ReadLoader {
         mPageStyle = mSettingManager.getPageStyle();
         mTxtSpecing = mSettingManager.getTxtSpecing();
         fontPath = mSettingManager.getFont();
+        if (!FileUtils.isFontDownload(fontPath)) {
+            fontPath = "DEFAULT";
+        }
         // 初始化参数
         mMarginWidth = ScreenUtils.dpToPx(DEFAULT_MARGIN_WIDTH);
         mMarginHeight = ScreenUtils.dpToPx(DEFAULT_MARGIN_HEIGHT);
@@ -286,14 +290,14 @@ public abstract class ReadLoader {
         mTipPaint.setTextSize(ScreenUtils.spToPx(DEFAULT_TIP_SIZE)); // Tip默认的字体大小
         mTipPaint.setAntiAlias(true);
         mTipPaint.setSubpixelText(true);
-        mTipPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromAsset(mContext.getAssets(), fontPath));
+        mTipPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
 
         // 绘制页面内容的画笔
         mTextPaint = new TextPaint();
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromAsset(mContext.getAssets(), fontPath));
+        mTextPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
 
         // 绘制标题的画笔
         mTitlePaint = new TextPaint();
@@ -303,8 +307,7 @@ public abstract class ReadLoader {
         mTitlePaint.setTextAlign(Paint.Align.LEFT);
         mTitlePaint.setAntiAlias(true);
         mTitlePaint.setFakeBoldText(true);
-        mTitlePaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromAsset(mContext.getAssets(), fontPath));
-
+        mTitlePaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
 
         // 绘制背景的画笔
         mBgPaint = new Paint();
@@ -558,9 +561,9 @@ public abstract class ReadLoader {
      * @param fontPath:字体文件
      */
     public void setFont(String fontPath) {
-        mTitlePaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromAsset(mContext.getAssets(), fontPath));
-        mTipPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromAsset(mContext.getAssets(), fontPath));
-        mTextPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromAsset(mContext.getAssets(), fontPath));
+        mTitlePaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTipPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTextPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
         mPageView.drawCurPage(false);
     }
 

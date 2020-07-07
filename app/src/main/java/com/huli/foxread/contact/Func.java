@@ -371,6 +371,11 @@ public interface Func {
      */
     String ADVERT_AD = "/welfare/advert";
     /**
+     * 获取字体列表
+     * 头：token---token(Y)
+     */
+    String GET_FONT = "/typeface/list";
+    /**
      * -----------------------------废弃
      * 用途：批量加入书架(GET)
      * 头：token---token(Y)

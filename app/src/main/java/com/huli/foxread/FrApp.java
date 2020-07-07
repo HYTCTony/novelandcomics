@@ -11,19 +11,18 @@ import com.chad.library.adapter.base.module.LoadMoreModuleConfig;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.config.TgAdManager;
-import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.rxhttp.RxHttpManager;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
-import com.hytc.ads.TogetherAd;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qq.gdt.action.GDTAction;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -47,9 +46,8 @@ import com.umeng.socialize.PlatformConfig;
 
 import org.android.agoo.xiaomi.MiPushRegistar;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -256,12 +254,12 @@ public class FrApp extends Application implements ActivityState {
         builder.addInterceptor(new TokenInterceptor(sInstance));
         builder.connectTimeout(15, TimeUnit.SECONDS);
 
-//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-//        //log打印级别，决定了log显示的详细程度
-//        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
-//        //log颜色级别，决定了log在控制台显示的颜色
-//        loggingInterceptor.setColorLevel(Level.SEVERE);
-//        builder.addInterceptor(loggingInterceptor);
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
+        //log打印级别，决定了log显示的详细程度
+        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
+        //log颜色级别，决定了log在控制台显示的颜色
+        loggingInterceptor.setColorLevel(Level.SEVERE);
+        builder.addInterceptor(loggingInterceptor);
 
         OkGo.getInstance()
                 .init(this)

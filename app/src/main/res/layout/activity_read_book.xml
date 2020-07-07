@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:background="@color/hl_read_bg_dialog"
             android:visibility="gone"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -118,7 +118,7 @@
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <!--页面进度栏-->
             <LinearLayout
