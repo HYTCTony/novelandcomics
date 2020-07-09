@@ -36,6 +36,17 @@ public class FileUtils {
     }
 
     /**
+     * 根据文件名判断是否已下载
+     *
+     * @param filePath: 文件路径
+     * @return
+     */
+    public static boolean isFontDownload(String filePath) {
+        File file = new File(filePath);
+        return file.exists();
+    }
+
+    /**
      * 根据文件名判断是否被缓存过 (因为可能数据库显示被缓存过，但是文件中却没有的情况，所以需要根据文件判断是否被缓存
      * 过)
      *
@@ -89,6 +100,19 @@ public class FileUtils {
         } else {
             return FrApp.getInstance()
                     .getCacheDir()
+                    .getAbsolutePath();
+        }
+    }
+
+    //获取Files文件夹
+    public static String getFilesPath() {
+        if (isSdCardExist()) {
+            return FrApp.getInstance()
+                    .getExternalFilesDir(null)
+                    .getAbsolutePath();
+        } else {
+            return FrApp.getInstance()
+                    .getFilesDir()
                     .getAbsolutePath();
         }
     }

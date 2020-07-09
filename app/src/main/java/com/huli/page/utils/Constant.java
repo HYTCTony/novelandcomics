@@ -36,6 +36,9 @@ public class Constant {
     //BookCachePath (因为getCachePath引用了Context，所以必须是静态变量，不能够是静态常量)
     public static String BOOK_CACHE_PATH = FileUtils.getCachePath() + File.separator
             + "book_cache" + File.separator;
+    //FontDownloadPath
+    public static String FONT_DOWNLOAD_PATH = FileUtils.getFilesPath() + File.separator
+            + "fonts" + File.separator;
     //文件阅读记录保存的路径
     public static String BOOK_RECORD_PATH = FileUtils.getCachePath() + File.separator
             + "book_record" + File.separator;
