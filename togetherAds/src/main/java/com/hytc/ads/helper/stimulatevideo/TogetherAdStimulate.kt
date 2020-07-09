@@ -261,7 +261,7 @@ object TogetherAdStimulate : AdBase() {
 
                     override fun onVideoError() {}
                     //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
-                    override fun onRewardVerify(rewardVerify: Boolean, rewardAmount: Int, rewardName: String) {
+                    override fun onRewardVerify(rewardVerify: Boolean, rewardAmount: Int, rewardName: String?) {
                         adListener.onAdRewardVerify(rewardVerify)
                     }
 
@@ -270,7 +270,6 @@ object TogetherAdStimulate : AdBase() {
             }
 
             override fun onRewardVideoCached() {
-                adListener.onAdPrepared(AdNameType.CSJ.type)
                 if (mttRewardVideoAd != null) {
                     //step6:在获取到广告后展示,强烈建议在onRewardVideoCached回调后，展示广告，提升播放体验
                     //该方法直接展示广告

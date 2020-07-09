@@ -2,7 +2,10 @@ package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -98,11 +101,6 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
     //当Fragment可见的时候刷新书架
     private boolean shouldRefresh = false;
 
-    /* private TTAdNative mTTAdNative;
-     private TTRewardVideoAd mttRewardVideoAd;
-
-     private boolean mIsExpress = false; //是否请求模板广告
-     private boolean mHasShowDownloadActive = false;*/
     /*观看视频验证*/
     private boolean verify = false;
 
@@ -222,7 +220,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
             @Override
             public void onStartRequest(@NotNull String channel) {
-                WaitDialog.show((AppCompatActivity) mActivity, R.string.loading).setCancelable(false);
+                WaitDialog.show((AppCompatActivity) mActivity, R.string.loading);
             }
 
             @Override
@@ -232,7 +230,8 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
             @Override
             public void onAdFailed(@Nullable String failedMsg) {
-                Tip.show(failedMsg);
+                Tip.show("激励视频加载失败");
+                WaitDialog.dismiss();
             }
 
             @Override
@@ -266,119 +265,6 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                 WaitDialog.dismiss();
             }
         });
-
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-       /* AdSlot adSlot;
-        if (vType.equals(Common.VIDEO_BONUSES)) {
-            //个性化模板广告需要传入期望广告view的宽、高，单位dp，
-            adSlot = new AdSlot.Builder()
-                    .setCodeId(CsjAdsCode.GOLD_COIN_CODE_ID)
-                    .setSupportDeepLink(true)
-//                    .setRewardName("金币") //奖励的名称
-//                    .setRewardAmount(3)  //奖励的数量
-                    //模板广告需要设置期望个性化模板广告的大小,单位dp,激励视频场景，只要设置的值大于0即可
-//                    .setExpressViewAcceptedSize(500, 500)
-                    .setUserID(TokenCache.getToken(mActivity))//用户id,必传参数
-                    .setMediaExtra("media_extra") //附加参数，可选
-                    .setOrientation(TTAdConstant.VERTICAL) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
-                    .build();
-        } else if (vType.equals(Common.VIDEO_ADVERT)) {
-            //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
-            adSlot = new AdSlot.Builder()
-                    .setCodeId(CsjAdsCode.ADV_FREE_CODE_ID)
-                    .setSupportDeepLink(true)
-//                    .setRewardName("金币") //奖励的名称
-//                    .setRewardAmount(3)  //奖励的数量
-                    .setUserID(TokenCache.getToken(mActivity))//用户id,必传参数
-                    .setMediaExtra("media_extra") //附加参数，可选
-                    .setOrientation(TTAdConstant.VERTICAL) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
-                    .build();
-        } else {
-            WaitDialog.dismiss();
-            return;
-        }
-        //step5:请求广告
-        mTTAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
-            @Override
-            public void onError(int code, String message) {
-                WaitDialog.dismiss();
-            }
-
-            //视频广告加载后，视频资源缓存到本地的回调，在此回调后，播放本地视频，流畅不阻塞。
-            @Override
-            public void onRewardVideoCached() {
-                WaitDialog.dismiss();
-
-                if (mttRewardVideoAd != null) {
-                    //step6:在获取到广告后展示,强烈建议在onRewardVideoCached回调后，展示广告，提升播放体验
-                    //该方法直接展示广告
-//                    mttRewardVideoAd.showRewardVideoAd(RewardVideoActivity.this);
-
-                    //展示广告，并传入广告展示的场景
-                    mttRewardVideoAd.showRewardVideoAd(mActivity, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "foxread_welfare");
-                    mttRewardVideoAd = null;
-                } else {
-//                    TToast.show(RewardVideoActivity.this, "请先加载广告");
-                }
-            }
-
-            //视频广告的素材加载完毕，比如视频url等，在此回调后，可以播放在线视频，网络不好可能出现加载缓冲，影响体验。
-            @Override
-            public void onRewardVideoAdLoad(TTRewardVideoAd ad) {
-                mttRewardVideoAd = ad;
-
-                mttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
-                    @Override
-                    public void onAdShow() {
-                    }
-
-                    @Override
-                    public void onAdVideoBarClick() {
-                    }
-
-                    @Override
-                    public void onAdClose() {
-                        if (vType.equals(Common.VIDEO_BONUSES)) {
-                            reqGetWerfareTasks(false);
-                        } else if (vType.equals(Common.VIDEO_ADVERT)) {
-                            AdvFreeSuccessActivity.start(mActivity);
-                        }
-//                        if (mRewardVerify) {
-//                            if (vType.equals(Common.VIDEO_BONUSES)) {
-//                                reqGetWerfareTasks(false);
-//                            } else if (vType.equals(Common.VIDEO_ADVERT)) {
-//                                AdvFreeSuccessActivity.start(mActivity);
-//                            }
-//                            mRewardVerify = false;
-//                        } else {
-//                            if (vType.equals(Common.VIDEO_ADVERT)) {
-//                                Toast.makeText(mActivity, "激励视频验证失败！", Toast.LENGTH_SHORT).show();
-//                                reqGetWerfareTasks(false);
-//                            }
-//                        }
-                    }
-
-                    //视频播放完成回调
-                    @Override
-                    public void onVideoComplete() {
-                    }
-
-                    @Override
-                    public void onVideoError() {
-                    }
-
-                    //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
-                    @Override
-                    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
-//                        mRewardVerify = rewardVerify;
-                    }
-
-                    @Override
-                    public void onSkippedVideo() {
-                    }
-                });
-            }
-        });*/
     }
 
 
@@ -468,7 +354,14 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                 startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
                 break;
             case R.id.tv_asBtn_sign_in_now:
-                startActivity(new Intent(mActivity, SignInActivity.class));
+//                startActivity(new Intent(mActivity, SignInActivity.class));
+                PackageManager packageManager = mActivity.getPackageManager();
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("xl://goods:8888/goodsDetail?goodsId=10011002"));
+                List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+                boolean isValid = !activities.isEmpty();
+                if (isValid) {
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;
@@ -617,69 +510,6 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
 
                     footerRule.setVisibility(View.VISIBLE);
                 });
-       /* OkGo.<String>get(Consts.WELFARE_LIST_API)
-                .tag(Consts.WELFARE_LIST_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<WelfarePageEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<WelfarePageEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            WelfarePageEntity welfarePageEntity = entity.getData();
-
-                            //banner
-                            bannerDatas = welfarePageEntity.getBanner();
-                            if (bannerDatas != null) {
-                                mBanner.update(bannerDatas);
-                            }
-
-                            //普通签到
-                            SignInMissionEntity signInEntity = welfarePageEntity.getSign_in();
-                            int signInFlag = signInEntity.getStatus();
-                            btnSignInNow.setText(signInEntity.getProgress());
-                            if (signInFlag == 1) {
-                                btnSignInNow.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_white));
-                                btnSignInNow.setBackgroundResource(R.drawable.ripple_semicircle_btn_gradual_bg_yellow);
-                            } else {
-                                btnSignInNow.setTextColor(ContextCompat.getColor(mActivity, R.color.txt_gray));
-                                btnSignInNow.setBackgroundResource(R.drawable.shape_btn_semicircle_bg_disabled);
-                            }
-                            tvGoldCoinCount.setText(setNumColor(mActivity, signInEntity.getType_name()));
-                            tvSignInCount.setText(setNumColor(mActivity, signInEntity.getContent()));
-
-                            //列表任务
-                            List<MissionSection2> list = new ArrayList<>();
-                            List<MissionGroupEntity> missionGroups = welfarePageEntity.getList();
-                            for (int i = 0; i < missionGroups.size(); i++) {
-                                MissionGroupEntity group = missionGroups.get(i);
-                                List<MissionEntity> welfares = group.getWelfare();
-                                if (welfares == null) {
-                                    continue;
-                                }
-                                list.add(new MissionSection2(true, group.getTitle()));
-                                for (int j = 0; j < welfares.size(); j++) {
-                                    MissionEntity missionEntity = welfares.get(j);
-                                    if (missionEntity.getSign_successions() > 0 && missionEntity.getSign_successions() <= 7) {
-                                        list.add(new MissionSection2(false, MissionSection2.TYPE_MISSION_7DAY, missionEntity));
-                                    } else {
-                                        list.add(new MissionSection2(false, MissionSection2.TYPE_MISSION_NOR, missionEntity));
-                                    }
-                                }
-                            }
-                            mAdapter.setVipMode(UserInfoCache.getIsVip(mActivity));
-                            mAdapter.setList(list);
-
-                            footerRule.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        mRefreshLayout.finishRefresh();
-                    }
-                });*/
     }
 
 
@@ -687,27 +517,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
      * 完成任务领取奖励
      */
     private void reqMissionComplete(String id) {
-        /*OkGo.<String>get(Consts.WELFARE_COMPLETE_API)
-                .params(Consts.MISSION_ID, id)
-                .execute(new LtbCallback((AppCompatActivity) mActivity) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            //刷新任务列表
-                            reqGetWerfareTasks(false);
-                            //刷新我的资产
-                            ((MainActivity) mActivity).reqMyCapitalDetail();
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.SUCCESS);
-                        } else {
-                            TipDialog.show((AppCompatActivity) mActivity, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });*/
         RxHttp.postForm(Consts.WELFARE_COMPLETE_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.MISSION_ID, id)
                 .asResponse(String.class)
                 .doOnSubscribe(disposable -> WaitDialog.show((AppCompatActivity) mActivity, R.string.loading))
@@ -726,7 +536,6 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
      */
     private void reportStimulateMission(String url) {
         RxHttp.postForm(url)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .asResponse(String.class)
                 .subscribe(s -> {
                 }, (OnError) ErrorInfo::show);

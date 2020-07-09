@@ -117,7 +117,6 @@ public class ReadingPreferenceActivity extends BaseActivity implements RadioGrou
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void reqSetPreference(int preference) {
         RxHttp.postForm(Consts.SET_USER_PROFILE_API) //发送登出请求
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .add(Consts.PERFRENCE, preference)
                 .asString()
                 .subscribe(s -> {

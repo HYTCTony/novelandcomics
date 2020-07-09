@@ -370,7 +370,6 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 });*/
 
         RxHttp.postForm(Consts.INDEX_PAGE_API)
-                .add(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.TYPE, Consts.TYPE_SELECTION)
                 .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
                 .asResponse(HomePageEntity.class)
@@ -434,7 +433,6 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
                 });*/
 
         RxHttp.postForm(Consts.NOVEL_POPULAR_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.PAGE, prePage + 1)
                 .add(Consts.TYPE, Consts.TYPE_SELECTION)
                 .asResponsePageList(BookEntity.class)

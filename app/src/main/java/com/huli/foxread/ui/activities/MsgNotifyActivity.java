@@ -216,7 +216,6 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
                 });*/
 
         RxHttp.get(Consts.MSG_LIST_API) //发送登出请求
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .add(Consts.PAGE, page + 1)
                 .asResponsePageList(SMsgBean.class)
                 .doFinally(() -> {
@@ -244,7 +243,6 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
      */
     private void reqMarkMsgRead(String msgId) {
         RxHttp.postForm(Consts.MSG_MARKED_READ_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .add("id", msgId)
                 .asResponse(String.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
@@ -257,7 +255,6 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
      */
     private void reqSetMsgAllRead() {
         RxHttp.postForm(Consts.MSG_SET_ALL_READ_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .asResponse(String.class)
                 .doOnSubscribe(disposable -> showLoadingDialog())
                 .doFinally(this::dismissLoadingDialog)

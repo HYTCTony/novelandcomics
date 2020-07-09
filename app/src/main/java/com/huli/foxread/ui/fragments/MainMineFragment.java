@@ -14,7 +14,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
-import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
@@ -25,7 +24,7 @@ import com.huli.foxread.ebsevent.UnReadMsgEvent;
 import com.huli.foxread.ebsevent.VipChargerEvent;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
-import com.huli.foxread.ui.activities.InviteFriendsActivity2;
+import com.huli.foxread.ui.activities.InviteFriendsActivity;
 import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.activities.MsgNotifyActivity;
@@ -349,7 +348,7 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 startActivity(new Intent(mActivity, ReadingRecordActivity.class));
                 break;
             case R.id.rtl_asBtn_invite_friends:
-                startActivity(new Intent(mActivity, InviteFriendsActivity2.class));
+                startActivity(new Intent(mActivity, InviteFriendsActivity.class));
                 break;
             case R.id.rtl_asBtn_cash_withdrawal:
                 startActivity(new Intent(mActivity, WithdrawalActivity.class));
@@ -386,23 +385,9 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
      * 福利专区
      */
     private void reqMineWelfareZone() {
-        /*OkGo.<String>get(Consts.WELFARE_USERLIST_API)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<MineWelfareZoneEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<MineWelfareZoneEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<MineWelfareZoneEntity> datas = entity.getData();
-                            wzAdapter.setList(datas);
-                        }
-                    }
-                });*/
         //先获取缓存的
         RxHttp.postForm(Consts.WELFARE_USERLIST_API)
                 .setCacheMode(CacheMode.ONLY_CACHE)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .asResponseList(MineWelfareZoneEntity.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(result -> {
@@ -412,7 +397,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         //再获取网络的
         RxHttp.postForm(Consts.WELFARE_USERLIST_API)
                 .setCacheMode(CacheMode.NETWORK_SUCCESS_WRITE_CACHE)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .asResponseList(MineWelfareZoneEntity.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(result -> {
@@ -425,7 +409,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
      */
     private void reqSetMsgAllRead() {
         RxHttp.postForm(Consts.MSG_SET_ALL_READ_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .asResponse(String.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(s -> {

@@ -48,7 +48,7 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
         String userName = bookReview.getUsername();
         if (!TextUtils.isEmpty(userName)) {
             holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), userName));
-        }else {
+        } else {
             holder.setText(R.id.iv_reviewer_id, String.format(getContext().getString(R.string.txt_book_friend_xid), bookReview.getUser_id()));
         }
         TextView tvContent = holder.getView(R.id.tv_review_content);
@@ -60,28 +60,6 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
         AppCompatCheckBox cbLike = holder.getView(R.id.cb_review_like_and_number);
         cbLike.setChecked(bookReview.getCondition() == 1);
         cbLike.setText(String.valueOf(bookReview.getPrefer()));
-        if (mRecyCbCheckListener != null) {
-            cbLike.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (buttonView.isPressed()) {
-                    if (UserInfoCache.getIsTourist(getContext())) {
-                        LoginActivity.start(getContext());
-                        cbLike.setChecked(!isChecked);
-                        return;
-                    }
-                    int position = holder.getLayoutPosition();
-                    mRecyCbCheckListener.onCbCheckChanged(buttonView, isChecked, position);
-                    if (isChecked) {
-                        getData().get(position).setPrefer(bookReview.getPrefer() + 1);
-                        getData().get(position).setCondition(1);
-                    } else {
-                        getData().get(position).setPrefer(bookReview.getPrefer() - 1);
-                        getData().get(position).setCondition(0);
-                    }
-                    notifyItemChanged(position, BookReviewAdapter.PAYLOAD_CHECKBOX);
-                }
-            });
-        }
-
         tvContent.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
@@ -101,12 +79,42 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
             }
         });
         tvContent.setText(bookReview.getContent());
+
+        cbLike.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!buttonView.isPressed()) {
+                return;
+            }
+            if (mRecyCbCheckListener != null) {
+                if (UserInfoCache.getIsTourist(getContext())) {
+                    LoginActivity.start(getContext());
+                    cbLike.setChecked(!isChecked);
+                    return;
+                }
+                int position = holder.getLayoutPosition();
+                mRecyCbCheckListener.onCbCheckChanged(buttonView, isChecked, position);
+                if (isChecked) {
+                    bookReview.setPrefer(bookReview.getPrefer() + 1);
+                    bookReview.setCondition(1);
+                    getData().set(position, bookReview);
+                } else {
+                    if (bookReview.getPrefer() > 0) {
+                        bookReview.setPrefer(bookReview.getPrefer() - 1);
+                        bookReview.setCondition(0);
+                        getData().set(position, bookReview);
+                    }
+                }
+                notifyItemChanged(position, PAYLOAD_CHECKBOX);
+            }
+            //防止频繁点击
+            cbLike.setEnabled(false);
+            cbLike.postDelayed(() -> cbLike.setEnabled(true), 1200);
+        });
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, BookReview item, @NonNull List<?> payloads) {
         super.convert(holder, item, payloads);
-        for (Object obj : payloads) {
+       /* for (Object obj : payloads) {
             if (obj instanceof Integer) {
                 int payload = (int) obj;
                 //局部更新点赞数
@@ -114,6 +122,7 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
                     holder.setText(R.id.cb_review_like_and_number, String.valueOf(item.getPrefer()));
                 }
             }
-        }
+        }*/
+        holder.setText(R.id.cb_review_like_and_number, String.valueOf(item.getPrefer()));
     }
 }

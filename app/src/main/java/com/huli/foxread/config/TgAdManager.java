@@ -17,6 +17,7 @@ import java.util.Map;
  */
 public class TgAdManager {
     public static void init(Application context) {
+        //穿山甲广告初始化
         Map<String, String> csjIdMap = new HashMap<>();
         csjIdMap.put(TogetherAdConst.AD_SPLASH, "887319954");
         csjIdMap.put(TogetherAdConst.AD_FLOW_BOOKRACK, "945165433");
@@ -59,5 +60,27 @@ public class TgAdManager {
         gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "6001219898794913");
         gdtIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "4011019898634903");
         TogetherAd.initGDTAd(context, "207010113294", gdtIdMap);
+
+        //百度广告初始化
+        Map<String, String> baiduIdMap = new HashMap<>();
+        baiduIdMap.put(TogetherAdConst.AD_SPLASH, "7154344");
+        baiduIdMap.put(TogetherAdConst.AD_FLOW_BOOKRACK, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_COIN, "7154347");
+        baiduIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_2, "7154348");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_DARK_BLUE, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_POOL_BLUE, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_GREEN, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_ASHEN, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_PINK, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_NIGHT, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_CENTER_PINK, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "0000000");
+        TogetherAd.initBaiduAd(context, "c53adfbd", baiduIdMap);
     }
 }

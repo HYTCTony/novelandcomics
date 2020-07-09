@@ -25,7 +25,7 @@ public abstract class OnClickEvent implements View.OnClickListener {
         if (!onMoreClick()) {
             singleClick(v);
         }
-//        lastTime = System.currentTimeMillis();
+        lastTime = System.currentTimeMillis();
     }
 
     /**
@@ -39,7 +39,6 @@ public abstract class OnClickEvent implements View.OnClickListener {
         if (time < delay) {
             flag = true;
         }
-        lastTime = System.currentTimeMillis();
         return flag;
     }
 }

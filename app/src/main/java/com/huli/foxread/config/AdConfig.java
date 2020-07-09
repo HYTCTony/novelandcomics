@@ -1,6 +1,7 @@
 package com.huli.foxread.config;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.huli.foxread.entity.AdConfigBean;
@@ -39,7 +40,7 @@ public class AdConfig {
             data = getAdConfig(context);
         }
         return data.getOpen_screen();
-//        return "baidu:0,gdt:1,csj:1";
+//        return "baidu:1,gdt:1,csj:0";
     }
 
     /**
@@ -82,8 +83,12 @@ public class AdConfig {
         if (data == null) {
             data = getAdConfig(context);
         }
-        return data.getBonuses();
-//        return "baidu:0,gdt:0,csj:1";
+        String bonusesConfig = data.getBonuses();
+        if (TextUtils.isEmpty(bonusesConfig)) {
+            bonusesConfig = "baidu:1,gdt:2,csj:2";
+        }
+        return bonusesConfig;
+//        return "baidu:5,gdt:1,csj:1";
     }
 
     /**
@@ -93,8 +98,12 @@ public class AdConfig {
         if (data == null) {
             data = getAdConfig(context);
         }
-        return data.getAdvert();
-//        return "baidu:0,gdt:0,csj:1";
+        String advertConfig = data.getAdvert();
+        if (TextUtils.isEmpty(advertConfig)) {
+            advertConfig = "baidu:1,gdt:2,csj:2";
+        }
+        return advertConfig;
+//        return "baidu:4,gdt:1,csj:1";
     }
 
     public static String webViewAdConfig(Context context) {
