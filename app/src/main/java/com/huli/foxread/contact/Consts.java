@@ -258,4 +258,7 @@ public interface Consts {
     String PREFER = "prefer";
     String SCORE = "score";
 
+    //书评ID---回复评论用
+    String NOVEL_APPRAISE_ID = "novel_appraise_id";
+
 }

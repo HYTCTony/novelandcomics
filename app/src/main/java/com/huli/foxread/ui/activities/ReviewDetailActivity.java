@@ -1,14 +1,14 @@
 package com.huli.foxread.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,12 +19,10 @@ import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookReview;
 import com.huli.foxread.listeners.OnRecyCbCheckListener;
+import com.huli.foxread.rxhttp.ErrorInfo;
 import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.BookReviewReplyAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.huli.foxread.ui.dialogs.CommonDialog;
-import com.huli.foxread.ui.dialogs.base.BaseDialog;
-import com.huli.foxread.ui.dialogs.base.ViewHolder;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.page.utils.KeyBoardUtils;
@@ -46,7 +44,10 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
     private RecyclerView mRecyclerView;
     private BookReviewReplyAdapter mAdapter;
 
-    private View btnReply;
+    private TextView btnReply;
+    private EditText mEditText;
+
+    private FrameLayout flTouch;
 
     private ImageView ivReviewerHeadImg;
     private TextView ivReviewerId, tvReviewContent, tvReviewTime;
@@ -102,7 +103,12 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
         Toolbar toolbar = $(R.id.toolbar_normal);
         initToolBar(toolbar, R.string.txt_review_detail);
 
-        btnReply = $(R.id.ctl_asBtn_reply);
+        mEditText = $(R.id.tv_say_something);
+        mEditText.setFocusable(true);
+        mEditText.setFocusableInTouchMode(true);
+        flTouch = $(R.id.fl_touch_4_hide_keyboard);
+        btnReply = $(R.id.tv_asBtn_reply);
+
         mRecyclerView = $(R.id.recyclerView_review_reply);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BookReviewReplyAdapter();
@@ -129,6 +135,7 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
         tvAllReply = headView.findViewById(R.id.tv_all_reply);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void setListener() {
         ctlBookContent.setOnClickListener(this);
@@ -136,6 +143,26 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
 
         mAdapter.getLoadMoreModule().setOnLoadMoreListener(this);
         mAdapter.setmRecyCbCheckListener(this);
+
+        mEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                KeyBoardUtils.openKeyboard(ReviewDetailActivity.this, v);
+            } else {
+                KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
+            }
+        });
+        flTouch.setOnTouchListener((v, event) -> {
+            KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
+            return false;
+        });
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mEditText.clearFocus();
     }
 
     @Override
@@ -173,38 +200,14 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
                 intent.putExtra(Common.KEY_BOOK_ID, review.getNovel_id());
                 startActivity(intent);
                 break;
-            case R.id.ctl_asBtn_reply:
-                CommonDialog.newInstance()
-                        .setLayoutId(R.layout.layout_dialog_reply_edit)
-                        .setConvertListener(new CommonDialog.ViewConvertListener() {
-                            @Override
-                            public void convertView(ViewHolder holder, BaseDialog dialog) {
-//                                KeyBoardUtils.openKeyboard(dialog.getContext(), holder.getView(R.id.et_say_something));
-                                EditText etInput = holder.getView(R.id.et_say_something);
-                                etInput.setFocusable(true);
-                            }
-                        })
-                        .setDimAmout(0.5f)
-                        .setShowBottom(true)
-                        .setAnimStyle(R.style.DialogAnimation)
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-//                                KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, dialog);
-                                hideKeyboard(ReviewDetailActivity.this);
-                            }
-                        })
-                        .show(getSupportFragmentManager());
-
+            case R.id.tv_asBtn_reply:
+                KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
+                String str = mEditText.getText().toString();
+                reqPostReply(review.getNovel_id(), str, review.getId());
                 break;
             default:
                 break;
         }
-    }
-
-    public static void hideKeyboard(Context context) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override
@@ -265,9 +268,31 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
 //                                recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
                     } else {
                         mAdapter.getLoadMoreModule().loadMoreComplete();
+                        mAdapter.getLoadMoreModule().setEnableLoadMore(true);
                     }
                 }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
     }
 
+
+    /**
+     * 发表评论
+     *
+     * @param novelId 小说ID
+     * @param content
+     */
+    private void reqPostReply(String novelId, String content, String reviewId) {
+        RxHttp.get(Consts.APPRAISE_CREATE_API)
+                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.CONTENT, content)
+                .add(Consts.NOVEL_APPRAISE_ID, reviewId)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+                    mEditText.setText(null);
+                    reqReplyDatas(reviewId, 0);
+                }, (OnError) ErrorInfo::show);
+    }
 
 }

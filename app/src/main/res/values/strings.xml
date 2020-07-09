@@ -451,6 +451,9 @@
     <string name="txt_in_kookshelf">已加入书架</string>
     <string name="txt_add_2_kookshelf">加入书架</string>
 
+    <string name="txt_reply">回复</string>
+    <string name="txt_say_something">说点什么呢&#8230;</string>
+
 
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>
     <string name="rationale_write_external_storage_4_update_apk">我们需要获取读写手机内存权限，以下载更新APK。</string>

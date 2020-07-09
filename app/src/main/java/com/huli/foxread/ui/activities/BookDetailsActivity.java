@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -23,8 +23,6 @@ import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.config.AdConfig;
-import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
@@ -46,7 +44,6 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.ui.activity.ReadBookActivity;
-import com.hytc.ads.helper.mid.TogetherAdMidExpress;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
@@ -56,9 +53,6 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -259,33 +253,6 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         reqNovelDetails(nId);
         loadCategory(nId);
 
-
-        TogetherAdMidExpress.showAdMid(this, AdConfig.midAdConfig(this), TogetherAdConst.AD_BTM_BANNER_GREEN, new TogetherAdMidExpress.AdListenerMid() {
-            @Override
-            public void onStartRequest(@NotNull String channel) {
-
-            }
-
-            @Override
-            public void onAdClick(@NotNull String channel) {
-
-            }
-
-            @Override
-            public void onAdFailed(@Nullable String failedMsg) {
-                Log.e("sssss", "onAdFailed===" + failedMsg);
-            }
-
-            @Override
-            public void onAdPrepared(@NotNull String channel) {
-
-            }
-
-            @Override
-            public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
-                Log.e("sssss", "onRenderSuccess===" + channel);
-            }
-        });
     }
 
     @Override
@@ -338,7 +305,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_add_a_bookcase_dt:
                 if (isCollected) {
-                    TipDialog.show(BookDetailsActivity.this, R.string.txt_has_been_added_2_the_shelf, TipDialog.TYPE.ERROR);
+//                    TipDialog.show(BookDetailsActivity.this, R.string.txt_has_been_added_2_the_shelf, TipDialog.TYPE.ERROR);
                     return;
                 }
                 reqAdd2BookRack(nId);
@@ -383,6 +350,12 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         giveALikeOrCancel(bookReview.getId(), bookReview.getNovel_id(), b);
     }
 
+    private Handler handler = new Handler(msg -> {
+        if (msg.what == 88) {
+            showLoadingDialog();
+        }
+        return false;
+    });
 
     /**
      * 小说详情
@@ -393,8 +366,14 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
         RxHttp.get(Consts.NOVEL_DETAILS_API)
                 .add(Consts.NOVEL_ID, novelId)
                 .asResponse(BookShelfListBean.class)
-                .doOnSubscribe(disposable -> showLoadingDialog())
-                .doFinally(this::dismissLoadingDialog)
+                .doOnSubscribe(disposable -> {
+                    handler.sendEmptyMessageDelayed(88, 500);
+//                    showLoadingDialog();
+                })
+                .doFinally(() -> {
+                    handler.removeMessages(88);
+                    dismissLoadingDialog();
+                })
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(bean -> {
                     if (bean == null) {
