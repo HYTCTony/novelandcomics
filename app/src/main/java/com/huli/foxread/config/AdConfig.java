@@ -119,7 +119,7 @@ public class AdConfig {
             data = getAdConfig(context);
         }
 //        return data.getFffff();
-        return "baidu:1,gdt:1,csj:1";
+        return "baidu:0,gdt:1,csj:1";
     }
 
 

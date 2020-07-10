@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
 import com.huli.page.model.bean.Font;
+import com.huli.page.utils.Constant;
 
 public class FontAdapter extends BaseQuickAdapter<Font, BaseViewHolder> {
 
@@ -27,7 +28,7 @@ public class FontAdapter extends BaseQuickAdapter<Font, BaseViewHolder> {
         NumberProgressBar progressBar = helper.getView(R.id.progress_bar);
         progressBar.setProgress(item.getProgress());
 
-        if (item.getFile_name().equals("DEFAULT") || item.isDownload()) {
+        if (item.getFile_name().equals(Constant.FONT_TYPE) || item.isDownload()) {
             helper.setGone(R.id.iv_select, false);
             helper.setGone(R.id.btn_download, true);
             helper.setGone(R.id.progress_bar, true);

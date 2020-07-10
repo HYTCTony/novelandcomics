@@ -31,6 +31,8 @@ public class Constant {
     public static final String FORMAT_BOOK_DATE = "yyyy-MM-dd HH:mm:ss";
     public static final String FORMAT_TIME = "HH:mm";
     public static final String FORMAT_FILE_DATE = "yyyy-MM-dd";
+    //Book Font
+    public static final String FONT_TYPE = "DEFAULT";
     //RxBus
     public static final int MSG_SELECTOR = 1;
     //BookCachePath (因为getCachePath引用了Context，所以必须是静态变量，不能够是静态常量)

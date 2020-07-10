@@ -49,18 +49,18 @@ public class MoreSettingActivity extends BaseViewActivity {
         TintTypedArray a = TintTypedArray.obtainStyledAttributes(this,
                 null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
         Drawable drawable = a.getDrawable(R.styleable.ActionBar_homeAsUpIndicator);
-        drawable.setColorFilter(black, PorterDuff.Mode.MULTIPLY);
+        drawable.setColorFilter(white, PorterDuff.Mode.MULTIPLY);
         toolbar.setNavigationIcon(drawable);
-        toolbar.setTitleTextColor(black);
-        toolbar.setSubtitleTextColor(black);
+        toolbar.setTitleTextColor(white);
+        toolbar.setSubtitleTextColor(white);
         super.initToolbar(toolbar);
     }
 
     @Override
     protected void initView() {
-        StatusBarUtils.setTransparentForImageView(mContext, toolbar);
-        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
-        StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
+//        StatusBarUtils.setTransparentForImageView(mContext, toolbar);
+        StatusBarUtils.setColor(this, ContextCompat.getColor(mContext, R.color.black), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(mContext, false);
 
         mSettingManager = ReadSettingManager.getInstance();
         isVolumeTurnPage = mSettingManager.isVolumeTurnPage();
