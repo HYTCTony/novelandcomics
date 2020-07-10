@@ -76,26 +76,18 @@ public class FrApp extends Application implements ActivityState {
     //static 代码段可以防止内存泄露
     static {
         //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
-            @NonNull
-            @Override
-            public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
-                layout.setPrimaryColorsId(R.color.transparent, R.color.col_theme_blue);//全局设置主题颜色
-                return new MaterialHeader(context);
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setPrimaryColorsId(R.color.transparent, R.color.col_theme_blue);//全局设置主题颜色
+            return new MaterialHeader(context);
 //                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Scale);
 //                        .setPrimaryColorId(R.color.colorPrimary)
 //                        .setAccentColorId(android.R.color.white);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
-            }
         });
         //设置全局的Footer构建器
-        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
-            @NonNull
-            @Override
-            public RefreshFooter createRefreshFooter(@NonNull Context context, @NonNull RefreshLayout layout) {
-                return new FalsifyFooter(context);
-                //指定为经典Footer，默认是 BallPulseFooter
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            return new FalsifyFooter(context);
+            //指定为经典Footer，默认是 BallPulseFooter
 //                return new ClassicsFooter(context).setDrawableSize(20);
-            }
         });
     }
 
@@ -233,7 +225,7 @@ public class FrApp extends Application implements ActivityState {
 
             @Override
             public void onFailure(String s, String s1) {
-
+                Log.e("FrApp", "注册失败");
             }
         });
         //监听通知

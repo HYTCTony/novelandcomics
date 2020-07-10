@@ -22,7 +22,6 @@ import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.config.AdConfig;
-import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
@@ -158,7 +157,6 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         //step3:(可选，强烈建议在合适的时机调用):申请部分权限，如read_phone_state,防止获取不了imei时候，下载类广告没有填充的问题。
         boolean haveAsked = (boolean) SPFUtils.get(mContext, "csj_have_asked_perm", false);
         if (!haveAsked) {
-            TTAdManagerHolder.get().requestPermissionIfNecessary(mActivity);
             SPFUtils.put(mContext, "csj_have_asked_perm", true);
         }
 

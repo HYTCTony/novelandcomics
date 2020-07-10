@@ -6,10 +6,7 @@ import android.view.View
 import androidx.annotation.NonNull
 import com.baidu.mobad.feeds.*
 import com.baidu.mobads.component.FeedNativeView
-import com.bytedance.sdk.openadsdk.AdSlot
-import com.bytedance.sdk.openadsdk.TTAdNative
-import com.bytedance.sdk.openadsdk.TTAdSdk
-import com.bytedance.sdk.openadsdk.TTNativeExpressAd
+import com.bytedance.sdk.openadsdk.*
 import com.hytc.ads.R
 import com.hytc.ads.TogetherAd
 import com.hytc.ads.helper.AdBase
@@ -114,6 +111,7 @@ object TogetherAdMidExpress : AdBase() {
             }
 
             override fun onADClosed(adView: NativeExpressADView?) {
+                adListener.onDisLike(AdNameType.GDT.type, 0, "")
             }
 
             override fun onADLeftApplication(adView: NativeExpressADView?) {
@@ -196,6 +194,7 @@ object TogetherAdMidExpress : AdBase() {
             }
 
             override fun onLpClosed() {
+                adListener.onDisLike(AdNameType.BAIDU.type, 0, "")
             }
 
             override fun onVideoDownloadSuccess() {
@@ -262,6 +261,18 @@ object TogetherAdMidExpress : AdBase() {
 
                     override fun onRenderSuccess(view: View, width: Float, height: Float) {
                         adListener.onRenderSuccess(AdNameType.CSJ.type, view, width, height)
+
+                        //使用默认模板中默认dislike弹出样式
+                        expressAd.setDislikeCallback(activity, object : TTAdDislike.DislikeInteractionCallback {
+                            override fun onSelected(position: Int, value: String) {
+                                //用户选择不喜欢原因后，移除广告展示
+                                adListener.onDisLike(AdNameType.CSJ.type, position, value)
+                            }
+
+                            override fun onCancel() {
+                                //Log.e("ExpressView", "点击取消 ");
+                            }
+                        })
                     }
                 })
                 //渲染广告
@@ -296,6 +307,8 @@ object TogetherAdMidExpress : AdBase() {
         fun onAdPrepared(channel: String)
 
         fun onRenderSuccess(channel: String, view: View, width: Float, height: Float)
+
+        fun onDisLike(channel: String, position: Int, value: String)
     }
 
 
