@@ -67,6 +67,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
@@ -234,6 +235,11 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 Log.e(TAG, "存在***********");
             }
         }*/
+
+        //清除应用角标
+        if (0 != (int) SPFUtils.get(this, Common.SPF_KEY_BADGECOUNT, 0)) {
+            ShortcutBadger.removeCount(this);
+        }
     }
 
     @Override
