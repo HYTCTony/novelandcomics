@@ -1,7 +1,6 @@
 package com.huli.foxread.config;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.huli.foxread.R;
 import com.hytc.ads.TogetherAd;
@@ -52,13 +51,13 @@ public class TgAdManager {
         gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_PINK, "1051910888820190");
         gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_NIGHT, "7031518858722295");
         gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER, "9071118858437887");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "9001217858920807");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "9071118858437887");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "2041811858431090");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "2031817858638698");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_PINK, "1061415838541032");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "6001219898794913");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "4011019898634903");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "9021617988195254");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "8001913978896158");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "3031810938994200");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "4041615958797017");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_PINK, "3041115998392120");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "8021218988395143");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "8011911958491134");
         TogetherAd.initGDTAd(context, "207010113294", gdtIdMap);
 
         //百度广告初始化

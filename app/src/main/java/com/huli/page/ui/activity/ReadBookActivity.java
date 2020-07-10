@@ -84,6 +84,7 @@ import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.read.PageView;
 import com.huli.page.widget.read.ReadLoader;
+import com.hytc.ads.helper.mid.TogetherAdMidExpress;
 import com.hytc.ads.helper.stimulatevideo.TogetherAdStimulate;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
@@ -205,19 +206,23 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
      * */
     private String[] adId = {"945191706", "945191678", "945245835", "945245831", "945245836", "945245837", "945245839"};
     private String codeId = adId[0];
+    private String[] adConst = {TogetherAdConst.AD_CENTER_YELLOW_PAPER, TogetherAdConst.AD_CENTER_PINK, TogetherAdConst.AD_CENTER_ASHEN,
+            TogetherAdConst.AD_CENTER_GREEN, TogetherAdConst.AD_CENTER_POOL_BLUE, TogetherAdConst.AD_CENTER_DARK_BLUE,
+            TogetherAdConst.AD_CENTER_NIGHT};
+    private String constId = adConst[0];
     private TTAdNative mTTAdNative;
     private TTNativeExpressAd mTTAdPage;
     private TTNativeExpressAd mTTAdBottom;
     private TTRewardVideoAd mttRewardVideoAd;
     private RelativeLayout mAdView;
     private View coverPageView;
-//    @BindView(R.id.rl_ad)
+    //    @BindView(R.id.rl_ad)
     RelativeLayout rlAd;
-//    @BindView(R.id.express_container)
+    //    @BindView(R.id.express_container)
     RelativeLayout mExpressContainer;
-//    @BindView(R.id.btn_next_page)
+    //    @BindView(R.id.btn_next_page)
     TextView btnNextPage;
-//    @BindView(R.id.btn_watch_video)
+    //    @BindView(R.id.btn_watch_video)
     TextView tvAdView;
     private long startTime = 0;
     private boolean mHasShowDownloadActive = false;
@@ -311,11 +316,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                         needRefreshPage = false;
                         rl.setVisibility(VISIBLE);
 //                        if (mAdView != null)
-                            if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
-                                tvAdView.setVisibility(GONE);
-                            } else {
-                                tvAdView.setVisibility(VISIBLE);
-                            }
+                        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
+                            tvAdView.setVisibility(GONE);
+                        } else {
+                            tvAdView.setVisibility(VISIBLE);
+                        }
                     }
                     mPageLoader.setABC(isABC);
                     break;
@@ -586,24 +591,31 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         switch (mPageStyle) {
             case BG_0:
                 codeId = adId[0];
+                constId = adConst[0];
                 break;
             case BG_1:
                 codeId = adId[1];
+                constId = adConst[1];
                 break;
             case BG_2:
                 codeId = adId[2];
+                constId = adConst[2];
                 break;
             case BG_3:
                 codeId = adId[3];
+                constId = adConst[3];
                 break;
             case BG_4:
                 codeId = adId[4];
+                constId = adConst[4];
                 break;
             case BG_5:
                 codeId = adId[5];
+                constId = adConst[5];
                 break;
             case NIGHT:
                 codeId = adId[6];
+                constId = adConst[6];
                 break;
         }
         //改变封面风格
@@ -787,9 +799,70 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private void requestAdPage() {
         if (isABC)
             return;
+        TogetherAdMidExpress.showAdMid(this, AdConfig.midAdConfig(this), constId, new TogetherAdMidExpress.AdListenerMid() {
+            @Override
+            public void onStartRequest(@NotNull String channel) {
 
+            }
+
+            @Override
+            public void onAdClick(@NotNull String channel) {
+
+            }
+
+            @Override
+            public void onAdFailed(@Nullable String failedMsg) {
+                Log.e("sssss", "onAdFailed===" + failedMsg);
+                mAdView = null;
+                mPvPage.unDraw();
+                if (mPageLoader != null)
+                    mPageLoader.setABCFail(true);
+            }
+
+            @Override
+            public void onAdPrepared(@NotNull String channel) {
+
+            }
+
+            @Override
+            public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
+                Log.e("sssss", "onRenderSuccess===" + channel);
+                if (mAdView == null) {
+                    mAdView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
+                    mExpressContainer = mAdView.findViewById(R.id.express_container);
+                    tvAdView = mAdView.findViewById(R.id.btn_watch_video);
+                    SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
+                    tvAdView.setText(builderVideoMessage);
+                    if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
+                        tvAdView.setVisibility(GONE);
+                    } else {
+                        tvAdView.setVisibility(VISIBLE);
+                    }
+                    tvAdView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            loadVideoAd();
+                        }
+                    });
+                    btnNextPage = mAdView.findViewById(R.id.btn_next_page);
+                    btnNextPage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPvPage.autoNextPage();
+                        }
+                    });
+                    PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
+                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getTipsColor()));
+                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
+                }
+                mExpressContainer.removeAllViews();
+                mExpressContainer.addView(view);
+                if (mPageLoader != null)
+                    mPageLoader.setABCFail(false);
+            }
+        });
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-        AdSlot adSlotPage = new AdSlot.Builder()
+/*        AdSlot adSlotPage = new AdSlot.Builder()
                 .setCodeId(codeId)
                 .setSupportDeepLink(true)
                 .setAdCount(1) //请求广告数量为1到3条
@@ -817,7 +890,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 mTTAdPage.render();
                 Log.e("ExpressView", "onNativeExpressAdLoad");
             }
-        });
+        });*/
     }
 
     private void requestAdBottom() {

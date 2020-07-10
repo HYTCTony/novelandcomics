@@ -265,9 +265,9 @@ public class PageView extends FrameLayout {
 //                            Log.d(TAG, "drawIndex==" + drawIndex);
                             if (drawIndex < 2) {
 //                                Log.d(TAG, "adView.dispatchDraw()");
-                                super.dispatchDraw(canvas);
                                 drawIndex++;
                             }
+                            super.dispatchDraw(canvas);
                             shouldDraw = false;
                         }
                         break;

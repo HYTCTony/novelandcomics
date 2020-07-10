@@ -219,6 +219,7 @@ object TogetherAdMidExpress : AdBase() {
                 .setCodeId(TogetherAd.idMapCsj[adConstStr])
                 .setSupportDeepLink(true)
                 .setAdCount(1) //请求广告数量为1到3条
+                .setExpressViewAcceptedSize(n.toFloat(), 0F)
                 .setImageAcceptedSize(n, n * 9 / 16)
                 .setNativeAdType(AdSlot.TYPE_INTERACTION_AD)//请求原生广告时候，请务必调用该方法，设置参数为TYPE_BANNER或TYPE_INTERACTION_AD
                 .build()
@@ -240,6 +241,7 @@ object TogetherAdMidExpress : AdBase() {
                 adListener.onAdPrepared(AdNameType.CSJ.type)
 
                 val expressAd = adList[0]
+
                 expressAd.setExpressInteractionListener(object : TTNativeExpressAd.ExpressAdInteractionListener {
                     override fun onAdClicked(view: View, type: Int) {
                         adListener.onAdClick(AdNameType.CSJ.type)
