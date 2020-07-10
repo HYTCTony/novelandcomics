@@ -2,7 +2,6 @@ package com.huli.page.ui.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -20,8 +19,7 @@ import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.ui.activity.FontSelectionActivity;
-import com.huli.page.ui.activity.MoreSettingActivity;
-import com.huli.page.ui.activity.ReadBookActivity;
+import com.huli.page.ui.activity.ReadTestActivity;
 import com.huli.page.ui.adapter.PageStyleAdapter;
 import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.ScreenUtils;
@@ -373,8 +371,10 @@ public class ReadSettingDialog extends Dialog {
         //更多设置
         mTvMore.setOnClickListener(
                 (v) -> {
-                    Intent intent = new Intent(getContext(), MoreSettingActivity.class);
-                    mActivity.startActivityForResult(intent, ReadBookActivity.REQUEST_MORE_SETTING);
+//                    Intent intent = new Intent(getContext(), MoreSettingActivity.class);
+//                    mActivity.startActivityForResult(intent, ReadBookActivity.REQUEST_MORE_SETTING);
+
+                    ReadTestActivity.start(getContext());
                     //关闭当前设置
                     dismiss();
                 }

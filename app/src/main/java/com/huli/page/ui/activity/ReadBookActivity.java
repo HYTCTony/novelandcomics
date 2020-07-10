@@ -31,12 +31,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.FilterWord;
-import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdDislike;
 import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -194,18 +191,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int POLLING_REQUE_BOTTOM_AD = 2 * 60 * 1000;
     private static final int POLLING_SET_IS_ABC = 30 * 1000;
     private static final int READ_ONE_PAGE_INTERVAL = 15;
-    /*
-     * 广告
-     * 黄皮纸：945191706
-     * 粉色：945191678
-     * 灰白：945245835
-     * 绿色：945245831
-     * 浅蓝：945245836
-     * 深蓝：945245837
-     * 夜间：945245839
-     * */
-    private String[] adId = {"945191706", "945191678", "945245835", "945245831", "945245836", "945245837", "945245839"};
-    private String codeId = adId[0];
     private String[] adConst = {TogetherAdConst.AD_CENTER_YELLOW_PAPER, TogetherAdConst.AD_CENTER_PINK, TogetherAdConst.AD_CENTER_ASHEN,
             TogetherAdConst.AD_CENTER_GREEN, TogetherAdConst.AD_CENTER_POOL_BLUE, TogetherAdConst.AD_CENTER_DARK_BLUE,
             TogetherAdConst.AD_CENTER_NIGHT};
@@ -590,31 +575,24 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //改变广告位id
         switch (mPageStyle) {
             case BG_0:
-                codeId = adId[0];
                 constId = adConst[0];
                 break;
             case BG_1:
-                codeId = adId[1];
                 constId = adConst[1];
                 break;
             case BG_2:
-                codeId = adId[2];
                 constId = adConst[2];
                 break;
             case BG_3:
-                codeId = adId[3];
                 constId = adConst[3];
                 break;
             case BG_4:
-                codeId = adId[4];
                 constId = adConst[4];
                 break;
             case BG_5:
-                codeId = adId[5];
                 constId = adConst[5];
                 break;
             case NIGHT:
-                codeId = adId[6];
                 constId = adConst[6];
                 break;
         }
@@ -799,7 +777,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private void requestAdPage() {
         if (isABC)
             return;
-        TogetherAdMidExpress.showAdMid(this, AdConfig.midAdConfig(this), constId, new TogetherAdMidExpress.AdListenerMid() {
+        TogetherAdMidExpress.showAdMid(this, AdConfig.turnPageAdConfig(this), constId, new TogetherAdMidExpress.AdListenerMid() {
+            @Override
+            public void onAdShow(@NotNull String channel) {
+                mPvPage.shouldDraw = true;
+                mPvPage.postInvalidate();
+            }
+
             @Override
             public void onStartRequest(@NotNull String channel) {
 
@@ -812,7 +796,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onAdFailed(@Nullable String failedMsg) {
-                Log.e("sssss", "onAdFailed===" + failedMsg);
+                Log.e(TAG, "onAdFailed.AdBottom()===" + failedMsg);
                 mAdView = null;
                 mPvPage.unDraw();
                 if (mPageLoader != null)
@@ -826,7 +810,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
-                Log.e("sssss", "onRenderSuccess===" + channel);
+                Log.e(TAG, "onRenderSuccess.AdPage()===" + channel);
                 if (mAdView == null) {
                     mAdView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
                     mExpressContainer = mAdView.findViewById(R.id.express_container);
@@ -861,36 +845,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mPageLoader.setABCFail(false);
             }
         });
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-/*        AdSlot adSlotPage = new AdSlot.Builder()
-                .setCodeId(codeId)
-                .setSupportDeepLink(true)
-                .setAdCount(1) //请求广告数量为1到3条
-                .setExpressViewAcceptedSize(ScreenUtils.getScreenSize(mContext)[0], 0) //期望模板广告view的size,单位dp
-                .build();
-        //step5:请求广告，对请求回调的广告作渲染处理
-        mTTAdNative.loadNativeExpressAd(adSlotPage, new TTAdNative.NativeExpressAdListener() {
-            @Override
-            public void onError(int code, String message) {
-                Log.e("ExpressView", "load error : " + code + ", " + message);
-                mAdView = null;
-                mPvPage.unDraw();
-                if (mPageLoader != null)
-                    mPageLoader.setABCFail(true);
-            }
-
-            @Override
-            public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
-                if (ads == null || ads.size() == 0) {
-                    return;
-                }
-                mTTAdPage = ads.get(0);
-                bindPageAdListener(mTTAdPage);
-                startTime = System.currentTimeMillis();
-                mTTAdPage.render();
-                Log.e("ExpressView", "onNativeExpressAdLoad");
-            }
-        });*/
     }
 
     private void requestAdBottom() {
@@ -898,32 +852,44 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             isFirstRequest = true;
             return;
         }
+        TogetherAdMidExpress.showAdMid(this, AdConfig.bannerAdConfig(this), TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER,
+                new TogetherAdMidExpress.AdListenerMid() {
+                    @Override
+                    public void onAdShow(@NotNull String channel) {
+                        btnBottomAd.setVisibility(VISIBLE);
+                        ivBackgroud.setVisibility(View.INVISIBLE);
+                    }
 
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-        AdSlot adSlotBottom = new AdSlot.Builder()
-                .setCodeId("945191946") //广告位id
-                .setSupportDeepLink(true)
-                .setAdCount(1) //请求广告数量为1到3条
-                .setExpressViewAcceptedSize(ScreenUtils.getScreenSize(mContext)[0], 48) //期望模板广告view的size,单位dp
-                .build();
-        //step5:请求广告，对请求回调的广告作渲染处理
-        mTTAdNative.loadNativeExpressAd(adSlotBottom, new TTAdNative.NativeExpressAdListener() {
-            @Override
-            public void onError(int code, String message) {
-//                Log.e("ExpressView", "load error : " + code + ", " + message);
-            }
+                    @Override
+                    public void onStartRequest(@NotNull String channel) {
 
-            @Override
-            public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
-                if (ads == null || ads.size() == 0) {
-                    return;
-                }
-                mTTAdBottom = ads.get(0);
-                bindBottomAdListener(mTTAdBottom);
-                startTime = System.currentTimeMillis();
-                mTTAdBottom.render();
-            }
-        });
+                    }
+
+                    @Override
+                    public void onAdClick(@NotNull String channel) {
+
+                    }
+
+                    @Override
+                    public void onAdFailed(@Nullable String failedMsg) {
+                        Log.e(TAG, "onAdFailed.AdBottom()===" + failedMsg);
+                        btnBottomAd.setVisibility(View.INVISIBLE);
+                        ivBackgroud.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAdPrepared(@NotNull String channel) {
+
+                    }
+
+                    @Override
+                    public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
+                        Log.e(TAG, "onRenderSuccess.AdBottom()===" + channel);
+                        ivBackgroud.setVisibility(View.INVISIBLE);
+                        mBannerContainer.removeAllViews();
+                        mBannerContainer.addView(view);
+                    }
+                });
         mHandler.sendEmptyMessageDelayed(MSG_BOTTOM_AD, POLLING_REQUE_BOTTOM_AD);
     }
 
@@ -987,149 +953,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 .asResponse(String.class)
                 .subscribe(s -> {
                 }, (OnError) ErrorInfo::show);
-    }
-
-    private void bindPageAdListener(TTNativeExpressAd ad) {
-        ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
-            @Override
-            public void onAdClicked(View view, int type) {
-                Log.e("ExpressView", "广告被点击");
-            }
-
-            @Override
-            public void onAdShow(View view, int type) {
-//                Log.e("ExpressView", "广告展示");
-                mPvPage.shouldDraw = true;
-                mPvPage.postInvalidate();
-            }
-
-            @Override
-            public void onRenderFail(View view, String msg, int code) {
-//                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
-//                Log.e("ExpressView", msg + " code:" + code);
-                mAdView = null;
-                mPvPage.unDraw();
-                if (mPageLoader != null)
-                    mPageLoader.setABCFail(true);
-            }
-
-            @Override
-            public void onRenderSuccess(View view, float width, float height) {
-//                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
-//                Log.e("ExpressView", "width:" + width);
-//                Log.e("ExpressView", "height:" + height);
-//                Log.e("ExpressView", "screen_width:" + ScreenUtils.getScreenSize(mContext)[0]);
-//                Log.e("ExpressView", "screen_height:" + ScreenUtils.getScreenSize(mContext)[1]);
-//                返回view的宽高 单位 dp
-//                Log.e("ExpressView", "渲染成功");
-//                mAdView = view;
-                if (mAdView == null) {
-                    mAdView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
-                    mExpressContainer = mAdView.findViewById(R.id.express_container);
-                    tvAdView = mAdView.findViewById(R.id.btn_watch_video);
-                    SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
-                    tvAdView.setText(builderVideoMessage);
-                    if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
-                        tvAdView.setVisibility(GONE);
-                    } else {
-                        tvAdView.setVisibility(VISIBLE);
-                    }
-                    tvAdView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            loadVideoAd();
-                        }
-                    });
-                    btnNextPage = mAdView.findViewById(R.id.btn_next_page);
-                    btnNextPage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mPvPage.autoNextPage();
-                        }
-                    });
-                    PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
-                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getTipsColor()));
-                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
-                }
-                mExpressContainer.removeAllViews();
-                mExpressContainer.addView(view);
-                if (mPageLoader != null)
-                    mPageLoader.setABCFail(false);
-            }
-        });
-        //dislike设置
-        bindDislike(ad, false);
-        if (ad.getInteractionType() != TTAdConstant.INTERACTION_TYPE_DOWNLOAD) {
-            return;
-        }
-        ad.setDownloadListener(new TTAppDownloadListener() {
-            @Override
-            public void onIdle() {
-//                Log.e("ExpressView", "点击开始下载");
-            }
-
-            @Override
-            public void onDownloadActive(long totalBytes, long currBytes, String fileName, String appName) {
-                if (!mHasShowDownloadActive) {
-                    mHasShowDownloadActive = true;
-//                    Log.e("ExpressView", "下载中，点击暂停");
-                }
-            }
-
-            @Override
-            public void onDownloadPaused(long totalBytes, long currBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "下载暂停，点击继续");
-            }
-
-            @Override
-            public void onDownloadFailed(long totalBytes, long currBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "下载失败，点击重新下载");
-            }
-
-            @Override
-            public void onInstalled(String fileName, String appName) {
-//                Log.e("ExpressView", "安装完成，点击图片打开");
-            }
-
-            @Override
-            public void onDownloadFinished(long totalBytes, String fileName, String appName) {
-//                Log.e("ExpressView", "点击安装");
-            }
-        });
-    }
-
-    private void bindBottomAdListener(TTNativeExpressAd ad) {
-        ad.setExpressInteractionListener(new TTNativeExpressAd.ExpressAdInteractionListener() {
-            @Override
-            public void onAdClicked(View view, int type) {
-//                Log.e("ExpressView", "广告被点击");
-            }
-
-            @Override
-            public void onAdShow(View view, int type) {
-//                Log.e("ExpressView", "广告展示");
-                btnBottomAd.setVisibility(VISIBLE);
-                ivBackgroud.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onRenderFail(View view, String msg, int code) {
-//                Log.e("ExpressView", "render fail:" + (System.currentTimeMillis() - startTime));
-//                Log.e("ExpressView", msg + " code:" + code);
-                btnBottomAd.setVisibility(View.INVISIBLE);
-                ivBackgroud.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onRenderSuccess(View view, float width, float height) {
-//                Log.e("ExpressView", "render suc:" + (System.currentTimeMillis() - startTime));
-                //返回view的宽高 单位 dp
-//                Log.e("ExpressView", "渲染成功");
-                ivBackgroud.setVisibility(View.INVISIBLE);
-                mBannerContainer.removeAllViews();
-                mBannerContainer.addView(view);
-            }
-        });
     }
 
     /**

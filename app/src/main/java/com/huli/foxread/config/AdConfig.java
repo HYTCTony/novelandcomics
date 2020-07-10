@@ -61,8 +61,8 @@ public class AdConfig {
         if (data == null) {
             data = getAdConfig(context);
         }
-        return data.getBanner();
-//        return "baidu:0,gdt:1,csj:0";
+//        return data.getBanner();
+        return "baidu:0,gdt:0,csj:1";
     }
 
     /**

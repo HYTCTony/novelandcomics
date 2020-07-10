@@ -111,6 +111,7 @@ object TogetherAdMidExpress : AdBase() {
             }
 
             override fun onADExposure(adView: NativeExpressADView?) {
+                adListener.onAdShow(AdNameType.GDT.type)
             }
 
             override fun onADClosed(adView: NativeExpressADView?) {
@@ -183,6 +184,7 @@ object TogetherAdMidExpress : AdBase() {
                 val mFeedNativeView = FeedNativeView(activity)
                 mFeedNativeView.setAdData(rep as XAdNativeResponse?)
                 adListener.onRenderSuccess(AdNameType.BAIDU.type, mFeedNativeView, mFeedNativeView.width.toFloat(), mFeedNativeView.height.toFloat())
+                adListener.onAdShow(AdNameType.BAIDU.type)
             }
 
             override fun onNativeFail(errorCode: NativeErrorCode?) {
@@ -248,6 +250,7 @@ object TogetherAdMidExpress : AdBase() {
                     }
 
                     override fun onAdShow(view: View, type: Int) {
+                        adListener.onAdShow(AdNameType.CSJ.type)
                     }
 
                     override fun onRenderFail(view: View, msg: String, code: Int) {
@@ -294,6 +297,8 @@ object TogetherAdMidExpress : AdBase() {
         fun onAdFailed(failedMsg: String?)
 
         fun onAdPrepared(channel: String)
+
+        fun onAdShow(channel: String)
 
         fun onRenderSuccess(channel: String, view: View, width: Float, height: Float)
     }
