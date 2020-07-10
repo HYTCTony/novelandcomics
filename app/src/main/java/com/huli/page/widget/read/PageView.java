@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.huli.page.model.bean.BookShelfListBean;
@@ -47,7 +48,8 @@ public class PageView extends FrameLayout {
     public boolean shouldDraw = true;
     // 动画类
     public PageAnimation mPageAnim;
-    private View mAdView, mCoverPageView;
+    private View mAdView;
+    private View mCoverPageView;
     int drawIndex = 0;
 
     // 动画监听类
@@ -455,6 +457,13 @@ public class PageView extends FrameLayout {
         addView(mCoverPageView);
     }
 
+    public ViewGroup getmAdView() {
+        if (mReaderAdListener != null) {
+            return mReaderAdListener.getAdView();
+        }
+        return null;
+    }
+
     public boolean drawAdPage(Bitmap bitmap) {
         if (!isPrepare) return false;
 
@@ -564,7 +573,7 @@ public class PageView extends FrameLayout {
     ReaderAdListener mReaderAdListener;
 
     public interface ReaderAdListener {
-        View getAdView();
+        ViewGroup getAdView();
 
         void onRequestAd();
 

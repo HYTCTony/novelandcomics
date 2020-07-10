@@ -67,9 +67,9 @@ public class FontSelectionActivity extends BaseViewActivity {
 
     @Override
     protected void initView() {
-        StatusBarUtils.setTransparentForImageView(mContext, toolbar);
-        StatusBarUtils.setColor(this, ContextCompat.getColor(this, R.color.white), 0);
-        StatusBarUtils.setAndroidNativeLightStatusBar(this, true);
+//      StatusBarUtils.setTransparentForImageView(mContext, toolbar);
+        StatusBarUtils.setColor(this, ContextCompat.getColor(mContext, R.color.black), 0);
+        StatusBarUtils.setAndroidNativeLightStatusBar(mContext, false);
         mSettingManager = ReadSettingManager.getInstance();
         path = mSettingManager.getFont();
 
@@ -115,13 +115,13 @@ public class FontSelectionActivity extends BaseViewActivity {
     @Override
     protected void initToolbar(Toolbar toolbar) {
         setTitle("字体");
-        TintTypedArray a = TintTypedArray.obtainStyledAttributes(this,
+        TintTypedArray a = TintTypedArray.obtainStyledAttributes(mContext,
                 null, R.styleable.ActionBar, R.attr.actionBarStyle, 0);
         Drawable drawable = a.getDrawable(R.styleable.ActionBar_homeAsUpIndicator);
-        drawable.setColorFilter(black, PorterDuff.Mode.MULTIPLY);
+        drawable.setColorFilter(white, PorterDuff.Mode.MULTIPLY);
         toolbar.setNavigationIcon(drawable);
-        toolbar.setTitleTextColor(black);
-        toolbar.setSubtitleTextColor(black);
+        toolbar.setTitleTextColor(white);
+        toolbar.setSubtitleTextColor(white);
         super.initToolbar(toolbar);
     }
 
@@ -137,14 +137,14 @@ public class FontSelectionActivity extends BaseViewActivity {
                             for (Font font : datas) {
                                 font.setState(0);
                                 if (TextUtils.isEmpty(font.getFile_name())) {
-                                    font.setFile_name("DEFAULT");
-                                    font.setFontPath("DEFAULT");
+                                    font.setFile_name(Constant.FONT_TYPE);
+                                    font.setFontPath(Constant.FONT_TYPE);
                                 } else
                                     font.setFontPath(Constant.FONT_DOWNLOAD_PATH + font.getFile_name());
                                 if (path.equals(font.getFontPath())) {
                                     font.setSelect(true);
                                 }
-                                if (font.getFile_name().equals("DEFAULT") || FileUtils.isFontDownload(font.getFontPath())) {
+                                if (font.getFile_name().equals(Constant.FONT_TYPE) || FileUtils.isFontDownload(font.getFontPath())) {
                                     font.setDownload(true);
                                 } else {
                                     font.setDownload(false);

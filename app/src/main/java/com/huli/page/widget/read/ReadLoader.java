@@ -11,6 +11,8 @@ import android.graphics.Typeface;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -32,6 +34,7 @@ import com.huli.page.widget.page.TxtSpecing;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -198,7 +201,7 @@ public abstract class ReadLoader {
         mTxtSpecing = mSettingManager.getTxtSpecing();
         fontPath = mSettingManager.getFont();
         if (!FileUtils.isFontDownload(fontPath)) {
-            fontPath = "DEFAULT";
+            fontPath = Constant.FONT_TYPE;
         }
         // 初始化参数
         mMarginWidth = ScreenUtils.dpToPx(DEFAULT_MARGIN_WIDTH);
@@ -283,21 +286,21 @@ public abstract class ReadLoader {
 
     private void initPaint() {
 
-        // 绘制提示的画笔
+        // 绘制小标题的画笔
         mTipPaint = new Paint();
         mTipPaint.setColor(mTipsColor);
         mTipPaint.setTextAlign(Paint.Align.LEFT); // 绘制的起始点
         mTipPaint.setTextSize(ScreenUtils.spToPx(DEFAULT_TIP_SIZE)); // Tip默认的字体大小
         mTipPaint.setAntiAlias(true);
         mTipPaint.setSubpixelText(true);
-        mTipPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTipPaint.setTypeface(fontPath.equals(Constant.FONT_TYPE) ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
 
         // 绘制页面内容的画笔
         mTextPaint = new TextPaint();
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);
-        mTextPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTextPaint.setTypeface(fontPath.equals(Constant.FONT_TYPE) ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
 
         // 绘制标题的画笔
         mTitlePaint = new TextPaint();
@@ -307,7 +310,7 @@ public abstract class ReadLoader {
         mTitlePaint.setTextAlign(Paint.Align.LEFT);
         mTitlePaint.setAntiAlias(true);
         mTitlePaint.setFakeBoldText(true);
-        mTitlePaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTitlePaint.setTypeface(fontPath.equals(Constant.FONT_TYPE) ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
 
         // 绘制背景的画笔
         mBgPaint = new Paint();
@@ -561,9 +564,9 @@ public abstract class ReadLoader {
      * @param fontPath:字体文件
      */
     public void setFont(String fontPath) {
-        mTitlePaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
-        mTipPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
-        mTextPaint.setTypeface(fontPath.equals("DEFAULT") ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTitlePaint.setTypeface(fontPath.equals(Constant.FONT_TYPE) ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTipPaint.setTypeface(fontPath.equals(Constant.FONT_TYPE) ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
+        mTextPaint.setTypeface(fontPath.equals(Constant.FONT_TYPE) ? Typeface.DEFAULT : Typeface.createFromFile(fontPath));
         mPageView.drawCurPage(false);
     }
 
@@ -575,6 +578,7 @@ public abstract class ReadLoader {
     public void setPageStyle(PageStyle pageStyle) {
         isSetStyle = true;
         mPageView.reDraw();
+        index = 1;
         if (pageStyle != PageStyle.NIGHT) {
             mPageStyle = pageStyle;
             mSettingManager.setPageStyle(pageStyle);
@@ -917,7 +921,7 @@ public abstract class ReadLoader {
 
                 /******绘制页码********/
                 // 底部的字显示的位置Y
-                float y = mDisplayHeight - mTipPaint.getFontMetrics().bottom - tipMarginHeight;
+                float y = mDisplayHeight - tipMarginHeight - ScreenUtils.dpToPx(2);
                 // 只有finish的时候采用页码
                 if (mStatus == STATUS_FINISH) {
                     NumberFormat numberFormat = NumberFormat.getInstance();
@@ -928,19 +932,24 @@ public abstract class ReadLoader {
                     float num2 = (float) (mChapterList.size() * (mCurPageList.size() - 1));
                     String percent = numberFormat.format(num1 / num2 * 100);
                     canvas.drawText(percent + "%", mMarginWidth, y, mTipPaint);
+                    mTipPaint.setTextAlign(Paint.Align.CENTER);
+                    canvas.drawText("广告是为了更多的免费内容", mDisplayWidth / 2, y, mTipPaint);
+                    mTipPaint.setTextAlign(Paint.Align.LEFT);
                 }
             }
         } else {
             if (mCurPage.isCustomView)
                 return;
+            float xx =
+                    mDisplayWidth - mMarginWidth - ScreenUtils.dpToPx(6) - mTipPaint.measureText("xxx") - mTipPaint.measureText(StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_TIME));
             //擦除区域
             if (mBgColor == ContextCompat.getColor(mContext, R.color.hl_read_bg_1)) {
                 Bitmap kraftPaper = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.theme_leather_bg_corner);
-                RectF rectF = new RectF(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight);
+                RectF rectF = new RectF(xx, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight);
                 canvas.drawBitmap(kraftPaper, null, rectF, mTipPaint);
             } else {
                 mBgPaint.setColor(mBgColor);
-                canvas.drawRect(mDisplayWidth / 2, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight, mBgPaint);
+                canvas.drawRect(xx, mDisplayHeight - mMarginHeight + ScreenUtils.dpToPx(2), mDisplayWidth, mDisplayHeight, mBgPaint);
             }
         }
         /******绘制电池********/
@@ -985,7 +994,7 @@ public abstract class ReadLoader {
 
         /******绘制当前时间********/
         //底部的字显示的位置Y
-        float y = mDisplayHeight - mTipPaint.getFontMetrics().bottom - tipMarginHeight;
+        float y = mDisplayHeight - tipMarginHeight - ScreenUtils.dpToPx(2);
         String time = StringUtils.dateConvert(System.currentTimeMillis(), Constant.FORMAT_TIME);
         float x = outFrameLeft - mTipPaint.measureText(time) - ScreenUtils.dpToPx(4);
         canvas.drawText(time, x, y, mTipPaint);
@@ -1041,6 +1050,7 @@ public abstract class ReadLoader {
                 switch (mCurPage.pageType) {
                     case TxtPage.VALUE_STRING_AD_TYPE:
                         if (!mPageView.drawAdPage(bitmap)) {
+//                        if (!drawAdView(canvas)) {
                             index = 1;
                             //如果获取广告失败，跳下一页
                             mCurPage = isGoNextPage ? getNextPage() : getPrevPage();
@@ -1170,7 +1180,6 @@ public abstract class ReadLoader {
                     top += interval;
                 }
             }
-
         }
     }
 
@@ -1826,6 +1835,54 @@ public abstract class ReadLoader {
             return null;
         }
     }
+
+    private boolean drawAdView(Canvas canvas) {
+//        AdType adType = canShowAd();
+//        if (adType == AdType.AD_NOTHING) {
+//            mPageView.hideAd();
+//            return;
+//        }
+//        mPageView.showAd(adType);
+        ViewGroup viewGroup = mPageView.getmAdView();
+        if (viewGroup == null || viewGroup.getChildCount() < 1) {
+            return false;
+        }
+        if (onLayoutChangeListener == null) {
+            onLayoutChangeListener = new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    int measuredWidth = viewGroup.getMeasuredWidth();
+                    int measuredHeight = viewGroup.getMeasuredHeight();
+                    if (measuredHeight <= 0 || measuredWidth <= 0) {
+                        return;
+                    }
+                    if (null != adBitmapWeakReference) {
+                        if (adBitmapWeakReference.get() != null) {
+                            adBitmapWeakReference.get().recycle();
+                        }
+                        adBitmapWeakReference.clear();
+                        adBitmapWeakReference = null;
+                    }
+                    Bitmap bitmap = Bitmap.createBitmap(viewGroup.getMeasuredWidth(), viewGroup.getMeasuredHeight(), Bitmap.Config.RGB_565);
+                    if (adBitmapWeakReference == null) {
+                        adBitmapWeakReference = new WeakReference<>(bitmap);
+                    }
+
+                    Canvas c = new Canvas(adBitmapWeakReference.get());
+                    viewGroup.draw(c);
+
+                    canvas.drawBitmap(adBitmapWeakReference.get(), viewGroup.getLeft(), viewGroup.getTop() - mPageView.getTop(), mBatteryPaint);
+                }
+            };
+            viewGroup.addOnLayoutChangeListener(onLayoutChangeListener);
+
+            return true;
+        } else
+            return false;
+    }
+
+    WeakReference<Bitmap> adBitmapWeakReference;
+    View.OnLayoutChangeListener onLayoutChangeListener;
 
     /**
      * @return:获取上一个章节的最后一页

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -42,10 +43,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
+import com.huli.foxread.config.AdConfig;
 import com.huli.foxread.config.TTAdManagerHolder;
+import com.huli.foxread.config.TogetherAdConst;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.notchtools.NotchTools;
+import com.huli.foxread.rxhttp.ErrorInfo;
+import com.huli.foxread.rxhttp.OnError;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.activities.AdvFreeSuccessActivity;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.utils.GlideUtil;
@@ -76,6 +84,7 @@ import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.read.PageView;
 import com.huli.page.widget.read.ReadLoader;
+import com.hytc.ads.helper.stimulatevideo.TogetherAdStimulate;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
@@ -85,12 +94,15 @@ import com.lzy.okgo.OkGo;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -197,9 +209,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private TTNativeExpressAd mTTAdPage;
     private TTNativeExpressAd mTTAdBottom;
     private TTRewardVideoAd mttRewardVideoAd;
-    private View mAdView, coverPageView;
+    private RelativeLayout mAdView;
+    private View coverPageView;
+//    @BindView(R.id.rl_ad)
+    RelativeLayout rlAd;
+//    @BindView(R.id.express_container)
     RelativeLayout mExpressContainer;
+//    @BindView(R.id.btn_next_page)
     TextView btnNextPage;
+//    @BindView(R.id.btn_watch_video)
     TextView tvAdView;
     private long startTime = 0;
     private boolean mHasShowDownloadActive = false;
@@ -292,7 +310,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                             mPageLoader.refreshPage();
                         needRefreshPage = false;
                         rl.setVisibility(VISIBLE);
-                        if (mAdView != null)
+//                        if (mAdView != null)
                             if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
                                 tvAdView.setVisibility(GONE);
                             } else {
@@ -520,7 +538,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         );
         mPvPage.setReaderAdListener(new PageView.ReaderAdListener() {
             @Override
-            public View getAdView() {
+            public ViewGroup getAdView() {
                 return mAdView;
             }
 
@@ -597,7 +615,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         tvCopyrightDescription.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) :
                 ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
         //改变底部风格
-        rl.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getBgColor() : mPageStyle.getBgColor());
+        rl.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdBgColor() : mPageStyle.getAdBgColor());
         ivBackgroud.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdPlaceholderImg() : mPageStyle.getAdPlaceholderImg());
         //改变目录风格
         if (mPageStyle.getBgColor() == R.color.hl_read_bg_1) {
@@ -614,7 +632,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         if (mAdView != null) {
             btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getTipsColor()) : ContextCompat.getColor(mContext,
                     mPageStyle.getTipsColor()));
-//            mExpressContainer.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdBgColor() : mPageStyle.getAdBgColor());
             btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
                     mPageStyle.getPromptColor()));
         }
@@ -808,6 +825,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             isFirstRequest = true;
             return;
         }
+
         //step4:创建广告请求参数AdSlot,具体参数含义参考文档
         AdSlot adSlotBottom = new AdSlot.Builder()
                 .setCodeId("945191946") //广告位id
@@ -836,97 +854,66 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mHandler.sendEmptyMessageDelayed(MSG_BOTTOM_AD, POLLING_REQUE_BOTTOM_AD);
     }
 
+    private boolean verify = false;
+
     private void loadVideoAd() {
         if (isABC)
             return;
 
-        WaitDialog.show(ReadBookActivity.this, R.string.loading).setCancelable(true);
+        String token = TokenCache.getToken(mContext);
+        String adConst = TogetherAdConst.AD_WELFARE_STIMULATE_2;
 
-        //step4:创建广告请求参数AdSlot,具体参数含义参考文档
-        //模板广告需要设置期望个性化模板广告的大小,单位dp,代码位是否属于个性化模板广告，请在穿山甲平台查看
-        AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId("945192284")/*正式服广告id：945192284  测试服广告id：945238286*/
-                .setSupportDeepLink(true)
-//                    .setRewardName("金币") //奖励的名称
-//                    .setRewardAmount(3)  //奖励的数量
-                .setUserID(TokenCache.getToken(mContext))//用户id,必传参数
-                .setMediaExtra("media_extra") //附加参数，可选
-                .setOrientation(TTAdConstant.VERTICAL) //必填参数，期望视频的播放方向：TTAdConstant.HORIZONTAL 或 TTAdConstant.VERTICAL
-                .build();
-        //step5:请求广告
-        mTTAdNative.loadRewardVideoAd(adSlot, new TTAdNative.RewardVideoAdListener() {
+        TogetherAdStimulate.showAdFull(mContext, token, AdConfig.welfareBonusesConfig(mContext), adConst, new TogetherAdStimulate.AdListenerSplashFull() {
+
             @Override
-            public void onError(int code, String message) {
-//                Log.e(TAG, "onError: " + code + ", " + String.valueOf(message));
-                WaitDialog.dismiss();
+            public void onStartRequest(@NotNull String channel) {
+                WaitDialog.show((AppCompatActivity) mContext, R.string.loading).setCancelable(false);
             }
 
-            //视频广告加载后，视频资源缓存到本地的回调，在此回调后，播放本地视频，流畅不阻塞。
             @Override
-            public void onRewardVideoCached() {
-//                Log.e(TAG, "onRewardVideoCached");
-                WaitDialog.dismiss();
+            public void onADClick(@NotNull String channel) {
 
-                if (mttRewardVideoAd != null) {
-                    //step6:在获取到广告后展示,强烈建议在onRewardVideoCached回调后，展示广告，提升播放体验
-                    //该方法直接展示广告
-//                    mttRewardVideoAd.showRewardVideoAd(RewardVideoActivity.this);
+            }
 
-                    //展示广告，并传入广告展示的场景
-                    mttRewardVideoAd.showRewardVideoAd(mContext, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, "foxread_test");
-                    mttRewardVideoAd = null;
-                } else {
-//                    TToast.show(RewardVideoActivity.this, "请先加载广告");
+            @Override
+            public void onAdFailed(@Nullable String failedMsg) {
+                Tip.show(failedMsg);
+            }
+
+            @Override
+            public void onAdRewardVerify(boolean rewardVerify) {
+                verify = rewardVerify;
+                if (verify) {
+                    reportStimulateMission(Consts.WELFARE_CHANGEADVERT_API);
                 }
             }
 
-            //视频广告的素材加载完毕，比如视频url等，在此回调后，可以播放在线视频，网络不好可能出现加载缓冲，影响体验。
             @Override
-            public void onRewardVideoAdLoad(TTRewardVideoAd ad) {
-                mttRewardVideoAd = ad;
+            public void onAdDismissed() {
+                if (verify) {
+                    AdvFreeSuccessActivity.start(mContext);
+                } else {
+                    Tip.show("激励视频奖励验证未通过");
+                }
+                verify = false;
+            }
 
-                mttRewardVideoAd.setRewardAdInteractionListener(new TTRewardVideoAd.RewardAdInteractionListener() {
-                    @Override
-                    public void onAdShow() {
-                    }
-
-                    @Override
-                    public void onAdVideoBarClick() {
-                    }
-
-                    @Override
-                    public void onAdClose() {
-                        AdvFreeSuccessActivity.start(mContext);
-                        if (mRewardVerify) {
-                            mRewardVerify = false;
-                        }
-                    }
-
-                    //视频播放完成回调
-                    @Override
-                    public void onVideoComplete() {
-//                        Log.e(TAG, "onVideoComplete");
-                    }
-
-                    @Override
-                    public void onVideoError() {
-//                        Log.e(TAG, "onVideoError");
-                    }
-
-                    //视频播放完成后，奖励验证回调，rewardVerify：是否有效，rewardAmount：奖励梳理，rewardName：奖励名称
-                    @Override
-                    public void onRewardVerify(boolean rewardVerify, int rewardAmount, String rewardName) {
-                        mRewardVerify = rewardVerify;
-//                        Log.e(TAG, "onRewardVerify===" + rewardVerify + "---" + rewardAmount + "---" + rewardName);
-                    }
-
-                    @Override
-                    public void onSkippedVideo() {
-//                        Log.e(TAG, "onSkippedVideo");
-                    }
-                });
+            @Override
+            public void onAdPrepared(@NotNull String channel) {
+                WaitDialog.dismiss();
             }
         });
+    }
+
+    /**
+     * 上报激励视频任务验证状况
+     */
+    private void reportStimulateMission(String url) {
+        RxHttp.postForm(url)
+                .addHeader(Consts.TOKEN, TokenCache.getToken(mContext))
+                .asResponse(String.class)
+                .subscribe(s -> {
+                }, (OnError) ErrorInfo::show);
     }
 
     private void bindPageAdListener(TTNativeExpressAd ad) {
@@ -964,7 +951,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 //                Log.e("ExpressView", "渲染成功");
 //                mAdView = view;
                 if (mAdView == null) {
-                    mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
+                    mAdView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
                     mExpressContainer = mAdView.findViewById(R.id.express_container);
                     tvAdView = mAdView.findViewById(R.id.btn_watch_video);
                     SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
@@ -1211,9 +1198,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onFontChangeEvent(Font event) {
-        if (FileUtils.isFontDownload(event.getFontPath())) {
+        String fontPath = event.getFontPath();
+        if (fontPath.equals(Constant.FONT_TYPE) || FileUtils.isFontDownload(fontPath))
             mPageLoader.setFont(event.getFontPath());
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
