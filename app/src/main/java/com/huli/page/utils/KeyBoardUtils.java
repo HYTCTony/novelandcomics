@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 public class KeyBoardUtils {
 
-    public static void openKeyboard(Context context, EditText editText) {
+    public static void openKeyboard(Context context, View editText) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(editText, InputMethodManager.RESULT_SHOWN);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);

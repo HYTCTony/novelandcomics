@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_book_detail"
+        android:id="@+id/toolbar_normal"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/col_black_333"
@@ -15,8 +15,32 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-        app:popupTheme="@style/OverflowMenuStyle"
-        app:titleTextColor="@color/txt_white" />
+        app:popupTheme="@style/OverflowMenuStyle">
+
+        <TextView
+            android:id="@+id/tv_toolbar_center_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="@dimen/dp_72"
+            android:singleLine="true"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_20"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/iv_asBtn_show_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="@dimen/dp_4"
+        android:padding="@dimen/dp_8"
+        android:src="@drawable/ic_more_horiz_white_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar_normal"
+        tools:ignore="ContentDescription" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scv_book_detail"
@@ -25,13 +49,13 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/ctl_bottom_bar_dt"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_book_detail">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,11 +69,11 @@
                     android:layout_width="@dimen/dp_95"
                     android:layout_height="@dimen/dp_125"
                     android:scaleType="centerCrop"
+                    android:src="@mipmap/img_holder_rect"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription"
-                    android:src="@mipmap/img_holder_rect" />
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/tv_hot_recommend_flag"
@@ -425,9 +449,9 @@
 
         <View
             android:layout_width="match_parent"
+            android:layout_height="@dimen/px_1"
             android:background="@color/color_f2"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_height="@dimen/px_1"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/btn_add_a_bookcase_dt"

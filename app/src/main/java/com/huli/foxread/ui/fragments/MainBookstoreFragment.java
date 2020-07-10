@@ -162,6 +162,9 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
      */
     private void ctlTab2Yellow() {
         if (isWhite) {
+            if(viewPager.getCurrentItem() !=0){
+                return;
+            }
             changeColorAmin(ctlTabLayout, Color.WHITE, ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
             isWhite = false;
         }
@@ -185,7 +188,7 @@ public class MainBookstoreFragment extends BaseFragment implements ViewPager.OnP
      */
     private void changeColorAmin(View view, int colStar, int colEnd) {
         ValueAnimator colorAnim = ObjectAnimator.ofInt(view, "backgroundColor", colStar, colEnd);
-        colorAnim.setDuration(300);
+        colorAnim.setDuration(200);
         colorAnim.setEvaluator(new ArgbEvaluator());
 //        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
 //        colorAnim.setRepeatMode(ValueAnimator.REVERSE);

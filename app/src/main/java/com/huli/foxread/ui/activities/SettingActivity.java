@@ -213,7 +213,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
      */
     private void logout() {
         RxHttp.postForm(Consts.USER_LOGOUT_API) //发送登出请求
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .asResponse(LoginRpsEntity.class)
                 .flatMap(loginRpsEntity -> {
                     UserInfoCache.clearCache(SettingActivity.this);
@@ -221,7 +220,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                     //登出成功，得到新的Token去获取游客身份信息，并返回User对象
                     return RxHttp.get(Consts.USERS_INFO_API) //发送登录请求
-                            .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                             .subscribeOnCurrent() //当前线程发送登录请求
                             .asResponse(FUser.class);
                 })

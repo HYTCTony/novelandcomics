@@ -94,6 +94,8 @@
     <string name="txt_recommend">推荐</string>
     <string name="txt_day_x">第%1$d天</string>
 
+    <string name="txt_recommend_a_good_book_x">推荐一本好书《%1$s》</string>
+
     <string name="txt_today">今天</string>
 
     <string name="txt_explain">说明</string>
@@ -448,6 +450,9 @@
     <string name="txt_has_been_added_2_the_shelf">已经加入书架！</string>
     <string name="txt_in_kookshelf">已加入书架</string>
     <string name="txt_add_2_kookshelf">加入书架</string>
+
+    <string name="txt_reply">回复</string>
+    <string name="txt_say_something">说点什么呢&#8230;</string>
 
 
     <string name="rationale_write_external_storage">我们需要获取读写手机内存权限，以完成图片分享。</string>

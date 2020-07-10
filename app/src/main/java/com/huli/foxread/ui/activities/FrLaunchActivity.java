@@ -3,6 +3,8 @@ package com.huli.foxread.ui.activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -141,8 +143,6 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
      * 加载开屏广告
      */
     private void loadSplashAd() {
-//        handler.sendEmptyMessageDelayed(9, 1200);
-
         TogetherAdSplash.showAdFull(this, AdConfig.splashAdConfig(this), TogetherAdConst.AD_SPLASH, mSplashContainer, null, null, new TogetherAdSplash.AdListenerSplashFull() {
             @Override
             public void onAdPrepared(@NotNull String channel) {
@@ -218,51 +218,9 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     public void goMain() {
         Intent intent = new Intent(FrLaunchActivity.this, MainActivity.class);
         startActivity(intent);
-
 //      mSplashContainer.removeAllViews();
         finish();
     }
-
-
-    /**
-     * 获取用户信息
-     */
-    /*private void reqInitUserInfo() {
-        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
-                .tag(Consts.USERS_INFO_API + "_launch")
-                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
-                        new TypeReference<LzyResponse<FUser>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<FUser>> response) {
-                        int errorCode = response.body().error_code;
-                        if (errorCode == 0) {
-                            FUser data = response.body().getData();
-                            UserInfoCache.saveUserInfo(FrLaunchActivity.this, data);
-                            //  是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
-                            //  是否有性别---> 有：   reqAdsFromNet();
-                            int gender = data.getGender();
-                            if (gender == 0) {
-                                startActivity(new Intent(mContext, GenderChoiceActivity.class));
-                                finish();
-                            } else {
-                                //加载开屏广告
-                                loadSplashAd();
-                            }
-                        } else if (errorCode == 10001 || errorCode == 10010) {
-                            //加载开屏广告
-                            loadSplashAd();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<LzyResponse<FUser>> response) {
-                        super.onError(response);
-
-                        goMain();
-                    }
-                });
-    }*/
 
     /**
      * 游客登录
@@ -312,31 +270,6 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                         goMain();
                     }
                 });
-
-
-       /* OkGo.<String>post(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
-                .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbCallback(this, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<LoginRpsEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            $(R.id.ctl_no_network_show).setVisibility(View.GONE);
-                            String token = entity.getData().getToken();
-                            TokenCache.saveToken(FrLaunchActivity.this, token);
-
-                            reqInitUserInfo();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        $(R.id.ctl_no_network_show).setVisibility(View.VISIBLE);
-                    }
-                });*/
     }
 
     /**
@@ -345,11 +278,25 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     private void reqAdsProbabilityConfig() {
         RxHttp.get(Consts.ADS_ADVERT_TAIL_API)
                 .setAssemblyEnabled(false)
+                .add(Consts.APK_CHANNEL, getChannel())
                 .asResponse(AdConfigBean.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(bean -> {
                     AdConfig.saveAdConfig(this, bean);
                 });
+    }
+
+    /**
+     * 统计---获取渠道名
+     */
+    private String getChannel() {
+        try {
+            PackageManager pm = getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL");
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return "";
     }
 
 

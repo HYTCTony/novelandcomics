@@ -1,11 +1,15 @@
 package com.huli.foxread.ui.adapters;
 
+import android.util.Log;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.R;
+import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.entity.BookReview;
 import com.huli.foxread.listeners.OnRecyCbCheckListener;
+import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
 
@@ -45,28 +49,42 @@ public class BookReviewReplyAdapter extends BaseQuickAdapter<BookReview, BaseVie
         AppCompatCheckBox cbLike = holder.getView(R.id.cb_reply_like_and_number);
         cbLike.setChecked(bookReview.getCondition() == 1);
         cbLike.setText(String.valueOf(bookReview.getPrefer()));
-        if (mRecyCbCheckListener != null) {
-            cbLike.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (buttonView.isPressed()) {
-                    int position = holder.getLayoutPosition();
-                    mRecyCbCheckListener.onCbCheckChanged(buttonView, isChecked, position);
-                    if (isChecked) {
-                        getData().get(position).setPrefer(bookReview.getPrefer() + 1);
-                        getData().get(position).setCondition(1);
-                    } else {
-                        getData().get(position).setPrefer(bookReview.getPrefer() - 1);
-                        getData().get(position).setCondition(0);
-                    }
-                    notifyItemChanged(position, BookReviewReplyAdapter.PAYLOAD_CHECKBOX);
+
+        cbLike.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!buttonView.isPressed()) {
+                return;
+            }
+            if (mRecyCbCheckListener != null) {
+                if (UserInfoCache.getIsTourist(getContext())) {
+                    LoginActivity.start(getContext());
+                    cbLike.setChecked(!isChecked);
+                    return;
                 }
-            });
-        }
+                int position = holder.getLayoutPosition();
+                mRecyCbCheckListener.onCbCheckChanged(buttonView, isChecked, position);
+                if (isChecked) {
+                    bookReview.setPrefer(bookReview.getPrefer() + 1);
+                    bookReview.setCondition(1);
+                    getData().set(position, bookReview);
+                } else {
+                    if (bookReview.getPrefer() > 0) {
+                        bookReview.setPrefer(bookReview.getPrefer() - 1);
+                        bookReview.setCondition(0);
+                        getData().set(position, bookReview);
+                    }
+                }
+                notifyItemChanged(position, PAYLOAD_CHECKBOX);
+            }
+            //防止频繁点击
+            cbLike.setEnabled(false);
+            cbLike.postDelayed(() -> cbLike.setEnabled(true), 1200);
+        });
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, BookReview item, @NonNull List<?> payloads) {
         super.convert(holder, item, payloads);
-        for (Object obj : payloads) {
+        /*for (Object obj : payloads) {
             if (obj instanceof Integer) {
                 int payload = (int) obj;
                 //局部更新点赞数
@@ -74,6 +92,7 @@ public class BookReviewReplyAdapter extends BaseQuickAdapter<BookReview, BaseVie
                     holder.setText(R.id.cb_review_like_and_number, String.valueOf(item.getPrefer()));
                 }
             }
-        }
+        }*/
+        holder.setText(R.id.cb_reply_like_and_number, String.valueOf(item.getPrefer()));
     }
 }

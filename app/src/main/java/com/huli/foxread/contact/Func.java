@@ -684,9 +684,10 @@ public interface Func {
      * 用途：写书评
      * 头：token---token(Y)
      * 参数：
-     * id --- 小说ID
-     * content --- 评语
+     * id --- 小说ID（必填）
+     * content --- 评语（必填）
      * score --- 评分
+     * novel_appraise_id (书评ID---回复评论用)
      */
     String APPRAISE_CREATE = "/appraise/create";
 
@@ -699,6 +700,22 @@ public interface Func {
      * page_size
      */
     String APPRAISE_LIST = "/appraise/list";
+
+    /**
+     * 用途：书评详情
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 书评ID
+     */
+    String APPRAISE_DETAIL = "/appraise/detail";
+
+    /**
+     * 用途：书评详情回复列表
+     * 头：token---token(Y)
+     * 参数：
+     * id --- 书评ID
+     */
+    String APPRAISE_REPLY = "/appraise/detailList";
 
     /**
      * 用途：点赞

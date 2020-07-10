@@ -12,22 +12,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import androidx.appcompat.widget.Toolbar;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
+/**
+ * 写书评
+ */
 public class WriteBookReviewActivity extends BaseActivity implements View.OnClickListener {
     public static final int REQCODE_WRITE_REVIEW = 0x1954;
 
@@ -90,35 +90,30 @@ public class WriteBookReviewActivity extends BaseActivity implements View.OnClic
         //需要登录---返回结果BaseActivity处理
         if (UserInfoCache.getIsTourist(mContext)) {
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
-            return;
+//            return;
         }
     }
 
     @Override
     public void onClick(View v) {
-        if(onMoreClick()){
+        if (onMoreClick()) {
             return;
         }
-        switch (v.getId()) {
-            case R.id.tv_asBtn_txt_issued_comment:
-                String content = edComment.getText().toString();
-                if (TextUtils.isEmpty(content)) {
-                    Toast.makeText(this, R.string.txt_plz_input_you_comment, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                float rating = ratingBar.getRating();
-                if (rating == 0) {
-                    Toast.makeText(this, R.string.txt_plz_select_grade, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                reqPostComment(novelId, content, rating * 2);
+        if (v.getId() == R.id.tv_asBtn_txt_issued_comment) {
+            String content = edComment.getText().toString();
+            if (TextUtils.isEmpty(content)) {
+                Toast.makeText(this, R.string.txt_plz_input_you_comment, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            float rating = ratingBar.getRating();
+            if (rating == 0) {
+                Toast.makeText(this, R.string.txt_plz_select_grade, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            reqPostComment(novelId, content, rating * 2);
 
-                edComment.setText("");
-                ratingBar.setRating(0f);
-                break;
-
-            default:
-                break;
+            edComment.setText("");
+            ratingBar.setRating(0f);
         }
     }
 
@@ -143,7 +138,7 @@ public class WriteBookReviewActivity extends BaseActivity implements View.OnClic
             if (s.length() > MAX_NUM) {
                 s.delete(MAX_NUM, s.length());
             }
-            int num = MAX_NUM - s.length();
+//            int num = MAX_NUM - s.length();
             tvWordCount.setText((s.length() + "/" + MAX_NUM));
         }
     };
@@ -153,29 +148,21 @@ public class WriteBookReviewActivity extends BaseActivity implements View.OnClic
      * 发表评论
      *
      * @param novelId 小说ID
-     * @param content
+     * @param content 书评内容
      */
     private void reqPostComment(String novelId, String content, float score) {
-        OkGo.<String>post(Consts.APPRAISE_CREATE_API)
-                .params(Consts.NOVEL_ID, novelId)
-                .params(Consts.CONTENT, content)
-                .params(Consts.SCORE, score)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            TipDialog.show(WriteBookReviewActivity.this, entity.msg, TipDialog.TYPE.SUCCESS).setOnDismissListener(() -> {
-                                setResult(RESULT_OK);
-                                finish();
-                            });
-                        } else {
-                            TipDialog.show(WriteBookReviewActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.get(Consts.APPRAISE_CREATE_API)
+                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.CONTENT, content)
+                .add(Consts.SCORE, score)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> TipDialog.show(WriteBookReviewActivity.this, "评论成功发表", TipDialog.TYPE.SUCCESS).setOnDismissListener(() -> {
+                    setResult(RESULT_OK);
+                    finish();
+                }), (OnError) error -> TipDialog.show(WriteBookReviewActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 

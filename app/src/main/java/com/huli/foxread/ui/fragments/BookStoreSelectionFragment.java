@@ -335,42 +335,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      * @param showDialog 进入页面初次加载
      */
     private void reqIndexDatas(boolean showDialog) {
-        /*OkGo.<String>post(Consts.INDEX_PAGE_API)
-                .params(Consts.TYPE, Consts.TYPE_SELECTION)
-                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<HomePageEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<HomePageEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            HomePageEntity hpDatas = entity.getData();
-                            if (hpDatas == null) {
-                                return;
-                            }
-                            mAppBarLayout.setVisibility(View.VISIBLE);
-                            setTopDatas(hpDatas.getTop());
-                            List<HpSection> list = constructDatas4Rv(hpDatas);
-                            mAdapter.setList(list);
-                        }
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        mRefreshLayout.finishRefresh();
-                    }
-
-                    @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
-                        onSuccess(response);
-                    }
-                });*/
-
         RxHttp.postForm(Consts.INDEX_PAGE_API)
-                .add(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.TYPE, Consts.TYPE_SELECTION)
                 .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
                 .asResponse(HomePageEntity.class)
@@ -394,47 +359,7 @@ public class BookStoreSelectionFragment extends BaseFragment implements View.OnC
      * @param prePage 上一页页码
      */
     private void reqHighMarksDatas(int prePage) {
-       /* OkGo.<String>get(Consts.NOVEL_POPULAR_API)
-                .params(Consts.PAGE, prePage + 1)
-                .params(Consts.TYPE, Consts.TYPE_SELECTION)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<BookEntity>> datas = entity.getData();
-                            curPage = datas.getCurrent_page();
-                            List<BookEntity> bookList = datas.getData();
-                            List<HpSection> newdatas = new ArrayList<>();
-                            if (curPage == 1) {
-                                newdatas.add(new HpSection(true, new RvTitleEntity("", getString(R.string.txt_high_score_well_chosen), "", "经典，正能量")));
-                            }
-                            for (BookEntity book : bookList) {
-                                newdatas.add(new HpSection(false, HpSection.SE_TYPE_LIST, book));
-                            }
-                            mAdapter.addData(newdatas);
-
-                            if (datas.getLast_page() <= curPage) {
-                                //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-//                                recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
-                    }
-                });*/
-
         RxHttp.postForm(Consts.NOVEL_POPULAR_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(mActivity))
                 .add(Consts.PAGE, prePage + 1)
                 .add(Consts.TYPE, Consts.TYPE_SELECTION)
                 .asResponsePageList(BookEntity.class)

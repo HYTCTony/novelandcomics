@@ -1,22 +1,35 @@
 package com.huli.foxread.ui.activities;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
+import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookReview;
+import com.huli.foxread.listeners.OnRecyCbCheckListener;
+import com.huli.foxread.rxhttp.ErrorInfo;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.BookReviewReplyAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.GlideUtil;
+import com.huli.page.utils.KeyBoardUtils;
+import com.rxjava.rxlife.RxLife;
 
 import java.io.Serializable;
+import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,12 +39,15 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 /**
  * 评论详情
  */
-public class ReviewDetailActivity extends BaseActivity implements View.OnClickListener {
+public class ReviewDetailActivity extends BaseActivity implements View.OnClickListener, OnLoadMoreListener, OnRecyCbCheckListener {
 
     private RecyclerView mRecyclerView;
     private BookReviewReplyAdapter mAdapter;
 
-    private View btnReply;
+    private TextView btnReply;
+    private EditText mEditText;
+
+    private FrameLayout flTouch;
 
     private ImageView ivReviewerHeadImg;
     private TextView ivReviewerId, tvReviewContent, tvReviewTime;
@@ -87,16 +103,20 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
         Toolbar toolbar = $(R.id.toolbar_normal);
         initToolBar(toolbar, R.string.txt_review_detail);
 
-        btnReply = $(R.id.ctl_asBtn_reply);
-        btnReply.setVisibility(View.GONE);
+        mEditText = $(R.id.tv_say_something);
+        mEditText.setFocusable(true);
+        mEditText.setFocusableInTouchMode(true);
+        flTouch = $(R.id.fl_touch_4_hide_keyboard);
+        btnReply = $(R.id.tv_asBtn_reply);
+
         mRecyclerView = $(R.id.recyclerView_review_reply);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new BookReviewReplyAdapter();
         mRecyclerView.setAdapter(mAdapter);
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_rv_head_review_detail, mRecyclerView, false);
         mAdapter.setHeaderView(headView);
-//        mAdapter.setEmptyView(R.layout.layout_empty_no_reply);
-//        mAdapter.setHeaderWithEmptyEnable(true);
+        mAdapter.setEmptyView(R.layout.layout_empty_no_reply);
+        mAdapter.setHeaderWithEmptyEnable(true);
 
         ivReviewerHeadImg = headView.findViewById(R.id.iv_reviewer_headImg);
         ivReviewerId = headView.findViewById(R.id.iv_reviewer_id);
@@ -113,14 +133,36 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
         ratingBarBook = headView.findViewById(R.id.materialRatingBar_book_score);
         tvBookScore = headView.findViewById(R.id.tv_book_score);
         tvAllReply = headView.findViewById(R.id.tv_all_reply);
-        tvAllReply.setVisibility(View.GONE);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void setListener() {
         ctlBookContent.setOnClickListener(this);
-//        mAdapter.getLoadMoreModule().setOnLoadMoreListener(this);
-//        mAdapter.setmRecyCbCheckListener(this);
+        btnReply.setOnClickListener(this);
+
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(this);
+        mAdapter.setmRecyCbCheckListener(this);
+
+        mEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                KeyBoardUtils.openKeyboard(ReviewDetailActivity.this, v);
+            } else {
+                KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
+            }
+        });
+        flTouch.setOnTouchListener((v, event) -> {
+            KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
+            return false;
+        });
+
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mEditText.clearFocus();
     }
 
     @Override
@@ -145,8 +187,7 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
         }
         tvBookScore.setText(String.valueOf(bookScore));
 
-
-//        reqReviewList(review.getNovel_id(), 0, true);
+        reqReplyDatas(review.getId(), 0);
     }
 
     @Override
@@ -159,94 +200,99 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
                 intent.putExtra(Common.KEY_BOOK_ID, review.getNovel_id());
                 startActivity(intent);
                 break;
+            case R.id.tv_asBtn_reply:
+                KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
+                String str = mEditText.getText().toString();
+                reqPostReply(review.getNovel_id(), str, review.getId());
+                break;
             default:
                 break;
         }
     }
 
-  /*  @Override
+    @Override
     public void onLoadMore() {
-        reqReviewList(review.getNovel_id(), curPage, false);
+        reqReplyDatas(review.getNovel_id(), curPage);
     }
 
     @Override
     public void onCbCheckChanged(CompoundButton view, boolean b, int pos) {
-        if (onMoreClick()) {
-            return;
-        }
         BookReview bookReview = mAdapter.getData().get(pos);
         giveALikeOrCancel(bookReview.getId(), bookReview.getNovel_id(), b);
     }
 
-    *//**
-     * 评论列表
-     *
-     * @param novelId 小说ID
-     *//*
-    private void reqReviewList(String novelId, int page, boolean showDialog) {
-        OkGo.<String>get(Consts.APPRAISE_LIST_API)
-                .params(Consts.NOVEL_ID, novelId)
-                .params(Consts.PAGE, page + 1)
-                .execute(new LtbCallback(this, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookReview>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookReview>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<BookReview>> datas = entity.getData();
-                            int totalNum = datas.getTotal();
-                            tvAllReply.setText(String.format(getString(R.string.txt_all_reply_x), totalNum));
-                            curPage = datas.getCurrent_page();
-
-                            List<BookReview> reviews = datas.getData();
-
-                            if (curPage == 1) {
-                                mAdapter.setList(reviews);
-                            } else {
-                                mAdapter.addData(reviews);
-                            }
-                            if (datas.getLast_page() <= curPage) {
-                                //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
-                    }
-                });
-    }
-
-    *//**
+    /**
      * 点赞或取消点赞
      *
      * @param reviewId  评论ID
      * @param novelId   小说ID
-     * @param isChecked
-     *//*
+     * @param isChecked #
+     */
     private void giveALikeOrCancel(String reviewId, String novelId, boolean isChecked) {
-        OkGo.<String>get(Consts.APPRAISE_LIKE_API)
-                .params(Consts.REVIEW_ID, reviewId)
-                .params(Consts.BOOK_ID, novelId)
-                .params(Consts.PREFER, isChecked ? 1 : 2)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                       *//* LzyResponse<PagingWarpper<List<BookReview>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookReview>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-
-                        }*//*
-                    }
+        RxHttp.get(Consts.APPRAISE_LIKE_API)
+                .add(Consts.REVIEW_ID, reviewId)
+                .add(Consts.BOOK_ID, novelId)
+                .add(Consts.PREFER, isChecked ? 1 : 2)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+//                    setResult(RESULT_OK);
                 });
-    }*/
+    }
+
+    /**
+     * 获取书评详情
+     *
+     * @param reviewId 评论ID
+     */
+    private void reqReplyDatas(String reviewId, int page) {
+        RxHttp.get(Consts.APPRAISE_REPLY_API)
+                .add(Consts.REVIEW_ID, reviewId)
+                .add(Consts.PAGE, page + 1)
+                .asResponsePageList(BookReview.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(replyEntity -> {
+                    int totalNum = replyEntity.getTotal();
+                    tvAllReply.setText(String.format(getString(R.string.txt_all_reply_x), totalNum));
+                    curPage = replyEntity.getCurrent_page();
+
+                    List<BookReview> datas = replyEntity.getData();
+                    if (curPage == 1) {
+                        mAdapter.setList(datas);
+                    } else {
+                        mAdapter.addData(datas);
+                    }
+                    if (replyEntity.getLast_page() <= curPage) {
+                        //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+//                                recyclerView.smoothScrollToPosition(mAdapter.getItemCount());
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
+                        mAdapter.getLoadMoreModule().setEnableLoadMore(true);
+                    }
+                }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
+    }
+
+
+    /**
+     * 发表评论
+     *
+     * @param novelId 小说ID
+     * @param content
+     */
+    private void reqPostReply(String novelId, String content, String reviewId) {
+        RxHttp.get(Consts.APPRAISE_CREATE_API)
+                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.CONTENT, content)
+                .add(Consts.NOVEL_APPRAISE_ID, reviewId)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+                    mEditText.setText(null);
+                    reqReplyDatas(reviewId, 0);
+                }, (OnError) ErrorInfo::show);
+    }
 
 }

@@ -144,6 +144,8 @@ public interface Consts {
     /*书评*/
     String APPRAISE_CREATE_API = NOT_CPL_URL + Func.APPRAISE_CREATE;
     String APPRAISE_LIST_API = NOT_CPL_URL + Func.APPRAISE_LIST;
+    String APPRAISE_DETAIL_API = NOT_CPL_URL + Func.APPRAISE_DETAIL;
+    String APPRAISE_REPLY_API = NOT_CPL_URL + Func.APPRAISE_REPLY;
     String APPRAISE_LIKE_API = NOT_CPL_URL + Func.APPRAISE_LIKE;
 
 
@@ -255,5 +257,8 @@ public interface Consts {
     String REVIEW_ID = "id";
     String PREFER = "prefer";
     String SCORE = "score";
+
+    //书评ID---回复评论用
+    String NOVEL_APPRAISE_ID = "novel_appraise_id";
 
 }

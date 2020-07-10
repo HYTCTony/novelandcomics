@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.azhon.appupdate.config.UpdateConfiguration;
 import com.azhon.appupdate.dialog.NumberProgressBar;
 import com.azhon.appupdate.listener.OnDownloadListener;
@@ -26,18 +24,16 @@ import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ebsevent.ReadingTimeEvent;
+import com.huli.foxread.ebsevent.UnReadMsgEvent;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.UpdateInfo;
-import com.huli.foxread.ebsevent.ReadingTimeEvent;
-import com.huli.foxread.ebsevent.UnReadMsgEvent;
 import com.huli.foxread.entity.tab.TabEntity;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.fragments.BookStoreBoyFragment;
 import com.huli.foxread.ui.fragments.BookStoreSelectionFragment;
@@ -54,17 +50,12 @@ import com.huli.foxread.utils.Tos;
 import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.rxjava.rxlife.RxLife;
 import com.sh.sdk.shareinstall.ShareInstall;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
 import com.sh.sdk.shareinstall.listener.AppGetWakeUpListener;
-import com.umeng.message.PushAgent;
-import com.umeng.message.UmengMessageHandler;
-import com.umeng.message.entity.UMessage;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
@@ -76,8 +67,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import io.reactivex.rxjava3.core.Observable;
-import kotlinx.coroutines.TimeoutCancellationException;
 
 public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
@@ -135,7 +124,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void doBusiness(Context mContext) {
-//        switch2Bookstore();
         if (NetworkUtil.isNetworkAvailable(mContext)) {
             mTabLayout.postDelayed(this::switch2Bookstore, 100);        //延迟初始化，MainActivity启动时间由2225ms变成676ms
         } else {
@@ -163,14 +151,14 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         preAvoidPwd1ClickLogin();
 
         /*友盟推送消息*/
-        PushAgent.getInstance(this).setMessageHandler(new UmengMessageHandler() {
+        /*PushAgent.getInstance(this).setMessageHandler(new UmengMessageHandler() {
             @Override
             public void dealWithCustomMessage(Context context, UMessage uMessage) {
                 Log.e(TAG, "CustomMessage===" + uMessage.custom);
                 //TODO 判断当前Activity显示 然后do something
 //                UTrack.getInstance(context).trackMsgArrival(uMessage);
             }
-        });
+        });*/
 
        /* InAppMessageManager.getInstance(this).showCardMessage(this, "MainActivity", new IUmengInAppMsgCloseCallback() {
             @Override
@@ -190,18 +178,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         // 此处要调用，否则App在后台运行时，会无法截获
         ShareInstall.getInstance().getWakeUpParams(intent, wakeUpListener);
     }
-
-//    AppWakeUpAdapter wakeUpAdapter = new AppWakeUpAdapter() {
-//        @Override
-//        public void onWakeUp(AppData appData) {
-//            //获取渠道数据
-//            String channelCode = appData.getChannel();
-//            //获取绑定数据
-//            String bindData = appData.getData();
-//            Log.d("OpenInstall", "getWakeUp : wakeupData = " + appData.toString());
-//            Toast.makeText(MainActivity.this, "OpenInstall_wake : installData = " + appData.toString(), Toast.LENGTH_LONG).show();
-//        }
-//    };
 
     /**
      * 一键登录预取号
@@ -263,7 +239,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        wakeUpAdapter = null;
         wakeUpListener = null;
     }
 
@@ -415,6 +390,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     protected void onNetWorkResume() {
         super.onNetWorkResume();
+        reqMyCapitalDetail();
     }
 
     private boolean ignoreOneClickLogin;    //忽略唤起一键登录
@@ -470,53 +446,36 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     /**
      * 通过运营商一键登录返回的token 调用自身登录
      *
-     * @param operatorType
+     * @param operatorType #
      * @param uToken       电信运营商的token
-     * @param authCode
+     * @param authCode     #
      */
     private void oneClickLogin(String operatorType, String uToken, String authCode) {
         String uniqueID = UniqueIdManager.getUniqueID(this);
-        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USE_PHONE_ONEKEY_LOGIN)
-                .params(Consts.TYPE, operatorType)
-                .params("authCode", operatorType.equals("1") ? authCode : "")
-                .params(Consts.TOKEN, uToken)
-                .params("plantFrom", "1")
-                .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
-                        if (response.body().error_code == 0) {
-                            LoginRpsEntity data = response.body().getData();
-                            TokenCache.saveToken(MainActivity.this, data.getToken());
-
-                            onResume();
-
-                            reqUserInfo();
-                        } else {
-                            TipDialog.show(MainActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.USE_PHONE_ONEKEY_LOGIN)
+                .add(Consts.TYPE, operatorType)
+                .add("authCode", operatorType.equals("1") ? authCode : "")
+                .add(Consts.TOKEN, uToken)
+                .add("plantFrom", "1")
+                .add(Consts.UNIQUE_ID, uniqueID)
+                .asResponse(LoginRpsEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(data -> {
+                    TokenCache.saveToken(MainActivity.this, data.getToken());
+                    onResume();
+                    reqUserInfo();
+                }, (OnError) error -> TipDialog.show(MainActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
      * 我的资金详情
      */
     public void reqMyCapitalDetail() {
-        OkGo.<String>get(Consts.USER_CAPITAL_API)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<CapitalEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            CapitalEntity data = entity.getData();
-                            EventBus.getDefault().postSticky(data);
-                        }
-                    }
+        RxHttp.get(Consts.USER_CAPITAL_API)
+                .asResponse(CapitalEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(data -> {
+                    EventBus.getDefault().postSticky(data);
                 });
     }
 
@@ -524,27 +483,21 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 获取用户信息
      */
     public void reqUserInfo() {
-        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
-                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
-                        new TypeReference<LzyResponse<FUser>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<FUser>> response) {
-                        if (response.body().error_code == 0) {
-                            FUser data = response.body().getData();
-                            UserInfoCache.saveUserInfo(MainActivity.this, data);
+        RxHttp.get(Consts.USERS_INFO_API)
+                .asResponse(FUser.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(fUser -> {
+                    UserInfoCache.saveUserInfo(MainActivity.this, fUser);
 
-                            //是否已经填写邀请码
-                            boolean isInvited = data.isIs_invited();
-                            String inviteCode = (String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, "");
-                            if (!isInvited && !TextUtils.isEmpty(inviteCode)) {
-                                reqInviteCodeSubmit(inviteCode);
-                            }
-                            EventBus.getDefault().postSticky(data);
-
-                            reqUnReadMsgCount();
-                        }
+                    //是否已经填写邀请码
+                    boolean isInvited = fUser.isIs_invited();
+                    String inviteCode = (String) SPFUtils.get(MainActivity.this, Common.INVITE_CODE, "");
+                    if (!isInvited && !TextUtils.isEmpty(inviteCode)) {
+                        reqInviteCodeSubmit(inviteCode);
                     }
+                    EventBus.getDefault().postSticky(fUser);
+
+                    reqUnReadMsgCount();
                 });
     }
 
@@ -552,8 +505,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 获取未读消息
      */
     private void reqUnReadMsgCount() {
-        RxHttp.get(Consts.MSG_UNREAD_API) //发送登出请求
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
+        RxHttp.get(Consts.MSG_UNREAD_API)
                 .asResponse(UnReadMsgEvent.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(unread -> {
@@ -571,21 +523,16 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 提交邀请码
      * token在CallBack中统一加到header
      *
-     * @param inviteCode
+     * @param inviteCode #
      */
     private void reqInviteCodeSubmit(String inviteCode) {
-        OkGo.<String>post(Consts.FILLIN_INVITE_CODE_API)
-                .params(Consts.CODE, inviteCode)
-                .execute(new LtbCallback(MainActivity.this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
-                            UserInfoCache.saveIsInvited(MainActivity.this, true);
-                        }
-                    }
+        RxHttp.postForm(Consts.FILLIN_INVITE_CODE_API)
+                .add(Consts.CODE, inviteCode)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(s -> {
+                    SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
+                    UserInfoCache.saveIsInvited(MainActivity.this, true);
                 });
     }
 
@@ -593,41 +540,20 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
      * 获取用户阅读时间
      */
     public void getUserReadTime() {
-        OkGo.<String>get(Consts.USER_READ_TIME_API)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            EventBus.getDefault().postSticky(new ReadingTimeEvent(entity.getData()));
-                        }
-                    }
-                });
+        RxHttp.get(Consts.USER_READ_TIME_API)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(rTime -> EventBus.getDefault().postSticky(new ReadingTimeEvent(rTime)));
     }
 
 
-    /**
-     * 统计---获取渠道名
-     */
-    private String getChannel() {
-        try {
-            PackageManager pm = getPackageManager();
-            ApplicationInfo appInfo = pm.getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            return appInfo.metaData.getString("UMENG_CHANNEL");
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-        return "";
-    }
-
-    private void ssss() {
+    /*private void ssss() {
         Observable<FUser> bannerObservable = RxHttp.get("http://...")
                 .asClass(FUser.class)
                 .onErrorReturn(throwable -> {
                     if (throwable instanceof TimeoutCancellationException) {
                         return UserInfoCache.getUserInfo(this);
-                    }else {
+                    } else {
                         throw throwable;
                     }
                 });
@@ -652,7 +578,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                 }, () -> {
                     //2个请求执行完毕，开始更新UI
                 });
-    }
+    }*/
 
     /**
      * 检测更新
@@ -660,7 +586,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private void checkNewVersion() {
         String channelName = getChannel();
         RxHttp.postForm(Consts.VERSION_CHECK_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .add(Consts.FACILITY, Consts.DEVICE_ANDROID)
                 .add(Consts.APK_CHANNEL, channelName)
                 .add(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
@@ -687,41 +612,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                         });
                     });
                 });
-
-
-       /* OkGo.<String>post(Consts.VERSION_CHECK_API)
-                .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
-                .params(Consts.APK_CHANNEL, channelName)
-                .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
-                .execute(new LtbCallback(MainActivity.this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<UpdateInfo> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<UpdateInfo>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            UpdateInfo updateInfo = entity.getData();
-                            boolean isForce = updateInfo.getEnforce() == 1;
-                            CustomDialog.show(MainActivity.this, R.layout.layout_custom_dialog_version_check, (dialog, v) -> {
-                                ImageView btnClose = v.findViewById(R.id.iv_asBtn_close_update);
-                                btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
-                                NumberProgressBar progressBar = v.findViewById((R.id.numberProgressBar_download_apk));
-                                progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
-                                TextView tvVerName = v.findViewById(R.id.tv_new_version_name);
-                                tvVerName.setText(("v_" + updateInfo.getVersionName()));
-                                TextView tvContent = v.findViewById(R.id.tv_update_info_content);
-                                tvContent.setText(updateInfo.getContent());
-
-                                btnClose.setOnClickListener(v1 -> dialog.doDismiss());
-                                v.findViewById(R.id.versionchecklib_version_dialog_commit).setOnClickListener(v11 -> {
-                                    downloadApkTask(updateInfo, progressBar, dialog);
-                                    if (!isForce) {
-                                        dialog.doDismiss();
-                                    }
-                                });
-                            });
-                        }
-                    }
-                });*/
     }
 
     /**
@@ -775,4 +665,19 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     .download();
         }
     }
+
+
+    /**
+     * 统计---获取渠道名
+     */
+    private String getChannel() {
+        try {
+            PackageManager pm = getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            return appInfo.metaData.getString("UMENG_CHANNEL");
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return "";
+    }
+
 }

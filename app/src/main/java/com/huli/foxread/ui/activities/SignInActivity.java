@@ -298,7 +298,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
      */
     public void reqMyCapitalDetail() {
         RxHttp.postForm(Consts.USER_CAPITAL_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .asResponse(CapitalEntity.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(capitalEntity -> {
@@ -313,7 +312,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
      */
     private void getSignInInfo() {
         RxHttp.postForm(Consts.WELFARE_SIGNIN_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .asResponse(SignInDetailEntity.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(entity -> {
@@ -351,7 +349,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
      */
     private void reqSignIn() {
         RxHttp.postForm(Consts.WELFARE_COMPLETESINGIN_API)
-                .addHeader(Consts.TOKEN, TokenCache.getToken(this))
                 .asResponse(Integer.class)
                 .doOnSubscribe(disposable -> showLoadingDialog())
                 .doFinally(() -> {

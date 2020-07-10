@@ -58,7 +58,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 /**
  * 邀请好友---Web
  */
-public class InviteFriendsActivity2 extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
+public class InviteFriendsActivity extends BaseActivity implements View.OnClickListener, EasyPermissions.PermissionCallbacks {
 
     private ConstraintLayout ctlShare;
     private TextView btnExplain;
@@ -95,7 +95,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
 
     @Override
     public int bindLayout() {
-        return R.layout.activity_invite_friends_2;
+        return R.layout.activity_invite_friends;
     }
 
     @Override
@@ -183,7 +183,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
             public void handler(String data, CallBackFunction function) {
 //                Log.e(TAG, "去提现 = " + data);
 
-                Intent intent = new Intent(InviteFriendsActivity2.this, WithdrawalActivity.class);
+                Intent intent = new Intent(InviteFriendsActivity.this, WithdrawalActivity.class);
                 startActivity(intent);
 
                 function.onCallBack("submitFromWeb exe, response data from Java");
@@ -193,7 +193,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
         mWebview.registerHandler("viewInvitedFriends", new BridgeHandler() {
             @Override
             public void handler(String data, CallBackFunction function) {
-                startActivity(new Intent(InviteFriendsActivity2.this, MyInviteFriendsActivity.class));
+                startActivity(new Intent(InviteFriendsActivity.this, MyInviteFriendsActivity.class));
 //                Log.e(TAG, "查看看好友 = " + data);
                 function.onCallBack("submitFromWeb exe, response data from Java");
             }
@@ -307,7 +307,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(InviteFriendsActivity2.this, "分享成功！", Toast.LENGTH_LONG).show();
+            Toast.makeText(InviteFriendsActivity.this, "分享成功！", Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -317,7 +317,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(InviteFriendsActivity2.this, "分享失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(InviteFriendsActivity.this, "分享失败" + t.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -326,7 +326,7 @@ public class InviteFriendsActivity2 extends BaseActivity implements View.OnClick
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(InviteFriendsActivity2.this, "分享取消了...", Toast.LENGTH_LONG).show();
+            Toast.makeText(InviteFriendsActivity.this, "分享取消了...", Toast.LENGTH_LONG).show();
         }
     };
 
