@@ -1,7 +1,8 @@
 package com.huli.foxread.rxhttp;
 
+import android.util.Log;
+
 import com.huli.foxread.RxHttp;
-import com.huli.foxread.contact.Consts;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,9 +38,16 @@ public class TokenInterceptor2 implements Interceptor {
             return originalResponse;
         }*/
 
-        String code = originalResponse.header("token_code");
-        if ("-1".equals(code)) { //token 失效  1、这里根据自己的业务需求写判断条件
+        String url = request.url().toString();
+        Log.e("gggggggggg", "url===" + url);
+        if (url.contains("http://testcover.hongyutiancheng.com.cn/api/user/info")){
+
+        String code = originalResponse.header("error_code");
+            Log.e("gggggggggg", "header===" + originalResponse.headers().toString());
+            Log.e("gggggggggg", "header---code===" + code);
+       /* if ("-1".equals(code)) { //token 失效  1、这里根据自己的业务需求写判断条件
             return handleTokenInvalid(chain, request);
+        }*/
         }
         return originalResponse;
     }

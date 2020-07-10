@@ -2,6 +2,7 @@ package com.huli.foxread;
 
 import android.app.ActivityManager;
 import android.app.Application;
+import android.app.Notification;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -11,11 +12,13 @@ import com.chad.library.adapter.base.module.LoadMoreModuleConfig;
 import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.config.TgAdManager;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.rxhttp.RxHttpManager;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
+import com.huli.foxread.utils.SPFUtils;
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.kongzue.dialog.util.BaseDialog;
@@ -42,6 +45,8 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UmengMessageHandler;
+import com.umeng.message.entity.UMessage;
 import com.umeng.socialize.PlatformConfig;
 
 import org.android.agoo.xiaomi.MiPushRegistar;
@@ -52,6 +57,7 @@ import java.util.logging.Level;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
+import me.leolin.shortcutbadger.ShortcutBadger;
 import okhttp3.OkHttpClient;
 
 /*切换分支*/
@@ -70,26 +76,18 @@ public class FrApp extends Application implements ActivityState {
     //static 代码段可以防止内存泄露
     static {
         //设置全局的Header构建器
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
-            @NonNull
-            @Override
-            public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
-                layout.setPrimaryColorsId(R.color.transparent, R.color.col_theme_blue);//全局设置主题颜色
-                return new MaterialHeader(context);
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator((context, layout) -> {
+            layout.setPrimaryColorsId(R.color.transparent, R.color.col_theme_blue);//全局设置主题颜色
+            return new MaterialHeader(context);
 //                return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Scale);
 //                        .setPrimaryColorId(R.color.colorPrimary)
 //                        .setAccentColorId(android.R.color.white);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
-            }
         });
         //设置全局的Footer构建器
-        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
-            @NonNull
-            @Override
-            public RefreshFooter createRefreshFooter(@NonNull Context context, @NonNull RefreshLayout layout) {
-                return new FalsifyFooter(context);
-                //指定为经典Footer，默认是 BallPulseFooter
+        SmartRefreshLayout.setDefaultRefreshFooterCreator((context, layout) -> {
+            return new FalsifyFooter(context);
+            //指定为经典Footer，默认是 BallPulseFooter
 //                return new ClassicsFooter(context).setDrawableSize(20);
-            }
         });
     }
 
@@ -227,9 +225,21 @@ public class FrApp extends Application implements ActivityState {
 
             @Override
             public void onFailure(String s, String s1) {
-
+                Log.e("FrApp", "注册失败");
             }
         });
+        //监听通知
+        pushAgent.setMessageHandler(new UmengMessageHandler() {
+            @Override
+            public Notification getNotification(Context context, UMessage msg) {
+                //显示应用角标
+                int badgeCount = (int) SPFUtils.get(sInstance, Common.SPF_KEY_BADGECOUNT, 0) + 1;
+                ShortcutBadger.applyCount(context, badgeCount);
+                SPFUtils.put(sInstance, Common.SPF_KEY_BADGECOUNT, badgeCount);
+                return super.getNotification(context, msg);
+            }
+        });
+
         //小米
         MiPushRegistar.register(getApplicationContext(), "2882303761518355168", "5471835523168");
 

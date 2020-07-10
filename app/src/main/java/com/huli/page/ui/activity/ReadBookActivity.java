@@ -785,6 +785,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
 
             @Override
+            public void onDisLike(@NotNull String channel, int position, @NotNull String value) {
+
+            }
+
+            @Override
             public void onStartRequest(@NotNull String channel) {
 
             }

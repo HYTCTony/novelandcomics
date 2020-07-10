@@ -59,4 +59,6 @@ public interface Common {
 
     String SPF_KEY_FIRST_RUN = "is_first_run";
 
+    String SPF_KEY_BADGECOUNT = "launcher_badgeCount";
+
 }
