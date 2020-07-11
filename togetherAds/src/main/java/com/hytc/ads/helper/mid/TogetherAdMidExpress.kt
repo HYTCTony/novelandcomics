@@ -24,7 +24,7 @@ import java.util.*
 
 
 /**
- * 备注：用于界面中间插一个广告(返回View)
+ * 备注：用于界面中间插一个广告(返回View)模板
  */
 object TogetherAdMidExpress : AdBase() {
 
