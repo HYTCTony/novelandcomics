@@ -206,7 +206,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         getSpecialBook();
         reqGetBooks();
-        ((MainActivity) mActivity).getUserReadTime();
+//        ((MainActivity) mActivity).getUserReadTime();
     }
 
 
@@ -244,7 +244,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @SuppressLint("CheckResult")
     @Override
-    public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+    public boolean onItemLongClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
         BookShelfOrADsMultEntity multEntity = datas.get(position);
         if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
@@ -264,20 +264,19 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
         inflater.inflate(R.menu.menu_book_rack, menu);
-        if (menu != null) {
-            if (menu.getClass() == MenuBuilder.class) {
-                try {
-                    Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
-                    m.setAccessible(true);
-                    m.invoke(menu, true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+       /* if (menu.getClass() == MenuBuilder.class) {
+            try {
+                Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
+                m.setAccessible(true);
+                m.invoke(menu, true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }
+        }*/
     }
 
     @Override

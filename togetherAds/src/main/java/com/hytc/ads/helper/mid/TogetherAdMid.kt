@@ -29,7 +29,7 @@ import com.hytc.ads.other.logd
 import com.hytc.ads.other.loge
 
 /**
- * 备注：用于界面中间插一个广告
+ * 备注：用于界面中间插一个广告（自渲染）
  */
 object TogetherAdMid : AdBase() {
 

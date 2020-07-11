@@ -338,7 +338,6 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
         reqGetWerfareTasks();
 
         ((MainActivity) mActivity).reqMyCapitalDetail();
-        ((MainActivity) mActivity).getUserReadTime();
     }
 
     @Override
@@ -354,14 +353,7 @@ public class MainWelfareFragment2 extends BaseFragment implements OnBannerListen
                 startActivity(new Intent(mActivity, MyGoldCoinActivity.class));
                 break;
             case R.id.tv_asBtn_sign_in_now:
-//                startActivity(new Intent(mActivity, SignInActivity.class));
-                PackageManager packageManager = mActivity.getPackageManager();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("xl://goods:8888/goodsDetail?goodsId=10011002"));
-                List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
-                boolean isValid = !activities.isEmpty();
-                if (isValid) {
-                    startActivity(intent);
-                }
+                startActivity(new Intent(mActivity, SignInActivity.class));
                 break;
             default:
                 break;

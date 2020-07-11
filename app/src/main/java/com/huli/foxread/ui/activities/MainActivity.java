@@ -26,7 +26,6 @@ import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.ebsevent.ReadingTimeEvent;
 import com.huli.foxread.ebsevent.UnReadMsgEvent;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
@@ -221,8 +220,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         super.onResume();
         reqMyCapitalDetail();
 
-        getUserReadTime();
-
         if (!isInit) {
             reqUnReadMsgCount();
         }
@@ -237,8 +234,9 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         }*/
 
         //清除应用角标
-        if (0 != (int) SPFUtils.get(this, Common.SPF_KEY_BADGECOUNT, 0)) {
+        if ((int) SPFUtils.get(this, Common.SPF_KEY_BADGECOUNT, 0) > 0) {
             ShortcutBadger.removeCount(this);
+            SPFUtils.remove(this, Common.SPF_KEY_BADGECOUNT);
         }
     }
 
@@ -540,16 +538,6 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
                     SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
                     UserInfoCache.saveIsInvited(MainActivity.this, true);
                 });
-    }
-
-    /**
-     * 获取用户阅读时间
-     */
-    public void getUserReadTime() {
-        RxHttp.get(Consts.USER_READ_TIME_API)
-                .asResponse(String.class)
-                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
-                .subscribe(rTime -> EventBus.getDefault().postSticky(new ReadingTimeEvent(rTime)));
     }
 
 

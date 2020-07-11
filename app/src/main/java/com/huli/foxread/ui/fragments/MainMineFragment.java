@@ -16,12 +16,11 @@ import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ebsevent.UnReadMsgEvent;
+import com.huli.foxread.ebsevent.VipChargerEvent;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.MineWelfareZoneEntity;
-import com.huli.foxread.ebsevent.ReadingTimeEvent;
-import com.huli.foxread.ebsevent.UnReadMsgEvent;
-import com.huli.foxread.ebsevent.VipChargerEvent;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.activities.HelpAndFeedbackActivity;
 import com.huli.foxread.ui.activities.InviteFriendsActivity;
@@ -166,8 +165,21 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 
         if (isVisible()) {
             reqMineWelfareZone();
+            getUserReadTime();
         }
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            StatusBarUtils.setStatusBarTextDark(mActivity, true);
+
+            reqMineWelfareZone();
+            getUserReadTime();
+        }
+    }
+
 
     @Override
     public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
@@ -198,11 +210,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
         tvTodayGoldCoin.setText(String.valueOf(event.getToday_score()));
     }
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void onReadingTimeEvent(ReadingTimeEvent event) {
-        tvTodayReadingTime.setText(event.getReadMin());
-    }
 
     /**
      * 未读消息
@@ -301,16 +308,6 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
 //        tvTodayGoldCoin.setText(String.valueOf(UserInfoCache.getTodayScore(mContext)));
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            StatusBarUtils.setStatusBarTextDark(mActivity, true);
-
-            reqMineWelfareZone();
-        }
-    }
 
     @Override
     public void onClick(View view) {
@@ -413,6 +410,18 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(s -> {
 
+                });
+    }
+
+    /**
+     * 获取用户阅读时间
+     */
+    private void getUserReadTime() {
+        RxHttp.get(Consts.USER_READ_TIME_API)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(rTime -> {
+                    tvTodayReadingTime.setText(rTime);
                 });
     }
 
