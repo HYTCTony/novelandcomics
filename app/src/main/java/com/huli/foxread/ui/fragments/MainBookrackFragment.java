@@ -58,14 +58,12 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -125,8 +123,10 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         recyclerView.setAdapter(rackAdapter);
         View headView = LayoutInflater.from(mActivity).inflate(R.layout.layout_rv_head_book_rack, recyclerView, false);
         rackAdapter.setHeaderView(headView);
+        rackAdapter.setEmptyView(R.layout.layout_empty);
 
         cardSpecialRecommend = $(headView, R.id.card_special_recommend);
+        cardSpecialRecommend.setVisibility(View.GONE);
         ivookCoverPush = $(headView, R.id.iv_book_cover_push);
         tvBookNamePush = $(headView, R.id.tv_book_name_push);
         tvBookIntroPush = $(headView, R.id.tv_book_introduction_push);
@@ -455,6 +455,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                     GlideUtil.loadRoundRect(mActivity, ivookCoverPush, data.getHttp_image());
                     tvBookNamePush.setText(data.getName());
                     tvBookIntroPush.setText(data.getIntroduce());
+                    cardSpecialRecommend.setVisibility(View.VISIBLE);
                 });
     }
 

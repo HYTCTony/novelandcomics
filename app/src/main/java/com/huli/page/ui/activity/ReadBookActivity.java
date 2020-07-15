@@ -801,6 +801,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             return;
         TogetherAdMidExpress.showAdMid(this, AdConfig.midAdConfig(this), constId, new TogetherAdMidExpress.AdListenerMid() {
             @Override
+            public void onADShow(@NotNull String channel) {
+
+            }
+
+            @Override
             public void onDisLike(@NotNull String channel, int position, @NotNull String value) {
 
             }
