@@ -3,30 +3,35 @@ package com.hytc.ads.helper.mid
 import android.app.Activity
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.NonNull
 import com.baidu.mobad.feeds.*
 import com.baidu.mobads.component.FeedNativeView
+import com.bumptech.glide.Glide
 import com.bytedance.sdk.openadsdk.*
 import com.hytc.ads.R
 import com.hytc.ads.TogetherAd
 import com.hytc.ads.helper.AdBase
+import com.hytc.ads.helper.banner.TogetherAdFakeBanner
 import com.hytc.ads.other.AdNameType
 import com.hytc.ads.other.AdRandomUtil
 import com.hytc.ads.other.logd
 import com.hytc.ads.other.loge
 import com.qq.e.ads.cfg.VideoOption
-import com.qq.e.ads.nativ.ADSize
-import com.qq.e.ads.nativ.NativeExpressAD
-import com.qq.e.ads.nativ.NativeExpressADView
+import com.qq.e.ads.nativ.*
+import com.qq.e.ads.nativ.widget.NativeAdContainer
+import com.qq.e.comm.constants.AdPatternType
 import com.qq.e.comm.util.AdError
 import java.lang.ref.WeakReference
 import java.util.*
 
 
 /**
- * 备注：用于界面中间插一个广告(返回View)模板
+ * 备注：用于界面中间插一个广告(混合)
  */
-object TogetherAdMidExpress : AdBase() {
+object TogetherAdMidMix : AdBase() {
 
     private var timer: Timer? = null
     private var overTimerTask: OverTimerTask? = null
@@ -60,103 +65,59 @@ object TogetherAdMidExpress : AdBase() {
         }
     }
 
-    private var nativeExpressADView: NativeExpressADView? = null
+    /**
+     * 广点通---自渲染
+     */
     private fun showAdMidTecentGDT(@NonNull activity: Activity, midConfigStr: String?, @NonNull adConstStr: String, @NonNull adListener: AdListenerMid) {
         adListener.onStartRequest(AdNameType.GDT.type)
-        val listener2 = object : NativeExpressAD.NativeExpressADListener {
-            override fun onADCloseOverlay(ad: NativeExpressADView?) {
-                //To change body of created functions use File | Settings | File Templates.
-            }
 
-            override fun onADLoaded(adViewList: MutableList<NativeExpressADView>?) {
+        val listener = object : NativeADUnifiedListener {
+            override fun onADLoaded(adList: List<NativeUnifiedADData>?) {
                 if (stop) {
                     return
                 }
                 cancelTimerTask()
 
-                if (adViewList?.isEmpty() != false) {
-                    loge("${AdNameType.GDT.type}: 广点通信息流伪装MID返回空的")
-                    val newConfigStr = midConfigStr?.replace(AdNameType.GDT.type, AdNameType.NO.type)
-                    showAdMid(activity, newConfigStr, adConstStr, adListener)
-                    return
-                }
-
-                if (nativeExpressADView != null) {
-                    nativeExpressADView!!.destroy()
-                }
-                nativeExpressADView = adViewList[0]
-                /* // 3.返回数据后，SDK 会返回可以用于展示 NativeExpressADView 列表
-                 if (nativeExpressADView!!.boundData.adPatternType == AdPatternType.NATIVE_VIDEO) {
-                     nativeExpressADView!!.setMediaListener(mediaListener)
-                 }*/
-                nativeExpressADView!!.render()
-
-                adListener.onAdPrepared(AdNameType.GDT.type)
-            }
-
-            override fun onADOpenOverlay(adView: NativeExpressADView?) {
-            }
-
-            override fun onRenderFail(ad: NativeExpressADView?) {
-                if (stop) {
-                    return
-                }
-                cancelTimerTask()
-
-                val newConfigStr = midConfigStr?.replace(AdNameType.GDT.type, AdNameType.NO.type)
-                showAdMid(activity, newConfigStr, adConstStr, adListener)
-            }
-
-            override fun onADExposure(adView: NativeExpressADView?) {
-                adListener.onADShow(AdNameType.GDT.type)
-            }
-
-            override fun onADClosed(adView: NativeExpressADView?) {
-                adListener.onDisLike(AdNameType.GDT.type, 0, "")
-            }
-
-            override fun onADLeftApplication(adView: NativeExpressADView?) {
-            }
-
-            override fun onNoAD(error: AdError?) {
-                if (stop) {
-                    return
-                }
-                cancelTimerTask()
-
-                val newConfigStr = midConfigStr?.replace(AdNameType.GDT.type, AdNameType.NO.type)
-                showAdMid(activity, newConfigStr, adConstStr, adListener)
-            }
-
-            override fun onADClicked(adView: NativeExpressADView?) {
-                adListener.onAdClick(AdNameType.GDT.type)
-            }
-
-            override fun onRenderSuccess(adView: NativeExpressADView?) {
-                if (adView != null) {
-                    adListener.onRenderSuccess(AdNameType.GDT.type, adView, adView.width.toFloat(), adView.height.toFloat())
-                } else {
-                    if (stop) {
-                        return
+                //list是空的，按照错误来处理
+                if (adList?.isEmpty() != false) {
+                    loge("${AdNameType.GDT.type}: 请求成功，但是返回的list为空")
+                    val newListConfig = midConfigStr?.replace(AdNameType.GDT.type, AdNameType.NO.type)
+                    activity.runOnUiThread {
+                        showAdMid(activity, newListConfig, adConstStr, adListener)
                     }
-                    cancelTimerTask()
-
-                    val newConfigStr = midConfigStr?.replace(AdNameType.GDT.type, AdNameType.NO.type)
-                    showAdMid(activity, newConfigStr, adConstStr, adListener)
+                    return
                 }
+
+                logd("${AdNameType.GDT.type}: list.size: " + adList.size)
+                activity.runOnUiThread {
+                    adListener.onAdLoaded(AdNameType.GDT.type, adList)
+                }
+            }
+
+            override fun onNoAD(adError: AdError?) {
+                if (stop) {
+                    return
+                }
+                cancelTimerTask()
+
+                loge("${AdNameType.GDT.type}: ${adError?.errorCode}, ${adError?.errorMsg}")
+                val newListConfig = midConfigStr?.replace(AdNameType.GDT.type, AdNameType.NO.type)
+                showAdMid(activity, newListConfig, adConstStr, adListener)
             }
         }
 
-        val dm = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(dm)
-        //图片以16：9的宽高比展示
-        //无论是横屏还是竖屏都是取小的那个长度的80%
-        val n = ((if (dm.widthPixels > dm.heightPixels) dm.heightPixels else dm.widthPixels) * 0.8).toInt()
-        val nativeExpressAD = NativeExpressAD(activity, ADSize(n, ADSize.AUTO_HEIGHT), TogetherAd.idMapGDT[adConstStr], listener2)
-        nativeExpressAD.setVideoPlayPolicy(VideoOption.VideoPlayPolicy.AUTO) // 本次拉回的视频广告，从用户的角度看是自动播放的
-        nativeExpressAD.loadAD(1)
+        val mAdManager = NativeUnifiedAD(activity, TogetherAd.idMapGDT[adConstStr], listener)
+        //有效值就是 5-60
+        mAdManager.setMaxVideoDuration(60)
+        mAdManager.setMinVideoDuration(5)
+        mAdManager.setVideoPlayPolicy(VideoOption.VideoPlayPolicy.AUTO) // 本次拉回的视频广告，在用户看来是否为自动播放的
+        mAdManager.setVideoADContainerRender(VideoOption.VideoADContainerRender.SDK) // 视频播放前，用户看到的广告容器是由SDK渲染的
+        mAdManager.loadData(1)
     }
 
+    /**
+     * 百度---模板
+     */
     private fun showAdMidBaiduMob(@NonNull activity: Activity, midConfigStr: String?, @NonNull adConstStr: String, @NonNull adListener: AdListenerMid) {
         adListener.onStartRequest(AdNameType.BAIDU.type)
         val requestParameters = RequestParameters.Builder()
@@ -208,6 +169,9 @@ object TogetherAdMidExpress : AdBase() {
         })
     }
 
+    /**
+     * 穿山甲---模板
+     */
     private fun showAdMidCsj(@NonNull activity: Activity, midConfigStr: String?, @NonNull adConstStr: String, @NonNull adListener: AdListenerMid) {
         adListener.onStartRequest(AdNameType.CSJ.type)
 
@@ -309,6 +273,8 @@ object TogetherAdMidExpress : AdBase() {
         fun onAdFailed(failedMsg: String?)
 
         fun onAdPrepared(channel: String)
+
+        fun onAdLoaded(channel: String, adList: List<*>)
 
         fun onRenderSuccess(channel: String, view: View, width: Float, height: Float)
 

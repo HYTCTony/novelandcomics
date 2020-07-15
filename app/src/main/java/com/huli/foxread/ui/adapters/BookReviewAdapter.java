@@ -26,8 +26,6 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
  */
 public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHolder> implements LoadMoreModule {
 
-    public static final int PAYLOAD_CHECKBOX = 1;
-
     private OnRecyCbCheckListener mRecyCbCheckListener;
 
     public void setmRecyCbCheckListener(OnRecyCbCheckListener mRecyCbCheckListener) {
@@ -103,26 +101,11 @@ public class BookReviewAdapter extends BaseQuickAdapter<BookReview, BaseViewHold
                         getData().set(position, bookReview);
                     }
                 }
-                notifyItemChanged(position, PAYLOAD_CHECKBOX);
             }
+            cbLike.setText(String.valueOf(bookReview.getPrefer()));
             //防止频繁点击
             cbLike.setEnabled(false);
             cbLike.postDelayed(() -> cbLike.setEnabled(true), 1200);
         });
-    }
-
-    @Override
-    protected void convert(@NonNull BaseViewHolder holder, BookReview item, @NonNull List<?> payloads) {
-        super.convert(holder, item, payloads);
-       /* for (Object obj : payloads) {
-            if (obj instanceof Integer) {
-                int payload = (int) obj;
-                //局部更新点赞数
-                if (payload == PAYLOAD_CHECKBOX) {
-                    holder.setText(R.id.cb_review_like_and_number, String.valueOf(item.getPrefer()));
-                }
-            }
-        }*/
-        holder.setText(R.id.cb_review_like_and_number, String.valueOf(item.getPrefer()));
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -21,6 +22,7 @@ import com.huli.foxread.entity.BookReview;
 import com.huli.foxread.listeners.OnRecyCbCheckListener;
 import com.huli.foxread.rxhttp.ErrorInfo;
 import com.huli.foxread.rxhttp.OnError;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.adapters.BookReviewReplyAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.DateTimeUtil;
@@ -201,8 +203,12 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.tv_asBtn_reply:
-                KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
                 String str = mEditText.getText().toString();
+                if(TextUtils.isEmpty(str)){
+                    Tip.show("回复内容不能为空！");
+                    return;
+                }
+                KeyBoardUtils.closeKeyboard(ReviewDetailActivity.this, v);
                 reqPostReply(review.getNovel_id(), str, review.getId());
                 break;
             default:
