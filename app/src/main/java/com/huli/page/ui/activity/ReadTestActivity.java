@@ -5,8 +5,11 @@ import android.content.Intent;
 
 import com.huli.foxread.R;
 import com.huli.page.ui.base.BaseActivity;
+import com.huli.page.widget.view.HProgressBar;
 
 public class ReadTestActivity extends BaseActivity {
+
+    HProgressBar mHProgressBar;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, ReadTestActivity.class);
@@ -15,6 +18,8 @@ public class ReadTestActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mHProgressBar = (HProgressBar) findViewById(R.id.hprogress_bar_register);
+        mHProgressBar.setProgress(60);
     }
 
     @Override

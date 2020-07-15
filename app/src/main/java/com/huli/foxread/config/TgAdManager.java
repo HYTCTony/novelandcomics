@@ -22,13 +22,7 @@ public class TgAdManager {
         csjIdMap.put(TogetherAdConst.AD_FLOW_BOOKRACK, "945165433");
         csjIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_COIN, "945166035");
         csjIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_2, "945192284");
-        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_DARK_BLUE, "945191946");
-        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_POOL_BLUE, "945191946");
-        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_GREEN, "945191946");
-        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_ASHEN, "945191946");
-        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_PINK, "945191946");
-        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_NIGHT, "945191946");
-        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER, "945191946");
+        csjIdMap.put(TogetherAdConst.AD_BTM_BANNER, "945191946");
         csjIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "945245837");
         csjIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "945245836");
         csjIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "945245831");
@@ -44,20 +38,14 @@ public class TgAdManager {
         gdtIdMap.put(TogetherAdConst.AD_FLOW_BOOKRACK, "6061817848543342");
         gdtIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_COIN, "4071315827299728");
         gdtIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_2, "8071116807691652");
-        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_DARK_BLUE, "6031314807992506");
-        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_POOL_BLUE, "1051616857493878");
-        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_GREEN, "9091012838409041");
-        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_ASHEN, "4021613888626047");
-        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_PINK, "1051910888820190");
-        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_NIGHT, "7031518858722295");
-        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER, "9071118858437887");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "9021617988195254");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "8001913978896158");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "3031810938994200");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "4041615958797017");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_PINK, "3041115998392120");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "8021218988395143");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "8011911958491134");
+        gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_PINK, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "6061817848543342");
         TogetherAd.initGDTAd(context, "207010113294", gdtIdMap);
 
         //百度广告初始化
@@ -66,13 +54,7 @@ public class TgAdManager {
         baiduIdMap.put(TogetherAdConst.AD_FLOW_BOOKRACK, "0000000");
         baiduIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_COIN, "7154347");
         baiduIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_2, "7154348");
-        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_DARK_BLUE, "0000000");
-        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_POOL_BLUE, "0000000");
-        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_GREEN, "0000000");
-        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_ASHEN, "0000000");
-        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_PINK, "0000000");
-        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_NIGHT, "0000000");
-        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER, "0000000");
+        baiduIdMap.put(TogetherAdConst.AD_BTM_BANNER, "0000000");
         baiduIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "0000000");
         baiduIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "0000000");
         baiduIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "0000000");

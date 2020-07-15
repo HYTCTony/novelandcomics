@@ -9,44 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<RelativeLayout
-            android:id="@+id/rl_ad"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/express_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/btn_next_page"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/express_container"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="48dp"
-                android:maxLines="1"
-                android:padding="16dp"
-                android:text="点击/滑动可继续阅读"
-                android:textColor="@color/txt_gray_b2"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/btn_watch_video"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:textColor="@color/txt_gray"
-                android:textSize="14sp" />
-        </RelativeLayout>-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,7 +40,70 @@
                     android:id="@+id/banner_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:visibility="invisible" />
+
+                <com.qq.e.ads.nativ.widget.NativeAdContainer
+                    android:id="@+id/gdt_ad_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:visibility="invisible">
+
+                    <RelativeLayout
+                        android:id="@+id/ctl_touch_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp">
+
+                        <ImageView
+                            android:id="@+id/iv_ad_img"
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            tools:ignore="ContentDescription"
+                            tools:src="@mipmap/img_holder_rect" />
+
+                        <TextView
+                            android:id="@+id/tv_iv_ad_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:layout_toStartOf="@id/tv_ad_source"
+                            android:layout_toEndOf="@id/iv_ad_img"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/txt_black_191919"
+                            android:textSize="@dimen/sp_12"
+                            tools:text="广告Title" />
+
+                        <TextView
+                            android:id="@+id/tv_ad_intro"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_iv_ad_title"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_toEndOf="@id/iv_ad_img"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/txt_gray_999"
+                            android:textSize="@dimen/sp_10"
+                            tools:text="广告desc" />
+
+                        <TextView
+                            android:id="@+id/tv_ad_source"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:singleLine="true"
+                            android:textSize="@dimen/sp_10"
+                            tools:text="广告源" />
+                    </RelativeLayout>
+
+                </com.qq.e.ads.nativ.widget.NativeAdContainer>
 
                 <TextView
                     android:id="@+id/btn_bottom_ad"
@@ -129,7 +154,7 @@
             android:layout_height="wrap_content"
             android:background="@color/hl_read_bg_dialog"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"

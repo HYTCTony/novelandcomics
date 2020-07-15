@@ -12,7 +12,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.huli.foxread.R;
 import com.huli.page.model.bean.BookRecordBean;
@@ -1843,7 +1842,7 @@ public abstract class ReadLoader {
 //            return;
 //        }
 //        mPageView.showAd(adType);
-        ViewGroup viewGroup = mPageView.getmAdView();
+/*        ViewGroup viewGroup = mPageView.getmAdView();
         if (viewGroup == null || viewGroup.getChildCount() < 1) {
             return false;
         }
@@ -1877,7 +1876,7 @@ public abstract class ReadLoader {
             viewGroup.addOnLayoutChangeListener(onLayoutChangeListener);
 
             return true;
-        } else
+        } else*/
             return false;
     }
 

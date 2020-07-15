@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.huli.page.model.bean.BookShelfListBean;
@@ -46,11 +45,13 @@ public class PageView extends FrameLayout {
     //
     public Bitmap mBitmap;
     public boolean shouldDraw = true;
+    public boolean adShow = true;
     // 动画类
     public PageAnimation mPageAnim;
     private View mAdView;
     private View mCoverPageView;
-    int drawIndex = 0;
+    public int drawIndex = 0;
+    public int max = 2;
 
     // 动画监听类
     private PageAnimation.OnPageChangeListener mPageAnimListener = new PageAnimation.OnPageChangeListener() {
@@ -262,14 +263,20 @@ public class PageView extends FrameLayout {
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
                         if (shouldDraw) {
-//                            Log.d(TAG, "drawIndex==" + drawIndex);
-                            if (drawIndex < 2) {
-//                                Log.d(TAG, "adView.dispatchDraw()");
-                                drawIndex++;
-                            }
-                            super.dispatchDraw(canvas);
+//                            Log.d(TAG, "adView.dispatchDraw()");
                             shouldDraw = false;
                         }
+                        super.dispatchDraw(canvas);
+//                        if (adShow) {
+//                            Log.d(TAG, "dispatchDraw()");
+//                            if (drawIndex < max) {
+//                                Log.d(TAG, "adView.dispatchDraw()");
+//                                super.dispatchDraw(canvas);
+//                                drawIndex++;
+//                            } else {
+//                                adShow = false;
+//                            }
+//                        }
                         break;
                 }
             }
@@ -349,6 +356,7 @@ public class PageView extends FrameLayout {
      */
     public void unDraw() {
         shouldDraw = false;
+        adShow = false;
     }
 
     /**
@@ -359,6 +367,7 @@ public class PageView extends FrameLayout {
     private boolean hasPrevPage() {
         mTouchListener.prePage();
         drawIndex = 0;
+        adShow = true;
         shouldDraw = true;
         return mPageLoader.prev();
     }
@@ -371,6 +380,7 @@ public class PageView extends FrameLayout {
     private boolean hasNextPage() {
         mTouchListener.nextPage();
         drawIndex = 0;
+        adShow = true;
         shouldDraw = true;
         return mPageLoader.next();
     }
@@ -457,7 +467,7 @@ public class PageView extends FrameLayout {
         addView(mCoverPageView);
     }
 
-    public ViewGroup getmAdView() {
+    public View getmAdView() {
         if (mReaderAdListener != null) {
             return mReaderAdListener.getAdView();
         }
@@ -472,6 +482,7 @@ public class PageView extends FrameLayout {
         }
 
         mBitmap = bitmap;
+
         shouldDraw = true;
         mAdView = mReaderAdListener.getAdView();
         if (mAdView != null) {
@@ -573,7 +584,7 @@ public class PageView extends FrameLayout {
     ReaderAdListener mReaderAdListener;
 
     public interface ReaderAdListener {
-        ViewGroup getAdView();
+        View getAdView();
 
         void onRequestAd();
 

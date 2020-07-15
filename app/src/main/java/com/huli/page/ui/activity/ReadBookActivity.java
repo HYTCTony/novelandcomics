@@ -16,10 +16,10 @@ import android.provider.Settings;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -31,11 +31,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bytedance.sdk.openadsdk.FilterWord;
-import com.bytedance.sdk.openadsdk.TTAdDislike;
-import com.bytedance.sdk.openadsdk.TTAdNative;
-import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
-import com.bytedance.sdk.openadsdk.TTRewardVideoAd;
+import com.baidu.mobad.feeds.NativeResponse;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -44,7 +40,6 @@ import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
 import com.huli.foxread.config.AdConfig;
-import com.huli.foxread.config.TTAdManagerHolder;
 import com.huli.foxread.config.TogetherAdConst;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.notchtools.NotchTools;
@@ -67,7 +62,6 @@ import com.huli.page.presenter.contract.ReadBookContract;
 import com.huli.page.ui.adapter.CatalogAdapter;
 import com.huli.page.ui.base.BaseMvpViewActivity;
 import com.huli.page.ui.dialog.BrightnessDialog;
-import com.huli.page.ui.dialog.DislikeDialog;
 import com.huli.page.ui.dialog.ReadSettingDialog;
 import com.huli.page.utils.BrightnessUtils;
 import com.huli.page.utils.Constant;
@@ -81,13 +75,17 @@ import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
 import com.huli.page.widget.read.PageView;
 import com.huli.page.widget.read.ReadLoader;
-import com.hytc.ads.helper.mid.TogetherAdMidExpress;
+import com.hytc.ads.AdLogoView;
+import com.hytc.ads.helper.banner.TogetherAdFakeBanner;
 import com.hytc.ads.helper.stimulatevideo.TogetherAdStimulate;
+import com.hytc.ads.other.AdNameType;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
+import com.qq.e.ads.nativ.NativeUnifiedADData;
+import com.qq.e.ads.nativ.widget.NativeAdContainer;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -191,26 +189,35 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int POLLING_REQUE_BOTTOM_AD = 2 * 60 * 1000;
     private static final int POLLING_SET_IS_ABC = 30 * 1000;
     private static final int READ_ONE_PAGE_INTERVAL = 15;
-    private String[] adConst = {TogetherAdConst.AD_CENTER_YELLOW_PAPER, TogetherAdConst.AD_CENTER_PINK, TogetherAdConst.AD_CENTER_ASHEN,
+    private String[] adPageConst = {TogetherAdConst.AD_CENTER_YELLOW_PAPER, TogetherAdConst.AD_CENTER_PINK, TogetherAdConst.AD_CENTER_ASHEN,
             TogetherAdConst.AD_CENTER_GREEN, TogetherAdConst.AD_CENTER_POOL_BLUE, TogetherAdConst.AD_CENTER_DARK_BLUE,
             TogetherAdConst.AD_CENTER_NIGHT};
-    private String constId = adConst[0];
-    private TTAdNative mTTAdNative;
-    private TTNativeExpressAd mTTAdPage;
-    private TTNativeExpressAd mTTAdBottom;
-    private TTRewardVideoAd mttRewardVideoAd;
-    private RelativeLayout mAdView;
+    private String constPageId = adPageConst[0];
+    private View mAdView;
     private View coverPageView;
-    //    @BindView(R.id.rl_ad)
+    NativeAdContainer container;
+    LinearLayout mLayout;
+    ImageView mImage;
+    TextView mTitle;
+    TextView mIntro;
+    TextView mSource;
+    AdLogoView ivLogo;
     RelativeLayout rlAd;
-    //    @BindView(R.id.express_container)
     RelativeLayout mExpressContainer;
-    //    @BindView(R.id.btn_next_page)
     TextView btnNextPage;
-    //    @BindView(R.id.btn_watch_video)
     TextView tvAdView;
-    private long startTime = 0;
-    private boolean mHasShowDownloadActive = false;
+    @BindView(R.id.gdt_ad_container)
+    NativeAdContainer adContainer;
+    @BindView(R.id.ctl_touch_layout)
+    RelativeLayout ctlTouchLayout;
+    @BindView(R.id.iv_ad_img)
+    ImageView ivAdImg;
+    @BindView(R.id.tv_iv_ad_title)
+    TextView tvAdTitle;
+    @BindView(R.id.tv_ad_intro)
+    TextView tvAdIntro;
+    @BindView(R.id.tv_ad_source)
+    TextView tvAdSource;
     @BindView(R.id.banner_container)
     FrameLayout mBannerContainer;
     @BindView(R.id.iv_bg_bottom_view)
@@ -300,12 +307,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                             mPageLoader.refreshPage();
                         needRefreshPage = false;
                         rl.setVisibility(VISIBLE);
-//                        if (mAdView != null)
-                        if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
-                            tvAdView.setVisibility(GONE);
-                        } else {
-                            tvAdView.setVisibility(VISIBLE);
-                        }
+                        if (mAdView != null)
+                            if (UserInfoCache.getIsTourist(mContext) || UserInfoCache.getIsVip(mContext) || site <= 0) {
+                                tvAdView.setVisibility(GONE);
+                            } else {
+                                tvAdView.setVisibility(VISIBLE);
+                            }
                     }
                     mPageLoader.setABC(isABC);
                     break;
@@ -328,7 +335,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void initView() {
         /*初始化数据*/
-        mTTAdNative = TTAdManagerHolder.get().createAdNative(this);
         data = (BookShelfListBean) getIntent().getSerializableExtra(EXTRA_COLL_BOOK);
         isCollected = getIntent().getBooleanExtra(EXTRA_IS_COLLECTED, false);
         chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, -1);
@@ -528,7 +534,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         );
         mPvPage.setReaderAdListener(new PageView.ReaderAdListener() {
             @Override
-            public ViewGroup getAdView() {
+            public View getAdView() {
                 return mAdView;
             }
 
@@ -575,25 +581,25 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         //改变广告位id
         switch (mPageStyle) {
             case BG_0:
-                constId = adConst[0];
+                constPageId = adPageConst[0];
                 break;
             case BG_1:
-                constId = adConst[1];
+                constPageId = adPageConst[1];
                 break;
             case BG_2:
-                constId = adConst[2];
+                constPageId = adPageConst[2];
                 break;
             case BG_3:
-                constId = adConst[3];
+                constPageId = adPageConst[3];
                 break;
             case BG_4:
-                constId = adConst[4];
+                constPageId = adPageConst[4];
                 break;
             case BG_5:
-                constId = adConst[5];
+                constPageId = adPageConst[5];
                 break;
             case NIGHT:
-                constId = adConst[6];
+                constPageId = adPageConst[6];
                 break;
         }
         //改变封面风格
@@ -777,28 +783,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private void requestAdPage() {
         if (isABC)
             return;
-        TogetherAdMidExpress.showAdMid(this, AdConfig.turnPageAdConfig(this), constId, new TogetherAdMidExpress.AdListenerMid() {
-            @Override
-            public void onAdShow(@NotNull String channel) {
-                mPvPage.shouldDraw = true;
-                mPvPage.postInvalidate();
-            }
-
-            @Override
-            public void onDisLike(@NotNull String channel, int position, @NotNull String value) {
-
-            }
-
-            @Override
-            public void onStartRequest(@NotNull String channel) {
-
-            }
-
-            @Override
-            public void onAdClick(@NotNull String channel) {
-
-            }
-
+        TogetherAdFakeBanner.getMixAd(this, AdConfig.bannerAdConfig(this), constPageId, 1, 0, new TogetherAdFakeBanner.AdListenerList() {
             @Override
             public void onAdFailed(@Nullable String failedMsg) {
                 Log.e(TAG, "onAdFailed.AdBottom()===" + failedMsg);
@@ -809,16 +794,32 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
 
             @Override
-            public void onAdPrepared(@NotNull String channel) {
-
+            public void onAdLoaded(@NotNull String channel, @NotNull List<?> adList) {
+                Object any = adList.get(0);
+                if (any instanceof NativeUnifiedADData) {
+                    NativeUnifiedADData adsGDT = (NativeUnifiedADData) any;
+                    ivLogo.setAdLogoType(AdNameType.GDT, adsGDT);
+                    GlideUtil.loadRoundRect(mContext, mImage, adsGDT.getImgUrl());
+                    mTitle.setText(adsGDT.getTitle());
+                    mIntro.setText(adsGDT.getDesc());
+                    mSource.setText("腾讯广告");
+                    List<View> clickableViews = new ArrayList<>();
+                    clickableViews.add(mLayout);
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(container.getLayoutParams());
+                    layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
+                    adsGDT.bindAdToView(mContext, container, layoutParams, clickableViews);
+                    if (mPageLoader != null)
+                        mPageLoader.setABCFail(false);
+                } else if (any instanceof NativeResponse) {
+                    NativeResponse data = (NativeResponse) any;
+                }
             }
 
             @Override
-            public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
-                Log.e(TAG, "onRenderSuccess.AdPage()===" + channel);
+            public void onStartRequest(@NotNull String channel) {
+                Log.e(TAG, "onRenderSuccess.AdBottom()===" + channel);
                 if (mAdView == null) {
-                    mAdView = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
-                    mExpressContainer = mAdView.findViewById(R.id.express_container);
+                    mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
                     tvAdView = mAdView.findViewById(R.id.btn_watch_video);
                     SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
                     tvAdView.setText(builderVideoMessage);
@@ -843,7 +844,32 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
                     btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getTipsColor()));
                     btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
+                    mExpressContainer = mAdView.findViewById(R.id.express_container);//非自渲染
+                    container = mAdView.findViewById(R.id.gdt_ad_container);//自渲染
+                    mLayout = mAdView.findViewById(R.id.ctl_touch_layout);
+                    mTitle = mAdView.findViewById(R.id.tv_iv_ad_title);
+                    mIntro = mAdView.findViewById(R.id.tv_ad_intro);
+                    mSource = mAdView.findViewById(R.id.tv_ad_source);
+                    ivLogo = mAdView.findViewById(R.id.ad_logo_view);
                 }
+                switch (channel) {
+                    case "gdt":
+                        mExpressContainer.setVisibility(GONE);
+                        container.setVisibility(VISIBLE);
+                        break;
+                    case "csj":
+                        mExpressContainer.setVisibility(VISIBLE);
+                        container.setVisibility(GONE);
+                        break;
+                    case "baidu":
+                        mExpressContainer.setVisibility(GONE);
+                        container.setVisibility(VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onCsjRenderSuccess(@NotNull View view, float width, float height) {
                 mExpressContainer.removeAllViews();
                 mExpressContainer.addView(view);
                 if (mPageLoader != null)
@@ -857,44 +883,73 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             isFirstRequest = true;
             return;
         }
-        TogetherAdMidExpress.showAdMid(this, AdConfig.bannerAdConfig(this), TogetherAdConst.AD_BTM_BANNER_YELLOW_PAPER,
-                new TogetherAdMidExpress.AdListenerMid() {
-                    @Override
-                    public void onAdShow(@NotNull String channel) {
-                        btnBottomAd.setVisibility(VISIBLE);
-                        ivBackgroud.setVisibility(View.INVISIBLE);
+        TogetherAdFakeBanner.getMixAd(this, AdConfig.bannerAdConfig(this), TogetherAdConst.AD_BTM_BANNER, 1, 48F, new TogetherAdFakeBanner.AdListenerList() {
+            @Override
+            public void onAdFailed(@Nullable String failedMsg) {
+                Log.e(TAG, "onAdFailed.AdBottom()===" + failedMsg);
+                adContainer.setVisibility(View.INVISIBLE);
+                mBannerContainer.setVisibility(View.INVISIBLE);
+                btnBottomAd.setVisibility(View.INVISIBLE);
+                ivBackgroud.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdLoaded(@NotNull String channel, @NotNull List<?> adList) {
+                Object any = adList.get(0);
+                if (any instanceof NativeUnifiedADData) {
+                    NativeUnifiedADData adsGDT = (NativeUnifiedADData) any;
+                    if (adContainer.getChildCount() > 1) {
+                        adContainer.removeViews(1, adContainer.getChildCount() - 1);
                     }
+                    GlideUtil.loadRoundRect(mContext, ivAdImg, adsGDT.getImgUrl());
+                    tvAdTitle.setText(adsGDT.getTitle());
+                    tvAdIntro.setText(adsGDT.getDesc());
+                    tvAdSource.setText("腾讯广告");
+                    List<View> clickableViews = new ArrayList<>();
+                    clickableViews.add(ctlTouchLayout);
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(adContainer.getLayoutParams());
+                    layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
+                    adsGDT.bindAdToView(mContext, adContainer, null, clickableViews);
+                } else if (any instanceof NativeResponse) {
+                    NativeResponse data = (NativeResponse) any;
+                    adContainer.setVisibility(View.INVISIBLE);
+                    mBannerContainer.setVisibility(View.INVISIBLE);
+                    btnBottomAd.setVisibility(View.INVISIBLE);
+                    ivBackgroud.setVisibility(View.VISIBLE);
+                }
+            }
 
-                    @Override
-                    public void onStartRequest(@NotNull String channel) {
-
-                    }
-
-                    @Override
-                    public void onAdClick(@NotNull String channel) {
-
-                    }
-
-                    @Override
-                    public void onAdFailed(@Nullable String failedMsg) {
-                        Log.e(TAG, "onAdFailed.AdBottom()===" + failedMsg);
+            @Override
+            public void onStartRequest(@NotNull String channel) {
+                Log.e(TAG, "onRenderSuccess.AdBottom()===" + channel);
+                ivBackgroud.setVisibility(View.INVISIBLE);
+                switch (channel) {
+                    case "gdt":
+                        mBannerContainer.setVisibility(View.INVISIBLE);
+                        adContainer.setVisibility(VISIBLE);
+                        btnBottomAd.setVisibility(View.INVISIBLE);
+                        break;
+                    case "csj":
+                        mBannerContainer.setVisibility(VISIBLE);
+                        adContainer.setVisibility(View.INVISIBLE);
+                        btnBottomAd.setVisibility(View.VISIBLE);
+                        break;
+                    case "baidu":
+                        adContainer.setVisibility(View.INVISIBLE);
+                        mBannerContainer.setVisibility(View.INVISIBLE);
                         btnBottomAd.setVisibility(View.INVISIBLE);
                         ivBackgroud.setVisibility(View.VISIBLE);
-                    }
+                        break;
+                }
+            }
 
-                    @Override
-                    public void onAdPrepared(@NotNull String channel) {
-
-                    }
-
-                    @Override
-                    public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
-                        Log.e(TAG, "onRenderSuccess.AdBottom()===" + channel);
-                        ivBackgroud.setVisibility(View.INVISIBLE);
-                        mBannerContainer.removeAllViews();
-                        mBannerContainer.addView(view);
-                    }
-                });
+            @Override
+            public void onCsjRenderSuccess(@NotNull View view, float width, float height) {
+                ivBackgroud.setVisibility(View.INVISIBLE);
+                mBannerContainer.removeAllViews();
+                mBannerContainer.addView(view);
+            }
+        });
         mHandler.sendEmptyMessageDelayed(MSG_BOTTOM_AD, POLLING_REQUE_BOTTOM_AD);
     }
 
@@ -958,49 +1013,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 .asResponse(String.class)
                 .subscribe(s -> {
                 }, (OnError) ErrorInfo::show);
-    }
-
-    /**
-     * 设置广告的不喜欢，注意：强烈建议设置该逻辑，如果不设置dislike处理逻辑，则模板广告中的 dislike区域不响应dislike事件。
-     *
-     * @param ad
-     * @param customStyle 是否自定义样式，true:样式自定义
-     */
-    private void bindDislike(TTNativeExpressAd ad, boolean customStyle) {
-        if (customStyle) {
-            //使用自定义样式
-            List<FilterWord> words = ad.getFilterWords();
-            if (words == null || words.isEmpty()) {
-                return;
-            }
-
-            final DislikeDialog dislikeDialog = new DislikeDialog(this, words);
-            dislikeDialog.setOnDislikeItemClick(new DislikeDialog.OnDislikeItemClick() {
-                @Override
-                public void onItemClick(FilterWord filterWord) {
-                    //屏蔽广告
-//                    Log.e("ExpressView", "点击 " + filterWord.getName());
-                    //用户选择不喜欢原因后，移除广告展示
-                    mExpressContainer.removeAllViews();
-                }
-            });
-            ad.setDislikeDialog(dislikeDialog);
-            return;
-        }
-        //使用默认模板中默认dislike弹出样式
-        ad.setDislikeCallback(ReadBookActivity.this, new TTAdDislike.DislikeInteractionCallback() {
-            @Override
-            public void onSelected(int position, String value) {
-//                Log.e("ExpressView", "点击 " + value);
-                //用户选择不喜欢原因后，移除广告展示
-                mExpressContainer.removeAllViews();
-            }
-
-            @Override
-            public void onCancel() {
-//                Log.e("ExpressView", "点击取消 ");
-            }
-        });
     }
 
     /**
@@ -1169,12 +1181,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
         mPageLoader.closeBook();
         mPageLoader = null;
-        if (mTTAdPage != null) {
-            mTTAdPage.destroy();
-        }
-        if (mTTAdBottom != null) {
-            mTTAdBottom.destroy();
-        }
         OkGo.getInstance().cancelAll();
     }
 

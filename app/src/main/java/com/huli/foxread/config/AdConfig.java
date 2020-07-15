@@ -62,7 +62,7 @@ public class AdConfig {
             data = getAdConfig(context);
         }
 //        return data.getBanner();
-        return "baidu:0,gdt:0,csj:1";
+        return "baidu:0,gdt:1,csj:0";
     }
 
     /**

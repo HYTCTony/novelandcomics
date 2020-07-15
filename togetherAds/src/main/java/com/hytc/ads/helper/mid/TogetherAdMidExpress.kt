@@ -95,6 +95,7 @@ object TogetherAdMidExpress : AdBase() {
             }
 
             override fun onADOpenOverlay(adView: NativeExpressADView?) {
+                adListener.onAdShow("GDT：onADOpenOverlay")
             }
 
             override fun onRenderFail(ad: NativeExpressADView?) {

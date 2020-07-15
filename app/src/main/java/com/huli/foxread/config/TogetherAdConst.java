@@ -20,13 +20,8 @@ public interface TogetherAdConst {
     String AD_WELFARE_STIMULATE_2 = "ad_welfare_stimulate_2";
 
     /*阅读页底部banner*/
-    String AD_BTM_BANNER_DARK_BLUE = "ad_btm_banner_dark_blue";             //深蓝色
-    String AD_BTM_BANNER_POOL_BLUE = "ad_btm_banner_pool_blue";             //浅蓝色
-    String AD_BTM_BANNER_GREEN = "ad_btm_banner_green";                     //绿色
-    String AD_BTM_BANNER_ASHEN = "ad_btm_banner_ashen";                     //灰白色
-    String AD_BTM_BANNER_PINK = "ad_btm_banner_pink";                       //粉色
-    String AD_BTM_BANNER_NIGHT = "ad_btm_banner_night";                     //夜间模式
-    String AD_BTM_BANNER_YELLOW_PAPER = "ad_btm_banner_yellow_paper";       //黄皮纸
+    String AD_BTM_BANNER = "ad_btm_banner";
+
 
     /*阅读页中间广告*/
     String AD_CENTER_DARK_BLUE = "ad_center_dark_blue";             //深蓝色
