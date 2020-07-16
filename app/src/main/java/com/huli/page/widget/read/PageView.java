@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -262,11 +263,14 @@ public class PageView extends FrameLayout {
                         }
                         break;
                     case TxtPage.VALUE_STRING_AD_TYPE:
-                        if (shouldDraw) {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q)
+                            max = 10;
+                        if (drawIndex < max) {
 //                            Log.d(TAG, "adView.dispatchDraw()");
-                            shouldDraw = false;
+                            super.dispatchDraw(canvas);
+                            drawIndex++;
                         }
-                        super.dispatchDraw(canvas);
+                        shouldDraw = false;
 //                        if (adShow) {
 //                            Log.d(TAG, "dispatchDraw()");
 //                            if (drawIndex < max) {

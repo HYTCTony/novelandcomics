@@ -77,6 +77,7 @@ import com.huli.page.widget.read.PageView;
 import com.huli.page.widget.read.ReadLoader;
 import com.hytc.ads.AdLogoView;
 import com.hytc.ads.helper.banner.TogetherAdFakeBanner;
+import com.hytc.ads.helper.mid.TogetherAdMidMix;
 import com.hytc.ads.helper.stimulatevideo.TogetherAdStimulate;
 import com.hytc.ads.other.AdNameType;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
@@ -203,6 +204,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     TextView mSource;
     AdLogoView ivLogo;
     RelativeLayout rlAd;
+    @BindView(R.id.false_express_container)
+    RelativeLayout mFalseContainer;
     RelativeLayout mExpressContainer;
     TextView btnNextPage;
     TextView tvAdView;
@@ -628,8 +631,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         if (mAdView != null) {
             btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getTipsColor()) : ContextCompat.getColor(mContext,
                     mPageStyle.getTipsColor()));
-            btnNextPage.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+            tvAdView.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
                     mPageStyle.getPromptColor()));
+            container.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdBgColor() : mPageStyle.getAdBgColor());
+            mTitle.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                    mPageStyle.getFontColor()));
+            mIntro.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                    mPageStyle.getTipsColor()));
+            mSource.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                    mPageStyle.getTipsColor()));
         }
     }
 
@@ -783,42 +793,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private void requestAdPage() {
         if (isABC)
             return;
-        TogetherAdFakeBanner.getMixAd(this, AdConfig.bannerAdConfig(this), constPageId, 1, 0, new TogetherAdFakeBanner.AdListenerList() {
-            @Override
-            public void onAdFailed(@Nullable String failedMsg) {
-                Log.e(TAG, "onAdFailed.AdBottom()===" + failedMsg);
-                mAdView = null;
-                mPvPage.unDraw();
-                if (mPageLoader != null)
-                    mPageLoader.setABCFail(true);
-            }
-
-            @Override
-            public void onAdLoaded(@NotNull String channel, @NotNull List<?> adList) {
-                Object any = adList.get(0);
-                if (any instanceof NativeUnifiedADData) {
-                    NativeUnifiedADData adsGDT = (NativeUnifiedADData) any;
-                    ivLogo.setAdLogoType(AdNameType.GDT, adsGDT);
-                    GlideUtil.loadRoundRect(mContext, mImage, adsGDT.getImgUrl());
-                    mTitle.setText(adsGDT.getTitle());
-                    mIntro.setText(adsGDT.getDesc());
-                    mSource.setText("腾讯广告");
-                    List<View> clickableViews = new ArrayList<>();
-                    clickableViews.add(mLayout);
-                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(container.getLayoutParams());
-                    layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
-                    adsGDT.bindAdToView(mContext, container, layoutParams, clickableViews);
-                    if (mPageLoader != null)
-                        mPageLoader.setABCFail(false);
-                } else if (any instanceof NativeResponse) {
-                    NativeResponse data = (NativeResponse) any;
-                }
-            }
-
+        TogetherAdMidMix.showAdMid(this, AdConfig.turnPageAdConfig(this), constPageId, new TogetherAdMidMix.AdListenerMid() {
             @Override
             public void onStartRequest(@NotNull String channel) {
-                Log.e(TAG, "onRenderSuccess.AdBottom()===" + channel);
+//                Log.e("PageView", "onRenderSuccess.AdBottom()===" + channel);
                 if (mAdView == null) {
+//                    Log.e("PageView", "new mAdView()");
                     mAdView = LayoutInflater.from(mContext).inflate(R.layout.layout_ad_view, null, false);
                     tvAdView = mAdView.findViewById(R.id.btn_watch_video);
                     SpannableStringBuilder builderVideoMessage = new SpanUtils(mContext).append("看小视频免20分钟广告>").setUnderline().create();
@@ -841,25 +821,37 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                             mPvPage.autoNextPage();
                         }
                     });
-                    PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
-                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getTipsColor()));
-                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
                     mExpressContainer = mAdView.findViewById(R.id.express_container);//非自渲染
                     container = mAdView.findViewById(R.id.gdt_ad_container);//自渲染
                     mLayout = mAdView.findViewById(R.id.ctl_touch_layout);
+                    mImage = mAdView.findViewById(R.id.iv_ad_img);
                     mTitle = mAdView.findViewById(R.id.tv_iv_ad_title);
                     mIntro = mAdView.findViewById(R.id.tv_ad_intro);
                     mSource = mAdView.findViewById(R.id.tv_ad_source);
                     ivLogo = mAdView.findViewById(R.id.ad_logo_view);
+
+                    PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
+                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getTipsColor()));
+                    btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
+                    container.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdBgColor() : mPageStyle.getAdBgColor());
+                    container.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdBgColor() : mPageStyle.getAdBgColor());
+                    mTitle.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                            mPageStyle.getFontColor()));
+                    mIntro.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                            mPageStyle.getTipsColor()));
+                    mSource.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
+                            mPageStyle.getTipsColor()));
                 }
                 switch (channel) {
                     case "gdt":
                         mExpressContainer.setVisibility(GONE);
                         container.setVisibility(VISIBLE);
+                        mPvPage.max = 10;
                         break;
                     case "csj":
                         mExpressContainer.setVisibility(VISIBLE);
                         container.setVisibility(GONE);
+                        mPvPage.max = 2;
                         break;
                     case "baidu":
                         mExpressContainer.setVisibility(GONE);
@@ -869,11 +861,69 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             }
 
             @Override
-            public void onCsjRenderSuccess(@NotNull View view, float width, float height) {
+            public void onAdClick(@NotNull String channel) {
+
+            }
+
+            @Override
+            public void onAdFailed(@Nullable String failedMsg) {
+//                Log.e("PageView", "onAdFailed.AdBottom()===" + failedMsg);
+                mAdView = null;
+                mPvPage.unDraw();
+                if (mPageLoader != null)
+                    mPageLoader.setABCFail(true);
+            }
+
+            @Override
+            public void onAdPrepared(@NotNull String channel) {
+
+            }
+
+            @Override
+            public void onAdLoaded(@NotNull String channel, @NotNull List<?> adList) {
+                Object any = adList.get(0);
+                if (any instanceof NativeUnifiedADData) {
+                    NativeUnifiedADData adsGDT = (NativeUnifiedADData) any;
+                    ivLogo.setAdLogoType(AdNameType.GDT, adsGDT);
+                    GlideUtil.loadRoundRect(mContext, mImage, adsGDT.getImgUrl(), 0);
+                    mTitle.setText(adsGDT.getTitle());
+                    mIntro.setText(adsGDT.getDesc());
+                    mSource.setText("腾讯广告");
+                    List<View> clickableViews = new ArrayList<>();
+                    clickableViews.add(mLayout);
+                    FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(container.getLayoutParams());
+                    layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
+                    adsGDT.bindAdToView(mContext, container, layoutParams, clickableViews);
+                    if (mPageLoader != null)
+                        mPageLoader.setABCFail(false);
+                } else if (any instanceof NativeResponse) {
+                    NativeResponse data = (NativeResponse) any;
+                }
+            }
+
+            @Override
+            public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
+//                mFalseContainer.removeAllViews();
                 mExpressContainer.removeAllViews();
+//                mFalseContainer.addView(view);
                 mExpressContainer.addView(view);
                 if (mPageLoader != null)
                     mPageLoader.setABCFail(false);
+            }
+
+            @Override
+            public void onADShow(@NotNull String channel) {
+//                Log.d("PageView", "onAdShow：" + channel);
+                mPvPage.drawIndex = 0;
+                mPvPage.adShow = true;
+                mPvPage.postInvalidate();
+            }
+
+            @Override
+            public void onDisLike(@NotNull String channel, int position, @NotNull String value) {
+                mExpressContainer.removeAllViews();
+                mPvPage.postInvalidate();
+                mPvPage.autoNextPage();
             }
         });
     }

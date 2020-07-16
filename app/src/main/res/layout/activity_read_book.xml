@@ -181,7 +181,7 @@
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <!--页面进度栏-->
             <LinearLayout
@@ -284,6 +284,11 @@
             </LinearLayout>
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/false_express_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <!--侧滑栏-->

@@ -56,7 +56,7 @@ public class RxHttpManager {
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
                 .hostnameVerifier((hostname, session) -> true) //忽略host验证
 //            .followRedirects(false)  //禁制OkHttp的重定向操作，我们自己处理重定向
-                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
+//                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
 //            .addInterceptor(new RedirectInterceptor())
                 .addInterceptor(new TokenInterceptor2(context))
                 .build();

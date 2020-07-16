@@ -39,12 +39,12 @@ public class TgAdManager {
         gdtIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_COIN, "4071315827299728");
         gdtIdMap.put(TogetherAdConst.AD_WELFARE_STIMULATE_2, "8071116807691652");
         gdtIdMap.put(TogetherAdConst.AD_BTM_BANNER, "8061221063536701");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "8061221063536701");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "8061221063536701");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "8061221063536701");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "8061221063536701");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_PINK, "8061221063536701");
-        gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "8061221063536701");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_DARK_BLUE, "6061817848543342");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_POOL_BLUE, "6061817848543342");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_GREEN, "6061817848543342");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_ASHEN, "6061817848543342");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_PINK, "6061817848543342");
+        gdtIdMap.put(TogetherAdConst.AD_CENTER_NIGHT, "6061817848543342");
         gdtIdMap.put(TogetherAdConst.AD_CENTER_YELLOW_PAPER, "6061817848543342");
         TogetherAd.initGDTAd(context, "207010113294", gdtIdMap);
 
