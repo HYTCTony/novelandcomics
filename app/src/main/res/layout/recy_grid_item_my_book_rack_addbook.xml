@@ -7,6 +7,7 @@
     android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctl_add_book"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         android:background="@color/white"

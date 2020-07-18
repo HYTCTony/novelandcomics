@@ -34,11 +34,12 @@ public class BookShelfListBean implements Serializable {
     private int is_new;
     private int is_hot;
     private int is_copyright;               //2无版权，1有版权
-    private int reading_size;              //在读人数
+    private int reading_size;               //在读人数
     private String introduce;               //简介
-    private String http_image;             //封面图
+    private String http_image;              //封面图
     private int chapter_sum;
-    private int is_exist_bookshelf;      //是否加入书架 2：否  1：是
+    private int is_exist_bookshelf;         //是否加入书架 2：否  1：是
+    private int status;                     //1隐藏，2未隐藏，3有更新
     /******************************************************************/
     private long createtime;
     private long updatetime;
@@ -325,6 +326,14 @@ public class BookShelfListBean implements Serializable {
 
     public void setIs_exist_bookshelf(int is_exist_bookshelf) {
         this.is_exist_bookshelf = is_exist_bookshelf;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getChapter_name() {

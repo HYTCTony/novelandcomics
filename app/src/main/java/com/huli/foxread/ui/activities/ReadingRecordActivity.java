@@ -12,7 +12,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
 import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
@@ -28,12 +27,9 @@ import com.kongzue.dialog.v3.TipDialog;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -262,7 +258,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      */
     private void reqAddBookrack(String novelId) {
         OkGo.<String>post(Consts.BOOKRACK_ADD_API)
-                .params(Consts.NOVEL_ID, novelId)
+                .params(Consts.N_ID, novelId)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -286,7 +282,7 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      */
     private void reqDeleteBookRecord(String novelId) {
         OkGo.<String>get(Consts.RECORD_DELETE_API)
-                .params(Consts.NOVEL_ID, novelId)
+                .params(Consts.N_ID, novelId)
                 .execute(new LtbCallback(this) {
                     @Override
                     public void onSuccess(Response<String> response) {

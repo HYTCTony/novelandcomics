@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bottom_bar_bookrack"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_56"
+    android:background="@color/col_f8f8f8"
+    android:orientation="horizontal"
+    app:layout_constraintTop_toBottomOf="parent">
+
+    <TextView
+        android:id="@+id/tv_asBtn_select_all_or_cancel"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/txt_black"
+        android:textSize="@dimen/sp_15"
+        tools:text="全选" />
+
+    <View
+        android:layout_width="@dimen/px_1"
+        android:background="@color/txt_faint_yellow"
+        android:layout_gravity="center_vertical"
+        android:layout_height="@dimen/dp_24"/>
+
+    <TextView
+        android:id="@+id/tv_asBtn_delete"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/txt_orange_ff6600"
+        android:textSize="@dimen/sp_15"
+        tools:text="删除（0）" />
+
+</LinearLayout>

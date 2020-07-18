@@ -152,7 +152,7 @@ public class WriteBookReviewActivity extends BaseActivity implements View.OnClic
      */
     private void reqPostComment(String novelId, String content, float score) {
         RxHttp.get(Consts.APPRAISE_CREATE_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .add(Consts.CONTENT, content)
                 .add(Consts.SCORE, score)
                 .asResponse(String.class)

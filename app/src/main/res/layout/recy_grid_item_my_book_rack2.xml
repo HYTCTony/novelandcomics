@@ -72,9 +72,21 @@
             android:textSize="@dimen/sp_12"
             app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
             app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/cb_del_select_book_rack"
             app:layout_constraintTop_toBottomOf="@+id/tv_book_name"
             tools:text="读到：第1章" />
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/cb_del_select_book_rack"
+            style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:theme="@style/MySwitchTheme"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

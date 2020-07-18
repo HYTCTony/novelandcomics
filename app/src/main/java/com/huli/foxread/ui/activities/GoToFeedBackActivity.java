@@ -157,7 +157,7 @@ public class GoToFeedBackActivity extends BaseActivity {
 
             @Override
             public void delOnClickListener(int position, int remainNum) {
-                Log.e("sssssssssssss", "del----remainNum===" + remainNum);
+                Log.e("sssssssssssss", "delBookShelfData----remainNum===" + remainNum);
                 list.remove(position);
             }
         });

@@ -3,14 +3,13 @@ package com.huli.foxread.ui.adapters;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.text.TextUtils;
+import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.baidu.mobad.feeds.NativeResponse;
-import com.bytedance.sdk.openadsdk.TTFeedAd;
-import com.bytedance.sdk.openadsdk.TTImage;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.huli.foxread.GlideApp;
@@ -23,13 +22,113 @@ import com.hytc.ads.other.AdNameType;
 import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.qq.e.ads.nativ.widget.NativeAdContainer;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.widget.AppCompatCheckBox;
 
 /**
  * 书架
  */
 public class BookRackAdapter extends BaseMultiItemQuickAdapter<BookShelfOrADsMultEntity, BaseViewHolder> {
+
+    private boolean isManagerMode = false;
+    private SparseBooleanArray selectLists = new SparseBooleanArray();
+
+    /**
+     * 设置manage模式
+     */
+    public void setManagerMode(boolean managerMode) {
+        isManagerMode = managerMode;
+        if (managerMode) {
+            selectLists = new SparseBooleanArray();
+        } else {
+            selectLists.clear();
+        }
+        notifyItemRangeChanged(0, getItemCount(), "1");
+    }
+
+    /**
+     * manage模式下点击item选中
+     *
+     * @param position 数据集合下标（不包含header和footer）
+     * @return
+     */
+    public int clickItemOnManageMode(int position) {
+        int pos = position + this.getHeaderLayoutCount();
+        selectLists.put(position, !selectLists.get(position));
+        notifyItemChanged(pos, "2");
+        return getSelectedCount();
+    }
+
+    /**
+     * 全选or取消全选
+     */
+    public int funCheckAll(boolean checkAll) {
+        if (checkAll) {
+            //去掉头尾和最后一个“+”item
+            for (int i = getHeaderLayoutCount(); i <= getData().size() - 1; i++) {
+                selectLists.put(i - getHeaderLayoutCount(), true);  //数据集合下标作为key（不包含header和footer）
+            }
+            notifyItemRangeChanged(getHeaderLayoutCount(), getData().size() - 1, "2");
+            return getSelectedCount();
+        } else {
+            //去掉头尾和最后一个“+”item
+           /* for (int i = getHeaderLayoutCount(); i < getData().size() - 1; i++) {
+                selectLists.put(i, false);
+            }*/
+            selectLists.clear();
+            notifyItemRangeChanged(getHeaderLayoutCount(), getData().size() - 1, "2");
+            return 0;
+        }
+    }
+
+
+    /**
+     * 获取选中数量
+     */
+    public int getSelectedCount() {
+        int count = 0;
+        for (int i = 0; i < selectLists.size(); i++) {
+            if (selectLists.valueAt(i)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 获取选中的item的下标
+     */
+    public List<Integer> getSelectedIndexs() {
+        List<Integer> indexs = new ArrayList<>();
+        for (int i = 0; i < selectLists.size(); i++) {
+            if (selectLists.valueAt(i)) {
+                indexs.add(selectLists.keyAt(i));
+            }
+        }
+        return indexs;
+    }
+
+    public List<BookShelfOrADsMultEntity> getSelectedEntityList() {
+        List<Integer> indexs = getSelectedIndexs();
+        List<BookShelfOrADsMultEntity> list = new ArrayList<>();
+        List<BookShelfOrADsMultEntity> allData = getData();
+        for (int i = 0; i < indexs.size(); i++) {
+            if (i < allData.size()) {
+                list.add(allData.get(indexs.get(i)));
+            }
+        }
+        return list;
+    }
+
+    public void clearSelected() {
+        if (selectLists != null) {
+            selectLists.clear();
+        }
+    }
 
     public BookRackAdapter(List<BookShelfOrADsMultEntity> data) {
         super(data);
@@ -53,7 +152,13 @@ public class BookRackAdapter extends BaseMultiItemQuickAdapter<BookShelfOrADsMul
     protected void convert(BaseViewHolder helper, BookShelfOrADsMultEntity item) {
         switch (helper.getItemViewType()) {
             case BookShelfOrADsMultEntity.ITEM_ADD_BOOK:
-
+                if (isManagerMode) {
+                    helper.setVisible(R.id.ctl_add_book, false);
+                    helper.setEnabled(R.id.ctl_add_book, false);
+                } else {
+                    helper.setVisible(R.id.ctl_add_book, true);
+                    helper.setEnabled(R.id.ctl_add_book, true);
+                }
                 break;
             case BookShelfOrADsMultEntity.TYPE_ADS_GDT:
                 convertGDTAd(helper, item);
@@ -86,40 +191,114 @@ public class BookRackAdapter extends BaseMultiItemQuickAdapter<BookShelfOrADsMul
                 }
                 break;*/
             case BookShelfOrADsMultEntity.DETAILED:
-                BookShelfListBean bookShelf = item.getBook();
-                helper.setText(R.id.tv_book_name, bookShelf.getNovel_name());
-                boolean isEnd = bookShelf.getIs_end() == 1;
-                helper.setText(R.id.tv_book_state, isEnd ? R.string.txt_end : R.string.txt_serialize);
-                helper.setTextColorRes(R.id.tv_book_state, isEnd ? R.color.txt_dark_gold : R.color.txt_red);
-                helper.setBackgroundResource(R.id.tv_book_state, isEnd ? R.drawable.shape_border_round2dp_dark_gold : R.drawable.shape_border_round2dp_red);
-                if (TextUtils.isEmpty(bookShelf.getLastChapter())) {
-                    helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread_null)));
-                } else {
-                    helper.setText(R.id.tv_reading, (String.format(getContext().getString(R.string.txt_markread_chapter_x), bookShelf.getLastChapter())));
-                }
-                ImageView iv = helper.getView(R.id.iv_book_cover);
-                if (bookShelf.getIsLocal()) {
-                    //本地文件的图片
-                    GlideApp.with(getContext())
-                            .load(R.drawable.ic_local_file)
-                            .fitCenter()
-                            .into(iv);
-                } else {
-                    if (bookShelf.getIs_copyright() == 1) {
-                        iv.setColorFilter(null);
-                    } else {
-                        ColorMatrix matrix = new ColorMatrix();
-                        matrix.setSaturation(0);
-                        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-                        iv.setColorFilter(filter);
-                        helper.setText(R.id.tv_book_state, R.string.txt_unshelve);
-                        helper.setTextColorRes(R.id.tv_book_state, R.color.txt_white);
-                        helper.setBackgroundResource(R.id.tv_book_state, R.color.txt_gray_999);
-                    }
-                    //书的图片
-                    GlideUtil.loadRoundRect(getContext(), iv, bookShelf.getHttp_image());
-                }
+                covertDefaultBook(helper, item);
                 break;
+        }
+    }
+
+    @Override
+    protected void convert(@NotNull BaseViewHolder holder, BookShelfOrADsMultEntity item, @NotNull List<?> payloads) {
+        super.convert(holder, item, payloads);
+        if (payloads.get(0).equals("1")) {
+            switch (holder.getItemViewType()) {
+                case BookShelfOrADsMultEntity.DETAILED:
+                    if (isManagerMode) {
+                        holder.setVisible(R.id.cb_del_select_book_rack, true);
+                        holder.setGone(R.id.tv_book_state, true);
+                    } else {
+                        AppCompatCheckBox checkBox = holder.getView(R.id.cb_del_select_book_rack);
+                        checkBox.setChecked(false);
+
+                        holder.setGone(R.id.cb_del_select_book_rack, true);
+                        holder.setVisible(R.id.tv_book_state, true);
+                    }
+                    break;
+                case BookShelfOrADsMultEntity.TYPE_ADS_GDT:
+                    if (isManagerMode) {
+                        holder.getView(R.id.ctl_touch_layout).setClickable(false);
+                        holder.setVisible(R.id.cb_del_select_book_rack, true);
+                        holder.setGone(R.id.iv_ad_source, true);
+                    } else {
+                        holder.getView(R.id.ctl_touch_layout).setClickable(true);
+                        AppCompatCheckBox checkBox = holder.getView(R.id.cb_del_select_book_rack);
+                        checkBox.setChecked(false);
+
+                        holder.setGone(R.id.cb_del_select_book_rack, true);
+                        holder.setVisible(R.id.iv_ad_source, true);
+                    }
+                    break;
+                case BookShelfOrADsMultEntity.ITEM_ADD_BOOK:
+                    if (isManagerMode) {
+                        holder.setVisible(R.id.ctl_add_book, false);
+                        holder.setEnabled(R.id.ctl_add_book, false);
+                    } else {
+                        holder.setVisible(R.id.ctl_add_book, true);
+                        holder.setEnabled(R.id.ctl_add_book, true);
+                    }
+                    break;
+            }
+        } else if (payloads.get(0).equals("2")) {
+            if (holder.getItemViewType() == BookShelfOrADsMultEntity.DETAILED || holder.getItemViewType() == BookShelfOrADsMultEntity.TYPE_ADS_GDT) {
+                AppCompatCheckBox checkBox = holder.getView(R.id.cb_del_select_book_rack);
+                checkBox.setChecked(selectLists.get(holder.getLayoutPosition() - getHeaderLayoutCount()));
+            }
+        }
+    }
+
+    private void covertDefaultBook(BaseViewHolder helper, BookShelfOrADsMultEntity item) {
+        BookShelfListBean bookShelf = item.getBook();
+        helper.setText(R.id.tv_book_name, bookShelf.getNovel_name());
+
+        if (TextUtils.isEmpty(bookShelf.getLastChapter())) {
+            helper.setText(R.id.tv_reading, (getContext().getString(R.string.txt_markread_null)));
+        } else {
+            helper.setText(R.id.tv_reading, (String.format(getContext().getString(R.string.txt_markread_chapter_x), bookShelf.getLastChapter())));
+        }
+        ImageView iv = helper.getView(R.id.iv_book_cover);
+        if (bookShelf.getIsLocal()) {
+            //本地文件的图片
+            GlideApp.with(getContext())
+                    .load(R.drawable.ic_local_file)
+                    .fitCenter()
+                    .into(iv);
+        } else {
+            if (bookShelf.getIs_copyright() == 1) {
+                iv.setColorFilter(null);
+            } else {
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                iv.setColorFilter(filter);
+                helper.setText(R.id.tv_book_state, R.string.txt_unshelve);
+                helper.setTextColorRes(R.id.tv_book_state, R.color.txt_white);
+                helper.setBackgroundResource(R.id.tv_book_state, R.color.txt_gray_999);
+            }
+            //书的图片
+            GlideUtil.loadRoundRect(getContext(), iv, bookShelf.getHttp_image());
+        }
+
+        AppCompatCheckBox checkBox = helper.getView(R.id.cb_del_select_book_rack);
+        checkBox.setChecked(selectLists.get(helper.getLayoutPosition() - getHeaderLayoutCount()));
+        if (isManagerMode) {
+            helper.setVisible(R.id.cb_del_select_book_rack, true);
+            helper.setGone(R.id.tv_book_state, true);
+        } else {
+            helper.setGone(R.id.cb_del_select_book_rack, true);
+            if (bookShelf.getStatus() == 3) {
+                helper.setVisible(R.id.tv_book_state, true);
+                helper.setText(R.id.tv_book_state, R.string.txt_update);
+                helper.setTextColorRes(R.id.tv_book_state, R.color.txt_white);
+                helper.setBackgroundResource(R.id.tv_book_state, R.drawable.shape_bg_book_update);
+            } else {
+                if (bookShelf.getIs_end() == 1) {
+                    helper.setVisible(R.id.tv_book_state, true);
+                    helper.setText(R.id.tv_book_state, R.string.txt_end);
+                    helper.setTextColorRes(R.id.tv_book_state, R.color.txt_dark_gold);
+                    helper.setBackgroundResource(R.id.tv_book_state, R.drawable.shape_border_round2dp_dark_gold);
+                } else {
+                    helper.setGone(R.id.tv_book_state, true);
+                }
+            }
         }
     }
 
@@ -140,13 +319,14 @@ public class BookRackAdapter extends BaseMultiItemQuickAdapter<BookShelfOrADsMul
         helper.setText(R.id.iv_ad_intro, adsGDT.getDesc());
         helper.setText(R.id.iv_ad_source, "腾讯广告");
 
-        List<View> clickableViews = new ArrayList<>();
-        clickableViews.add(helper.getView(R.id.ctl_touch_layout));
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(adContainer.getLayoutParams());
         layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
-//        layoutParams.rightMargin = DensityUtils.dp2px(getContext(), UIUtils.getScreenWidthDp(getContext())) - ivAdImg.getWidth() - DensityUtils.dp2px(getContext(), 16);
-//        layoutParams.leftMargin = DensityUtils.dp2px(getContext(), 16) + ivAdImg.getWidth() / 2;
-//        layoutParams.bottomMargin = DensityUtils.dp2px(getContext(), 8);
+        adsGDT.bindAdToView(getContext(), adContainer, layoutParams, null);
+        List<View> clickableViews = new ArrayList<>();
+        clickableViews.add(helper.getView(R.id.ctl_touch_layout));
+        /*layoutParams.rightMargin = DensityUtils.dp2px(getContext(), UIUtils.getScreenWidthDp(getContext())) - ivAdImg.getWidth() - DensityUtils.dp2px(getContext(), 16);
+        layoutParams.leftMargin = DensityUtils.dp2px(getContext(), 16) + ivAdImg.getWidth() / 2;
+        layoutParams.bottomMargin = DensityUtils.dp2px(getContext(), 8);*/
         adsGDT.bindAdToView(getContext(), adContainer, layoutParams, clickableViews);
             /*adsGDT.setNativeAdEventListener(new NativeADEventListener() {
                 @Override
@@ -169,6 +349,19 @@ public class BookRackAdapter extends BaseMultiItemQuickAdapter<BookShelfOrADsMul
 
                 }
             });*/
+
+        AppCompatCheckBox checkBox = helper.getView(R.id.cb_del_select_book_rack);
+        checkBox.setChecked(selectLists.get(helper.getLayoutPosition() - getHeaderLayoutCount()));
+        if (isManagerMode) {
+            helper.getView(R.id.ctl_touch_layout).setClickable(false);
+            helper.setVisible(R.id.cb_del_select_book_rack, true);
+            helper.setGone(R.id.iv_ad_source, true);
+        } else {
+            helper.getView(R.id.ctl_touch_layout).setClickable(true);
+            helper.setGone(R.id.cb_del_select_book_rack, true);
+            helper.setVisible(R.id.iv_ad_source, true);
+        }
+
     }
 
 }

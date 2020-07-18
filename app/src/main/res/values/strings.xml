@@ -73,6 +73,8 @@
 
     <string name="txt_done">取消</string>
     <string name="txt_select_all">全选</string>
+    <string name="txt_select_all_cancel">取消全选</string>
+    <string name="txt_delete_x">删除（%1$d）</string>
     <string name="txt_manage">管理</string>
     <string name="txt_search">搜索</string>
     <string name="txt_plz_input_keyword">请输入关键字</string>
@@ -132,6 +134,7 @@
     <string name="txt_new_book">新书</string>
     <string name="txt_end">完结</string>
     <string name="txt_serialize">连载</string>
+    <string name="txt_update">更新</string>
     <string name="txt_unshelve">已下架</string>
     <string name="txt_hotlist_today">今日大热榜</string>
     <string name="txt_the_full_list">完整榜单</string>

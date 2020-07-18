@@ -43,7 +43,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     @Override
     public void reqAddBookrack(AppCompatActivity context, String novelId) {
         OkGo.<String>post(Consts.BOOKRACK_ADD_API)
-                .params(Consts.NOVEL_ID, novelId)
+                .params(Consts.N_ID, novelId)
                 .execute(new LtbCallback(context) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -63,7 +63,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     public void loadCategory(AppCompatActivity context, String bookId) {
         checkViewAttached();
         OkGo.<String>get(Consts.NOVEL_NOVELCHAPTERLIST_API)
-                .params(Consts.NOVEL_ID, bookId)
+                .params(Consts.N_ID, bookId)
                 .cacheTime(24 * 60 * 60 * 1000)
                 .cacheKey(Consts.NOVEL_NOVELCHAPTERLIST_API + bookId)
                 .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
@@ -96,7 +96,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
         for (int i = 0; i < size; ++i) {
             TxtChapter bookChapter = bookChapters.get(i);
             OkGo.<String>post(Consts.NOVEL_CONTENT_API)
-                    .params(Consts.BOOK_ID, bookChapter.getBookId())
+                    .params(Consts.NOVEL_ID, bookChapter.getBookId())
                     .params(Consts.CHAPTER_ID, bookChapter.getId())
                     .params(Consts.CHAPTER, bookChapter.getChapter())
                     .execute(new LtbCallback(context, false) {
@@ -149,7 +149,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
     public void recordRead(AppCompatActivity context, String bookId, String chapterId, String chapterName, int chapter) {
         checkViewAttached();
         OkGo.<String>post(Consts.RECORD_CREATE_API)
-                .params(Consts.BOOK_ID, bookId)
+                .params(Consts.NOVEL_ID, bookId)
                 .params(Consts.CHAPTER_ID, chapterId)
                 .params(Consts.CHAPTER_NAME, chapterName)
                 .params(Consts.CHAPTER, chapter)

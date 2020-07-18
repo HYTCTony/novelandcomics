@@ -33,8 +33,6 @@ import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.notchtools.NotchTools;
-import com.huli.foxread.notchtools.core.NotchProperty;
-import com.huli.foxread.notchtools.core.OnNotchCallBack;
 import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.base.BaseActivity;
@@ -67,14 +65,11 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     @Override
     protected void setStatusBar() {
 //        StatusBarUtils.setTransparent(this);
-        NotchTools.getFullScreenTools().fullScreenUseStatus(this, new OnNotchCallBack() {
-            @Override
-            public void onNotchPropertyCallback(NotchProperty notchProperty) {
-               /* int marginTop = notchProperty.getMarginTop();
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mBackView.getLayoutParams();
-                layoutParams.topMargin += marginTop;
-                mBackView.setLayoutParams(layoutParams);*/
-            }
+        NotchTools.getFullScreenTools().fullScreenUseStatus(this, notchProperty -> {
+           /* int marginTop = notchProperty.getMarginTop();
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mBackView.getLayoutParams();
+            layoutParams.topMargin += marginTop;
+            mBackView.setLayoutParams(layoutParams);*/
         });
     }
 
@@ -177,23 +172,33 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
         String token = TokenCache.getToken(this);
 
         //判断为首次登录
-        if (TextUtils.isEmpty(token)) {
+        if ("".equals(token) || TextUtils.isEmpty(token)) {
             if (NetworkUtil.isNetworkAvailable(this)) {
                 reqUniqueIDLogin(false);
             } else {
                 $(R.id.ctl_no_network_show).setVisibility(View.VISIBLE);    //-->无网络
             }
         } else {
-            //  是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
-            //  是否有性别---> 有：   reqAdsFromNet();
             int gender = UserInfoCache.getGender(this);
-            if (gender == 0) {
-                startActivity(new Intent(this, GenderChoiceActivity.class));
-                finish();
-            } else {
-                //加载开屏广告
-                loadSplashAd();
-            }
+            //  根据性别进行下一步
+            handleByGender(gender);
+        }
+    }
+
+    /**
+     * 根据性别进行下一步
+     *
+     * @param gender 性别
+     */
+    private void handleByGender(int gender) {
+        //  是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
+        //  是否有性别---> 有：   reqAdsFromNet();
+        if (gender == 0) {
+            startActivity(new Intent(this, GenderChoiceActivity.class));
+            finish();
+        } else {
+            //加载开屏广告
+            loadSplashAd();
         }
     }
 
@@ -228,13 +233,15 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
     private void reqUniqueIDLogin(boolean showDialog) {
         String uniqueID = UniqueIdManager.getUniqueID(FrLaunchActivity.this);
         RxHttp.postForm(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
+                .setAssemblyEnabled(false)
                 .add(Consts.UNIQUE_ID, uniqueID)
                 .asResponse(LoginRpsEntity.class)
                 .flatMap(loginRpsEntity -> {
                     String token = loginRpsEntity.getToken();
                     TokenCache.saveToken(FrLaunchActivity.this, token);
                     //获取用户信息
-                    return RxHttp.postForm(Consts.USERS_INFO_API)
+                    return RxHttp.get(Consts.USERS_INFO_API)
+                            .addHeader(Consts.TOKEN, token)
                             .subscribeOnCurrent() //当前线程发送登录请求(RxHttp默认在IO线程执行请求，也默认在IO线程回调)
                             .asResponse(FUser.class);
                 })
@@ -251,16 +258,10 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(fUser -> {
                     UserInfoCache.saveUserInfo(FrLaunchActivity.this, fUser);
-                    //  是否有性别---> 无：  startActivity(new Intent(mContext, GenderChoiceActivity.class));
-                    //  是否有性别---> 有：   reqAdsFromNet();
                     int gender = fUser.getGender();
-                    if (gender == 0) {
-                        startActivity(new Intent(FrLaunchActivity.this, GenderChoiceActivity.class));
-                        finish();
-                    } else {
-                        //加载开屏广告
-                        loadSplashAd();
-                    }
+
+                    //根据性别处理
+                    handleByGender(gender);
                 }, (OnError) error -> {
                     int code = error.getErrorCode();
                     if (code == 10001 || code == 10010) {
@@ -281,9 +282,7 @@ public class FrLaunchActivity extends BaseActivity implements EasyPermissions.Pe
                 .add(Consts.APK_CHANNEL, getChannel())
                 .asResponse(AdConfigBean.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
-                .subscribe(bean -> {
-                    AdConfig.saveAdConfig(this, bean);
-                });
+                .subscribe(bean -> AdConfig.saveAdConfig(this, bean));
     }
 
     /**

@@ -2,6 +2,7 @@ package com.huli.foxread.rxhttp.parser;
 
 import com.huli.foxread.entity.base.BaseEntity;
 import com.huli.foxread.entity.base.PageList;
+import com.huli.foxread.entity.base.TTPageList;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -20,7 +21,7 @@ import rxhttp.wrapper.parse.AbstractParser;
  * 备注：自定义Parser生成asXXXX方法
  * 输入T,输出T,并对code统一判断
  */
-@Parser(name = "Response", wrappers = {List.class, PageList.class})
+@Parser(name = "Response", wrappers = {List.class, PageList.class, TTPageList.class})
 public class ResponseParser<T> extends AbstractParser<T> {
 
     //注意，以下两个构造方法是必须的
@@ -49,13 +50,22 @@ public class ResponseParser<T> extends AbstractParser<T> {
         super(type);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T onParse(@NonNull okhttp3.Response response) throws IOException {
         final Type type = ParameterizedTypeImpl.get(BaseEntity.class, mType); //获取泛型类型
         BaseEntity<T> data = convert(response, type);
         T t = data.getData(); //获取data字段
 //        if (data.getError_code() != 0 || t == null) {//这里假设code不等于0，代表数据不正确，抛出异常
-        if (data.getError_code() != 0) {//这里假设code不等于0，代表数据不正确，抛出异常
+        if (t == null && mType == String.class) {
+            /*
+             * 考虑到有些时候服务端会返回：{"errorCode":0,"errorMsg":"关注成功"}  类似没有data的数据
+             * 此时code正确，但是data字段为空，直接返回data的话，会报空指针错误，
+             * 所以，判断泛型为String类型时，重新赋值，并确保赋值不为null
+             */
+            t = (T) data.getMsg();
+        }
+        if (data.getError_code() != 0 || t == null) {//这里假设code不等于0，代表数据不正确，抛出异常
             throw new ParseException(String.valueOf(data.getError_code()), data.getMsg(), response);
         }
         return t;

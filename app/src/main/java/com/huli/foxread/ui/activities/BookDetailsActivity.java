@@ -364,7 +364,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
      */
     private void reqNovelDetails(String novelId) {
         RxHttp.get(Consts.NOVEL_DETAILS_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .asResponse(BookShelfListBean.class)
                 .doOnSubscribe(disposable -> {
                     handler.sendEmptyMessageDelayed(88, 500);
@@ -452,7 +452,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
      */
     private void reqRelatedRecoBooks(String novelId) {
         RxHttp.get(Consts.NOVEL_NOMINATE_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .asResponseList(BookEntity.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(list -> {
@@ -469,7 +469,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
      */
     private void reqReviewList(String novelId) {
         RxHttp.get(Consts.APPRAISE_LIST_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .add(Consts.PAGE, 1)
                 .add(Consts.PAGE_SIZE, 3)
                 .asResponsePageList(BookReview.class)
@@ -494,8 +494,8 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
      */
     private void giveALikeOrCancel(String reviewId, String novelId, boolean isChecked) {
         RxHttp.get(Consts.APPRAISE_LIKE_API)
-                .add(Consts.NOVEL_ID, reviewId)
-                .add(Consts.BOOK_ID, novelId)
+                .add(Consts.N_ID, reviewId)
+                .add(Consts.NOVEL_ID, novelId)
                 .add(Consts.PREFER, isChecked ? 1 : 2)
                 .asResponse(String.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
@@ -510,7 +510,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
      */
     private void reqAdd2BookRack(String novelId) {
         RxHttp.postForm(Consts.BOOKRACK_ADD_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .asResponse(String.class)
                 .doOnSubscribe(disposable -> showLoadingDialog())
                 .doFinally(this::dismissLoadingDialog)
@@ -520,7 +520,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
                     isCollected = true;
                     btnAddBookcase.setText(R.string.txt_in_kookshelf);
                     btnAddBookcase.setTextColor(ContextCompat.getColor(BookDetailsActivity.this, R.color.txt_gray));
-                }, (OnError) error -> TipDialog.show(BookDetailsActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
+                }, (OnError) error -> TipDialog.show(BookDetailsActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR).setTipTime(800));
     }
 
     /**
@@ -530,7 +530,7 @@ public class BookDetailsActivity extends BaseActivity implements View.OnClickLis
      */
     private void loadCategory(String novelId) {
         RxHttp.get(Consts.NOVEL_NOVELCHAPTERLIST_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .asResponseList(BookChapter.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(list -> {
