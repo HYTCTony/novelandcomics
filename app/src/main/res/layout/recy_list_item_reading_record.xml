@@ -20,23 +20,27 @@
 
     <TextView
         android:id="@+id/tv_book_name"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginStart="@dimen/dp_8"
+        android:singleLine="true"
         android:textColor="@color/txt_black_191919"
         android:textSize="@dimen/sp_16"
         app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toLeftOf="@+id/tv_asBtn_add_to_Bookshelf_or_go2read"
         app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
         tools:text="末世四万年" />
 
     <TextView
         android:id="@+id/tv_read_book_section"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
+        android:singleLine="true"
         android:textColor="@color/txt_gray"
         android:textSize="@dimen/sp_12"
         app:layout_constraintBottom_toTopOf="@+id/tv_last_reading_time"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+        app:layout_constraintRight_toRightOf="@+id/tv_book_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_book_name"
         tools:text="第163章 事与愿违" />
 
@@ -63,6 +67,24 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
         app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
         tools:text="刚刚" />
+
+    <TextView
+        android:id="@+id/tv_asBtn_add_to_Bookshelf_or_go2read"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:paddingStart="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_6"
+        android:paddingEnd="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_6"
+        android:textSize="@dimen/sp_13"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tv_book_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@drawable/shape_border_round6dp_red"
+        tools:text="加书架"
+        tools:textColor="@color/txt_red" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/checkBoxSample_check_book"

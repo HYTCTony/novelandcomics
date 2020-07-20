@@ -27,7 +27,7 @@ public class WithdrawalMoneyAdapter extends BaseQuickAdapter<WithdrawalOptionEnt
 
     @Override
     protected void convert(@NonNull BaseViewHolder holder, WithdrawalOptionEntity data) {
-        holder.setText(R.id.tv_withdrawal_money, df.format(data.getNeed_money()));
+        holder.setText(R.id.tv_withdrawal_money, df.format(data.getTitle()));
         AppCompatCheckBox checkBox = holder.getView(R.id.cb_withdrawal_amount);
         checkBox.setEnabled(false);
 

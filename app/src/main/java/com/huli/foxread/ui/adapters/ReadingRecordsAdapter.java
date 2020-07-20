@@ -12,6 +12,8 @@ import com.huli.foxread.entity.ReadRecordEntity;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.page.utils.TimeUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -98,10 +100,21 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         return getSelectedCount();
     }
 
+    /**
+     * 单本加入书架
+     *
+     * @param pos
+     */
+    public void add2Bookshelf(int pos) {
+        getData().get(pos).setExist_bookshelf(1);
+        notifyItemChanged(pos + getHeaderLayoutCount(), "1");
+    }
+
 
     public ReadingRecordsAdapter(boolean isManagerMode) {
         super(R.layout.recy_list_item_reading_record);
         this.isManagerMode = isManagerMode;
+        addChildClickViewIds(R.id.tv_asBtn_add_to_Bookshelf_or_go2read);
     }
 
     @Override
@@ -111,13 +124,34 @@ public class ReadingRecordsAdapter extends BaseQuickAdapter<ReadRecordEntity, Ba
         holder.setText(R.id.tv_last_reading_time, "阅读时间：" + TimeUtils.formatFriendly(item.getCreatetime()));
         GlideUtil.loadRoundRect(getContext(), holder.getView(R.id.iv_book_cover), item.getProfileNovel() == null ? "" : item.getProfileNovel().getHttp_image());
 
+        if (item.getExist_bookshelf() == 1) {       //已在书架
+            holder.setText(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, "去阅读");
+            holder.setBackgroundResource(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, R.drawable.shape_border_round6dp_gray);
+            holder.setTextColorRes(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, R.color.txt_col_365565);
+        } else {
+            holder.setText(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, "加书架");
+            holder.setBackgroundResource(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, R.drawable.shape_border_round6dp_red);
+            holder.setTextColorRes(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, R.color.txt_red);
+        }
+
         AppCompatCheckBox checkBox = holder.getView(R.id.checkBoxSample_check_book);
         if (isManagerMode) {
             checkBox.setVisibility(View.VISIBLE);
             checkBox.setChecked(selectLists.get(holder.getLayoutPosition()));
+            holder.setGone(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, true);
         } else {
             checkBox.setVisibility(View.GONE);
+            holder.setVisible(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, true);
         }
     }
 
+    @Override
+    protected void convert(@NotNull BaseViewHolder holder, ReadRecordEntity item, @NotNull List<?> payloads) {
+        super.convert(holder, item, payloads);
+        if (payloads.get(0).equals("1")) {
+            holder.setText(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, "去阅读");
+            holder.setBackgroundResource(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, R.drawable.shape_border_round6dp_gray);
+            holder.setTextColorRes(R.id.tv_asBtn_add_to_Bookshelf_or_go2read, R.color.txt_col_365565);
+        }
+    }
 }

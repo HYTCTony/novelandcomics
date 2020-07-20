@@ -8,33 +8,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.ReadRecordEntity;
-import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.rxhttp.OnError;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.adapters.ReadingRecordsAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ReadingRecordActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener {
+public class ReadingRecordActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener, OnItemChildClickListener {
 
     private TextView btnManagerRecords;
 
@@ -97,18 +97,19 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
         btnDelBooks.setOnClickListener(this);
         btnAddBookcase.setOnClickListener(this);
 
+        mAdapter.setOnItemChildClickListener(this);
         mAdapter.setOnItemClickListener(this);
         layout.setOnRefreshListener(refreshLayout -> {
             //可以上拉加载
-            reqReadingRecord(0, false);
+            reqReadingRecord(0);
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqReadingRecord(curPage, false));
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqReadingRecord(curPage));
     }
 
     @Override
     public void doBusiness(Context mContext) {
-        reqReadingRecord(0, false);
+        reqReadingRecord(0);
     }
 
     @Override
@@ -182,8 +183,30 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
         layout.setEnableRefresh(true);
     }
 
+
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+        ReadRecordEntity entity = mAdapter.getData().get(position);
+        BookEntity bean = entity.getProfileNovel();
+        if (entity.getExist_bookshelf() == 0) {
+            reqAddBookrack(bean.getId());
+            //改变ui
+            mAdapter.add2Bookshelf(position);
+        } else {
+            if (entity.getProfileNovel() == null) {
+                Tos.showShort(ReadingRecordActivity.this, "正在删除空的书籍记录...");
+                reqDeleteBookRecord("" + entity.getId());
+                return;
+            }
+            //去详情页
+            Intent intent = new Intent(ReadingRecordActivity.this, BookDetailsActivity.class);
+            intent.putExtra(Common.KEY_BOOK_ID, entity.getNovel_id());
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         if (isManagerMode) {
             int count = mAdapter.funCheck(position);
             btnDelBooks.setText(String.format(getString(R.string.txt_del_books_x), count));
@@ -205,50 +228,30 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
     /**
      * 小说阅读记录
      *
-     * @param reqPage
+     * @param page 当前页码
      */
-    private void reqReadingRecord(int reqPage, boolean showDialog) {
-        OkGo.<String>get(Consts.RECORD_READ_API)
-                .params(Consts.PAGE, reqPage + 1)
-                .execute(new LtbCallback(this, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<ReadRecordEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<ReadRecordEntity>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<ReadRecordEntity>> datas = entity.getData();
-                            List<ReadRecordEntity> record = datas.getData();
-                            curPage = datas.getCurrent_page();
-                            if (curPage == 1) {
-                                mAdapter.setList(record);
-                            } else {
-                                if (record != null && record.size() > 1) {
-                                    mAdapter.addData(record);
-                                }
-                            }
-                            if (datas.getLast_page() <= curPage) {
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-                        } else {
-                            TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
+    private void reqReadingRecord(int page) {
+        RxHttp.postForm(Consts.RECORD_READ_API)
+                .add(Consts.PAGE, page + 1)
+                .asResponsePageList(ReadRecordEntity.class)
+                .doFinally(() -> layout.finishRefresh())
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    List<ReadRecordEntity> record = entity.getData();
+                    curPage = entity.getCurrent_page();
+                    if (curPage == 1) {
+                        mAdapter.setList(record);
+                    } else {
+                        if (record != null && record.size() > 1) {
+                            mAdapter.addData(record);
                         }
                     }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        layout.finishRefresh();
+                    if (entity.getLast_page() <= curPage) {
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
                     }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
-                    }
-                });
+                }, (OnError) error -> TipDialog.show(ReadingRecordActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
@@ -257,22 +260,19 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      * @param novelId 小说ID
      */
     private void reqAddBookrack(String novelId) {
-        OkGo.<String>post(Consts.BOOKRACK_ADD_API)
-                .params(Consts.N_ID, novelId)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
-                            change2NormalMode();
-                        } else {
-                            TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
+        RxHttp.postForm(Consts.BOOKRACK_ADD_API)
+                .add(Consts.N_ID, novelId)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    if (isManagerMode) {
+                        change2NormalMode();
+                        Tip.show("加入书架成功");
+                        layout.autoRefresh();
+                    } else {
+                        TipDialog.show(ReadingRecordActivity.this, "加入书架成功", TipDialog.TYPE.SUCCESS);
                     }
-                });
+                }, (OnError) error -> TipDialog.show(ReadingRecordActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
@@ -281,22 +281,14 @@ public class ReadingRecordActivity extends BaseActivity implements View.OnClickL
      * @param novelId 小说ID
      */
     private void reqDeleteBookRecord(String novelId) {
-        OkGo.<String>get(Consts.RECORD_DELETE_API)
-                .params(Consts.N_ID, novelId)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            change2NormalMode();
-                            TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.SUCCESS);
-                            layout.autoRefresh();
-                        } else {
-                            TipDialog.show(ReadingRecordActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.RECORD_DELETE_API)
+                .add(Consts.N_ID, novelId)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    change2NormalMode();
+                    Tip.show("删除成功");
+                    layout.autoRefresh();
+                }, (OnError) error -> TipDialog.show(ReadingRecordActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 }

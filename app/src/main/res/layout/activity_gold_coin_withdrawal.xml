@@ -152,7 +152,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/btn_gold_coin_withdrawal"
+            android:id="@+id/btn_invite_friends_2_make_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_16"
@@ -160,7 +160,7 @@
             android:layout_marginEnd="@dimen/dp_16"
             android:layout_marginBottom="@dimen/dp_12"
             android:background="@drawable/ripple_normal_btn_bg_red"
-            android:text="@string/txt_confirm_withdrawal"
+            android:text="马上邀请好友赚钱"
             android:textColor="@color/txt_white"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold" />

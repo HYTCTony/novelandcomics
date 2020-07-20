@@ -7,26 +7,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.GoldExpenditureBean;
-import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.GoldCoinDetailAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.Tos;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -85,7 +79,7 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
         tvAccumulatedGold = $(R.id.tv_accumulated_gold);
         tvGetGoldToday = $(R.id.tv_get_gold_today);
         tvGo2Withdrawal = $(R.id.tv_go2_withdrawal);
-        btnGo2Withdrawal = $(R.id.btn_gold_coin_withdrawal);
+        btnGo2Withdrawal = $(R.id.btn_invite_friends_2_make_money);
 
         mRefreshLayout = $(R.id.smartRefreshLayout_my_gold_coin);
         recyclerView = $(R.id.recyclerView_goldCoin_details);
@@ -105,12 +99,12 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
 
         mRefreshLayout.setOnRefreshListener(refreshLayout -> {
             curPage = 0;
-            reqEarningsDetail(curPage, false);
+            reqEarningsDetail(curPage);
 
             //可以上拉加载
             mAdapter.getLoadMoreModule().setEnableLoadMore(true);
         });
-        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqEarningsDetail(curPage, false));
+        mAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> reqEarningsDetail(curPage));
     }
 
     @Override
@@ -120,13 +114,12 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
             LoginActivity.start4Result(this, LoginActivity.REQCODE_LOGIN);
             return;
         }
-
-
+        
         tvExchangeYuan.setText((0 + getString(R.string.unit_yuan)));
         tvAccumulatedGold.setText((getString(R.string.txt_accumulated_gold_colon) + "0"));
         tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + "0"));
 
-        reqEarningsDetail(curPage, true);
+        mRefreshLayout.autoRefresh();
     }
 
     @Override
@@ -139,7 +132,7 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_go2_withdrawal:
-            case R.id.btn_gold_coin_withdrawal:
+            case R.id.btn_invite_friends_2_make_money:
                 if (NetworkUtil.isNetworkAvailable(this)) {
                     startActivity(new Intent(this, WithdrawalActivity.class));
                 }
@@ -154,34 +147,24 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
      * 我的资金详情
      */
     public void reqMyCapitalDetail() {
-        OkGo.<String>get(Consts.USER_CAPITAL_API)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<CapitalEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            CapitalEntity data = entity.getData();
+        RxHttp.get(Consts.USER_CAPITAL_API)
+                .asResponse(CapitalEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    int goldCoinBalance = entity.getScore();
+                    tvGoldBalance.setText(String.valueOf(goldCoinBalance));
 
-                            int goldCoinBalance = data.getScore();
-                            tvGoldBalance.setText(String.valueOf(goldCoinBalance));
-
-                            double exchangeMoney;       //金币余额转换RMB
-                            try {
-                                exchangeMoney = (double) goldCoinBalance / data.getProportion();
-                            } catch (Exception e) {
-                                exchangeMoney = 0;
-                            }
-                            DecimalFormat df = new DecimalFormat("#######.##" + getString(R.string.unit_yuan));
-                            tvExchangeYuan.setText(df.format(exchangeMoney));
-
-                            tvAccumulatedGold.setText((getString(R.string.txt_accumulated_gold_colon) + data.getScore_sum()));
-                            tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + data.getToday_score()));
-                        } else {
-                            Tos.showShort(MyGoldCoinActivity.this, entity.msg);
-                        }
+                    int exchangeMoney;       //金币余额转换RMB
+                    try {
+                        exchangeMoney = goldCoinBalance / entity.getProportion();
+                    } catch (Exception e) {
+                        exchangeMoney = 0;
                     }
+//                    DecimalFormat df = new DecimalFormat("约" + "#######.##" + getString(R.string.unit_yuan));
+                    tvExchangeYuan.setText((exchangeMoney + getString(R.string.unit_yuan)));
+
+                    tvAccumulatedGold.setText((getString(R.string.txt_accumulated_gold_colon) + entity.getScore_sum()));
+                    tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + entity.getToday_score()));
                 });
     }
 
@@ -189,43 +172,25 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
     /**
      * 金币收益明细
      */
-    private void reqEarningsDetail(int page, boolean showDiaog) {
-        OkGo.<String>get(Consts.GOLD_EARNINGS_LIST_API)
-                .params(Consts.PAGE, page + 1)
-                .execute(new LtbCallback(this, showDiaog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<GoldExpenditureBean>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<GoldExpenditureBean>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<GoldExpenditureBean>> datas = entity.getData();
-                            curPage = datas.getCurrent_page();
-                            List<GoldExpenditureBean> bookList = datas.getData();
-                            if (curPage == 1) {
-                                mAdapter.setList(bookList);
-                            } else {
-                                mAdapter.addData(bookList);
-                            }
-                            if (datas.getLast_page() <= curPage) {    //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-                        }
+    private void reqEarningsDetail(int page) {
+        RxHttp.get(Consts.GOLD_EARNINGS_LIST_API)
+                .add(Consts.PAGE, page + 1)
+                .asResponsePageList(GoldExpenditureBean.class)
+                .doFinally(() -> mRefreshLayout.finishRefresh())
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    curPage = entity.getCurrent_page();
+                    List<GoldExpenditureBean> bookList = entity.getData();
+                    if (curPage == 1) {
+                        mAdapter.setList(bookList);
+                    } else {
+                        mAdapter.addData(bookList);
                     }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    if (entity.getLast_page() <= curPage) {    //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
                     }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        mRefreshLayout.finishRefresh();
-                    }
-                });
+                }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
     }
 }

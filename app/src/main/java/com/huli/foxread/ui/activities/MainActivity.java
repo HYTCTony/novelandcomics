@@ -194,6 +194,12 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener, V
         super.onNewIntent(intent);
         // 此处要调用，否则App在后台运行时，会无法截获
         ShareInstall.getInstance().getWakeUpParams(intent, wakeUpListener);
+
+        //提现页面余额不足，提示去做任务跳转至此
+        boolean showWelfare = intent.getBooleanExtra(Common.WITHDRAWAL_DO_TASKS, false);
+        if (showWelfare && mTabLayout.getCurrentTab() != 3) {
+            switch2Welfare();
+        }
     }
 
     /**

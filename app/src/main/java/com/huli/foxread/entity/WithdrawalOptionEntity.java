@@ -9,7 +9,6 @@ public class WithdrawalOptionEntity {
     private double money;           //金币提现的
     private String remarks;         //金币提现的---"需100.000金币"
     private int need_score;         //金币提现的
-    private double need_money;      //现金余额提现 显示
 
     public String getId() {
         return id;
@@ -51,11 +50,4 @@ public class WithdrawalOptionEntity {
         this.need_score = need_score;
     }
 
-    public double getNeed_money() {
-        return need_money;
-    }
-
-    public void setNeed_money(double need_money) {
-        this.need_money = need_money;
-    }
 }
