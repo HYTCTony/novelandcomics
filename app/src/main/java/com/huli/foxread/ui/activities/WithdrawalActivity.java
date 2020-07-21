@@ -155,7 +155,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
     @Override
     public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
         WithdrawalOptionEntity data = (WithdrawalOptionEntity) adapter.getData().get(position);
-        if (data.getNeed_score() < goldCoinBalance) {
+        if (data.getNeed_score() > goldCoinBalance) {
             MessageDialog.show(this, "余额不足", "余额不足，先去做任务赚金币吧！", "做任务", "取消")
                     .setButtonPositiveTextInfo(new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.col_red_fc4545)))
                     .setOnOkButtonClickListener((baseDialog, v) -> {
@@ -273,7 +273,13 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                         exchangeMoney = 0;
                     }
 //                    DecimalFormat df = new DecimalFormat("约" + "#######.##" + getString(R.string.unit_yuan));
-                    tvExchangeYuan.setText((exchangeMoney + getString(R.string.unit_yuan)));
+                    String exMoneyStr;
+                    if (exchangeMoney > 0) {
+                        exMoneyStr = "约" + exchangeMoney + getString(R.string.unit_yuan);
+                    } else {
+                        exMoneyStr = exchangeMoney + getString(R.string.unit_yuan);
+                    }
+                    tvExchangeYuan.setText(exMoneyStr);
                 });
     }
 }
