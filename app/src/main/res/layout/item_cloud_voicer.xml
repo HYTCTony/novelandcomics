@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_cloud_voicer_name"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/dp_32"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_weight="1"
+    android:background="@drawable/selector_btn_read_setting"
+    android:button="@null"
+    android:gravity="center"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp"
+    android:text="女声"
+    android:textColor="@color/txt_gray_b2"
+    android:textSize="14dp" />

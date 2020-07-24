@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/read_dl_slide"
     android:layout_width="match_parent"
@@ -160,15 +161,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize">
-
-                <RelativeLayout
-                    android:layout_width="120dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="right">
-
-                </RelativeLayout>
-            </androidx.appcompat.widget.Toolbar>
+                android:minHeight="?attr/actionBarSize" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <!--底部页面-->
@@ -284,11 +277,129 @@
             </LinearLayout>
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/false_express_container"
+        <LinearLayout
+            android:id="@+id/listen_ll_bottom_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:layout_alignParentBottom="true"
+            android:background="@color/hl_read_bg_dialog"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="倍速"
+                    android:textColor="@color/txt_gray_b2"
+                    android:textSize="16sp" />
+
+                <com.xw.repo.BubbleSeekBar
+                    android:id="@+id/seek_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="音色"
+                    android:textColor="@color/txt_gray_b2"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_voicer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    android:text="定时"
+                    android:textColor="@color/txt_gray_b2"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_timer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/txt_gray_b2" />
+
+            <RelativeLayout
+                android:id="@+id/listen_setting_speak_paused"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_speak_paused"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="退出阅读模式"
+                    android:textColor="@color/txt_gray_b2"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_speak_paused"
+                    android:layout_centerHorizontal="true"
+                    android:text="科大讯飞提供技术支持"
+                    android:textColor="@color/txt_gray"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
     </RelativeLayout>
 
     <!--侧滑栏-->

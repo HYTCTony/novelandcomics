@@ -19,21 +19,13 @@ import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
 import com.huli.foxread.utils.AutoLoginUtils;
 import com.huli.foxread.utils.SPFUtils;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechUtility;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.qq.gdt.action.GDTAction;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.FalsifyFooter;
 import com.sh.sdk.shareinstall.ShareInstall;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
@@ -52,9 +44,7 @@ import com.umeng.socialize.PlatformConfig;
 import org.android.agoo.xiaomi.MiPushRegistar;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import me.leolin.shortcutbadger.ShortcutBadger;
@@ -144,8 +134,6 @@ public class FrApp extends Application implements ActivityState {
 
         //广点通数据上报
         GDTAction.init(this, "1110534603", "d1522e4f9d76fb2f910b15527a82efd4", getChannel());
-        //讯飞语言合成
-        SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5edc91d4");
     }
 
 

@@ -1,5 +1,6 @@
 package com.huli.page.widget.page;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TxtPage {
@@ -7,6 +8,7 @@ public class TxtPage {
     public String title;
     public int titleLines; //当前 lines 中为 title 的行数。
     public List<String> lines;
+    public List<Integer> highlight = new ArrayList<>();
     public float offset;
     public boolean wrap;
 

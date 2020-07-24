@@ -312,7 +312,8 @@ public class PageView extends FrameLayout {
                 }
                 // 如果滑动了，则进行翻页。
                 if (isMove) {
-                    mPageAnim.onTouchEvent(event);
+                    if (isCanTurnPage)
+                        mPageAnim.onTouchEvent(event);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -329,24 +330,31 @@ public class PageView extends FrameLayout {
                     //是否点击了中间
                     if (mCenterRect.contains(x, y)) {
                         if (mTouchListener != null) {
-                            if (mPageLoader.mCurPage.isCustomView) {
-                                return false;
-                            }
+/*                            if (mPageLoader.mCurPage.isCustomView)
+                                return false;*/
                             mTouchListener.center();
                         }
                         return true;
                     }
                 }
-                mPageAnim.onTouchEvent(event);
+                if (isCanTurnPage)
+                    mPageAnim.onTouchEvent(event);
                 break;
         }
         return true;
     }
 
+    boolean isCanTurnPage = true;
+
+    /**
+     * 判断是否可以翻页
+     */
+    public void isCanTurnPage(boolean isCanTurnPage) {
+        this.isCanTurnPage = isCanTurnPage;
+    }
+
     /**
      * 判断是否重新绘制子view
-     *
-     * @return
      */
     public void reDraw() {
         drawIndex = 0;

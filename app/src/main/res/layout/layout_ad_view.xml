@@ -6,14 +6,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="80dp" />
-
     <RelativeLayout
         android:id="@+id/express_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="80dp"
         android:layout_weight="1"
         android:gravity="center"
         android:visibility="gone" />
@@ -22,10 +19,13 @@
         android:id="@+id/gdt_ad_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="24dp"
         android:layout_weight="1"
         android:background="@color/transparent"
-        android:layout_margin="16dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <LinearLayout
             android:id="@+id/ctl_touch_layout"

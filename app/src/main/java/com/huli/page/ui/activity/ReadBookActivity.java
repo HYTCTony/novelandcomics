@@ -10,7 +10,10 @@ import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.MemoryFile;
 import android.os.Message;
 import android.provider.Settings;
 import android.text.SpannableStringBuilder;
@@ -19,6 +22,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -54,12 +59,16 @@ import com.huli.page.model.bean.Advert;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.BookShelfListBean;
 import com.huli.page.model.bean.Font;
+import com.huli.page.model.bean.Timing;
+import com.huli.page.model.bean.Voicer;
 import com.huli.page.model.event.AdMessage;
 import com.huli.page.model.local.BookRepository;
 import com.huli.page.model.local.ReadSettingManager;
 import com.huli.page.presenter.ReadBookPresenter;
 import com.huli.page.presenter.contract.ReadBookContract;
 import com.huli.page.ui.adapter.CatalogAdapter;
+import com.huli.page.ui.adapter.CloudVoicersAdapter;
+import com.huli.page.ui.adapter.TimingAdapter;
 import com.huli.page.ui.base.BaseMvpViewActivity;
 import com.huli.page.ui.dialog.BrightnessDialog;
 import com.huli.page.ui.dialog.ReadSettingDialog;
@@ -73,6 +82,7 @@ import com.huli.page.utils.StringUtils;
 import com.huli.page.utils.SystemBarUtils;
 import com.huli.page.widget.page.PageStyle;
 import com.huli.page.widget.page.TxtChapter;
+import com.huli.page.widget.page.TxtPage;
 import com.huli.page.widget.read.PageView;
 import com.huli.page.widget.read.ReadLoader;
 import com.hytc.ads.AdLogoView;
@@ -80,6 +90,15 @@ import com.hytc.ads.helper.banner.TogetherAdFakeBanner;
 import com.hytc.ads.helper.mid.TogetherAdMidMix;
 import com.hytc.ads.helper.stimulatevideo.TogetherAdStimulate;
 import com.hytc.ads.other.AdNameType;
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechEvent;
+import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SpeechUtility;
+import com.iflytek.cloud.SynthesizerListener;
+import com.iflytek.cloud.msc.util.FileUtil;
 import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
@@ -87,6 +106,7 @@ import com.kongzue.dialog.v3.WaitDialog;
 import com.lzy.okgo.OkGo;
 import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.qq.e.ads.nativ.widget.NativeAdContainer;
+import com.xw.repo.BubbleSeekBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,11 +114,14 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -133,6 +156,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @BindView(R.id.read_abl_top_menu)
     AppBarLayout appBarLayout;
     /***************bottom_menu_view***************************/
+    @BindView(R.id.listen_ll_bottom_menu)
+    LinearLayout llSpeakMenu;
     @BindView(R.id.read_ll_bottom_menu)
     LinearLayout llBottomMenu;
     @BindView(R.id.read_sb_chapter_progress)
@@ -204,8 +229,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     TextView mSource;
     AdLogoView ivLogo;
     RelativeLayout rlAd;
-    @BindView(R.id.false_express_container)
-    RelativeLayout mFalseContainer;
     RelativeLayout mExpressContainer;
     TextView btnNextPage;
     TextView tvAdView;
@@ -253,6 +276,37 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private int perPos = 0;//上一页页码
     private Timer timer;
     private TimerTask timerTask;
+
+    /*********听书相关***************/
+    // 语音合成对象
+    private SpeechSynthesizer mTts;
+    // 默认发音人
+    private String mVoicer = "xiaoqi";
+    // 默认语速
+    private String speed = "25";
+    //云端发言人列表
+    String[] mCloudVoicersEntries;
+    String[] mCloudVoicersValue;
+    String[] mTimerEntries = {"无", "15分钟", "30分钟", "60分钟", "90分钟"};
+    int[] mTimeValue = {0, 15, 30, 60, 90};
+    List<Voicer> voicers = new ArrayList<>();
+    List<Timing> timings = new ArrayList<>();
+    // 引擎类型
+    private String mEngineType = SpeechConstant.TYPE_CLOUD;
+    private boolean isListenBook = false;
+    CloudVoicersAdapter mVoicersAdapter;
+    @BindView(R.id.rv_voicer)
+    RecyclerView rvV;
+    TimingAdapter mTimingAdapter;
+    @BindView(R.id.rv_timer)
+    RecyclerView rvT;
+
+    private Vector<byte[]> vector = new Vector<>();
+    MemoryFile memFile;
+    public volatile long mTotalSize = 0;
+    private int endLine;
+    private boolean isSkipToNextPage = false;
+    StringBuffer texts;
 
     private void startMethod() {
         //防止多次点击开启计时器
@@ -317,7 +371,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                                 tvAdView.setVisibility(VISIBLE);
                             }
                     }
-                    mPageLoader.setABC(isABC);
+                    mPageLoader.setABC(isABC || isListenBook);
                     break;
             }
         }
@@ -346,6 +400,41 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         EventBus.getDefault().register(this);
         PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
         mBookId = data.getNovel_id();
+        //讯飞语言合成
+        SpeechUtility.createUtility(ReadBookActivity.this, "appid=5edc91d4");
+        // 初始化合成对象
+        mTts = SpeechSynthesizer.createSynthesizer(ReadBookActivity.this, mTtsInitListener);
+        // 云端发音人名称列表
+        mCloudVoicersEntries = getResources().getStringArray(R.array.voicer_cloud_entries);
+        mCloudVoicersValue = getResources().getStringArray(R.array.voicer_cloud_values);
+        //准备发言人数据
+        for (int i = 0; i < mCloudVoicersEntries.length; i++) {
+            Voicer voicer = new Voicer(mCloudVoicersEntries[i], mCloudVoicersValue[i]);
+            if (TextUtils.equals(voicer.value, mVoicer)) {
+                voicer.isSelect = true;
+            }
+            voicers.add(voicer);
+        }
+        LinearLayoutManager llVoice = new LinearLayoutManager(this);
+        llVoice.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rvV.setLayoutManager(llVoice);
+        mVoicersAdapter = new CloudVoicersAdapter();
+        rvV.setAdapter(mVoicersAdapter);
+        mVoicersAdapter.setNewInstance(voicers);
+        //准备定时关闭数据
+        for (int i = 0; i < mTimerEntries.length; i++) {
+            Timing timing = new Timing(mTimerEntries[i], mTimeValue[i]);
+            if (i == 0) {
+                timing.isSelect = true;
+            }
+            timings.add(timing);
+        }
+        LinearLayoutManager llTime = new LinearLayoutManager(this);
+        llTime.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rvT.setLayoutManager(llTime);
+        mTimingAdapter = new TimingAdapter();
+        rvT.setAdapter(mTimingAdapter);
+        mTimingAdapter.setNewInstance(timings);
         //获取目录
         presenter.loadCategory(ReadBookActivity.this, mBookId);
         //请求广告权限
@@ -551,6 +640,76 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 return coverPageView;
             }
         });
+        mVoicersAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                for (Voicer voicer : voicers) {
+                    voicer.isSelect = false;
+                }
+                voicers.get(position).isSelect = true;
+                mVoicer = voicers.get(position).value;
+                adapter.notifyDataSetChanged();
+                setParam();
+                if (texts.length() > 0) {
+                    int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
+                    if (code != ErrorCode.SUCCESS) {
+                        showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+                    }
+                }
+            }
+        });
+        mTimingAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                for (Timing timing : timings) {
+                    timing.isSelect = false;
+                }
+                timings.get(position).isSelect = true;
+                int time = timings.get(position).value;
+                adapter.notifyDataSetChanged();
+            }
+        });
+
+        BubbleSeekBar mBubbleSeekBar = findViewById(R.id.seek_bar);
+        mBubbleSeekBar.getConfigBuilder()
+                .min(0.5f)
+                .max(2.0f)
+                .progress(1)
+                .floatType()
+                .sectionCount(6)
+                .sectionTextInterval(2)
+                .showSectionText()
+                .sectionTextPosition(BubbleSeekBar.TextPosition.BELOW_SECTION_MARK)
+                .autoAdjustSectionMark()
+                .build();
+        mBubbleSeekBar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+
+            }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
+                float speedNum = progressFloat * 50;
+                if (speedNum > 100) {
+                    speedNum = 100;
+                }
+                speed = String.valueOf(speedNum);
+                Log.d(TAG, "speed=" + speed);
+                setParam();
+                if (texts != null) {
+                    int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
+                    if (code != ErrorCode.SUCCESS) {
+                        showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -561,6 +720,239 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 (v) -> onBackPressed()
         );
         super.initToolbar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_read_book, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+//            case R.id.action_download:
+//                showToast("正在研发中...");
+//                break;
+            case R.id.action_listen:
+                // 移动数据分析，收集开始合成事件
+                /*FlowerCollector.onEvent(TtsDemo.this, "tts_play");*/
+
+//                texts = ((EditText) findViewById(R.id.tts_text)).getText().toString();
+                toggleMenu(true);
+                isListenBook = true;
+                mPageLoader.setABC(isListenBook);
+                mPvPage.isCanTurnPage(!isListenBook);
+                if (mPageLoader.isCustomView())
+                    mPageLoader.skipToNextPage();
+                ivBackgroud.setVisibility(VISIBLE);
+                mBannerContainer.setVisibility(GONE);
+                adContainer.setVisibility(GONE);
+                // 设置参数
+                setParam();
+                String texts = "一起看书免费小说，开始为您朗读";
+                /**
+                 * 只保存音频不进行播放接口,调用此接口请注释startSpeaking接口
+                 * text:要合成的文本，uri:需要保存的音频全路径，listener:回调接口
+                 */
+                //  String path = Environment.getExternalStorageDirectory() + "/tts.pcm";
+                //	int code = mTts.synthesizeToUri(texts, path, mTtsListener);
+                Log.d(TAG, texts);
+                int code = mTts.startSpeaking(texts, mTtsListener);
+                if (code != ErrorCode.SUCCESS) {
+                    showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 参数设置
+     *
+     * @return
+     */
+    private void setParam() {
+        // 清空参数
+        mTts.setParameter(SpeechConstant.PARAMS, null);
+        // 根据合成引擎设置相应参数
+        if (mEngineType.equals(SpeechConstant.TYPE_CLOUD)) {
+            mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
+            //支持实时音频返回，仅在synthesizeToUri条件下支持
+            mTts.setParameter(SpeechConstant.TTS_DATA_NOTIFY, "1");
+            //	mTts.setParameter(SpeechConstant.TTS_BUFFER_TIME,"1");
+
+            //设置在线合成发音人
+            mTts.setParameter(SpeechConstant.VOICE_NAME, mVoicer);
+            //设置合成语速
+            mTts.setParameter(SpeechConstant.SPEED, speed);
+            Log.d(TAG, "修改参数成功！" +   mTts.getParameter(SpeechConstant.SPEED));
+            //设置合成音调
+            mTts.setParameter(SpeechConstant.PITCH, "50");
+            //设置合成音量
+            mTts.setParameter(SpeechConstant.VOLUME, "50");
+        } else {
+            mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_LOCAL);
+            mTts.setParameter(SpeechConstant.VOICE_NAME, "");
+        }
+
+        //设置播放器音频流类型
+        mTts.setParameter(SpeechConstant.STREAM_TYPE, "3");
+        // 设置播放合成音频打断音乐播放，默认为true
+        mTts.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "false");
+
+        // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
+        mTts.setParameter(SpeechConstant.AUDIO_FORMAT, "pcm");
+        mTts.setParameter(SpeechConstant.TTS_AUDIO_PATH, Environment.getExternalStorageDirectory() + "/msc/tts.pcm");
+    }
+
+
+    /**
+     * 初始化监听。
+     */
+    private InitListener mTtsInitListener = new InitListener() {
+        @Override
+        public void onInit(int code) {
+            Log.d(TAG, "InitListener init() code = " + code);
+            if (code != ErrorCode.SUCCESS) {
+                showToast("初始化失败,错误码：" + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+            } else {
+                // 初始化成功，之后可以调用startSpeaking方法
+                // 注：有的开发者在onCreate方法中创建完合成对象之后马上就调用startSpeaking进行合成，
+                // 正确的做法是将onCreate中的startSpeaking调用移至这里
+            }
+        }
+    };
+
+    /**
+     * 合成回调监听。
+     */
+    private SynthesizerListener mTtsListener = new SynthesizerListener() {
+
+        @Override
+        public void onSpeakBegin() {
+//            showToast("开始播放");
+        }
+
+        @Override
+        public void onSpeakPaused() {
+//            showToast("暂停播放");
+        }
+
+        @Override
+        public void onSpeakResumed() {
+//            showToast("继续播放");
+        }
+
+        @Override
+        public void onBufferProgress(int percent, int beginPos, int endPos, String info) {
+            // 合成进度
+//            Log.e("MscSpeechLog_", "percent =" + percent);
+        }
+
+        @Override
+        public void onSpeakProgress(int percent, int beginPos, int endPos) {
+            // 播放进度
+//            Log.e("MscSpeechLog_", "percent =" + percent);
+//            Log.e(TAG, "beginPos = " + beginPos + "  endPos = " + endPos + "  endLine = " + endLine);
+            if (isSkipToNextPage && endPos >= endLine) {
+//                Log.e(TAG, "翻页");
+                mPageLoader.skipToNextPage();
+                isSkipToNextPage = false;
+            }
+        }
+
+        @Override
+        public void onCompleted(SpeechError error) {
+            if (error == null) {
+                //	showTip("播放完成");
+//                DebugLog.LogD("播放完成," + vector.size());
+                List<TxtPage> mCurPageList = mPageLoader.getCurPageList();
+                texts = new StringBuffer();
+                int pos = mPageLoader.getCurPagePos();
+                TxtPage curPage = mCurPageList.get(pos);
+                int index = curPage.highlight.isEmpty() ? 0 : curPage.highlight.get(curPage.highlight.size() - 1) + 1;
+//                Log.d(TAG, "页码：" + pos);
+//                Log.d(TAG, "播放位置：" + index);
+                curPage.highlight.clear();
+                for (int i = index; i < curPage.lines.size(); i++) {
+                    String text = curPage.lines.get(i);
+                    curPage.highlight.add(i);
+                    texts.append(text);
+                    if (i >= curPage.lines.size() - 1) {
+                        endLine = texts.length() - 1;
+                        isSkipToNextPage = true;
+                        if (!text.endsWith("\n")) {
+                            if (pos + 1 < mCurPageList.size()) {
+                                TxtPage nextPage = mCurPageList.get(pos + 1);
+                                for (int j = 0; j < nextPage.lines.size(); j++) {
+                                    text = nextPage.lines.get(j);
+//                                    Log.d(TAG, "第二页连接的段落内容：" + text);
+                                    nextPage.highlight.add(j);
+                                    texts.append(text);
+                                    if (text.endsWith("\n")) {
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if (text.endsWith("\n"))
+                            break;
+                    }
+                }
+                mPageLoader.setHighlight(mCurPageList);
+//                Log.d(TAG, String.valueOf(texts));
+                int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
+                if (code != ErrorCode.SUCCESS) {
+                    showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+                }
+                try {
+                    for (int i = 0; i < vector.size(); i++) {
+                        writeToFile(vector.get(i));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                FileUtil.saveFile(memFile, mTotalSize, Environment.getExternalStorageDirectory() + "/1.pcm");
+            } else if (error != null) {
+                showToast(error.getPlainDescription(true));
+            }
+        }
+
+        @Override
+        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
+            //	 以下代码用于获取与云端的会话id，当业务出错时将会话id提供给技术支持人员，可用于查询会话日志，定位出错原因
+            //	 若使用本地能力，会话id为null
+            if (SpeechEvent.EVENT_SESSION_ID == eventType) {
+                String sid = obj.getString(SpeechEvent.KEY_EVENT_SESSION_ID);
+                Log.d(TAG, "session id =" + sid);
+            }
+
+            //当设置SpeechConstant.TTS_DATA_NOTIFY为1时，抛出buf数据
+            if (SpeechEvent.EVENT_TTS_BUFFER == eventType) {
+                byte[] buf = obj.getByteArray(SpeechEvent.KEY_EVENT_TTS_BUFFER);
+                Log.e("MscSpeechLog_", "bufis =" + buf.length);
+                vector.add(buf);
+            }
+        }
+    };
+
+    private void writeToFile(byte[] data) throws IOException {
+        if (data == null || data.length == 0)
+            return;
+        try {
+            if (memFile == null) {
+                Log.e("MscSpeechLog_", "ffffffffff");
+                String mFilepath = Environment.getExternalStorageDirectory() + "/1.pcm";
+                memFile = new MemoryFile(mFilepath, 1920000);
+                memFile.allowPurging(false);
+            }
+            memFile.writeBytes(data, 0, (int) mTotalSize, data.length);
+            mTotalSize += data.length;
+        } finally {
+        }
     }
 
     private void initCover() {
@@ -701,9 +1093,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         buffer.append("章");
         tvBookStatu.setText(buffer);
         // 如果是目录更新的情况，那么就需要存储更新数据
-//        if (data.getIsUpdate() && isCollected) {
+//        if (data.getIsUpdate() && isCollected)
 //            BookRepository.getInstance().saveBookChaptersToAsync(bookChapters);
-//        }
     }
 
     @Override
@@ -723,7 +1114,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     }
 
     @OnClick({R.id.read_tv_pre_chapter, R.id.read_tv_next_chapter, R.id.read_tv_category, R.id.read_tv_night_mode, R.id.read_tv_brightness,
-            R.id.read_tv_setting})
+            R.id.read_tv_setting, R.id.listen_setting_speak_paused})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.read_tv_pre_chapter:
@@ -787,11 +1178,25 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 toggleMenu(false);
                 mSettingDialog.show();
                 break;
+            case R.id.listen_setting_speak_paused:
+                /*
+                 * 停止听书
+                 * */
+                isListenBook = false;
+                mPageLoader.setABC(isListenBook);
+                mPvPage.isCanTurnPage(!isListenBook);
+                ivBackgroud.setVisibility(GONE);
+                mTts.pauseSpeaking();
+                llSpeakMenu.setVisibility(GONE);
+                llSpeakMenu.startAnimation(mBottomOutAnim);
+                mPageLoader.refreshPage();
+                showToast("退出听书模式");
+                break;
         }
     }
 
     private void requestAdPage() {
-        if (isABC)
+        if (isABC || isListenBook)
             return;
         TogetherAdMidMix.showAdMid(this, AdConfig.turnPageAdConfig(this), constPageId, new TogetherAdMidMix.AdListenerMid() {
             @Override
@@ -818,7 +1223,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     btnNextPage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mPvPage.autoNextPage();
+                            mPageLoader.skipToNextPage();
                         }
                     });
                     mExpressContainer = mAdView.findViewById(R.id.express_container);//非自渲染
@@ -838,7 +1243,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mTitle.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
                             mPageStyle.getFontColor()));
                     mIntro.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
-                            mPageStyle.getTipsColor()));
+                            mPageStyle.getPromptColor()));
                     mSource.setTextColor(isNightMode ? ContextCompat.getColor(mContext, PageStyle.NIGHT.getPromptColor()) : ContextCompat.getColor(mContext,
                             mPageStyle.getTipsColor()));
                 }
@@ -903,9 +1308,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onRenderSuccess(@NotNull String channel, @NotNull View view, float width, float height) {
-//                mFalseContainer.removeAllViews();
                 mExpressContainer.removeAllViews();
-//                mFalseContainer.addView(view);
                 mExpressContainer.addView(view);
                 if (mPageLoader != null)
                     mPageLoader.setABCFail(false);
@@ -923,13 +1326,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             public void onDisLike(@NotNull String channel, int position, @NotNull String value) {
                 mExpressContainer.removeAllViews();
                 mPvPage.postInvalidate();
-                mPvPage.autoNextPage();
+                mPageLoader.skipToNextPage();
             }
         });
     }
 
     private void requestAdBottom() {
-        if (isABC) {
+        if (isABC || isListenBook) {
             isFirstRequest = true;
             return;
         }
@@ -971,7 +1374,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void onStartRequest(@NotNull String channel) {
-                Log.e(TAG, "onRenderSuccess.AdBottom()===" + channel);
+//                Log.e(TAG, "onRenderSuccess.AdBottom()===" + channel);
                 ivBackgroud.setVisibility(View.INVISIBLE);
                 switch (channel) {
                     case "gdt":
@@ -1071,6 +1474,31 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
      */
     private void toggleMenu(boolean hideStatusBar) {
         initMenuAnim();
+
+        if (isListenBook) {
+            if (appBarLayout.getVisibility() == View.VISIBLE && llBottomMenu.getVisibility() == VISIBLE) {
+                //关闭
+                appBarLayout.startAnimation(mTopOutAnim);
+                llBottomMenu.startAnimation(mBottomOutAnim);
+                appBarLayout.setVisibility(GONE);
+                llBottomMenu.setVisibility(GONE);
+                tvPageTip.setVisibility(GONE);
+
+                if (hideStatusBar) {
+                    hideSystemBar();
+                }
+            }
+            if (llSpeakMenu.getVisibility() == View.VISIBLE) {
+                llSpeakMenu.startAnimation(mBottomOutAnim);
+                llSpeakMenu.setVisibility(GONE);
+                mTts.resumeSpeaking();
+            } else {
+                llSpeakMenu.setVisibility(VISIBLE);
+                llSpeakMenu.startAnimation(mBottomInAnim);
+                mTts.pauseSpeaking();
+            }
+            return;
+        }
 
         if (appBarLayout.getVisibility() == View.VISIBLE && llBottomMenu.getVisibility() == VISIBLE) {
             //关闭
@@ -1221,6 +1649,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (null != mTts) {
+            mTts.stopSpeaking();
+            // 退出时释放连接
+            mTts.destroy();
+        }
         EventBus.getDefault().unregister(this);
         unregisterReceiver(mReceiver);
         mHandler.removeMessages(MSG_BOTTOM_AD);
@@ -1357,12 +1790,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         boolean isVolumeTurnPage = ReadSettingManager.getInstance().isVolumeTurnPage();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
-                if (isVolumeTurnPage) {
+                if (!isListenBook && isVolumeTurnPage) {
                     return mPageLoader.skipToPrePage();
                 }
                 break;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                if (isVolumeTurnPage) {
+                if (!isListenBook && isVolumeTurnPage) {
                     return mPageLoader.skipToNextPage();
                 }
                 break;

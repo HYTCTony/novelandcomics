@@ -145,6 +145,12 @@ android {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 
 greendao {
@@ -279,6 +285,9 @@ dependencies {
     //小米Push通道
     implementation 'com.umeng.umsdk:xiaomi-push:3.7.0'
     implementation 'com.umeng.umsdk:xiaomi-umengaccs:1.1.4'
+
+    //自定义seekbar
+    implementation 'com.xw.repo:bubbleseekbar:3.20'
     //PushSDK
 
     //shareSDK
