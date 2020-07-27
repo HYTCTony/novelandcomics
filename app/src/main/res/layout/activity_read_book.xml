@@ -385,6 +385,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:drawableLeft="@drawable/ic_stop_speak"
+                    android:drawablePadding="4dp"
                     android:text="退出阅读模式"
                     android:textColor="@color/txt_gray_b2"
                     android:textSize="16sp" />

@@ -33,6 +33,8 @@ public class ReadSettingManager {
     public static final String SHARED_READ_CONVERT_TYPE = "shared_read_convert_type";
     public static final String SHARED_READ_ADVERT_TIME = "shared_read_advert_time";
     public static final String SHARED_READ_FONT_NAME = "shared_read_font_name";
+    public static final String SHARED_READ_VOICER = "shared_read_voicer";
+    public static final String SHARED_READ_SPEED = "shared_read_speed";
 
     private static volatile ReadSettingManager sInstance;
 
@@ -161,5 +163,21 @@ public class ReadSettingManager {
 
     public String getFont() {
         return TextUtils.isEmpty(sharedPreUtils.getString(SHARED_READ_FONT_NAME)) ? "DEFAULT" : sharedPreUtils.getString(SHARED_READ_FONT_NAME);
+    }
+
+    public void setVoicer(String voicer) {
+        sharedPreUtils.putString(SHARED_READ_VOICER, voicer);
+    }
+
+    public String getVoicer() {
+        return sharedPreUtils.getString(SHARED_READ_VOICER);
+    }
+
+    public void setSpeed(String speed) {
+        sharedPreUtils.putString(SHARED_READ_SPEED, speed);
+    }
+
+    public String getSpeed() {
+        return sharedPreUtils.getString(SHARED_READ_SPEED);
     }
 }

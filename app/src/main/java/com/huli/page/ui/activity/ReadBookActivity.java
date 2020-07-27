@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.MemoryFile;
 import android.os.Message;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -199,6 +200,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     public static final String EXTRA_COLL_BOOK = "extra_coll_book";
     public static final String EXTRA_IS_COLLECTED = "extra_is_collected";
     public static final String EXTRA_PAGE_POS = "extra_page_pos";
+    private ReadSettingManager mSettingManager;
     private boolean isCollected = false; // isFromSDCard
     private boolean isNightMode = false;
     private boolean isFullScreen = false;
@@ -211,6 +213,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     private static final int MSG_POLLING = 3;
     private static final int MSG_BOTTOM_AD = 4;
     private static final int MSG_IS_ABC = 5;
+    private static final int MSG_CLOSE_SPEAK = 6;
     private static final int POLLING_INTERVAL = 10 * 1000;
     private static final int POLLING_REQUE_BOTTOM_AD = 2 * 60 * 1000;
     private static final int POLLING_SET_IS_ABC = 30 * 1000;
@@ -281,14 +284,15 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     // 语音合成对象
     private SpeechSynthesizer mTts;
     // 默认发音人
-    private String mVoicer = "xiaoqi";
+    private String mVoicer;
     // 默认语速
-    private String speed = "25";
+    private String speed;
     //云端发言人列表
     String[] mCloudVoicersEntries;
     String[] mCloudVoicersValue;
     String[] mTimerEntries = {"无", "15分钟", "30分钟", "60分钟", "90分钟"};
-    int[] mTimeValue = {0, 15, 30, 60, 90};
+    // * 60
+    int[] mTimeValue = {0, 15 * 1000, 30 * 1000, 60 * 1000, 90 * 1000};
     List<Voicer> voicers = new ArrayList<>();
     List<Timing> timings = new ArrayList<>();
     // 引擎类型
@@ -373,6 +377,26 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     }
                     mPageLoader.setABC(isABC || isListenBook);
                     break;
+                case MSG_CLOSE_SPEAK:
+                    if (isListenBook) {
+                        for (Timing timing : timings) {
+                            timing.isSelect = false;
+                        }
+                        timings.get(0).isSelect = true;
+                        mTimingAdapter.notifyDataSetChanged();
+                        mHandler.removeMessages(MSG_CLOSE_SPEAK);
+                        isListenBook = false;
+                        mPageLoader.setABC(isListenBook);
+                        mPvPage.isCanTurnPage(!isListenBook);
+                        ivBackgroud.setVisibility(GONE);
+                        mTts.pauseSpeaking();
+                        llSpeakMenu.setVisibility(GONE);
+                        llSpeakMenu.startAnimation(mBottomOutAnim);
+                        mPageLoader.refreshPage();
+                        showToast("退出听书模式");
+                        requestAdBottom();
+                    }
+                    break;
             }
         }
     };
@@ -395,15 +419,18 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         data = (BookShelfListBean) getIntent().getSerializableExtra(EXTRA_COLL_BOOK);
         isCollected = getIntent().getBooleanExtra(EXTRA_IS_COLLECTED, false);
         chapter = getIntent().getIntExtra(EXTRA_PAGE_POS, -1);
-        isNightMode = ReadSettingManager.getInstance().isNightMode();
-        isFullScreen = ReadSettingManager.getInstance().isFullScreen();
+        mSettingManager = ReadSettingManager.getInstance();
+        isNightMode = mSettingManager.isNightMode();
+        isFullScreen = mSettingManager.isFullScreen();
         EventBus.getDefault().register(this);
-        PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
+        PageStyle mPageStyle = mSettingManager.getPageStyle();
         mBookId = data.getNovel_id();
         //讯飞语言合成
         SpeechUtility.createUtility(ReadBookActivity.this, "appid=5edc91d4");
         // 初始化合成对象
         mTts = SpeechSynthesizer.createSynthesizer(ReadBookActivity.this, mTtsInitListener);
+        mVoicer = TextUtils.isEmpty(mSettingManager.getVoicer()) ? "xiaoqi" : mSettingManager.getVoicer();
+        speed = TextUtils.isEmpty(mSettingManager.getSpeed()) ? "50" : mSettingManager.getSpeed();
         // 云端发音人名称列表
         mCloudVoicersEntries = getResources().getStringArray(R.array.voicer_cloud_entries);
         mCloudVoicersValue = getResources().getStringArray(R.array.voicer_cloud_values);
@@ -474,10 +501,10 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         intentFilter.addAction(Intent.ACTION_TIME_TICK);
         registerReceiver(mReceiver, intentFilter);
         //设置当前Activity的Brightness
-        if (ReadSettingManager.getInstance().isBrightnessAuto()) {
+        if (mSettingManager.isBrightnessAuto()) {
             BrightnessUtils.setDefaultBrightness(mContext);
         } else {
-            BrightnessUtils.setBrightness(mContext, ReadSettingManager.getInstance().getBrightness());
+            BrightnessUtils.setBrightness(mContext, mSettingManager.getBrightness());
         }
         if (chapter != -1) {
             mPageLoader.skipToChapter(chapter);
@@ -590,7 +617,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void center() {
-                isNightMode = ReadSettingManager.getInstance().isNightMode();
+                isNightMode = mSettingManager.isNightMode();
                 //夜间模式按钮的状态
                 toggleNightMode();
                 toggleMenu(true);
@@ -649,8 +676,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 voicers.get(position).isSelect = true;
                 mVoicer = voicers.get(position).value;
                 adapter.notifyDataSetChanged();
+                mSettingManager.setVoicer(mVoicer);
                 setParam();
-                if (texts.length() > 0) {
+                if (texts != null) {
                     int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
                     if (code != ErrorCode.SUCCESS) {
                         showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
@@ -665,8 +693,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     timing.isSelect = false;
                 }
                 timings.get(position).isSelect = true;
-                int time = timings.get(position).value;
+                long time = timings.get(position).value;
                 adapter.notifyDataSetChanged();
+                mHandler.removeMessages(MSG_CLOSE_SPEAK);
+                mHandler.sendEmptyMessageAtTime(MSG_CLOSE_SPEAK, SystemClock.uptimeMillis() + time);
+                showToast("将在" + time / 1000 + "秒后关闭听书");
             }
         });
 
@@ -701,6 +732,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 }
                 speed = String.valueOf(speedNum);
                 Log.d(TAG, "speed=" + speed);
+                mSettingManager.setSpeed(speed);
                 setParam();
                 if (texts != null) {
                     int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
@@ -747,6 +779,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 if (mPageLoader.isCustomView())
                     mPageLoader.skipToNextPage();
                 ivBackgroud.setVisibility(VISIBLE);
+                btnBottomAd.setVisibility(View.INVISIBLE);
                 mBannerContainer.setVisibility(GONE);
                 adContainer.setVisibility(GONE);
                 // 设置参数
@@ -787,7 +820,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             mTts.setParameter(SpeechConstant.VOICE_NAME, mVoicer);
             //设置合成语速
             mTts.setParameter(SpeechConstant.SPEED, speed);
-            Log.d(TAG, "修改参数成功！" +   mTts.getParameter(SpeechConstant.SPEED));
+            Log.d(TAG, "修改参数成功！" + mTts.getParameter(SpeechConstant.SPEED));
             //设置合成音调
             mTts.setParameter(SpeechConstant.PITCH, "50");
             //设置合成音量
@@ -1040,7 +1073,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         site = data.getSite();
         lapse = data.getLapse() * 1000;
         interval = data.getInterval();
-        ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
+        mSettingManager.setAdvertTime(data.getAdvert_time());
         isABC = testingIsABC(data.getLapse());
         if (isABC) {
             needRefreshPage = true;
@@ -1071,7 +1104,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             return true;
         }
         long now = System.currentTimeMillis();
-        long advertTime = ReadSettingManager.getInstance().getAdvertTime() * 1000;
+        long advertTime = mSettingManager.getAdvertTime() * 1000;
         mHandler.sendEmptyMessageDelayed(MSG_IS_ABC, POLLING_SET_IS_ABC);
         return lapse != 0 && advertTime > now;
     }
@@ -1179,18 +1212,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 mSettingDialog.show();
                 break;
             case R.id.listen_setting_speak_paused:
-                /*
-                 * 停止听书
-                 * */
-                isListenBook = false;
-                mPageLoader.setABC(isListenBook);
-                mPvPage.isCanTurnPage(!isListenBook);
-                ivBackgroud.setVisibility(GONE);
-                mTts.pauseSpeaking();
-                llSpeakMenu.setVisibility(GONE);
-                llSpeakMenu.startAnimation(mBottomOutAnim);
-                mPageLoader.refreshPage();
-                showToast("退出听书模式");
+                mHandler.sendEmptyMessage(MSG_CLOSE_SPEAK);
                 break;
         }
     }
@@ -1235,7 +1257,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     mSource = mAdView.findViewById(R.id.tv_ad_source);
                     ivLogo = mAdView.findViewById(R.id.ad_logo_view);
 
-                    PageStyle mPageStyle = ReadSettingManager.getInstance().getPageStyle();
+                    PageStyle mPageStyle = mSettingManager.getPageStyle();
                     btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getTipsColor()));
                     btnNextPage.setTextColor(ContextCompat.getColor(mContext, mPageStyle.getPromptColor()));
                     container.setBackgroundResource(isNightMode ? PageStyle.NIGHT.getAdBgColor() : mPageStyle.getAdBgColor());
@@ -1403,6 +1425,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 mBannerContainer.addView(view);
             }
         });
+        mHandler.removeMessages(MSG_BOTTOM_AD);
         mHandler.sendEmptyMessageDelayed(MSG_BOTTOM_AD, POLLING_REQUE_BOTTOM_AD);
     }
 
@@ -1613,6 +1636,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onResume() {
         super.onResume();
+        mTts.resumeSpeaking();
         mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (timer == null)
             doPolling(READ_TYPE_START);
@@ -1621,6 +1645,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onPause() {
         super.onPause();
+        mTts.pauseSpeaking();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (isCollected) {
             mPageLoader.saveRecord();
@@ -1716,7 +1741,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     public void onBackPressed() {
         if (appBarLayout.getVisibility() == View.VISIBLE) {
             // 非全屏下才收缩，全屏下直接退出
-            if (!ReadSettingManager.getInstance().isFullScreen()) {
+            if (!mSettingManager.isFullScreen()) {
                 toggleMenu(true);
             }
         } else if (mSettingDialog.isShowing()) {
@@ -1727,6 +1752,26 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             return;
         } else if (mDlSlide.isDrawerOpen(GravityCompat.START)) {
             mDlSlide.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        if (isListenBook) {
+            mTts.pauseSpeaking();
+            MessageDialog.show(ReadBookActivity.this, "系统提示", "是否退出听书模式？", "确定", "取消")
+                    .setCancelable(true)
+                    .setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
+                        @Override
+                        public boolean onClick(BaseDialog baseDialog, View v) {
+                            mTts.resumeSpeaking();
+                            baseDialog.doDismiss();
+                            return false;
+                        }
+                    })
+                    .setOnOkButtonClickListener((baseDialog, v) -> {
+                        mHandler.sendEmptyMessage(MSG_CLOSE_SPEAK);
+                        baseDialog.doDismiss();
+                        return false;
+                    });
             return;
         }
 
@@ -1787,7 +1832,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        boolean isVolumeTurnPage = ReadSettingManager.getInstance().isVolumeTurnPage();
+        boolean isVolumeTurnPage = mSettingManager.isVolumeTurnPage();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
                 if (!isListenBook && isVolumeTurnPage) {
@@ -1825,7 +1870,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_MORE_SETTING) {
-            boolean fullScreen = ReadSettingManager.getInstance().isFullScreen();
+            boolean fullScreen = mSettingManager.isFullScreen();
             if (isFullScreen != fullScreen) {
                 isFullScreen = fullScreen;
             }
