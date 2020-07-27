@@ -9,6 +9,7 @@ public class CapitalEntity {
     private int score_sum;
     private double money;
     private int proportion;     //金币兑换RMB比例  ： 如1000就是1000金币兑换1RMB
+    private String account;     //提现（到）银行卡号
 
     public int getScore() {
         return score;
@@ -48,5 +49,13 @@ public class CapitalEntity {
 
     public void setProportion(int proportion) {
         this.proportion = proportion;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 }

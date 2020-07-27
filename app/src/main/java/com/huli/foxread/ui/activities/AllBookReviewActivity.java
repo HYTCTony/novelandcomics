@@ -233,7 +233,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
      */
     private void reqReviewList(String novelId, int page) {
         RxHttp.get(Consts.APPRAISE_LIST_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .add(Consts.PAGE, page + 1)
                 .asResponsePageList(BookReview.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
@@ -268,7 +268,7 @@ public class AllBookReviewActivity extends BaseActivity implements View.OnClickL
     private void giveALikeOrCancel(String reviewId, String novelId, boolean isChecked) {
         RxHttp.get(Consts.APPRAISE_LIKE_API)
                 .add(Consts.REVIEW_ID, reviewId)
-                .add(Consts.BOOK_ID, novelId)
+                .add(Consts.NOVEL_ID, novelId)
                 .add(Consts.PREFER, isChecked ? 1 : 2)
                 .asResponse(String.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调

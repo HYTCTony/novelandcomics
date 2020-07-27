@@ -10,24 +10,20 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.BookEntity;
-import com.huli.foxread.entity.base.PagingWarpper;
 import com.huli.foxread.ebsevent.SearchRecordEvent;
+import com.huli.foxread.entity.BookEntity;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.SearchResultBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -112,26 +108,22 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_asBtn_search:
-                if (onMoreClick()) {
-                    return;
-                }
-                keyWord = etKeyword.getText().toString().trim();
-                if (TextUtils.isEmpty(keyWord)) {
-                    Tos.showShort(this, R.string.txt_plz_input_keyword);
-                    return;
-                }
-                //点击搜索的时候隐藏软键盘
-                hideKeyboard(etKeyword);
-                keyWord = keyWord.trim();
-                curPage = 0;
-                reqCategoryDatas(keyWord, curPage, true);
+        if (view.getId() == R.id.tv_asBtn_search) {
+            if (onMoreClick()) {
+                return;
+            }
+            keyWord = etKeyword.getText().toString().trim();
+            if (TextUtils.isEmpty(keyWord)) {
+                Tos.showShort(this, R.string.txt_plz_input_keyword);
+                return;
+            }
+            //点击搜索的时候隐藏软键盘
+            hideKeyboard(etKeyword);
+            keyWord = keyWord.trim();
+            curPage = 0;
+            reqCategoryDatas(keyWord, curPage, true);
 
-                EventBus.getDefault().post(new SearchRecordEvent(keyWord));
-                break;
-            default:
-                break;
+            EventBus.getDefault().post(new SearchRecordEvent(keyWord));
         }
     }
 
@@ -163,38 +155,31 @@ public class SearchResultActivity extends BaseActivity implements View.OnClickLi
 
 
     private void reqCategoryDatas(String keyword, int page, boolean showDialog) {
-        OkGo.<String>post(Consts.SEARCH_NOVEL_API)
-                .params(Consts.FILTRATE_KEYWORD, keyword)
-                .params(Consts.PAGE, page + 1)
-                .execute(new LtbCallback(this, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<BookEntity>> datas = entity.getData();
-                            curPage = datas.getCurrent_page();
-                            List<BookEntity> bookList = datas.getData();
-                            if (curPage == 1) {
-                                mAdapter.setList(bookList);
-                            } else {
-                                mAdapter.addData(bookList);
-                            }
-                            if (datas.getLast_page() <= curPage) {    //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-                        }
+        RxHttp.postForm(Consts.SEARCH_NOVEL_API)
+                .add(Consts.FILTRATE_KEYWORD, keyword)
+                .add(Consts.PAGE, page + 1)
+                .asResponsePageList(BookEntity.class)
+                .doOnSubscribe(disposable -> {
+                    if (showDialog) {
+                        showLoadingDialog();
                     }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
+                })
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    curPage = entity.getCurrent_page();
+                    List<BookEntity> bookList = entity.getData();
+                    if (curPage == 1) {
+                        mAdapter.setList(bookList);
+                    } else {
+                        mAdapter.addData(bookList);
                     }
-                });
+                    if (entity.getLast_page() <= curPage) {    //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
+                    }
+                }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
     }
 
 }

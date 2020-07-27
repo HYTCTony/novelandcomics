@@ -17,28 +17,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.azhon.appupdate.config.UpdateConfiguration;
 import com.azhon.appupdate.dialog.NumberProgressBar;
 import com.azhon.appupdate.listener.OnDownloadListener;
 import com.azhon.appupdate.manager.DownloadManager;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AppVersionInfo;
 import com.huli.foxread.entity.UpdateInfo;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.DateTimeUtil;
 import com.huli.foxread.utils.PackageUtils;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.MessageDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import java.io.File;
 
@@ -192,87 +189,48 @@ public class AboutUsActivity extends BaseActivity implements View.OnClickListene
      * 获取版本详情
      */
     private void getCurVersionInfo() {
-        OkGo.<String>post(Consts.VERSION_DETAIL_API)
-                .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
-                .params(Consts.APK_CHANNEL, getChannel())
-                .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<AppVersionInfo> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<AppVersionInfo>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            AppVersionInfo data = entity.getData();
-                            loadUpgradeInfo(data);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.VERSION_DETAIL_API)
+                .add(Consts.FACILITY, Consts.DEVICE_ANDROID)
+                .add(Consts.APK_CHANNEL, getChannel())
+                .add(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
+                .asResponse(AppVersionInfo.class)
+                .to(RxLife.toMain(this))
+                .subscribe(this::loadUpgradeInfo);
     }
 
     /**
      * 检测更新
      */
     private void checkNewVersion() {
-        OkGo.<String>post(Consts.VERSION_CHECK_API)
-                .params(Consts.FACILITY, Consts.DEVICE_ANDROID)
-                .params(Consts.APK_CHANNEL, getChannel())
-                .params(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<UpdateInfo> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<UpdateInfo>>() {
+        RxHttp.postForm(Consts.VERSION_CHECK_API)
+                .add(Consts.FACILITY, Consts.DEVICE_ANDROID)
+                .add(Consts.APK_CHANNEL, getChannel())
+                .add(Consts.VERSION_CODE, PackageUtils.getVersionCode(this))
+                .asResponse(UpdateInfo.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(updateInfo -> {
+                    boolean isForce = updateInfo.getEnforce() == 1;
+                    newVerInfo = updateInfo;
+
+                    CustomDialog.show(AboutUsActivity.this, R.layout.layout_custom_dialog_version_check, (dialog, v) -> {
+                        ImageView btnClose = v.findViewById(R.id.iv_asBtn_close_update);
+                        btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
+                        NumberProgressBar progressBar = v.findViewById((R.id.numberProgressBar_download_apk));
+                        progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
+                        TextView tvVerName = v.findViewById(R.id.tv_new_version_name);
+                        tvVerName.setText(("v_" + newVerInfo.getVersionName()));
+                        TextView tvContent = v.findViewById(R.id.tv_update_info_content);
+                        tvContent.setText(newVerInfo.getContent());
+
+                        btnClose.setOnClickListener(v1 -> dialog.doDismiss());
+                        v.findViewById(R.id.versionchecklib_version_dialog_commit).setOnClickListener(v11 -> {
+                            downloadApkTask(newVerInfo, progressBar, dialog);
+                            if (!isForce) {
+                                dialog.doDismiss();
+                            }
                         });
-                        if (entity.error_code == 0) {
-                            newVerInfo = entity.getData();
-                            boolean isForce = newVerInfo.getEnforce() == 1;
-                            /*CommonDialog.newInstance()
-                                    .setLayoutId(R.layout.layout_custom_dialog_version_check)
-                                    .setConvertListener((holder, dialog) -> {
-                                        ImageView btnClose = holder.getView(R.id.iv_asBtn_close_update);
-                                        btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
-                                        NumberProgressBar progressBar = holder.getView(R.id.numberProgressBar_download_apk);
-                                        progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
-                                        holder.setText(R.id.tv_new_version_name, newVerInfo.getVersionName());
-                                        holder.setText(R.id.tv_update_info_content, newVerInfo.getContent());
-
-                                        btnClose.setOnClickListener(v -> dialog.dismiss());
-                                        holder.setOnClickListener(R.id.versionchecklib_version_dialog_commit, v -> {
-                                            downloadApkTask(newVerInfo, progressBar, dialog);
-                                            if (!isForce) {
-                                                dialog.dismiss();
-                                            }
-                                        });
-                                    })
-                                    .setDimAmout(0.5f)
-                                    .setOutCancel(!isForce)
-                                    .setBackCancel(!isForce)
-                                    .setMargin(32)
-                                    .setShowBottom(false)
-                                    .setAnimStyle(R.style.BaseDialog)
-                                    .show(getSupportFragmentManager());*/
-                            CustomDialog.show(AboutUsActivity.this, R.layout.layout_custom_dialog_version_check, (dialog, v) -> {
-                                ImageView btnClose = v.findViewById(R.id.iv_asBtn_close_update);
-                                btnClose.setVisibility(isForce ? View.GONE : View.VISIBLE);
-                                NumberProgressBar progressBar = v.findViewById((R.id.numberProgressBar_download_apk));
-                                progressBar.setVisibility(isForce ? View.VISIBLE : View.GONE);
-                                TextView tvVerName = v.findViewById(R.id.tv_new_version_name);
-                                tvVerName.setText(("v_" + newVerInfo.getVersionName()));
-                                TextView tvContent = v.findViewById(R.id.tv_update_info_content);
-                                tvContent.setText(newVerInfo.getContent());
-
-                                btnClose.setOnClickListener(v1 -> dialog.doDismiss());
-                                v.findViewById(R.id.versionchecklib_version_dialog_commit).setOnClickListener(v11 -> {
-                                    downloadApkTask(newVerInfo, progressBar, dialog);
-                                    if (!isForce) {
-                                        dialog.doDismiss();
-                                    }
-                                });
-                            });
-                        } else {
-                            Toast.makeText(mContext, entity.msg, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                    });
+                }, (OnError) error -> Toast.makeText(this, error.getErrorMsg(), Toast.LENGTH_SHORT).show());
     }
 
     /**

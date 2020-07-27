@@ -1,5 +1,7 @@
 package com.huli.foxread.ui.activities;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -7,9 +9,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.azhon.appupdate.config.UpdateConfiguration;
@@ -41,6 +43,7 @@ import com.huli.foxread.ui.fragments.MainBookstoreFragment;
 import com.huli.foxread.ui.fragments.MainClassifyFragment;
 import com.huli.foxread.ui.fragments.MainMineFragment;
 import com.huli.foxread.ui.fragments.MainWelfareFragment2;
+import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.PackageUtils;
 import com.huli.foxread.utils.SPFUtils;
@@ -68,7 +71,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
-public class MainActivity extends BaseActivity implements OnTabSelectListener {
+public class MainActivity extends BaseActivity implements OnTabSelectListener, View.OnClickListener {
     private static final long INTERVAL = 2000;  //按两次返回键退出间隔的时间
     private long mExitFirstTime;  //用于暂存第一次按返回键的时间
 
@@ -81,6 +84,11 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private MainClassifyFragment classifyFragment;
     private MainWelfareFragment2 welfareFragment;
     private MainMineFragment mineFragment;
+
+    private LinearLayout bookRackBottomBar;
+    private TextView btnBrSelect, btnBrDelete;
+    private ObjectAnimator objectAnimatorY;
+
 
     private boolean isInit = true;
 
@@ -106,6 +114,13 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
 
     @Override
     public void initView(View view) {
+        bookRackBottomBar = $(R.id.ll_bottom_bar_bookrack);
+        bookRackBottomBar.setVisibility(View.GONE);
+        btnBrSelect = $(R.id.tv_asBtn_select_all_or_cancel);
+        btnBrDelete = $(R.id.tv_asBtn_delete);
+        setBrDelNum(0);
+        setSelectBtnText(false);
+
         mTabLayout = $(R.id.cTabLayout_main);
         String[] bottomBarTitles = getResources().getStringArray(R.array.bottom_bar_main);
         mTabEntities.add(new TabEntity(bottomBarTitles[0], R.drawable.tab_bookstore_selected, R.drawable.tab_bookstore_unselected));
@@ -120,6 +135,8 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     @Override
     public void setListener() {
         mTabLayout.setOnTabSelectListener(this);
+        btnBrSelect.setOnClickListener(this);
+        btnBrDelete.setOnClickListener(this);
     }
 
     @Override
@@ -177,6 +194,12 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
         super.onNewIntent(intent);
         // 此处要调用，否则App在后台运行时，会无法截获
         ShareInstall.getInstance().getWakeUpParams(intent, wakeUpListener);
+
+        //提现页面余额不足，提示去做任务跳转至此
+        boolean showWelfare = intent.getBooleanExtra(Common.WITHDRAWAL_DO_TASKS, false);
+        if (showWelfare && mTabLayout.getCurrentTab() != 3) {
+            switch2Welfare();
+        }
     }
 
     /**
@@ -378,17 +401,133 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - mExitFirstTime) > INTERVAL) {
-                Tos.showShort(this, R.string.text_point_out_once_again);
-                mExitFirstTime = System.currentTimeMillis();
-            } else {
-                FrApp.getInstance().exitApp();
-            }
-            return true;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_asBtn_select_all_or_cancel:
+                if (bookrackFragment != null) {
+                    int count = bookrackFragment.funCheckAll(!bookrackFragment.isSelectAll());
+                    setBrDelNum(count);
+                    setSelectBtnText(bookrackFragment.isSelectAll());
+                }
+                break;
+            case R.id.tv_asBtn_delete:
+                if (bookrackFragment != null) {
+                    bookrackFragment.delBookShelfData();
+                }
+                break;
+            default:
+                break;
         }
-        return super.onKeyDown(keyCode, event);
+    }
+
+    /**
+     * 设置删除按钮文字
+     *
+     * @param num 选中个数
+     */
+    public void setBrDelNum(int num) {
+        if (num > 0) {
+            btnBrDelete.setText(String.format(getString(R.string.txt_delete_x), num));
+            btnBrDelete.setEnabled(true);
+            btnBrDelete.setTextColor(ContextCompat.getColor(this, R.color.txt_orange_ff6600));
+        } else {
+            btnBrDelete.setText(String.format(getString(R.string.txt_delete_x), 0));
+            btnBrDelete.setEnabled(false);
+            btnBrDelete.setTextColor(ContextCompat.getColor(this, R.color.txt_orange_FBBF9D));
+        }
+    }
+
+    /**
+     * 设置“全选”或者“取消全选”
+     *
+     * @param selectAllState 全选状态
+     */
+    public void setSelectBtnText(boolean selectAllState) {
+        if (selectAllState) {
+            btnBrSelect.setText(R.string.txt_select_all_cancel);
+        } else {
+            btnBrSelect.setText(R.string.txt_select_all);
+        }
+    }
+
+    /**
+     * 显示底部书架管理栏
+     */
+    public void showBrBottomBar() {
+        if (objectAnimatorY == null) {
+            float[] x = {0f, -DensityUtils.dp2px(this, 56)};
+            objectAnimatorY = ObjectAnimator.ofFloat(bookRackBottomBar, "translationY", x);
+            objectAnimatorY.setDuration(200);
+        }
+        objectAnimatorY.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                bookRackBottomBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        objectAnimatorY.start();
+    }
+
+    /**
+     * 隐藏底部书架管理栏
+     */
+    public void dismissBrBottomBar() {
+        if (objectAnimatorY != null) {
+            objectAnimatorY.cancel();
+        }
+        bookRackBottomBar.animate().translationY(0).setDuration(200).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                bookRackBottomBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mTabLayout.getCurrentTab() == 1 && bookrackFragment != null) {
+            if (bookrackFragment.isManagerMode()) {
+                bookrackFragment.setManagerMode(false);
+                return;
+            }
+        }
+        if ((System.currentTimeMillis() - mExitFirstTime) > INTERVAL) {
+            Tos.showShort(this, R.string.text_point_out_once_again);
+            mExitFirstTime = System.currentTimeMillis();
+        } else {
+            FrApp.getInstance().exitApp();
+        }
+//        super.onBackPressed();
     }
 
     @Override
@@ -532,11 +671,11 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener {
     private void reqInviteCodeSubmit(String inviteCode) {
         RxHttp.postForm(Consts.FILLIN_INVITE_CODE_API)
                 .add(Consts.CODE, inviteCode)
-                .asResponse(String.class)
-                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
-                .subscribe(s -> {
-                    SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
-                    UserInfoCache.saveIsInvited(MainActivity.this, true);
+                                    .asResponse(String.class)
+                                    .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                                    .subscribe(s -> {
+                                        SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
+                                        UserInfoCache.saveIsInvited(MainActivity.this, true);
                 });
     }
 

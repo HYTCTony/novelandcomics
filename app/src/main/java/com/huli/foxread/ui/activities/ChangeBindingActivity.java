@@ -8,19 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.SomeMonitorEditText;
 import com.huli.foxread.utils.Tos;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -118,50 +115,32 @@ public class ChangeBindingActivity extends BaseActivity implements View.OnClickL
      * @param tel
      */
     private void reqAuthCode(String tel) {
-        OkGo.<String>post(Consts.SMS_SEND_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.EVENT, Consts.SMS_UNTYING)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code != 0) {
+        RxHttp.postForm(Consts.SMS_SEND_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.EVENT, Consts.SMS_UNTYING)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> Tos.showShort(ChangeBindingActivity.this, R.string.txt_sms_verification_code_has_been_issued),
+                        (OnError) error -> {
                             tbtnGetVcode.reset();
-                        }
-                        Tos.showShort(ChangeBindingActivity.this, entity.msg);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        tbtnGetVcode.reset();
-                    }
-                });
+                            Tos.showShort(ChangeBindingActivity.this, error.getErrorMsg());
+                        });
     }
 
     /**
      * 手机号解除绑定
      * token 在LtbCallback中统一添加
      *
-     * @param tel      现手机号
-     * @param authCode
+     * @param tel      现绑定中的手机号
+     * @param authCode 验证码
      */
     private void unbindPhone(String tel, String authCode) {
-        OkGo.<String>post(Consts.UNBIND_MOBILE_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.CAPTCHA, authCode)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            startActivityForResult(new Intent(ChangeBindingActivity.this, BindingCellphoneActivity.class), AccountSecurityActivity.REQCODE_ATTR_MODIFY);
-                        } else {
-                            Tos.showShort(ChangeBindingActivity.this, entity.msg);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.UNBIND_MOBILE_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.CAPTCHA, authCode)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> startActivityForResult(new Intent(ChangeBindingActivity.this, BindingCellphoneActivity.class), AccountSecurityActivity.REQCODE_ATTR_MODIFY),
+                        (OnError) error -> Tos.showShort(ChangeBindingActivity.this, error.getErrorMsg()));
     }
 }

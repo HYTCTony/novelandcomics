@@ -14,7 +14,6 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
-import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.callbacks.DiffMsgCallback;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.SMsgBean;
@@ -164,7 +163,7 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         curPage = 0;
-        reqMsgNotifyDatas(curPage, false);
+        reqMsgNotifyDatas(curPage);
 
         //可以上拉加载
         mAdapter.getLoadMoreModule().setEnableLoadMore(true);
@@ -172,49 +171,11 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onLoadMore() {
-        reqMsgNotifyDatas(curPage, false);
+        reqMsgNotifyDatas(curPage);
     }
 
 
-    private void reqMsgNotifyDatas(int page, boolean showDialog) {
-        /*OkGo.<String>post(Consts.MSG_LIST_API)
-                .params(Consts.PAGE, page + 1)
-                .execute(new LtbCallback(this, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<SMsgBean>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<SMsgBean>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<SMsgBean>> datas = entity.getData();
-                            curPage = datas.getCurrent_page();
-                            List<SMsgBean> bookList = datas.getData();
-                            if (curPage == 1) {
-                                mAdapter.setDiffNewData(bookList);
-                            } else {
-                                mAdapter.addData(bookList);
-                            }
-                            if (datas.getLast_page() <= curPage) {    //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        mRefreshLayout.finishRefresh();
-                    }
-                });*/
-
+    private void reqMsgNotifyDatas(int page) {
         RxHttp.get(Consts.MSG_LIST_API) //发送登出请求
                 .add(Consts.PAGE, page + 1)
                 .asResponsePageList(SMsgBean.class)
@@ -261,7 +222,7 @@ public class MsgNotifyActivity extends BaseActivity implements View.OnClickListe
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(s -> {
                     curPage = 0;
-                    reqMsgNotifyDatas(curPage, false);
+                    reqMsgNotifyDatas(curPage);
                 });
     }
 

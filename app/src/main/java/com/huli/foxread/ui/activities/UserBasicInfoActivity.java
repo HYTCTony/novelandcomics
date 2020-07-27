@@ -11,23 +11,20 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.util.InputInfo;
 import com.kongzue.dialog.v3.InputDialog;
 import com.kongzue.dialog.v3.MessageDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -189,41 +186,36 @@ public class UserBasicInfoActivity extends BaseActivity implements View.OnClickL
 
 
     private void reqSetUserProfile(String paramKey, String paramValue) {
-        OkGo.<String>post(Consts.SET_USER_PROFILE_API)
-                .params(paramKey, paramValue)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            FUser userInfo;
-                            if (paramKey.equals(Consts.USERNAME)) {
-                                tvNickname.setText(paramValue);
-                                userInfo = UserInfoCache.saveUserName(UserBasicInfoActivity.this, paramValue);
-                                setResult(RESULT_OK);
-                                Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
-                                //通知ui刷新
-                                EventBus.getDefault().postSticky(userInfo);
-                            } else if (paramKey.equals(Consts.GENDER)) {
-                                if (gender == Consts.TYPE_BOY) {
-                                    tvGender.setText(getString(R.string.txt_male));
-                                } else if (gender == Consts.TYPE_GIRL) {
-                                    tvGender.setText(getString(R.string.txt_female));
-                                } else {
-                                    gender = 0;
-                                }
-                                userInfo = UserInfoCache.saveGender(UserBasicInfoActivity.this, gender);
-                                setResult(RESULT_OK);
-                                Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
-                                //通知ui刷新
-                                EventBus.getDefault().postSticky(userInfo);
-                            }
+        RxHttp.postForm(Consts.SET_USER_PROFILE_API)
+                .add(paramKey, paramValue)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    FUser userInfo;
+                    if (paramKey.equals(Consts.USERNAME)) {
+                        tvNickname.setText(paramValue);
+                        userInfo = UserInfoCache.saveUserName(UserBasicInfoActivity.this, paramValue);
+                        setResult(RESULT_OK);
+                        Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
+                        //通知ui刷新
+                        EventBus.getDefault().postSticky(userInfo);
+                    } else if (paramKey.equals(Consts.GENDER)) {
+                        if (gender == Consts.TYPE_BOY) {
+                            tvGender.setText(getString(R.string.txt_male));
+                        } else if (gender == Consts.TYPE_GIRL) {
+                            tvGender.setText(getString(R.string.txt_female));
                         } else {
-                            Tos.showShort(UserBasicInfoActivity.this, entity.msg);
+                            gender = 0;
                         }
+                        userInfo = UserInfoCache.saveGender(UserBasicInfoActivity.this, gender);
+                        setResult(RESULT_OK);
+                        Tos.showShort(UserBasicInfoActivity.this, R.string.hint_modify_success);
+                        //通知ui刷新
+                        EventBus.getDefault().postSticky(userInfo);
                     }
-                });
+                }, (OnError) error -> Tos.showShort(UserBasicInfoActivity.this, error.getErrorMsg()));
     }
 
 }

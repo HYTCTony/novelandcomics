@@ -8,24 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.AvatarGroup;
 import com.huli.foxread.entity.SysAvatarEntity;
 import com.huli.foxread.entity.sections.AvatarSection;
 import com.huli.foxread.listeners.OnClickEvent;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.SectionAvatarAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,27 +104,22 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
      * 获取系统头像列表
      */
     private void reqSystemAvatar() {
-        OkGo.<String>post(Consts.AVATAR_LIST_API)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<AvatarGroup>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<AvatarGroup>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<AvatarSection<SysAvatarEntity>> list = new ArrayList<>();
-                            List<AvatarGroup> datas = entity.getData();
-                            for (int i = 0; i < datas.size(); i++) {
-                                AvatarGroup avatarGroup = datas.get(i);
-                                List<SysAvatarEntity> avatars = avatarGroup.getProfileAvatar();
-                                list.add(new AvatarSection<>(true, avatarGroup.getName(), null));
-                                for (int j = 0; j < avatars.size(); j++) {
-                                    list.add(new AvatarSection<>(false, "", avatars.get(j)));
-                                }
-                            }
-                            mAdapter.setList(list);
+        RxHttp.postForm(Consts.AVATAR_LIST_API)
+                .asResponseList(AvatarGroup.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(datas->{
+                    List<AvatarSection<SysAvatarEntity>> list = new ArrayList<>();
+                    for (int i = 0; i < datas.size(); i++) {
+                        AvatarGroup avatarGroup = datas.get(i);
+                        List<SysAvatarEntity> avatars = avatarGroup.getProfileAvatar();
+                        list.add(new AvatarSection<>(true, avatarGroup.getName(), null));
+                        for (int j = 0; j < avatars.size(); j++) {
+                            list.add(new AvatarSection<>(false, "", avatars.get(j)));
                         }
                     }
+                    mAdapter.setList(list);
                 });
     }
 
@@ -136,27 +128,22 @@ public class AvatarSelectActivity extends BaseActivity implements SectionAvatarA
         if (TextUtils.isEmpty(paramValue)) {
             return;
         }
-        OkGo.<String>post(Consts.SET_USER_PROFILE_API)
-                .params(Consts.AVATAR, paramValue)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
+        RxHttp.postForm(Consts.SET_USER_PROFILE_API)
+                .add(Consts.AVATAR, paramValue)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
 //                            UserInfoCache.saveHeadPic(AvatarSelectActivity.this, headPicUrl);
-                            Intent intent = getIntent();
-                            intent.putExtra(Common.KEY_HTTP_AVATAR, headPicUrl);
-                            TipDialog.show(AvatarSelectActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> {
-                                        setResult(RESULT_OK, intent);
-                                        finish();
-                                    });
-                        } else {
-                            TipDialog.show(AvatarSelectActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+                    Intent intent = getIntent();
+                    intent.putExtra(Common.KEY_HTTP_AVATAR, headPicUrl);
+                    TipDialog.show(AvatarSelectActivity.this, R.string.txt_setup_success, TipDialog.TYPE.SUCCESS)
+                            .setOnDismissListener(() -> {
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            });
+                }, (OnError) error -> TipDialog.show(AvatarSelectActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 }

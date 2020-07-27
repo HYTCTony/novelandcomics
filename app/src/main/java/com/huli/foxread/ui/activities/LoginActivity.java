@@ -19,18 +19,16 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.entity.umeng.WXLoginRespEntity;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.SPFUtils;
@@ -40,8 +38,7 @@ import com.huli.foxread.utils.UniqueIdManager;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.dialog.v3.WaitDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.sh.sdk.shareinstall.autologin.AutoLoginManager;
 import com.sh.sdk.shareinstall.autologin.listener.AvoidPwdLoginListener;
 import com.sh.sdk.shareinstall.autologin.listener.PreGetNumberListener;
@@ -152,11 +149,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             //去除连接下划线
             @Override
-            public void updateDrawState(TextPaint ds) {
-                /**set textColor**/
+            public void updateDrawState(@NonNull TextPaint ds) {
+                /*set textColor*/
 //                ds.setColor(ds.linkColor);
                 ds.setColor(ContextCompat.getColor(LoginActivity.this, R.color.txt_red));
-                /** the underline**/
+                /*the underline*/
                 ds.setUnderlineText(false);
             }
         }, 11, 17, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -171,11 +168,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
             //去除连接下划线
             @Override
-            public void updateDrawState(TextPaint ds) {
-                /**set textColor**/
+            public void updateDrawState(@NonNull TextPaint ds) {
+                /*set textColor*/
 //                ds.setColor(ds.linkColor);
                 ds.setColor(ContextCompat.getColor(LoginActivity.this, R.color.txt_red));
-                /** the underline**/
+                /* the underline*/
                 ds.setUnderlineText(false);
             }
         }, 18, spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -254,28 +251,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     /**
      * 手机号获取验证码
      *
-     * @param tel
+     * @param tel 手机号
      */
     private void reqAuthCode(String tel) {
-        OkGo.<String>post(Consts.SMS_SEND_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.EVENT, Consts.SMS_LOGIN)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code != 0) {
-                            tBtnVCode.reset();
-                        }
-                        Tos.showShort(LoginActivity.this, entity.msg);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        tBtnVCode.reset();
-                    }
+        RxHttp.postForm(Consts.SMS_SEND_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.EVENT, Consts.SMS_LOGIN)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> Tos.showShort(LoginActivity.this, R.string.txt_sms_verification_code_has_been_issued), (OnError) error -> {
+                    tBtnVCode.reset();
+                    Tos.showShort(LoginActivity.this, error.getErrorMsg());
                 });
     }
 
@@ -283,30 +269,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     /**
      * 手机号登录
      *
-     * @param tel
-     * @param authCode
+     * @param tel      手机号
+     * @param authCode 验证码
      */
     private void loginPhone(String tel, String authCode) {
         String uniqueID = UniqueIdManager.getUniqueID(this);
-        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USER_MOBILE_LOGIN_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.CAPTCHA, authCode)
-                .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
-                        if (response.body().error_code == 0) {
-                            LoginRpsEntity data = response.body().getData();
-                            TokenCache.saveToken(LoginActivity.this, data.getToken());
-
-                            reqUserInfo();
-                        } else {
-                            TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.USER_MOBILE_LOGIN_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.CAPTCHA, authCode)
+                .add(Consts.UNIQUE_ID, uniqueID)
+                .asResponse(LoginRpsEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(loginRpsEntity -> {
+                    TokenCache.saveToken(LoginActivity.this, loginRpsEntity.getToken());
+                    reqUserInfo();
+                }, (OnError) error -> TipDialog.show(LoginActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
@@ -315,92 +292,62 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void loginByWeChat(WXLoginRespEntity wxLoginResp) {
         WaitDialog.show(LoginActivity.this, R.string.loading);
         String uniqueID = UniqueIdManager.getUniqueID(this);
-        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USER_WX_LOGIN_API)
-                .params(Consts.USERNAME, wxLoginResp.getName())
-                .params(Consts.UNIONID, wxLoginResp.getUnionid())
-                .params(Consts.OPENID, wxLoginResp.getOpenid())
-                .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
-                        if (response.body().error_code == 0) {
-                            LoginRpsEntity data = response.body().getData();
-                            TokenCache.saveToken(LoginActivity.this, data.getToken());
-
-                            //获取用户信息
-                            reqUserInfo();
-                        } else {
-                            TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<LzyResponse<LoginRpsEntity>> response) {
-                        super.onError(response);
-                        TipDialog.dismiss();
-                    }
-                });
+        RxHttp.postForm(Consts.USER_WX_LOGIN_API)
+                .add(Consts.USERNAME, wxLoginResp.getName())
+                .add(Consts.UNIONID, wxLoginResp.getUnionid())
+                .add(Consts.OPENID, wxLoginResp.getOpenid())
+                .add(Consts.UNIQUE_ID, uniqueID)
+                .asResponse(LoginRpsEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(loginRpsEntity -> {
+                    TokenCache.saveToken(LoginActivity.this, loginRpsEntity.getToken());
+                    //获取用户信息
+                    reqUserInfo();
+                }, (OnError) error -> TipDialog.show(LoginActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
      * 获取用户信息
      */
     private void reqUserInfo() {
-        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
-                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this, false,
-                        new TypeReference<LzyResponse<FUser>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<FUser>> response) {
-                        int errorCode = response.body().error_code;
-                        if (errorCode == 0) {
-                            FUser data = response.body().getData();
-                            UserInfoCache.saveUserInfo(LoginActivity.this, data);
-                            EventBus.getDefault().postSticky(data);
-                            //是否已经填写邀请码
-                            boolean isInvited = data.isIs_invited();
-                            String inviteCode = (String) SPFUtils.get(LoginActivity.this, Common.INVITE_CODE, "");
-                            if (!isInvited && !TextUtils.isEmpty(inviteCode)){
-                                reqInviteCodeSubmit(inviteCode);
-                            }
-
-                            if (!TextUtils.isEmpty(data.getMobile())) {     //微信登录，且绑定手机号、 或者直接手机号登录
-                                TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
-                                        .setOnDismissListener(() -> {
-                                            setResult(RESULT_OK);
-                                            finish();
-                                        });
-                            } else {        //微信登录，且没绑定手机号
-                                TipDialog.dismiss();
-                                MessageDialog.show(LoginActivity.this, R.string.txt_login_success, R.string.txt_binding_cellphone_hint,
-                                        R.string.txt_go2_binding, R.string.txt_withhold)
-                                        .setOnOkButtonClickListener((baseDialog, v) -> {
-                                            // 去绑定
-                                            Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
-                                            startActivity(intent);
-                                            setResult(RESULT_OK);
-                                            finish();
-                                            return false;
-                                        })
-                                        .setOnCancelButtonClickListener((baseDialog, v) -> {
-                                            setResult(RESULT_OK);
-                                            finish();
-                                            return false;
-                                        });
-                            }
-                        } else {
-                            TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
+        RxHttp.get(Consts.USERS_INFO_API)
+                .asResponse(FUser.class)
+                .to(RxLife.toMain(this))
+                .subscribe(fUser -> {
+                    UserInfoCache.saveUserInfo(LoginActivity.this, fUser);
+                    EventBus.getDefault().postSticky(fUser);
+                    //是否已经填写邀请码
+                    boolean isInvited = fUser.isIs_invited();
+                    String inviteCode = (String) SPFUtils.get(LoginActivity.this, Common.INVITE_CODE, "");
+                    if (!isInvited && !TextUtils.isEmpty(inviteCode)) {
+                        reqInviteCodeSubmit(inviteCode);
                     }
 
-                    @Override
-                    public void onError(Response<LzyResponse<FUser>> response) {
-                        super.onError(response);
+                    if (!TextUtils.isEmpty(fUser.getMobile())) {     //微信登录，且绑定手机号、 或者直接手机号登录
+                        TipDialog.show(LoginActivity.this, R.string.txt_login_success, TipDialog.TYPE.SUCCESS)
+                                .setOnDismissListener(() -> {
+                                    setResult(RESULT_OK);
+                                    finish();
+                                });
+                    } else {        //微信登录，且没绑定手机号
                         TipDialog.dismiss();
+                        MessageDialog.show(LoginActivity.this, R.string.txt_login_success, R.string.txt_binding_cellphone_hint,
+                                R.string.txt_go2_binding, R.string.txt_withhold)
+                                .setOnOkButtonClickListener((baseDialog, v) -> {
+                                    // 去绑定
+                                    Intent intent = new Intent(LoginActivity.this, WXBindingPhoneActivity.class);
+                                    startActivity(intent);
+                                    setResult(RESULT_OK);
+                                    finish();
+                                    return false;
+                                })
+                                .setOnCancelButtonClickListener((baseDialog, v) -> {
+                                    setResult(RESULT_OK);
+                                    finish();
+                                    return false;
+                                });
                     }
-                });
+                }, (OnError) error -> TipDialog.show(LoginActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
@@ -462,53 +409,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     /**
      * 通过运营商一键登录返回的token 调用自身登录
      *
-     * @param operatorType
+     * @param operatorType 运营商类型  1电信 2移动 3联通
      * @param uToken       电信运营商的token
-     * @param authCode
+     * @param authCode     移动联通为带星手机号  电信为authCode
      */
     private void getPhoneNum(String operatorType, String uToken, String authCode) {
+        WaitDialog.show(LoginActivity.this, R.string.loading);
         String uniqueID = UniqueIdManager.getUniqueID(this);
-        OkGo.<LzyResponse<LoginRpsEntity>>post(Consts.USE_PHONE_ONEKEY_LOGIN)
-                .params(Consts.TYPE, operatorType)
-                .params("authCode", operatorType.equals("1") ? authCode : "")
-                .params(Consts.TOKEN, uToken)
-                .params("plantFrom", "1")
-                .params(Consts.UNIQUE_ID, uniqueID)
-                .execute(new LtbJsonCallback<LzyResponse<LoginRpsEntity>>(this, false,
-                        new TypeReference<LzyResponse<LoginRpsEntity>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<LoginRpsEntity>> response) {
-                        if (response.body().error_code == 0) {
-                            LoginRpsEntity data = response.body().getData();
-                            TokenCache.saveToken(LoginActivity.this, data.getToken());
-                            reqUserInfo();
-                        } else {
-                            TipDialog.show(LoginActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.USE_PHONE_ONEKEY_LOGIN)
+                .add(Consts.TYPE, operatorType)
+                .add("authCode", operatorType.equals("1") ? authCode : "")
+                .add(Consts.TOKEN, uToken)
+                .add("plantFrom", "1")
+                .add(Consts.UNIQUE_ID, uniqueID)
+                .asResponse(LoginRpsEntity.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(data -> {
+                    TokenCache.saveToken(LoginActivity.this, data.getToken());
+                    reqUserInfo();
+                }, (OnError) error -> TipDialog.show(LoginActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
      * 提交邀请码
      * token在CallBack中统一加到header
      *
-     * @param inviteCode
+     * @param inviteCode 邀请码
      */
     private void reqInviteCodeSubmit(String inviteCode) {
-        OkGo.<String>post(Consts.FILLIN_INVITE_CODE_API)
-                .params(Consts.CODE, inviteCode)
-                .execute(new LtbCallback(LoginActivity.this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            SPFUtils.remove(LoginActivity.this, Common.INVITE_CODE);
-                            UserInfoCache.saveIsInvited(LoginActivity.this, true);
-                        }
-                    }
+        RxHttp.postForm(Consts.FILLIN_INVITE_CODE_API)
+                .add(Consts.CODE, inviteCode)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    SPFUtils.remove(LoginActivity.this, Common.INVITE_CODE);
+                    UserInfoCache.saveIsInvited(LoginActivity.this, true);
                 });
     }
 }

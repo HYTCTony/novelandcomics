@@ -7,21 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.SomeMonitorEditText;
 import com.huli.foxread.utils.Tos;
-import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -67,7 +63,7 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void doBusiness(Context mContext) {
-        if(!TextUtils.isEmpty(UserInfoCache.getMobile(mContext))){
+        if (!TextUtils.isEmpty(UserInfoCache.getMobile(mContext))) {
             TipDialog.show(this, "您已绑定手机号！", TipDialog.TYPE.WARNING)
                     .setOnDismissListener(this::finish);
         }
@@ -112,57 +108,42 @@ public class WXBindingPhoneActivity extends BaseActivity implements View.OnClick
      * @param tel
      */
     private void reqAuthCode(String tel) {
-        OkGo.<String>post(Consts.SMS_SEND_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.EVENT, Consts.SMS_BIND)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code != 0) {
+        RxHttp.postForm(Consts.SMS_SEND_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.EVENT, Consts.SMS_BIND)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> Tos.showShort(WXBindingPhoneActivity.this, R.string.txt_sms_verification_code_has_been_issued),
+                        (OnError) error -> {
                             tbtnGetVcode.reset();
-                        }
-                        Tos.showShort(WXBindingPhoneActivity.this, entity.msg);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        tbtnGetVcode.reset();
-                    }
-                });
+                            Tos.showShort(WXBindingPhoneActivity.this, error.getErrorMsg());
+                        });
     }
 
     /**
      * 手机号绑定
-     * token 在LtbCallback中统一添加
      *
-     * @param tel
-     * @param authCode
+     * @param tel      手机号
+     * @param authCode 验证码
      */
     private void bindingPhone(String tel, String authCode) {
-        OkGo.<String>post(Consts.BINDING_PHONE_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.MOBILE_CAPTCHA, authCode)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            UserInfoCache.saveMobile(WXBindingPhoneActivity.this, tel);
-                            TipDialog.show(WXBindingPhoneActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> {
-                                        setResult(RESULT_OK);
-                                        finish();
-                                    });
-                        } else {
-                            TipDialog.show(WXBindingPhoneActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
-
+        RxHttp.postForm(Consts.BINDING_PHONE_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.MOBILE_CAPTCHA, authCode)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    UserInfoCache.saveMobile(WXBindingPhoneActivity.this, tel);
+                    TipDialog.show(WXBindingPhoneActivity.this, R.string.txt_binding_success, TipDialog.TYPE.SUCCESS)
+                            .setOnDismissListener(() -> {
+                                setResult(RESULT_OK);
+                                finish();
+                            });
+                }, (OnError) error -> TipDialog.show(WXBindingPhoneActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 

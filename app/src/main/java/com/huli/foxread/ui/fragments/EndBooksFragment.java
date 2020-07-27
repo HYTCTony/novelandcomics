@@ -3,35 +3,32 @@ package com.huli.foxread.ui.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.EndNewBookGroupEntity;
 import com.huli.foxread.entity.sections.NEbookSection;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
+import com.huli.foxread.ui.activities.MoreBooksListActivity;
 import com.huli.foxread.ui.adapters.SectionNeBookAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class EndBooksFragment extends BaseFragment implements OnItemClickListener {
+public class EndBooksFragment extends BaseFragment implements OnItemClickListener, OnItemChildClickListener {
 
     private RecyclerView recyclerView;
     private SectionNeBookAdapter mAdapter;
@@ -76,6 +73,7 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
     @Override
     public void setListener() {
         mAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemChildClickListener(this);
     }
 
     @Override
@@ -92,7 +90,7 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
     }
 
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         if (onMoreClick()) {
             return;
         }
@@ -106,36 +104,34 @@ public class EndBooksFragment extends BaseFragment implements OnItemClickListene
     }
 
 
+    @Override
+    public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+        if (view.getId() == R.id.tv_asBtn_get_more) {
+            NEbookSection<BookEntity> nbSection = mAdapter.getData().get(position);
+            MoreBooksListActivity.start(mActivity, nbSection.getName(), nbSection.getId());
+        }
+    }
+
+
     /**
      * 获取完本书
-     *
-     * @param url
      */
     private void reqFindEndBooks(String url) {
-        OkGo.<String>get(url)
-                .params(Consts.TYPE, Consts.TYPE_ENDBOOK)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<EndNewBookGroupEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<EndNewBookGroupEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<EndNewBookGroupEntity> data = entity.getData();
-
-                            List<NEbookSection<BookEntity>> list = new ArrayList<>();
-
-                            for (int i = 0; i < data.size(); i++) {
-                                EndNewBookGroupEntity ebgEntity = data.get(i);
-                                List<BookEntity> novels = ebgEntity.getNovelColumnAccess();
-                                list.add(new NEbookSection<>(true, false, ebgEntity.getId(), ebgEntity.getName(), null));
-                                for (int j = 0; j < novels.size(); j++) {
-                                    list.add(new NEbookSection<>(false, false, ebgEntity.getId(), ebgEntity.getName(), novels.get(j)));
-                                }
-                            }
-                            mAdapter.setList(list);
+        RxHttp.get(url)
+                .add(Consts.TYPE, Consts.TYPE_ENDBOOK)
+                .asResponseList(EndNewBookGroupEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(entityList->{
+                    List<NEbookSection<BookEntity>> datas = new ArrayList<>();
+                    for (int i = 0; i < entityList.size(); i++) {
+                        EndNewBookGroupEntity ebgEntity = entityList.get(i);
+                        List<BookEntity> novels = ebgEntity.getNovelColumnAccess();
+                        datas.add(new NEbookSection<>(true, true, ebgEntity.getId(), ebgEntity.getName(), null));
+                        for (int j = 0; j < novels.size(); j++) {
+                            datas.add(new NEbookSection<>(false, false, ebgEntity.getId(), ebgEntity.getName(), novels.get(j)));
                         }
                     }
+                    mAdapter.setList(datas);
                 });
     }
 }

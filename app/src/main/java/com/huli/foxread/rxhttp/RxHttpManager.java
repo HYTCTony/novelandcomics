@@ -5,8 +5,9 @@ import android.app.Application;
 import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.interceptors.HttpLoggingInterceptor;
+import com.huli.foxread.rxhttp.interceptors.TokenInterceptor2;
 import com.huli.foxread.utils.PackageUtils;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -56,7 +57,7 @@ public class RxHttpManager {
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager) //添加信任证书
                 .hostnameVerifier((hostname, session) -> true) //忽略host验证
 //            .followRedirects(false)  //禁制OkHttp的重定向操作，我们自己处理重定向
-//                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
+                .addInterceptor(loggingInterceptor)//拦截器方式打印Log，不受RxHttp.setDebug()影响
 //            .addInterceptor(new RedirectInterceptor())
                 .addInterceptor(new TokenInterceptor2(context))
                 .build();

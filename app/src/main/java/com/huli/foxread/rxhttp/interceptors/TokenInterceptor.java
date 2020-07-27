@@ -1,22 +1,11 @@
-package com.huli.foxread.interceptors;
+package com.huli.foxread.rxhttp.interceptors;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.huli.foxread.cache.TokenCache;
-import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.FUser;
-import com.huli.foxread.entity.LoginRpsEntity;
 import com.huli.foxread.ui.activities.TransparencyActivity;
-import com.huli.foxread.utils.UniqueIdManager;
-import com.lzy.okgo.OkGo;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -213,7 +202,7 @@ public class TokenInterceptor implements Interceptor {
      * @return
      */
     private String syncNewToken() throws IOException {
-        String psuedoID = UniqueIdManager.getUniqueID(context);
+      /*  String psuedoID = UniqueIdManager.getUniqueID(context);
         // 通过一个特定的接口获取新的token，此处要用到同步请求
         Response response = OkGo.<LzyResponse<FUser>>post(Consts.USE_UNIQUE_ID_LOGIN_OR_REG_API)
                 .params(Consts.UNIQUE_ID, psuedoID)
@@ -241,7 +230,7 @@ public class TokenInterceptor implements Interceptor {
             }
         } catch (Exception e) {
             return null;
-        }
+        }*/
         return null;
     }
 

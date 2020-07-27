@@ -13,7 +13,6 @@ import com.huli.foxread.callbacks.ActivityState;
 import com.huli.foxread.callbacks.MyActivityManager;
 import com.huli.foxread.config.TgAdManager;
 import com.huli.foxread.contact.Common;
-import com.huli.foxread.interceptors.TokenInterceptor;
 import com.huli.foxread.rxhttp.RxHttpManager;
 import com.huli.foxread.ui.activities.MainActivity;
 import com.huli.foxread.ui.views.MyLoadMoreView;
@@ -22,7 +21,6 @@ import com.huli.foxread.utils.SPFUtils;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.util.DialogSettings;
 import com.kongzue.dialog.util.TextInfo;
-import com.lzy.okgo.OkGo;
 import com.qq.gdt.action.GDTAction;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -43,14 +41,10 @@ import com.umeng.socialize.PlatformConfig;
 
 import org.android.agoo.xiaomi.MiPushRegistar;
 
-import java.util.concurrent.TimeUnit;
-
 import androidx.core.content.ContextCompat;
 import androidx.multidex.MultiDex;
 import me.leolin.shortcutbadger.ShortcutBadger;
-import okhttp3.OkHttpClient;
 
-/*切换分支*/
 public class FrApp extends Application implements ActivityState {
 
     public static final String WECHAT_APP_ID = "wx53ed3b26af319dd0";
@@ -87,7 +81,6 @@ public class FrApp extends Application implements ActivityState {
         sInstance = this;
 
         RxHttpManager.init(this);
-        initOkgo();  //okgo
 
         registerActivityLifecycleCallbacks(mActivityManager);
 //        registerActivityLifecycleCallbacks(ParallaxHelper.getInstance());
@@ -127,11 +120,8 @@ public class FrApp extends Application implements ActivityState {
                     });
         }
 
-        //穿山甲SDK初始化
-        //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
-//        TTAdManagerHolder.init(this);
+        //广告接入初始化
         TgAdManager.init(sInstance);
-
         //广点通数据上报
         GDTAction.init(this, "1110534603", "d1522e4f9d76fb2f910b15527a82efd4", getChannel());
     }
@@ -227,42 +217,19 @@ public class FrApp extends Application implements ActivityState {
                 return super.getNotification(context, msg);
             }
         });
-
         //小米
         MiPushRegistar.register(getApplicationContext(), "2882303761518355168", "5471835523168");
-
         UMConfigure.setLogEnabled(false);
         //debug模式
 //        InAppMessageManager.getInstance(getApplicationContext()).setInAppMsgDebugMode(true);
-
         // 选用AUTO页面采集模式
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO);
-
         //设置微信
         PlatformConfig.setWeixin(WECHAT_APP_ID, "4f58d7d2894fe8631831d18ed1d6d4be");
         //设置QQ
         PlatformConfig.setQQZone("1110348959", "flSP26RdIEM63XkC");
     }
 
-    /**
-     * okgo网络框架
-     */
-    private void initOkgo() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new TokenInterceptor(sInstance));
-        builder.connectTimeout(15, TimeUnit.SECONDS);
-
-        /*HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor("OkGo");
-        //log打印级别，决定了log显示的详细程度
-        loggingInterceptor.setPrintLevel(HttpLoggingInterceptor.Level.BODY);
-        //log颜色级别，决定了log在控制台显示的颜色
-        loggingInterceptor.setColorLevel(Level.SEVERE);
-        builder.addInterceptor(loggingInterceptor);*/
-
-        OkGo.getInstance()
-                .init(this)
-                .setOkHttpClient(builder.build());
-    }
 
     private void initBugly() {
         /**

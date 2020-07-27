@@ -8,20 +8,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioGroup;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.kongzue.dialog.v3.TipDialog;
+import com.rxjava.rxlife.RxLife;
 
 import androidx.core.content.ContextCompat;
 
@@ -93,22 +91,15 @@ public class GenderChoiceActivity extends BaseActivity {
      * 游客性别选择
      */
     private void reqInitUserGender(int gender) {
-        OkGo.<String>post(Consts.USER_SET_GENDER_API)
-                .params(Consts.GENDER, String.valueOf(gender))
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            UserInfoCache.saveGender(GenderChoiceActivity.this, gender);
-                            startActivity(new Intent(GenderChoiceActivity.this, MainActivity.class));
-                            finish();
-                        } else {
-                            Tos.showShort(GenderChoiceActivity.this, entity.msg);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.USER_SET_GENDER_API)
+                .add(Consts.GENDER, String.valueOf(gender))
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                .subscribe(data -> {
+                    UserInfoCache.saveGender(GenderChoiceActivity.this, gender);
+                    startActivity(new Intent(GenderChoiceActivity.this, MainActivity.class));
+                    finish();
+                }, (OnError) error -> TipDialog.show(GenderChoiceActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 

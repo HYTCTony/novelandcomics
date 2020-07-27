@@ -25,10 +25,12 @@
         app:tl_indicator_color="@color/txt_red"
         app:tl_indicator_height="0dp"
         app:tl_textSelectColor="@color/txt_red"
-        app:tl_textUnSelectColor="#66000000"
         app:tl_textSize="@dimen/sp_12"
+        app:tl_textUnSelectColor="#66000000"
         app:tl_underline_color="@color/off_gray"
         app:tl_underline_gravity="TOP"
         app:tl_underline_height="@dimen/dp_0_5" />
+
+    <include layout="@layout/layout_dialog_bookrack_bottom_bar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

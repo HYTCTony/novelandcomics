@@ -4026,7 +4026,6 @@ io.reactivex.internal.observers.QueueDrainSubscriberPad0
     volatile long p15
 com.scwang.smartrefresh.layout.R$string
     private void <init>()
-com.huli.foxread.entity.base.BaseEntity
 org.jetbrains.annotations.Contract
 pub.devrel.easypermissions.R$layout
 com.huli.foxread.ui.widget.TimingButton
@@ -4326,8 +4325,6 @@ com.tencent.bugly.beta.download.BetaReceiver$1
     final synthetic com.tencent.bugly.beta.download.BetaReceiver c
 com.huli.foxread.ui.activities.SearchBookActivity$5$1
     final synthetic com.huli.foxread.ui.activities.SearchBookActivity$5 this$1
-com.huli.foxread.interceptors.TokenInterceptor$1
-    final synthetic com.huli.foxread.interceptors.TokenInterceptor this$0
 com.huli.foxread.ui.activities.MyGoldCoinActivity$2$1
     final synthetic com.huli.foxread.ui.activities.MyGoldCoinActivity$2 this$1
 com.tencent.bugly.crashreport.crash.c

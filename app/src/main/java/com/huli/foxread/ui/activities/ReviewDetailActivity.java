@@ -237,7 +237,7 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
     private void giveALikeOrCancel(String reviewId, String novelId, boolean isChecked) {
         RxHttp.get(Consts.APPRAISE_LIKE_API)
                 .add(Consts.REVIEW_ID, reviewId)
-                .add(Consts.BOOK_ID, novelId)
+                .add(Consts.NOVEL_ID, novelId)
                 .add(Consts.PREFER, isChecked ? 1 : 2)
                 .asResponse(String.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
@@ -288,7 +288,7 @@ public class ReviewDetailActivity extends BaseActivity implements View.OnClickLi
      */
     private void reqPostReply(String novelId, String content, String reviewId) {
         RxHttp.get(Consts.APPRAISE_CREATE_API)
-                .add(Consts.NOVEL_ID, novelId)
+                .add(Consts.N_ID, novelId)
                 .add(Consts.CONTENT, content)
                 .add(Consts.NOVEL_APPRAISE_ID, reviewId)
                 .asResponse(String.class)

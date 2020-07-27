@@ -28,10 +28,12 @@ import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.multi.BookShelfOrADsMultEntity;
+import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.rxhttp.ErrorInfo;
 import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.MainActivity;
+import com.huli.foxread.ui.activities.MyPrivilegeActivity;
 import com.huli.foxread.ui.activities.ReadingRecordActivity;
 import com.huli.foxread.ui.activities.SearchBookActivity;
 import com.huli.foxread.ui.activities.SignInActivity;
@@ -45,6 +47,9 @@ import com.huli.page.model.local.BookRepository;
 import com.huli.page.ui.activity.ReadBookActivity;
 import com.huli.page.utils.RxUtils;
 import com.hytc.ads.helper.flow.TogetherAdFlow;
+import com.kongzue.dialog.interfaces.OnMenuItemClickListener;
+import com.kongzue.dialog.util.TextInfo;
+import com.kongzue.dialog.v3.BottomMenu;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.rxjava.rxlife.RxLife;
@@ -66,6 +71,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import rxhttp.wrapper.cahce.CacheMode;
@@ -92,6 +98,42 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     private long lastReqTime;       //上次获取书架数据的时间
 
+    private TextView btnComplete;
+    private Menu aMenu;                         //获取optionmenu
+    private boolean isManagerMode = false;      //管理模式也标示是否要显示optionmenu
+    private boolean isSelectAll = false;         //管理模式下是否全选标志
+
+    public boolean isManagerMode() {
+        return isManagerMode;
+    }
+
+    public void setManagerMode(boolean managerMode) {
+        this.isManagerMode = managerMode;
+        if (isManagerMode) {
+            checkOptionMenu();
+            ((MainActivity) mActivity).showBrBottomBar();
+            rackAdapter.setManagerMode(isManagerMode);
+            if (layout != null) {
+                layout.setEnableRefresh(false);
+            }
+        } else {
+            checkOptionMenu();
+            ((MainActivity) mActivity).dismissBrBottomBar();
+            rackAdapter.setManagerMode(isManagerMode);
+            if (layout != null) {
+                layout.setEnableRefresh(true);
+            }
+        }
+    }
+
+    public boolean isSelectAll() {
+        return isSelectAll;
+    }
+
+    public void setSelectAll(boolean selectAll) {
+        isSelectAll = selectAll;
+    }
+
     @Override
     public int bindLayout() {
         return R.layout.fragment_main_book_rack;
@@ -115,6 +157,8 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
         ((AppCompatActivity) mActivity).setSupportActionBar(mToolbar);
         setHasOptionsMenu(true);
 
+        btnComplete = $(view, R.id.tv_asBtn_complete_bookrack_manage);
+
         layout = $(view, R.id.smart);
         layout.setDragRate(1);
         recyclerView = $(view, R.id.recyclerView_my_bookrack);
@@ -134,6 +178,14 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
 
     @Override
     public void setListener() {
+        btnComplete.setOnClickListener(new OnClickEvent() {
+            @Override
+            public void singleClick(View v) {
+                if (isManagerMode) {
+                    setManagerMode(false);
+                }
+            }
+        });
         rackAdapter.setOnItemClickListener(this);
         rackAdapter.setOnItemLongClickListener(this);
         layout.setOnRefreshListener(this);
@@ -206,38 +258,141 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         getSpecialBook();
         reqGetBooks();
-//        ((MainActivity) mActivity).getUserReadTime();
     }
 
+    /**
+     * 全选or非全选
+     */
+    public int funCheckAll(boolean checkAll) {
+        setSelectAll(checkAll);
+        return rackAdapter.funCheckAll(checkAll);
+    }
+
+
+    /**
+     * 删除书架书籍（广告）
+     */
+    public void delBookShelfData() {
+        List<BookShelfOrADsMultEntity> list = rackAdapter.getSelectedEntityList();
+
+        //构造删除书籍的参数
+        StringBuilder ids = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            BookShelfOrADsMultEntity entity = list.get(i);
+            if (entity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
+                BookShelfListBean bean = entity.getBook();
+                ids.append(bean.getId()).append(",");
+            }
+        }
+
+        if (list.size() > 0 && ids.length() == 0) {
+            BottomMenu.show((AppCompatActivity) mActivity, new String[]{"删除广告", "全场去广告>>"}, (text, index) -> {
+                if (index == 0) {
+                    for (int q = 0; q < list.size(); q++) {
+                        rackAdapter.remove(list.get(q));
+                    }
+                    setDelConfirmUI();
+                } else if (index == 1) {
+                    btnComplete.performClick();
+                    //充会员
+                    startActivity(new Intent(mActivity, MyPrivilegeActivity.class));
+                }
+            }).setMenuTextInfo(new TextInfo().setFontSize(14).setFontColor(ContextCompat.getColor(mActivity, R.color.col_orange_ea6b3c)))
+                    .setCancelButtonTextInfo(new TextInfo().setFontSize(14));
+            return;
+        }
+
+        MessageDialog.show((AppCompatActivity) mActivity, "删除书籍", "是否删除这些书籍？", "确定", "取消")
+                .setOnOkButtonClickListener((baseDialog, v) -> {
+                    //确认删除后的ui
+                    setDelConfirmUI();
+
+                    if (ids.length() > 1) {
+                        //网络请求
+                        reqDelBooks(ids.substring(0, ids.length() - 1));
+                    }
+
+                    //刷新列表数据
+                    /*rackAdapter.getData().removeAll(list);
+                    rackAdapter.notifyDataSetChanged();*/
+
+                    //删除本地数据
+                    for (int p = 0; p < list.size(); p++) {
+                        BookShelfOrADsMultEntity entity = list.get(p);
+                        if (entity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
+                            BookShelfListBean bean = entity.getBook();
+                            BookRepository.getInstance().deleteCollBookInRx(bean)
+                                    .compose(RxUtils::toSimpleSingle)
+                                    .subscribe(
+                                            (Void) -> rackAdapter.remove(entity)
+                                    );
+                        } else {
+                            rackAdapter.remove(entity);
+                        }
+                    }
+                    return false;
+                });
+
+        rackAdapter.clearSelected();
+        //是否删完了
+        if (rackAdapter.getData().size() <= 1) {
+            btnComplete.performClick();
+        }
+    }
+
+    /**
+     * 确认删除后的ui
+     */
+    private void setDelConfirmUI() {
+        ((MainActivity) mActivity).setBrDelNum(0);
+        setSelectAll(false);
+        ((MainActivity) mActivity).setSelectBtnText(isSelectAll());
+    }
 
     @SuppressLint("CheckResult")
     @Override
     public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
         BookShelfOrADsMultEntity multEntity = datas.get(position);
-        if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
-            BookShelfListBean bean = multEntity.getBook();
-            bean.setIs_exist_bookshelf(1);
-            if (bean.getIsLocal()) {
-                Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
+        if (isManagerMode) {
+            if (multEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADD_BOOK) {
                 return;
             }
-            if (bean.getIs_copyright() == 1) {
-                ReadBookActivity.start(mActivity, bean, true, -1);
-            } else {
-                MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "这本书版权过期，是否删除这本书？", "确定")
-                        .setOnOkButtonClickListener((baseDialog, v) -> {
-                            reqDelBooks(bean.getId());
-                            BookRepository.getInstance().deleteCollBookInRx(bean)
-                                    .compose(RxUtils::toSimpleSingle)
-                                    .subscribe(
-                                            (Void) -> adapter.remove(position)
-                                    );
-                            return false;
-                        });
+            int count = rackAdapter.clickItemOnManageMode(position);
+            MainActivity mainActivity = ((MainActivity) mActivity);
+            mainActivity.setBrDelNum(count);
+            if (count >= datas.size() - 1 && !isSelectAll) {        //设置为全选状态
+                setSelectAll(true);
+                mainActivity.setSelectBtnText(true);
+            } else if (count < datas.size() - 1 && isSelectAll) {   //设置为非全选状态
+                setSelectAll(false);
+                mainActivity.setSelectBtnText(false);
             }
-        } else if (multEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADD_BOOK) {
-            ((MainActivity) mActivity).switch2Bookstore();
+        } else {
+            if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
+                BookShelfListBean bean = multEntity.getBook();
+                bean.setIs_exist_bookshelf(1);
+                if (bean.getIsLocal()) {
+                    Toast.makeText(mActivity, "抱歉，暂时不支持本地书籍", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (bean.getIs_copyright() == 1) {
+                    ReadBookActivity.start(mActivity, bean, true, -1);
+                } else {
+                    MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "这本书版权过期，是否删除这本书？", "确定")
+                            .setOnOkButtonClickListener((baseDialog, v) -> {
+                                reqDelBooks(bean.getId());
+                                BookRepository.getInstance().deleteCollBookInRx(bean)
+                                        .compose(RxUtils::toSimpleSingle)
+                                        .subscribe(
+                                                (Void) -> adapter.remove(position)
+                                        );
+                                return false;
+                            });
+                }
+            } else if (multEntity.getItemType() == BookShelfOrADsMultEntity.ITEM_ADD_BOOK) {
+                ((MainActivity) mActivity).switch2Bookstore();
+            }
         }
     }
 
@@ -245,9 +400,9 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     @SuppressLint("CheckResult")
     @Override
     public boolean onItemLongClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-        List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
-        BookShelfOrADsMultEntity multEntity = datas.get(position);
-        if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
+            /*List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
+            BookShelfOrADsMultEntity multEntity = datas.get(position);
+            if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
             BookShelfListBean bean = multEntity.getBook();
             MessageDialog.show((AppCompatActivity) mActivity, "温馨提示", "是否删除[" + bean.getNovel_name() + "]这本书？", "确定", "取消")
                     .setOnOkButtonClickListener((baseDialog, v) -> {
@@ -259,24 +414,47 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                                 );
                         return false;
                     });
+
+            }*/
+        if (!isManagerMode) {
+            List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
+            BookShelfOrADsMultEntity multEntity = datas.get(position);
+            if (multEntity.getItemType() == BookShelfOrADsMultEntity.DETAILED) {
+                setManagerMode(true);
+            }
         }
-        return true;
+        return false;
     }
+
+    /**
+     * 设置menu的隐藏显示
+     */
+    public void checkOptionMenu() {
+        if (null != aMenu) {
+            if (!isManagerMode) {
+                for (int i = 0; i < aMenu.size(); i++) {
+                    aMenu.getItem(i).setVisible(true);
+                    aMenu.getItem(i).setEnabled(true);
+                }
+                btnComplete.setVisibility(View.GONE);
+            } else {
+                for (int i = 0; i < aMenu.size(); i++) {
+                    aMenu.getItem(i).setVisible(false);
+                    aMenu.getItem(i).setEnabled(false);
+                }
+                btnComplete.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.menu_book_rack, menu);
-       /* if (menu.getClass() == MenuBuilder.class) {
-            try {
-                Method m = menu.getClass().getDeclaredMethod("setOptionalIconsVisible", Boolean.TYPE);
-                m.setAccessible(true);
-                m.invoke(menu, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }*/
+        aMenu = menu;
+        aMenu.clear();
+        inflater.inflate(R.menu.menu_book_rack, aMenu);
+        checkOptionMenu();
+        super.onCreateOptionsMenu(aMenu, inflater);
     }
 
     @Override
@@ -299,62 +477,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
     /**
      * 加载feed广告
      */
-    private void loadListAd(boolean isRefresh) {
-        /*float expressViewWidth = UIUtils.getScreenWidthDp(mActivity);
-        float expressViewHeight = 0;     //高度设置为0,则高度会自适应
-        //step4:创建feed广告请求类型参数AdSlot,具体参数含义参考文档
-        AdSlot adSlot = new AdSlot.Builder()
-                .setCodeId(CsjAdsCode.BOOKRACK_CODE_ID)
-                .setSupportDeepLink(true)
-//                .setImageAcceptedSize(280,360 )//这个参数设置即可，不影响个性化模板广告的size
-                .setExpressViewAcceptedSize(expressViewWidth, expressViewWidth / 4) //期望模板广告view的size,单位dp
-                .setAdCount(count) //请求广告数量为1到3条
-                .build();
-        mTTAdNative.loadNativeExpressAd(adSlot, new TTAdNative.NativeExpressAdListener() {
-            @Override
-            public void onError(int code, String message) {
-
-            }
-
-            @Override
-            public void onNativeExpressAdLoad(List<TTNativeExpressAd> ads) {
-                if (ads == null || ads.isEmpty()) {
-//                    Toast.makeText(mActivity, "on FeedAdLoaded: ad is null!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-               *//* if (isRefresh) {
-                } else {
-                    rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
-                    recyclerView.scrollToPosition(0);
-                }*//*
-
-                List<BookShelfOrADsMultEntity> oldDatas = rackAdapter.getData();
-                if (oldDatas.size() > 0) {
-                    BookShelfOrADsMultEntity adEntity = oldDatas.get(0);
-                    if (adEntity.getItemType() == BookShelfOrADsMultEntity.TYPE_ADS_CSJ) {
-                        rackAdapter.setData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
-                    } else {
-                        rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
-                        recyclerView.scrollToPosition(0);
-                    }
-                } else {
-                    rackAdapter.addData(0, new BookShelfOrADsMultEntity(BookShelfOrADsMultEntity.TYPE_ADS_CSJ, null, ads.get(0)));
-                    recyclerView.scrollToPosition(0);
-                }
-
-            }
-        });*/
-        /*List<BookShelfOrADsMultEntity> datas = rackAdapter.getData();
-        if (datas.size() > 0) {
-            BookShelfOrADsMultEntity multEntity = datas.get(0);
-            if(multEntity.getItemType()==BookShelfOrADsMultEntity.TYPE_ADS_GDT){
-                NativeUnifiedADData addata = (NativeUnifiedADData) multEntity.getAds();
-                if(addata!=null){
-                    addata.destroy();
-                }
-            }
-        }*/
-
+    private void loadListAd() {
         TogetherAdFlow.getAdList(mActivity, AdConfig.listAdConfig(mActivity), TogetherAdConst.AD_FLOW_BOOKRACK, 4, new TogetherAdFlow.AdListenerList() {
             @Override
             public void onAdFailed(@Nullable String failedMsg) {
@@ -402,8 +525,7 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
      */
     private void reqDelBooks(String novelIds) {
         RxHttp.postForm(Consts.BOOKRACK_DEL_API)
-                .add(Consts.NOVEL_ID, novelIds)
-                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .add(Consts.BOOKRACK_ID, novelIds)
                 .asResponse(String.class)
                 .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
                 .subscribe(s -> {
@@ -438,7 +560,11 @@ public class MainBookrackFragment extends BaseFragment implements OnItemLongClic
                     if (isInit) {
                         rackAdapter.setList(datas);
                     }
-                    loadListAd(false);
+
+                    //vip或者荣誉vip不显示广告
+                    if (!UserInfoCache.getIsVip(mActivity) && UserInfoCache.getSuperVip(mActivity) == 2) {
+                        loadListAd();
+                    }
                 });
     }
 

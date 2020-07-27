@@ -7,20 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.listeners.OnClickEvent;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
-import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -76,8 +72,8 @@ public class InvitationCodeActivity extends BaseActivity {
             return;
         }
 
-        if(UserInfoCache.getIsInvited(mContext)){
-            TipDialog.show(this,"你已填写过邀请码", TipDialog.TYPE.WARNING).setOnDismissListener(this::onBackPressed);
+        if (UserInfoCache.getIsInvited(mContext)) {
+            TipDialog.show(this, "你已填写过邀请码", TipDialog.TYPE.WARNING).setOnDismissListener(this::onBackPressed);
         }
     }
 
@@ -89,24 +85,19 @@ public class InvitationCodeActivity extends BaseActivity {
      * @param inviteCode
      */
     private void reqInviteCodeSubmit(String inviteCode) {
-        OkGo.<String>post(Consts.FILLIN_INVITE_CODE_API)
-                .params(Consts.CODE, inviteCode)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            UserInfoCache.saveIsInvited(InvitationCodeActivity.this, true);
-                            TipDialog.show(InvitationCodeActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> {
-                                        setResult(RESULT_OK);
-                                        finish();
-                                    });
-                        } else {
-                            Tos.showShort(InvitationCodeActivity.this, entity.msg);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.FILLIN_INVITE_CODE_API)
+                .add(Consts.CODE, inviteCode)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    UserInfoCache.saveIsInvited(InvitationCodeActivity.this, true);
+                    TipDialog.show(InvitationCodeActivity.this, "邀请码提交成功", TipDialog.TYPE.SUCCESS)
+                            .setOnDismissListener(() -> {
+                                setResult(RESULT_OK);
+                                finish();
+                            });
+                }, (OnError) error -> Tos.showShort(InvitationCodeActivity.this, error.getErrorMsg()));
     }
 }

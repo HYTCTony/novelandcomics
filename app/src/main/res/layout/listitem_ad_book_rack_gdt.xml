@@ -17,12 +17,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctl_touch_layout"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_normal_btn_bg_white"
             android:paddingStart="@dimen/dp_16"
             android:paddingTop="@dimen/dp_8"
             android:paddingEnd="@dimen/dp_16"
-            android:paddingBottom="@dimen/dp_8"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_normal_btn_bg_white">
+            android:paddingBottom="@dimen/dp_8">
 
             <ImageView
                 android:id="@+id/iv_ad_img"
@@ -64,11 +64,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:text="广告源"
                 android:textSize="@dimen/sp_10"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_iv_ad_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_iv_ad_title"
-                tools:text="广告源" />
+                app:layout_constraintTop_toTopOf="@+id/tv_iv_ad_title" />
 
             <TextView
                 android:id="@+id/iv_ad_intro"
@@ -81,8 +81,20 @@
                 android:textSize="@dimen/sp_12"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_ad_img"
                 app:layout_constraintLeft_toRightOf="@+id/iv_ad_img"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/cb_del_select_book_rack"
                 app:layout_constraintTop_toBottomOf="@+id/tv_iv_ad_title" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cb_del_select_book_rack"
+                style="@style/Widget.AppCompat.CompoundButton.RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:theme="@style/MySwitchTheme"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

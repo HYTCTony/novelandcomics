@@ -64,6 +64,7 @@ public interface Consts {
     String NOVEL_COLUMN_SELECTED_API = NOT_CPL_URL + Func.NOVEL_COLUMN_SELECTED;
     String NOVEL_COLUMN_BOY_API = NOT_CPL_URL + Func.NOVEL_COLUMN_BOY;
     String NOVEL_COLUMN_GIRL_API = NOT_CPL_URL + Func.NOVEL_COLUMN_GIRL;
+    String NOVEL_COLUMN_DETAIL_API = NOT_CPL_URL + Func.NOVEL_COLUMN_DETAIL;
 
     String NOVEL_DETAILS_API = NOT_CPL_URL + Func.NOVEL_DETAILS;
     String NOVEL_CONTENT_API = NOT_CPL_URL + Func.NOVEL_CONTENT;
@@ -206,10 +207,10 @@ public interface Consts {
     String RANK_FORM_BG = "form_boy_girl";
     String TYPE_RANK = "type_rank";
 
-    String NOVEL_ID = "id";
-    String NOVEL_IDS = "ids";
+    String N_ID = "id";
+    String BOOKRACK_ID = "id";
 
-    String BOOK_ID = "novel_id";
+    String NOVEL_ID = "novel_id";
     String CHAPTER_ID = "chapter_id";
     String CHAPTER_NAME = "chapter_name";
     String CHAPTER = "chapter";
@@ -260,5 +261,8 @@ public interface Consts {
 
     //书评ID---回复评论用
     String NOVEL_APPRAISE_ID = "novel_appraise_id";
+
+    //"更多"的ID
+    String COLUMN_ID = "id";
 
 }

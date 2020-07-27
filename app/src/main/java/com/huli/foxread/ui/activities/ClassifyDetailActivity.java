@@ -3,41 +3,36 @@ package com.huli.foxread.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.CategoryEntity;
-import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.BooksListAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.kongzue.stacklabelview.StackLabel;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 public class ClassifyDetailActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener, OnLoadMoreListener {
 
@@ -232,7 +227,7 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
 
 
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(this, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
@@ -246,64 +241,57 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
      * @param showDialog
      */
     private void reqCategoryDatas(boolean showDialog) {
-        OkGo.<String>post(Consts.NOVEL_CHOICE_API)
-                .params(Consts.CAT_IS_PARENT, isParent)
-                .params(Consts.CAT_ID, subCatID)
-                .params(Consts.CAT_IS_END, paramIsEnd)
-                .params(Consts.CAT_WORD_NUM, paramWordsNum)
-                .params(Consts.CAT_STATUS, paramStatus)
-                .params(Consts.PAGE, paramCurPage + 1)
-                .execute(new LtbCallback(this, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<BookEntity>> data = entity.getData();
-                            paramCurPage = data.getCurrent_page();
-                            int lastPage = data.getLast_page();
-                            List<BookEntity> bookList = data.getData();
-                            if (paramCurPage == 1) {
-                                int size = bookList.size();
-                                if (size >= 3) {
-                                    mAdapter.setHeaderView(headViewTop3, 1);
-                                    BookEntity book1 = bookList.get(0);
-                                    BookEntity book2 = bookList.get(1);
-                                    BookEntity book3 = bookList.get(2);
-                                    ivCoverFirst.setTag(book1.getId());
-                                    ivCoverSecond.setTag(book2.getId());
-                                    ivCoverThird.setTag(book3.getId());
-                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverFirst, book1.getHttp_image());
-                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverSecond, book2.getHttp_image());
-                                    GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverThird, book3.getHttp_image());
-                                    tvBookNameFirst.setText(book1.getName());
-                                    tvBookNameSecond.setText(book2.getName());
-                                    tvBookNameThird.setText(book3.getName());
-                                    mAdapter.setList(bookList.subList(3, size));
-                                } else {
-                                    mAdapter.removeHeaderView(headViewTop3);
-                                    mAdapter.setList(bookList);
-                                }
-                            } else {
-                                mAdapter.addData(bookList);
-                            }
-
-                            if (lastPage <= paramCurPage) {
-                                //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
+        RxHttp.postForm(Consts.NOVEL_CHOICE_API)
+                .add(Consts.CAT_IS_PARENT, isParent)
+                .add(Consts.CAT_ID, subCatID)
+                .add(Consts.CAT_IS_END, paramIsEnd)
+                .add(Consts.CAT_WORD_NUM, paramWordsNum)
+                .add(Consts.CAT_STATUS, paramStatus)
+                .add(Consts.PAGE, paramCurPage + 1)
+                .asResponsePageList(BookEntity.class)
+                .doOnSubscribe(disposable -> {
+                    if (showDialog) {
+                        showLoadingDialog();
+                    }
+                })
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    paramCurPage = entity.getCurrent_page();
+                    int lastPage = entity.getLast_page();
+                    List<BookEntity> bookList = entity.getData();
+                    if (paramCurPage == 1) {
+                        int size = bookList.size();
+                        if (size >= 3) {
+                            mAdapter.setHeaderView(headViewTop3, 1);
+                            BookEntity book1 = bookList.get(0);
+                            BookEntity book2 = bookList.get(1);
+                            BookEntity book3 = bookList.get(2);
+                            ivCoverFirst.setTag(book1.getId());
+                            ivCoverSecond.setTag(book2.getId());
+                            ivCoverThird.setTag(book3.getId());
+                            GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverFirst, book1.getHttp_image());
+                            GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverSecond, book2.getHttp_image());
+                            GlideUtil.loadRoundRect(ClassifyDetailActivity.this, ivCoverThird, book3.getHttp_image());
+                            tvBookNameFirst.setText(book1.getName());
+                            tvBookNameSecond.setText(book2.getName());
+                            tvBookNameThird.setText(book3.getName());
+                            mAdapter.setList(bookList.subList(3, size));
+                        } else {
+                            mAdapter.removeHeaderView(headViewTop3);
+                            mAdapter.setList(bookList);
                         }
+                    } else {
+                        mAdapter.addData(bookList);
                     }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    if (lastPage <= paramCurPage) {
+                        //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
                     }
-                });
+                }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
     }
 
 
@@ -311,34 +299,21 @@ public class ClassifyDetailActivity extends BaseActivity implements View.OnClick
      * 三级子分类
      */
     private void reqSubCategory(int pid) {
-        OkGo.<LzyResponse<List<CategoryEntity>>>post(Consts.NOVEL_CATEGORY_SUB_API)
-                .cacheKey(Consts.NOVEL_CATEGORY_SUB_API + "_" + pCatId)
-                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
-                .cacheTime(10 * 60 * 1000)
-                .params(Consts.CAT_PID, pid)
-                .execute(new LtbJsonCallback<LzyResponse<List<CategoryEntity>>>(this, false,
-                        new TypeReference<LzyResponse<List<CategoryEntity>>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<List<CategoryEntity>>> response) {
-                        LzyResponse<List<CategoryEntity>> entity = response.body();
-                        if (entity.error_code == 0) {
-                            datas = entity.getData();
-                            for (CategoryEntity ce : datas) {
-                                stack1Datas.add(ce.getName());
-                            }
-                            stackLabel_1.setLabels(stack1Datas);
-                            stackLabel_1.setSelectMode(true, stack1Datas.subList(0, 1));
-                        }
+        RxHttp.postForm(Consts.NOVEL_CATEGORY_SUB_API)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .setCacheValidTime(10 * 60 * 1000)
+                .setCacheKey(Consts.NOVEL_CATEGORY_SUB_API + "_" + pid)
+                .add(Consts.CAT_PID, pid)
+                .asResponseList(CategoryEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(list -> {
+                    datas = list;
+                    for (CategoryEntity ce : datas) {
+                        stack1Datas.add(ce.getName());
                     }
-
-                    @Override
-                    public void onCacheSuccess(Response<LzyResponse<List<CategoryEntity>>> response) {
-                        super.onCacheSuccess(response);
-                        onSuccess(response);
-                    }
+                    stackLabel_1.setLabels(stack1Datas);
+                    stackLabel_1.setSelectMode(true, stack1Datas.subList(0, 1));
                 });
     }
-
 
 }

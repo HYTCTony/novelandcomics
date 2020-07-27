@@ -313,6 +313,15 @@ public interface Func {
     String NOVEL_COLUMN_SELECTED = "/column/selected";
     String NOVEL_COLUMN_BOY = "/column/boy";
     String NOVEL_COLUMN_GIRL = "/column/girl";
+    /**
+     * 用途：单个栏目所有小说
+     * 头：token(Y)
+     * 参数：
+     * id --- 栏目id
+     * page --- 页码,默认1
+     * page_size --- 一页数据量，默认15
+     */
+    String NOVEL_COLUMN_DETAIL = "/column/detail";
 
     /**
      * 用途：小说详情(GET)
@@ -388,7 +397,7 @@ public interface Func {
      * 用途：删除书架书籍(POST)
      * 头：token---token(Y)
      * 参数：
-     * ids---小说id数组
+     * id---书架ID，如1,2,3,4
      */
     String BOOKRACK_DEL = "/bookshelf/delete";
 

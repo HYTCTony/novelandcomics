@@ -196,7 +196,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
-            android:id="@+id/btn_gold_coin_withdrawal"
+            android:id="@+id/btn_invite_friends_2_make_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_16"

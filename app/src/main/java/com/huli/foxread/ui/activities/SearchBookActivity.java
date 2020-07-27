@@ -13,26 +13,22 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ebsevent.SearchRecordEvent;
 import com.huli.foxread.entity.HotKeywordBean;
 import com.huli.foxread.entity.RankBookEntity;
-import com.huli.foxread.entity.base.PagingWarpper;
-import com.huli.foxread.ebsevent.SearchRecordEvent;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.SHotBooksAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.SPFUtils;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.stacklabelview.StackLabel;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -267,22 +263,17 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
      * 热门搜索---关键词
      */
     private void reqHotSearchData() {
-        OkGo.<String>get(Consts.HOT_KEYWORD_API)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<HotKeywordBean>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<HotKeywordBean>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            hotKwList = entity.getData();
-                            List<String> labelList = new ArrayList<>();
-                            for (HotKeywordBean hkb : hotKwList) {
-                                labelList.add(hkb.getKeyword());
-                            }
-                            sLabelHot.setLabels(labelList);
-                        }
+        RxHttp.get(Consts.HOT_KEYWORD_API)
+                .setAssemblyEnabled(false)
+                .asResponseList(HotKeywordBean.class)
+                .to(RxLife.toMain(this))
+                .subscribe(list -> {
+                    hotKwList = list;
+                    List<String> labelList = new ArrayList<>();
+                    for (HotKeywordBean hkb : hotKwList) {
+                        labelList.add(hkb.getKeyword());
                     }
+                    sLabelHot.setLabels(labelList);
                 });
     }
 
@@ -291,39 +282,26 @@ public class SearchBookActivity extends BaseActivity implements View.OnClickList
      * 热门书籍
      */
     private void reqGetHotNovel(int prePage) {
-        OkGo.<String>get(Consts.POPULAR_RANKING_API)
-                .params(Consts.CATEGORY, Consts.RANK_TYPE_HOT_BOT)
-                .params(Consts.PAGE, prePage + 1)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<RankBookEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<RankBookEntity>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<RankBookEntity>> datas = entity.getData();
-                            curPage = datas.getCurrent_page();
-                            List<RankBookEntity> bookList = datas.getData();
-                            if (curPage == 1) {
-                                mAdapter.setList(bookList);
-                            } else {
-                                mAdapter.addData(bookList);
-                            }
-                            if (datas.getLast_page() <= curPage) {
-                                //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-                        }
+        RxHttp.get(Consts.POPULAR_RANKING_API)
+                .add(Consts.CATEGORY, Consts.RANK_TYPE_HOT_BOT)
+                .add(Consts.PAGE, prePage + 1)
+                .asResponsePageList(RankBookEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    curPage = entity.getCurrent_page();
+                    List<RankBookEntity> bookList = entity.getData();
+                    if (curPage == 1) {
+                        mAdapter.setList(bookList);
+                    } else {
+                        mAdapter.addData(bookList);
                     }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    if (entity.getLast_page() <= curPage) {
+                        //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
                     }
-                });
+                }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
     }
 
 }

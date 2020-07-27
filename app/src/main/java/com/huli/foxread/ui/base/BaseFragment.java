@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.lzy.okgo.OkGo;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -79,6 +77,7 @@ public abstract class BaseFragment extends Fragment {
 
 
     private static long lastClickTime;                //最后一次点击的时间
+
     /**
      * 无效的连续点击会重置 间隔时间
      *
@@ -92,11 +91,5 @@ public abstract class BaseFragment extends Fragment {
         }
         lastClickTime = System.currentTimeMillis();
         return flag;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        OkGo.getInstance().cancelAll();
     }
 }

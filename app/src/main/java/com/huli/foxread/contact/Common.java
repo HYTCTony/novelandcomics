@@ -56,6 +56,8 @@ public interface Common {
     String KEY_HTTP_AVATAR = "http_avatar";
     String INVITE_CODE = "invate_code";
 
+    String BANKCARD_NO = "bankcard_no";
+    String WITHDRAWAL_DO_TASKS = "withdrawal_do_tasks";
 
     String SPF_KEY_FIRST_RUN = "is_first_run";
 

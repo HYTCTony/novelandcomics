@@ -42,8 +42,8 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("C:/Users/hp/.android/debug.keystore")
-//            storeFile file("C:/Users/Lili/.android/debug.keystore")
+//            storeFile file("C:/Users/hp/.android/debug.keystore")
+            storeFile file("C:/Users/Lili/.android/debug.keystore")
 //            storePassword "android"
 //            keyAlias "androiddebugkey"
 //            keyPassword "android"
@@ -53,8 +53,8 @@ android {
 //            keyPassword "hytc1688"
         }
         release {// 自己的签名文件
-//            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
-            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
+            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+//            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
             storePassword "hytc1688"
             keyAlias "hytc"
             keyPassword "hytc1688"
@@ -179,17 +179,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    //okgo
-    /*implementation ("com.lzy.net:okgo:3.0.4"){
-        exclude group: 'com.squareup.okhttp3'
-    }*/
-    implementation 'com.lzy.net:okgo:3.0.4'
-//    implementation 'com.lzy.net:okserver:2.0.5'
-
     //RxHttp
     implementation 'com.ljx.rxlife:rxlife-coroutine:2.0.0' //管理协程生命周期，页面销毁，关闭请求
-    implementation 'com.ljx.rxhttp:rxhttp:2.2.7'
-    annotationProcessor 'com.ljx.rxhttp:rxhttp-compiler:2.2.7'
+    implementation 'com.ljx.rxhttp:rxhttp:2.2.8'
+    annotationProcessor 'com.ljx.rxhttp:rxhttp-compiler:2.2.8'
     //生成RxHttp类，非kotlin项目，请使用annotationProcessor代替kapt
     implementation 'com.squareup.okhttp3:okhttp:4.7.2' //rxhttp v2.2.2版本起，需要手动依赖okhttp
 
@@ -199,10 +192,10 @@ dependencies {
     implementation 'com.ljx.rxlife3:rxlife-rxjava:3.0.0' //管理RxJava3生命周期，页面销毁，关闭请求
 
     //Converter 根据自己需求选择 RxHttp默认内置了GsonConverter
-//    implementation 'com.ljx.rxhttp:converter-jackson:2.2.7'
-    implementation 'com.ljx.rxhttp:converter-fastjson:2.2.7'
-//    implementation 'com.ljx.rxhttp:converter-protobuf:2.2.7'
-//    implementation 'com.ljx.rxhttp:converter-simplexml:2.2.7'
+//    implementation 'com.ljx.rxhttp:converter-jackson:2.2.8'
+    implementation 'com.ljx.rxhttp:converter-fastjson:2.2.8'
+//    implementation 'com.ljx.rxhttp:converter-protobuf:2.2.8'
+//    implementation 'com.ljx.rxhttp:converter-simplexml:2.2.8'
     //RxHttp
 
     implementation 'com.alibaba:fastjson:1.2.62'
@@ -241,9 +234,7 @@ dependencies {
 
     // ORM Database
     implementation 'org.greenrobot:greendao:3.2.2'
-    // RxJava
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+
     //日志
     implementation 'com.orhanobut:logger:2.2.0'
     //注解
@@ -299,7 +290,6 @@ dependencies {
     //********************友盟************************
     //微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.4.0'
-    implementation project(path: ':flycoTabLayout_lib')
     //Alipay支付
 //    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
 

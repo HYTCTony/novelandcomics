@@ -20,7 +20,6 @@ import com.huli.foxread.ui.activities.LoginActivity;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.CustomDialog;
-import com.lzy.okgo.OkGo;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
@@ -307,13 +306,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-
     private CustomDialog loadingDialog;
-    protected void showLoadingDialog(){
+
+    protected void showLoadingDialog() {
         loadingDialog = CustomDialog.show(this, R.layout.layout_loadingview, (dialog, v) -> {
         });
     }
-    protected void dismissLoadingDialog(){
+
+    protected void dismissLoadingDialog() {
         if (loadingDialog != null && loadingDialog.isShow) {
             loadingDialog.doDismiss();
             loadingDialog = null;

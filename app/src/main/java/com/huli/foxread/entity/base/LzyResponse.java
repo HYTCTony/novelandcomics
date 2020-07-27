@@ -1,4 +1,4 @@
-package com.huli.foxread.callbacks.ookkggoo;
+package com.huli.foxread.entity.base;
 
 import java.io.Serializable;
 

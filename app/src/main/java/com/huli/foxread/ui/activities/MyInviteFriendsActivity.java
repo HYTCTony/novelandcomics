@@ -4,18 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.InvitedFriendInfo;
-import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.InvitedFriendsAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.List;
@@ -80,42 +76,32 @@ public class MyInviteFriendsActivity extends BaseActivity {
      * 已邀好友列表
      */
     private void reqMyFriendsList(int page, boolean showDialog) {
-        OkGo.<String>post(Consts.INVITATION_INDEX_API)
-                .params(Consts.PAGE, page + 1)
-                .execute(new LtbCallback(this, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<InvitedFriendInfo>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<InvitedFriendInfo>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<InvitedFriendInfo>> datas = entity.getData();
-                            curPage = datas.getCurrent_page();
-                            List<InvitedFriendInfo> friendInfos = datas.getData();
-                            if (curPage == 1) {
-                                mAdapter.setList(friendInfos);
-                            } else {
-                                mAdapter.addData(friendInfos);
-                            }
-                            if (datas.getLast_page() <= curPage) {    //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
-                            }
-                        }
+        RxHttp.postForm(Consts.INVITATION_INDEX_API)
+                .add(Consts.PAGE, page + 1)
+                .asResponsePageList(InvitedFriendInfo.class)
+                .doOnSubscribe(disposable -> {
+                    if (showDialog) {
+                        showLoadingDialog();
                     }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
+                })
+                .doFinally(() -> {
+                    dismissLoadingDialog();
+                    mRefreshLayout.finishRefresh();
+                })
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    curPage = entity.getCurrent_page();
+                    List<InvitedFriendInfo> friendInfos = entity.getData();
+                    if (curPage == 1) {
+                        mAdapter.setList(friendInfos);
+                    } else {
+                        mAdapter.addData(friendInfos);
                     }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        mRefreshLayout.finishRefresh();
+                    if (entity.getLast_page() <= curPage) {    //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
                     }
-                });
+                }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
     }
 }

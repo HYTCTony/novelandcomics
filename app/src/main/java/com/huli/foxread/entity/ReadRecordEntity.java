@@ -11,7 +11,7 @@ public class ReadRecordEntity {
     private int chapter;
     private String chapter_name;
     private long createtime;
-    private boolean isSelected;
+    private int exist_bookshelf;            // 1在书架  0不在书架
     private BookEntity profileNovel;
 
     public int getId() {
@@ -70,12 +70,12 @@ public class ReadRecordEntity {
         this.createtime = createtime;
     }
 
-    public boolean isSelected() {
-        return isSelected;
+    public int getExist_bookshelf() {
+        return exist_bookshelf;
     }
 
-    public void setSelected(boolean selected) {
-        isSelected = selected;
+    public void setExist_bookshelf(int exist_bookshelf) {
+        this.exist_bookshelf = exist_bookshelf;
     }
 
     public BookEntity getProfileNovel() {

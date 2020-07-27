@@ -8,28 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
+import com.huli.foxread.rxhttp.OnError;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.adapters.WithdrawalGoldAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
+import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
 import com.huli.foxread.utils.DateTimeUtil;
+import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.huli.foxread.utils.Tos;
+import com.kongzue.dialog.util.TextInfo;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -39,17 +40,28 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * 金币提现
  */
-public class WithdrawalActivity extends BaseActivity implements View.OnClickListener {
+public class WithdrawalActivity extends BaseActivity implements View.OnClickListener, OnItemClickListener {
     private static final int REQCODE_BIND_BANKCARD = 0x1999;
 
     private TextView tvGoldBalance, tvExchangeYuan;
     private TextView btnRecord;
-    private TextView btnWithdrawal;
+    private TextView btnGo2Invite;
 
     private RecyclerView recyclerView;
     private WithdrawalGoldAdapter mAdapter;
 
     private TextView tvWithdrawalTips;
+
+    /*提现套餐ID*/
+    private String planID;
+    /*提现申请提示框title*/
+    private String msgTitle;
+
+    /*我的金币余额*/
+    private int goldCoinBalance = 0;
+
+    private boolean hasQuery;       //已经查询用户资产信息
+    private String myBankCardNo;
 
     @Override
     protected void setStatusBar() {
@@ -82,7 +94,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         tvGoldBalance = $(R.id.tv_my_gold_coin_balance);
         tvExchangeYuan = $(R.id.tv_my_gold_coin_balance_exchange_yuan);
         btnRecord = $(R.id.tv_asBtn_withdrawal_record);
-        btnWithdrawal = $(R.id.btn_gold_coin_withdrawal);
+        btnGo2Invite = $(R.id.btn_invite_friends_2_make_money);
 
         recyclerView = $(R.id.recyclerView_withdrawal);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -94,6 +106,7 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
         View footView = inflater.inflate(R.layout.layout_rv_footer_withdrawal, recyclerView, false);
         mAdapter.addHeaderView(headView);
         mAdapter.addFooterView(footView);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, DensityUtils.dp2px(this, 16), true, 1));
         tvWithdrawalTips = footView.findViewById(R.id.tv_withdrawal_tips);
 
     }
@@ -101,7 +114,8 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
     @Override
     public void setListener() {
         btnRecord.setOnClickListener(this);
-        btnWithdrawal.setOnClickListener(this);
+        btnGo2Invite.setOnClickListener(this);
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -129,11 +143,8 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
                 startActivity(new Intent(WithdrawalActivity.this, WithdrawalRecordActivity.class));
                 break;
 
-            case R.id.btn_gold_coin_withdrawal:
-                String planId = mAdapter.getSelectPlanId();
-                if (!TextUtils.isEmpty(planId)) {
-                    reqGoldWithdrawal(planId);
-                }
+            case R.id.btn_invite_friends_2_make_money:
+                startActivity(new Intent(this, InviteFriendsActivity.class));
                 break;
 
             default:
@@ -142,11 +153,62 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+        WithdrawalOptionEntity data = (WithdrawalOptionEntity) adapter.getData().get(position);
+        if (data.getNeed_score() < goldCoinBalance) {
+            MessageDialog.show(this, "余额不足", "余额不足，先去做任务赚金币吧！", "做任务", "取消")
+                    .setButtonPositiveTextInfo(new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.col_red_fc4545)))
+                    .setOnOkButtonClickListener((baseDialog, v) -> {
+                        startActivity(new Intent(WithdrawalActivity.this, MainActivity.class)
+                                .putExtra(Common.WITHDRAWAL_DO_TASKS, true));
+                        return false;
+                    });
+        } else {
+            planID = data.getId();
+            msgTitle = data.getTitle();
+            if (!TextUtils.isEmpty(myBankCardNo)) {
+                showWithdrawalDialog(planID, msgTitle);
+            } else {
+                if (hasQuery) {
+                    MessageDialog.show(this, "无提现账号", "请完善账户信息！" + myBankCardNo, "前往", "稍后再填")
+                            .setButtonPositiveTextInfo(new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.col_red_fc4545)))
+                            .setOnOkButtonClickListener((baseDialog, v) -> {
+                                startActivityForResult(new Intent(WithdrawalActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
+                                return false;
+                            });
+                } else {
+                    Tip.show("正在查询您的提现账号，请稍候...");
+                }
+            }
+        }
+    }
+
+    /**
+     * 提现确认提示
+     *
+     * @param planID   体现套餐ID
+     * @param msgTitle 提示标题
+     */
+    private void showWithdrawalDialog(String planID, String msgTitle) {
+        MessageDialog.show(this, msgTitle, "申请提现到银行卡账户：" + myBankCardNo, "立即申请", "取消")
+                .setButtonPositiveTextInfo(new TextInfo().setFontColor(ContextCompat.getColor(this, R.color.col_red_fc4545)))
+                .setOnOkButtonClickListener((baseDialog, v) -> {
+                    reqGoldWithdrawal(planID);
+                    return false;
+                });
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == REQCODE_BIND_BANKCARD) {
-                btnWithdrawal.performLongClick();
+                if (data != null) {
+                    myBankCardNo = data.getStringExtra(Common.BANKCARD_NO);
+                    if (!TextUtils.isEmpty(planID) && !TextUtils.isEmpty(myBankCardNo)) {
+                        showWithdrawalDialog(planID, msgTitle);
+                    }
+                }
             }
         }
     }
@@ -155,79 +217,63 @@ public class WithdrawalActivity extends BaseActivity implements View.OnClickList
      * 金币提现套餐
      */
     private void reqWithdrawalCombo() {
-        OkGo.<String>post(Consts.WITHDRAWAL_MENU_API)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<WithdrawalOptionEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<WithdrawalOptionEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<WithdrawalOptionEntity> datas = entity.getData();
-                            mAdapter.setList(datas);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.WITHDRAWAL_MENU_API)
+                .asResponseList(WithdrawalOptionEntity.class)
+//                .doOnSubscribe(disposable -> showLoadingDialog())
+//                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(list -> mAdapter.setList(list));
     }
-
 
     /**
      * 金币提现
+     *
+     * @param planID 提现套餐ID
      */
     private void reqGoldWithdrawal(String planID) {
-        OkGo.<String>post(Consts.WITHDRAWAL_SCORE_API)
-                .params(Consts.WITHDRAWAL_PLAN_ID, planID)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            MessageDialog.show(WithdrawalActivity.this, getString(R.string.txt_withdrawal_success_title),
-                                    DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
-                                    .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
-                                    });
-                            reqMyCapitalDetail();
-                        } else if (entity.error_code == 10008) {
-                            Tos.showShort(WithdrawalActivity.this, entity.msg);
-                            startActivityForResult(new Intent(WithdrawalActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
-                        } else {
-                            TipDialog.show(WithdrawalActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
+        RxHttp.postForm(Consts.WITHDRAWAL_SCORE_API)
+                .add(Consts.WITHDRAWAL_PLAN_ID, planID)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    MessageDialog.show(WithdrawalActivity.this, getString(R.string.txt_withdrawal_success_title),
+                            DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
+                            .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
+                            });
+                    reqMyCapitalDetail();
+                }, (OnError) error -> {
+                    if (error.getErrorCode() == 10008) {
+                        Tip.show(error.getErrorMsg());
+                        startActivityForResult(new Intent(WithdrawalActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
+                    } else {
+                        TipDialog.show(WithdrawalActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR);
                     }
                 });
     }
-
 
     /**
      * 我的资金详情
      */
     public void reqMyCapitalDetail() {
-        OkGo.<String>get(Consts.USER_CAPITAL_API)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<CapitalEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            CapitalEntity data = entity.getData();
+        RxHttp.get(Consts.USER_CAPITAL_API)
+                .asResponse(CapitalEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    hasQuery = true;
+                    myBankCardNo = entity.getAccount();
+                    goldCoinBalance = entity.getScore();
+                    tvGoldBalance.setText(String.valueOf(goldCoinBalance));
 
-                            int goldCoinBalance = data.getScore();
-                            tvGoldBalance.setText(String.valueOf(goldCoinBalance));
-
-                            double exchangeMoney;       //金币余额转换RMB
-                            try {
-                                exchangeMoney = (double) goldCoinBalance / data.getProportion();
-                            } catch (Exception e) {
-                                exchangeMoney = 0;
-                            }
-                            DecimalFormat df = new DecimalFormat("#######.##" + getString(R.string.unit_yuan));
-                            tvExchangeYuan.setText(df.format(exchangeMoney));
-                        }
+                    int exchangeMoney;       //金币余额转换RMB
+                    try {
+                        exchangeMoney = goldCoinBalance / entity.getProportion();
+                    } catch (Exception e) {
+                        exchangeMoney = 0;
                     }
+//                    DecimalFormat df = new DecimalFormat("约" + "#######.##" + getString(R.string.unit_yuan));
+                    tvExchangeYuan.setText((exchangeMoney + getString(R.string.unit_yuan)));
                 });
     }
-
 }
