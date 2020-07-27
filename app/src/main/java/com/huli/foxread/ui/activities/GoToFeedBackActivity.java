@@ -2,9 +2,7 @@ package com.huli.foxread.ui.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -13,14 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FeedBackTypeBean;
 import com.huli.foxread.entity.ImageBean;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.imgshowpickerview.ImageLoader;
 import com.huli.foxread.ui.imgshowpickerview.ImageShowPickerBean;
@@ -28,19 +24,15 @@ import com.huli.foxread.ui.imgshowpickerview.ImageShowPickerListener;
 import com.huli.foxread.ui.imgshowpickerview.ImageShowPickerView;
 import com.huli.foxread.utils.DensityUtils;
 import com.huli.foxread.utils.GlideUtil;
-import com.kongzue.dialog.interfaces.OnDismissListener;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
 import com.kongzue.stacklabelview.interfaces.OnLabelClickListener;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 public class GoToFeedBackActivity extends BaseActivity {
 
@@ -171,22 +163,17 @@ public class GoToFeedBackActivity extends BaseActivity {
      * 获取反馈分类
      */
     private void reqFeedBackCategory() {
-        OkGo.<String>get(Consts.OPINION_CATEGORY_API)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<FeedBackTypeBean>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<FeedBackTypeBean>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            types.addAll(entity.getData());
-                            String[] labels = new String[types.size()];
-                            for (int i = 0; i < types.size(); i++) {
-                                labels[i] = types.get(i).getTitle();
-                            }
-                            labelIssueType.setLabels(labels);
-                        }
+        RxHttp.postForm(Consts.OPINION_CATEGORY_API)
+                .setAssemblyEnabled(false)
+                .asResponseList(FeedBackTypeBean.class)
+                .to(RxLife.toMain(this))
+                .subscribe(list -> {
+                    types.addAll(list);
+                    String[] labels = new String[types.size()];
+                    for (int i = 0; i < types.size(); i++) {
+                        labels[i] = types.get(i).getTitle();
                     }
+                    labelIssueType.setLabels(labels);
                 });
     }
 
@@ -198,28 +185,16 @@ public class GoToFeedBackActivity extends BaseActivity {
      * @param content   反馈内容
      */
     private void reqFeedBackCreat(String phone, int opinionId, String content) {
-        OkGo.<String>post(Consts.OPINION_CREATE_API)
-                .params(Consts.PHONE, phone)
-                .params(Consts.OPINION_CATEGORY_ID, opinionId)
-                .params(Consts.CONTENT, content)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            TipDialog.show((AppCompatActivity) GoToFeedBackActivity.this, entity.msg, TipDialog.TYPE.SUCCESS).setOnDismissListener(new OnDismissListener() {
-                                @Override
-                                public void onDismiss() {
-                                    finish();
-                                }
-                            });
-                        } else {
-                            TipDialog.show((AppCompatActivity) GoToFeedBackActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.OPINION_CREATE_API)
+                .add(Consts.PHONE, phone)
+                .add(Consts.OPINION_CATEGORY_ID, opinionId)
+                .add(Consts.CONTENT, content)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> TipDialog.show(GoToFeedBackActivity.this, "反馈已经提交", TipDialog.TYPE.SUCCESS).setOnDismissListener(this::finish),
+                        (OnError) error -> TipDialog.show(GoToFeedBackActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 }

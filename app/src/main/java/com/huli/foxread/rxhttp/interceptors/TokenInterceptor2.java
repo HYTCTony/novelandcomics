@@ -1,4 +1,4 @@
-package com.huli.foxread.rxhttp;
+package com.huli.foxread.rxhttp.interceptors;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,9 +9,9 @@ import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.LoginRpsEntity;
+import com.huli.foxread.entity.base.LzyResponse;
 import com.huli.foxread.ui.activities.TransparencyActivity;
 import com.huli.foxread.utils.UniqueIdManager;
 

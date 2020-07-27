@@ -9,29 +9,24 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
 import com.huli.foxread.entity.CategoryEntity;
-import com.huli.foxread.entity.base.PagingWarpper;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.adapters.ClassifyBookListAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.utils.FigureProcessor;
 import com.huli.foxread.utils.GlideUtil;
+import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.stacklabelview.StackLabel;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -44,6 +39,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 /**
  * ViewPager中---分类
@@ -53,6 +49,9 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     private SmartRefreshLayout mRefreshLayout;
     private RecyclerView recyclerView;
     private ClassifyBookListAdapter mAdapter;
+
+    /*加载框*/
+    private CustomDialog loadingDialog;
 
     /*书籍类型、字数、完结与否*/
     private StackLabel stackLabel1, stackLabel2, stackLabel3;
@@ -102,7 +101,9 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     @Override
     public void initView(View view) {
         Bundle bundle = getArguments();
-        index = bundle.getInt("index");
+        if (bundle != null) {
+            index = bundle.getInt("index");
+        }
         // 这个设置tag要与FragmentPagerAdapter中的获取方法getItemPosition方法要对应上
         view.setTag(index);
 
@@ -247,131 +248,134 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
         BookEntity entity = mAdapter.getData().get(position);
         Intent intent = new Intent(mActivity, BookDetailsActivity.class);
         intent.putExtra(Common.KEY_BOOK_ID, entity.getId());
         startActivity(intent);
     }
 
+
+    protected void showLoadingDialog() {
+        loadingDialog = CustomDialog.show((AppCompatActivity) mActivity, R.layout.layout_loadingview, (dialog, v) -> {
+        });
+    }
+
+    protected void dismissLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShow) {
+            loadingDialog.doDismiss();
+            loadingDialog = null;
+        }
+    }
+
     /**
      * 查询分类下的书籍数据
      *
-     * @param showDialog
+     * @param showDialog 是否显示加载框
      */
     private void reqCategoryDatas(boolean showDialog) {
-        OkGo.<String>post(Consts.NOVEL_CHOICE_SUPERIOR_API)
-                .params(Consts.CAT_BOY_GIRL, mType)
-                .params(Consts.CAT_SECOND_CLASSIFY_ID, paramSubCatID)
-                .params(Consts.CAT_IS_END, paramIsEnd)
-                .params(Consts.CAT_WORD_NUM, paramWordsNum)
-                .params(Consts.PAGE, paramCurPage + 1)
-                .execute(new LtbCallback((AppCompatActivity) mActivity, showDialog) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PagingWarpper<List<BookEntity>>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PagingWarpper<List<BookEntity>>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PagingWarpper<List<BookEntity>> data = entity.getData();
-                            paramCurPage = data.getCurrent_page();
-                            int lastPage = data.getLast_page();
-                            List<BookEntity> bookList = data.getData();
-                            if (paramCurPage == 1) {
-                                int size = bookList.size();
-                                if (size >= 3) {
-                                    mAdapter.setList(bookList.subList(3, size));
+        RxHttp.postForm(Consts.NOVEL_CHOICE_SUPERIOR_API)
+                .add(Consts.CAT_BOY_GIRL, mType)
+                .add(Consts.CAT_SECOND_CLASSIFY_ID, paramSubCatID)
+                .add(Consts.CAT_IS_END, paramIsEnd)
+                .add(Consts.CAT_WORD_NUM, paramWordsNum)
+                .add(Consts.PAGE, paramCurPage + 1)
+                .asResponsePageList(BookEntity.class)
+                .doOnSubscribe(disposable -> {
+                    if (showDialog) {
+                        showLoadingDialog();
+                    }
+                })
+                .doFinally(() -> {
+                    dismissLoadingDialog();
+                    mRefreshLayout.finishRefresh();
+                })
+                .to(RxLife.toMain(this))
+                .subscribe(entity -> {
+                    paramCurPage = entity.getCurrent_page();
+                    int lastPage = entity.getLast_page();
+                    List<BookEntity> bookList = entity.getData();
+                    if (paramCurPage == 1) {
+                        int size = bookList.size();
+                        if (size >= 3) {
+                            mAdapter.setList(bookList.subList(3, size));
 
-                                    headView.setVisibility(View.VISIBLE);
-                                    ivFirstSign.setVisibility(View.VISIBLE);
-                                    ivSecondSign.setVisibility(View.VISIBLE);
-                                    ivThirdSign.setVisibility(View.VISIBLE);
-                                    ivTop3Center.setVisibility(View.VISIBLE);
-                                    ivTop3Left.setVisibility(View.VISIBLE);
-                                    ivTop3Right.setVisibility(View.VISIBLE);
-                                    flTop1.setVisibility(View.VISIBLE);
-                                    flTop2.setVisibility(View.VISIBLE);
-                                    flTop3.setVisibility(View.VISIBLE);
-                                    tvTop3BookNameCenter.setVisibility(View.VISIBLE);
-                                    tvTop3BookNameLeft.setVisibility(View.VISIBLE);
-                                    tvTop3BookNameRight.setVisibility(View.VISIBLE);
-                                    flContentCenter.setVisibility(View.VISIBLE);
-                                    flContentLeft.setVisibility(View.VISIBLE);
-                                    flContentRight.setVisibility(View.VISIBLE);
+                            headView.setVisibility(View.VISIBLE);
+                            ivFirstSign.setVisibility(View.VISIBLE);
+                            ivSecondSign.setVisibility(View.VISIBLE);
+                            ivThirdSign.setVisibility(View.VISIBLE);
+                            ivTop3Center.setVisibility(View.VISIBLE);
+                            ivTop3Left.setVisibility(View.VISIBLE);
+                            ivTop3Right.setVisibility(View.VISIBLE);
+                            flTop1.setVisibility(View.VISIBLE);
+                            flTop2.setVisibility(View.VISIBLE);
+                            flTop3.setVisibility(View.VISIBLE);
+                            tvTop3BookNameCenter.setVisibility(View.VISIBLE);
+                            tvTop3BookNameLeft.setVisibility(View.VISIBLE);
+                            tvTop3BookNameRight.setVisibility(View.VISIBLE);
+                            flContentCenter.setVisibility(View.VISIBLE);
+                            flContentLeft.setVisibility(View.VISIBLE);
+                            flContentRight.setVisibility(View.VISIBLE);
 
-                                    showBookTop1(bookList);
-                                    showBookTop2(bookList);
-                                    showBookTop3(bookList);
-                                } else {
-                                    mAdapter.setList(null);
-                                    if (size == 1) {
-                                        headView.setVisibility(View.VISIBLE);
-                                        ivFirstSign.setVisibility(View.VISIBLE);
-                                        ivSecondSign.setVisibility(View.INVISIBLE);
-                                        ivThirdSign.setVisibility(View.INVISIBLE);
-                                        ivTop3Center.setVisibility(View.VISIBLE);
-                                        ivTop3Left.setVisibility(View.INVISIBLE);
-                                        ivTop3Right.setVisibility(View.INVISIBLE);
-                                        flTop1.setVisibility(View.VISIBLE);
-                                        flTop2.setVisibility(View.INVISIBLE);
-                                        flTop3.setVisibility(View.INVISIBLE);
-                                        tvTop3BookNameCenter.setVisibility(View.VISIBLE);
-                                        tvTop3BookNameLeft.setVisibility(View.INVISIBLE);
-                                        tvTop3BookNameRight.setVisibility(View.INVISIBLE);
-                                        flContentCenter.setVisibility(View.VISIBLE);
-                                        flContentLeft.setVisibility(View.INVISIBLE);
-                                        flContentRight.setVisibility(View.INVISIBLE);
+                            showBookTop1(bookList);
+                            showBookTop2(bookList);
+                            showBookTop3(bookList);
+                        } else {
+                            mAdapter.setList(null);
+                            if (size == 1) {
+                                headView.setVisibility(View.VISIBLE);
+                                ivFirstSign.setVisibility(View.VISIBLE);
+                                ivSecondSign.setVisibility(View.INVISIBLE);
+                                ivThirdSign.setVisibility(View.INVISIBLE);
+                                ivTop3Center.setVisibility(View.VISIBLE);
+                                ivTop3Left.setVisibility(View.INVISIBLE);
+                                ivTop3Right.setVisibility(View.INVISIBLE);
+                                flTop1.setVisibility(View.VISIBLE);
+                                flTop2.setVisibility(View.INVISIBLE);
+                                flTop3.setVisibility(View.INVISIBLE);
+                                tvTop3BookNameCenter.setVisibility(View.VISIBLE);
+                                tvTop3BookNameLeft.setVisibility(View.INVISIBLE);
+                                tvTop3BookNameRight.setVisibility(View.INVISIBLE);
+                                flContentCenter.setVisibility(View.VISIBLE);
+                                flContentLeft.setVisibility(View.INVISIBLE);
+                                flContentRight.setVisibility(View.INVISIBLE);
 
-                                        showBookTop1(bookList);
-                                    } else if (size == 2) {
-                                        headView.setVisibility(View.VISIBLE);
-                                        ivFirstSign.setVisibility(View.VISIBLE);
-                                        ivSecondSign.setVisibility(View.VISIBLE);
-                                        ivThirdSign.setVisibility(View.INVISIBLE);
-                                        ivTop3Center.setVisibility(View.VISIBLE);
-                                        ivTop3Left.setVisibility(View.VISIBLE);
-                                        ivTop3Right.setVisibility(View.INVISIBLE);
-                                        flTop1.setVisibility(View.VISIBLE);
-                                        flTop2.setVisibility(View.VISIBLE);
-                                        flTop3.setVisibility(View.INVISIBLE);
-                                        tvTop3BookNameCenter.setVisibility(View.VISIBLE);
-                                        tvTop3BookNameLeft.setVisibility(View.VISIBLE);
-                                        tvTop3BookNameRight.setVisibility(View.INVISIBLE);
-                                        flContentCenter.setVisibility(View.VISIBLE);
-                                        flContentLeft.setVisibility(View.VISIBLE);
-                                        flContentRight.setVisibility(View.INVISIBLE);
+                                showBookTop1(bookList);
+                            } else if (size == 2) {
+                                headView.setVisibility(View.VISIBLE);
+                                ivFirstSign.setVisibility(View.VISIBLE);
+                                ivSecondSign.setVisibility(View.VISIBLE);
+                                ivThirdSign.setVisibility(View.INVISIBLE);
+                                ivTop3Center.setVisibility(View.VISIBLE);
+                                ivTop3Left.setVisibility(View.VISIBLE);
+                                ivTop3Right.setVisibility(View.INVISIBLE);
+                                flTop1.setVisibility(View.VISIBLE);
+                                flTop2.setVisibility(View.VISIBLE);
+                                flTop3.setVisibility(View.INVISIBLE);
+                                tvTop3BookNameCenter.setVisibility(View.VISIBLE);
+                                tvTop3BookNameLeft.setVisibility(View.VISIBLE);
+                                tvTop3BookNameRight.setVisibility(View.INVISIBLE);
+                                flContentCenter.setVisibility(View.VISIBLE);
+                                flContentLeft.setVisibility(View.VISIBLE);
+                                flContentRight.setVisibility(View.INVISIBLE);
 
-                                        showBookTop1(bookList);
-                                        showBookTop2(bookList);
-                                    } else {
-                                        headView.setVisibility(View.GONE);
-                                    }
-                                }
+                                showBookTop1(bookList);
+                                showBookTop2(bookList);
                             } else {
-                                mAdapter.addData(bookList);
-                            }
-
-                            if (lastPage <= paramCurPage) {
-                                //没有下一页
-                                mAdapter.getLoadMoreModule().loadMoreEnd();
-                            } else {
-                                mAdapter.getLoadMoreModule().loadMoreComplete();
+                                headView.setVisibility(View.GONE);
                             }
                         }
+                    } else {
+                        mAdapter.addData(bookList);
                     }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        mAdapter.getLoadMoreModule().loadMoreFail();
+                    if (lastPage <= paramCurPage) {
+                        //没有下一页
+                        mAdapter.getLoadMoreModule().loadMoreEnd();
+                    } else {
+                        mAdapter.getLoadMoreModule().loadMoreComplete();
                     }
-
-                    @Override
-                    public void onFinish() {
-                        super.onFinish();
-                        mRefreshLayout.finishRefresh();
-                    }
-                });
+                }, (OnError) error -> mAdapter.getLoadMoreModule().loadMoreFail());
     }
 
     private void showBookTop1(List<BookEntity> bookList) {
@@ -403,33 +407,20 @@ public class ClassifyVpFragment extends BaseFragment implements View.OnClickList
      * 男1 女2
      */
     private void reqSubCategory() {
-        OkGo.<LzyResponse<List<CategoryEntity>>>post(Consts.NOVEL_CATEGORY_SUB_API)
-                .params(Consts.CAT_PID, index + 1)
-                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
-                .cacheKey(Consts.NOVEL_CATEGORY_SUB_API + "/gender_" + (index + 1))
-                .execute(new LtbJsonCallback<LzyResponse<List<CategoryEntity>>>((AppCompatActivity) mActivity, false,
-                        new TypeReference<LzyResponse<List<CategoryEntity>>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<List<CategoryEntity>>> response) {
-                        LzyResponse<List<CategoryEntity>> entity = response.body();
-
-                        // 分类栏
-                        if (entity.error_code == 0) {
-                            datas = entity.getData();
-                            for (CategoryEntity ce : datas) {
-                                stack1Datas.add(ce.getName());
-                            }
-                            stackLabel1.setLabels(stack1Datas);
-                            stackLabel1.setSelectMode(true, stack1Datas.subList(0, 1));
-                        }
+        RxHttp.postForm(Consts.NOVEL_CATEGORY_SUB_API)
+                .add(Consts.CAT_PID, index + 1)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .setCacheValidTime(10 * 60 * 1000)
+                .setCacheKey(Consts.NOVEL_CATEGORY_SUB_API + "/gender_" + (index + 1))
+                .asResponseList(CategoryEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(list -> {
+                    datas = list;
+                    for (CategoryEntity ce : datas) {
+                        stack1Datas.add(ce.getName());
                     }
-
-                    @Override
-                    public void onCacheSuccess(Response<LzyResponse<List<CategoryEntity>>> response) {
-                        super.onCacheSuccess(response);
-                        onSuccess(response);
-                    }
+                    stackLabel1.setLabels(stack1Datas);
+                    stackLabel1.setSelectMode(true, stack1Datas.subList(0, 1));
                 });
     }
 

@@ -11,21 +11,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.FreeAdvRespone;
 import com.huli.foxread.ebsevent.WelfareChangeEvent;
+import com.huli.foxread.entity.FreeAdvRespone;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.services.CountService;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.page.model.event.AdMessage;
 import com.huli.page.model.local.ReadSettingManager;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -93,43 +90,30 @@ public class AdvFreeSuccessActivity extends BaseActivity {
      * 完成任务领取奖励
      */
     private void reqAdvMissionComplete() {
-        OkGo.<String>get(Consts.WELFARE_COMPLETE_ADVERT_API)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<FreeAdvRespone> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<FreeAdvRespone>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            FreeAdvRespone data = entity.getData();
-                            tvRewardTips.setText(String.format(getString(R.string.txt_adblock_plus_tips_x), data.getSpace()));
-                            String residueDegreeStr = String.format(getString(R.string.txt_residue_degree_today_x), data.getSite());
-                            tvResidueDegree.setText(setNumColor(AdvFreeSuccessActivity.this, residueDegreeStr));
-                            ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
+        RxHttp.get(Consts.WELFARE_COMPLETE_ADVERT_API)
+                .asResponse(FreeAdvRespone.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(data -> {
+                    tvRewardTips.setText(String.format(getString(R.string.txt_adblock_plus_tips_x), data.getSpace()));
+                    String residueDegreeStr = String.format(getString(R.string.txt_residue_degree_today_x), data.getSite());
+                    tvResidueDegree.setText(setNumColor(AdvFreeSuccessActivity.this, residueDegreeStr));
+                    ReadSettingManager.getInstance().setAdvertTime(data.getAdvert_time());
 
-                            tvAdvFreeSuccess.setVisibility(View.VISIBLE);
-                            tvRewardTips.setVisibility(View.VISIBLE);
-                            tvResidueDegree.setVisibility(View.VISIBLE);
-                            btnComplete.setVisibility(View.VISIBLE);
+                    tvAdvFreeSuccess.setVisibility(View.VISIBLE);
+                    tvRewardTips.setVisibility(View.VISIBLE);
+                    tvResidueDegree.setVisibility(View.VISIBLE);
+                    btnComplete.setVisibility(View.VISIBLE);
 
-                            /*通知刷新福利列表*/
-                            EventBus.getDefault().post(new WelfareChangeEvent(true));
-                            //启动免广告倒计时服务
-                            Intent intent = new Intent(AdvFreeSuccessActivity.this, CountService.class);
-                            intent.putExtra(CountService.EXTRA_COUNT_MIN, data.getInterval());
-                            startService(intent);
-                            EventBus.getDefault().post(new AdMessage());
-                        } else {
-                            TipDialog.show(AdvFreeSuccessActivity.this, entity.msg, TipDialog.TYPE.ERROR).setOnDismissListener(() -> finish());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        TipDialog.show(AdvFreeSuccessActivity.this, R.string.txt_network_maybe_exceptions, TipDialog.TYPE.ERROR).setOnDismissListener(() -> finish());
-                    }
-                });
+                    /*通知刷新福利列表*/
+                    EventBus.getDefault().post(new WelfareChangeEvent(true));
+                    //启动免广告倒计时服务
+                    Intent intent = new Intent(AdvFreeSuccessActivity.this, CountService.class);
+                    intent.putExtra(CountService.EXTRA_COUNT_MIN, data.getInterval());
+                    startService(intent);
+                    EventBus.getDefault().post(new AdMessage());
+                }, (OnError) error -> TipDialog.show(AdvFreeSuccessActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR).setOnDismissListener(this::finish));
     }
 
 

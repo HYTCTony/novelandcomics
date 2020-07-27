@@ -1,6 +1,6 @@
 package com.huli.foxread.entity.base;
 
-public class BaseEntity<T>{
+public class BaseEntity<T> {
     //  判断标示
     private int error_code;
     //    提示信息

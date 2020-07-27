@@ -86,6 +86,7 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new GoldCoinDetailAdapter();
         recyclerView.setAdapter(mAdapter);
+        mAdapter.setEmptyView(R.layout.layout_empty);
 
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_rv_head_gold_coin_details, recyclerView, false);
         mAdapter.addHeaderView(headView);
@@ -161,13 +162,7 @@ public class MyGoldCoinActivity extends BaseActivity implements View.OnClickList
                         exchangeMoney = 0;
                     }
 //                    DecimalFormat df = new DecimalFormat("约" + "#######.##" + getString(R.string.unit_yuan));
-                    String exMoneyStr;
-                    if (exchangeMoney > 0) {
-                        exMoneyStr = "约" + exchangeMoney + getString(R.string.unit_yuan);
-                    } else {
-                        exMoneyStr = exchangeMoney + getString(R.string.unit_yuan);
-                    }
-                    tvExchangeYuan.setText(exMoneyStr);
+                    tvExchangeYuan.setText((exchangeMoney + getString(R.string.unit_yuan)));
 
                     tvAccumulatedGold.setText((getString(R.string.txt_accumulated_gold_colon) + entity.getScore_sum()));
                     tvGetGoldToday.setText((getString(R.string.txt_get_gold_today_colon) + entity.getToday_score()));

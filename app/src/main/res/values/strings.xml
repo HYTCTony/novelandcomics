@@ -25,6 +25,8 @@
     <string name="txt_withhold">暂不</string>
     <string name="txt_permanent_validity">永久</string>
 
+    <string name="txt_sms_verification_code_has_been_issued">短信验证码已下发</string>
+
 <!--    <string name="network_error">当前无网络，请检查你的网络设置</string>-->
     <string name="network_error">当前无网络</string>
     <string name="notify_no_network">网络连接不可用，请稍后重试！</string>
@@ -389,6 +391,8 @@
 
     <string name="txt_binding">绑定</string>
     <string name="txt_binding_cellphone_safer">绑定手机号，账号更安全</string>
+    <string name="txt_binding_success">绑定成功</string>
+    <string name="txt_setup_success">设置成功</string>
 
     <string name="txt_withdrawal_success_title">提现申请已提交，等待人工审核</string>
     <string name="txt_withdrawal_tips">1. 提现申请将在1&#8211;3个工作日内完成审核，请耐心等待。\n2. 可在“提现记录”中查看提现状态。\n3. 每日阅读、签到或完成福利中心其他任务，均可获得金币，金币可累计提现。</string>

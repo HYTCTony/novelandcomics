@@ -5,8 +5,9 @@ import android.app.Application;
 import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.TokenCache;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.interceptors.HttpLoggingInterceptor;
+import com.huli.foxread.rxhttp.interceptors.TokenInterceptor2;
 import com.huli.foxread.utils.PackageUtils;
-import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

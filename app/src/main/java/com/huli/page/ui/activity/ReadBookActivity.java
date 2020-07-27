@@ -84,7 +84,6 @@ import com.kongzue.dialog.interfaces.OnDialogButtonClickListener;
 import com.kongzue.dialog.util.BaseDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.WaitDialog;
-import com.lzy.okgo.OkGo;
 import com.qq.e.ads.nativ.NativeUnifiedADData;
 import com.qq.e.ads.nativ.widget.NativeAdContainer;
 
@@ -1231,7 +1230,6 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
         mPageLoader.closeBook();
         mPageLoader = null;
-        OkGo.getInstance().cancelAll();
     }
 
     // 接收电池信息和时间更新的广播

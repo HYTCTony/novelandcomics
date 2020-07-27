@@ -671,11 +671,11 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener, V
     private void reqInviteCodeSubmit(String inviteCode) {
         RxHttp.postForm(Consts.FILLIN_INVITE_CODE_API)
                 .add(Consts.CODE, inviteCode)
-                .asResponse(String.class)
-                .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
-                .subscribe(s -> {
-                    SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
-                    UserInfoCache.saveIsInvited(MainActivity.this, true);
+                                    .asResponse(String.class)
+                                    .to(RxLife.toMain(this))  //感知生命周期，并在主线程回调
+                                    .subscribe(s -> {
+                                        SPFUtils.remove(MainActivity.this, Common.INVITE_CODE);
+                                        UserInfoCache.saveIsInvited(MainActivity.this, true);
                 });
     }
 

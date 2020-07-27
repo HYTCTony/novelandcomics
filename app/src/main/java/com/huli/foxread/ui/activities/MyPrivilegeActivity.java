@@ -22,23 +22,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.alipay.sdk.app.PayTask;
 import com.huli.foxread.FrApp;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.ebsevent.VipChargerEvent;
+import com.huli.foxread.ebsevent.WXPaySuccessEvent;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.PaymentInfoEntity;
 import com.huli.foxread.entity.ReChargeSetEntity;
-import com.huli.foxread.ebsevent.VipChargerEvent;
-import com.huli.foxread.ebsevent.WXPaySuccessEvent;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.payment.PayResult;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.adapters.VipComboAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.decoration.GridSpacingItemDecoration;
@@ -50,8 +48,7 @@ import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.tencent.mm.opensdk.constants.Build;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -64,7 +61,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -101,27 +97,24 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
     private Handler mHandler = new Handler() {
         @SuppressWarnings("unused")
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SDK_PAY_FLAG: {
-                    @SuppressWarnings("unchecked")
-                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    /**
-                     对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                     */
-                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
-                    String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为9000则代表支付成功
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+            if (msg.what == SDK_PAY_FLAG) {
+                @SuppressWarnings("unchecked")
+                PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                /*
+                 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                 */
+                String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                String resultStatus = payResult.getResultStatus();
+                // 判断resultStatus 为9000则代表支付成功
+                if (TextUtils.equals(resultStatus, "9000")) {
+                    // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
 //                        Toast.makeText(OnlinePaymentActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
 //                        Intent intent = new Intent(OnlinePaymentActivity.this, PaySuccessActivity.class);
 //                        startActivity(intent);
-                        reqUserInfo();
-                    } else {
-                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
-                        Tos.showShort(MyPrivilegeActivity.this, R.string.txt_payment_failure);
-                    }
-                    break;
+                    reqUserInfo();
+                } else {
+                    // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+                    Tos.showShort(MyPrivilegeActivity.this, R.string.txt_payment_failure);
                 }
             }
         }
@@ -337,8 +330,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void updateDrawState(TextPaint ds) {
-                /**set textColor**/
+            public void updateDrawState(@NonNull TextPaint ds) {
+                /*set textColor*/
 //                ds.setColor(ds.linkColor);
                 ds.setColor(ContextCompat.getColor(MyPrivilegeActivity.this, R.color.txt_dark_gold));
                 ds.setUnderlineText(false);
@@ -354,8 +347,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void updateDrawState(TextPaint ds) {
-                /**set textColor**/
+            public void updateDrawState(@NonNull TextPaint ds) {
+                /*set textColor*/
 //                ds.setColor(ds.linkColor);
                 ds.setColor(ContextCompat.getColor(MyPrivilegeActivity.this, R.color.txt_dark_gold));
                 ds.setUnderlineText(false);
@@ -371,8 +364,8 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void updateDrawState(TextPaint ds) {
-                /**set textColor**/
+            public void updateDrawState(@NonNull TextPaint ds) {
+                /*set textColor*/
 //                ds.setColor(ds.linkColor);
                 ds.setColor(ContextCompat.getColor(MyPrivilegeActivity.this, R.color.txt_dark_gold));
                 ds.setUnderlineText(false);
@@ -388,86 +381,60 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
      * 获取充值列表
      */
     private void reqRechargeCombo() {
-        OkGo.<String>get(Consts.ORDER_RECHARGE_API)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<ReChargeSetEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<ReChargeSetEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<ReChargeSetEntity> datas = entity.getData();
-                            mAdapter.setList(datas);
-                        }
-                    }
-                });
+        RxHttp.get(Consts.ORDER_RECHARGE_API)
+                .asResponseList(ReChargeSetEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(datas -> mAdapter.setList(datas));
     }
 
     /**
      * 提交订单
      */
     private void reqSubmitOrder(String comboId) {
-        OkGo.<String>post(Consts.ORDER_CREATE_API)
-                .params(Consts.VIP_COMBO_ID, comboId)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<PaymentInfoEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<PaymentInfoEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            PaymentInfoEntity data = entity.getData();
-
-                            PaymentSelectDialog.newInstance(data)
-                                    .setLayoutId(R.layout.dialog_payment_select)
-                                    .setConvertListener(viewConvertListener)
-                                    .setDimAmout(0.5f)
-                                    .setShowBottom(true)
-                                    .setAnimStyle(R.style.PaymentDialogAnim)
-                                    .show(getSupportFragmentManager());
-                        } else {
-                            TipDialog.show(MyPrivilegeActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.ORDER_CREATE_API)
+                .add(Consts.VIP_COMBO_ID, comboId)
+                .asResponse(PaymentInfoEntity.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(data -> PaymentSelectDialog.newInstance(data)
+                        .setLayoutId(R.layout.dialog_payment_select)
+                        .setConvertListener(viewConvertListener)
+                        .setDimAmout(0.5f)
+                        .setShowBottom(true)
+                        .setAnimStyle(R.style.PaymentDialogAnim)
+                        .show(getSupportFragmentManager()), (OnError) error -> TipDialog.show(MyPrivilegeActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**
      * 获取用户信息---刷新会员时间
      */
     private void reqUserInfo() {
-        OkGo.<LzyResponse<FUser>>get(Consts.USERS_INFO_API)
-                .execute(new LtbJsonCallback<LzyResponse<FUser>>(this,
-                        new TypeReference<LzyResponse<FUser>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<FUser>> response) {
-                        if (response.body().error_code == 0) {
-                            FUser data = response.body().getData();
-                            UserInfoCache.saveUserInfo(MyPrivilegeActivity.this, data);
+        RxHttp.get(Consts.USERS_INFO_API)
+                .asResponse(FUser.class)
+                .to(RxLife.toMain(this))
+                .subscribe(fUser -> {
+                    UserInfoCache.saveUserInfo(MyPrivilegeActivity.this, fUser);
+                    if (UserInfoCache.getIsVip(MyPrivilegeActivity.this)) {
+                        tvVipTypeTitle.setText(R.string.txt_monthly_vip);
+                        tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
+                                DateTimeUtil.formatDateTime(fUser.getVip_end() * 1000, "yyyy-MM-dd")));
+                        tvVipTips.setText(R.string.txt_tips_vip_state);
+                        tvAccountSetup.setVisibility(View.GONE);
+                        ivIconVipSymbol.setVisibility(View.VISIBLE);
 
-                            if (UserInfoCache.getIsVip(MyPrivilegeActivity.this)) {
-                                tvVipTypeTitle.setText(R.string.txt_monthly_vip);
-                                tvVipTime.setText(String.format(getString(R.string.txt_vip_end_time_colon),
-                                        DateTimeUtil.formatDateTime(data.getVip_end() * 1000, "yyyy-MM-dd")));
-                                tvVipTips.setText(R.string.txt_tips_vip_state);
-                                tvAccountSetup.setVisibility(View.GONE);
-                                ivIconVipSymbol.setVisibility(View.VISIBLE);
+                        EventBus.getDefault().postSticky(new VipChargerEvent(true));
 
-                                EventBus.getDefault().postSticky(new VipChargerEvent(true));
-
-                                MessageDialog.build(MyPrivilegeActivity.this)
-                                        .setTitle(R.string.txt_payment_success)
-                                        .setMessage(R.string.txt_go2_experience_it)
-                                        .setOkButton(R.string.txt_experience_it)
-                                        .setCancelButton(R.string.txt_look_a_little_bit_more)
-                                        .setCustomView(R.layout.dialog_payment_success, (dialog, v) -> {
-                                        }).setOnOkButtonClickListener((baseDialog, v) -> {
-                                    finish();
-                                    return false;
-                                }).show();
-                            }
-                        }
+                        MessageDialog.build(MyPrivilegeActivity.this)
+                                .setTitle(R.string.txt_payment_success)
+                                .setMessage(R.string.txt_go2_experience_it)
+                                .setOkButton(R.string.txt_experience_it)
+                                .setCancelButton(R.string.txt_look_a_little_bit_more)
+                                .setCustomView(R.layout.dialog_payment_success, (dialog, v) -> {
+                                }).setOnOkButtonClickListener((baseDialog, v) -> {
+                            finish();
+                            return false;
+                        }).show();
                     }
                 });
     }
@@ -477,39 +444,28 @@ public class MyPrivilegeActivity extends BaseActivity implements View.OnClickLis
      * 选择支付通道--->发起支付
      */
     private void reqChannelsAndPayment(String payChannelsUrl, String orderId) {
-        OkGo.<String>post(payChannelsUrl)
-                .params(Consts.ORDER_ID, orderId)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            if (payChannelsUrl.equals(Consts.PAY_ALIPAY_API)) {
-                                String orderInfo = entity.getData();
-                                Runnable payRunnable = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        PayTask alipay = new PayTask(MyPrivilegeActivity.this);
-                                        Map<String, String> result = alipay.payV2(orderInfo, true);
-                                        Message msg = new Message();
-                                        msg.what = SDK_PAY_FLAG;
-                                        msg.obj = result;
-                                        mHandler.sendMessage(msg);
-                                    }
-                                };
-                                Thread payThread = new Thread(payRunnable);
-                                payThread.start();
-                            } else if (payChannelsUrl.equals(Consts.PAY_WECHAT_API)) {
-                                String orderInfo = entity.getData();
-                                wechatPay(orderInfo);
-                            }
-                        } else {
-                            TipDialog.show(MyPrivilegeActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
+        RxHttp.postForm(payChannelsUrl)
+                .add(Consts.ORDER_ID, orderId)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(orderInfo -> {
+                    if (payChannelsUrl.equals(Consts.PAY_ALIPAY_API)) {
+                        Runnable payRunnable = () -> {
+                            PayTask alipay = new PayTask(MyPrivilegeActivity.this);
+                            Map<String, String> result = alipay.payV2(orderInfo, true);
+                            Message msg = new Message();
+                            msg.what = SDK_PAY_FLAG;
+                            msg.obj = result;
+                            mHandler.sendMessage(msg);
+                        };
+                        Thread payThread = new Thread(payRunnable);
+                        payThread.start();
+                    } else if (payChannelsUrl.equals(Consts.PAY_WECHAT_API)) {
+                        wechatPay(orderInfo);
                     }
-                });
+                }, (OnError) error -> TipDialog.show(MyPrivilegeActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
     /**

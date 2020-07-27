@@ -9,23 +9,20 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LtbJsonCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.FUser;
 import com.huli.foxread.entity.umeng.WXLoginRespEntity;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.util.InputInfo;
 import com.kongzue.dialog.util.TextInfo;
 import com.kongzue.dialog.v3.InputDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -133,45 +130,41 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
      * @param tel
      */
     private void reqAuthCode(String tel) {
-        OkGo.<String>post(Consts.SMS_SEND_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.EVENT, Consts.SMS_LOGIN)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            String titleStr = getString(R.string.txt_title_bind_wechat);
-                            String contentStr = String.format(getString(R.string.txt_plz_input_verify_code_form_phone_x), tel.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
-                            String okStr = getString(R.string.txt_confirm);
-                            String cancelStr = getString(R.string.txt_cancel);
-                            InputDialog.show(AccountSecurityActivity.this, titleStr, contentStr, okStr, cancelStr)
-                                    .setInputInfo(new InputInfo()
-                                            .setTextInfo(new TextInfo().setFontSize(16))
-                                            .setMAX_LENGTH(6)               //限制最大输入长度
-                                            .setMultipleLines(false)        //是否支持多行输入
-                                    )
-                                    .setCancelable(false)
-                                    .setOnOkButtonClickListener((baseDialog, v1, inputStr) -> {
-                                        String verifyCode = inputStr.trim();
-                                        if (TextUtils.isEmpty(verifyCode)) {
-                                            Tos.showShort(AccountSecurityActivity.this, R.string.txt_plz_input_verification_code);
-                                            return true;
-                                        }
-                                        //获取微信返回信息
-                                        getWechatAuthorizationInfo(verifyCode);
-
-                                        return false;
-                                    });
-                        }
-                        Tos.showShort(AccountSecurityActivity.this, entity.msg);
-                    }
-                });
+        RxHttp.postForm(Consts.SMS_SEND_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.EVENT, Consts.SMS_LOGIN)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    String titleStr = getString(R.string.txt_title_bind_wechat);
+                    String contentStr = String.format(getString(R.string.txt_plz_input_verify_code_form_phone_x), tel.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
+                    String okStr = getString(R.string.txt_confirm);
+                    String cancelStr = getString(R.string.txt_cancel);
+                    InputDialog.show(AccountSecurityActivity.this, titleStr, contentStr, okStr, cancelStr)
+                            .setInputInfo(new InputInfo()
+                                    .setTextInfo(new TextInfo().setFontSize(16))
+                                    .setMAX_LENGTH(6)               //限制最大输入长度
+                                    .setMultipleLines(false)        //是否支持多行输入
+                            )
+                            .setCancelable(false)
+                            .setOnOkButtonClickListener((baseDialog, v1, inputStr) -> {
+                                String verifyCode = inputStr.trim();
+                                if (TextUtils.isEmpty(verifyCode)) {
+                                    Tos.showShort(AccountSecurityActivity.this, R.string.txt_plz_input_verification_code);
+                                    return true;
+                                }
+                                //获取微信返回信息
+                                getWechatAuthorizationInfo(verifyCode);
+                                return false;
+                            });
+                }, (OnError) error -> Tos.showShort(AccountSecurityActivity.this, error.getErrorMsg()));
     }
 
     /**
      * 获取微信返回信息
+     *
      * @param verifyCode 手机验证码
      */
     private void getWechatAuthorizationInfo(String verifyCode) {
@@ -205,25 +198,20 @@ public class AccountSecurityActivity extends BaseActivity implements View.OnClic
      * 绑定微信
      */
     private void bindWechat(WXLoginRespEntity wxLoginResp, String verifyCode) {
-        OkGo.<LzyResponse<String>>post(Consts.BINDING_WECHAT_API)
-                .params(Consts.UNIONID, wxLoginResp.getUnionid())
-                .params(Consts.OPENID, wxLoginResp.getOpenid())
-                .params(Consts.MOBILE_CAPTCHA, verifyCode)
-                .execute(new LtbJsonCallback<LzyResponse<String>>(this,
-                        new TypeReference<LzyResponse<String>>() {
-                        }) {
-                    @Override
-                    public void onSuccess(Response<LzyResponse<String>> response) {
-                        if (response.body().error_code == 0) {
-                            UserInfoCache.saveIsBindWechat(AccountSecurityActivity.this, true);
-                            //改变ui信息
-                            tvWechatBindingState.setText(R.string.txt_has_been_bind);
-                            TipDialog.show(AccountSecurityActivity.this, response.body().msg, TipDialog.TYPE.SUCCESS);
-                        } else {
-                            TipDialog.show(AccountSecurityActivity.this, response.body().msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.BINDING_WECHAT_API)
+                .add(Consts.UNIONID, wxLoginResp.getUnionid())
+                .add(Consts.OPENID, wxLoginResp.getOpenid())
+                .add(Consts.MOBILE_CAPTCHA, verifyCode)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    UserInfoCache.saveIsBindWechat(AccountSecurityActivity.this, true);
+                    //改变ui信息
+                    tvWechatBindingState.setText(R.string.txt_has_been_bind);
+                    TipDialog.show(AccountSecurityActivity.this, R.string.txt_binding_success, TipDialog.TYPE.SUCCESS);
+                }, (OnError) error -> TipDialog.show(AccountSecurityActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 }

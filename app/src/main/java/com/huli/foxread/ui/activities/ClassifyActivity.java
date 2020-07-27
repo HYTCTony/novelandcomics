@@ -7,13 +7,10 @@ import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CategoryEntity;
@@ -27,9 +24,7 @@ import com.huli.foxread.ui.widget.verticaltablayout.TabView;
 import com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout;
 import com.huli.foxread.utils.NetworkUtil;
 import com.huli.foxread.utils.Tos;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import rxhttp.wrapper.cahce.CacheMode;
 
 public class ClassifyActivity extends BaseActivity implements OnItemClickListener {
 
@@ -202,60 +198,25 @@ public class ClassifyActivity extends BaseActivity implements OnItemClickListene
      * 全部分类
      */
     private void reqDataFromNet() {
-        OkGo.<String>post(Consts.NOVEL_CATEGORY_ALL_API)
-                .cacheMode(CacheMode.REQUEST_FAILED_READ_CACHE)
-                .cacheTime(60 * 60 * 1000)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<CategoryEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<CategoryEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<CategoryEntity> datas = entity.getData();
-                            tabLayout.setTabAdapter(new MyTabAdapter(datas));
-                           /* tabLayout.setTabAdapter(new TabAdapter() {
-                                @Override
-                                public int getCount() {
-                                    return datas.size();
-                                }
-
-                                @Override
-                                public TabView.TabIcon getIcon(int position) {
-                                    return null;
-                                }
-
-                                @Override
-                                public TabView.TabTitle getTitle(int position) {
-                                    return new ITabView.TabTitle.Builder().setTextColor(textSelectCol, textUnSelectCol).setContent(datas.get(position).getName()).build();
-                                }
-
-                                @Override
-                                public int getBackground(int position) {
-                                    return R.drawable.selector_vtab_bg_on_gray;
-                                }
-                            });*/
-
-                            intArray = new SparseIntArray();
-                            List<CommonSection<CategoryEntity>> list = new ArrayList<>();
-                            for (int i = 0; i < datas.size(); i++) {
-                                CategoryEntity cateGroup = datas.get(i);
-                                List<CategoryEntity> cate = cateGroup.getList();
-                                list.add(new CommonSection<>(true, cateGroup.getName(), null));
-                                intArray.put(i, list.size() - 1);
-                                for (int j = 0; j < cate.size(); j++) {
-                                    list.add(new CommonSection<>(false, "", cate.get(j)));
-                                }
-                            }
-                            mAdapter.setList(list);
+        RxHttp.postForm(Consts.NOVEL_CATEGORY_ALL_API)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .setCacheValidTime(60 * 60 * 1000)
+                .asResponseList(CategoryEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(datas -> {
+                    tabLayout.setTabAdapter(new MyTabAdapter(datas));
+                    intArray = new SparseIntArray();
+                    List<CommonSection<CategoryEntity>> list = new ArrayList<>();
+                    for (int i = 0; i < datas.size(); i++) {
+                        CategoryEntity cateGroup = datas.get(i);
+                        List<CategoryEntity> cate = cateGroup.getList();
+                        list.add(new CommonSection<>(true, cateGroup.getName(), null));
+                        intArray.put(i, list.size() - 1);
+                        for (int j = 0; j < cate.size(); j++) {
+                            list.add(new CommonSection<>(false, "", cate.get(j)));
                         }
                     }
-
-                    @Override
-                    public void onCacheSuccess(Response<String> response) {
-                        super.onCacheSuccess(response);
-                        onSuccess(response);
-                    }
+                    mAdapter.setList(list);
                 });
     }
 

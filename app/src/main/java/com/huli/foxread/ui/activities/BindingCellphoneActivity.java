@@ -7,21 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.ui.widget.TimingButton;
 import com.huli.foxread.utils.SomeMonitorEditText;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.TipDialog;
-import com.kongzue.dialog.v3.WaitDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -111,25 +107,16 @@ public class BindingCellphoneActivity extends BaseActivity implements View.OnCli
      * @param tel
      */
     private void reqAuthCode(String tel) {
-        OkGo.<String>post(Consts.SMS_SEND_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.EVENT, Consts.SMS_BIND)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code != 0) {
-                            tbtnGetVcode.reset();
-                        }
-                        Tos.showShort(BindingCellphoneActivity.this, entity.msg);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        tbtnGetVcode.reset();
-                    }
+        RxHttp.postForm(Consts.SMS_SEND_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.EVENT, Consts.SMS_BIND)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> Tos.showShort(BindingCellphoneActivity.this, R.string.txt_sms_verification_code_has_been_issued), (OnError) error -> {
+                    tbtnGetVcode.reset();
+                    TipDialog.show(BindingCellphoneActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR);
                 });
     }
 
@@ -137,37 +124,25 @@ public class BindingCellphoneActivity extends BaseActivity implements View.OnCli
      * 手机号绑定
      * token 在LtbCallback中统一添加
      *
-     * @param tel
-     * @param authCode
+     * @param tel      电话号码
+     * @param authCode 验证码
      */
     private void bindingPhone(String tel, String authCode) {
-        WaitDialog.show(this, R.string.loading);
-        OkGo.<String>post(Consts.CHANGE_BIND_MOBILE_API)
-                .params(Consts.MOBILE, tel)
-                .params(Consts.CAPTCHA, authCode)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<String>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            UserInfoCache.saveMobile(BindingCellphoneActivity.this, tel);
-                            TipDialog.show(BindingCellphoneActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> {
-                                        setResult(RESULT_OK);
-                                        finish();
-                                    });
-                        } else {
-                            TipDialog.show(BindingCellphoneActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        WaitDialog.dismiss();
-                    }
-                });
+        RxHttp.postForm(Consts.CHANGE_BIND_MOBILE_API)
+                .add(Consts.MOBILE, tel)
+                .add(Consts.CAPTCHA, authCode)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    UserInfoCache.saveMobile(BindingCellphoneActivity.this, tel);
+                    TipDialog.show(BindingCellphoneActivity.this, R.string.txt_binding_success, TipDialog.TYPE.SUCCESS)
+                            .setOnDismissListener(() -> {
+                                setResult(RESULT_OK);
+                                finish();
+                            });
+                }, (OnError) error -> TipDialog.show(BindingCellphoneActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 }

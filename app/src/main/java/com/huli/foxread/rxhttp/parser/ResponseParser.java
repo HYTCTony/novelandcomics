@@ -1,6 +1,6 @@
 package com.huli.foxread.rxhttp.parser;
 
-import com.huli.foxread.entity.base.BaseEntity;
+import com.huli.foxread.entity.base.LzyResponse;
 import com.huli.foxread.entity.base.PageList;
 import com.huli.foxread.entity.base.TTPageList;
 
@@ -53,8 +53,8 @@ public class ResponseParser<T> extends AbstractParser<T> {
     @SuppressWarnings("unchecked")
     @Override
     public T onParse(@NonNull okhttp3.Response response) throws IOException {
-        final Type type = ParameterizedTypeImpl.get(BaseEntity.class, mType); //获取泛型类型
-        BaseEntity<T> data = convert(response, type);
+        final Type type = ParameterizedTypeImpl.get(LzyResponse.class, mType); //获取泛型类型
+        LzyResponse<T> data = convert(response, type);
         T t = data.getData(); //获取data字段
 //        if (data.getError_code() != 0 || t == null) {//这里假设code不等于0，代表数据不正确，抛出异常
         if (t == null && mType == String.class) {
@@ -63,10 +63,10 @@ public class ResponseParser<T> extends AbstractParser<T> {
              * 此时code正确，但是data字段为空，直接返回data的话，会报空指针错误，
              * 所以，判断泛型为String类型时，重新赋值，并确保赋值不为null
              */
-            t = (T) data.getMsg();
+            t = (T) data.msg;
         }
-        if (data.getError_code() != 0 || t == null) {//这里假设code不等于0，代表数据不正确，抛出异常
-            throw new ParseException(String.valueOf(data.getError_code()), data.getMsg(), response);
+        if (data.error_code != 0 || t == null) {//这里假设code不等于0，代表数据不正确，抛出异常
+            throw new ParseException(String.valueOf(data.error_code), data.msg, response);
         }
         return t;
     }

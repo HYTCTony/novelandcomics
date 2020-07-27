@@ -7,18 +7,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.SomeMonitorEditText;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -85,31 +82,21 @@ public class BankCardBindActivity extends BaseActivity implements View.OnClickLi
      * 绑定银行卡
      */
     private void reqBindingBankcard(String bankDepositName, String payeeName, String idCardNumber, String bankAccount, String bankAddress) {
-        OkGo.<String>post(Consts.BANK_CREATE_API)
-                .params(Consts.BANK_NAME, bankDepositName)
-                .params(Consts.CARDHOLDER_NAME, payeeName)
-                .params(Consts.ID_CARD_NUMBER, idCardNumber)
-                .params(Consts.BANK_ACCOUNT, bankAccount)
-                .params(Consts.BANK_ADDRESS, bankAddress)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            TipDialog.show(BankCardBindActivity.this, entity.msg, TipDialog.TYPE.SUCCESS)
-                                    .setOnDismissListener(() -> {
-                                        Intent intent = new Intent();
-                                        intent.putExtra(Common.BANKCARD_NO, bankAccount);
-                                        setResult(RESULT_OK);
-                                        finish();
-                                    });
-                        } else {
-                            TipDialog.show(BankCardBindActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.BANK_CREATE_API)
+                .add(Consts.BANK_NAME, bankDepositName)
+                .add(Consts.CARDHOLDER_NAME, payeeName)
+                .add(Consts.ID_CARD_NUMBER, idCardNumber)
+                .add(Consts.BANK_ACCOUNT, bankAccount)
+                .add(Consts.BANK_ADDRESS, bankAddress)
+                .asResponse(String.class)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> TipDialog.show(BankCardBindActivity.this, R.string.txt_binding_success, TipDialog.TYPE.SUCCESS)
+                        .setOnDismissListener(() -> {
+                            Intent intent = new Intent();
+                            intent.putExtra(Common.BANKCARD_NO, bankAccount);
+                            setResult(RESULT_OK);
+                            finish();
+                        }), (OnError) error -> TipDialog.show(BankCardBindActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR));
     }
 
 }

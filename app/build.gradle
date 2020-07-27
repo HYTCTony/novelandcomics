@@ -173,13 +173,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    //okgo
-    /*implementation ("com.lzy.net:okgo:3.0.4"){
-        exclude group: 'com.squareup.okhttp3'
-    }*/
-    implementation 'com.lzy.net:okgo:3.0.4'
-//    implementation 'com.lzy.net:okserver:2.0.5'
-
     //RxHttp
     implementation 'com.ljx.rxlife:rxlife-coroutine:2.0.0' //管理协程生命周期，页面销毁，关闭请求
     implementation 'com.ljx.rxhttp:rxhttp:2.2.8'
@@ -288,7 +281,6 @@ dependencies {
     //********************友盟************************
     //微信支付
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.4.0'
-    implementation project(path: ':flycoTabLayout_lib')
     //Alipay支付
 //    implementation(name: 'alipaySdk-15.7.4-20200228192259', ext: 'aar')
 

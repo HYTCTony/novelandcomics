@@ -8,16 +8,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.Font;
 import com.huli.page.model.local.ReadSettingManager;
@@ -25,8 +22,6 @@ import com.huli.page.ui.adapter.FontAdapter;
 import com.huli.page.ui.base.BaseViewActivity;
 import com.huli.page.utils.Constant;
 import com.huli.page.utils.FileUtils;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.rxjava.rxlife.RxLife;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
@@ -126,36 +121,28 @@ public class FontSelectionActivity extends BaseViewActivity {
     }
 
     private void getFontList() {
-        OkGo.<String>post(Consts.GET_FONT_LIST)
-                .execute(new LtbCallback(FontSelectionActivity.this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<Font>> entity = JSONObject.parseObject(response.body(), new TypeReference<LzyResponse<List<Font>>>() {
-                        });
-                        if (entity.error_code == 0) {
-                            List<Font> datas = entity.getData();
-                            for (Font font : datas) {
-                                font.setState(0);
-                                if (TextUtils.isEmpty(font.getFile_name())) {
-                                    font.setFile_name(Constant.FONT_TYPE);
-                                    font.setFontPath(Constant.FONT_TYPE);
-                                } else
-                                    font.setFontPath(Constant.FONT_DOWNLOAD_PATH + font.getFile_name());
-                                if (path.equals(font.getFontPath())) {
-                                    font.setSelect(true);
-                                }
-                                if (font.getFile_name().equals(Constant.FONT_TYPE) || FileUtils.isFontDownload(font.getFontPath())) {
-                                    font.setDownload(true);
-                                } else {
-                                    font.setDownload(false);
-                                }
-                            }
-                            mAdapter.setNewInstance(datas);
+        RxHttp.postForm(Consts.GET_FONT_LIST)
+                .asResponseList(Font.class)
+                .to(RxLife.toMain(this))
+                .subscribe(datas -> {
+                    for (Font font : datas) {
+                        font.setState(0);
+                        if (TextUtils.isEmpty(font.getFile_name())) {
+                            font.setFile_name(Constant.FONT_TYPE);
+                            font.setFontPath(Constant.FONT_TYPE);
+                        } else
+                            font.setFontPath(Constant.FONT_DOWNLOAD_PATH + font.getFile_name());
+                        if (path.equals(font.getFontPath())) {
+                            font.setSelect(true);
+                        }
+                        if (font.getFile_name().equals(Constant.FONT_TYPE) || FileUtils.isFontDownload(font.getFontPath())) {
+                            font.setDownload(true);
                         } else {
-                            Toast.makeText(mContext, entity.msg, Toast.LENGTH_SHORT).show();
+                            font.setDownload(false);
                         }
                     }
-                });
+                    mAdapter.setNewInstance(datas);
+                }, (OnError) error -> Toast.makeText(mContext, error.getErrorMsg(), Toast.LENGTH_SHORT).show());
     }
 
     public static long lastChangedTime;

@@ -1,31 +1,15 @@
 package com.huli.foxread.ui.fragments;
 
 import android.content.Context;
-import android.util.SparseIntArray;
 import android.view.View;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.flyco.tablayout.SlidingScaleTabLayout;
 import com.huli.foxread.R;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
-import com.huli.foxread.contact.Consts;
-import com.huli.foxread.entity.CategoryEntity;
-import com.huli.foxread.entity.sections.CommonSection;
-import com.huli.foxread.ui.activities.ClassifyActivity;
 import com.huli.foxread.ui.base.BaseFragment;
 import com.huli.foxread.ui.pageradapter.ClassifyPagerAdapter;
 import com.huli.foxread.utils.StatusBarUtils;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 /**

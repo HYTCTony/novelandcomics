@@ -1,10 +1,9 @@
 package com.huli.page.presenter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
+import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.contact.Consts;
+import com.huli.foxread.rxhttp.OnError;
 import com.huli.page.model.bean.Advert;
 import com.huli.page.model.bean.BookChapter;
 import com.huli.page.model.bean.ChapterBean;
@@ -12,20 +11,42 @@ import com.huli.page.model.local.BookRepository;
 import com.huli.page.presenter.contract.ReadBookContract;
 import com.huli.page.ui.base.BasePresenter;
 import com.huli.page.widget.page.TxtChapter;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.cache.CacheMode;
-import com.lzy.okgo.model.Response;
+import com.kongzue.dialog.v3.CustomDialog;
+import com.rxjava.rxlife.RxLife;
 
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+import rxhttp.wrapper.cahce.CacheMode;
 
 public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> implements ReadBookContract.Presenter {
     private static final String TAG = "ReadBookPresenter";
 
+    private CustomDialog loadingDialog;
+
+    protected void showLoadingDialog(AppCompatActivity context) {
+        loadingDialog = CustomDialog.show(context, R.layout.layout_loadingview, (dialog, v) -> {
+        });
+    }
+
+    protected void dismissLoadingDialog() {
+        if (loadingDialog != null && loadingDialog.isShow) {
+            loadingDialog.doDismiss();
+            loadingDialog = null;
+        }
+    }
+
     @Override
     public void reqAdvertAd(AppCompatActivity context) {
-        OkGo.<String>post(Consts.ADVERT_AD_API)
+        RxHttp.postForm(Consts.ADVERT_AD_API)
+                .asResponse(Advert.class)
+                .doOnSubscribe(disposable -> showLoadingDialog(context))
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(context))
+                .subscribe(data -> view.reqAdvertAd(data),
+                        (OnError) error -> view.onFailure(-1, error.getErrorMsg()));
+
+      /*  OkGo.<String>post(Consts.ADVERT_AD_API)
                 .execute(new LtbCallback(context) {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -37,12 +58,21 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                             view.onFailure(-1, entity.msg);
                         }
                     }
-                });
+                });*/
     }
 
     @Override
     public void reqAddBookrack(AppCompatActivity context, String novelId) {
-        OkGo.<String>post(Consts.BOOKRACK_ADD_API)
+        RxHttp.postForm(Consts.BOOKRACK_ADD_API)
+                .add(Consts.N_ID, novelId)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog(context))
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(context))
+                .subscribe(s -> view.reqAddBookrack("加入成功!"),
+                        (OnError) error -> view.onFailure(-1, error.getErrorMsg()));
+
+       /* OkGo.<String>post(Consts.BOOKRACK_ADD_API)
                 .params(Consts.N_ID, novelId)
                 .execute(new LtbCallback(context) {
                     @Override
@@ -56,13 +86,23 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                             view.onFailure(entity.error_code, entity.msg);
                         }
                     }
-                });
+                });*/
     }
 
     @Override
     public void loadCategory(AppCompatActivity context, String bookId) {
         checkViewAttached();
-        OkGo.<String>get(Consts.NOVEL_NOVELCHAPTERLIST_API)
+
+        RxHttp.get(Consts.NOVEL_NOVELCHAPTERLIST_API)
+                .add(Consts.N_ID, bookId)
+                .setCacheMode(CacheMode.REQUEST_NETWORK_FAILED_READ_CACHE)
+                .setCacheKey(Consts.NOVEL_NOVELCHAPTERLIST_API + bookId)
+                .setCacheValidTime(24 * 60 * 60 * 1000)
+                .asResponseList(BookChapter.class)
+                .to(RxLife.toMain(context))
+                .subscribe(list -> view.showCategory(list));
+
+       /* OkGo.<String>get(Consts.NOVEL_NOVELCHAPTERLIST_API)
                 .params(Consts.N_ID, bookId)
                 .cacheTime(24 * 60 * 60 * 1000)
                 .cacheKey(Consts.NOVEL_NOVELCHAPTERLIST_API + bookId)
@@ -85,7 +125,7 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                         super.onCacheSuccess(response);
                         onSuccess(response);
                     }
-                });
+                });*/
     }
 
     @Override
@@ -95,7 +135,25 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
         // 将要下载章节，转换成网络请求。
         for (int i = 0; i < size; ++i) {
             TxtChapter bookChapter = bookChapters.get(i);
-            OkGo.<String>post(Consts.NOVEL_CONTENT_API)
+            RxHttp.postForm(Consts.NOVEL_CONTENT_API)
+                    .add(Consts.NOVEL_ID, bookChapter.getBookId())
+                    .add(Consts.CHAPTER_ID, bookChapter.getId())
+                    .add(Consts.CHAPTER, bookChapter.getChapter())
+                    .asResponse(ChapterBean.class)
+                    .to(RxLife.toMain(context))
+                    .subscribe(date -> {
+                        if (isViewAttached()) {
+                            //存储数据
+                            BookRepository.getInstance().saveChapterInfo(bookId, bookChapter.getTitle(), date.getContent());
+                            view.finishChapter();
+                        }
+                    }, (OnError) error -> {
+                        //只有第一个加载失败才会调用errorChapter
+                        if (bookChapters.get(0).getTitle().equals(bookChapter.getTitle())) {
+                            view.errorChapter();
+                        }
+                    });
+            /*OkGo.<String>post(Consts.NOVEL_CONTENT_API)
                     .params(Consts.NOVEL_ID, bookChapter.getBookId())
                     .params(Consts.CHAPTER_ID, bookChapter.getId())
                     .params(Consts.CHAPTER, bookChapter.getChapter())
@@ -117,14 +175,24 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                                 }
                             }
                         }
-                    });
+                    });*/
         }
     }
 
     @Override
     public void recordDuration(AppCompatActivity context, int type, long duration, String id, String check, int num) {
         checkViewAttached();
-        OkGo.<String>post(Consts.RECORD_DURATION_API)
+
+        RxHttp.postForm(Consts.RECORD_DURATION_API)
+                .add(Consts.TYPE, type)
+                .add("duration", duration)
+                .add("id", id)
+                .add("check", check)
+                .add("sum", num)
+                .asResponse(String.class)
+                .to(RxLife.toMain(context))
+                .subscribe();
+        /*OkGo.<String>post(Consts.RECORD_DURATION_API)
                 .params(Consts.TYPE, type)
                 .params("duration", duration)
                 .params("id", id)
@@ -142,13 +210,23 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                             }
                         }
                     }
-                });
+                });*/
     }
 
     @Override
     public void recordRead(AppCompatActivity context, String bookId, String chapterId, String chapterName, int chapter) {
         checkViewAttached();
-        OkGo.<String>post(Consts.RECORD_CREATE_API)
+
+        RxHttp.postForm(Consts.RECORD_CREATE_API)
+                .add(Consts.NOVEL_ID, bookId)
+                .add(Consts.CHAPTER_ID, chapterId)
+                .add(Consts.CHAPTER_NAME, chapterName)
+                .add(Consts.CHAPTER, chapter)
+                .asResponse(String.class)
+                .to(RxLife.toMain(context))
+                .subscribe();
+
+       /* OkGo.<String>post(Consts.RECORD_CREATE_API)
                 .params(Consts.NOVEL_ID, bookId)
                 .params(Consts.CHAPTER_ID, chapterId)
                 .params(Consts.CHAPTER_NAME, chapterName)
@@ -165,6 +243,6 @@ public class ReadBookPresenter extends BasePresenter<ReadBookContract.View> impl
                             }
                         }
                     }
-                });
+                });*/
     }
 }

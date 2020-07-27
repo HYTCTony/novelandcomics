@@ -8,16 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.huli.foxread.R;
+import com.huli.foxread.RxHttp;
 import com.huli.foxread.cache.UserInfoCache;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.CapitalEntity;
 import com.huli.foxread.entity.WithdrawalOptionEntity;
+import com.huli.foxread.rxhttp.OnError;
+import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.adapters.WithdrawalMoneyAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
 import com.huli.foxread.utils.DateTimeUtil;
@@ -25,11 +24,9 @@ import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.foxread.utils.Tos;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
+import com.rxjava.rxlife.RxLife;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -160,45 +157,36 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
      * 现金（RMB）提现套餐
      */
     private void reqWithdrawalCombo() {
-        OkGo.<String>post(Consts.WITHDRAWAL_FARE_API)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<List<WithdrawalOptionEntity>> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<List<WithdrawalOptionEntity>>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            List<WithdrawalOptionEntity> datas = entity.getData();
-                            mAdapter.setList(datas);
-                        }
-                    }
-                });
+        RxHttp.postForm(Consts.WITHDRAWAL_FARE_API)
+                .asResponseList(WithdrawalOptionEntity.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(datas -> mAdapter.setList(datas));
     }
 
     /**
      * 现金（余额）提现
      */
     private void reqMoneyWithdrawal(String planID) {
-        OkGo.<String>post(Consts.WITHDRAWAL_MONEY_API)
-                .params(Consts.WITHDRAWAL_PLAN_ID, planID)
-                .execute(new LtbCallback(this) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<String> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<String>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            reqMyCapitalDetail();
-                            MessageDialog.show(WithdrawalRMBActivity.this, getString(R.string.txt_withdrawal_success_title),
-                                    DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
-                                    .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
-                                    });
-                        } else if (entity.error_code == 10008) {
-                            Tos.showShort(WithdrawalRMBActivity.this, entity.msg);
-                            startActivityForResult(new Intent(WithdrawalRMBActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
-                        } else {
-                            TipDialog.show(WithdrawalRMBActivity.this, entity.msg, TipDialog.TYPE.ERROR);
-                        }
+        RxHttp.postForm(Consts.WITHDRAWAL_MONEY_API)
+                .add(Consts.WITHDRAWAL_PLAN_ID, planID)
+                .asResponse(String.class)
+                .doOnSubscribe(disposable -> showLoadingDialog())
+                .doFinally(this::dismissLoadingDialog)
+                .to(RxLife.toMain(this))
+                .subscribe(s -> {
+                    reqMyCapitalDetail();
+                    MessageDialog.show(WithdrawalRMBActivity.this, getString(R.string.txt_withdrawal_success_title),
+                            DateTimeUtil.getCurrentDate(), getString(R.string.txt_got_it))
+                            .setCustomView(R.layout.dialog_withdrawal_success, (dialog, v) -> {
+                            });
+                }, (OnError) error -> {
+                    if (error.getErrorCode() == 10008) {
+                        Tip.show(error.getErrorMsg());
+                        startActivityForResult(new Intent(WithdrawalRMBActivity.this, BankCardBindActivity.class), REQCODE_BIND_BANKCARD);
+                    } else {
+                        TipDialog.show(WithdrawalRMBActivity.this, error.getErrorMsg(), TipDialog.TYPE.ERROR);
                     }
                 });
     }
@@ -208,18 +196,9 @@ public class WithdrawalRMBActivity extends BaseActivity implements View.OnClickL
      * 我的资金详情
      */
     public void reqMyCapitalDetail() {
-        OkGo.<String>get(Consts.USER_CAPITAL_API)
-                .execute(new LtbCallback(this, false) {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        LzyResponse<CapitalEntity> entity = JSONObject.parseObject(response.body(),
-                                new TypeReference<LzyResponse<CapitalEntity>>() {
-                                });
-                        if (entity.error_code == 0) {
-                            CapitalEntity data = entity.getData();
-                            tvBalance.setText(df.format(data.getMoney()));
-                        }
-                    }
-                });
+        RxHttp.get(Consts.USER_CAPITAL_API)
+                .asResponse(CapitalEntity.class)
+                .to(RxLife.toMain(this))
+                .subscribe(data -> tvBalance.setText(df.format(data.getMoney())));
     }
 }

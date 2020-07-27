@@ -6,15 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
@@ -23,8 +19,6 @@ import com.huli.foxread.entity.sections.NEbookSection;
 import com.huli.foxread.listeners.OnClickEvent;
 import com.huli.foxread.ui.adapters.SectionNeBookAdapter;
 import com.huli.foxread.ui.base.BaseActivity;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;

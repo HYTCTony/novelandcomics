@@ -5,15 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.huli.foxread.R;
 import com.huli.foxread.RxHttp;
-import com.huli.foxread.callbacks.ookkggoo.LtbCallback;
-import com.huli.foxread.callbacks.ookkggoo.LzyResponse;
 import com.huli.foxread.contact.Common;
 import com.huli.foxread.contact.Consts;
 import com.huli.foxread.entity.BookEntity;
@@ -23,15 +19,12 @@ import com.huli.foxread.ui.activities.BookDetailsActivity;
 import com.huli.foxread.ui.activities.MoreBooksListActivity;
 import com.huli.foxread.ui.adapters.SectionNeBookAdapter;
 import com.huli.foxread.ui.base.BaseFragment;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.model.Response;
 import com.rxjava.rxlife.RxLife;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
