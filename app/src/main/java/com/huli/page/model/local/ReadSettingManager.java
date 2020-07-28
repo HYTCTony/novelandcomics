@@ -1,8 +1,6 @@
 package com.huli.page.model.local;
 
 
-import android.text.TextUtils;
-
 import com.huli.page.utils.ScreenUtils;
 import com.huli.page.utils.SharedPreUtils;
 import com.huli.page.widget.page.PageMode;
@@ -162,7 +160,7 @@ public class ReadSettingManager {
     }
 
     public String getFont() {
-        return TextUtils.isEmpty(sharedPreUtils.getString(SHARED_READ_FONT_NAME)) ? "DEFAULT" : sharedPreUtils.getString(SHARED_READ_FONT_NAME);
+        return sharedPreUtils.getString(SHARED_READ_FONT_NAME, "DEFAULT");
     }
 
     public void setVoicer(String voicer) {
@@ -170,14 +168,14 @@ public class ReadSettingManager {
     }
 
     public String getVoicer() {
-        return sharedPreUtils.getString(SHARED_READ_VOICER);
+        return sharedPreUtils.getString(SHARED_READ_VOICER, "xiaoqi");
     }
 
-    public void setSpeed(String speed) {
-        sharedPreUtils.putString(SHARED_READ_SPEED, speed);
+    public void setSpeed(float speed) {
+        sharedPreUtils.putFloat(SHARED_READ_SPEED, speed);
     }
 
-    public String getSpeed() {
-        return sharedPreUtils.getString(SHARED_READ_SPEED);
+    public float getSpeed() {
+        return sharedPreUtils.getFloat(SHARED_READ_SPEED, 1.0f);
     }
 }

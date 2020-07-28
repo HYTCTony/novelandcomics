@@ -33,6 +33,10 @@ public class SharedPreUtils {
         return sharedReadable.getString(key, "");
     }
 
+    public String getString(String key, String value) {
+        return sharedReadable.getString(key, value);
+    }
+
     public void putString(String key, String value) {
         sharedWritable.putString(key, value);
         sharedWritable.commit();
@@ -55,6 +59,15 @@ public class SharedPreUtils {
 
     public int getInt(String key, int def) {
         return sharedReadable.getInt(key, def);
+    }
+
+    public void putFloat(String key, float def) {
+        sharedWritable.putFloat(key, def);
+        sharedWritable.commit();
+    }
+
+    public float getFloat(String key, float def) {
+        return sharedReadable.getFloat(key, def);
     }
 
     public long getLong(String key, long def) {

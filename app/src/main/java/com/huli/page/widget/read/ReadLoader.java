@@ -172,6 +172,8 @@ public abstract class ReadLoader {
     private int index = 1;
     //是否ABC
     private boolean isABC = false;
+    //是否正在挺熟
+    private boolean isListenBook = false;
     //ABC失败
     private boolean isABCFail = false;
     //风格已改变，请作相应处理
@@ -346,6 +348,15 @@ public abstract class ReadLoader {
      */
     public void setABC(boolean isABC) {
         this.isABC = isABC;
+    }
+
+    /**
+     * 设置是否A正在听书
+     *
+     * @return
+     */
+    public void isListenBook(boolean isListenBook) {
+        this.isListenBook = isListenBook;
     }
 
     /**
@@ -975,9 +986,11 @@ public abstract class ReadLoader {
                     float num2 = (float) (mChapterList.size() * (mCurPageList.size() - 1));
                     String percent = numberFormat.format(num1 / num2 * 100);
                     canvas.drawText(percent + "%", mMarginWidth, y, mTipPaint);
-                    mTipPaint.setTextAlign(Paint.Align.CENTER);
-                    canvas.drawText("广告是为了更多的免费内容", mDisplayWidth / 2, y, mTipPaint);
-                    mTipPaint.setTextAlign(Paint.Align.LEFT);
+                    if (!isABC) {
+                        mTipPaint.setTextAlign(Paint.Align.CENTER);
+                        canvas.drawText("广告是为了更多的免费内容", mDisplayWidth / 2, y, mTipPaint);
+                        mTipPaint.setTextAlign(Paint.Align.LEFT);
+                    }
                 }
             }
         } else {
@@ -1198,9 +1211,9 @@ public abstract class ReadLoader {
                 } else {
                     offset = (mVisibleWidth - mTextPaint.measureText(str)) / (str.length() - 1);
                 }
-                if (isABC && mCurPage.highlight.contains(i)) {
+                if (isListenBook && mCurPage.highlight.contains(i)) {
                     if (isWhitespace(str.charAt(0))) {
-                        startX = x + (mTextSize - wordSpase) * 2;
+                        startX = x + mTextSize * 2 - wordSpase;
                     } else {
                         startX = x;
                     }

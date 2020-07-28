@@ -54,6 +54,7 @@ import com.huli.foxread.rxhttp.OnError;
 import com.huli.foxread.rxhttp.Tip;
 import com.huli.foxread.ui.activities.AdvFreeSuccessActivity;
 import com.huli.foxread.ui.activities.BookDetailsActivity;
+import com.huli.foxread.ui.activities.MyPrivilegeActivity;
 import com.huli.foxread.utils.GlideUtil;
 import com.huli.foxread.utils.StatusBarUtils;
 import com.huli.page.model.bean.Advert;
@@ -282,16 +283,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     /*********听书相关***************/
     // 语音合成对象
     private SpeechSynthesizer mTts;
-    // 默认发音人
-    private String mVoicer;
-    // 默认语速
-    private String speed;
     //云端发言人列表
     String[] mCloudVoicersEntries;
     String[] mCloudVoicersValue;
     String[] mTimerEntries = {"无", "15分钟", "30分钟", "60分钟", "90分钟"};
     // * 60
-    int[] mTimeValue = {0, 15 * 1000, 30 * 1000, 60 * 1000, 90 * 1000};
+    int[] mTimeValue = {0, 15 * 60 * 1000, 30 * 60 * 1000, 60 * 60 * 1000, 90 * 60 * 1000};
     List<Voicer> voicers = new ArrayList<>();
     List<Timing> timings = new ArrayList<>();
     // 引擎类型
@@ -386,6 +383,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                         mHandler.removeMessages(MSG_CLOSE_SPEAK);
                         isListenBook = false;
                         mPageLoader.setABC(isListenBook);
+                        mPageLoader.isListenBook(isListenBook);
                         mPvPage.isCanTurnPage(!isListenBook);
                         ivBackgroud.setVisibility(GONE);
                         mTts.pauseSpeaking();
@@ -428,15 +426,13 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         SpeechUtility.createUtility(ReadBookActivity.this, "appid=5edc91d4");
         // 初始化合成对象
         mTts = SpeechSynthesizer.createSynthesizer(ReadBookActivity.this, mTtsInitListener);
-        mVoicer = TextUtils.isEmpty(mSettingManager.getVoicer()) ? "xiaoqi" : mSettingManager.getVoicer();
-        speed = TextUtils.isEmpty(mSettingManager.getSpeed()) ? "50" : mSettingManager.getSpeed();
         // 云端发音人名称列表
         mCloudVoicersEntries = getResources().getStringArray(R.array.voicer_cloud_entries);
         mCloudVoicersValue = getResources().getStringArray(R.array.voicer_cloud_values);
         //准备发言人数据
         for (int i = 0; i < mCloudVoicersEntries.length; i++) {
             Voicer voicer = new Voicer(mCloudVoicersEntries[i], mCloudVoicersValue[i]);
-            if (TextUtils.equals(voicer.value, mVoicer)) {
+            if (TextUtils.equals(voicer.value, mSettingManager.getVoicer())) {
                 voicer.isSelect = true;
             }
             voicers.add(voicer);
@@ -673,9 +669,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                     voicer.isSelect = false;
                 }
                 voicers.get(position).isSelect = true;
-                mVoicer = voicers.get(position).value;
                 adapter.notifyDataSetChanged();
-                mSettingManager.setVoicer(mVoicer);
+                mSettingManager.setVoicer(voicers.get(position).value);
                 setParam();
                 if (texts != null) {
                     int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
@@ -695,8 +690,11 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 long time = timings.get(position).value;
                 adapter.notifyDataSetChanged();
                 mHandler.removeMessages(MSG_CLOSE_SPEAK);
-                mHandler.sendEmptyMessageAtTime(MSG_CLOSE_SPEAK, SystemClock.uptimeMillis() + time);
-                showToast("将在" + time / 1000 + "秒后关闭听书");
+                if (position != 0) {
+                    mHandler.sendEmptyMessageAtTime(MSG_CLOSE_SPEAK, SystemClock.uptimeMillis() + time);
+                    showToast("将在" + timings.get(position).name + "后关闭听书模式");
+                } else
+                    showToast("定时已关闭");
             }
         });
 
@@ -704,7 +702,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
         mBubbleSeekBar.getConfigBuilder()
                 .min(0.5f)
                 .max(2.0f)
-                .progress(1)
+                .progress(mSettingManager.getSpeed())
                 .floatType()
                 .sectionCount(6)
                 .sectionTextInterval(2)
@@ -725,18 +723,12 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 
             @Override
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                float speedNum = progressFloat * 50;
-                if (speedNum > 100) {
-                    speedNum = 100;
-                }
-                speed = String.valueOf(speedNum);
-                Log.d(TAG, "speed=" + speed);
-                mSettingManager.setSpeed(speed);
+                mSettingManager.setSpeed(progressFloat);
                 setParam();
                 if (texts != null) {
                     int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
                     if (code != ErrorCode.SUCCESS) {
-                        showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+                        Log.d(TAG, "语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
                     }
                 }
             }
@@ -767,37 +759,57 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
 //                showToast("正在研发中...");
 //                break;
             case R.id.action_listen:
-                // 移动数据分析，收集开始合成事件
-                /*FlowerCollector.onEvent(TtsDemo.this, "tts_play");*/
-
-//                texts = ((EditText) findViewById(R.id.tts_text)).getText().toString();
-                toggleMenu(true);
-                isListenBook = true;
-                mPageLoader.setABC(isListenBook);
-                mPvPage.isCanTurnPage(!isListenBook);
-                if (mPageLoader.isCustomView())
-                    mPageLoader.skipToNextPage();
-                ivBackgroud.setVisibility(VISIBLE);
-                btnBottomAd.setVisibility(View.INVISIBLE);
-                mBannerContainer.setVisibility(GONE);
-                adContainer.setVisibility(GONE);
-                // 设置参数
-                setParam();
-                String texts = "一起看书免费小说，开始为您朗读";
-                /**
-                 * 只保存音频不进行播放接口,调用此接口请注释startSpeaking接口
-                 * text:要合成的文本，uri:需要保存的音频全路径，listener:回调接口
-                 */
-                //  String path = Environment.getExternalStorageDirectory() + "/tts.pcm";
-                //	int code = mTts.synthesizeToUri(texts, path, mTtsListener);
-                Log.d(TAG, texts);
-                int code = mTts.startSpeaking(texts, mTtsListener);
-                if (code != ErrorCode.SUCCESS) {
-                    showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
-                }
+                ttsPlay();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void ttsPlay() {
+        if (UserInfoCache.getSuperVip(mContext) == 1 || UserInfoCache.getIsVip(mContext)) {
+            toggleMenu(true);
+            isListenBook = true;
+            mPageLoader.setABC(isListenBook);
+            mPageLoader.isListenBook(isListenBook);
+            mPvPage.isCanTurnPage(!isListenBook);
+            if (mPageLoader.isCustomView())
+                mPageLoader.skipToNextPage();
+            ivBackgroud.setVisibility(VISIBLE);
+            btnBottomAd.setVisibility(View.INVISIBLE);
+            mBannerContainer.setVisibility(GONE);
+            adContainer.setVisibility(GONE);
+            // 设置参数
+            setParam();
+            /**
+             * 只保存音频不进行播放接口,调用此接口请注释startSpeaking接口
+             * text:要合成的文本，uri:需要保存的音频全路径，listener:回调接口
+             */
+//        String path = Environment.getExternalStorageDirectory() + "/tts.pcm";
+            //	int code = mTts.synthesizeToUri(texts, path, mTtsListener);
+//        Log.d(TAG, texts);
+            String text = "一起看书免费小说，开始为您朗读";
+            texts = new StringBuffer();
+            texts.append(text);
+            int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
+            if (code != ErrorCode.SUCCESS) {
+                Log.d(TAG, "语音合成失败, 错误码:" + code + ", 请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
+            }
+        } else {
+            MessageDialog.show(ReadBookActivity.this, "听书模式", "听书模式只为“一起看书VIP会员免费提供”,您目前还不是会员，是否前往充值？", "去充值", "下次再说")
+                    .setCancelable(true)
+                    .setOnCancelButtonClickListener(new OnDialogButtonClickListener() {
+                        @Override
+                        public boolean onClick(BaseDialog baseDialog, View v) {
+                            baseDialog.doDismiss();
+                            return false;
+                        }
+                    })
+                    .setOnOkButtonClickListener((baseDialog, v) -> {
+                        startActivity(new Intent(mContext, MyPrivilegeActivity.class));
+                        baseDialog.doDismiss();
+                        return false;
+                    });
+        }
     }
 
     /**
@@ -816,10 +828,9 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
             //	mTts.setParameter(SpeechConstant.TTS_BUFFER_TIME,"1");
 
             //设置在线合成发音人
-            mTts.setParameter(SpeechConstant.VOICE_NAME, mVoicer);
+            mTts.setParameter(SpeechConstant.VOICE_NAME, mSettingManager.getVoicer());
             //设置合成语速
-            mTts.setParameter(SpeechConstant.SPEED, speed);
-            Log.d(TAG, "修改参数成功！" + mTts.getParameter(SpeechConstant.SPEED));
+            mTts.setParameter(SpeechConstant.SPEED, "" + (int) (mSettingManager.getSpeed() * 50));
             //设置合成音调
             mTts.setParameter(SpeechConstant.PITCH, "50");
             //设置合成音量
@@ -936,7 +947,16 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                 }
                 mPageLoader.setHighlight(mCurPageList);
 //                Log.d(TAG, String.valueOf(texts));
-                int code = mTts.startSpeaking(String.valueOf(texts), mTtsListener);
+                String text = String.valueOf(texts);
+                if (TextUtils.isEmpty(text)) {
+                    if (mPageLoader.skipToNextPage()) {
+                        onCompleted(error);
+                    } else {
+                        mHandler.sendEmptyMessage(MSG_CLOSE_SPEAK);
+                    }
+                    return;
+                }
+                int code = mTts.startSpeaking(text, mTtsListener);
                 if (code != ErrorCode.SUCCESS) {
                     showToast("语音合成失败,错误码: " + code + ",请点击网址https://www.xfyun.cn/document/error-code查询解决方案");
                 }
@@ -1635,7 +1655,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onResume() {
         super.onResume();
-        mTts.resumeSpeaking();
+        if (isListenBook)
+            mTts.resumeSpeaking();
         mContext.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (timer == null)
             doPolling(READ_TYPE_START);
@@ -1644,7 +1665,8 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
     @Override
     protected void onPause() {
         super.onPause();
-        mTts.pauseSpeaking();
+        if (isListenBook)
+            mTts.pauseSpeaking();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (isCollected) {
             mPageLoader.saveRecord();
