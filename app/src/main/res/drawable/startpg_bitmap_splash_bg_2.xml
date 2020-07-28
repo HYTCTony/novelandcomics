@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/col_f1e1d4" />
+
+    <item android:top="@dimen/dp_0" android:bottom="@dimen/dp_92">
+        <bitmap
+            android:scaleType="centerInside"
+            android:gravity="clip_horizontal|clip_vertical"
+            android:dither="true"
+            android:src="@drawable/splash_startpage_bg_ky"
+            android:tileMode="disabled" />
+    </item>
+
+    <item android:bottom="@dimen/dp_36">
+        <bitmap
+            android:gravity="center_horizontal|bottom"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/splash_startpage_bottom_icon"
+            android:tileMode="disabled" />
+    </item>
+</layer-list>
