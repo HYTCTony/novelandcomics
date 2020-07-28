@@ -382,7 +382,7 @@ public class ReadBookActivity extends BaseMvpViewActivity<ReadBookContract.Prese
                         mTimingAdapter.notifyDataSetChanged();
                         mHandler.removeMessages(MSG_CLOSE_SPEAK);
                         isListenBook = false;
-                        mPageLoader.setABC(isListenBook);
+                        mPageLoader.setABC(isABC);
                         mPageLoader.isListenBook(isListenBook);
                         mPvPage.isCanTurnPage(!isListenBook);
                         ivBackgroud.setVisibility(GONE);
