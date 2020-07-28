@@ -463,7 +463,10 @@ public abstract class ReadLoader {
      * @return
      */
     public boolean skipToNextPage() {
-        return mPageView.autoNextPage();
+        if (hasNextPage()) {
+            return mPageView.autoNextPage();
+        }
+        return false;
     }
 
     /**
