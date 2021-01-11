@@ -187,6 +187,7 @@ public class MainActivity extends BaseActivity implements OnTabSelectListener, V
         reqUserInfo();
 
         checkNewVersion();
+
     }
 
     @Override

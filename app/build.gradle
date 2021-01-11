@@ -53,7 +53,7 @@ android {
 //            keyPassword "hytc1688"
         }
         release {// 自己的签名文件
-            storeFile file("E:/android/as_project/FoxRead/doc/hytc_keystore.jks")
+            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
 //            storeFile file("D:/android/FoxRead/doc/hytc_keystore.jks")
             storePassword "hytc1688"
             keyAlias "hytc"
