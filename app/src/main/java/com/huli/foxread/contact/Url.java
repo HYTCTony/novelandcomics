@@ -10,6 +10,7 @@ import rxhttp.wrapper.annotation.DefaultDomain;
  */
 public class Url {
     @DefaultDomain //设置为默认域名
-    public static String baseurl = "http://api.hulimedia.com";
+//    public static String baseurl = "http://api.hulimedia.com";
+    public static String baseurl = "http://api.hongyutiancheng.com.cn";
 //    public static String baseurl = "http://testnovel.hongyutiancheng.com.cn";
 }
