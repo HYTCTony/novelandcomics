@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">一起看书</string>
+    <string name="app_name">99小说</string>
 
     <string name="txt_huli_culture_literature">狐狸文化传媒</string>
 
-    <string name="txt_share_title">海量小说，永久免费，阅读就用“一起看书”免费小说</string>
+    <string name="txt_share_title">海量小说，永久免费，阅读就用“99小说”免费小说</string>
     <string name="txt_share_content">新用户下载登录领红包，阅读得金币，红包金币可提现，邀请你也来！</string>
 
     <string name="rule_id_card_Num">0123456789Xx</string>
@@ -88,8 +88,8 @@
     <string name="txt_plz_input_phone_number">请输入手机号</string>
     <string name="txt_plz_input_new_phone_number">请输入新的手机号</string>
     <string name="txt_plz_input_verification_code">请输入验证码</string>
-    <string name="txt_agree_login_agreement">登录代表您同意一起看书《用户协议》和《隐私策略》</string>
-    <string name="txt_foxread_user_and_privacy_policy">一起看书免费小说《用户协议》和《用户隐私》</string>
+    <string name="txt_agree_login_agreement">登录代表您同意99小说《用户协议》和《隐私策略》</string>
+    <string name="txt_foxread_user_and_privacy_policy">99免费小说《用户协议》和《用户隐私》</string>
 
     <string name="txt_plz_input_invitation_code">请输入邀请码</string>
     <string name="txt_confirm_2_submit">确定提交</string>
@@ -200,7 +200,7 @@
 
     <string name="txt_invite_book_friend_get_reward">邀请书友得奖励</string>
 
-    <string name="welcome_2_fox_fiction">欢迎来到一起看书免费小说</string>
+    <string name="welcome_2_fox_fiction">欢迎来到99免费小说</string>
     <string name="txt_login_or_reg">登录/注册</string>
     <string name="txt_my_gold_coin">我的金币</string>
     <string name="txt_today_gold_coin">今日金币</string>
@@ -281,7 +281,7 @@
     <string name="txt_withdrawal_record">提现记录</string>
     <string name="txt_withdrawal_quick_arrival">到账速度快</string>
 
-    <string name="txt_fox_vip">一起看书VIP</string>
+    <string name="txt_fox_vip">99小说VIP</string>
     <string name="txt_vip_advantage">VIP尊享4大特权，免广告看书爽翻天</string>
     <string name="txt_tips_vip_state_life_member">您是尊贵终身VIP，请尽情畅读吧</string>
     <string name="txt_tips_vip_state">您已开通尊贵VIP，请尽情畅读吧</string>
@@ -289,8 +289,8 @@
     <string name="txt_check_privilege_description">查看特权说明</string>
     <string name="txt_select_packages">选择套餐</string>
     <string name="txt_member_prompt_1">1.若开通特权后10分钟内标识仍然没有点亮，请退出账号后重新登录进行尝试，或联系客服QQ：2108223645。</string>
-    <string name="txt_member_prompt_2">2.开通特权则默认您已同意一起看书《用户条款》、《隐私条款》及《会员服务协议》。</string>
-    <string name="txt_member_prompt_2_a_part">2.开通特权则默认您已同意一起看书</string>
+    <string name="txt_member_prompt_2">2.开通特权则默认您已同意99小说《用户条款》、《隐私条款》及《会员服务协议》。</string>
+    <string name="txt_member_prompt_2_a_part">2.开通特权则默认您已同意99小说</string>
     <string name="txt_user_terms">《用户条款》</string>
     <string name="txt_cn_colon">、</string>
     <string name="txt_privacy_policy">《隐私条款》</string>
@@ -353,7 +353,7 @@
     <string name="txt_cellphone">手机</string>
     <string name="txt_wechat">微信</string>
     <string name="hint_content_clear_cache">清理的缓存包括未在书架的书籍缓存，以及广告的图片、视频缓存、是否清理？</string>
-    <string name="hint_content_push_message">关闭通知，请前往手机系统设置-【通知中心】-【一起看书免费小说】</string>
+    <string name="hint_content_push_message">关闭通知，请前往手机系统设置-【通知中心】-【99免费小说】</string>
     <string name="hint_content_no_book_message">这本书正在上传，未能获取到书籍内容，请稍后再来。</string>
     <string name="hint_content_exceed_limit_message">一次加入书架不能超过15本书！</string>
     <string name="txt_change_avatar">更换头像</string>
@@ -439,11 +439,11 @@
 
 
     <string name="txt_user_agreement_and_privacy_policy_prompt">用户协议与隐私政策提示</string>
-    <string name="txt_agreement_policy_entrance">您可以阅读完整的《一起看书用户使用协议》和《一起看书隐私政策》来了解详细信息。</string>
-    <string name="txt_agreement_and_policy_abstract">感谢您信任并使用“一起看书”。
-        \n\u3000\u3000请您务必审慎阅读、充分理解“用户协议”和“隐私政策”各项条款，包括但不限于：为使用广西狐狸文化传媒有限公司提供的一起看书服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在“设置”中查看、变更、删除个人信息并管理您的授权。
+    <string name="txt_agreement_policy_entrance">您可以阅读完整的《99小说用户使用协议》和《99小说隐私政策》来了解详细信息。</string>
+    <string name="txt_agreement_and_policy_abstract">感谢您信任并使用“99小说”。
+        \n\u3000\u3000请您务必审慎阅读、充分理解“用户协议”和“隐私政策”各项条款，包括但不限于：为使用广西狐狸文化传媒有限公司提供的99小说服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在“设置”中查看、变更、删除个人信息并管理您的授权。
         \n\u3000\u3000如您同意，请点击“同意并继续”开始接受我们的服务。</string>
-    <string name="txt_service_unavailable">您需要同意用户协议与隐私政策后才能使用“一起看书”。\n如您不同意，很遗憾我们无法为你提供服务。</string>
+    <string name="txt_service_unavailable">您需要同意用户协议与隐私政策后才能使用“99小说”。\n如您不同意，很遗憾我们无法为你提供服务。</string>
     <string name="txt_disagree">不同意</string>
     <string name="txt_disagree_and_exit">不同意并退出</string>
     <string name="txt_agree_and_continue">同意并继续</string>
