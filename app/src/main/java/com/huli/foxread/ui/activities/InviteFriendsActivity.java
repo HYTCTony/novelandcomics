@@ -383,7 +383,7 @@ public class InviteFriendsActivity extends BaseActivity implements View.OnClickL
      * 生成二维码
      */
     private Bitmap createQrCode(String inviteUrl) {
-        Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.app_huli_logo_small);
+        Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.app_huli_logo);
         Bitmap logoBorder = getRoundedCornerBorderBitmap(this, resource);
         return EncodingHandler.createQRImage(inviteUrl, logoBorder, 512);
     }
