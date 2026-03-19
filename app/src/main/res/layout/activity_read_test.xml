@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
 
-    <com.huli.page.widget.view.HProgressBar
-        android:id="@+id/hprogress_bar_register"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+    <com.nnmedia.read.luckwheel.NewLuckView
+        android:id="@+id/luck_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        app:luck_indicator_drawable="@mipmap/ic_launcher"
+        app:luck_indicator_height_ratio="0.3"
+        app:luck_indicator_width_ratio="0.2" />
 
 </RelativeLayout>

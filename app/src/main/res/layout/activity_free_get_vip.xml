@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/bg_lucky_draw"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <FrameLayout
+        android:id="@+id/fl_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="@dimen/dp_24"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_asBtn_close_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp_8"
+            android:padding="@dimen/dp_8"
+            android:src="@drawable/ic_activity_close_white"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
+
+    <com.nnmedia.read.luckwheel.NewLuckView
+        android:id="@+id/luck_view"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fl_top_bar"
+        app:luck_even_sector_color="#fff7b8"
+        app:luck_indicator_drawable="@mipmap/ic_launcher"
+        app:luck_indicator_height_ratio="0.3"
+        app:luck_indicator_width_ratio="0.2"
+        app:luck_odd_sector_color="#ff692e"
+        app:luck_text_size="@dimen/sp_18" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

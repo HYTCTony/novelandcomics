@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--    <item-->
-<!--        android:id="@+id/action_download"-->
-<!--        android:icon="@drawable/ic_book_download"-->
-<!--        android:orderInCategory="80"-->
-<!--        android:title="全本下载"-->
-<!--        app:showAsAction="always" />-->
-
     <item
-        android:id="@+id/action_listen"
-        android:icon="@drawable/ic_listen_books"
+        android:id="@+id/action_download"
+        android:icon="@drawable/ic_book_download"
         android:orderInCategory="80"
-        android:title="听书"
+        android:title="全本下载"
         app:showAsAction="always" />
 
-<!--    <item-->
-<!--        android:id="@+id/action_search"-->
-<!--        android:orderInCategory="80"-->
-<!--        android:title="举报"-->
-<!--        app:showAsAction="never" />-->
+    <!--    <item-->
+    <!--        android:id="@+id/action_listen"-->
+    <!--        android:icon="@drawable/ic_listen_books"-->
+    <!--        android:orderInCategory="80"-->
+    <!--        android:title="听书"-->
+    <!--        app:showAsAction="always" />-->
+
+    <!--    <item-->
+    <!--        android:id="@+id/action_search"-->
+    <!--        android:orderInCategory="80"-->
+    <!--        android:title="举报"-->
+    <!--        app:showAsAction="never" />-->
 </menu>

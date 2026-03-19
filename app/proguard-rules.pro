@@ -209,16 +209,28 @@ public <methods>;
 ######引用的其他Module可以直接在app的这个混淆文件里配置
 
 #####GreenDao混淆
--keep class org.greenrobot.greendao.**{*;}
--keep public interface org.greenrobot.greendao.**
+#-keep class org.greenrobot.greendao.**{*;}
+#-keep public interface org.greenrobot.greendao.**
+#-keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+#public static java.lang.String TABLENAME;
+#}
+#-keep class **$Properties
+#-keep class net.sqlcipher.database.**{*;}
+#-keep public interface net.sqlcipher.database.**
+#-dontwarn net.sqlcipher.database.**
+#-dontwarn org.greenrobot.greendao.**
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
 public static java.lang.String TABLENAME;
 }
--keep class **$Properties
--keep class net.sqlcipher.database.**{*;}
--keep public interface net.sqlcipher.database.**
+-keep class **$Properties { *; }
+
+# If you DO use SQLCipher:
+-keep class org.greenrobot.greendao.database.SqlCipherEncryptedHelper { *; }
+
+# If you do NOT use SQLCipher:
 -dontwarn net.sqlcipher.database.**
--dontwarn org.greenrobot.greendao.**
+# If you do NOT use RxJava:
+-dontwarn rx.**
 
 #######PictureSelector 2.0
 -keep class com.luck.picture.lib.** { *; }
@@ -334,67 +346,11 @@ public static java.lang.String TABLENAME;
  -keep public class com.tencent.bugly.**{*;}
  -keep class android.support.**{*;}
 
-
-#####################友盟################################
--keep class com.umeng.** {*;}
-
--dontshrink
--dontoptimize
--dontwarn com.google.android.maps.**
--dontwarn android.webkit.WebView
--dontwarn com.umeng.**
--dontwarn com.tencent.weibo.sdk.**
--dontwarn com.facebook.**
--keep public class javax.**
--keep public class android.webkit.**
--dontwarn android.support.v4.**
--keep enum com.facebook.**
--keepattributes Exceptions,InnerClasses,Signature
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
-
--keep public interface com.facebook.**
--keep public interface com.tencent.**
--keep public interface com.umeng.socialize.**
--keep public interface com.umeng.socialize.sensor.**
--keep public interface com.umeng.scrshot.**
-
--keep public class com.umeng.socialize.* {*;}
-
-
--keep class com.facebook.**
--keep class com.facebook.** { *; }
--keep class com.umeng.scrshot.**
--keep public class com.tencent.** {*;}
--keep class com.umeng.socialize.sensor.**
--keep class com.umeng.socialize.handler.**
--keep class com.umeng.socialize.handler.*
--keep class com.umeng.weixin.handler.**
--keep class com.umeng.weixin.handler.*
--keep class com.umeng.qq.handler.**
--keep class com.umeng.qq.handler.*
--keep class UMMoreHandler{*;}
--keep class com.tencent.mm.sdk.modelmsg.WXMediaMessage {*;}
--keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
--keep class im.yixin.sdk.api.YXMessage {*;}
--keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
--keep class com.tencent.mm.sdk.** {
-   *;
-}
--keep class com.tencent.mm.opensdk.** {
-   *;
-}
--keep class com.tencent.wxop.** {
-   *;
-}
--keep class com.tencent.mm.sdk.** {
-   *;
-}
+ -keep class com.appsflyer.** { *; }
+ -keep class kotlin.jvm.internal.** { *; }
 
 -keep class com.twitter.** { *; }
 
--keep class com.tencent.** {*;}
--dontwarn com.tencent.**
 -keep class com.kakao.** {*;}
 -dontwarn com.kakao.**
 -keep public class com.umeng.com.umeng.soexample.R$*{
@@ -408,15 +364,6 @@ public static java.lang.String TABLENAME;
     public static ** valueOf(java.lang.String);
 }
 
--keep class com.tencent.open.TDialog$*
--keep class com.tencent.open.TDialog$* {*;}
--keep class com.tencent.open.PKDialog
--keep class com.tencent.open.PKDialog {*;}
--keep class com.tencent.open.PKDialog$*
--keep class com.tencent.open.PKDialog$* {*;}
--keep class com.umeng.socialize.impl.ImageImpl {*;}
--keep class com.sina.** {*;}
--dontwarn com.sina.**
 -keep class  com.alipay.share.sdk.** {
    *;
 }
@@ -425,63 +372,28 @@ public static java.lang.String TABLENAME;
     public static final ** CREATOR;
 }
 
--keep class com.linkedin.** { *; }
--keep class com.android.dingtalk.share.ddsharemodule.** { *; }
--keepattributes Signature
+-keep class com.umeng.** {*;}
 
--dontwarn com.fm.openinstall.**
--keep public class com.fm.openinstall.* {*; }
--keep public interface com.fm.openinstall.* {*; }
+-keep class org.repackage.** {*;}
 
-##统计##
+-keep class com.uyumao.** { *; }
+
 -keepclassmembers class * {
    public <init> (org.json.JSONObject);
 }
+
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
--keep public class [com.huli.foxread].R$*{
-public static final int *;
-}
-##统计##
 
-##推送##
--dontwarn com.umeng.**
--dontwarn com.taobao.**
--dontwarn anet.channel.**
--dontwarn anetwork.channel.**
--dontwarn org.android.**
--dontwarn org.apache.thrift.**
--dontwarn com.xiaomi.**
--dontwarn com.huawei.**
--dontwarn com.meizu.**
--keepattributes *Annotation*
--keep class com.taobao.** {*;}
--keep class org.android.** {*;}
--keep class anet.channel.** {*;}
--keep class com.umeng.** {*;}
--keep class com.xiaomi.** {*;}
--keep class com.huawei.** {*;}
--keep class com.meizu.** {*;}
--keep class org.apache.thrift.** {*;}
--keep class com.alibaba.sdk.android.**{*;}
--keep class com.ut.**{*;}
--keep class com.ta.**{*;}
+-keep class com.linkedin.** { *; }
+-keep class com.android.dingtalk.share.ddsharemodule.** { *; }
+-keepattributes Signature
+
 -keep public class **.R$*{
    public static final int *;
 }
-#联通免密登录混淆
--dontwarn com.unicom.xiaowo.account.shield.**
--keep class com.unicom.xiaowo.account.shield.**{*;}
-#移动免密登录混淆
--keep class com.cmic.sso.sdk.**{*;}
--dontwarn com.cmic.sso.sdk.**
-#电信免密登录混淆
--keep class cn.com.chinatelecom.account.**{*;}
--dontwarn cn.com.chinatelecom.account.**
-##推送##
-#####################友盟################################
 
 ################APP升级##############################
 -keepattributes *Annotation*
@@ -495,24 +407,3 @@ public static final int *;
     <init>(java.lang.Throwable);
 }
 ################APP升级##############################
-
-
-#########################穿山甲###########################
--keep class com.bytedance.sdk.openadsdk.** { *; }
--keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
--keep class com.pgl.sys.ces.* {*;}
-#########################穿山甲###########################
-
-#########################广点通上报行为###########################
--dontwarn com.qq.gdt.action.**
--keep class com.qq.gdt.action.** {*;}
-
--keepclasseswithmembers class * {
-native <methods>;
-}
-#########################广点通上报行为###########################
-
-##########################讯飞################################
--keep class com.iflytek.**{*;}
--keepattributes Signature
-##########################################################

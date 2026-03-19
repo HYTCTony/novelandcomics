@@ -21,7 +21,7 @@
         app:layout_constraintRight_toRightOf="@+id/toolbar_normal"
         app:layout_constraintTop_toTopOf="@+id/toolbar_normal" />
 
-    <com.huli.foxread.ui.widget.ProgressWebview
+    <com.nnmedia.read.ui.widget.ProgressWebview
         android:id="@+id/progressWebview_help_and_feedback"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"

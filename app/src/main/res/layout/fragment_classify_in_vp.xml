@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_16"
-                android:text="*按人气日榜排序"
+                android:text="*按评分排序"
                 android:textColor="@color/txt_gray_8f9dac"
                 android:textSize="@dimen/sp_10"
                 app:layout_constraintBottom_toBottomOf="parent"

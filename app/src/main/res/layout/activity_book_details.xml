@@ -25,7 +25,7 @@
             android:layout_marginEnd="@dimen/dp_72"
             android:singleLine="true"
             android:textColor="@color/txt_white"
-            android:textSize="@dimen/sp_20"/>
+            android:textSize="@dimen/sp_20" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -37,6 +37,7 @@
         android:layout_marginEnd="@dimen/dp_4"
         android:padding="@dimen/dp_8"
         android:src="@drawable/ic_more_horiz_white_24dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_normal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/toolbar_normal"
@@ -154,6 +155,7 @@
                     android:layout_width="@dimen/dp_1"
                     android:layout_height="@dimen/dp_12"
                     android:background="#80FFFFFF"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_greet_dt"
                     app:layout_constraintLeft_toRightOf="@+id/ratingBar_book_score_dt"
                     app:layout_constraintRight_toLeftOf="@+id/tv_book_greet_dt"
@@ -167,6 +169,7 @@
                     android:textColor="@color/txt_white"
                     android:textColorHint="@color/txt_white"
                     android:textSize="@dimen/sp_14"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_score_dt"
                     app:layout_constraintRight_toLeftOf="@+id/tv_book_greet_label_dt"
                     app:layout_constraintTop_toTopOf="@+id/tv_book_score_dt" />
@@ -179,6 +182,7 @@
                     android:text="@string/txt_greet"
                     android:textColor="@color/txt_af80_white"
                     android:textSize="@dimen/sp_10"
+                    android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_book_greet_dt"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_book_greet_dt" />
@@ -192,7 +196,7 @@
                 android:orientation="vertical"
                 android:padding="@dimen/dp_16">
 
-                <com.huli.foxread.ui.widget.ExpandableTextView
+                <com.nnmedia.read.ui.widget.ExpandableTextView
                     android:id="@+id/etv_book_synopsis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -219,7 +223,7 @@
                     app:maxSelectNum="1"
                     app:paddingHorizontal="@dimen/dp_8"
                     app:paddingVertical="@dimen/dp_4"
-                    app:textColor="@color/txt_gray"
+                    app:textColor="@color/txt_black"
                     app:textSize="@dimen/sp_12"
                     tools:labels="热血,玄幻,口碑佳作,轻松爽文,美女,种马" />
 
@@ -434,7 +438,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dp_16"
                 android:textSize="@dimen/sp_12"
-                tools:text="版权说名：本作品由咕咪阅读提供，并由本软件合作推广阅读，如有相关问题请及时联系客服。" />
+                tools:text="版权说明：牛牛小说版权所有" />
 
         </LinearLayout>
 
@@ -453,32 +457,75 @@
             android:background="@color/color_f2"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/btn_add_a_bookcase_dt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dp_8"
-            android:text="@string/txt_add_a_bookcase"
-            android:textColor="@color/txt_black_191919"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/btn_begin_reading_dt"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/btn_begin_reading_dt"
-            android:layout_width="@dimen/dp_156"
-            android:layout_height="@dimen/dp_38"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:background="@drawable/ripple_normal_btn_bg_red"
-            android:text="@string/txt_begin_reading"
-            android:textColor="@color/txt_white"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:id="@+id/btn_download_book"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/ic_download" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/txt_download_book"
+                    android:textColor="@color/txt_black_191919"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@mipmap/ic_add_book" />
+
+                <TextView
+                    android:id="@+id/btn_add_a_bookcase_dt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="@string/txt_add_a_bookcase"
+                    android:textColor="@color/txt_black_191919"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/btn_begin_reading_dt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="6dp"
+                    android:background="@drawable/ripple_normal_btn_bg_red"
+                    android:text="@string/txt_begin_reading"
+                    android:textColor="@color/txt_white"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

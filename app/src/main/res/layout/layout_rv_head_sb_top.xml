@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/ctl_head_contentView"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
 
@@ -10,11 +10,13 @@
         android:id="@+id/banner_boy_girl_top"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        app:banner_default_image="@mipmap/banner_place_holder"
-        app:indicator_drawable_selected="@color/col_red_fa345b"
-        app:indicator_drawable_unselected="@color/col_gray_e5e5e5"
-        app:indicator_height="@dimen/dp_2"
-        app:indicator_width="@dimen/dp_8"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="visible"
+        app:banner_indicator_normal_color="@color/col_gray_e5e5e5"
+        app:banner_indicator_normal_width="@dimen/dp_4"
+        app:banner_indicator_selected_color="@color/col_red_fa345b"
+        app:banner_indicator_selected_width="@dimen/dp_6"
         app:layout_constraintDimensionRatio="360:126"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +66,7 @@
         android:layout_height="@dimen/dp_0"
         android:layout_marginStart="@dimen/dp_8"
         android:layout_marginEnd="@dimen/dp_16"
-        android:background="@mipmap/ic_center_navi_bg_ranking"
+        android:background="@mipmap/ic_center_navi_bg_ranking_2"
         android:foreground="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/ctl_asBtn_classify"
         app:layout_constraintDimensionRatio="160:64"
@@ -78,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
             android:includeFontPadding="false"
-            android:text="@string/txt_ranking_list"
+            android:text="@string/txt_must_read"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_22"
             app:fontFamily="@font/source_hanserif_cn_bold_mini"
@@ -97,6 +99,16 @@
             app:layout_constraintLeft_toLeftOf="@+id/tv_rank_list"
             app:layout_constraintTop_toBottomOf="@+id/tv_rank_list" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_60"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_rank_list_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/lottie_trophy_2" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -111,7 +123,8 @@
         app:layout_constraintDimensionRatio="160:64"
         app:layout_constraintLeft_toLeftOf="@+id/ctl_asBtn_classify"
         app:layout_constraintRight_toLeftOf="@+id/ctl_asBtn_new_book"
-        app:layout_constraintTop_toBottomOf="@+id/ctl_asBtn_classify">
+        app:layout_constraintTop_toBottomOf="@+id/ctl_asBtn_classify"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_end_book"
@@ -119,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_8"
             android:includeFontPadding="false"
-            android:text="@string/txt_end"
+            android:text="@string/txt_original"
             android:textColor="@color/txt_black_272f3a"
             android:textSize="@dimen/sp_22"
             app:fontFamily="@font/source_hanserif_cn_bold_mini"
@@ -131,7 +144,7 @@
             android:id="@+id/tv_end_book_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txt_tips_endbook"
+            android:text="@string/txt_original_text"
             android:textColor="@color/txt_col_365565"
             android:textSize="@dimen/sp_12"
             app:layout_constraintBottom_toBottomOf="parent"

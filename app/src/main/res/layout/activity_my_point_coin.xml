@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_f2">
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout_my_gold_coin"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginBottom="@dimen/px_1"
+        app:layout_constraintBottom_toTopOf="@+id/fl_bottom_bar_mgc"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srlEnableLoadMore="false">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                app:elevation="@dimen/dp_0">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:contentScrim="@color/col_red_ff8477"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:statusBarScrim="@android:color/transparent"
+                    app:titleEnabled="false">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dp_0"
+                            android:src="@drawable/img_bg_my_goldcoin_top"
+                            app:layout_constraintDimensionRatio="360:188"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_gold_point"
+                            android:textColor="@color/txt_white"
+                            android:textSize="@dimen/sp_15"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_my_gold_coin_balance"
+                            app:layout_constraintLeft_toLeftOf="@+id/tv_my_gold_coin_balance" />
+
+                        <TextView
+                            android:id="@+id/tv_my_gold_coin_balance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/dp_16"
+                            android:hint="@string/txt_zero"
+                            android:textColor="@color/txt_white"
+                            android:textColorHint="@color/txt_white"
+                            android:textSize="@dimen/sp_24"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_accumulated_gold"
+                            app:layout_constraintLeft_toLeftOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tv_my_gold_coin_balance_exchange_yuan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dp_48"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:background="@mipmap/img_bg_goldcoin_exchange_yuan"
+                            android:gravity="center"
+                            android:paddingStart="@dimen/dp_12"
+                            android:paddingEnd="@dimen/dp_8"
+                            android:textColor="@color/txt_red"
+                            android:textSize="@dimen/sp_12"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_my_gold_coin_balance"
+                            app:layout_constraintLeft_toRightOf="@+id/tv_my_gold_coin_balance"
+                            app:layout_constraintTop_toTopOf="@+id/tv_my_gold_coin_balance"
+                            tools:text="633元" />
+
+                        <TextView
+                            android:id="@+id/tv_go2_withdrawal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:background="@drawable/ripple_round_btn_bg_white"
+                            android:paddingStart="@dimen/dp_16"
+                            android:paddingTop="@dimen/dp_8"
+                            android:paddingEnd="@dimen/dp_16"
+                            android:paddingBottom="@dimen/dp_8"
+                            android:text="@string/txt_go2_exchange"
+                            android:textColor="@color/txt_red"
+                            android:textSize="@dimen/sp_12"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_my_gold_coin_balance"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tv_my_gold_coin_balance" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/px_1"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:background="@color/whiteAlpha80"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_accumulated_gold" />
+
+                        <TextView
+                            android:id="@+id/tv_accumulated_gold"
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/txt_white"
+                            android:textSize="@dimen/sp_12"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@+id/tv_get_gold_today"
+                            tools:text="累计获得推广点：500" />
+
+                        <View
+                            android:layout_width="@dimen/px_1"
+                            android:layout_height="@dimen/dp_12"
+                            android:background="@color/whiteAlpha80"
+                            app:layout_constraintBottom_toBottomOf="@+id/tv_accumulated_gold"
+                            app:layout_constraintLeft_toLeftOf="@+id/tv_accumulated_gold"
+                            app:layout_constraintRight_toRightOf="@+id/tv_get_gold_today"
+                            app:layout_constraintTop_toTopOf="@+id/tv_accumulated_gold" />
+
+                        <TextView
+                            android:id="@+id/tv_get_gold_today"
+                            android:layout_width="@dimen/dp_0"
+                            android:layout_height="@dimen/dp_36"
+                            android:layout_marginStart="@dimen/dp_16"
+                            android:layout_marginEnd="@dimen/dp_16"
+                            android:gravity="center_vertical"
+                            android:textColor="@color/txt_white"
+                            android:textSize="@dimen/sp_12"
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintHorizontal_weight="1"
+                            app:layout_constraintLeft_toRightOf="@+id/tv_accumulated_gold"
+                            app:layout_constraintRight_toRightOf="parent"
+                            tools:text="今日获得金币：500" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar_normal"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:background="@color/col_black_333"
+                        app:layout_collapseMode="pin"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
+
+                        <TextView
+                            android:id="@+id/tv_toolbar_center_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textColor="@color/txt_white"
+                            android:textSize="@dimen/sp_20"
+                            android:textStyle="bold" />
+                    </androidx.appcompat.widget.Toolbar>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_goldCoin_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_bottom_bar_mgc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/btn_invite_friends_2_make_money"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_16"
+            android:layout_marginBottom="@dimen/dp_12"
+            android:background="@drawable/ripple_normal_btn_bg_red"
+            android:text="@string/txt_point_exchange"
+            android:textColor="@color/txt_white"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

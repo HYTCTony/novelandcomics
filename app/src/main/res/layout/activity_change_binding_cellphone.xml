@@ -73,7 +73,7 @@
                 android:layout_height="@dimen/dp_16"
                 android:background="@color/col_gray_e5e5e5" />
 
-            <com.huli.foxread.ui.widget.TimingButton
+            <com.nnmedia.read.ui.widget.TimingButton
                 android:id="@+id/timingButton_get_vCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

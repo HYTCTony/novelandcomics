@@ -2,27 +2,40 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string-array name="bottom_bar_main">
+        <item>精选</item>
         <item>书城</item>
         <item>书架</item>
-        <item>分类</item>
         <item>福利</item>
         <item>我</item>
     </string-array>
 
-    <string-array name="tab_book_store">
+    <string-array name="tab_book_store_1">
+        <item>书城</item>
+        <!--        <item>推荐</item>-->
+        <!--        <item>男生</item>-->
+        <!--        <item>女生</item>-->
+    </string-array>
+    <string-array name="tab_book_store_2">
         <item>精选</item>
-        <item>男生</item>
-        <item>女生</item>
     </string-array>
 
     <string-array name="tab_classify">
-        <item>男生</item>
-        <item>女生</item>
+        <item>小说分类</item>
+        <!--        <item>男生</item>-->
+        <!--        <item>女生</item>-->
     </string-array>
 
     <string-array name="tab_ranking">
-        <item>男生榜</item>
-        <item>女生榜</item>
+        <item>小说排行榜</item>
+        <!--        <item>男生榜</item>-->
+        <!--        <item>女生榜</item>-->
+    </string-array>
+
+    <string-array name="tab_vip">
+        <item>充值会员</item>
+<!--        <item>充阅读点</item>-->
+        <item>嗨币兑换</item>
+        <item>积分兑换</item>
     </string-array>
 
     <string-array name="tab_sub_ranking">
@@ -34,8 +47,9 @@
 
 
     <string-array name="tab_end_book">
-        <item>男生完结</item>
-        <item>女生完结</item>
+        <item>免费小说</item>
+        <!--        <item>男生完结</item>-->
+        <!--        <item>女生完结</item>-->
     </string-array>
 
     <string-array name="cat_is_end">
@@ -43,6 +57,7 @@
         <item>完结</item>
         <item>连载</item>
     </string-array>
+
     <string-array name="cat_word_num">
         <item>全部</item>
         <item>30万字以下</item>
@@ -50,9 +65,35 @@
         <item>50&#8211;100万字</item>
         <item>100万字以上</item>
     </string-array>
+
     <string-array name="cat_state">
         <item>最热</item>
         <item>评分</item>
         <item>最新</item>
+    </string-array>
+
+    <string-array name="cat_word_tips">
+        <item>广告是为了更多的更好看的内容</item>
+        <item>购买VIP会员 阅读无广告</item>
+        <item>不知道看什么小说 就上海豚必读榜</item>
+        <item>购买VIP会员立即解锁全部章节</item>
+        <item>点击屏幕中央可以呼出菜单</item>
+    </string-array>
+
+    <string-array name="event_items">
+        <item>无</item>
+        <item>上一页</item>
+        <item>下一页</item>
+        <item>保存图片</item>
+        <item>加载上一章</item>
+        <item>加载下一章</item>
+        <item>退出阅读器</item>
+        <item>跳到第一页</item>
+        <item>跳到最后一页</item>
+        <item>切换屏幕方向</item>
+        <item>切换阅读模式</item>
+        <item>显示/隐藏进度条</item>
+        <item>重新加载图片</item>
+        <item>切换夜间模式</item>
     </string-array>
 </resources>

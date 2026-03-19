@@ -1,0 +1,51 @@
+package com.nnmedia.comics.presenter;
+
+import com.nnmedia.comics.rx.RxBus;
+import com.nnmedia.comics.rx.RxEvent;
+import com.nnmedia.comics.ui.view.BaseView;
+
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
+
+
+public abstract class BasePresenter<T extends BaseView> {
+
+    protected T mBaseView;
+    protected CompositeSubscription mCompositeSubscription;
+
+    public void attachView(T view) {
+        this.mBaseView = view;
+        onViewAttach();
+        mCompositeSubscription = new CompositeSubscription();
+        addSubscription(RxEvent.EVENT_SWITCH_NIGHT, new Action1<RxEvent>() {
+            @Override
+            public void call(RxEvent rxEvent) {
+                mBaseView.onNightSwitch();
+            }
+        });
+        initSubscription();
+    }
+
+    protected void onViewAttach() {
+    }
+
+    protected void initSubscription() {
+    }
+
+    protected void addSubscription(@RxEvent.EventType int type, Action1<RxEvent> action) {
+        mCompositeSubscription.add(RxBus.getInstance().toObservable(type).subscribe(action, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }));
+    }
+
+    public void detachView() {
+        if (mCompositeSubscription != null) {
+            mCompositeSubscription.unsubscribe();
+        }
+        mBaseView = null;
+    }
+
+}

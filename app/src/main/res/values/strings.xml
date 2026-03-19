@@ -1,15 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">99小说</string>
+    <string name="app_name">海豚小说</string>
+    <string name="app_name_test">南瓜小说</string>
 
-    <string name="txt_huli_culture_literature">狐狸文化传媒</string>
+    <string name="txt_company_culture_literature">海豚文化传媒</string>
 
-    <string name="txt_share_title">海量小说，永久免费，阅读就用“99小说”免费小说</string>
-    <string name="txt_share_content">新用户下载登录领红包，阅读得金币，红包金币可提现，邀请你也来！</string>
+    <string name="txt_share_title">海量小说，阅读就用“海豚小说”小说</string>
+    <string name="txt_share_content">新用户下载登录领红包，阅读得嗨币，红包嗨币可提现，邀请你也来！</string>
 
     <string name="rule_id_card_Num">0123456789Xx</string>
     <string name="loading">加载中&#8230;</string>
     <string name="txt_network_maybe_exceptions">服务器连接可能存在异常&#8230;</string>
     <string name="txt_logon_failure">登录失效，请重新登录！</string>
+    <string name="txt_error_qr">错误二维码，请重新扫描！</string>
+    <string name="txt_error_pic">该图片无法识别二维码</string>
     <string name="text_point_out_once_again">再次点击退出程序哟~</string>
     <string name="txt_welcome_back_net">欢迎回到 没网会死 星球！</string>
     <string name="txt_radio_wave_connection_interruption">电波连接中断了T.T</string>
@@ -18,7 +21,7 @@
     <string name="txt_network_setting">网络设置</string>
     <string name="txt_reconnection">重新连接</string>
     <string name="txt_plz_select_a_pic">请选择一张图片</string>
-    <string name="txt_say_hi">Hi小说萌新</string>
+    <string name="txt_say_hi">Hi尊敬的用户</string>
     <string name="txt_login_success">登录成功</string>
     <string name="txt_binding_cellphone_hint">您当前没有绑定手机号，要前往绑定吗？</string>
     <string name="txt_go2_binding">去绑定</string>
@@ -27,12 +30,11 @@
 
     <string name="txt_sms_verification_code_has_been_issued">短信验证码已下发</string>
 
-<!--    <string name="network_error">当前无网络，请检查你的网络设置</string>-->
+    <!--    <string name="network_error">当前无网络，请检查你的网络设置</string>-->
     <string name="network_error">当前无网络</string>
     <string name="notify_no_network">网络连接不可用，请稍后重试！</string>
     <string name="esky_service_exception">网络不给力，请稍候重试！</string>
     <string name="time_out_please_try_again_later">连接超时,请稍后再试</string>
-
 
     <string name="txt_anonymity">佚名</string>
 
@@ -50,6 +52,7 @@
     <string name="txt_books_do_not_exist">抱歉，书籍不存在！</string>
 
     <string name="txt_id_colon">ID：</string>
+    <string name="txt_account_colon">账号：</string>
     <string name="txt_no_data">暂无数据</string>
     <string name="txt_skip_x">跳过 | %1$d</string>
 
@@ -82,16 +85,20 @@
     <string name="txt_plz_input_keyword">请输入关键字</string>
 
     <string name="txt_login">登录</string>
+    <string name="txt_regist">注册</string>
     <string name="txt_third_part_login">第三方账号登录</string>
     <string name="txt_wechat_login">微信登录</string>
     <string name="txt_get_verification_code">获取验证码</string>
-    <string name="txt_plz_input_phone_number">请输入手机号</string>
+    <string name="txt_plz_input_phone_number">请输入用户名</string>
     <string name="txt_plz_input_new_phone_number">请输入新的手机号</string>
     <string name="txt_plz_input_verification_code">请输入验证码</string>
-    <string name="txt_agree_login_agreement">登录代表您同意99小说《用户协议》和《隐私策略》</string>
-    <string name="txt_foxread_user_and_privacy_policy">99免费小说《用户协议》和《用户隐私》</string>
+    <string name="txt_plz_input_password">请输入密码</string>
+    <string name="txt_plz_comfirm_password">请确认密码</string>
+    <string name="txt_plz_verification_password">两次密码不一致</string>
+    <string name="txt_agree_login_agreement">登录代表您同意海豚小说《用户协议》和《隐私策略》</string>
+    <string name="txt_foxread_user_and_privacy_policy">海豚小说《用户协议》和《用户隐私》</string>
 
-    <string name="txt_plz_input_invitation_code">请输入邀请码</string>
+    <string name="txt_plz_input_invitation_code">请输入邀请码（非必填）</string>
     <string name="txt_confirm_2_submit">确定提交</string>
     <string name="txt_invitation_code">邀请码</string>
 
@@ -108,9 +115,15 @@
     <string name="txt_cancel">取消</string>
 
     <string name="txt_confirm_2_pay">确认支付</string>
-    <string name="txt_payment_dialog_title">请选择支付方式</string>
+    <string name="txt_payment_dialog_title">支付方式</string>
     <string name="txt_plz_select_payment_way">请选择支付方式</string>
     <string name="txt_need_2_pay">需支付：%1$s</string>
+    <string name="txt_need_3_pay">需支付：%1$s</string>
+    <string name="txt_need_4_pay">需支付：%1$s</string>
+    <string name="txt_reduction_pay">点我，立减%1$s</string>
+    <string name="txt_added_hpoint">点我，额外赠送%1$s</string>
+    <string name="txt_user_cdkey">使用卡密支付，额外赠送%1$s</string>
+    <string name="txt_describe_cdkey">%1$s+额外%2$s</string>
 
     <string name="unit_ren">人</string>
     <string name="unit_ren_w">万人</string>
@@ -126,14 +139,18 @@
     <string name="txt_category_dt_sub_title">%1$s类全网%2$s前三名</string>
 
     <string name="txt_tips_classify">精准找书导航页</string>
-    <string name="txt_tips_rank_list">每天更新</string>
+    <string name="txt_tips_rank_list">必读好书推荐</string>
     <string name="txt_tips_newbook">好书抢先看</string>
-    <string name="txt_tips_endbook">一次看到爽</string>
+    <string name="txt_tips_freebook">月限免好书</string>
+    <string name="txt_original_text">作者原创  即将上线</string>
 
+    <string name="txt_must_read">必读榜</string>
+    <string name="txt_free_book">免费</string>
     <string name="txt_all_classify">全部分类</string>
     <string name="txt_classify">分类</string>
-    <string name="txt_ranking_list">排行榜</string>
+    <string name="stxt_ranking_list">排行榜</string>o
     <string name="txt_new_book">新书</string>
+    <string name="txt_original">原创</string>
     <string name="txt_end">完结</string>
     <string name="txt_serialize">连载</string>
     <string name="txt_update">更新</string>
@@ -163,12 +180,12 @@
     <string name="txt_all_girls_love">女生都喜欢</string>
     <string name="txt_praise_good_books">好评佳作</string>
     <string name="txt_total_reading_time_min">今日已阅读(分钟)</string>
-    <string name="txt_sign_in_for_gold">签到领金币</string>
+    <string name="txt_sign_in_for_gold">签到领嗨币</string>
     <string name="txt_markread_chapter_x">读到：%1$s</string>
     <string name="txt_markread_null">未读</string>
     <string name="txt_welfare_center">福利中心</string>
     <string name="txt_click_2_login">点击\n登录</string>
-    <string name="txt_gold_coin_usable">可用金币</string>
+    <string name="txt_gold_coin_usable">可用嗨币</string>
     <string name="hint_not_logged_in">还未登录账号哦</string>
     <string name="hint_login_2_get_welfare">登录领取海量福利！</string>
     <string name="txt_sign_in_immediately">立即签到</string>
@@ -195,25 +212,40 @@
     <string name="txt_binding_cellphone_number">绑定手机号</string>
     <string name="txt_daily_mission">日常任务</string>
     <string name="txt_invite_friends">邀请好友</string>
+    <string name="txt_business_cooperation">商务合作</string>
+    <string name="txt_email">建议反馈</string>
+    <string name="txt_fans_base">Telegram官方群</string>
     <string name="txt_go2_invite_friends">去邀请</string>
     <string name="txt_reading_mission">阅读任务</string>
 
-    <string name="txt_invite_book_friend_get_reward">邀请书友得奖励</string>
+    <string name="txt_invite_book_friend_get_reward">邀请书友得会员</string>
 
-    <string name="welcome_2_fox_fiction">欢迎来到99免费小说</string>
+    <string name="welcome_2_fox_fiction">欢迎来到海豚小说</string>
     <string name="txt_login_or_reg">登录/注册</string>
-    <string name="txt_my_gold_coin">我的金币</string>
-    <string name="txt_today_gold_coin">今日金币</string>
+    <string name="txt_my_gold_coin">我的嗨币</string>
+    <string name="txt_today_gold_coin">今日嗨币</string>
     <string name="txt_today_reading">今日阅读(min)</string>
+    <string name="txt_my_point">推广积分</string>
+    <string name="txt_read_point">阅读点数</string>
+    <string name="txt_my_read_point">我的阅读点：%1$d</string>
+    <string name="txt_currency_gold">嗨币</string>
+    <string name="txt_currency_point">积分</string>
+    <string name="txt_currency_cny">CNY</string>
+    <string name="txt_unlock_message">本章共%1$d字，解锁需要阅读点：%2$d</string>
     <string name="txt_fox_vip_member">VIP会员</string>
     <string name="txt_you_have_become_a_life_member_vip">您已成为尊贵终身VIP</string>
     <string name="txt_you_have_become_a_vip">您已成为尊贵VIP</string>
-    <string name="txt_fox_vip_effect">去除广告，优质阅读</string>
-    <string name="txt_activate_immediately">立即开通</string>
-    <string name="txt_view_details">查看详情</string>
+    <string name="txt_fox_vip_effect">去除广告，解锁章节，优质阅读</string>
+    <string name="txt_get_rights_and_interests">查看权益</string>
+    <string name="txt_get_free_vip">领取会员</string>
+    <string name="txt_activate_immediately">充值续费</string>
+    <string name="txt_view_details">充值续费</string>
     <string name="txt_remove_ads">去除广告</string>
+    <string name="txt_unlock_book">求书必应</string>
+    <string name="txt_comment">吐槽评论</string>
+    <string name="txt_download_book">全本缓存</string>
     <string name="txt_voice_book">语音听书</string>
-    <string name="txt_extra_gold">额外金币</string>
+    <string name="txt_extra_gold">额外嗨币</string>
     <string name="txt_honourable_sign">尊贵标识</string>
     <string name="txt_welfare_zone">福利专区</string>
     <string name="txt_a_lots_gifts">好礼拿不停</string>
@@ -223,6 +255,8 @@
     <string name="txt_reading_preference">阅读偏好</string>
     <string name="txt_reading_record">阅读历史</string>
     <string name="txt_inviter">邀请人</string>
+    <string name="txt_cdkey_exchange">卡密兑换</string>
+    <string name="txt_cdkey_tips">请输入卡密</string>
     <string name="txt_gold_coin_withdrawal">金币提现</string>
     <string name="txt_withdrawal_2_account_quick">提现到账快</string>
     <string name="txt_mode_adolescent">青少年模式</string>
@@ -245,7 +279,7 @@
     <string name="txt_newest">最新</string>
     <string name="txt_catalogue">目录</string>
     <string name="txt_add_a_bookcase">加入书架</string>
-    <string name="txt_begin_reading">免费阅读全本</string>
+    <string name="txt_begin_reading">阅读全本</string>
     <string name="txt_hotspot_book_review">热门书评</string>
     <string name="txt_recommended_classic">经典推荐</string>
     <string name="txt_write_review">写书评</string>
@@ -254,7 +288,16 @@
     <string name="txt_related_recommendation">相关推荐</string>
     <string name="tips_copyright_colon">版权说明：</string>
 
+    <string name="txt_telegram_title_1">商务合作</string>
+    <string name="txt_telegram_title_2">Telegram官方群</string>
+    <string name="txt_telegram_content_1">商务合作请联系Telegram：\n@haitunxiaoshuo</string>
+    <string name="txt_telegram_content_2">Telegram官方交流群③：\nhttps://t.me/htcrxs</string>
+
+    <string name="txt_email_title_1">建议反馈</string>
+    <string name="txt_email_content_1">请发邮件给我们：9906613@gmail.com</string>
+
     <string name="txt_copy">复制</string>
+    <string name="txt_jump">跳转</string>
     <string name="txt_immediately_invite">立即邀请</string>
     <string name="txt_itf_go2_check">已邀好友-去查看</string>
     <string name="txt_has_been_invited_friends">已邀好友</string>
@@ -267,63 +310,104 @@
     <string name="txt_moments_invite">朋友圈邀请</string>
     <string name="txt_face2face_scan">面对面扫描</string>
 
-    <string name="txt_goldcoin_balance">金币余额</string>
+    <string name="txt_order">订单</string>
+    <string name="txt_cdkey_order">兑换历史</string>
+    <string name="txt_cdkey_query">卡密查询</string>
+    <string name="txt_bill">账单</string>
+    <string name="txt_card_pay">卡密支付</string>
+    <string name="txt_ali_pay_1">支付宝①</string>
+    <string name="txt_ali_pay_2">支付宝②</string>
+    <string name="txt_ali_pay_3">支付宝③</string>
+    <string name="txt_ali_pay_4">支付宝④</string>
+    <string name="txt_weichat_pay_1">微信①</string>
+    <string name="txt_weichat_pay_2">微信②</string>
+    <string name="txt_weichat_pay_3">微信③</string>
+    <string name="txt_weichat_pay_4">微信④</string>
+
+    <string name="txt_point_balance">推广积分明细</string>
+    <string name="txt_goldcoin_balance">嗨币余额明细</string>
+    <string name="txt_h_point_balance">阅读点明细</string>
     <string name="txt_go2_withdrawal">去提现</string>
+    <string name="txt_go2_exchange">去兑换</string>
+    <string name="txt_go2_recharge">去充值</string>
+    <string name="txt_go2_recharge2">去充值></string>
+    <string name="txt_exchange_cdkey">兑换</string>
+    <string name="txt_gold_exchange">嗨币兑换</string>
+    <string name="txt_point_exchange">推广积分兑换</string>
+    <string name="txt_h_point_recharge">充值阅读点</string>
     <string name="txt_confirm_withdrawal">确定提现</string>
-    <string name="txt_gold_coin">金币</string>
+    <string name="txt_automatic_unlocking">自动解锁</string>
+    <string name="txt_gold_point">推广积分</string>
+    <string name="txt_h_point">阅读点余额</string>
+    <string name="txt_gold_coin">嗨币</string>
     <string name="txt_money_yuan">现金（元）</string>
     <string name="txt_money_withdrawal">现金提现</string>
-    <string name="txt_gold_coin_details">金币明细</string>
-    <string name="txt_warm_prompt">温馨提示</string>
-    <string name="txt_accumulated_gold_colon">累计获得金币：</string>
-    <string name="txt_get_gold_today_colon">今日获得金币：</string>
+    <string name="txt_gold_coin_details">嗨币明细</string>
+    <string name="txt_h_point_details">阅读点明细</string>
+    <string name="txt_point_details">积分明细</string>
+    <string name="txt_accumulated_point">累计获得推广积分：</string>
+    <string name="txt_get_point_today">今日获得推广积分：</string>
+    <string name="txt_accumulated_gold_colon">累计获得嗨币：</string>
+    <string name="txt_get_gold_today_colon">今日获得嗨币：</string>
 
     <string name="txt_withdrawal_record">提现记录</string>
     <string name="txt_withdrawal_quick_arrival">到账速度快</string>
 
-    <string name="txt_fox_vip">99小说VIP</string>
+    <string name="txt_fox_vip">海豚小说VIP</string>
     <string name="txt_vip_advantage">VIP尊享4大特权，免广告看书爽翻天</string>
     <string name="txt_tips_vip_state_life_member">您是尊贵终身VIP，请尽情畅读吧</string>
     <string name="txt_tips_vip_state">您已开通尊贵VIP，请尽情畅读吧</string>
     <string name="txt_vip_enjoyment">VIP尊享</string>
     <string name="txt_check_privilege_description">查看特权说明</string>
     <string name="txt_select_packages">选择套餐</string>
-    <string name="txt_member_prompt_1">1.若开通特权后10分钟内标识仍然没有点亮，请退出账号后重新登录进行尝试，或联系客服QQ：2108223645。</string>
-    <string name="txt_member_prompt_2">2.开通特权则默认您已同意99小说《用户条款》、《隐私条款》及《会员服务协议》。</string>
-    <string name="txt_member_prompt_2_a_part">2.开通特权则默认您已同意99小说</string>
+    <string name="txt_warm_prompt">温馨提示</string>
+    <string name="txt_member_prompt_1">1.若开通特权后10分钟内标识仍然没有点亮，请退出账号后重新登录进行尝试。</string>
+    <string name="txt_member_prompt_2">2.开通特权您将成为海豚小说的尊贵VIP会员，海豚小说没有找回密码功能，请牢记您的账号与密码，以保证您的权益。</string>
+    <string name="txt_member_prompt_2_a_part">2.开通特权则默认您已同意海豚小说</string>
+    <string name="txt_cdkey_prompt">实用须知：</string>
+    <string name="txt_cdkey_prompt_1">1、商品串码获取：购买成功后，进入app首页-我的-卡密兑换-查询卡密；</string>
+    <string name="txt_cdkey_prompt_2">2、商品串码实用；复制商品串码-进入app首页-我的-卡密兑换-长按粘贴串码-立即兑换-兑换中-兑换成功；</string>
+    <string name="txt_cdkey_prompt_3">3、温馨提示：因商品为虚拟商品，请保护号您购买的商品串码，以防流失，因发送给他人等情况，导致串码被他人兑换，不支持找回与退款。</string>
+    <string name="txt_cdkey_prompt_4">4、如有疑问：可联系telegram客服@haitunxiaoshuo进行咨询或者关注海豚小说官方推特进行留言。"</string>
     <string name="txt_user_terms">《用户条款》</string>
     <string name="txt_cn_colon">、</string>
     <string name="txt_privacy_policy">《隐私条款》</string>
     <string name="txt_cn_and">及</string>
     <string name="txt_membership_service_agreement">《会员服务协议》</string>
     <string name="txt_cn_full_stop">。</string>
-    <string name="txt_member_prompt_3">3.特权时长，1个月=30天如有其他疑问，请前往帮助与反馈。</string>
+    <string name="txt_member_prompt_3">3.特权时长，1个月=30天。</string>
     <string name="txt_open_push_notifications">开启推送通知</string>
     <string name="txt_receive_msg_in_time">及时接收优惠、福利消息</string>
     <string name="txt_immediately_open">立即开启</string>
 
     <string name="txt_my_signin">我的签到</string>
-    <string name="txt_sign_in_get_gold_coin">签到得金币</string>
+    <string name="txt_sign_in_get_gold_coin">签到得嗨币</string>
     <string name="txt_sign_in">签到</string>
     <string name="txt_sign_in_state_this_week_xx">本周累计签到%1$d天，连续签到%2$d天</string>
     <string name="txt_continuous_sign_in_day_x">连续签到%1$d天</string>
-    <string name="txt_congratulations_get_gold_coin_x">恭喜获得+%1$d金币</string>
-    <string name="txt_add_gold_coin_x">+%1$d金币</string>
-    <string name="txt_del_gold_coin_x">-%1$d金币</string>
-    <string name="txt_most_gold_coin_x">最高%1$d金币</string>
+    <string name="txt_congratulations_get_gold_coin_x">恭喜获得+%1$d嗨币</string>
+    <string name="txt_add_gold_coin_x">+%1$d嗨币</string>
+    <string name="txt_del_gold_coin_x">-%1$d嗨币</string>
+    <string name="txt_add_point_x">+%1$d积分</string>
+    <string name="txt_del_point_x">-%1$d积分</string>
+    <string name="txt_add_h_point_x">+%1$d阅读点</string>
+    <string name="txt_del_h_point_x">-%1$d阅读点</string>
+    <string name="txt_most_gold_coin_x">最高%1$d嗨币</string>
     <string name="txt_non_arrival">未到</string>
     <string name="txt_overdue">过期</string>
     <string name="txt_signed_in">已签</string>
-    <string name="txt_more_gold_signed_in_this_week_xx">本周再签%1$d天可额外获得%2$d金币</string>
+    <string name="txt_more_gold_signed_in_this_week_xx">本周再签%1$d天可额外获得%2$d嗨币</string>
     <string name="txt_continuous_sign_in_extra_gift">连续签到额外送好礼</string>
     <string name="txt_lucky_wheel">幸运大转盘</string>
     <string name="txt_spell_luck">拼手气，赢豪礼</string>
     <string name="txt_invite_friends_get_redpacket">邀请好友领红包</string>
     <string name="txt_sign_in_success">签到成功</string>
     <string name="txt_i_see">朕知道了</string>
-    <string name="txt_get_goldcoin_x">获得%1$d金币</string>
+    <string name="txt_get_goldcoin_x">获得%1$d嗨币</string>
     <string name="txt_login_title_cellphone">手机号快速登录</string>
-    <string name="txt_today_signin_add_goldcoin_x">今日签到+%1$d金币</string>
+    <string name="txt_login_title">快速登录</string>
+    <string name="txt_register_title_cellphone">快速注册</string>
+    <string name="txt_today_signin_add_goldcoin_x">今日签到+%1$d嗨币</string>
 
     <string name="txt_people_already_receive">人已领</string>
 
@@ -335,6 +419,8 @@
     <string name="txt_setting">设置</string>
     <string name="txt_basic_info">基本信息</string>
     <string name="txt_account_security">账号与安全</string>
+    <string name="txt_change_password">修改密码</string>
+    <string name="txt_verify_password">验证当前密码</string>
     <string name="txt_night_mode">夜间模式</string>
     <string name="txt_reader_settings">阅读设置</string>
     <string name="txt_quick_withdrawal_2_account">提现到账快</string>
@@ -349,11 +435,11 @@
     <string name="txt_nickname">昵称</string>
     <string name="txt_gender">性别</string>
     <string name="txt_account">账号</string>
-    <string name="txt_problem_feedback_copy_id">反馈问题时可以提供ID给客服，长按复制</string>
+    <string name="txt_problem_feedback_copy_id">*长按查看账号</string>
     <string name="txt_cellphone">手机</string>
     <string name="txt_wechat">微信</string>
     <string name="hint_content_clear_cache">清理的缓存包括未在书架的书籍缓存，以及广告的图片、视频缓存、是否清理？</string>
-    <string name="hint_content_push_message">关闭通知，请前往手机系统设置-【通知中心】-【99免费小说】</string>
+    <string name="hint_content_push_message">关闭通知，请前往手机系统设置-【通知中心】-【海豚小说】</string>
     <string name="hint_content_no_book_message">这本书正在上传，未能获取到书籍内容，请稍后再来。</string>
     <string name="hint_content_exceed_limit_message">一次加入书架不能超过15本书！</string>
     <string name="txt_change_avatar">更换头像</string>
@@ -395,19 +481,29 @@
     <string name="txt_setup_success">设置成功</string>
 
     <string name="txt_withdrawal_success_title">提现申请已提交，等待人工审核</string>
-    <string name="txt_withdrawal_tips">1. 提现申请将在1&#8211;3个工作日内完成审核，请耐心等待。\n2. 可在“提现记录”中查看提现状态。\n3. 每日阅读、签到或完成福利中心其他任务，均可获得金币，金币可累计提现。</string>
+    <string name="txt_withdrawal_tips">1. 提现申请将在1&#8211;3个工作日内完成审核，请耐心等待。\n2. 可在“提现记录”中查看提现状态。\n3. 每日阅读、签到或完成福利中心其他任务，均可获得嗨币，嗨币可累计提现。</string>
 
+    <string name="txt_cdkey_records">兑换明细</string>
+    <string name="txt_cdkey_success">系统提示</string>
+    <string name="txt_go2_experience_cdkey">感谢使用卡密支付，如您已成功购买卡密，请立即前往兑换。</string>
+    <string name="txt_experience_cdkey">去兑换</string>
+    <string name="txt_next_time_exchange">下次再兑</string>
+
+    <string name="txt_pay_records">账单明细</string>
     <string name="txt_wechat_pay">微信支付</string>
     <string name="txt_alipay">支付宝</string>
     <string name="txt_payment_failure">支付失败</string>
     <string name="txt_payment_success">支付成功</string>
+    <string name="txt_exchange_success">兑换成功</string>
     <string name="txt_go2_experience_it">快去体验吧</string>
     <string name="txt_experience_it">去体验</string>
     <string name="txt_look_a_little_bit_more">再看看</string>
 
+    <string name="txt_go_to_pay">去支付</string>
     <string name="txt_yuan_open">元 立即开通</string>
     <string name="txt_honor_vip">荣誉VIP</string>
-    <string name="txt_monthly_vip">包月VIP</string>
+    <string name="txt_monthly_vip">VIP会员</string>
+    <string name="txt_Surper_vip">终身VIP会员</string>
     <string name="txt_vip_end_time_colon">到期时间：%1$s</string>
 
     <string name="expand">展开</string>
@@ -419,6 +515,9 @@
 
     <string name="txt_scan_code_to_download">扫码下载</string>
     <string name="txt_long_press_to_share">长按二维码去分享</string>
+
+    <string name="txt_save_qr_code_remenber_account">保存二维码账号防丢失</string>
+    <string name="txt_long_press_to_save">长按二维码保存到相册</string>
 
     <string name="txt_find_a_new_version">发现新版本</string>
     <string name="txt_update_now">立即更新</string>
@@ -439,11 +538,11 @@
 
 
     <string name="txt_user_agreement_and_privacy_policy_prompt">用户协议与隐私政策提示</string>
-    <string name="txt_agreement_policy_entrance">您可以阅读完整的《99小说用户使用协议》和《99小说隐私政策》来了解详细信息。</string>
-    <string name="txt_agreement_and_policy_abstract">感谢您信任并使用“99小说”。
-        \n\u3000\u3000请您务必审慎阅读、充分理解“用户协议”和“隐私政策”各项条款，包括但不限于：为使用广西狐狸文化传媒有限公司提供的99小说服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在“设置”中查看、变更、删除个人信息并管理您的授权。
+    <string name="txt_agreement_policy_entrance">您可以阅读完整的《海豚小说用户使用协议》和《海豚小说隐私政策》来了解详细信息。</string>
+    <string name="txt_agreement_and_policy_abstract">感谢您信任并使用“海豚小说”。
+        \n\u3000\u3000请您务必审慎阅读、充分理解“用户协议”和“隐私政策”各项条款，包括但不限于：为使用广西狐狸文化传媒有限公司提供的海豚小说服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在“设置”中查看、变更、删除个人信息并管理您的授权。
         \n\u3000\u3000如您同意，请点击“同意并继续”开始接受我们的服务。</string>
-    <string name="txt_service_unavailable">您需要同意用户协议与隐私政策后才能使用“99小说”。\n如您不同意，很遗憾我们无法为你提供服务。</string>
+    <string name="txt_service_unavailable">您需要同意用户协议与隐私政策后才能使用“海豚小说”。\n如您不同意，很遗憾我们无法为你提供服务。</string>
     <string name="txt_disagree">不同意</string>
     <string name="txt_disagree_and_exit">不同意并退出</string>
     <string name="txt_agree_and_continue">同意并继续</string>
@@ -505,6 +604,19 @@
     <string name="nb_menu_action_delete">删除</string>
     <string name="nb_menu_action_batch_manage">批量管理</string>
 
+    <string name="common_parse_error">解析错误</string>
+    <string name="reader_load_success">加载成功</string>
+    <string name="reader_picture_save_success">保存成功</string>
+    <string name="reader_picture_save_fail">保存失败</string>
+
+    <string name="settings_reader_load_prev">自动加载上一章</string>
+    <string name="reader_prev_none">前面没有了</string>
+    <string name="reader_next_none">后面没有了</string>
+    <string name="reader_load_prev">正在加载上一话</string>
+    <string name="reader_load_next">正在加载下一话</string>
+    <string name="reader_picture_loading">正在加载中..</string>
+
+
     <string-array name="nb_menu_local_book">
         <item>@string/nb_menu_action_top</item>
         <item>@string/nb_menu_action_delete</item>
@@ -532,14 +644,14 @@
         <item>臺灣正體到簡體</item>
         <item>香港繁體到簡體</item>
     </string-array>
-   <!-- 知性女声  武侠男声   甜美女声   年轻女声   标准女生   标准男声-->
+    <!-- 知性女声  武侠男声   甜美女声   年轻女声   标准女生   标准男声-->
     <string-array name="voicer_cloud_entries">
-<!--        <item>小燕—女青、中英、普通话</item>
-        <item>小宇—男青、中英、普通话</item>
-        <item>凯瑟琳—女青、英</item>
-        <item>亨利—男青、英</item>
-        <item>玛丽—女青、英</item>
-        <item>小研—女青、中英、普通话</item>-->
+        <!--        <item>小燕—女青、中英、普通话</item>
+                <item>小宇—男青、中英、普通话</item>
+                <item>凯瑟琳—女青、英</item>
+                <item>亨利—男青、英</item>
+                <item>玛丽—女青、英</item>
+                <item>小研—女青、中英、普通话</item>-->
         <item>标准女生</item>
         <item>标准男声</item>
         <item>粤语（女）</item>
@@ -551,15 +663,15 @@
         <item>陕西话（女）</item>
         <item>蜡笔小新</item>
         <item>普通话（女童）</item>
-<!--        <item>老孙—男老、中、普通话</item>-->
+        <!--        <item>老孙—男老、中、普通话</item>-->
     </string-array>
     <string-array name="voicer_cloud_values">
-<!--        <item>xiaoyan</item>
-        <item>xiaoyu</item>
-        <item>catherine</item>
-        <item>henry</item>
-        <item>vimary</item>
-        <item>vixy</item>-->
+        <!--        <item>xiaoyan</item>
+                <item>xiaoyu</item>
+                <item>catherine</item>
+                <item>henry</item>
+                <item>vimary</item>
+                <item>vixy</item>-->
         <item>xiaoqi</item>
         <item>vixf</item>
         <item>xiaomei</item>
@@ -574,6 +686,6 @@
         <!--<item>vils</item>-->
     </string-array>
 
-    <string formatted="false" name="tts_toast_format">缓冲进度为%d%%，播放进度为%d%%</string>
+    <string name="tts_toast_format" formatted="false">缓冲进度为%d%%，播放进度为%d%%</string>
 
 </resources>

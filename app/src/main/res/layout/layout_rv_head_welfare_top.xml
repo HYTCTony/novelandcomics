@@ -8,12 +8,10 @@
         android:id="@+id/banner_welfare"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        app:banner_default_image="@mipmap/banner_place_holder"
-        app:indicator_drawable_selected="@color/col_red_fa345b"
-        app:indicator_drawable_unselected="@color/col_gray_e5e5e5"
-        app:indicator_height="@dimen/dp_2"
-        app:indicator_width="@dimen/dp_8"
-        app:indicator_margin="@dimen/dp_3"
+        app:banner_indicator_normal_color="@color/col_gray_e5e5e5"
+        app:banner_indicator_normal_width="@dimen/dp_2"
+        app:banner_indicator_selected_color="@color/col_red_fa345b"
+        app:banner_indicator_selected_width="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="360:126" />
 

@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_56"
-                android:src="@mipmap/app_huli_logo_round"
+                android:src="@mipmap/app_logo"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -81,6 +81,7 @@
         android:layout_marginBottom="@dimen/dp_28"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textSize="@dimen/sp_14"
         tools:text="@string/txt_foxread_user_and_privacy_policy"

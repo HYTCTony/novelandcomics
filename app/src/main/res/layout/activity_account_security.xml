@@ -19,9 +19,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dp_16"
-            android:text="@string/txt_account"
+            android:text="@string/txt_id_colon"
             android:textColor="@color/txt_black_191919"
             android:textSize="@dimen/sp_16" />
 
@@ -52,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dp_16"
-            android:text="@string/txt_cellphone"
+            android:text="@string/txt_account_colon"
             android:textColor="@color/txt_black_191919"
             android:textSize="@dimen/sp_16" />
 
@@ -63,7 +62,6 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dp_16"
-            android:drawableEnd="@drawable/ic_arrow_right_gray_12dp"
             android:drawablePadding="@dimen/dp_8"
             android:gravity="center_vertical"
             android:hint="@string/txt_default"
@@ -79,7 +77,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_48"
         android:layout_marginTop="@dimen/px_1"
-        android:background="@drawable/ripple_normal_btn_bg_white">
+        android:background="@drawable/ripple_normal_btn_bg_white"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,10 +100,10 @@
             android:drawablePadding="@dimen/dp_8"
             android:gravity="center_vertical"
             android:hint="@string/txt_default"
-            tools:text="@string/txt_unbind"
             android:textColor="@color/txt_gray"
             android:textSize="@dimen/sp_12"
-            tools:ignore="RelativeOverlap" />
+            tools:ignore="RelativeOverlap"
+            tools:text="@string/txt_unbind" />
 
     </RelativeLayout>
 
@@ -118,8 +117,9 @@
         android:gravity="center_vertical"
         android:paddingStart="@dimen/dp_16"
         android:paddingEnd="@dimen/dp_16"
-        android:text="@string/txt_account_security"
+        android:text="@string/txt_change_password"
         android:textColor="@color/txt_black_191919"
-        android:textSize="@dimen/sp_16" />
+        android:textSize="@dimen/sp_16"
+        android:visibility="visible" />
 
 </LinearLayout>

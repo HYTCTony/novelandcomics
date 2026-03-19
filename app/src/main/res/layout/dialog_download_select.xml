@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_top_round_whitebg"
+    android:orientation="vertical">
+
+<!--    <TextView-->
+<!--        android:id="@+id/btn_buy_all_free"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:background="@drawable/selector_cb_vip_combo_rv_bg"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="12dp"-->
+<!--        android:text="所有免费、已订章节"-->
+<!--        android:textColor="@color/txt_brownness_8b7342"-->
+<!--        android:textSize="16sp"-->
+<!--        android:textStyle="bold" />-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="8dp"
+        android:text="选择需要下载的章节"
+        android:textColor="@color/txt_black_272f3a" />
+
+    <TextView
+        android:id="@+id/btn_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_cb_vip_combo_rv_bg"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="前20章"
+        android:textColor="@color/txt_brownness_8b7342"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/btn_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_cb_vip_combo_rv_bg"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="前100章"
+        android:textColor="@color/txt_brownness_8b7342"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/btn_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_cb_vip_combo_rv_bg"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="全部章节"
+        android:textColor="@color/txt_brownness_8b7342"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

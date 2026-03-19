@@ -59,7 +59,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.huli.foxread.ui.widget.WrapViewPager
+    <com.nnmedia.read.ui.widget.WrapViewPager
         android:id="@+id/viewPager_special_works"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

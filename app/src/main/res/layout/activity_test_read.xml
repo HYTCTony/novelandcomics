@@ -33,7 +33,7 @@
 
     </com.huli.page.widget.view.view_page.ReadPageLayout>-->
 
-    <com.huli.page.widget.view.view_page2.ScanView
+    <com.nnmedia.page.widget.view.view_page2.ScanView
         android:id="@+id/scanview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

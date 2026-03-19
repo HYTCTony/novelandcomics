@@ -53,6 +53,32 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/iv_asBtn_scan_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:padding="@dimen/dp_8"
+            android:visibility="gone"
+            android:src="@drawable/ic_scan_code_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/ll_asBtn_sign_in_4_gold"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/iv_asBtn_qr_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:padding="@dimen/dp_8"
+            android:visibility="gone"
+            android:src="@drawable/ic_qr_code_black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/iv_asBtn_scan_code"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
             android:id="@+id/iv_asBtn_setting_mine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -160,14 +186,14 @@
                         app:layout_constraintLeft_toRightOf="@+id/iv_user_headImg"
                         app:layout_constraintTop_toTopOf="@+id/iv_user_headImg"
                         tools:drawableEnd="@drawable/ic_yellow_diamond_18dp"
-                        tools:text="拉不出屎一声吼！" />
+                        tools:text="昵称！" />
                 </FrameLayout>
-
 
                 <TextView
                     android:id="@+id/tv_user_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp_12"
                     app:layout_constraintBottom_toBottomOf="@+id/iv_user_headImg"
                     app:layout_constraintLeft_toLeftOf="@+id/fl_user_nickname"
                     app:layout_constraintTop_toBottomOf="@+id/fl_user_nickname"
@@ -224,6 +250,7 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
+                        android:visibility="gone"
                         android:paddingTop="@dimen/dp_16"
                         android:paddingBottom="@dimen/dp_16">
 
@@ -241,7 +268,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_today_gold_coin"
+                            android:text="@string/txt_read_point"
                             android:textColor="@color/txt_gray"
                             android:textSize="@dimen/sp_10" />
 
@@ -251,6 +278,7 @@
                         android:layout_width="@dimen/dp_1"
                         android:layout_height="@dimen/dp_16"
                         android:layout_gravity="center_vertical"
+                        android:visibility="gone"
                         android:background="#9999" />
 
                     <LinearLayout
@@ -277,7 +305,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_today_reading"
+                            android:text="@string/txt_my_point"
                             android:textColor="@color/txt_gray"
                             android:textSize="@dimen/sp_10" />
 
@@ -348,69 +376,114 @@
                     android:background="#33F4F3F3"
                     app:layout_constraintTop_toBottomOf="@+id/tv_huli_vip_member" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/tv_vip_privilege_remove_the_ads"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_16"
-                    android:drawableTop="@drawable/ic_remove_ads_36dp"
-                    android:drawablePadding="@dimen/dp_6"
                     android:gravity="center_horizontal"
-                    android:text="@string/txt_remove_ads"
-                    android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_12"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_Separator_vip_card" />
+                    app:layout_constraintTop_toBottomOf="@+id/view_Separator_vip_card">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_bg_vip_icon"
+                        android:src="@drawable/ic_remove_ads1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/txt_remove_ads"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/tv_vip_privilege_VoiceBook"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_voice_book_36dp"
-                    android:drawablePadding="@dimen/dp_6"
                     android:gravity="center_horizontal"
-                    android:text="@string/txt_voice_book"
-                    android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_12"
+                    android:orientation="vertical"
                     app:layout_constraintLeft_toRightOf="@+id/tv_vip_privilege_remove_the_ads"
                     app:layout_constraintRight_toLeftOf="@+id/tv_vip_privilege_extra_gold_coin"
-                    app:layout_constraintTop_toTopOf="@+id/tv_vip_privilege_remove_the_ads" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_vip_privilege_remove_the_ads">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_unlock_book2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/txt_unlock_book"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/tv_vip_privilege_extra_gold_coin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableTop="@drawable/ic_extra_gold_coin_36dp"
-                    android:drawablePadding="@dimen/dp_6"
                     android:gravity="center_horizontal"
-                    android:text="@string/txt_extra_gold"
-                    android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_12"
+                    android:orientation="vertical"
                     app:layout_constraintLeft_toRightOf="@+id/tv_vip_privilege_VoiceBook"
                     app:layout_constraintRight_toLeftOf="@+id/tv_vip_privilege_honourable_sign"
-                    app:layout_constraintTop_toTopOf="@+id/tv_vip_privilege_remove_the_ads" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_vip_privilege_remove_the_ads">
 
-                <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_comment_vip1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/txt_comment"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/tv_vip_privilege_honourable_sign"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/dp_16"
-                    android:drawableTop="@drawable/ic_honourable_sign_36dp"
-                    android:drawablePadding="@dimen/dp_6"
                     android:gravity="center_horizontal"
-                    android:text="@string/txt_honourable_sign"
-                    android:textColor="@color/txt_white"
-                    android:textSize="@dimen/sp_12"
+                    android:orientation="vertical"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_vip_privilege_remove_the_ads" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_vip_privilege_remove_the_ads">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_download_vip1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_horizontal"
+                        android:text="@string/txt_download_book"
+                        android:textColor="@color/txt_white"
+                        android:textSize="@dimen/sp_12" />
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_welfare_zone_title_mine"
@@ -452,12 +525,37 @@
                 android:background="@color/color_f2" />
 
             <RelativeLayout
+                android:id="@+id/rv_ad_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ripple_normal_btn_bg_white"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingTop="@dimen/dp_6"
+                android:paddingEnd="@dimen/dp_16"
+                android:paddingBottom="@dimen/dp_6"
+                android:visibility="gone">
+
+                <com.youth.banner.Banner
+                    android:id="@+id/banner_boy_girl_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:visibility="visible"
+                    app:banner_indicator_normal_color="@color/white"
+                    app:banner_indicator_normal_width="@dimen/dp_4"
+                    app:banner_indicator_selected_color="@color/col_red_fa345b"
+                    app:banner_indicator_selected_width="@dimen/dp_6"
+                    app:banner_loop_time="5000"
+                    app:banner_orientation="vertical" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/rtl_asBtn_my_privilege"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
-                android:paddingEnd="@dimen/dp_16">
+                android:paddingEnd="@dimen/dp_16"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -494,13 +592,19 @@
                 android:paddingStart="@dimen/dp_16"
                 android:paddingEnd="@dimen/dp_16">
 
+                <ImageView
+                    android:id="@+id/iv_1"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_mine_msg_notify" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_mine_msg_notify"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/iv_1"
                     android:text="@string/txt_msg_notify"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
@@ -539,7 +643,8 @@
                 android:layout_marginTop="@dimen/px_1"
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
-                android:paddingEnd="@dimen/dp_16">
+                android:paddingEnd="@dimen/dp_16"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -552,37 +657,38 @@
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
 
-                 <TextView
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_alignParentEnd="true"
-                     android:layout_centerVertical="true"
-                     android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
-                     android:drawablePadding="@dimen/dp_8"
-                     android:gravity="center_vertical"
-                     android:textColor="@color/txt_gray_999"
-                     android:textSize="@dimen/sp_12"
-                     tools:ignore="RelativeOverlap" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rtl_asBtn_reading_record"
+                android:id="@+id/rtl_asBtn_cash_withdrawal"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"
                 android:layout_marginTop="@dimen/px_1"
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
-                android:paddingEnd="@dimen/dp_16">
+                android:paddingEnd="@dimen/dp_16"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_mine_read_history"
+                    android:drawableStart="@drawable/ic_mine_wallet"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
-                    android:text="@string/txt_reading_record"
+                    android:text="@string/txt_cdkey_exchange"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
 
@@ -609,13 +715,19 @@
                 android:paddingStart="@dimen/dp_16"
                 android:paddingEnd="@dimen/dp_16">
 
+                <ImageView
+                    android:id="@+id/iv_5"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_mine_invited_code" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_mine_invited_code"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/iv_5"
                     android:text="@string/txt_invite_friends"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
@@ -636,7 +748,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rtl_asBtn_cash_withdrawal"
+                android:id="@+id/rtl_asBtn_business_cooperation"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_52"
                 android:layout_marginTop="@dimen/px_1"
@@ -644,14 +756,20 @@
                 android:paddingStart="@dimen/dp_16"
                 android:paddingEnd="@dimen/dp_16">
 
+                <ImageView
+                    android:id="@+id/iv_3"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_business_coopreation" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:drawableStart="@drawable/ic_mine_wallet"
-                    android:drawablePadding="@dimen/dp_8"
-                    android:gravity="center_vertical"
-                    android:text="@string/txt_gold_coin_withdrawal"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/iv_3"
+                    android:text="@string/txt_business_cooperation"
                     android:textColor="@color/txt_black"
                     android:textSize="@dimen/sp_16" />
 
@@ -663,7 +781,126 @@
                     android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
                     android:drawablePadding="@dimen/dp_8"
                     android:gravity="center_vertical"
-                    android:text="@string/txt_withdrawal_2_account_quick"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rtl_asBtn_send_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginTop="@dimen/px_1"
+                android:background="@drawable/ripple_normal_btn_bg_white"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16">
+
+                <ImageView
+                    android:id="@+id/iv_6"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_mine_feedback" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/iv_6"
+                    android:text="@string/txt_email"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rtl_asBtn_reading_record"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginTop="@dimen/px_1"
+                android:background="@drawable/ripple_normal_btn_bg_white"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16">
+
+                <ImageView
+                    android:id="@+id/iv_2"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_mine_read_history" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@+id/iv_2"
+                    android:text="@string/txt_reading_record"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/txt_gray_999"
+                    android:textSize="@dimen/sp_12"
+                    tools:ignore="RelativeOverlap" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rtl_asBtn_fans_base"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginTop="@dimen/px_1"
+                android:background="@drawable/ripple_normal_btn_bg_white"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16">
+
+                <ImageView
+                    android:id="@+id/iv_4"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_fans_base" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_8"
+                    android:layout_toEndOf="@+id/iv_4"
+                    android:text="@string/txt_fans_base"
+                    android:textColor="@color/txt_black"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:drawableEnd="@drawable/ic_arrow_right_gray_16dp"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:gravity="center_vertical"
                     android:textColor="@color/txt_gray_999"
                     android:textSize="@dimen/sp_12"
                     tools:ignore="RelativeOverlap" />
@@ -713,7 +950,8 @@
                 android:layout_marginBottom="@dimen/dp_1"
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
-                android:paddingEnd="@dimen/dp_16">
+                android:paddingEnd="@dimen/dp_16"
+                android:visibility="invisible">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -739,6 +977,28 @@
                     tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_ad_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_52"
+                android:layout_marginTop="@dimen/dp_6"
+                android:layout_marginBottom="@dimen/dp_1"
+                android:background="@drawable/ripple_normal_btn_bg_white"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16"
+                android:visibility="gone"
+                tools:visibility="gone">
+
+
+                <ImageView
+                    android:id="@+id/iv_ad_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@mipmap/bg_theme_bottom_ad_01"
+                    android:scaleType="centerCrop" />
+            </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 

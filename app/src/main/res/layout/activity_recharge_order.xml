@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_normal"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp">
+
+        <TextView
+            android:id="@+id/tv_toolbar_center_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="@dimen/dp_72"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            android:textColor="@color/txt_black_191919"
+            android:textSize="@dimen/sp_20"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/fl_bottom_bar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_normal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_10">
+
+
+                <TextView
+                    android:id="@+id/tv_need2pay_money_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="4dp"
+                    android:textColor="@color/txt_brownness_8b7342"
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold"
+                    tools:text="￥500" />
+
+                <com.nnmedia.read.ui.widget.NumberAnimTextView
+                    android:id="@+id/tv_content_payment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="4dp"
+                    android:textColor="@color/txt_brownness_8b7342"
+                    android:textSize="@dimen/sp_14"
+                    tools:text="购买12个月会员" />
+
+                <TextView
+                    android:id="@+id/tv_describe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/txt_brownness_8b7342"
+                    android:textSize="@dimen/sp_12"
+                    tools:text="5000+额外300点" />
+
+                <TextView
+                    android:id="@+id/tv_original_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/txt_brownness_8b7342"
+                    android:textSize="@dimen/sp_12"
+                    android:visibility="gone"
+                    tools:text="￥500" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_payment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/txt_payment_dialog_title"
+                android:textColor="@color/txt_gray"
+                android:textSize="@dimen/sp_14" />
+
+            <LinearLayout
+                android:id="@+id/ll_asBtn_payment_pay_0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/shape_round_whitebg"
+                android:orientation="vertical"
+                tools:visibility="visible">
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white">
+
+                    <TextView
+                        android:id="@+id/tv_card_pay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_card"
+                        android:drawablePadding="@dimen/dp_4"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_card_pay"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/dp_32"
+                        android:layout_height="@dimen/dp_32"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@+id/tv_card_pay"
+                        android:background="@mipmap/ic_recommend" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_cdkey_added"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    tools:text="使用卡密支付额外赠送2000阅读点" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/shape_round_whitebg"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_alipay"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_ali_pay_1"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_alipay"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_ali_pay_2"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_alipay"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_ali_pay_3"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_alipay"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_ali_pay_4"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_wechat"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_weichat_pay_1"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_wechat"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_weichat_pay_2"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_wechat"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_weichat_pay_3"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rtl_asBtn_payment_pay_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_52"
+                    android:layout_marginTop="@dimen/px_1"
+                    android:background="@drawable/ripple_normal_btn_bg_white"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_16"
+                        android:drawableStart="@mipmap/ic_payment_wechat"
+                        android:drawablePadding="@dimen/dp_8"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_weichat_pay_4"
+                        android:textColor="@color/txt_black_191919"
+                        android:textSize="@dimen/sp_14" />
+
+                    <com.nnmedia.read.ui.widget.CheckBoxSample
+                        android:id="@+id/checkbox_8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_16"
+                        android:clickable="false" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/btn_open_pay_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="展开更多支付方式 >"
+                    android:textColor="@color/txt_gray"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/fl_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/rtl_choose_card_pay"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_92"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:background="@drawable/shape_round_bg_stack_label_feeeee">
+
+            <TextView
+                android:id="@+id/tv_reduction_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp_10"
+                android:textColor="@color/col_red"
+                tools:text="点我，额外赠送2000阅读点" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/shape_round_choose_card_pay"
+                android:paddingStart="@dimen/dp_8"
+                android:paddingTop="@dimen/dp_4"
+                android:paddingEnd="@dimen/dp_8"
+                android:paddingBottom="@dimen/dp_4"
+                android:text="选择"
+                android:textColor="@color/txt_black" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_confirm_2_pay"
+            style="@style/Btn_Normal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:text="@string/txt_confirm_2_pay" />
+
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/iv_top_three_icon"
+        android:layout_width="@dimen/dp_32"
+        android:layout_height="@dimen/dp_32"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toLeftOf="@+id/iv_book_cover"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/ic_ranking_first_place" />
+
+    <TextView
+        android:id="@+id/tv_ranking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_18"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_top_three_icon"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_top_three_icon"
+        app:layout_constraintRight_toRightOf="@+id/iv_top_three_icon"
+        app:layout_constraintTop_toTopOf="@+id/iv_top_three_icon"
+        tools:text="1" />
+
+    <ImageView
+        android:id="@+id/iv_book_cover"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_81"
+        android:layout_marginStart="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="7:9"
+        app:layout_constraintLeft_toRightOf="@+id/iv_top_three_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription"
+        tools:src="@mipmap/img_holder_rect" />
+
+    <LinearLayout
+        android:id="@+id/ll_book_heat"
+        android:layout_width="@dimen/dp_42"
+        android:layout_height="@dimen/dp_42"
+        android:background="@mipmap/bg_must_read_mark"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_book_name">
+
+        <TextView
+            android:id="@+id/tv_book_heat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/txt_zero"
+            android:textColor="#A48C70"
+            android:textColorHint="@color/txt_red"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            tools:text="98.5" />
+
+        <TextView
+            android:id="@+id/tv_book_heat_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#A3927D"
+            android:textSize="@dimen/sp_8"
+            tools:text="必读指数" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_book_name"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_8"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/txt_black_191919"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintLeft_toRightOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toLeftOf="@+id/ll_book_heat"
+        app:layout_constraintTop_toTopOf="@+id/iv_book_cover"
+        tools:text="末世四万年" />
+
+    <TextView
+        android:id="@+id/tv_book_classify"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+        app:layout_constraintRight_toLeftOf="@+id/ll_book_heat"
+        app:layout_constraintTop_toBottomOf="@+id/tv_book_name"
+        tools:text="武侠传奇" />
+
+    <TextView
+        android:id="@+id/tv_book_type"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:textColor="@color/txt_gray"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_book_name"
+        app:layout_constraintRight_toLeftOf="@+id/ll_book_heat"
+        app:layout_constraintTop_toBottomOf="@+id/tv_book_classify"
+        tools:text="穿越时空" />
+
+    <TextView
+        android:id="@+id/tv_book_introduction"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="4dp"
+        android:maxLines="2"
+        android:textColor="@color/txt_gray_8f9dac"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_book_cover"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_book_cover"
+        tools:text="岳母鄙视，妻子瞧不起..." />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

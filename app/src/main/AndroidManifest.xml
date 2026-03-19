@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.huli.foxread">
+    package="com.nnmedia.novel">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,43 +9,39 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
     <!--阅读需要-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.BATTERY_STATS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--讯飞-->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--自动更新-->
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!--  穿山甲  -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 如果有视频相关的广告且使用textureView播放，请务必添加，否则黑屏 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 邮箱 -->
+    <uses-permission android:name="android.permission.SENDTO"/>
+
 
     <application
-        android:name=".FrApp"
+        android:name="com.nnmedia.read.FrApp"
         android:allowBackup="false"
-        android:icon="@mipmap/app_huli_logo"
+        android:icon="@mipmap/app_logo"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/app_huli_logo_round"
+        android:roundIcon="@mipmap/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
 
         <activity
-            android:name=".ui.activities.FrLaunchActivity"
+            android:name="com.nnmedia.read.ui.activities.FrLaunchActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/ThemeSplash">
@@ -54,329 +50,380 @@
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name="com.nnmedia.read.ui.activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!--openinstall-->
-                <!--<data android:scheme="hb3e2m" />-->
-                <!--shareinstall-->
-                <data android:scheme="fefd1097" />
-
+                <data android:scheme="um.67042ad480464b33f6d54119" />
             </intent-filter>
         </activity>
 
-        <!--        <meta-data-->
-        <!--            android:name="android.max_aspect"-->
-        <!--            android:value="2.2" />-->
-
         <activity
-            android:name=".ui.activities.TransparencyActivity"
+            android:name="com.nnmedia.read.ui.activities.TransparencyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.transparent" />
 
         <activity
-            android:name=".ui.activities.ClassifyActivity"
+            android:name="com.nnmedia.read.ui.activities.ClassifyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.ClassifyDetailActivity"
+            android:name="com.nnmedia.read.ui.activities.ClassifyActivity2"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.BookRankingActivity"
+            android:name="com.nnmedia.read.ui.activities.ClassifyDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.NewBooksActivity"
+            android:name="com.nnmedia.read.ui.activities.BookRankingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.EndBooksActivity"
+            android:name="com.nnmedia.read.ui.activities.MustReadActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.SearchBookActivity"
+            android:name="com.nnmedia.read.ui.activities.NewBooksActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.SearchResultActivity"
+            android:name="com.nnmedia.read.ui.activities.EndBooksActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.BookDetailsActivity"
+            android:name="com.nnmedia.read.ui.activities.SearchBookActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.SearchResultActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.BookDetailsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.huli.book_detail.ACTION_START" />
+                <action android:name="com.nnmedia.book_detail.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <!--                <category android:name="com.ice.activityandintent.CATEGORY" />-->
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.InvitationCodeActivity"
+            android:name="com.nnmedia.read.ui.activities.InvitationCodeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.huli.fill_inviteCode.ACTION_START" />
+                <action android:name="com.nnmedia.fill_inviteCode.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.MyInviteFriendsActivity"
+            android:name="com.nnmedia.read.ui.activities.ShareActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.InviteFriendsActivity"
+            android:name="com.nnmedia.read.ui.activities.MyInviteFriendsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.InviteFriendsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.huli.invite_friends.ACTION_START" />
+                <action android:name="com.nnmedia.invite_friends.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.MyGoldCoinActivity"
+            android:name="com.nnmedia.read.ui.activities.MyGoldCoinActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.nnmedia.read.ui.activities.BillDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.nnmedia.read.ui.activities.MyPointActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.nnmedia.read.ui.activities.MyHPointActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.nnmedia.read.ui.activities.GoldExchangeVipActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.nnmedia.read.ui.activities.RechargeOrderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.nnmedia.read.ui.activities.FreeGetVipActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.WithdrawalActivity"
+            android:name="com.nnmedia.read.ui.activities.WithdrawalActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.WithdrawalRMBActivity"
+            android:name="com.nnmedia.read.ui.activities.WithdrawalRMBActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.WithdrawalRecordActivity"
+            android:name="com.nnmedia.read.ui.activities.WithdrawalRecordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.MyPrivilegeActivity"
+            android:name="com.nnmedia.read.ui.activities.MyPrivilegeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.huli.my_privilege.ACTION_START" />
+                <action android:name="com.nnmedia.my_privilege.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.MsgNotifyActivity"
+            android:name="com.nnmedia.read.ui.activities.MsgNotifyActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.SignInActivity"
+            android:name="com.nnmedia.read.ui.activities.CDKEYActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.CDKEYOrderActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.SignInActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.huli.sign_in.ACTION_START" />
+                <action android:name="com.nnmedia.sign_in.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name="com.nnmedia.read.ui.activities.ScanCodeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.ReadingRecordActivity"
+            android:name="com.nnmedia.read.ui.activities.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.SettingActivity"
+            android:name="com.nnmedia.read.ui.activities.LoginActivity2"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.UserBasicInfoActivity"
+            android:name="com.nnmedia.read.ui.activities.RegisterActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.AvatarSelectActivity"
+            android:name="com.nnmedia.read.ui.activities.ChangePasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.AccountSecurityActivity"
+            android:name="com.nnmedia.read.ui.activities.VerifyPasswordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.AboutUsActivity"
+            android:name="com.nnmedia.read.ui.activities.ReadingRecordActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.BindingCellphoneActivity"
+            android:name="com.nnmedia.read.ui.activities.SettingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.ASecurityActivity"
+            android:name="com.nnmedia.read.ui.activities.UserBasicInfoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.WriteOffAccountActivity"
+            android:name="com.nnmedia.read.ui.activities.AvatarSelectActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.HelpAndFeedbackActivity"
+            android:name="com.nnmedia.read.ui.activities.AccountSecurityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.GoToFeedBackActivity"
+            android:name="com.nnmedia.read.ui.activities.AboutUsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.GenderChoiceActivity"
+            android:name="com.nnmedia.read.ui.activities.BindingCellphoneActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.ChangeBindingActivity"
+            android:name="com.nnmedia.read.ui.activities.ASecurityActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.WXBindingPhoneActivity"
+            android:name="com.nnmedia.read.ui.activities.WriteOffAccountActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.HelpAndFeedbackActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.GoToFeedBackActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.GenderChoiceActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.ChangeBindingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.nnmedia.read.ui.activities.WXBindingPhoneActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.huli.binding_phone.ACTION_START" />
+                <action android:name="com.nnmedia.binding_phone.ACTION_START" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
-            android:name=".ui.activities.CommonWebActivity"
+            android:name="com.nnmedia.read.ui.activities.CommonWebActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.BankCardBindActivity"
+            android:name="com.nnmedia.read.ui.activities.BankCardBindActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".ui.activities.AdvFreeSuccessActivity"
+            android:name="com.nnmedia.read.ui.activities.AdvFreeSuccessActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.huli.page.ui.activity.ReadBookActivity"
+            android:name="com.nnmedia.page.ui.activity.ReadBookActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="com.huli.page.ui.activity.FontSelectionActivity"
+            android:name="com.nnmedia.page.ui.activity.FontSelectionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="com.huli.page.ui.activity.ReadTestActivity"
+            android:name="com.nnmedia.page.ui.activity.ReadTestActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="com.huli.page.ui.activity.MoreSettingActivity"
+            android:name="com.nnmedia.page.ui.activity.MoreSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.activities.AllBookReviewActivity"
+            android:name="com.nnmedia.read.ui.activities.AllBookReviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".ui.activities.WriteBookReviewActivity"
+            android:name="com.nnmedia.read.ui.activities.WriteBookReviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.activities.ReviewDetailActivity"
+            android:name="com.nnmedia.read.ui.activities.ReviewDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.activities.ReadingPreferenceActivity"
+            android:name="com.nnmedia.read.ui.activities.ReadingPreferenceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name=".ui.activities.MoreBooksListActivity"
+            android:name="com.nnmedia.read.ui.activities.MoreBooksListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:theme="@android:style/Theme.Translucent" />
-
-        <activity
-            android:name=".ui.wakeup.SysChannelAwakeTempActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@style/ThemeSplash" />
-
-        <service android:name=".services.CountService" />
+        <service android:name="com.nnmedia.read.services.CountService" />
 
         <provider
-            android:name=".provider.BuglyFileProvider"
+            android:name="com.nnmedia.read.provider.ShareFileProvider"
             android:authorities="${applicationId}.fileProvider"
             android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="name,authorities,exported,grantUriPermissions">
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"
-                tools:replace="name,resource" />
+                android:resource="@xml/file_paths" />
         </provider>
 
         <!--autosize屏幕适配...................dp-->
@@ -389,74 +436,19 @@
             android:value="640" />
 
 
-        <!--友盟-->
+        <!-- 配置APP ID -->
         <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}" />
-        <!-- android:value="Umeng" />-->
+            android:name="BUGLY_APPID"
+            android:value="f73246b73d" />
+        <!-- 配置APP渠道号 -->
         <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5e7dce16570df35f91000159" />
-
-        <!-- 友盟分享 begin -->
-        <!--QQ精简版-->
-        <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!--注意：这里要放自己项目在QQ开放平台的id，而且前面的tencent是一定不能省略的，否则在运行的时候，会报QQ配置错误的问题。-->
-                <data android:scheme="tencent1110348959" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--微信（友盟）-->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
-        <!-- 支付 Begin -->
-        <!--微信-->
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"
-            android:launchMode="singleTop" />
-
-        <receiver
-            android:name=".receivers.AppRegister"
-            android:permission="com.tencent.mm.plugin.permission.SEND">
-            <intent-filter>
-                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP" />
-            </intent-filter>
-        </receiver>
-        <!-- 支付 End -->
-
-        <!--openinstall-->
-        <!--        <meta-data-->
-        <!--            android:name="com.openinstall.APP_KEY"-->
-        <!--            android:value="hb3e2m" />-->
-
-        <!--        <receiver-->
-        <!--            android:name="com.fm.openinstall.InstallReferrerReceiver"-->
-        <!--            android:exported="true">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="com.android.vending.INSTALL_REFERRER" />-->
-        <!--            </intent-filter>-->
-        <!--        </receiver>-->
-
-        <!--shareinstall-->
+            android:name="BUGLY_APP_CHANNEL"
+            android:value="WebChannel" />
+        <!-- 配置Bugly调试模式（true或者false）-->
         <meta-data
-            android:name="com.shareinstall.APP_KEY"
-            android:value="A7BKRKRABH6EFH" />
+            android:name="BUGLY_ENABLE_DEBUG"
+            android:value="false" />
+
     </application>
 
 </manifest>

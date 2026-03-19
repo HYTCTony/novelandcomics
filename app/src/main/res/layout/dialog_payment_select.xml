@@ -52,7 +52,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/rtl_asBtn_payment_wechat_pay"
+            android:id="@+id/rtl_asBtn_payment_pay_1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_52"
             android:background="@drawable/ripple_normal_btn_bg_white">
@@ -62,15 +62,15 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_16"
-                android:drawableStart="@drawable/ic_payment_wechat"
+                android:drawableStart="@mipmap/ic_payment_gold"
                 android:drawablePadding="@dimen/dp_8"
                 android:gravity="center_vertical"
-                android:text="@string/txt_wechat_pay"
+                android:text="@string/txt_gold_exchange"
                 android:textColor="@color/txt_black_191919"
                 android:textSize="@dimen/sp_14" />
 
-            <com.huli.foxread.ui.widget.CheckBoxSample
-                android:id="@+id/checkbox_wechat"
+            <com.nnmedia.read.ui.widget.CheckBoxSample
+                android:id="@+id/checkbox_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -81,7 +81,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rtl_asBtn_payment_alipay"
+            android:id="@+id/rtl_asBtn_payment_pay_2"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_52"
             android:layout_marginTop="@dimen/px_1"
@@ -92,15 +92,15 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/dp_16"
-                android:drawableStart="@drawable/ic_payment_alipay"
+                android:drawableStart="@mipmap/ic_payment_point"
                 android:drawablePadding="@dimen/dp_8"
                 android:gravity="center_vertical"
-                android:text="@string/txt_alipay"
+                android:text="@string/txt_point_exchange"
                 android:textColor="@color/txt_black_191919"
                 android:textSize="@dimen/sp_14" />
 
-            <com.huli.foxread.ui.widget.CheckBoxSample
-                android:id="@+id/checkbox_alipay"
+            <com.nnmedia.read.ui.widget.CheckBoxSample
+                android:id="@+id/checkbox_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

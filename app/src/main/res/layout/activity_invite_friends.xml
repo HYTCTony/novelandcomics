@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.huli.foxread.ui.widget.JsWebView
+            <com.nnmedia.read.ui.widget.JsWebView
                 android:id="@+id/webView_invite_friend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

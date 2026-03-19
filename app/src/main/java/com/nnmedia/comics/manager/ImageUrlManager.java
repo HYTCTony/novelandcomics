@@ -1,0 +1,85 @@
+package com.nnmedia.comics.manager;
+
+import com.nnmedia.comics.component.AppGetter;
+import com.nnmedia.comics.model.ImageUrl;
+import com.nnmedia.page.model.dao.ImageUrlDao;
+
+import java.util.List;
+
+import rx.Observable;
+
+
+public class ImageUrlManager {
+
+    private static com.nnmedia.comics.manager.ImageUrlManager mInstance;
+
+    private ImageUrlDao mImageUrlDao;
+
+    private ImageUrlManager(AppGetter getter) {
+        mImageUrlDao = getter.getAppInstance().getDaoSession().getImageUrlDao();
+    }
+
+    public static  com.nnmedia.comics.manager.ImageUrlManager getInstance(AppGetter getter) {
+        if (mInstance == null) {
+            synchronized ( com.nnmedia.comics.manager.ImageUrlManager.class) {
+                if (mInstance == null) {
+                    mInstance = new  com.nnmedia.comics.manager.ImageUrlManager(getter);
+                }
+            }
+        }
+        return mInstance;
+    }
+
+    public void runInTx(Runnable runnable) {
+        mImageUrlDao.getSession().runInTx(runnable);
+    }
+
+    public Observable<List<ImageUrl>> getListImageUrlRX(Long comicChapter) {
+        return mImageUrlDao.queryBuilder()
+                .where(ImageUrlDao.Properties.ComicChapter.eq(comicChapter))
+                .rx()
+                .list();
+    }
+
+    public List<ImageUrl> getListImageUrl(Long comicChapter) {
+        return mImageUrlDao.queryBuilder()
+                .where(ImageUrlDao.Properties.ComicChapter.eq(comicChapter))
+                .list();
+    }
+
+    public ImageUrl load(long id) {
+        return mImageUrlDao.load(id);
+    }
+
+    public void updateOrInsert(List<ImageUrl> imageUrlList) {
+        for (ImageUrl imageurl : imageUrlList) {
+            if (imageurl.getId() == null) {
+                insert(imageurl);
+            } else {
+                update(imageurl);
+            }
+        }
+    }
+
+    public void insertOrReplace(List<ImageUrl> imageUrlList) {
+        for (ImageUrl imageurl:imageUrlList) {
+            if (imageurl.getId()!=null) {
+                mImageUrlDao.insertOrReplace(imageurl);
+            }
+        }
+    }
+
+    public void update(ImageUrl imageurl) {
+        mImageUrlDao.update(imageurl);
+    }
+
+    public void deleteByKey(long key) {
+        mImageUrlDao.deleteByKey(key);
+    }
+
+    public void insert(ImageUrl imageurl) {
+        long id = mImageUrlDao.insert(imageurl);
+        imageurl.setId(id);
+    }
+
+}

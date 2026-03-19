@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
 
-    <com.huli.foxread.ui.widget.ProgressWebview
+    <com.nnmedia.read.ui.widget.ProgressWebview
         android:id="@+id/progressWebview_common"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"

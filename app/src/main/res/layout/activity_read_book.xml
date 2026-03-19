@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <!--阅读页面-->
-            <com.huli.page.widget.read.PageView
+            <com.nnmedia.page.widget.read.PageView
                 android:id="@+id/read_pv_page"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -24,10 +24,21 @@
                 android:focusable="true"
                 tools:visibility="visible" />
 
+            <!--            <com.nnmedia.page.widget.read.PageWidget-->
+            <!--                android:id="@+id/read_pv_page"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:clickable="true"-->
+            <!--                android:focusable="true"-->
+            <!--                tools:visibility="visible" />-->
+
             <RelativeLayout
                 android:id="@+id/rl"
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="50dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/iv_bg_bottom_view"
@@ -37,19 +48,25 @@
                     android:background="@mipmap/bg_theme_bottom_ad_01"
                     android:visibility="visible" />
 
+                <ImageView
+                    android:id="@+id/iv_ad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
+
                 <FrameLayout
                     android:id="@+id/banner_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
 
-                <com.qq.e.ads.nativ.widget.NativeAdContainer
-                    android:id="@+id/gdt_ad_container"
+                <RelativeLayout
+                    android:id="@+id/ad_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/transparent"
-                    android:visibility="invisible">
+                    android:visibility="visible">
 
                     <RelativeLayout
                         android:id="@+id/ctl_touch_layout"
@@ -59,7 +76,7 @@
 
                         <ImageView
                             android:id="@+id/iv_ad_img"
-                            android:layout_width="80dp"
+                            android:layout_width="40dp"
                             android:layout_height="40dp"
                             android:scaleType="centerCrop"
                             tools:ignore="ContentDescription"
@@ -104,7 +121,15 @@
                             tools:text="广告源" />
                     </RelativeLayout>
 
-                </com.qq.e.ads.nativ.widget.NativeAdContainer>
+                    <ImageView
+                        android:id="@+id/iv_close"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_alignParentEnd="true"
+                        android:background="@mipmap/ic_close_ad"
+                        android:padding="4dp" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/btn_bottom_ad"
@@ -130,6 +155,113 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_lock_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/shape_book_lock"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_unlock_massage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/dp_10"
+                android:text="本章共XX字，解锁需要阅读点：XX"
+                android:textColor="@color/hl_read_font_1"
+                android:textSize="@dimen/sp_14" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_10">
+
+                <TextView
+                    android:id="@+id/btn_unlock"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_book_lock_button_1"
+                    android:gravity="center"
+                    android:text="阅读点不足，去充值"
+                    android:textColor="@color/col_red_fc4545"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btn_get_vip"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_book_lock_button_2"
+                    android:gravity="center"
+                    android:text="开通VIP，畅享全本"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_10">
+
+                <TextView
+                    android:id="@+id/tv_h_point"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="阅读点数：0"
+                    android:textColor="@color/hl_read_font_1"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/btn_go_recharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_10"
+                    android:layout_toEndOf="@id/tv_h_point"
+                    android:text="@string/txt_go2_recharge2"
+                    android:textColor="@color/col_red_fc4545"
+                    android:textSize="@dimen/sp_12" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/more_setting_sc_automatic_unlocking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:text="@string/txt_automatic_unlocking"
+                    android:textSize="@dimen/sp_12" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/read_abl_top_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/hl_read_bg_dialog"
+            android:visibility="gone"
+            tools:visibility="gone">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize" />
+        </com.google.android.material.appbar.AppBarLayout>
+
         <!--切换页面提示-->
         <TextView
             android:id="@+id/read_tv_page_tip"
@@ -148,21 +280,6 @@
             android:textSize="12sp"
             android:visibility="gone"
             tools:visibility="gone" />
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/read_abl_top_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/hl_read_bg_dialog"
-            android:visibility="gone"
-            tools:visibility="gone">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="?attr/actionBarSize" />
-        </com.google.android.material.appbar.AppBarLayout>
 
         <!--底部页面-->
         <LinearLayout
@@ -277,131 +394,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/listen_ll_bottom_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/hl_read_bg_dialog"
-            android:gravity="bottom"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center"
-                    android:text="倍速"
-                    android:textColor="@color/txt_gray_b2"
-                    android:textSize="16sp" />
-
-                <com.xw.repo.BubbleSeekBar
-                    android:id="@+id/seek_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="10dp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center"
-                    android:text="音色"
-                    android:textColor="@color/txt_gray_b2"
-                    android:textSize="16sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_voicer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center"
-                    android:text="定时"
-                    android:textColor="@color/txt_gray_b2"
-                    android:textSize="16sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_timer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/txt_gray_b2" />
-
-            <RelativeLayout
-                android:id="@+id/listen_setting_speak_paused"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/tv_speak_paused"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:drawableLeft="@drawable/ic_stop_speak"
-                    android:drawablePadding="4dp"
-                    android:text="退出阅读模式"
-                    android:textColor="@color/txt_gray_b2"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_speak_paused"
-                    android:layout_centerHorizontal="true"
-                    android:text="科大讯飞提供技术支持"
-                    android:textColor="@color/txt_gray"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
-        </LinearLayout>
     </RelativeLayout>
 
     <!--侧滑栏-->

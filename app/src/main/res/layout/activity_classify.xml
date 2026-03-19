@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar_normal"
         tools:ignore="ContentDescription" />
 
-    <com.huli.foxread.ui.widget.verticaltablayout.VerticalTabLayout
+    <com.nnmedia.read.ui.widget.verticaltablayout.VerticalTabLayout
         android:id="@+id/verticaltablayout_classify"
         android:layout_width="@dimen/dp_72"
         android:layout_height="@dimen/dp_0"

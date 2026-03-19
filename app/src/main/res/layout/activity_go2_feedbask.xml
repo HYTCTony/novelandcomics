@@ -112,7 +112,7 @@
                     tools:text="@string/txt_at_most_sheet_x" />
             </LinearLayout>
 
-            <com.huli.foxread.ui.imgshowpickerview.ImageShowPickerView
+            <com.nnmedia.read.ui.imgshowpickerview.ImageShowPickerView
                 android:id="@+id/it_picker_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

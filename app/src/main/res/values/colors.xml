@@ -25,6 +25,7 @@
     <color name="col_yellow_f4ea2a">#f4ea2a</color>
     <color name="col_yellow_ffdf58">#ffdf58</color>
     <color name="col_yellow_ffcc02">#FFCC02</color>
+    <color name="col_musts_red_FFDA33">#FFDA33</color>
     <color name="off_gray">#F4F3F3</color>
     <color name="col_blue_d8e9f9">#D8E9F9</color>
     <color name="col_blue">#25C3F5</color>
@@ -128,4 +129,23 @@
     <!--button-->
     <color name="hl_widget_button_normal">@color/white</color>
     <color name="hl_widget_button_selected">#E3E3E3</color>
+
+
+    <color name="colorPrimaryBlue">#2196F3</color>
+    <color name="colorPrimaryBlueDark">#1976D2</color>
+
+    <color name="colorPrimaryGrey">#455A64</color>
+    <color name="colorPrimaryGreyDark">#607D8B</color>
+
+    <color name="colorPrimaryTeal">#009688</color>
+    <color name="colorPrimaryTealDark">#00796B</color>
+
+    <color name="colorPrimaryPurple">#9C27B0</color>
+    <color name="colorPrimaryPurpleDark">#7B1FA2</color>
+
+    <color name="colorPrimaryPink">#E91E63</color>
+    <color name="colorPrimaryPinkDark">#C2185B</color>
+
+    <color name="colorPrimaryBrown">#795548</color>
+    <color name="colorPrimaryBrownDark">#5D4037</color>
 </resources>

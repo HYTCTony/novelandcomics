@@ -63,7 +63,6 @@
         app:layout_constraintDimensionRatio="50:18"
         app:layout_constraintLeft_toLeftOf="@+id/iv_top3_bookCover_first"
         app:layout_constraintRight_toRightOf="@+id/iv_top3_bookCover_first"
-        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription" />
 
     <ImageView

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white">
 
-    <com.qq.e.ads.nativ.widget.NativeAdContainer
+    <RelativeLayout
         android:id="@+id/gdt_ad_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
-            <com.hytc.ads.AdLogoView
+            <ImageView
                 android:id="@+id/ad_logo_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,5 +98,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.qq.e.ads.nativ.widget.NativeAdContainer>
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
