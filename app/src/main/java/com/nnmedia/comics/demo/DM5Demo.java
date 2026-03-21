@@ -4,12 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.nnmedia.comics.utils.DecryptionUtils;
+import com.nnmedia.comics.utils.Node;
+import com.nnmedia.comics.utils.StringUtils;
 import com.nnmedia.novel.R;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,7 +133,7 @@ public class DM5Demo {
      * 搜索漫画
      * 
      * @param keyword 搜索关键词
-     * @param page page 页码
+     * @param page 页码
      * @return 漫画列表
      */
     private List<ComicInfo> searchComic(String keyword, int page) {
@@ -246,7 +244,7 @@ public class DM5Demo {
     }
 
     /**
-     * 解析漫画详情（使用 Jsoup）
+     * 解析漫画详情（使用 Node 类）
      * 
      * @param html HTML 内容
      * @return 漫画详情
@@ -255,46 +253,43 @@ public class DM5Demo {
         ComicDetail detail = new ComicDetail();
 
         try {
-            // 使用 Jsoup 解析 HTML
-            Document doc = Jsoup.parse(html);
+            // 使用 Node 类解析 HTML
+            Node body = new Node(html);
 
             // 解析标题
-            Element titleElement = doc.selectFirst("div.banner_detail_form > div.info > p.title");
-            if (titleElement != null) {
-                detail.title = titleElement.text().trim();
+            String title = body.text("div.banner_detail_form > div.info > p.title");
+            if (title != null) {
+                detail.title = title;
             }
 
             // 解析封面
-            Element coverElement = doc.selectFirst("div.banner_detail_form > div.cover > img");
-            if (coverElement != null) {
-                detail.cover = coverElement.attr("src");
+            String cover = body.src("div.banner_detail_form > div.cover > img");
+            if (cover != null) {
+                detail.cover = cover;
             }
 
             // 解析更新时间
-            Element updateElement = doc.selectFirst("#tempc > div.detail-list-title > span.s > span");
-            if (updateElement != null) {
-                String update = updateElement.text();
+            String update = body.text("#tempc > div.detail-list-title > span.s > span");
+            if (update != null) {
                 detail.update = parseUpdateTime(update);
             }
 
             // 解析作者
-            Element authorElement = doc.selectFirst("div.banner_detail_form > div.info > p.subtitle > a");
-            if (authorElement != null) {
-                detail.author = authorElement.text().trim();
+            String author = body.text("div.banner_detail_form > div.info > p.subtitle > a");
+            if (author != null) {
+                detail.author = author;
             }
 
             // 解析简介
-            Element introElement = doc.selectFirst("div.banner_detail_form > div.info > p.content");
-            if (introElement != null) {
-                String intro = introElement.text();
+            String intro = body.text("div.banner_detail_form > div.info > p.content");
+            if (intro != null) {
                 intro = intro.replace("[+展开]", "").replace("[-折叠]", "");
-                detail.intro = intro.trim();
+                detail.intro = intro;
             }
 
             // 解析状态
-            Element statusElement = doc.selectFirst("div.banner_detail_form > div.info > p.tip > span:eq(0)");
-            if (statusElement != null) {
-                String status = statusElement.text();
+            String status = body.text("div.banner_detail_form > div.info > p.tip > span:eq(0)");
+            if (status != null) {
                 detail.isFinish = status.contains("完结");
             }
 
@@ -335,7 +330,7 @@ public class DM5Demo {
     }
 
     /**
-     * 解析章节列表（使用 Jsoup）
+     * 解析章节列表（使用 Node 类）
      * 
      * @param html HTML 内容
      * @return 章节列表
@@ -344,27 +339,27 @@ public class DM5Demo {
         List<ChapterInfo> list = new LinkedList<>();
 
         try {
-            // 使用 Jsoup 解析 HTML
-            Document doc = Jsoup.parse(html);
-
+            // 使用 Node 类解析 HTML
+            Node body = new Node(html);
+            
             // 查找章节列表区域
-            Element chapterListElement = doc.getElementById("chapterlistload");
-            if (chapterListElement == null) {
+            Node chapterListNode = body.id("chapterlistload");
+            if (chapterListNode == null || chapterListNode.get() == null) {
                 Log.w(TAG, "未找到章节列表区域");
                 return list;
             }
 
             // 查找所有章节链接
-            Elements chapterLinks = chapterListElement.select("ul > li > a");
+            List<Node> chapterLinks = chapterListNode.list("ul > li > a");
             if (chapterLinks.isEmpty()) {
                 Log.w(TAG, "未找到章节链接");
                 return list;
             }
 
             int index = 0;
-            for (Element link : chapterLinks) {
-                String href = link.attr("href");
-                String title = link.text().trim();
+            for (Node link : chapterLinks) {
+                String href = link.href();
+                String title = link.text();
 
                 // 标题格式通常是 "第X话 标题" 或 "X 标题"，取第一部分
                 String[] parts = title.split(" ");
@@ -379,9 +374,6 @@ public class DM5Demo {
 
                 list.add(chapter);
             }
-
-            // 章节列表通常需要反转（从新到旧）
-            // 但是解析出来的是从旧到新，所以不需要反转
 
         } catch (Exception e) {
             Log.e(TAG, "解析章节列表失败", e);

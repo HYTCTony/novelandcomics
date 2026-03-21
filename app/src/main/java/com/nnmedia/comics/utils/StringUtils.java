@@ -6,7 +6,10 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * 字符串工具类
+ * 来源：Cimoc 项目
+ */
 public class StringUtils {
 
     public static boolean endWith(String str, String... args) {
@@ -116,5 +119,4 @@ public class StringUtils {
         }
         return null;
     }
-
 }
