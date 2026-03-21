@@ -129,6 +129,18 @@
             </intent-filter>
         </activity>
 
+
+        <activity
+            android:name="com.nnmedia.comics.ui.activity.ComicsDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.nnmedia.book_detail.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <!--                <category android:name="com.ice.activityandintent.CATEGORY" />-->
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="com.nnmedia.read.ui.activities.InvitationCodeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

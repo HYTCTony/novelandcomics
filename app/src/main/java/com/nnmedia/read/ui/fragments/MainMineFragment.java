@@ -35,6 +35,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
+import com.nnmedia.comics.ui.activity.ComicsDetailActivity;
 import com.nnmedia.novel.R;
 import com.nnmedia.novel.RxHttp;
 import com.nnmedia.page.utils.SpanUtils;
