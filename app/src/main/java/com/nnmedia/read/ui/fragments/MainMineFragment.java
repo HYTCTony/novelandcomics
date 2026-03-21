@@ -647,27 +647,11 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                 CDKEYActivity.start(mActivity);
                 break;
             case R.id.rtl_asBtn_business_cooperation:
-
-                
-
-//                MessageDialog.show((AppCompatActivity) mActivity, R.string.txt_telegram_title_1, R.string.txt_telegram_content_1, R.string.txt_jump,
-//                        R.string.txt_copy)
-//                        .setCancelable(true)
-//                        .setOnCancelButtonClickListener((baseDialog, v) -> {
-//                            ClipboardManager cm = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
-//                            if (cm != null) {
-//                                ClipData mClipData = ClipData.newPlainText("share", "@haitunxiaoshuo");
-//                                cm.setPrimaryClip(mClipData);
-//                                TipDialog.show((AppCompatActivity) mActivity, "拷贝成功", TipDialog.TYPE.SUCCESS);
-//                            }
-//                            baseDialog.doDismiss();
-//                            return false;
-//                        })
-//                        .setOnOkButtonClickListener((baseDialog, v) -> {
-//                            jumpInSide("https://t.me/haitunxiaoshuo");
-//                            baseDialog.doDismiss();
-//                            return false;
-//                        });
+                // 跳转到漫画详情页（测试数据）
+                // TODO: 根据实际业务需求修改 source 和 cid
+                int testSource = 1;  // 测试漫画源
+                String testCid = "test_comic_id";  // 测试漫画ID
+                ComicsDetailActivity.start(mActivity, testSource, testCid);
                 break;
             case R.id.rtl_asBtn_send_email:
                 MessageDialog.show((AppCompatActivity) mActivity, R.string.txt_email_title_1, R.string.txt_email_content_1, R.string.txt_jump,
