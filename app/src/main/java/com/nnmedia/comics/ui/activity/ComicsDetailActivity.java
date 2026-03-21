@@ -131,7 +131,7 @@ public class ComicsDetailActivity extends BaseActivity implements View.OnClickLi
         btnBeginReading = findViewById(R.id.btn_begin_reading_dt);
 
         // 初始化 ComicManager
-        mComicManager = ComicManager.getInstance(getAppInstance());
+        mComicManager = ComicManager.getInstance((AppGetter) getAppInstance());
 
         // 设置点击监听
         setClickListener();
