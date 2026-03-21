@@ -173,7 +173,7 @@ public class ComicsDetailActivity extends BaseActivity implements View.OnClickLi
         btnCollectComics.setOnClickListener(this);
         btnBeginReading.setOnClickListener(this);
 
-        scvComicsDetail.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+        scvComicsDetail.setOnScrollChangeListener((View.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             if (scrollY > DensityUtils.dp2px(this, 36)) {
                 if (comic != null) {
                     tvTopTitle.setText(comic.getTitle());
