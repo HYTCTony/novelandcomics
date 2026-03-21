@@ -1,11 +1,20 @@
 package com.nnmedia.comics.utils;
 
 import android.util.Base64;
+import android.util.Log;
+
+import org.mozilla.javascript.ClassShutter;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.NativeArray;
+import org.mozilla.javascript.Scriptable;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.URLDecoder;
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKeyFactory;
@@ -13,11 +22,18 @@ import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-
-
+/**
+ * 解密工具类
+ * 来源：Cimoc 项目
+ */
 public class DecryptionUtils {
 
-    public static String decryptAES(String value, String key) throws Exception {
+    private static final String TAG = "DecryptionUtils";
+
+    /**
+     * DES 解密
+     */
+    public static String decryptAES(String value, String  key) throws Exception {
         SecretKeySpec secretKey = new SecretKeySpec(key.getBytes(), "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
@@ -25,6 +41,9 @@ public class DecryptionUtils {
         return new String(cipher.doFinal(code));
     }
 
+    /**
+     * DES 解密
+     */
     public static String desDecrypt(String keyString, String cipherString) throws Exception {
         byte[] cipherBytes = Base64.decode(cipherString, Base64.DEFAULT);
         DESKeySpec keySpec = new DESKeySpec(keyString.getBytes());
@@ -35,7 +54,9 @@ public class DecryptionUtils {
         return new String(result, "UTF-8");
     }
 
-    // ref: https://jueyue.iteye.com/blog/1830792
+    /**
+     * AES 解密
+     */
     public static String aesDecrypt(String value, String key, String ivs) throws Exception {
         SecretKeySpec secretKey = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
         IvParameterSpec iv = new IvParameterSpec(ivs.getBytes("UTF-8"));
@@ -45,70 +66,55 @@ public class DecryptionUtils {
         return new String(cipher.doFinal(code));
     }
 
+    /**
+     * Base64 解密
+     */
     public static String base64Decrypt(String cipherString) throws UnsupportedEncodingException {
         byte[] cipherBytes = Base64.decode(cipherString, Base64.DEFAULT);
         return new String(cipherBytes, "UTF-8");
     }
 
     /**
-     * 直接执行一段js，这！非！常！危！险！ 虽然尝试屏蔽了大部分Java方法的调用，但是仍存在安全隐患，请各位维护者尽量尝试使用正则或其他方式来获取结果。
-     *
-     * @param jsCode js代码
-     */
-    public static String evalDecrypt(String jsCode) {
-        return evalDecrypt(jsCode, null);
-    }
-
-    /**
-     * 直接执行一段js，这！非！常！危！险！ 虽然尝试屏蔽了大部分Java方法的调用，但是仍存在安全隐患，请各位维护者尽量尝试使用正则或其他方式来获取结果。
-     *
-     * @param jsCode  js代码
-     * @param varName 返回的变量
+     * 执行 JavaScript 代码进行解密
+     * 
+     * @param jsCode JS 代码
+     * @param varName 返回的变量名（可选）
+     * @return 解密结果
      */
     @Deprecated
     public static String evalDecrypt(String jsCode, String varName) {
-//        Context rhino = Context.enter();
-//        rhino.setOptimizationLevel(-1);
-//        Scriptable scope = rhino.initSafeStandardObjects();
-//        Context.ClassShutterSetter setter = rhino.getClassShutterSetter();
-//        if (setter != null) {
-//            setter.setClassShutter(new ClassShutter() {
-//                //指定在JS中可以调用Java的类，在本漫画爬虫场景中不会与Java交互，请保持返回false以保证安全
-//                public boolean visibleToScripts(String className) {
-//
-//
-//                    return false;
-//                }
-//            });
-//        }
-//
-//
-//        try {
-//            Object object = rhino.evaluateString(scope, jsCode, null, 1, null);
-//            if (varName == null) {
-//                return Context.toString(object);
-//            } else {
-//                Object jsObject = scope.get(varName, scope);
-//                return Context.toString(jsObject);
-//
-////            NativeArray array=(NativeArray) jsObject;
-////            return String.join((Array<String>) array.toArray());
-////            return String.join(",",(List<String>)jsObject);
-//                //这个竟然需要api26，喵喵喵??
-////            String resault = "";
-////            for (String s : (List<String>) jsObject) {
-////                resault += (s + ',');
-////            }
-////            return resault.substring(0, resault.length() - 1);
-////            // 我也不想这么写😭
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "";
-//        }
-        return "";
+        Context rhino = Context.enter();
+        rhino.setOptimizationLevel(-1);
+        Scriptable scope = rhino.initSafeStandardObjects();
+        Context.ClassShutterSetter setter = rhino.getClassShutterSetter();
+        if (setter != null) {
+            setter.setClassShutter(new ClassShutter() {
+                // 指定在 JS 中可以调用 Java 的类
+                public boolean visibleToScripts(String className) {
+                    return false;
+                }
+            });
+        }
+
+        try {
+            Object object = rhino.evaluateString(scope, jsCode, null, 1, null);
+            if (varName == null) {
+                return Context.toString(object);
+            } else {
+                Object jsObject = scope.get(varName, scope);
+                return Context.toString(jsObject);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "evalDecrypt 执行失败", e);
+            return "";
+        } finally {
+            Context.exit();
+        }
     }
 
+    /**
+     * URL 解密
+     */
     public static String urlDecrypt(String str) {
         try {
             return URLDecoder.decode(str, "utf-8");
@@ -118,9 +124,8 @@ public class DecryptionUtils {
     }
 
     /**
-     * https://github.com/tommyettinger/BlazingChain
+     * LZ64 解密
      */
-
     public static String LZ64Decrypt(String str) {
         final char[] valStrBase64 = new char[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 62, 0, 0, 0, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 0, 0, 0, 64, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -273,7 +278,6 @@ public class DecryptionUtils {
             }
             result.add(entry);
 
-            // Add w+entry[0] to the dictionary.
             dictionary.add(w + entry.charAt(0));
             dictSize++;
             enlargeIn--;
@@ -286,5 +290,4 @@ public class DecryptionUtils {
             }
         }
     }
-
 }

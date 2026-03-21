@@ -57,7 +57,7 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.OkHttpClient;
 
-public class FrApp extends Application implements ActivityState {
+public class FrApp extends Application implements ActivityState, AppGetter {
 
     private static FrApp sInstance;
 

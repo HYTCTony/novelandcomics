@@ -461,6 +461,19 @@
             android:name="BUGLY_ENABLE_DEBUG"
             android:value="false" />
 
+        <!-- DM5 Demo Activity -->
+        <activity
+            android:name="com.nnmedia.comics.demo.DM5DemoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:label="DM5 Demo"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN_DM5_DEMO" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -241,6 +241,12 @@ dependencies {
 
     implementation 'org.adw.library:discrete-seekbar:1.0.1'
 
+    // Jsoup - HTML 解析库
+    implementation 'org.jsoup:jsoup:1.16.1'
+
+    // Rhino - JavaScript 引擎，用于解密 eval() 代码
+    implementation 'org.mozilla:rhino:1.7.14'
+
     implementation 'com.facebook.fresco:fresco:2.3.0'
 
     //判断是否是模拟器
