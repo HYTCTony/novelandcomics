@@ -43,11 +43,13 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file("C:/Users/hp/.android/debug.keystore")
-        }
-        release {// 自己的签名文件
-            storeFile file("D:/android/novel/doc/book_keystore.jks")
+        // debug 使用系统默认的 debug keystore
+        // debug {
+        //     storeFile file("C:/Users/hp/.android/debug.keystore")
+        // }
+        // release 签名配置
+        release {
+            storeFile file("../doc/book_keystore.jks")
             storePassword "book1688"
             keyAlias "book"
             keyPassword "book1688"

@@ -498,7 +498,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:background="@mipmap/ic_collect" />
+                    android:background="@mipmap/ic_add_book" />
 
                 <TextView
                     android:id="@+id/btn_collect_comics"

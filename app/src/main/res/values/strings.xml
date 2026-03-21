@@ -688,4 +688,8 @@
 
     <string name="tts_toast_format" formatted="false">缓冲进度为%d%%，播放进度为%d%%</string>
 
+    <!-- 漫画详情页 -->
+    <string name="txt_download_comics">下载</string>
+    <string name="txt_collect_comics">收藏</string>
+
 </resources>
