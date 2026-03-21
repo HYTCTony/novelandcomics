@@ -103,6 +103,9 @@ public class FrApp extends Application implements ActivityState {
         super.onCreate();
         sInstance = this;
 
+        // 初始化 PreferenceManager
+        mPreferenceManager = new PreferenceManager(this);
+
         RxHttpManager.init(this, BuildConfig.LOG_DEBUG);
 
         registerActivityLifecycleCallbacks(mActivityManager);
