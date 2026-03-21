@@ -40,7 +40,7 @@ import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 /**
  * 漫画详情页 Activity
  */
-public class ComicsDetailActivity extends BaseActivity {
+public class ComicsDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String EXTRA_COMIC_SOURCE = "extra_comic_source";
     public static final String EXTRA_COMIC_CID = "extra_comic_cid";
