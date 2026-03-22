@@ -561,7 +561,7 @@ public class ComicsDetailActivity extends BaseActivity implements View.OnClickLi
         for (TencentDemo.ChapterInfo chapterInfo : chapterInfos) {
             // 创建 Chapter 对象
             long id = sourceComic + index++;
-            Chapter chapter = new Chapter(id, String.valueOf(sourceComic), chapterInfo.title, chapterInfo.path);
+            Chapter chapter = new Chapter(id, sourceComic, chapterInfo.title, chapterInfo.path);
             chapters.add(chapter);
         }
 
