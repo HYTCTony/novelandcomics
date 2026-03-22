@@ -915,7 +915,7 @@
                 android:background="@drawable/ripple_normal_btn_bg_white"
                 android:paddingStart="@dimen/dp_16"
                 android:paddingEnd="@dimen/dp_16"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:layout_width="wrap_content"

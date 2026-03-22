@@ -35,6 +35,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.kongzue.dialog.v3.CustomDialog;
 import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
+import com.nnmedia.comics.demo.DM5DemoActivity;
 import com.nnmedia.comics.ui.activity.ComicsDetailActivity;
 import com.nnmedia.novel.R;
 import com.nnmedia.novel.RxHttp;
@@ -699,7 +700,8 @@ public class MainMineFragment extends BaseFragment implements View.OnClickListen
                         });
                 break;
             case R.id.rtl_asBtn_mode_adolescent:
-
+                Intent starter = new Intent(getActivity(), DM5DemoActivity.class);
+                startActivity(starter);
                 break;
             case R.id.rtl_asBtn_help_and_feedback:
                 startActivity(new Intent(mActivity, HelpAndFeedbackActivity.class));
