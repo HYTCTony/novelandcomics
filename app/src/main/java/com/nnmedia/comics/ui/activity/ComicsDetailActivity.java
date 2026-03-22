@@ -28,6 +28,7 @@ import com.kongzue.dialog.v3.MessageDialog;
 import com.kongzue.dialog.v3.TipDialog;
 import com.kongzue.stacklabelview.StackLabel;
 import com.nnmedia.comics.component.AppGetter;
+import com.nnmedia.comics.demo.TencentDemo;
 import com.nnmedia.comics.manager.ComicManager;
 import com.nnmedia.comics.model.Comic;
 import com.nnmedia.novel.R;
@@ -36,6 +37,8 @@ import com.nnmedia.read.ui.widget.ExpandableTextView;
 import com.nnmedia.read.utils.DensityUtils;
 import com.nnmedia.read.utils.GlideUtil;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
+
+import java.util.List;
 
 /**
  * 漫画详情页 Activity
@@ -143,12 +146,11 @@ public class ComicsDetailActivity extends BaseActivity implements View.OnClickLi
         cid = getIntent().getStringExtra(EXTRA_COMIC_CID);
 
         if (source == -1 || TextUtils.isEmpty(cid)) {
-            TipDialog.show(this, "漫画不存在", TipDialog.TYPE.ERROR)
-                    .setOnDismissListener(this::finish);
-            return;
+            // 如果没有传入 source 和 cid，则搜索"海贼王"并选择第一个结果
+            searchAndLoadOnePiece();
+        } else {
+            loadComicsDetail();
         }
-
-        loadComicsDetail();
     }
 
     @Override
@@ -244,6 +246,84 @@ public class ComicsDetailActivity extends BaseActivity implements View.OnClickLi
 
         // 更新UI
         updateUI();
+    }
+
+    /**
+     * 搜索"海贼王"并加载第一个结果
+     */
+    private void searchAndLoadOnePiece() {
+        showProgressDialog();
+
+        new Thread(() -> {
+            try {
+                // 使用腾讯动漫搜索"海贼王"
+                TencentDemo tencentDemo = new TencentDemo(this);
+                List<TencentDemo.ComicInfo> searchResults = tencentDemo.searchComic("海贼王", 1);
+
+                if (searchResults == null || searchResults.isEmpty()) {
+                    runOnUiThread(() -> {
+                        hideProgressDialog();
+                        TipDialog.show(this, "搜索失败没有找到结果", TipDialog.TYPE.ERROR)
+                                .setOnDismissListener(this::finish);
+                    });
+                    return;
+                }
+
+                // 选择第一个结果
+                TencentDemo.ComicInfo selectedComic = searchResults.get(0);
+
+                // 获取详情
+                TencentDemo.ComicDetail detail = tencentDemo.getComicDetail(selectedComic.cid);
+
+                if (detail == null) {
+                    runOnUiThread(() -> {
+                        hideProgressDialog();
+                        TipDialog.show(this, "获取漫画详情失败", TipDialog.TYPE.ERROR)
+                                .setOnDismissListener(this::finish);
+                    });
+                    return;
+                }
+
+                // 将详情转换为 Comic 对象
+                comic = convertToComic(selectedComic, detail);
+
+                runOnUiThread(() -> {
+                    hideProgressDialog();
+                    updateUI();
+                });
+
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    hideProgressDialog();
+                    TipDialog.show(this, "搜索失败: " + e.getMessage(), TipDialog.TYPE.ERROR)
+                            .setOnDismissListener(this::finish);
+                });
+            }
+        }).start();
+    }
+
+    /**
+     * 将腾讯动漫的搜索结果和详情转换为 Comic 对象
+     * 
+     * @param comicInfo 搜索结果
+     * @param detail 详情
+     * @return Comic 对象
+     */
+    private Comic convertToComic(TencentDemo.ComicInfo comicInfo, TencentDemo.ComicDetail detail) {
+        int source = 51; // 腾讯动漫的 source 类型
+        String cid = comicInfo.cid;
+        String title = detail.title != null ? detail.title : comicInfo.title;
+        String cover = detail.cover != null ? detail.cover : comicInfo.cover;
+        String update = detail.update != null ? detail.update : comicInfo.update;
+        String author = detail.author != null ? detail.author : comicInfo.author;
+        String intro = detail.intro;
+        boolean finish = detail.isFinish;
+
+        Comic comic = new Comic(source, cid, title, cover, update, author);
+        comic.setIntro(intro);
+        comic.setFinish(finish);
+
+        return comic;
     }
 
     /**

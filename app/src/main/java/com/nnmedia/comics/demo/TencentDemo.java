@@ -134,7 +134,7 @@ public class TencentDemo {
      * @param page 页码
      * @return 漫画列表
      */
-    private List<ComicInfo> searchComic(String keyword, int page) {
+    public List<ComicInfo> searchComic(String keyword, int page) {
         try {
             // 构造搜索请求
             String url = SEARCH_URL + "?word=" + keyword;
@@ -207,7 +207,7 @@ public class TencentDemo {
      * @param cid 漫画 ID
      * @return 漫画详情
      */
-    private ComicDetail getComicDetail(String cid) {
+    public ComicDetail getComicDetail(String cid) {
         try {
             // 构造详情页请求
             String url = BASE_URL + "/comic/index/id/" + cid;
