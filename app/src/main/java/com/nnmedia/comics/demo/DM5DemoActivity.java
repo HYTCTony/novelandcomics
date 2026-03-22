@@ -12,12 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.nnmedia.novel.R;
 
 /**
- * 动漫屋（DM5）Demo Activity
+ * 腾讯动漫 Demo Activity
  * 点击按钮运行 demo，查看日志输出
  */
 public class DM5DemoActivity extends AppCompatActivity {
 
-    private static final String TAG = "DM5DemoActivity";
+    private static final String TAG = "TencentDemoActivity";
 
     private ScrollView mScrollView;
     private TextView mLogTextView;
@@ -31,9 +31,9 @@ public class DM5DemoActivity extends AppCompatActivity {
         initViews();
         initListeners();
 
-        log("========== 动漫屋 Demo ==========");
+        log("========== 腾讯动漫 Demo ==========");
         log("点击按钮开始运行 demo");
-        log("所有输出会显示在日志（Logcat）中，过滤标签：DM5Demo 或 DM5DemoActivity");
+        log("所有输出会显示在日志（Logcat）中，过滤标签：TencentDemo 或 TencentDemoActivity");
     }
 
     private void initViews() {
@@ -62,7 +62,7 @@ public class DM5DemoActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    DM5Demo demo = new DM5Demo(DM5DemoActivity.this);
+                    TencentDemo demo = new TencentDemo(DM5DemoActivity.this);
                     demo.runDemo();
                 } catch (Exception e) {
                     log("Demo 运行异常: " + e.getMessage());
