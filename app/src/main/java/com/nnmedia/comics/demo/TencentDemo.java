@@ -286,7 +286,7 @@ public class TencentDemo {
      * @param cid 漫画 ID
      * @return 章节列表
      */
-    private List<ChapterInfo> getChapterList(String cid) {
+    public List<ChapterInfo> getChapterList(String cid) {
         try {
             String url = BASE_URL + "/comic/chapterList/id/" + cid;
             Request request = new Request.Builder()

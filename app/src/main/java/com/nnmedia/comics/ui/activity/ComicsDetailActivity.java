@@ -30,6 +30,8 @@ import com.kongzue.stacklabelview.StackLabel;
 import com.nnmedia.comics.component.AppGetter;
 import com.nnmedia.comics.demo.TencentDemo;
 import com.nnmedia.comics.manager.ComicManager;
+import com.nnmedia.comics.manager.PreferenceManager;
+import com.nnmedia.comics.model.Chapter;
 import com.nnmedia.comics.model.Comic;
 import com.nnmedia.novel.R;
 import com.nnmedia.read.cache.UserInfoCache;
@@ -505,8 +507,87 @@ public class ComicsDetailActivity extends BaseActivity implements View.OnClickLi
             return;
         }
 
-        // TODO: 启动阅读页面
-        Toast.makeText(this, "开始阅读功能待实现", Toast.LENGTH_SHORT).show();
+        showProgressDialog();
+
+        // 在后台线程获取章节列表
+        new Thread(() -> {
+            try {
+                // 获取漫画的 cid
+                String cid = comic.getCid();
+
+                // 获取章节列表
+                TencentDemo tencentDemo = new TencentDemo(this);
+                List<TencentDemo.ChapterInfo> chapterInfos = tencentDemo.getChapterList(cid);
+
+                if (chapterInfos == null || chapterInfos.isEmpty()) {
+                    runOnUiThread(() -> {
+                        hideProgressDialog();
+                        TipDialog.show(this, "获取章节列表失败", TipDialog.TYPE.ERROR);
+                    });
+                    return;
+                }
+
+                // 转换为 Chapter 对象列表
+                List<Chapter> chapters = convertToChapters(chapterInfos, comic);
+
+                // 启动阅读页面
+                runOnUiThread(() -> {
+                    hideProgressDialog();
+                    startReaderActivity(chapters);
+                });
+
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    hideProgressDialog();
+                    TipDialog.show(this, "获取章节失败: " + e.getMessage(), TipDialog.TYPE.ERROR);
+                });
+            }
+        }).start();
+    }
+
+    /**
+     * 将腾讯动漫的章节列表转换为 Chapter 对象列表
+     * 
+     * @param chapterInfos 腾讯动漫章节列表
+     * @param comic 漫画对象
+     * @return Chapter 对象列表
+     */
+    private List<Chapter> convertToChapters(List<TencentDemo.ChapterInfo> chapterInfos, Comic comic) {
+        List<Chapter> chapters = new java.util.ArrayList<>();
+
+        long sourceComic = System.currentTimeMillis(); // 使用时间戳作为 sourceComic
+        int index = 0;
+
+        for (TencentDemo.ChapterInfo chapterInfo : chapterInfos) {
+            // 创建 Chapter 对象
+            long id = sourceComic + index++;
+            Chapter chapter = new Chapter(id, String.valueOf(sourceComic), chapterInfo.title, chapterInfo.path);
+            chapters.add(chapter);
+        }
+
+        return chapters;
+    }
+
+    /**
+     * 启动阅读页面
+     * 
+     * @param chapters 章节列表
+     */
+    private void startReaderActivity(List<Chapter> chapters) {
+        if (chapters == null || chapters.isEmpty()) {
+            TipDialog.show(this, "章节列表为空", TipDialog.TYPE.ERROR);
+            return;
+        }
+
+        // 获取阅读模式
+        int mode = mPreference.getInt(PreferenceManager.PREF_READER_MODE, PreferenceManager.READER_MODE_PAGE);
+
+        // 获取第一个章节的 ID
+        long chapterId = chapters.get(0).getId();
+
+        // 创建 Intent
+        Intent intent = ReaderActivity.createIntent(this, chapterId, chapters, mode);
+        startActivityForResult(intent, REQUEST_READ);
     }
 
     /**
