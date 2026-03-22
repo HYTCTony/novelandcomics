@@ -23,6 +23,7 @@ import com.nnmedia.novel.BuildConfig;
 import com.nnmedia.novel.R;
 import com.nnmedia.page.model.dao.DaoMaster;
 import com.nnmedia.page.model.dao.DaoSession;
+import com.nnmedia.comics.component.AppGetter;
 import com.nnmedia.read.callbacks.ActivityState;
 import com.nnmedia.read.callbacks.MyActivityManager;
 import com.nnmedia.read.rxhttp.RxHttpManager;
@@ -63,6 +64,11 @@ public class FrApp extends Application implements ActivityState, AppGetter {
 
     public static FrApp getInstance() {
         return sInstance;
+    }
+
+    @Override
+    public FrApp getAppInstance() {
+        return this;
     }
 
     public MyActivityManager mActivityManager = MyActivityManager.getInstance(this);
