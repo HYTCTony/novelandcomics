@@ -75,6 +75,17 @@ public class DecryptionUtils {
     }
 
     /**
+     * 执行 JavaScript 代码进行解密（简化版本）
+     * 
+     * @param jsCode JS 代码
+     * @return 解密结果
+     */
+    @Deprecated
+    public static String evalDecrypt(String jsCode) {
+        return evalDecrypt(jsCode, null);
+    }
+
+    /**
      * 执行 JavaScript 代码进行解密
      * 
      * @param jsCode JS 代码
