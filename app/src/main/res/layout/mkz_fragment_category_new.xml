@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout android:orientation="vertical" android:id="@id/coordinatorLayout" android:layout_width="fill_parent" android:layout_height="fill_parent"
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <com.xmtj.library.views.AppBarEventLayout android:id="@id/app_bar_layout" android:layout_width="fill_parent" android:layout_height="wrap_content" app:layout_behavior="com.xmtj.mkz.business.main.rank.AppBarHeaderBehavior">
+    <android.support.design.widget.AppBarLayout android:id="@id/app_bar_layout" android:layout_width="fill_parent" android:layout_height="wrap_content">
         <android.support.design.widget.CollapsingToolbarLayout android:layout_width="fill_parent" android:layout_height="wrap_content" app:expandedTitleMarginEnd="0.0dip" app:expandedTitleMarginStart="0.0dip" app:layout_scrollFlags="exitUntilCollapsed|scroll">
             <LinearLayout android:orientation="vertical" android:background="@color/mkz_white" android:layout_width="fill_parent" android:layout_height="fill_parent">
                 <include layout="@layout/mkz_layout_category_top" />
             </LinearLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
-    </com.xmtj.library.views.AppBarEventLayout>
+    </android.support.design.widget.AppBarLayout>
     <android.support.v4.view.ViewPager android:id="@id/view_pager" android:layout_width="fill_parent" android:layout_height="fill_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:elevation="1000.0dip">
         <View android:id="@id/title_layout_status" android:background="@drawable/mkz_ic_bg_tool_bar_mine" android:layout_width="fill_parent" android:layout_height="@dimen/dp_20" />

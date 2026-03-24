@@ -85,4 +85,9 @@
     <item type="id" name="search_iv1" />
     <item type="id" name="marqueeView" />
     <item type="id" name="simpleMarqueeView" />
+    <item type="id" name="iv_cover" />
+    <item type="id" name="tv_author" />
+    <item type="id" name="tv_latest_chapter" />
+    <item type="id" name="tv_title" />
+    <item type="id" name="tv_category" />
 </resources>
