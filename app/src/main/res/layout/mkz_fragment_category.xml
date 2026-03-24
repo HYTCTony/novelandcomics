@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <FrameLayout android:background="@color/white" android:layout_width="fill_parent" android:layout_height="44.0dip">
+        <android.support.design.widget.TabLayout android:id="@id/tab_layout" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginRight="40.0dip" app:tabGravity="center" app:tabIndicatorHeight="0.0dip" app:tabMinWidth="60.0dip" app:tabMode="scrollable" app:tabSelectedTextColor="@color/mkz_red" app:tabTextAppearance="@style/mkz_category_tabLayout_text_appearance" app:tabTextColor="@color/mkz_works_num" />
+        <LinearLayout android:gravity="center|right" android:layout_gravity="right" android:orientation="horizontal" android:id="@id/ll_edit_tab_menu" android:background="@drawable/mkz_bg_category_edit_tab_menu" android:visibility="visible" android:layout_width="60.0dip" android:layout_height="fill_parent">
+            <ImageView android:id="@id/iv_edit_tab_menu" android:layout_width="16.0dip" android:layout_height="wrap_content" android:layout_marginRight="15.0dip" android:src="@drawable/mkz_category_edit_tab_menu" android:scaleType="fitCenter" />
+        </LinearLayout>
+    </FrameLayout>
+    <RelativeLayout android:gravity="center_vertical" android:background="@color/white" android:paddingLeft="15.0dip" android:paddingRight="15.0dip" android:layout_width="fill_parent" android:layout_height="44.0dip">
+        <RadioGroup android:gravity="center" android:orientation="horizontal" android:id="@id/rg_hot_new" android:layout_width="105.0dip" android:layout_height="32.0dip" android:button="@null" android:layout_alignParentRight="true" android:layout_centerVertical="true">
+            <RadioButton android:textSize="@dimen/sp_12" android:textColor="@drawable/mkz_tab_hot_new_rb_text_color_selector" android:id="@id/rb_hot" android:background="@drawable/mkz_selector_category_fit" android:paddingLeft="11.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:checked="true" android:button="@null" android:text="@string/mkz_hot" android:drawableLeft="@drawable/mkz_category_hot_drawableleft" android:drawablePadding="4.0dip" android:layout_weight="1.0" />
+            <RadioButton android:textSize="@dimen/sp_12" android:textColor="@drawable/mkz_tab_hot_new_rb_text_color_selector" android:id="@id/rb_new" android:background="@drawable/mkz_selector_category_fit" android:paddingLeft="11.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_marginLeft="@dimen/dp_5" android:checked="false" android:button="@null" android:text="@string/mkz_new" android:drawableLeft="@drawable/mkz_category_new_drawableleft" android:drawablePadding="4.0dip" android:layout_weight="1.0" />
+        </RadioGroup>
+        <LinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/ll_search" android:background="@drawable/mkz_bg_category_search_border" android:layout_width="fill_parent" android:layout_height="32.0dip" android:layout_marginRight="@dimen/dp_20" android:layout_toLeftOf="@id/rg_hot_new" android:layout_centerInParent="true">
+            <TextView android:textSize="14.0sp" android:textColor="@color/mkz_gray8" android:gravity="center" android:id="@id/search_tv" android:paddingLeft="10.0dip" android:layout_width="wrap_content" android:layout_height="28.0dip" android:text="@string/mkz_category_search_hint" android:drawableLeft="@drawable/mkz_ic_category_search" android:drawablePadding="5.0dip" />
+        </LinearLayout>
+    </RelativeLayout>
+    <android.support.v4.view.ViewPager android:id="@id/view_pager" android:background="@color/white" android:layout_width="fill_parent" android:layout_height="fill_parent" />
+</LinearLayout>

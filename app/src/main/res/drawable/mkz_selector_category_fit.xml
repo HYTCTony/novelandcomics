@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:drawable="@drawable/mkz_shape_category_fit" />
+    <item android:drawable="@drawable/mkz_bg_category_search" />
+</selector>
